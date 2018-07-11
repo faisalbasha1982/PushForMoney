@@ -1,8 +1,10 @@
 // a library to wrap and simplify api calls
-import apisauce from 'apisauce'
+import apisauce from 'apisauce';
+import API_URL from './Api_url';
+import { ObjectToQueryString } from "../Lib/Utilities";
 
 // our "constructor"
-const create = (baseURL = 'https://api.github.com/') => {
+const create = (baseURL = API_URL.signUpURLE) => {
   // ------
   // STEP 1
   // ------
@@ -14,11 +16,12 @@ const create = (baseURL = 'https://api.github.com/') => {
     baseURL,
     // here are some default headers
     headers: {
-      'Cache-Control': 'no-cache'
+      "Cache-Control": "no-cache",
+      "Content-Type": "application/json"
     },
     // 10 second timeout...
     timeout: 10000
-  })
+  });
 
   // ------
   // STEP 2
@@ -34,6 +37,14 @@ const create = (baseURL = 'https://api.github.com/') => {
   // Since we can't hide from that, we embrace it by getting out of the
   // way at this level.
   //
+
+  const setHeaders = headers => api.setHeaders(headers);
+
+  const register = body => api.post("/workflows/ca7d95ebc3a14f65abf1e1d740312267/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=1eztFWraDyq9Ag46o4NiJNYvc0c9t3DOVpEemWqFkfE",body);
+
+  // const login = (email, password) => 
+  //   api.post(,{email, password});
+
   const getRoot = () => api.get('')
   const getRate = () => api.get('rate_limit')
   const getUser = (username) => api.get('search/users', {q: username})
@@ -52,6 +63,9 @@ const create = (baseURL = 'https://api.github.com/') => {
   //
   return {
     // a list of the API functions from step 2
+    api,
+    register,
+    setHeaders,    
     getRoot,
     getRate,
     getUser

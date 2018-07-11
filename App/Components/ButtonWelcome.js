@@ -57,7 +57,7 @@ class ButtonWelcome extends Component {
   render() {
       return (
         <TouchableOpacity
-        onPress={() => this.props.onButtonPress(clanguage) }
+        onPress={() => { this.props.navigation.navigate('FormOne', {language: clanguage }) }}
           activeOpacity={0.5}
           style={{
             width: 333,
@@ -101,8 +101,8 @@ const mapDispatchToProps = dispatch => {
 
     resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
     navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
-    navigateBack: () => dispatch(NavigationActions.back()),
-    onButtonPress: (language) => dispatch(NavigationActions.navigate({routeName: 'FormOne',params: {language: language }})),
+    // navigateBack: () => this.props.navigation.goBack(),
+    // onButtonPress: (language) => this.props.navigation.navigate('FormOne', {language: language }),
 
   };
 };

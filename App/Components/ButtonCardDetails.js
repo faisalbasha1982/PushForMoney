@@ -12,7 +12,7 @@ const viewPortHeight = Dimensions.get('window').height;
 
 let clanguage = '';
 
-class ButtonNext extends Component {
+class ButtonCardDetails extends Component {
   constructor(props) {
     super(props);
 
@@ -123,29 +123,13 @@ class ButtonNext extends Component {
 
       return (
         <TouchableOpacity
-        onPress={() => 
-          (!this.state.firstNameEmpty &&
-           !this.state.phoneNumberEmpty &&
-           !this.state.firstNameError && 
-           !this.state.lastNameError && 
-           !this.state.phoneNumberError)?
-           this.props.navigation.navigate('FormTwo',
-           {
-            objectParams: {
-              text: this.state.text,
-              language: this.state.language,
-              firstName: this.state.firstName,
-              lastName: this.state.lastName,
-              phoneNumber: this.state.phoneNumber,      
-           },
-           navigation: this.props.navigation,
-          }):this.somethingElse() }
+        onPress={() => this.props.navigation.navigate('PushToEarnProfileCardDetails') }
           activeOpacity={0.5}
           style={{
-            width: 330,
+            width: 266,
             height: 57,
-            marginBottom: 17,
-            marginLeft: 8,
+            marginBottom: 20,
+            marginLeft: 0,
             borderRadius: 8,
             backgroundColor: '#E73D50',
             marginTop: viewPortHeight / 30,            
@@ -170,7 +154,7 @@ class ButtonNext extends Component {
   }
 }
 
-ButtonNext.propTypes = {
+ButtonCardDetails.propTypes = {
     text: PropTypes.string.isRequired,
     language: PropTypes.string.isRequired,
 }
@@ -209,4 +193,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ButtonNext);
+export default connect(mapStateToProps, mapDispatchToProps)(ButtonCardDetails);

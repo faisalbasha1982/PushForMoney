@@ -20,10 +20,11 @@ import LanguageSettings from '../Containers/LanguageSettingsNew';
 import logoHeader from '../Images/page1.png';
 import pushImage from '../Images/pushForA.png';
 import jobImage from '../Images/group2.png';
+import pushFor from '../Images/pushFor.png';
 import njobanimationImage from '../Images/newjobanimation.gif';
 import { NavigationActions } from "react-navigation";
 import { connect } from 'react-redux';
-
+import AppNavigation from '../Navigation/AppNavigation';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -60,9 +61,41 @@ const animationsNew = [
 
 class PushForJob extends Component {
 
+    reset = () => {
+
+        return this.props.navigation(
+            NavigationActions.reset(
+                {
+                    index: 0,
+                    actions: [
+                        NavigationActions.navigate({
+                            routeName: 'NewScreen'
+                        })
+                    ]
+                }));
+    }    
+
+    componentWillReceiveProps(newProps)
+    {
+        // if(newProps != )
+    }
+
+    callForm = () => {
+        this.props.navigation.navigate('NewScreen');
+    }
+
+    callMoney = () => {
+        this.props.navigation.navigate('NewScreenMoney');
+    }
+
     renderAnimation = () => {
                     return (                        
-                            <TouchableOpacity onPress={() => { this.props.onButtonPress()}}>
+                            <TouchableOpacity onPress={() => 
+                                { 
+                                //this.props.onButtonPress()
+                                this.reset();
+                                this.props.navigation.navigate('NewScreen');
+                            }}>
                                     <Image source={njobanimationImage} resizeMode="contain" style={{ width: viewPortWidth * 0.891, height: viewPortHeight * 0.891 }} />
                             </TouchableOpacity>
                     );
@@ -74,10 +107,20 @@ class PushForJob extends Component {
                 <View style={newStyle.container}>
                     <View style={newStyle.topContainer}>
                         {/* <Animatable.Text animation="zoomInUp" style={newStyle.pushStyle}>PUSH {'\n'} FOR {'\n'} A</Animatable.Text> */}
-                        <Image source={pushImage} resizeMode="contain" style={{ width: viewPortWidth * 0.812, height: viewPortHeight * 0.35, }} />
+                        {/* <Image source={pushImage} resizeMode="contain" style={{ width: viewPortWidth * 0.812, height: viewPortHeight * 0.35, }} /> */}
+                        <View style={newStyle.bottomContainer}>
+                            <TouchableOpacity onPress={() => { this.callForm() }}>
+                                        <Image source={njobanimationImage} resizeMode="contain" style={{ width: viewPortWidth * 0.891, height: viewPortHeight * 0.891, marginLeft: 15, }} />
+                            </TouchableOpacity>         
+                        </View>
                     </View>
+                    
+                    <View style={newStyle.pushContainer}>
+                            <Image source={pushFor} resizeMode="contain" style={{ width: viewPortWidth * 0.550, height: viewPortHeight * 0.550 }} />
+                    </View>
+
                     <View style={newStyle.bottomContainer}>
-                        <TouchableOpacity onPress={() => { this.props.onButtonPress()}}>
+                        <TouchableOpacity onPress={() => { this.callMoney() }}>
                                     <Image source={njobanimationImage} resizeMode="contain" style={{ width: viewPortWidth * 0.891, height: viewPortHeight * 0.891, marginLeft: 15, }} />
                         </TouchableOpacity>         
                     </View>
@@ -106,6 +149,7 @@ const newStyle = StyleSheet.create({
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginTop: 35,
+                backgroundColor: 'powderblue'
     },
 
     logoBottom: {
@@ -116,8 +160,14 @@ const newStyle = StyleSheet.create({
                 height: 20,        
     },
 
+    pushContainer: {
+        width: 238,
+        height: 75,
+        flex:16,
+    },
+
     bottomContainer: {
-                flex:10,
+                flex:12,
                 width: viewPortWidth,
                 height: viewPortHeight * 0.85,                
                 alignItems: 'center',
@@ -187,11 +237,12 @@ const mapStateToProps = state => {
     };
   };
   
-  const mapDispatchToProps = dispatch => {
+  const mapDispatchToProps = (dispatch) => {
     return {  
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
-      onButtonPress: () => dispatch(NavigationActions.navigate({routeName: 'NewScreen'})),
+      onButtonPress: () => {dispatch(NavigationActions.navigate({routeName: 'NewScreen'}));},
+    //   onButtonPress: () => this.props.navigation.navigate('NewScreen'),
       navigateBack: () => dispatch(NavigationActions.back()),  
     };
   };

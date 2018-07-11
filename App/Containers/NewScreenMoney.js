@@ -27,6 +27,7 @@ import { Colors } from "../Themes";
 import { Images } from '../Themes';
 import logo from '../Images/logoheader.png';
 import logoHeader from '../Images/logoheader.png';
+import logoNew from '../Images/NewHeaderImage.png';
 import headerImage from '../Images/logojobfixersNew.png';
 
 const viewPortHeight = Dimensions.get('window').height;
@@ -34,7 +35,7 @@ const viewPortWidth  = Dimensions.get('window').width;
 
 // Styles
 
-export default class NewScreen extends Component {    
+export default class NewScreenMoney extends Component {    
 
     render()
     {
@@ -46,7 +47,7 @@ export default class NewScreen extends Component {
         return(
                 <View style={newStyle.container}>
                     <View style={newStyle.headerImageStyle}>
-                      <Image source={headerImage} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
+                      <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
                     </View>
 
                     <View style={newStyle.newLogoContainer}>

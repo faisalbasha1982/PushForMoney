@@ -59,7 +59,7 @@ class ThankYouScreen extends Component {
     };
 
     timerCount = () => {
-        setTimeout(() => { this.props.onButtonPress(),60000});
+        setTimeout(() => { this.props.navigation.navigate('PushForJob',{navigation: this.props.navigation}),60000});
     }
 
     checkTimer = () => {
@@ -67,7 +67,7 @@ class ThankYouScreen extends Component {
         this.setState({timer: this.state.timer + 1});
 
         if(this.state.timer===500)
-            this.props.onButtonPress();
+            this.props.navigation.navigate('PushForJob',{navigation: this.props.navigation});
     }
 
     componentWillReceiveProps(nextProps) {
@@ -308,8 +308,8 @@ const mapDispatchToProps = dispatch => {
     return {
         resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
         navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
-        navigateBack: () => dispatch(NavigationActions.back()),
-        onButtonPress: () => dispatch(NavigationActions.navigate({routeName: 'PushForJob'})),  
+        // navigateBack: () => this.props.navigation.goBack(),
+        // onButtonPress: () => this.props.navigation.navigate('PushForJob'),  
     };
 };
 

@@ -5,6 +5,7 @@ import Config from '../Config/DebugConfig'
 import createSagaMiddleware from 'redux-saga'
 import ScreenTracking from './ScreenTrackingMiddleware'
 import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers'
+// import { navReducer, middleware } from 'navigation';
 
 // creates the store
 export default (rootReducer, rootSaga) => {

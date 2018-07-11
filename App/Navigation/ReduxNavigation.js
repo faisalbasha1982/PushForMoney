@@ -5,6 +5,11 @@ import { addNavigationHelpers } from 'react-navigation';
 import { NavigationActions } from "react-navigation";
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 import { connect } from 'react-redux';
+import { 
+  reduxifyNavigator, 
+  createReactNavigationReduxMiddleware,
+  createNavigationReducer,
+ } from 'react-navigation-redux-helpers'
 import AppNavigation from './AppNavigation';
 
 class ReduxNavigation extends React.Component {

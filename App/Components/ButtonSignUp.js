@@ -12,7 +12,7 @@ const viewPortHeight = Dimensions.get('window').height;
 
 let clanguage = '';
 
-class ButtonNext extends Component {
+class ButtonLogin extends Component {
   constructor(props) {
     super(props);
 
@@ -144,8 +144,8 @@ class ButtonNext extends Component {
           style={{
             width: 330,
             height: 57,
-            marginBottom: 17,
-            marginLeft: 8,
+            marginBottom: 20,
+            marginLeft: 0,
             borderRadius: 8,
             backgroundColor: '#E73D50',
             marginTop: viewPortHeight / 30,            
@@ -170,7 +170,7 @@ class ButtonNext extends Component {
   }
 }
 
-ButtonNext.propTypes = {
+ButtonLogin.propTypes = {
     text: PropTypes.string.isRequired,
     language: PropTypes.string.isRequired,
 }
@@ -209,4 +209,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ButtonNext);
+export default connect(mapStateToProps, mapDispatchToProps)(ButtonLogin);
