@@ -4,7 +4,7 @@ import API_URL from './Api_url';
 import { ObjectToQueryString } from "../Lib/Utilities";
 
 // our "constructor"
-const create = (baseURL = API_URL.signUpURLE) => {
+const create = (baseURL = API_URL.signUpLoginUrl) => {
   // ------
   // STEP 1
   // ------
@@ -23,6 +23,10 @@ const create = (baseURL = API_URL.signUpURLE) => {
     timeout: 10000
   });
 
+  // Apisauce has a feature where you can attach a handler to watch
+  // all requests/response flowing through your api.  You can hook this up:
+  api.addMonitor(console.tron.apisauce);
+
   // ------
   // STEP 2
   // ------
@@ -37,13 +41,15 @@ const create = (baseURL = API_URL.signUpURLE) => {
   // Since we can't hide from that, we embrace it by getting out of the
   // way at this level.
   //
-
   const setHeaders = headers => api.setHeaders(headers);
 
-  const register = body => api.post("/workflows/ca7d95ebc3a14f65abf1e1d740312267/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=1eztFWraDyq9Ag46o4NiJNYvc0c9t3DOVpEemWqFkfE",body);
+  const register = body => api.post("/api/fnMobileUserLogin?code=PBlupvxr9IZuM0QAUV1rT3cZFDfM2Jtt73DnMBXABA9vfDEz/TPYJw==",body);
 
-  // const login = (email, password) => 
-  //   api.post(,{email, password});
+  const login = (payload) =>
+    api.post("/api/fnMobileUserLogin?code=PBlupvxr9IZuM0QAUV1rT3cZFDfM2Jtt73DnMBXABA9vfDEz/TPYJw==", payload);
+
+  const verifyOTP = body =>
+    api.post("", body);
 
   const getRoot = () => api.get('')
   const getRate = () => api.get('rate_limit')
@@ -65,10 +71,12 @@ const create = (baseURL = API_URL.signUpURLE) => {
     // a list of the API functions from step 2
     api,
     register,
-    setHeaders,    
+    setHeaders,
+    login,
     getRoot,
     getRate,
-    getUser
+    getUser,
+    verifyOTP
   }
 }
 

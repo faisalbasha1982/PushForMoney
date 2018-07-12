@@ -49,8 +49,12 @@ class LanguageButton extends Component {
   // width: (viewPortWidth * 41) / 46,
   // height: viewPortHeight / 11,
 
-  buttonPress = (lang) => {
-    this.props.navigation.navigate("FormOne",{language: lang,navigation: this.props.navigation});  
+  buttonPress = (lang,app) => {
+    console.log("app=",app);
+    if(app===0)
+      this.props.navigation.navigate("FormOne",{language: lang,navigation: this.props.navigation});
+    if(app===1)
+      this.props.navigation.navigate("PushToEarnSignIn");
   }
 
   render() {
@@ -58,7 +62,7 @@ class LanguageButton extends Component {
     const { navigate } = this.props.navigation;
     return (
       <Button
-        onPress={() => this.buttonPress(this.props.language)}
+        onPress={() => this.buttonPress(this.props.language,this.props.app)}
         activeOpacity={0.5}
         style={{
           height: "25.5%",

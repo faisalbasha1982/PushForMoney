@@ -10,14 +10,15 @@ import {
     TextInput,
     PixelRatio,
     Alert,
-    Platform,    
+    Platform,
+    AsyncStorage,
     findNodeHandle,
 } from 'react-native';
-
 import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { NavigationActions } from "react-navigation";
+import LoginActions, { LoginSelectors } from "../Redux/LoginRedux";
 import ButtonNext from '../Components/ButtonNext';
 import ButtonWelcome from '../Components/ButtonWelcome';
 import LanguageButton from '../Components/LanguageButton';
@@ -66,27 +67,25 @@ class PushToEarnSignIn extends Component {
 
         this.state = {
             language: 'NEDERLANDS',
-            firstName:'',
-            name:'',
-            phoneNumber:'',
             validation: false,
             renderValidate: false,
-            firstNameInput:'',
-            lastNameInput:'',
-            phoneNumberInput:'',
+            usernameInput:'',
+            passwordInput:'',
             buttonText: 'LOGIN',
-            firstNameError:true,
-            firstNameErrorText:'',            
-            lastNameError:false,
-            lastNameErrorText:'',
-            phoneNumberError:true,
-            phoneNumberErrorText:'',
+            usernameError:true,
+            emailErrorText:'',     
             ErrorText:'',
             EmptyErrorText:'',
-            firstNameEmptyError:false,
-            lastNameEmptyError:false,
-            phoneNumberEmptyError:false,
+            usernameEmptyError:false,
+            passwordEmptyError:false,
         };    
+    }
+
+    validatePassword = (password) => {
+
+        if(password.length >= 6 && !password.includes(" "))
+            this.setState({ passwordEmptyError: false, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
+        
     }
 
     validationLastName = (name) => {
@@ -129,7 +128,8 @@ class PushToEarnSignIn extends Component {
         }    
     } 
 
-    validationFirstName = (name) => {
+    validationFirstName = (name) => 
+    {
 
         let reg = /^[a-zA-Z\s]+$/;
 
@@ -166,63 +166,13 @@ class PushToEarnSignIn extends Component {
                       this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.french.FNameErrorText });
             }
         }        
-    }
-
-    validatePhone = (phone) => {
-
-        console.log("phone="+phone);
-
-        let phoneSub = phone.substring(1);
-
-        console.log("phone="+phoneSub);
-
-        let reg = /^[0-9]{12}$/;
-        let regNew = /^(?=(.*\d){10})(?!(.*\d){13})[\d\(\)\s+-]{10,}$/;
-
-        if(phone === '')
-        {
-            //this.setState({ phoneNumberError: true, ErrorText: 'Phone Number is Required' });
-            this.setState({phoneNumberInput: ''});
-
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
-        else
-        {
-            // home phone number belgium
-            let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
-            // mobile phone number belgium
-            let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
-    
-            this.phoneText = this.state.country;
-    
-            if (regNew.exec(phoneSub))
-              this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
-            else
-                if(this.state.language === 'NEDERLANDS')
-                    this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.dutch.TelephoneNumberError });
-                else
-                    if(this.state.language === 'ENGLISH')
-                        this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.english.TelephoneNumberError });
-                    else
-                        this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
-        }
-    
+    }    
         // if (homePhone.exec(phone))
         //   this.setState({ phoneError: false, phone: phone });
         // else
         //   this.setState({ phoneError: true });
     
     }
-
-    PhoneNumberPickerChanged = (country, callingCode, phoneNumber) => {
-        this.setState({countryName: country.name, callingCode: callingCode, phoneNo:phoneNumber});
-     }
 
     componentWillReceiveProps(nextProps) {
         // console.log("in Form One screen language received="+nextProps.language);
@@ -331,6 +281,117 @@ class PushToEarnSignIn extends Component {
             );
                 
         return;
+
+    }
+
+    callLogin = () => {
+
+        let username = this.state.firstnam;
+        let password = this.state.lastname;
+        let postalCode = this.state.postalCodeInput;
+        let Nieche = '';
+
+        if(this.state.dropDownItem === 'Construction Worker' 
+            || this.state.dropDownItem === 'Bouwvakker'
+            || this.state.dropDownItem === 'Travailleur de construction')
+            Nieche = 'Construct';
+
+        if(this.state.dropDownItem === 'Worker'
+            || this.state.dropDownItem === 'Arbeider'
+            || this.state.dropDownItem === 'Travailleur')
+            Nieche = 'Industry';
+
+        if(this.state.dropDownItem === 'Clerk'
+            || this.state.dropDownItem === 'Bediende'
+            || this.state.dropDownItem === 'Employé')
+            Nieche = 'Office';            
+
+        console.log("values found in login, phone = "+this.state.phonenumber);
+        console.log("values found in login, fName = "+this.state.firstname);
+        console.log("values found in login, lName = "+this.state.lastname);
+        console.log("values found in this.state.checked="+this.state.checked);
+        console.log("values found in login, postalcode = "+this.state.postalCodeInput);
+
+        if(phone === '' || fName === '' || postalCode ==='' || this.state.checked === false )
+            {
+                if(postalCode === '')
+                {   
+                    if(this.state.language === 'NEDERLANDS')
+                        this.setState({ postalCodeError: true,  ErrorText: LanguageSettings.dutch.postalCodeErrorText });
+                    else
+                        if(this.state.language === 'ENGLISH')
+                            this.setState({ postalCodeError: true,  ErrorText: LanguageSettings.english.postalCodeErrorText });
+                        else
+                            this.setState({ postalCodeError: true,  ErrorText: LanguageSettings.french.postalCodeErrorText });
+                }
+
+                 if(this.state.checked === false)
+                 {
+
+                    if(this.state.language === 'NEDERLANDS')
+                        {
+                            this.setState({ checkBoxError: true, ErrorText: LanguageSettings.dutch.CheckBoxErrorText});
+                        }
+                        // errorString = errorString + LanguageSettings.dutch.CheckBoxErrorText;
+                    else
+                        if(this.state.language === 'ENGLISH')
+                            this.setState({ checkBoxError: true, ErrorText: LanguageSettings.english.CheckBoxErrorText});
+
+                            // errorString = errorString + LanguageSettings.english.CheckBoxErrorText;
+                        else
+                            this.setState({ checkBoxError: true, ErrorText: LanguageSettings.french.CheckBoxErrorText});
+                            // errorString = errorString + LanguageSettings.french.CheckBoxErrorText;
+                    
+                 }
+                    //this.setState({ checkBoxError: true, ErrorText: 'Check Box is Required!'});
+
+            }
+        else
+           {
+            this.setState({isLoading: true});
+
+            //   let names = this.state.fullName.split(' ').toString();
+              // Alert.alert('Names:', names);
+              // Alert.alert('Nieche:', this.state.selected );
+              let cAuthenticationData = "{'Lang':"+" '"+this.state.language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
+              console.log("AuthenticationData:",cAuthenticationData);
+    
+            //   Alert.alert('Authentication Data:', cAuthenticationData);
+              //"AuthenticationData": "{'Lang': 'fr',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-04-30 11:30:12' ,'R' : 'er3rss'}",
+    
+              var encrypted = this.aes(cAuthenticationData);
+              console.log('loginfunction Encrypted :' + encrypted);
+    
+              fetch(Api.signUpURLP, {
+                method: 'post',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({      
+                    "AuthenticationData": encrypted.toString(),
+                    "firstname": fName,
+                    "lastname": lName,
+                    "phonenumber": this.state.phonenumber,
+                    "postalcode": parseInt(this.state.postalCodeInput),
+                    "niche": Nieche,
+                }),
+              }).then(response => response.json())
+                .then((res) => {
+                  console.log('Success:', res);
+                  if (typeof (res.message) !== 'undefined') {
+                    this.setState({ message: res.Message_en });
+                    // Alert.alert('Welcome', this.state.message);
+                    this.setState({ isLogin: false, canLogin: false });
+                    this.props.onButtonPress(this.state.language);
+                    //this.props.clear();
+                  } else {
+                    console.log("message=",res.Message_en);
+                    this.setState({ message: res.Message_en })
+                    // Alert.alert('Welcome', this.state.message);
+                    this.props.onButtonPress(this.state.language);
+                  }
+                }).catch((error) => { console.error(error); });
+            }
 
     }
 
@@ -467,13 +528,13 @@ class PushToEarnSignIn extends Component {
                         style={ newStyle.nameInput}
                         placeholder=''
                         underlineColorAndroid= 'transparent'
-                        onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
+                        onChangeText= { (lastNameInput) => this.validatePassword({lastNameInput}) }/>
 
                       <Text style={newStyle.forgotPassword}>Forgot Password?</Text>
 
                     <View style={newStyle.endButtons}>
 
-                    <ButtonLogin 
+                    {/* <ButtonLogin 
                         objectParams=
                         {{
                             btnText: this.state.buttonText, 
@@ -490,7 +551,36 @@ class PushToEarnSignIn extends Component {
                         }}
                         func = {this.func}
                         navigation = { this.props.navigation}
-                    />
+                    /> */}
+
+                     <TouchableOpacity
+                            onPress={() => { this.props.loginAction(); } }
+                            activeOpacity={0.5}
+                            style={{
+                                width: 330,
+                                height: 57,
+                                marginBottom: 10,
+                                marginLeft: 0,
+                                borderRadius: 8,
+                                backgroundColor: '#E73D50',
+                                marginTop: viewPortHeight / 30,            
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}>
+                            <Text
+                                style={{
+                                    fontSize: 17,
+                                    width: 333,
+                                    height: 19,
+                                    fontFamily: 'WorkSans-Regular',
+                                    fontWeight: '500',
+                                    fontStyle: 'normal',
+                                    color: '#ffffff',
+                                    marginTop: 0,                
+                                    letterSpacing: 0.67,
+                                    textAlign: 'center'}}
+                            > {this.state.buttonText.toUpperCase()}</Text>
+                        </TouchableOpacity>
                     </View>
 
                 <View style= {{ flex:1, marginTop: 0, marginLeft: 20}}>
@@ -795,13 +885,19 @@ const newStyle = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
+        fetching: LoginSelectors.getFetching(state)
     };
   };
   
   const mapDispatchToProps = dispatch => {
-    return {  
-      resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
+    return {
+      loginAction: ({ payload  }) => 
+        dispatch(LoginActions.loginRequest(payload)),
+      
+       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
+      
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
+      
       navigateBack: () => this.props.navigation.goBack(),
     };
   };

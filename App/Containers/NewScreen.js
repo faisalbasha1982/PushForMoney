@@ -58,9 +58,9 @@ export default class NewScreen extends Component {
                     </View>
 
                 <View style={newStyle.buttons}>
-                      <LanguageButton language={LanguageSettings.dutch.languageText} navigation={this.props.navigation} />
-                      <LanguageButton language={LanguageSettings.french.languageText} navigation={this.props.navigation} />
-                      <LanguageButton language={LanguageSettings.english.languageText} navigation={this.props.navigation} />
+                      <LanguageButton language={LanguageSettings.dutch.languageText} navigation={this.props.navigation} app={0} />
+                      <LanguageButton language={LanguageSettings.french.languageText} navigation={this.props.navigation} app={0}/>
+                      <LanguageButton language={LanguageSettings.english.languageText} navigation={this.props.navigation} app={0}/>
                 </View>
               </View>
         );

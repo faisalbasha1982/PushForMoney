@@ -116,7 +116,7 @@ class PushForJob extends Component {
                     </View>
                     
                     <View style={newStyle.pushContainer}>
-                            <Image source={pushFor} resizeMode="contain" style={{ width: viewPortWidth * 0.550, height: viewPortHeight * 0.550 }} />
+                            <Image source={pushFor} resizeMode="contain" style={{ width: viewPortWidth * 0.750, height: viewPortHeight * 0.550 }} />
                     </View>
 
                     <View style={newStyle.bottomContainer}>
@@ -149,7 +149,7 @@ const newStyle = StyleSheet.create({
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginTop: 35,
-                backgroundColor: 'powderblue'
+                backgroundColor: 'transparent'
     },
 
     logoBottom: {

@@ -59,9 +59,9 @@ export default class NewScreenMoney extends Component {
                     </View>
 
                 <View style={newStyle.buttons}>
-                      <LanguageButton language={LanguageSettings.dutch.languageText} navigation={this.props.navigation} />
-                      <LanguageButton language={LanguageSettings.french.languageText} navigation={this.props.navigation} />
-                      <LanguageButton language={LanguageSettings.english.languageText} navigation={this.props.navigation} />
+                      <LanguageButton language={LanguageSettings.dutch.languageText} navigation={this.props.navigation} app={1}/>
+                      <LanguageButton language={LanguageSettings.french.languageText} navigation={this.props.navigation} app={1}/>
+                      <LanguageButton language={LanguageSettings.english.languageText} navigation={this.props.navigation} app={1}/>
                 </View>
               </View>
         );

@@ -11,8 +11,9 @@ const Api_url = {
   signUpURLP: 'https://prod-27.westeurope.logic.azure.com:443/workflows/ca7d95ebc3a14f65abf1e1d740312267/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=1eztFWraDyq9Ag46o4NiJNYvc0c9t3DOVpEemWqFkfE',
   signUpURL1: 'https://prod-54.westeurope.logic.azure.com:443/workflows/fad35cb3bf804958806170aab090f5fd/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PIqV4C0NMg6yGjaBeaOMl8oLM8DK8v8NilOL-4azW7A',
   signUpURLA: 'http://prod-54.westeurope.logic.azure.com:443/workflows/fad35cb3bf804958806170aab090f5fd/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PIqV4C0NMg6yGjaBeaOMl8oLM8DK8v8NilOL-4azW7A',
-  signUpURLE: 'https://prod-27.westeurope.logic.azure.com:443',
+  signUpURLE: 'https://famobileutilityapiinterfacedev.azurewebsites.net',
   securityKey: 'VyhoMoGxi25xn/Tc',
+  signUpLoginUrl: 'https://famobileutilityapiinterfacedev.azurewebsites.net',
 };
 
 export default Api_url;
