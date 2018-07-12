@@ -84,89 +84,19 @@ class PushToEarnSignIn extends Component {
     validatePassword = (password) => {
 
         if(password.length >= 6 && !password.includes(" "))
-            this.setState({ passwordEmptyError: false, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
+            this.setState({ passwordEmptyError: false, passwordInput: password, EmptyErrorText: '' });
         
     }
 
-    validationLastName = (name) => {
+    validateEmail = (email) => {
 
-        let reg = /^[a-zA-Z\s]+$/;
+        var reg = /^(([^<>()[]\\.,;:\s@\"]+(\.[^<>()[]\\.,;:\s@\"]+)*)|(\".+\"))@(([[0-9]{1,3}\‌​.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
 
-        console.log("last name="+name);
+        if(reg.exec(email))
+           this.setState({ usernameInput: email, usernameEmptyError: false,  EmptyErrorText: '' })
 
-        if(name === '')
-        {
-            //this.setState({ lastNameError: true, ErrorText: 'Last Name is Required' });
-            this.setState({lastNameInput: ''});
-
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
-        else
-        {
-
-            if(reg.exec(name))
-            {
-              this.setState({ lastNameEmptyError: false, EmptyErrorText: '',lastNameError: false, lastNameInput: name,lastNameErrorText:'' });
-            }
-            else
-            {
-                console.log("found digits");
-              if(this.state.language === 'NEDERLANDS')
-                  this.setState({ lastNameEmptyError: false, lastNameError: true, lastNameErrorText: LanguageSettings.dutch.LNameErrorText });
-              else
-                  if(this.state.language === 'ENGLISH')
-                      this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.english.LNameErrorText });
-                  else
-                      this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.french.LNameErrorText });
-            }    
-        }    
-    } 
-
-    validationFirstName = (name) => 
-    {
-
-        let reg = /^[a-zA-Z\s]+$/;
-
-        console.log("validating First Name="+name);
-
-        if(name === '')
-        {
-            console.log("First name is empty="+name);
-            console.log("Language ="+this.state.language);
-            this.setState({firstNameInput: ''});
-            //this.setState({ firstNameError: true, ErrorText: 'First Name is Required' });
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
-        else
-        {
-            if(reg.exec(name))
-            {
-              this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: false, firstNameInput: name, firstNameErrorText:'' });
-            }
-            else
-            {
-              if(this.state.language === 'NEDERLANDS')
-                  this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.dutch.FNameErrorText });
-              else
-                  if(this.state.language === 'ENGLISH')
-                      this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.english.FNameErrorText });
-                  else
-                      this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.french.FNameErrorText });
-            }
-        }        
-    }    
+    }
+    
         // if (homePhone.exec(phone))
         //   this.setState({ phoneError: false, phone: phone });
         // else
@@ -286,68 +216,18 @@ class PushToEarnSignIn extends Component {
 
     callLogin = () => {
 
-        let username = this.state.firstnam;
-        let password = this.state.lastname;
-        let postalCode = this.state.postalCodeInput;
-        let Nieche = '';
+        let username = this.state.usernameInput;
+        let password = this.state.passwordInput;
 
-        if(this.state.dropDownItem === 'Construction Worker' 
-            || this.state.dropDownItem === 'Bouwvakker'
-            || this.state.dropDownItem === 'Travailleur de construction')
-            Nieche = 'Construct';
-
-        if(this.state.dropDownItem === 'Worker'
-            || this.state.dropDownItem === 'Arbeider'
-            || this.state.dropDownItem === 'Travailleur')
-            Nieche = 'Industry';
-
-        if(this.state.dropDownItem === 'Clerk'
-            || this.state.dropDownItem === 'Bediende'
-            || this.state.dropDownItem === 'Employé')
-            Nieche = 'Office';            
-
-        console.log("values found in login, phone = "+this.state.phonenumber);
-        console.log("values found in login, fName = "+this.state.firstname);
-        console.log("values found in login, lName = "+this.state.lastname);
-        console.log("values found in this.state.checked="+this.state.checked);
-        console.log("values found in login, postalcode = "+this.state.postalCodeInput);
-
-        if(phone === '' || fName === '' || postalCode ==='' || this.state.checked === false )
+        if(username === '' || password === '')
             {
-                if(postalCode === '')
+                if(username === '')
                 {   
-                    if(this.state.language === 'NEDERLANDS')
-                        this.setState({ postalCodeError: true,  ErrorText: LanguageSettings.dutch.postalCodeErrorText });
-                    else
-                        if(this.state.language === 'ENGLISH')
-                            this.setState({ postalCodeError: true,  ErrorText: LanguageSettings.english.postalCodeErrorText });
-                        else
-                            this.setState({ postalCodeError: true,  ErrorText: LanguageSettings.french.postalCodeErrorText });
                 }
-
-                 if(this.state.checked === false)
-                 {
-
-                    if(this.state.language === 'NEDERLANDS')
-                        {
-                            this.setState({ checkBoxError: true, ErrorText: LanguageSettings.dutch.CheckBoxErrorText});
-                        }
-                        // errorString = errorString + LanguageSettings.dutch.CheckBoxErrorText;
-                    else
-                        if(this.state.language === 'ENGLISH')
-                            this.setState({ checkBoxError: true, ErrorText: LanguageSettings.english.CheckBoxErrorText});
-
-                            // errorString = errorString + LanguageSettings.english.CheckBoxErrorText;
-                        else
-                            this.setState({ checkBoxError: true, ErrorText: LanguageSettings.french.CheckBoxErrorText});
-                            // errorString = errorString + LanguageSettings.french.CheckBoxErrorText;
-                    
-                 }
-                    //this.setState({ checkBoxError: true, ErrorText: 'Check Box is Required!'});
-
             }
         else
            {
+               
             this.setState({isLoading: true});
 
             //   let names = this.state.fullName.split(' ').toString();
