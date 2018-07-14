@@ -2,7 +2,7 @@ import { createReducer, createActions, Types as ReduxSauceTypes } from 'reduxsau
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  loginRequest: ["payload"],
+  loginRequest: ['payload'],
   loginSuccess: ['user'],
   loginFailure: ['error'],
   userRegistered: ['user'],

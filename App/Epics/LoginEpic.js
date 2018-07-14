@@ -15,11 +15,15 @@ import { of } from "rxjs/observable/of";
 
 export const loginEpic = (action$, { dispatch }) =>
   action$.ofType(LoginTypes.LOGIN_REQUEST).pipe(
-    switchMap(({payload}) => api.login(payload)),
+    switchMap(({payload}) => {
+      console.tron.log("payload:"+JSON.stringify({payload}));
+      api.login(payload);
+    }),
     mergeMap(response => {
       console.tron.log(
         `response is: ${JSON.stringify(response.Message, null, 2)}`
       );
+      // console.log("response==>"+response);
       switch (response.StatusCode) 
       {
         case 401: 

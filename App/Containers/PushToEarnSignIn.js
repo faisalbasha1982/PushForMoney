@@ -32,7 +32,9 @@ import LanguageSettings from '../Containers/LanguageSettingsNew';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
 import ButtonLogin from '../Components/ButtonLogin';
-
+import CryptoJS from 'crypto-js';
+import utf8 from 'utf8';
+import Api from './Api';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -41,7 +43,6 @@ import headerImage from '../Images/headerImage.png';
 import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/page1.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -54,6 +55,9 @@ export const IMAGE_HEIGHT_SMALL = window.width /7;
 // Styles
 
 let cLanguage = '';
+
+const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
 
 class PushToEarnSignIn extends Component {
 
@@ -84,24 +88,15 @@ class PushToEarnSignIn extends Component {
     validatePassword = (password) => {
 
         if(password.length >= 6 && !password.includes(" "))
-            this.setState({ passwordEmptyError: false, passwordInput: password, EmptyErrorText: '' });
-        
+            this.setState({ passwordEmptyError: false, passwordInput: password, EmptyErrorText: '' });        
     }
 
     validateEmail = (email) => {
 
-        var reg = /^(([^<>()[]\\.,;:\s@\"]+(\.[^<>()[]\\.,;:\s@\"]+)*)|(\".+\"))@(([[0-9]{1,3}\‌​.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
+        var reg = /^(([^<>()[]\\.,;:\s@\"]+(\.[^<>()[]\\.,;:\s@\"]+)*)|(\".+\"))@(([[0-9]{1,3}\‌​.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
         if(reg.exec(email))
-           this.setState({ usernameInput: email, usernameEmptyError: false,  EmptyErrorText: '' })
-
-    }
-    
-        // if (homePhone.exec(phone))
-        //   this.setState({ phoneError: false, phone: phone });
-        // else
-        //   this.setState({ phoneError: true });
-    
+           this.setState({ usernameInput: email, usernameEmptyError: false, EmptyErrorText: '' });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -192,7 +187,7 @@ class PushToEarnSignIn extends Component {
                                 objectParams = 
                                 {{
                                     'btnText': errorString, 
-                                    'language': this.props.navigation.state.params.language,
+                                    'language': this.state.language,
                                     'backgroundColor':'transparent'
                                 }} />
                     </View>
@@ -204,7 +199,7 @@ class PushToEarnSignIn extends Component {
                                 objectParams = 
                                 {{
                                     'btnText': errorString, 
-                                    'language': this.props.navigation.state.params.language,
+                                    'language': this.state.language,
                                     'backgroundColor': 'normal'
                                 }} />
                     </View>
@@ -214,63 +209,147 @@ class PushToEarnSignIn extends Component {
 
     }
 
-    callLogin = () => {
+    randomStringIV = () => {
 
-        let username = this.state.usernameInput;
-        let password = this.state.passwordInput;
+        let c = Math.random()*62;
+        let rString = chars.substr(c,1);
+     
+          for(i=0;i<15;i++)
+             rString = rString + chars.substr(Math.random()*62,1);
+     
+       return rString;
+     }
+
+    aes  = (authenticationData) => {
+     
+        const ivRandom = this.randomStringIV();
+      
+        // var key = CryptoJS.enc.Utf8.parse('VyhoMoGxi25xn/Tc');
+        var key = CryptoJS.enc.Utf8.parse(Api.securityKey);
+        var iv = CryptoJS.enc.Utf8.parse(ivRandom.toString());
+        const ivFirstPart = ivRandom.substr(0,8);
+        const ivLastPart = ivRandom.substring(8);
+        console.log('first part='+ivFirstPart+ " Last part="+ivLastPart);
+      
+        var encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(authenticationData), key,
+            {
+                keySize: 256 / 8,
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            });
+      
+        var decrypted = CryptoJS.AES.decrypt(encrypted, key, {
+            keySize: 256 / 8,
+            iv: iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        });
+      
+        console.log('Encrypted :' + encrypted);
+        console.log('Key :' + encrypted.key);
+        console.log('Salt :' + encrypted.salt);
+        console.log('iv :' + encrypted.iv);
+        console.log('Decrypted : ' + decrypted);
+        console.log('utf8 = ' + decrypted.toString(CryptoJS.enc.Utf8));
+      
+        return ivFirstPart + encrypted.toString() + ivLastPart;
+     }
+
+    getUTCDate = () => {
+        //2018-04-30 11:30:12
+    
+        var date, day, month, year;
+        var today = new Date();
+    
+        day = parseInt(today.getUTCDate())>10?today.getUTCDate():('0'+today.getUTCDate().toString());
+        month = parseInt(today.getUTCMonth()+1)>10?parseInt(today.getUTCMonth()+1):('0'+parseInt(today.getUTCMonth()+1));
+        year = today.getUTCFullYear().toString();
+    
+        // let currentDate = year + '-' + month>10?month:('0'+month) + '-' + day>10?day:('0'+day);
+        let currentDate = year + '-'+month+'-'+ day;
+    
+        // Creating variables to hold time.
+        var date, TimeType, hour, minutes, seconds, fullTime;
+        
+        // Getting current hour from Date object.
+        hour = today.getUTCHours(); 
+    
+        if(hour < 10)
+          hour = '0' + today.getUTCHours();
+    
+        // Getting the current minutes from date object.
+        minutes = today.getUTCMinutes();
+     
+        // // Checking if the minutes value is less then 10 then add 0 before minutes.
+        if(minutes < 10)
+          minutes = '0' + minutes.toString();
+     
+        //Getting current seconds from date object.
+        seconds = today.getUTCSeconds();
+     
+        // // If seconds value is less than 10 then add 0 before seconds.
+        if(seconds < 10)
+          seconds = '0' + seconds.toString();
+     
+        // Adding all the variables in fullTime variable.
+        fullTime = hour.toString() + ':' + minutes.toString() + ':' + seconds.toString();
+    
+        //var utcDate = new Date(Date.UTC(year,month-1,day,hour,minutes,seconds));
+       
+      //   Alert.alert('Day & Time UTC', currentDate+' '+fullTime);
+    
+        return currentDate+' '+fullTime;
+      }
+
+    callLogin = async () => {
+
+        let username = 'Balaji@esteinternational.com';
+        let password = 'hello4';
+        let language = "nl";
+
+        console.log("username="+username);
+        console.log("password="+password);
 
         if(username === '' || password === '')
             {
                 if(username === '')
                 {   
+                    // this.renderValidation();
                 }
+
             }
         else
            {
                
-            this.setState({isLoading: true});
-
-            //   let names = this.state.fullName.split(' ').toString();
-              // Alert.alert('Names:', names);
-              // Alert.alert('Nieche:', this.state.selected );
-              let cAuthenticationData = "{'Lang':"+" '"+this.state.language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
+              let cAuthenticationData = "{'Lang':"+" '"+language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
               console.log("AuthenticationData:",cAuthenticationData);
-    
-            //   Alert.alert('Authentication Data:', cAuthenticationData);
-              //"AuthenticationData": "{'Lang': 'fr',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-04-30 11:30:12' ,'R' : 'er3rss'}",
-    
-              var encrypted = this.aes(cAuthenticationData);
+
+            //   Balaji@esteinternational.com
+            //   hello4
+        
+              let encrypted = this.aes(cAuthenticationData);
               console.log('loginfunction Encrypted :' + encrypted);
     
-              fetch(Api.signUpURLP, {
-                method: 'post',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({      
+              let payload = {      
                     "AuthenticationData": encrypted.toString(),
-                    "firstname": fName,
-                    "lastname": lName,
-                    "phonenumber": this.state.phonenumber,
-                    "postalcode": parseInt(this.state.postalCodeInput),
-                    "niche": Nieche,
-                }),
-              }).then(response => response.json())
-                .then((res) => {
-                  console.log('Success:', res);
-                  if (typeof (res.message) !== 'undefined') {
-                    this.setState({ message: res.Message_en });
-                    // Alert.alert('Welcome', this.state.message);
-                    this.setState({ isLogin: false, canLogin: false });
-                    this.props.onButtonPress(this.state.language);
-                    //this.props.clear();
-                  } else {
-                    console.log("message=",res.Message_en);
-                    this.setState({ message: res.Message_en })
-                    // Alert.alert('Welcome', this.state.message);
-                    this.props.onButtonPress(this.state.language);
-                  }
-                }).catch((error) => { console.error(error); });
+                    "LoginData":  "{'U' :"+" '"+username+"',"+" 'P':"+"'"+password+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}",
+                    "TestingMode": "Testing@JobFixers#09876",
+                };
+
+                Alert.alert(
+                    'Alert Title',
+                    'login start',
+                    [                      
+                        {
+                          text: 'Ask Me Later', 
+                          onPress: () => console.log('Ask me later Pressed')
+                        },                      
+                    ],
+                    {cancelable: false}
+                );
+               this.props.loginAction(payload);
+
             }
 
     }
@@ -400,7 +479,7 @@ class PushToEarnSignIn extends Component {
                                 style={ newStyle.nameInput }
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
-                                onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
+                                onChangeText={(usernameInput) => this.validateEmail(usernameInput)}/>
                             
 
                     <Text style={newStyle.firstName}>Password</Text>
@@ -408,7 +487,7 @@ class PushToEarnSignIn extends Component {
                         style={ newStyle.nameInput}
                         placeholder=''
                         underlineColorAndroid= 'transparent'
-                        onChangeText= { (lastNameInput) => this.validatePassword({lastNameInput}) }/>
+                        onChangeText= { (passwordInput) => this.validatePassword({passwordInput}) }/>
 
                       <Text style={newStyle.forgotPassword}>Forgot Password?</Text>
 
@@ -434,7 +513,7 @@ class PushToEarnSignIn extends Component {
                     /> */}
 
                      <TouchableOpacity
-                            onPress={() => { this.props.loginAction(); } }
+                            onPress={() => { this.callLogin(); } }
                             activeOpacity={0.5}
                             style={{
                                 width: 330,
@@ -771,7 +850,7 @@ const mapStateToProps = state => {
   
   const mapDispatchToProps = dispatch => {
     return {
-      loginAction: ({ payload  }) => 
+      loginAction: ({ payload }) => 
         dispatch(LoginActions.loginRequest(payload)),
       
        resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
