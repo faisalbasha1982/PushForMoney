@@ -2,7 +2,7 @@ import { createReducer, createActions, Types as ReduxSauceTypes } from 'reduxsau
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  loginRequest: ['payload'],
+  loginRequest: ["payload"],
   loginSuccess: ['user'],
   loginFailure: ['error'],
   userRegistered: ['user'],
@@ -17,7 +17,8 @@ export default Creators;
 export const INITIAL_STATE = {
   user: null,
   fetching: false,
-  error: ''
+  error: '',
+  payload: null
 }
 
 /* ------------- Selectors ------------- */
@@ -30,16 +31,16 @@ export const LoginSelectors = {
 
 /* ------------- Reducers ------------- */
 
-export const request = (state, action) => {
-  return { ...state, fetching: true }
+export const request = (state, { payload }) => {
+  return { ...state, fetching: true, payload }
 }
 
 export const success = (state, {user}) => {
-  return { ...state, user, fetching: false }
+  return { ...state, fetching: false, error:null, payload: null }
 }
 
 export const failure = (state, {error}) => {
-  return { ...state, fetching: false, error}
+  return { ...state, fetching: false, error, payload: null}
 }
 
 export const registered = (state, {user}) => {

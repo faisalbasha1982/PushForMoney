@@ -12,56 +12,20 @@ import {
 } from "rxjs/operators"; // rxjs v5.5+
 import api from "../Services";
 import { of } from "rxjs/observable/of";
+import { ajax } from 'rxjs/ajax';
+import Api from '../Services/Api_url';
 
-export const loginEpic = (action$, { dispatch }) =>
-  action$.ofType(LoginTypes.LOGIN_REQUEST).pipe(
-    switchMap(({payload}) => {
-      console.tron.log("payload:"+JSON.stringify({payload}));
-      api.login(payload);
-    }),
-    mergeMap(response => {
-      console.tron.log(
-        `response is: ${JSON.stringify(response.Message, null, 2)}`
-      );
-      // console.log("response==>"+response);
-      switch (response.StatusCode) 
-      {
-        case 401: 
-                    Toast.show("Log in failed, check your credentials.", {
-                    duration: Toast.durations.LONG,
-                    position: Toast.positions.BOTTOM,
-                    shadow: true,
-                    animation: true,
-                    hideOnPress: true
-                    });
-                    break;
-        case 403: 
-                    Toast.show("Log in failed, check your credentials.", {
-                        duration: Toast.durations.LONG,
-                        position: Toast.positions.BOTTOM,
-                        shadow: true,
-                        animation: true,
-                        hideOnPress: true
-                        });
-                        break;
-        case 200: 
-                    Toast.show("Log in Succeeded.", {
-                    duration: Toast.durations.LONG,
-                    position: Toast.positions.BOTTOM,
-                    shadow: true,
-                    animation: true,
-                    hideOnPress: true
-                    });
-                    break;
-
-      } 
-    //   else {
-    //     //api.setHeaders({ Authorization: response.data.data.accessToken });
-    //   }
-      return of(
-        response.StatusCode === 200
-          ? LoginActions.loginSuccess(response.Message)
-          : LoginActions.loginFailure("Response wasn't ok.")
-      );
-    })
+export const loginEpic = action$ =>
+  action$.ofType(LoginTypes.LOGIN_REQUEST)
+         .pipe(
+          switchMap(({ payload }) => {
+            // console.tron.log("payload:"+payload);
+             api.login(payload);
+          }),
+          tap(() => console.tron.log(
+            `response is: ${JSON.stringify(response.Message, null, 2)}`)),
+          switchMap(response => response.ok ?
+            LoginActions.loginSuccess(response.Message)
+            : 
+            LoginActions.loginFailure("Response wasn't ok.")),
   );

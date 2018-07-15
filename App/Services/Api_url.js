@@ -14,6 +14,7 @@ const Api_url = {
   signUpURLE: 'https://famobileutilityapiinterfacedev.azurewebsites.net',
   securityKey: 'VyhoMoGxi25xn/Tc',
   signUpLoginUrl: 'https://famobileutilityapiinterfacedev.azurewebsites.net',
+  signUpLoginUrlNew: 'https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnMobileUserLogin?code=PBlupvxr9IZuM0QAUV1rT3cZFDfM2Jtt73DnMBXABA9vfDEz/TPYJw=='
 };
 
 export default Api_url;

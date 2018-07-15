@@ -330,10 +330,11 @@ class PushToEarnSignIn extends Component {
         
               let encrypted = this.aes(cAuthenticationData);
               console.log('loginfunction Encrypted :' + encrypted);
+              console.log("{'U' :"+" '"+username+"',"+" 'P':"+"'"+password+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}");
     
               let payload = {      
                     "AuthenticationData": encrypted.toString(),
-                    "LoginData":  "{'U' :"+" '"+username+"',"+" 'P':"+"'"+password+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}",
+                    "LoginData":  "{'U':"+"'"+username+"',"+" 'P':"+"'"+password+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}",
                     "TestingMode": "Testing@JobFixers#09876",
                 };
 
@@ -348,8 +349,11 @@ class PushToEarnSignIn extends Component {
                     ],
                     {cancelable: false}
                 );
-               this.props.loginAction(payload);
-
+               this.props.loginAction({
+                    "AuthenticationData": cAuthenticationData,
+                    "LoginData":  "{'U':"+"'"+username+"',"+" 'P':"+"'"+password+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}",
+                    "TestingMode": "Testing@JobFixers#09876",
+                });
             }
 
     }
@@ -850,7 +854,7 @@ const mapStateToProps = state => {
   
   const mapDispatchToProps = dispatch => {
     return {
-      loginAction: ({ payload }) => 
+      loginAction: ( payload ) => 
         dispatch(LoginActions.loginRequest(payload)),
       
        resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
