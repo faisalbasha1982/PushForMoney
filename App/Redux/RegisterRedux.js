@@ -36,14 +36,14 @@ export const request = (state, { payload }) => {
 
 // successful api lookup
 export const success = state => {
-  return { ...state,  fetching: false, error: null, payload: null };
+  return { ...state,  fetching: false,};
 };
 
 // Something went wrong somewhere.
 export const failure = state => {
-  return {...state, fetching: false, error: true, payload: null }
+  return {...state, fetching: false, }
 }
-
+ 
 // request OTP verification
 export const otp = (state, { payload }) => {
   return {...state, fetching: true, payload }

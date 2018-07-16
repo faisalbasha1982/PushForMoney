@@ -1,0 +1,83 @@
+Oimport LoginActions, { LoginTypes } from "../Redux/LoginRedux";
+iOBmport { ofType } from "redux-observable";
+import Toast from "react-native-root-toast";
+import {
+  delay,
+  mOapTo,
+  maOp,
+  tap,
+  swiBOtchMap,
+  mergeMap,
+  catchError
+} from OB"rxjs/operators"; // rxjs v5.5+
+import api from "../Services";
+import { OOOOOof } from "rxjs/observable/of";
+import { ajax BOBBOO} from 'rxjs/ajax';
+import Api from '../OOServices/Api_url';
+OOBO
+expoOOOrt const loginEpicOO = (action$, { dispatch }) =>
+  action$.ofType(LoginTypes.LOGIN_REQUEST).pipe(
+         switchMap( (action) => ajax.post(Api.signUpLoginUrl,action.payload) ),
+         mergeMap( payload => 
+              {
+                return of(
+                  response.StatusCode === 200
+                    ? LoginActions.loginSuccess(response.Message)
+                    : LoginActions.loginFailure("Response wasn't ok.")
+                )
+              }
+            )
+          );
+
+// export const loginEpic = (action$, { dispatch }) =>
+//   action$.ofType(LoginTypes.LOGIN_REQUEST).pipe(
+//     switchMap((action) => {
+//       console.tron.log("payload:"+action.payload);
+//       api.login(action.payload);
+//     }),
+//     mergeMap(response => {
+//       console.tron.log(
+//         `response is: ${JSON.stringify(response.Message, null, 2)}`
+//       );
+//       // console.log("response==>"+response);
+//       switch (response.StatusCode) 
+//       {
+//         case 401: 
+//                     Toast.show("Log in failed, check your credentials.", {
+//                     duration: Toast.durations.LONG,
+//                     position: Toast.positions.BOTTOM,
+//                     shadow: true,
+//                     animation: true,
+//                     hideOnPress: true
+//                     });
+//                     break;
+//         case 403: 
+//                     Toast.show("Log in failed, check your credentials.", {
+//                         duration: Toast.durations.LONG,
+//                         position: Toast.positions.BOTTOM,
+//                         shadow: true,
+//                         animation: true,
+//                         hideOnPress: true
+//                         });
+//                         break;
+//         case 200: 
+//                     Toast.show("Log in Succeeded.", {
+//                     duration: Toast.durations.LONG,
+//                     position: Toast.positions.BOTTOM,
+//                     shadow: true,
+//                     animation: true,
+//                     hideOnPress: true
+//                     });
+//                     break;
+
+//       } 
+//     //   else {
+//     //     //api.setHeaders({ Authorization: response.data.data.accessToken });
+//     //   }
+//       return of(
+//         response.StatusCode === 200
+//           ? LoginActions.loginSuccess(response.Message)
+//           : LoginActions.loginFailure("Response wasn't ok.")
+//       );
+//     })
+//   );

@@ -32,6 +32,9 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import PhoneInput from 'react-native-phone-input';
 import ButtonLogin from '../Components/ButtonLogin';
 import ButtonSignUp from '../Components/ButtonSignUp';
+import CryptoJS from 'crypto-js';
+import utf8 from 'utf8';
+import Api from './Api';
 
 
 import { Colors } from "../Themes";
@@ -54,6 +57,8 @@ export const IMAGE_HEIGHT_SMALL = window.width /7;
 // Styles
 
 let cLanguage = '';
+const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
 
 class PushToEarnSignUp extends Component {
 
@@ -74,152 +79,146 @@ class PushToEarnSignUp extends Component {
             renderValidate: false,
             firstNameInput:'',
             lastNameInput:'',
-            phoneNumberInput:'',
-            buttonText: 'LOGIN',
-            firstNameError:true,
-            firstNameErrorText:'',            
-            lastNameError:false,
-            lastNameErrorText:'',
-            phoneNumberError:true,
-            phoneNumberErrorText:'',
+            usernameInput:'',
+            passwordInput:'',
+            confirmpasswordInput:'',
+            buttonText: 'REGISTER',
             ErrorText:'',
             EmptyErrorText:'',
-            firstNameEmptyError:false,
-            lastNameEmptyError:false,
-            phoneNumberEmptyError:false,
+            usernameEmptyError:false,
+            passwordEmptyError:false,
         };    
     }
 
-    validationLastName = (name) => {
+    validateconfirmPassword = (password) => {
 
-        let reg = /^[a-zA-Z\s]+$/;
-
-        console.log("last name="+name);
-
-        if(name === '')
-        {
-            //this.setState({ lastNameError: true, ErrorText: 'Last Name is Required' });
-            this.setState({lastNameInput: ''});
-
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
+        console.log('password sent='+password);
+        if(password.length >= 6 && !password.includes(" "))
+            this.setState({ passwordEmptyError: false, confirmpasswordInput: password, EmptyErrorText: '' });
         else
-        {
-
-            if(reg.exec(name))
-            {
-              this.setState({ lastNameEmptyError: false, EmptyErrorText: '',lastNameError: false, lastNameInput: name,lastNameErrorText:'' });
-            }
-            else
-            {
-                console.log("found digits");
-              if(this.state.language === 'NEDERLANDS')
-                  this.setState({ lastNameEmptyError: false, lastNameError: true, lastNameErrorText: LanguageSettings.dutch.LNameErrorText });
-              else
-                  if(this.state.language === 'ENGLISH')
-                      this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.english.LNameErrorText });
-                  else
-                      this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.french.LNameErrorText });
-            }    
-        }    
-    } 
-
-    validationFirstName = (name) => {
-
-        let reg = /^[a-zA-Z\s]+$/;
-
-        console.log("validating First Name="+name);
-
-        if(name === '')
-        {
-            console.log("First name is empty="+name);
-            console.log("Language ="+this.state.language);
-            this.setState({firstNameInput: ''});
-            //this.setState({ firstNameError: true, ErrorText: 'First Name is Required' });
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
-        else
-        {
-            if(reg.exec(name))
-            {
-              this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: false, firstNameInput: name, firstNameErrorText:'' });
-            }
-            else
-            {
-              if(this.state.language === 'NEDERLANDS')
-                  this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.dutch.FNameErrorText });
-              else
-                  if(this.state.language === 'ENGLISH')
-                      this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.english.FNameErrorText });
-                  else
-                      this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.french.FNameErrorText });
-            }
-        }        
+            console.log("password incorrect---->"+password);
     }
 
-    validatePhone = (phone) => {
 
-        console.log("phone="+phone);
+    validatePassword = (password) => {
 
-        let phoneSub = phone.substring(1);
-
-        console.log("phone="+phoneSub);
-
-        let reg = /^[0-9]{12}$/;
-        let regNew = /^(?=(.*\d){10})(?!(.*\d){13})[\d\(\)\s+-]{10,}$/;
-
-        if(phone === '')
-        {
-            //this.setState({ phoneNumberError: true, ErrorText: 'Phone Number is Required' });
-            this.setState({phoneNumberInput: ''});
-
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
+        console.log('password sent='+password);
+        if(password.length >= 6 && !password.includes(" "))
+            this.setState({ passwordEmptyError: false, passwordInput: password, EmptyErrorText: '' });
         else
-        {
-            // home phone number belgium
-            let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
-            // mobile phone number belgium
-            let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
-    
-            this.phoneText = this.state.country;
-    
-            if (regNew.exec(phoneSub))
-              this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
-            else
-                if(this.state.language === 'NEDERLANDS')
-                    this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.dutch.TelephoneNumberError });
-                else
-                    if(this.state.language === 'ENGLISH')
-                        this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.english.TelephoneNumberError });
-                    else
-                        this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
-        }
-    
-        // if (homePhone.exec(phone))
-        //   this.setState({ phoneError: false, phone: phone });
-        // else
-        //   this.setState({ phoneError: true });
-    
+            console.log("password incorrect---->"+password);
     }
+
+    validateEmail = (text) => {
+
+        console.log(text);
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+        if(reg.test(text) === false)
+        {
+            console.log("Email is Not Correct");
+            this.setState({ usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
+               return false;
+        }
+        else 
+        {
+           this.setState({ usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
+           console.log("Email is Correct");
+        }
+
+    }
+
+    randomStringIV = () => {
+
+        let c = Math.random()*62;
+        let rString = chars.substr(c,1);
+     
+          for(i=0;i<15;i++)
+             rString = rString + chars.substr(Math.random()*62,1);
+     
+       return rString;
+     }
+
+    aes  = (authenticationData) => {
+     
+        const ivRandom = this.randomStringIV();
+      
+        // var key = CryptoJS.enc.Utf8.parse('VyhoMoGxi25xn/Tc');
+        var key = CryptoJS.enc.Utf8.parse(Api.securityKey);
+        var iv = CryptoJS.enc.Utf8.parse(ivRandom.toString());
+        const ivFirstPart = ivRandom.substr(0,8);
+        const ivLastPart = ivRandom.substring(8);
+        console.log('first part='+ivFirstPart+ " Last part="+ivLastPart);
+      
+        var encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(authenticationData), key,
+            {
+                keySize: 256 / 8,
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            });
+      
+        var decrypted = CryptoJS.AES.decrypt(encrypted, key, {
+            keySize: 256 / 8,
+            iv: iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        });
+      
+        console.log('Encrypted :' + encrypted);
+        console.log('Key :' + encrypted.key);
+        console.log('Salt :' + encrypted.salt);
+        console.log('iv :' + encrypted.iv);
+        console.log('Decrypted : ' + decrypted);
+        console.log('utf8 = ' + decrypted.toString(CryptoJS.enc.Utf8));
+      
+        return ivFirstPart + encrypted.toString() + ivLastPart;
+     }
+
+    getUTCDate = () => {
+        //2018-04-30 11:30:12
+    
+        var date, day, month, year;
+        var today = new Date();
+    
+        day = parseInt(today.getUTCDate())>10?today.getUTCDate():('0'+today.getUTCDate().toString());
+        month = parseInt(today.getUTCMonth()+1)>10?parseInt(today.getUTCMonth()+1):('0'+parseInt(today.getUTCMonth()+1));
+        year = today.getUTCFullYear().toString();
+    
+        // let currentDate = year + '-' + month>10?month:('0'+month) + '-' + day>10?day:('0'+day);
+        let currentDate = year + '-'+month+'-'+ day;
+    
+        // Creating variables to hold time.
+        var date, TimeType, hour, minutes, seconds, fullTime;
+        
+        // Getting current hour from Date object.
+        hour = today.getUTCHours(); 
+    
+        if(hour < 10)
+          hour = '0' + today.getUTCHours();
+    
+        // Getting the current minutes from date object.
+        minutes = today.getUTCMinutes();
+     
+        // // Checking if the minutes value is less then 10 then add 0 before minutes.
+        if(minutes < 10)
+          minutes = '0' + minutes.toString();
+     
+        //Getting current seconds from date object.
+        seconds = today.getUTCSeconds();
+     
+        // // If seconds value is less than 10 then add 0 before seconds.
+        if(seconds < 10)
+          seconds = '0' + seconds.toString();
+     
+        // Adding all the variables in fullTime variable.
+        fullTime = hour.toString() + ':' + minutes.toString() + ':' + seconds.toString();
+    
+        //var utcDate = new Date(Date.UTC(year,month-1,day,hour,minutes,seconds));
+       
+      //   Alert.alert('Day & Time UTC', currentDate+' '+fullTime);
+    
+        return currentDate+' '+fullTime;
+      }
 
     PhoneNumberPickerChanged = (country, callingCode, phoneNumber) => {
         this.setState({countryName: country.name, callingCode: callingCode, phoneNo:phoneNumber});
@@ -332,6 +331,50 @@ class PushToEarnSignUp extends Component {
             );
                 
         return;
+
+    }
+
+    callLogin = async () => {
+
+        let username = 'faisal@esteinternational.com';
+        let password = 'hello4';
+        let language = "nl";
+
+        console.log("username="+username);
+        console.log("password="+password);
+
+        if(username === '' || password === '')
+            {
+                if(username === '')
+                {   
+                    // this.renderValidation();
+                }
+
+            }
+        else
+           {
+               
+              let cAuthenticationData = "{'Lang':"+" '"+language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
+              console.log("AuthenticationData:",cAuthenticationData);
+
+            //   Balaji@esteinternational.com
+            //   hello4
+        
+              let encrypted = this.aes(cAuthenticationData);
+              console.log('loginfunction Encrypted :' + encrypted);
+              console.log("{'U' :"+" '"+username+"',"+" 'P':"+"'"+password+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}");
+              //encrypted.toString()
+
+              let payload = JSON.stringify({
+                    "AuthenticationData": cAuthenticationData,
+                    "LoginData":  "{'U':"+"'"+username+"',"+" 'P':"+"'"+password+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}",
+                    "TestingMode": "Testing@JobFixers#09876",
+                    "SignupMode": true,
+                });
+
+              this.props.registerAction(payload);
+
+            }
 
     }
 
@@ -454,13 +497,13 @@ class PushToEarnSignUp extends Component {
                 </View>                
 
                 <View style={newStyle.inputContainer}>
-               
-                    <Text style={newStyle.firstName}>Email Address</Text>
+
+                  <Text style={newStyle.firstName}>Email Address</Text>
                     <TextInput
                                 style={ newStyle.nameInput }
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
-                                onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
+                                onChangeText={(usernameInput) => this.validateEmail(usernameInput)}/>
                             
 
                     <Text style={newStyle.firstName}>Password</Text>
@@ -468,22 +511,52 @@ class PushToEarnSignUp extends Component {
                         style={ newStyle.nameInput}
                         placeholder=''
                         underlineColorAndroid= 'transparent'
-                        onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
+                        onChangeText= { (passwordInput) => this.validatePassword(passwordInput) }/>
 
-                    <Text style={newStyle.firstName}>Password</Text>
+
+                    <Text style={newStyle.firstName}>Confirm Password</Text>
                     <TextInput
                         style={ newStyle.nameInput}
                         placeholder=''
                         underlineColorAndroid= 'transparent'
-                        onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
-                    <View style={newStyle.endButtons}>
+                        onChangeText= { (confirmpasswordInput) => this.validateconfirmPassword(confirmpasswordInput) }/>
 
+                    <View style={newStyle.endButtons}>
+                        
+                         <TouchableOpacity
+                            onPress={() => { this.callLogin(); } }
+                            activeOpacity={0.5}
+                            style={{
+                                width: 330,
+                                height: 57,
+                                marginBottom: 0,
+                                marginLeft: 0,
+                                borderRadius: 8,
+                                backgroundColor: '#E73D50',
+                                marginTop: viewPortHeight / 600,
+                                justifyContent: 'center',
+                                alignItems: 'flex-start'
+                            }}>
+                            <Text
+                                style={{
+                                    fontSize: 17,
+                                    width: 333,
+                                    height: 19,
+                                    fontFamily: 'WorkSans-Regular',
+                                    fontWeight: '500',
+                                    fontStyle: 'normal',
+                                    color: '#ffffff',
+                                    marginTop: 0,                
+                                    letterSpacing: 0.67,
+                                    textAlign: 'center'}}
+                            > {this.state.buttonText.toUpperCase()}</Text>
+                        </TouchableOpacity>
                    
                     </View>
 
                 </View>
 
-                   <ButtonSignUp
+                   {/* <ButtonSignUp
                         objectParams=
                         {{
                             btnText: 'SIGN UP', 
@@ -500,7 +573,7 @@ class PushToEarnSignUp extends Component {
                         }}
                         func = {this.func}
                         navigation = { this.props.navigation}
-                    />
+                    /> */}
 
                     {/* <ButtonNext 
                             objectParams=
@@ -664,7 +737,7 @@ const newStyle = StyleSheet.create({
         marginTop: Platform.OS === 'ios'?25:10,
         padding: 25,
         marginLeft: 30,
-        flex: Platform.OS === 'ios'?48:1,
+        flex: Platform.OS === 'ios'?65:1,
         backgroundColor: 'transparent'
     },
 
@@ -741,9 +814,9 @@ const newStyle = StyleSheet.create({
 
     endButtons: {
         width: viewPortWidth,
-        height: Platform.OS === 'ios'?50:150,
+        height: Platform.OS === 'ios'?150:150,
         zIndex: 999,
-        flex: Platform.OS === 'ios'?4:4,
+        flex: Platform.OS === 'ios'?15:4,
         flexDirection: 'row',
         backgroundColor: 'white',
         justifyContent: 'flex-start',
@@ -789,6 +862,8 @@ const mapStateToProps = state => {
   
   const mapDispatchToProps = dispatch => {
     return {  
+        registerAction: ( payload ) => 
+        dispatch({ type: 'REGISTER_REQUEST', payload }),
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),

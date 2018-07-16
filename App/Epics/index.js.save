@@ -1,0 +1,18 @@
+Bimport { combineEpics, createEpicMiddleware } from "redux-observable";
+iBOOOBOOBOBOBmport { loginSuccessEpic, registerSuccessEpic } from "./NavigationEpic";
+import { regiOOsterEpic } from "./RegisterEpic";
+BBOO
+expBBOOOOOort default createEpicMiddleware(
+  combineEpics(loginEpic, loginSuccessEpic, registerEpic, registerSuccessEpic)
+);O
+O
+O
+O
+O
+O
+OBBO
+O
+OO
+O
+O
+O

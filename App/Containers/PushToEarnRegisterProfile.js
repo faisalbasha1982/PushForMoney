@@ -30,7 +30,7 @@ import Validation from '../Components/ButtonValidation';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import RegisterActions, { RegisterSelectors } from "../Redux/RegisterRedux";
-
+import NavigationService from '../Navigation/NavigationService';
 import PhoneInput from 'react-native-phone-input';
 import ButtonLogin from '../Components/ButtonLogin';
 import ButtonSignUp from '../Components/ButtonSignUp';
@@ -75,7 +75,7 @@ class PushToEarnRegisterProfile extends Component {
             firstNameInput:'',
             lastNameInput:'',
             phoneNumberInput:'',
-            buttonText: 'LOGIN',
+            buttonText: 'I\'M READY!',
             firstNameError:true,
             firstNameErrorText:'',            
             lastNameError:false,
@@ -285,6 +285,11 @@ class PushToEarnRegisterProfile extends Component {
 
     }
 
+    callPrivateScreen = () => {
+        //NavigationService.navigate('PushToEarnPrivatePolicy');
+        this.prop.navigation.navigate('PushToEarnPrivatePolicy');
+    }
+
     renderValidation = () => {
 
         //if(this.state.language === 'NEDERLANDS')
@@ -413,24 +418,35 @@ class PushToEarnRegisterProfile extends Component {
                         onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
                 </View>
 
-                   <ButtonSignUp
-                        objectParams=
-                        {{
-                            btnText: 'SIGN UP', 
-                            language: '',
-                            firstName: this.state.firstNameInput,
-                            lastName: this.state.lastNameInput,
-                            phoneNumber: this.state.phoneNumberInput,
-                            firstNameError: this.state.firstNameError,
-                            lastNameError: this.state.lastNameError,
-                            phoneNumberError: this.state.phoneNumberError,
-                            firstNameEmpty: this.state.firstNameEmptyError,
-                            lastNameEmpty: this.state.lastNameEmptyError,
-                            phoneNumberEmpty: this.state.phoneNumberEmptyError
-                        }}
-                        func = {this.func}
-                        navigation = { this.props.navigation}
-                    />
+                     <TouchableOpacity
+                            onPress={() => { this.callPrivateScreen(); } }
+                            activeOpacity={0.5}
+                            style={{
+                                width: 330,
+                                height: 57,
+                                marginBottom: 0,
+                                marginLeft: 0,
+                                borderRadius: 8,
+                                backgroundColor: '#E73D50',
+                                marginTop: viewPortHeight / 600,
+                                justifyContent: 'center',
+                                alignItems: 'flex-start'
+                            }}>
+                            <Text
+                                style={{
+                                    fontSize: 17,
+                                    width: 333,
+                                    height: 19,
+                                    fontFamily: 'WorkSans-Regular',
+                                    fontWeight: '500',
+                                    fontStyle: 'normal',
+                                    color: '#ffffff',
+                                    marginTop: 0,                
+                                    letterSpacing: 0.67,
+                                    textAlign: 'center'}}
+                            > {this.state.buttonText.toUpperCase()}</Text>
+                        </TouchableOpacity>
+                   
  
             </KeyboardAwareScrollView>
 

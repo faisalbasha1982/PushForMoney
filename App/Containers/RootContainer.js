@@ -6,6 +6,7 @@ import { BackHandler, Platform } from 'react-native';
 import StartupActions from '../Redux/StartupRedux'
 import ReduxPersist from '../Config/ReduxPersist'
 import AppNavigation from '../Navigation/AppNavigation';
+import * as NavigationService from '../Navigation/NavigationService';
 
 // Styles
 import styles from './Styles/RootContainerStyles'
@@ -16,6 +17,8 @@ class RootContainer extends Component {
     if (!ReduxPersist.active) {
       this.props.startup()
     }
+
+    NavigationService.setNavigator(this.navigator);
     BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
   }
 
@@ -39,7 +42,7 @@ class RootContainer extends Component {
     return (
       <View style={styles.applicationView}>
         <StatusBar barStyle='light-content' />
-        <AppNavigation />
+        <AppNavigation ref = { nav => { this.navigator = nav; }} />
       </View>
     )
   }

@@ -29,6 +29,7 @@ import PushToEarnFriendsOverview from '../Containers/PushToEarnFriendsOverview';
 import PushToEarnInformation from '../Containers/PushToEarnInformation';
 import PushToEarnMoney from '../Containers/PushToEarnMoney';
 import pushToEarnMoneyList from '../Containers/PushToEarnMoneyList';
+import PushToEarnPrivatePolicy from '../Containers/PushToEarnPrivatePolicy';
 import CollapsibleView from '../Components/CollapsibleView';
 import NewScreenMoney from  '../Containers/NewScreenMoney';
 
@@ -61,6 +62,7 @@ const AppNavigation = createStackNavigator({
   pushToEarnMoneyList: { screen: pushToEarnMoneyList },
   NewScreenMoney: { screen: NewScreenMoney },
   CollapsibleView: { screen: CollapsibleView },
+  PushToEarnPrivatePolicy: { screen: PushToEarnPrivatePolicy },
   NewScreen: { screen: NewScreen,
     navigationOptions: {
       gesturesEnabled: false,
@@ -91,7 +93,7 @@ const AppNavigation = createStackNavigator({
 }, {
   // Default config for all screens
   headerMode: 'none',
-  initialRouteName: 'PushForJob',
+  initialRouteName: 'PushToEarnPrivatePolicy',
   mode: "card",
   navigationOptions: {
     headerStyle: styles.header

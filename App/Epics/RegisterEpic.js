@@ -11,9 +11,10 @@ export const registerEpic = action$ =>
   action$.ofType(RegisterTypes.REGISTER_REQUEST).pipe(
     switchMap(({ payload }) => api.register(payload)),
     flatMap(response => {
-      console.tron.log(
-        `response is: ${JSON.stringify(response.data, null, 2)}`
-      );
+    //   console.tron.log(
+    //     `response is: ${JSON.stringify(response.data, null, 2)}`
+    //   );
+         console.log()
       if (!response.ok) {
         Toast.show("Failed to register.", {
           duration: Toast.durations.LONG,

@@ -36,7 +36,7 @@ export const request = (state, { payload }) => {
 }
 
 export const success = (state, {user}) => {
-  return { ...state, fetching: false, error:null, payload: null }
+  return { ...state, user, fetching: false, }
 }
 
 export const failure = (state, {error}) => {

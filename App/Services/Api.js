@@ -43,13 +43,12 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
   //
   const setHeaders = headers => api.setHeaders(headers);
 
-  const register = body => api.post("/api/fnMobileUserLogin?code=PBlupvxr9IZuM0QAUV1rT3cZFDfM2Jtt73DnMBXABA9vfDEz/TPYJw==",body);
+  const register = body => api.post("/api/fnMobileUserLogin?code=DbWj0tGuU5tWOY8vrtJih/iut9pAUkesWOFTuxnoCL0mDNPbmL3bfA==",body);
 
   const login = (payload) =>
-    api.post("/api/fnMobileUserLogin?code=PBlupvxr9IZuM0QAUV1rT3cZFDfM2Jtt73DnMBXABA9vfDEz/TPYJw==", payload);
+    api.post("/api/fnMobileUserLogin?code=DbWj0tGuU5tWOY8vrtJih/iut9pAUkesWOFTuxnoCL0mDNPbmL3bfA==", payload);
 
-  const verifyOTP = body =>
-    api.post("", body);
+  const verifyOTP = body => api.post(Api_url.otpURL, body);
 
   const getRoot = () => api.get('')
   const getRate = () => api.get('rate_limit')

@@ -13,6 +13,7 @@ import {
     Platform,
     AsyncStorage,
     findNodeHandle,
+    NativeModules,
 } from 'react-native';
 import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
@@ -43,6 +44,8 @@ import headerImage from '../Images/headerImage.png';
 import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/page1.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { LoginManager } from 'react-native-fbsdk';
+import LinkedInModal from 'react-native-linkedin'
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -51,6 +54,15 @@ const window = Dimensions.get('window');
 
 export const IMAGE_HEIGHT = window.width / 2;
 export const IMAGE_HEIGHT_SMALL = window.width /7;
+
+const { RNTwitterSignIn } = NativeModules;
+
+const Constants = {
+    // Dev Parse keys
+    TWITTER_COMSUMER_KEY: 'Mp0taY9OcO8UhvacuTPU73Xbp',
+    TWITTER_CONSUMER_SECRET: 'HWAhDOOUFYsuL4H4w445eEta2lzpxRBN07zxuFZCo5UwbD9RqG',
+  };
+
 
 // Styles
 
@@ -70,6 +82,7 @@ class PushToEarnSignIn extends Component {
         super(props);             
 
         this.state = {
+            isLoggedIn: false,
             language: 'NEDERLANDS',
             validation: false,
             renderValidate: false,
@@ -85,18 +98,81 @@ class PushToEarnSignIn extends Component {
         };    
     }
 
-    validatePassword = (password) => {
-
-        if(password.length >= 6 && !password.includes(" "))
-            this.setState({ passwordEmptyError: false, passwordInput: password, EmptyErrorText: '' });        
+    twitterSignIn = () => {
+        console.warn('twitter button clicked'); // eslint-disable-line
+        RNTwitterSignIn.init(Constants.TWITTER_COMSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET)
+        RNTwitterSignIn.logIn()
+          .then(loginData => {
+            console.log(loginData)
+            const { authToken, authTokenSecret } = loginData
+            if (authToken && authTokenSecret) {
+              this.setState({
+                isLoggedIn: true
+              })
+            }
+          })
+          .catch(error => {
+            console.log(error)
+          }
+        )
+      }
+    
+      handleLogout = () => {
+        console.log("logout")
+        RNTwitterSignIn.logOut()
+        this.setState({
+          isLoggedIn: false
+        });
     }
 
-    validateEmail = (email) => {
+    onFacebookButtonClick = () => {
+        console.log('facebook butotn clicked');
+        console.warn('Facebook button clicked'); // eslint-disable-line
+    
+        LoginManager.logInWithReadPermissions(['public_profile']).then(
+          (result) => {
+            if (result.isCancelled) {
+              console.log('Login was cancelled');
+            } else {
+              console.log(`Login was successful with permissions: ${
+                result.grantedPermissions.toString()}`);
+            }
+          },
+          (error) => {
+            console.log(`Login failed with error: ${error}`);
+          },
+        );
+      };
 
-        var reg = /^(([^<>()[]\\.,;:\s@\"]+(\.[^<>()[]\\.,;:\s@\"]+)*)|(\".+\"))@(([[0-9]{1,3}\‌​.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      linkedin = () => {
+           
+      }
 
-        if(reg.exec(email))
-           this.setState({ usernameInput: email, usernameEmptyError: false, EmptyErrorText: '' });
+    validatePassword = (password) => {
+
+        console.log('password sent='+password);
+        if(password.length >= 6 && !password.includes(" "))
+            this.setState({ passwordEmptyError: false, passwordInput: password, EmptyErrorText: '' });
+        else
+            console.log("password incorrect---->"+password);
+    }
+
+    validateEmail = (text) => {
+
+        console.log(text);
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+        if(reg.test(text) === false)
+        {
+            console.log("Email is Not Correct");
+            this.setState({ usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
+               return false;
+        }
+        else 
+        {
+           this.setState({ usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
+           console.log("Email is Correct");
+        }
+
     }
 
     componentWillReceiveProps(nextProps) {
@@ -331,12 +407,13 @@ class PushToEarnSignIn extends Component {
               let encrypted = this.aes(cAuthenticationData);
               console.log('loginfunction Encrypted :' + encrypted);
               console.log("{'U' :"+" '"+username+"',"+" 'P':"+"'"+password+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}");
-    
-              let payload = {      
-                    "AuthenticationData": encrypted.toString(),
+              //encrypted.toString()
+
+              let payload = JSON.stringify({
+                    "AuthenticationData": cAuthenticationData,
                     "LoginData":  "{'U':"+"'"+username+"',"+" 'P':"+"'"+password+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}",
                     "TestingMode": "Testing@JobFixers#09876",
-                };
+                });
 
                 Alert.alert(
                     'Alert Title',
@@ -349,14 +426,13 @@ class PushToEarnSignIn extends Component {
                     ],
                     {cancelable: false}
                 );
-               this.props.loginAction({
-                    "AuthenticationData": cAuthenticationData,
-                    "LoginData":  "{'U':"+"'"+username+"',"+" 'P':"+"'"+password+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}",
-                    "TestingMode": "Testing@JobFixers#09876",
-                });
+              this.props.loginAction(payload);
+
             }
 
     }
+
+
 
     func = (renderValidate,EmptyErrorText) => {
       this.setState({renderValidate,EmptyErrorText});
@@ -416,7 +492,7 @@ class PushToEarnSignIn extends Component {
                         </View>
 
                         <View style= {{width: 70, height: 70,marginRight: 20, borderRadius: 70, backgroundColor: '#E73D50' }}>
-                                <TouchableOpacity onPress={() => this.props.navigation.goBack() }
+                                <TouchableOpacity onPress={() => this.linkedin() }
                                     activeOpacity={0.5}
                                     style={ newStyle.iconStyle }>
                                         <Icon
@@ -426,11 +502,17 @@ class PushToEarnSignIn extends Component {
                                             color='#fff'
                                             size = {35}
                                             onPress={() => console.log('hello')} /> 
+                                            <LinkedInModal
+                                                        linkText='L'
+                                                        clientID="81td97f0ibm93v"
+                                                        clientSecret="RotJQJQRBbBoWG7l"
+                                                        redirectUri="https://www.linkedin.com/developer/apps"
+                                                        onSuccess={token => console.log(token)} />
                                 </TouchableOpacity>
                         </View>
 
                         <View style = {{width: 70, height: 70,marginRight: 20, borderRadius: 70, backgroundColor: '#E73D50'}}>
-                                <TouchableOpacity onPress={() => this.props.navigation.goBack() }
+                                <TouchableOpacity onPress={() => { this.twitterSignIn() } }
                                     activeOpacity={0.5}
                                     style={ newStyle.iconStyle }>
                                         <Icon
@@ -439,7 +521,7 @@ class PushToEarnSignIn extends Component {
                                             type='font-awesome'
                                             color='#fff'
                                             size = {35}
-                                            onPress={() => console.log('hello')} /> 
+                                            onPress={() => this.twitterSignIn() } /> 
                                 </TouchableOpacity>
                         </View>
 
@@ -491,7 +573,7 @@ class PushToEarnSignIn extends Component {
                         style={ newStyle.nameInput}
                         placeholder=''
                         underlineColorAndroid= 'transparent'
-                        onChangeText= { (passwordInput) => this.validatePassword({passwordInput}) }/>
+                        onChangeText= { (passwordInput) => this.validatePassword(passwordInput) }/>
 
                       <Text style={newStyle.forgotPassword}>Forgot Password?</Text>
 
@@ -848,14 +930,15 @@ const newStyle = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        fetching: LoginSelectors.getFetching(state)
+        fetching: LoginSelectors.getFetching(state),
+        userinfo: state.user,
     };
   };
   
   const mapDispatchToProps = dispatch => {
     return {
       loginAction: ( payload ) => 
-        dispatch(LoginActions.loginRequest(payload)),
+        dispatch({ type: 'LOGIN_REQUEST', payload }),
       
        resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       
