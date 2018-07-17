@@ -32,7 +32,8 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import PhoneInput from 'react-native-phone-input';
 import ButtonLogin from '../Components/ButtonLogin';
 import * as NavigationService from '../Navigation/NavigationService';
-
+import TimerCountdown from 'react-native-timer-countdown';
+import RegisterTypes, { RegisterActions } from '../Redux/RegisterRedux';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -41,7 +42,6 @@ import headerImage from '../Images/headerImage.png';
 import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/page1.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -75,7 +75,8 @@ class PushToEarnPrivatePolicy extends Component {
             firstNameInput:'',
             lastNameInput:'',
             phoneNumberInput:'',
-            buttonText: 'LOGIN',
+            buttonText: 'I Agree',
+            buttonTextO: 'I Disagree',
             firstNameError:true,
             firstNameErrorText:'',            
             lastNameError:false,
@@ -90,259 +91,27 @@ class PushToEarnPrivatePolicy extends Component {
         };    
     }
 
-    validationLastName = (name) => {
-
-        let reg = /^[a-zA-Z\s]+$/;
-
-        console.log("last name="+name);
-
-        if(name === '')
-        {
-            //this.setState({ lastNameError: true, ErrorText: 'Last Name is Required' });
-            this.setState({lastNameInput: ''});
-
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
-        else
-        {
-
-            if(reg.exec(name))
-            {
-              this.setState({ lastNameEmptyError: false, EmptyErrorText: '',lastNameError: false, lastNameInput: name,lastNameErrorText:'' });
-            }
-            else
-            {
-                console.log("found digits");
-              if(this.state.language === 'NEDERLANDS')
-                  this.setState({ lastNameEmptyError: false, lastNameError: true, lastNameErrorText: LanguageSettings.dutch.LNameErrorText });
-              else
-                  if(this.state.language === 'ENGLISH')
-                      this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.english.LNameErrorText });
-                  else
-                      this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.french.LNameErrorText });
-            }    
-        }    
-    } 
-
-    validationFirstName = (name) => {
-
-        let reg = /^[a-zA-Z\s]+$/;
-
-        console.log("validating First Name="+name);
-
-        if(name === '')
-        {
-            console.log("First name is empty="+name);
-            console.log("Language ="+this.state.language);
-            this.setState({firstNameInput: ''});
-            //this.setState({ firstNameError: true, ErrorText: 'First Name is Required' });
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
-        else
-        {
-            if(reg.exec(name))
-            {
-              this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: false, firstNameInput: name, firstNameErrorText:'' });
-            }
-            else
-            {
-              if(this.state.language === 'NEDERLANDS')
-                  this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.dutch.FNameErrorText });
-              else
-                  if(this.state.language === 'ENGLISH')
-                      this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.english.FNameErrorText });
-                  else
-                      this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.french.FNameErrorText });
-            }
-        }        
-    }
-
-    validatePhone = (phone) => {
-
-        console.log("phone="+phone);
-
-        let phoneSub = phone.substring(1);
-
-        console.log("phone="+phoneSub);
-
-        let reg = /^[0-9]{12}$/;
-        let regNew = /^(?=(.*\d){10})(?!(.*\d){13})[\d\(\)\s+-]{10,}$/;
-
-        if(phone === '')
-        {
-            //this.setState({ phoneNumberError: true, ErrorText: 'Phone Number is Required' });
-            this.setState({phoneNumberInput: ''});
-
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
-        else
-        {
-            // home phone number belgium
-            let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
-            // mobile phone number belgium
-            let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
-    
-            this.phoneText = this.state.country;
-    
-            if (regNew.exec(phoneSub))
-              this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
-            else
-                if(this.state.language === 'NEDERLANDS')
-                    this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.dutch.TelephoneNumberError });
-                else
-                    if(this.state.language === 'ENGLISH')
-                        this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.english.TelephoneNumberError });
-                    else
-                        this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
-        }
-    
-        // if (homePhone.exec(phone))
-        //   this.setState({ phoneError: false, phone: phone });
-        // else
-        //   this.setState({ phoneError: true });
-    
-    }
 
     callOTP = () => {
-        NavigationService.navigate('PushToEarnOTP');
+
+        // NavigationService.navigate('PushToEarnOTP');
+        let payload =    {
+			"AuthenticationData": "{'Lang': 'en', 'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-17 9:15:12' ,'R' : 'ssf3dfd'}",
+            "LoginData": "{ 'U' : 'fassl@esteinternational.com','P':'hello4','D':'2018-07-17 9:15:12', 'R' : 'er3rssfd'}",
+            "SignUpData": "{ 'FName' : 'Balaji', 'LName' : 'Subbiah', 'Mob':'971505642772','Approval':'true','Device':'ios','D':'2018-07-17 9:15:12','R' : 'er3rssf3dfd'}",
+            "TestingMode":"Testing@JobFixers#09876"
+         };
+            
+        this.props.registerAction(payload);
     }
 
-    PhoneNumberPickerChanged = (country, callingCode, phoneNumber) => {
-        this.setState({countryName: country.name, callingCode: callingCode, phoneNo:phoneNumber});
-     }
-
     componentWillReceiveProps(nextProps) {
-        // console.log("in Form One screen language received="+nextProps.language);
-        // if (this.props.navigation.state.params.language !== nextProps.language) {
-        //     this.setState({ language: nextProps.language });
-        //     this.setText();
-        // }
     }
 
     componentDidMount() {
-        // console.log("language from props="+this.props.navigation.state.params.language);
-        // console.log("default language="+this.state.language);
-        // this.setState({ language: this.props.navigation.state.params.language });
-        // console.log("language="+this.state.language);
-        // this.setText();
-        // console.log("this.state.firstName="+this.state.firstName);
-        // console.log("this.state.buttonText="+this.state.buttonText);
     }
 
-    // setText =  () => {
-
-    //     this.setState({language: this.props.navigation.state.params.language});
-    //     console.log("this.state.language="+this.state.language);
-
-    //     if (this.props.navigation.state.params.language === 'NEDERLANDS') {
-    //         console.log("setting in Nederlands");
-    //         this.setState({
-    //             firstName:  LanguageSettings.dutch.firstNameText,
-    //             name:       LanguageSettings.dutch.lastNameText,
-    //             phoneNumber: LanguageSettings.dutch.telephoneNumberText,
-    //             buttonText: LanguageSettings.dutch.buttonNextText
-    //         });
-    //     }
-    //     else
-    //         if (this.props.navigation.state.params.language === 'ENGLISH') {
-    //             console.log("setting in English");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.english.firstNameText,
-    //                 name: LanguageSettings.english.lastNameText,
-    //                 phoneNumber: LanguageSettings.english.telephoneNumberText,
-    //                 buttonText: LanguageSettings.english.buttonNextText
-    //             });
-    //         }
-    //         else
-    //           {
-    //             console.log("setting in French");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.french.firstNameText,
-    //                 name: LanguageSettings.french.lastNameText,
-    //                 phoneNumber: LanguageSettings.french.telephoneNumberText,
-    //                 buttonText: LanguageSettings.french.buttonNextText
-    //             });
-    //         }
-    
-       
-    // }
-
-    renderNothing = () => {
-
-    }
-
-    renderValidation = () => {
-
-        //if(this.state.language === 'NEDERLANDS')
-
-        console.log("empty error text="+this.state.EmptyErrorText);
-        console.log("first Name Input="+this.state.firstNameInput);
-        console.log("phone Number Input="+this.state.phoneNumberInput);
-
-        let errorString = this.state.EmptyErrorText;
-
-        if(this.state.firstNameError===true || this.state.firstNameInput === '')
-            errorString = errorString + '\n' + this.state.firstNameErrorText;
-
-        // if(this.state.lastNameError===true)
-        //     errorString = errorString + '\n' + this.state.lastNameErrorText;
-
-        if(this.state.phoneNumberError===true || this.state.phoneNumberInput==='')
-            errorString = errorString + '\n' + this.state.phoneNumberErrorText;
-            
-            console.log("errorString="+errorString);
-        
-            if(this.state.firstNameEmptyError === false  && this.state.phoneNumberEmptyError === false && this.state.firstNameError===false && this.state.lastNameError===false && this.state.phoneNumberError===false )
-                return (                        
-                    <View style={newStyle.validationStyle}> 
-                            <Validation
-                                objectParams = 
-                                {{
-                                    'btnText': errorString, 
-                                    'language': this.props.navigation.state.params.language,
-                                    'backgroundColor':'transparent'
-                                }} />
-                    </View>
-                );
-            else
-                return (                        
-                    <View style={newStyle.validationStyle}> 
-                            <Validation
-                                objectParams = 
-                                {{
-                                    'btnText': errorString, 
-                                    'language': this.props.navigation.state.params.language,
-                                    'backgroundColor': 'normal'
-                                }} />
-                    </View>
-            );
-                
-        return;
-
-    }
-
-    func = (renderValidate,EmptyErrorText) => {
-      this.setState({renderValidate,EmptyErrorText});
-    }
-
+   
     render() {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
@@ -373,48 +142,51 @@ class PushToEarnPrivatePolicy extends Component {
                             fontStyle: "normal",
                             lineHeight: 34,
                             letterSpacing: 0,                          
-                            color: "#E73D50" 
+                            color: "#353535" 
                         }}>
-                    Forget Password
+                    Private Policy Text
                     </Text>
                 </View>                
 
                 <View style={newStyle.inputContainer}>
-               
-                    <Text style={newStyle.firstName}>Email Address</Text>
-                    <TextInput
-                                style={ newStyle.nameInput }
-                                placeholder=''
-                                underlineColorAndroid= 'transparent'
-                                onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
-                            
-                    <View style={newStyle.endButtons}>
-
-                            {/* <ButtonLogin 
-                                objectParams=
-                                {{
-                                    btnText: 'RESET PASSWORD', 
-                                    language: '',
-                                    firstName: this.state.firstNameInput,
-                                    lastName: this.state.lastNameInput,
-                                    phoneNumber: this.state.phoneNumberInput,
-                                    firstNameError: this.state.firstNameError,
-                                    lastNameError: this.state.lastNameError,
-                                    phoneNumberError: this.state.phoneNumberError,
-                                    firstNameEmpty: this.state.firstNameEmptyError,
-                                    lastNameEmpty: this.state.lastNameEmptyError,
-                                    phoneNumberEmpty: this.state.phoneNumberEmptyError
-                                }}
-                                func = {this.func}
-                                navigation = { this.props.navigation}
-                            />                               */}
-                
+                                           
+                    <View style={newStyle.endButtons}>                
                 
                         <TouchableOpacity
                             onPress={() => { this.callOTP(); } }
                             activeOpacity={0.5}
                             style={{
-                                width: 330,
+                                width: 150,
+                                height: 57,
+                                marginBottom: 0,
+                                marginLeft: 15,
+                                marginRight: 15,                                
+                                borderRadius: 8,
+                                backgroundColor: '#E73D50',
+                                marginTop: viewPortHeight / 600,
+                                justifyContent: 'center',
+                                alignItems: 'flex-start'
+                            }}>
+                            <Text
+                                style={{
+                                    fontSize: 17,
+                                    width: 150,
+                                    height: 19,
+                                    fontFamily: 'WorkSans-Regular',
+                                    fontWeight: '500',
+                                    fontStyle: 'normal',
+                                    color: '#ffffff',
+                                    marginTop: 0,                
+                                    letterSpacing: 0.67,
+                                    textAlign: 'center'}}
+                            > {this.state.buttonText.toUpperCase()}</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            onPress={() => { this.callOTP(); } }
+                            activeOpacity={0.5}
+                            style={{
+                                width: 150,
                                 height: 57,
                                 marginBottom: 0,
                                 marginLeft: 0,
@@ -427,7 +199,7 @@ class PushToEarnPrivatePolicy extends Component {
                             <Text
                                 style={{
                                     fontSize: 17,
-                                    width: 333,
+                                    width: 150,
                                     height: 19,
                                     fontFamily: 'WorkSans-Regular',
                                     fontWeight: '500',
@@ -436,35 +208,12 @@ class PushToEarnPrivatePolicy extends Component {
                                     marginTop: 0,                
                                     letterSpacing: 0.67,
                                     textAlign: 'center'}}
-                            > {this.state.buttonText.toUpperCase()}</Text>
-                        </TouchableOpacity>
-                   
+                            > {this.state.buttonTextO.toUpperCase()}</Text>
+                        </TouchableOpacity>                   
                    
 
                     </View>
-
-                     
-
-                </View>
-
-                        
-                    {/* <ButtonNext 
-                            objectParams=
-                                {{
-                                    btnText: this.state.buttonText, 
-                                    language: this.props.navigation.state.params.language,
-                                    firstName: this.state.firstNameInput,
-                                    lastName: this.state.lastNameInput,
-                                    phoneNumber: this.state.phoneNumberInput,
-                                    firstNameError: this.state.firstNameError,
-                                    lastNameError: this.state.lastNameError,
-                                    phoneNumberError: this.state.phoneNumberError,
-                                    firstNameEmpty: this.state.firstNameEmptyError,
-                                    lastNameEmpty: this.state.lastNameEmptyError,
-                                    phoneNumberEmpty: this.state.phoneNumberEmptyError
-                                }}
-                            func = {this.func}/> */}
- 
+                </View>                
             </KeyboardAwareScrollView>:
             <ScrollView>
             <KeyboardAvoidingView
@@ -481,90 +230,68 @@ class PushToEarnPrivatePolicy extends Component {
              </View>
 
              <View style={newStyle.inputContainer}>
-            
-                 <Text style={newStyle.firstName}>{this.state.firstName}</Text>
-                 <TextInput
-                             style={ newStyle.nameInput }
-                             placeholder=''
-                             underlineColorAndroid= 'transparent'
-                             onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
-                         
-
-                 <Text style={newStyle.firstName}>{this.state.name}</Text>
-                 <TextInput
-                     style={ newStyle.nameInput}
-                     placeholder=''
-                     underlineColorAndroid= 'transparent'
-                     onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
-
-                 <Text style={newStyle.phoneNumberStyle}>{this.state.phoneNumber}</Text>
-                 {/* <TextInput
-                     keyboardType= "numeric"
-                     style={ newStyle.nameInput}
-                     placeholder=''
-                     underlineColorAndroid= 'transparent'
-                     onChangeText= { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }/>                 */}
-                 <PhoneInput 
-                         ref='phone'
-                         initialCountry='be'
-                         style= {newStyle.nameInput}
-                         onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) } />
-
-
-             </View>
-
-            <View style={newStyle.endButtons}>
-
-                <TouchableOpacity onPress={() => this.props.navigation.goBack() }
+             <View style={newStyle.endButtons}>                
+                
+                <TouchableOpacity
+                    onPress={() => { this.callOTP(); } }
                     activeOpacity={0.5}
-                    style={newStyle.iconStyle}>
-                        <Icon
-                            containerStyle={newStyle.iconImageStyle}                               
-                            name='angle-left'
-                            type='font-awesome'
-                            color='#fff'
-                            size = {40}
-                            onPress={() => console.log('hello')} /> 
+                    style={{
+                        width: 150,
+                        height: 57,
+                        marginBottom: 0,
+                        marginLeft: 15,
+                        marginRight: 15,                                
+                        borderRadius: 8,
+                        backgroundColor: '#E73D50',
+                        marginTop: viewPortHeight / 600,
+                        justifyContent: 'center',
+                        alignItems: 'flex-start'
+                    }}>
+                    <Text
+                        style={{
+                            fontSize: 17,
+                            width: 150,
+                            height: 19,
+                            fontFamily: 'WorkSans-Regular',
+                            fontWeight: '500',
+                            fontStyle: 'normal',
+                            color: '#ffffff',
+                            marginTop: 0,                
+                            letterSpacing: 0.67,
+                            textAlign: 'center'}}
+                    > {this.state.buttonText.toUpperCase()}</Text>
                 </TouchableOpacity>
 
-                <ButtonNext 
-                            objectParams=
-                                {{
-                                    btnText: this.state.buttonText, 
-                                    language: this.state.language,
-                                    firstName: this.state.firstNameInput,
-                                    lastName: this.state.lastNameInput,
-                                    phoneNumber: this.state.phoneNumberInput,
-                                    firstNameError: this.state.firstNameError,
-                                    lastNameError: this.state.lastNameError,
-                                    phoneNumberError: this.state.phoneNumberError,
-                                    firstNameEmpty: this.state.firstNameEmptyError,
-                                    lastNameEmpty: this.state.lastNameEmptyError,
-                                    phoneNumberEmpty: this.state.phoneNumberEmptyError
-                                }}
-                            func = {this.func}
-                            navigation = { this.props.navigation}
-                />
-
-
-                 {/* <ButtonNext 
-                         objectParams=
-                             {{
-                                 btnText: this.state.buttonText, 
-                                 language: this.props.navigation.state.params.language,
-                                 firstName: this.state.firstNameInput,
-                                 lastName: this.state.lastNameInput,
-                                 phoneNumber: this.state.phoneNumberInput,
-                                 firstNameError: this.state.firstNameError,
-                                 lastNameError: this.state.lastNameError,
-                                 phoneNumberError: this.state.phoneNumberError,
-                                 firstNameEmpty: this.state.firstNameEmptyError,
-                                 lastNameEmpty: this.state.lastNameEmptyError,
-                                 phoneNumberEmpty: this.state.phoneNumberEmptyError
-                             }}
-                         func = {this.func}/> */}
+                <TouchableOpacity
+                    onPress={() => { this.callOTP(); } }
+                    activeOpacity={0.5}
+                    style={{
+                        width: 150,
+                        height: 57,
+                        marginBottom: 0,
+                        marginLeft: 0,
+                        borderRadius: 8,
+                        backgroundColor: '#E73D50',
+                        marginTop: viewPortHeight / 600,
+                        justifyContent: 'center',
+                        alignItems: 'flex-start'
+                    }}>
+                    <Text
+                        style={{
+                            fontSize: 17,
+                            width: 150,
+                            height: 19,
+                            fontFamily: 'WorkSans-Regular',
+                            fontWeight: '500',
+                            fontStyle: 'normal',
+                            color: '#ffffff',
+                            marginTop: 0,                
+                            letterSpacing: 0.67,
+                            textAlign: 'center'}}
+                    > {this.state.buttonTextO.toUpperCase()}</Text>
+                </TouchableOpacity>                   
             </View>
-         {/* </View> */}
+             </View>
          </KeyboardAvoidingView>
          </ScrollView>
 
@@ -690,7 +417,7 @@ const newStyle = StyleSheet.create({
         height: Platform.OS === 'ios'?50:150,
         zIndex: 999,
         flex: Platform.OS === 'ios'?1:4,
-        flexDirection: 'column',
+        flexDirection: 'row',
         backgroundColor: 'white',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
@@ -738,6 +465,7 @@ const mapStateToProps = state => {
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
+      registerAction: ( payload ) => dispatch({ type: 'REGISTER_REQUEST_NEW', payload }),
     };
   };
   

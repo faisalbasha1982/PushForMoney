@@ -93,7 +93,7 @@ const AppNavigation = createStackNavigator({
 }, {
   // Default config for all screens
   headerMode: 'none',
-  initialRouteName: 'PushToEarnPrivatePolicy',
+  initialRouteName: 'PushToEarnSignIn',
   mode: "card",
   navigationOptions: {
     headerStyle: styles.header

@@ -59,8 +59,8 @@ const { RNTwitterSignIn } = NativeModules;
 
 const Constants = {
     // Dev Parse keys
-    TWITTER_COMSUMER_KEY: 'Mp0taY9OcO8UhvacuTPU73Xbp',
-    TWITTER_CONSUMER_SECRET: 'HWAhDOOUFYsuL4H4w445eEta2lzpxRBN07zxuFZCo5UwbD9RqG',
+    TWITTER_COMSUMER_KEY: 'B9gQXS1YrrtH5Q9HDFl08MVVS',
+    TWITTER_CONSUMER_SECRET: 'ourqEe3JmhpRh7ceLpCxN4RoIRXJT9FLslqqgfLscTtHtVvCXs',
   };
 
 
@@ -100,7 +100,7 @@ class PushToEarnSignIn extends Component {
 
     twitterSignIn = () => {
         console.warn('twitter button clicked'); // eslint-disable-line
-        RNTwitterSignIn.init(Constants.TWITTER_COMSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET)
+        RNTwitterSignIn.init(Constants.TWITTER_COMSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
         RNTwitterSignIn.logIn()
           .then(loginData => {
             console.log(loginData)
@@ -478,7 +478,7 @@ class PushToEarnSignIn extends Component {
                 <View style= { newStyle.socialIcons }>
 
                         <View style={{ width: 70, height: 70, marginRight: 20, borderRadius: 70, backgroundColor: '#E73D50' }}>
-                                <TouchableOpacity onPress={() => this.props.navigation.goBack() }
+                                <TouchableOpacity onPress={() => this.onFacebookButtonClick() }
                                     activeOpacity={0.5}
                                     style={ newStyle.iconStyle }>
                                         <Icon

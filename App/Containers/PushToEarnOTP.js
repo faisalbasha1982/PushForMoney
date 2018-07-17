@@ -31,6 +31,8 @@ import LanguageSettings from '../Containers/LanguageSettingsNew';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
 import ButtonLogin from '../Components/ButtonLogin';
+import TimerCountdown from 'react-native-timer-countdown';
+import CountDown from 'react-native-countdown-component';
 
 
 import { Colors } from "../Themes";
@@ -426,19 +428,15 @@ class PushToEarnOTP extends Component {
                                 onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>                                                    
                     </View>
 
-                    <View style= {{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start' }}>
-                    <Text 
-                            style= {{
-                                width: 375,
-                                height: 16,
-                                fontFamily: "WorkSans-Medium",
-                                fontSize: 14,
-                                fontWeight: "normal",
-                                fontStyle: "normal",
-                                letterSpacing: 0.59,
-                                textAlign: "center",}}>
-                                35 sec left...
-                    </Text>
+                    <View style= {{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                
+                                <CountDown
+                                    until={600}
+                                    onFinish={ () => alert('finished')}
+                                    onPress={ () => alert('hello')}
+                                    size={20}
+                                    timeToShow={ ['M','S'] }
+                                    />
                     </View>
                             
                     <View style={newStyle.endButtons}>

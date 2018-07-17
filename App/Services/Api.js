@@ -44,6 +44,13 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
   const setHeaders = headers => api.setHeaders(headers);
 
   const register = body => api.post("/api/fnMobileUserLogin?code=DbWj0tGuU5tWOY8vrtJih/iut9pAUkesWOFTuxnoCL0mDNPbmL3bfA==",body);
+ 
+  const registerNew = body => 
+  {
+
+    api.setBaseURL("https://prod-33.westeurope.logic.azure.com:443");
+    api.post("/workflows/323809c537374426ba02f3e2c3be43e8/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=IcTbqosnIfKjBYobByn5CbmrDhrghcZdiPkv58CJNSI",body);
+  }
 
   const login = (payload) =>
     api.post("/api/fnMobileUserLogin?code=DbWj0tGuU5tWOY8vrtJih/iut9pAUkesWOFTuxnoCL0mDNPbmL3bfA==", payload);
@@ -70,6 +77,7 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
     // a list of the API functions from step 2
     api,
     register,
+    registerNew,
     setHeaders,
     login,
     getRoot,

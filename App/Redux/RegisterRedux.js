@@ -4,9 +4,10 @@ import { createReducer, createActions, Types as ReduxSauceTypes } from "reduxsau
 
 const { Types, Creators } = createActions({
   registerRequest: ["payload"],
+  registerRequestNew: ["payload"],
   registerSuccess: null,
   registerFailure: null,
-  verifyOtp: ["payload"]
+  verifyOtp: ["payload"],
 });
 
 export const RegisterTypes = Types;
@@ -34,6 +35,12 @@ export const request = (state, { payload }) => {
   return {...state, fetching: true, payload }
 }
 
+// new request the data from an api
+export const newrequest = (state, { payload }) => {
+  return {...state, fetching: true, payload }
+}
+
+
 // successful api lookup
 export const success = state => {
   return { ...state,  fetching: false,};
@@ -58,6 +65,7 @@ export const defaultHandler = (state) => {
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.REGISTER_REQUEST]: request,
+  [Types.REGISTER_REQUEST_NEW]: newrequest,
   [Types.REGISTER_SUCCESS]: success,
   [Types.REGISTER_FAILURE]: failure,
   [Types.VERIFY_OTP]: otp,

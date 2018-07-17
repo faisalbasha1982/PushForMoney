@@ -40,7 +40,7 @@ export const success = (state, {user}) => {
 }
 
 export const failure = (state, {error}) => {
-  return { ...state, fetching: false, error, payload: null}
+  return { ...state, fetching: false, error}
 }
 
 export const registered = (state, {user}) => {
