@@ -93,7 +93,7 @@ const AppNavigation = createStackNavigator({
 }, {
   // Default config for all screens
   headerMode: 'none',
-  initialRouteName: 'PushToEarnSignIn',
+  initialRouteName: 'PushToEarnOTP',
   mode: "card",
   navigationOptions: {
     headerStyle: styles.header

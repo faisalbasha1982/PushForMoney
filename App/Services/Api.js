@@ -49,6 +49,7 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
   {
 
     api.setBaseURL("https://prod-33.westeurope.logic.azure.com:443");
+    console.tron.log("setting baseurl as ---> https://prod-33.westeurope.logic.azure.com:443");
     api.post("/workflows/323809c537374426ba02f3e2c3be43e8/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=IcTbqosnIfKjBYobByn5CbmrDhrghcZdiPkv58CJNSI",body);
   }
 

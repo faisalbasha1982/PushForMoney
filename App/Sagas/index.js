@@ -1,5 +1,6 @@
 import { takeLatest, all } from 'redux-saga/effects'
 import API from '../Services/Api'
+import NEWAPI from '../Services/NewApi'
 import API_URL from '../Services/Api_url'
 import FixtureAPI from '../Services/FixtureApi'
 import DebugConfig from '../Config/DebugConfig'
@@ -16,15 +17,14 @@ import { RegisterTypes } from '../Redux/RegisterRedux'
 import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
 import { LoginRequest } from './LoginSagas'
-import { RegisterRequest } from './RegisterSagas'
-import { RegisterRequestNew } from './RegisterSagas'
+import { RegisterRequest, RegisterRequestNew, OtpRequest } from './RegisterSagas'
 
 /* ------------- API ------------- */
 
 // The API we use is only used from Sagas, so we create it here and pass along
 // to the sagas which need it.
 const api = DebugConfig.useFixtures ? FixtureAPI : API.create();
-// const apiSignUp2 = DebugConfig.useFixtures ? FixtureAPI : API.create(API_URL.signupURL2);
+const apiSignUp2 = DebugConfig.useFixtures ? FixtureAPI : NEWAPI.create();
 
 /* ------------- Connect Types To Sagas ------------- */
 
@@ -43,6 +43,9 @@ export default function * root () {
     takeLatest(RegisterTypes.REGISTER_REQUEST, RegisterRequest, api),
 
     // Register sagas
-    takeLatest(RegisterTypes.REGISTER_REQUEST_NEW, RegisterRequestNew,api),
+    takeLatest(RegisterTypes.REGISTER_REQUEST_NEW, RegisterRequestNew,apiSignUp2),
+
+    //Register saga for verfiy OTP
+    takeLatest(RegisterTypes.VERIFY_OTP, OtpRequest ,api),
    ])
 }

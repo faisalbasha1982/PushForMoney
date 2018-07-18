@@ -96,9 +96,9 @@ class PushToEarnPrivatePolicy extends Component {
 
         // NavigationService.navigate('PushToEarnOTP');
         let payload =    {
-			"AuthenticationData": "{'Lang': 'en', 'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-17 9:15:12' ,'R' : 'ssf3dfd'}",
-            "LoginData": "{ 'U' : 'fassl@esteinternational.com','P':'hello4','D':'2018-07-17 9:15:12', 'R' : 'er3rssfd'}",
-            "SignUpData": "{ 'FName' : 'Balaji', 'LName' : 'Subbiah', 'Mob':'971505642772','Approval':'true','Device':'ios','D':'2018-07-17 9:15:12','R' : 'er3rssf3dfd'}",
+			"AuthenticationData": "{'Lang': 'en', 'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-18 11:15:12' ,'R' : 'ssf3dfd'}",
+            "LoginData": "{ 'U' : 'rtasdfdaxxasasls@esteinternational.com','P':'hello4','D':'2018-07-18 11:15:12', 'R' : 'er3rssfd'}",
+            "SignUpData": "{ 'FName' : 'Balaji', 'LName' : 'Subbiah', 'Mob':'971505642343','Approval':'true','Device':'ios','D':'2018-07-18 11:15:12','R' : 'er3rssf3dfd'}",
             "TestingMode":"Testing@JobFixers#09876"
          };
             

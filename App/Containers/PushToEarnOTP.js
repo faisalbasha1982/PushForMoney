@@ -76,7 +76,7 @@ class PushToEarnOTP extends Component {
             firstNameInput:'',
             lastNameInput:'',
             phoneNumberInput:'',
-            buttonText: 'LOGIN',
+            buttonText: 'START NOW!',
             firstNameError:true,
             firstNameErrorText:'',            
             lastNameError:false,
@@ -336,6 +336,22 @@ class PushToEarnOTP extends Component {
 
     }
 
+    callOTP = () => {
+
+        console.tron.log("calling OTP....");
+
+        let payload = {
+            "AuthenticationData": "{'Lang': 'en', 'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-18 11:45:12' ,'R' : 'ssf3dfd'}",
+            "OTP": "W2374d",
+            "OTPType": "S",
+            "TestingMode":"Testing@JobFixers#09876"
+        };
+
+        console.tron.log("payload="+payload);
+
+        this.props.verifyOTP(payload);
+    }
+
     func = (renderValidate,EmptyErrorText) => {
       this.setState({renderValidate,EmptyErrorText});
     }
@@ -441,24 +457,53 @@ class PushToEarnOTP extends Component {
                             
                     <View style={newStyle.endButtons}>
 
-                            <ButtonLogin 
+                      <TouchableOpacity
+                            onPress={() => { this.callOTP() } }
+                            activeOpacity={0.5}
+                            style={{
+                                width: 330,
+                                height: 57,
+                                marginBottom: 10,
+                                marginLeft: 20,
+                                borderRadius: 8,
+                                backgroundColor: '#E73D50',
+                                marginTop: viewPortHeight / 30,            
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}>
+                            <Text
+                                style={{
+                                    fontSize: 17,
+                                    width: 333,
+                                    height: 19,
+                                    fontFamily: 'WorkSans-Regular',
+                                    fontWeight: '500',
+                                    fontStyle: 'normal',
+                                    color: '#ffffff',
+                                    marginTop: 0,                
+                                    letterSpacing: 0.67,
+                                    textAlign: 'center'}}
+                            > {this.state.buttonText.toUpperCase()}</Text>
+                        </TouchableOpacity>
+
+                            {/* <ButtonLogin 
                                 objectParams=
                                 {{
-                            btnText: 'START NOW!', 
-                            language: '',
-                            firstName: this.state.firstNameInput,
-                            lastName: this.state.lastNameInput,
-                            phoneNumber: this.state.phoneNumberInput,
-                            firstNameError: this.state.firstNameError,
-                            lastNameError: this.state.lastNameError,
-                            phoneNumberError: this.state.phoneNumberError,
-                            firstNameEmpty: this.state.firstNameEmptyError,
-                            lastNameEmpty: this.state.lastNameEmptyError,
-                            phoneNumberEmpty: this.state.phoneNumberEmptyError
-                        }}
+                                    btnText: 'START NOW!',
+                                    language: '',
+                                    firstName: this.state.firstNameInput,
+                                    lastName: this.state.lastNameInput,
+                                    phoneNumber: this.state.phoneNumberInput,
+                                    firstNameError: this.state.firstNameError,
+                                    lastNameError: this.state.lastNameError,
+                                    phoneNumberError: this.state.phoneNumberError,
+                                    firstNameEmpty: this.state.firstNameEmptyError,
+                                    lastNameEmpty: this.state.lastNameEmptyError,
+                                    phoneNumberEmpty: this.state.phoneNumberEmptyError,
+                                }}
                         func = {this.func}
                         navigation = { this.props.navigation}
-                    />                              
+                    />                               */}
 
                     </View>
 
@@ -501,24 +546,6 @@ class PushToEarnOTP extends Component {
                      }}>support@jobfixers.be</Text>
                      </View>
                 </View>
-
-                        
-                    {/* <ButtonNext 
-                            objectParams=
-                                {{
-                                    btnText: this.state.buttonText, 
-                                    language: this.props.navigation.state.params.language,
-                                    firstName: this.state.firstNameInput,
-                                    lastName: this.state.lastNameInput,
-                                    phoneNumber: this.state.phoneNumberInput,
-                                    firstNameError: this.state.firstNameError,
-                                    lastNameError: this.state.lastNameError,
-                                    phoneNumberError: this.state.phoneNumberError,
-                                    firstNameEmpty: this.state.firstNameEmptyError,
-                                    lastNameEmpty: this.state.lastNameEmptyError,
-                                    phoneNumberEmpty: this.state.phoneNumberEmptyError
-                                }}
-                            func = {this.func}/> */}
  
             </KeyboardAwareScrollView>:
             <ScrollView>
@@ -811,6 +838,7 @@ const mapStateToProps = state => {
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
+      verifyOTP: (payload) => dispatch({ type: 'VERIFY_OTP', payload }),
     };
   };
   

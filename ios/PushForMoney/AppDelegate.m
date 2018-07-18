@@ -9,8 +9,16 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <GoogleSignIn/GoogleSignIn.h>
+#import <RNGoogleSignin/RNGoogleSignin.h>
+
 
 @import TwitterKit;
+
+@interface AppDelegate ()<GIDSignInDelegate>
+
+@end
+
 
 @implementation AppDelegate
 
@@ -36,6 +44,12 @@
                            didFinishLaunchingWithOptions:launchOptions];
   
   [[Twitter sharedInstance] startWithConsumerKey:@"B9gQXS1YrrtH5Q9HDFl08MVVS" consumerSecret:@"ourqEe3JmhpRh7ceLpCxN4RoIRXJT9FLslqqgfLscTtHtVvCXs"];
+  
+  NSString *filePath = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
+  NSDictionary *plistDict = [NSDictionary dictionaryWithContentsOfFile:filePath];
+  [GIDSignIn sharedInstance].clientID = [plistDict objectForKey:@"1041950784543-pkmc6rhf0e6av81q1j8qhspb10oqa7dn.apps.googleusercontent.com"];
+  [GIDSignIn sharedInstance].delegate = self;
+
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
@@ -55,7 +69,11 @@
                                                                 openURL:url
                                                       sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
                                                              annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
-                  ];
+                  ] ||
+  
+                  [RNGoogleSignin application:application openURL:url
+                            sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+                            annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
   
   // Add any custom logic here.
   return handled  || [[Twitter sharedInstance] application:options[UIApplicationOpenURLOptionsSourceApplicationKey] openURL:url options:options];
@@ -64,6 +82,17 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
   [FBSDKAppEvents activateApp];
+}
+
+
+#pragma mark - GIDSignInDelegate
+
+- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
+  //add your code here
+}
+
+- (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
+  //add your code here
 }
 
 

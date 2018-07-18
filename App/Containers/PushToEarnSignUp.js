@@ -10,14 +10,16 @@ import {
     TextInput,
     PixelRatio,
     Alert,
-    Platform,    
+    Platform,
+    AsyncStorage,
     findNodeHandle,
+    NativeModules,
 } from 'react-native';
-
 import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { NavigationActions } from "react-navigation";
+import LoginActions, { LoginSelectors } from "../Redux/LoginRedux";
 import ButtonNext from '../Components/ButtonNext';
 import ButtonWelcome from '../Components/ButtonWelcome';
 import LanguageButton from '../Components/LanguageButton';
@@ -31,11 +33,10 @@ import LanguageSettings from '../Containers/LanguageSettingsNew';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
 import ButtonLogin from '../Components/ButtonLogin';
-import ButtonSignUp from '../Components/ButtonSignUp';
 import CryptoJS from 'crypto-js';
 import utf8 from 'utf8';
 import Api from './Api';
-
+import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -44,7 +45,8 @@ import headerImage from '../Images/headerImage.png';
 import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/page1.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import { LoginManager } from 'react-native-fbsdk';
+import LinkedInModal from 'react-native-linkedin'
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -54,9 +56,19 @@ const window = Dimensions.get('window');
 export const IMAGE_HEIGHT = window.width / 2;
 export const IMAGE_HEIGHT_SMALL = window.width /7;
 
+const { RNTwitterSignIn } = NativeModules;
+
+const Constants = {
+    // Dev Parse keys
+    TWITTER_COMSUMER_KEY: 'B9gQXS1YrrtH5Q9HDFl08MVVS',
+    TWITTER_CONSUMER_SECRET: 'ourqEe3JmhpRh7ceLpCxN4RoIRXJT9FLslqqgfLscTtHtVvCXs',
+  };
+
+
 // Styles
 
 let cLanguage = '';
+
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 
@@ -71,18 +83,16 @@ class PushToEarnSignUp extends Component {
         super(props);             
 
         this.state = {
+            isLoggedIn: false,
             language: 'NEDERLANDS',
-            firstName:'',
-            name:'',
-            phoneNumber:'',
             validation: false,
             renderValidate: false,
-            firstNameInput:'',
-            lastNameInput:'',
             usernameInput:'',
             passwordInput:'',
-            confirmpasswordInput:'',
-            buttonText: 'REGISTER',
+            cpasswordInput:'',
+            buttonText: 'SIGNUP',
+            usernameError:true,
+            emailErrorText:'',     
             ErrorText:'',
             EmptyErrorText:'',
             usernameEmptyError:false,
@@ -90,15 +100,95 @@ class PushToEarnSignUp extends Component {
         };    
     }
 
-    validateconfirmPassword = (password) => {
+    onGoogleButtonClick = async () => {
+        await GoogleSignin.configure({
+          iosClientId: '1041950784543-pkmc6rhf0e6av81q1j8qhspb10oqa7dn.apps.googleusercontent.com',
+        })
+          .then(() => {
+          // you can now call currentUserAsync()
+            GoogleSignin.currentUserAsync().then((user) => {
+              console.log('USER', user);
+              this.setState({ user });
+            }).done();
+          });
+        const userNew = GoogleSignin.currentUser();
+    
+        GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
+          // play services are available. can now configure library
+        })
+          .catch((err) => {
+            console.log('Play services error', err.code, err.message);
+          });
+    
+        GoogleSignin.signIn()
+          .then((user) => {
+            console.log(user);
+            this.setState({ user });
+    
+            GoogleSignin.getAccessToken()
+              .then((token) => {
+                console.log(token);
+              })
+              .catch((err) => {
+                console.log(err);
+              })
+              .done();
+          })
+          .catch((err) => {
+            console.log('WRONG SIGNIN', err);
+          })
+          .done();
+      };
 
-        console.log('password sent='+password);
-        if(password.length >= 6 && !password.includes(" "))
-            this.setState({ passwordEmptyError: false, confirmpasswordInput: password, EmptyErrorText: '' });
-        else
-            console.log("password incorrect---->"+password);
+    twitterSignIn = () => {
+        console.warn('twitter button clicked'); // eslint-disable-line
+        RNTwitterSignIn.init(Constants.TWITTER_COMSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
+        RNTwitterSignIn.logIn()
+          .then(loginData => {
+            console.log(loginData)
+            const { authToken, authTokenSecret } = loginData
+            if (authToken && authTokenSecret) {
+              this.setState({
+                isLoggedIn: true
+              })
+            }
+          })
+          .catch(error => {
+            console.log(error)
+          }
+        )
+      }
+    
+      handleLogout = () => {
+        console.log("logout")
+        RNTwitterSignIn.logOut()
+        this.setState({
+          isLoggedIn: false
+        });
     }
 
+    onFacebookButtonClick = () => {
+        console.log('facebook butotn clicked');
+        console.warn('Facebook button clicked'); // eslint-disable-line
+    
+        LoginManager.logInWithReadPermissions(['public_profile']).then(
+          (result) => {
+            if (result.isCancelled) {
+              console.log('Login was cancelled');
+            } else {
+              console.log(`Login was successful with permissions: ${
+                result.grantedPermissions.toString()}`);
+            }
+          },
+          (error) => {
+            console.log(`Login failed with error: ${error}`);
+          },
+        );
+      };
+
+      linkedin = () => {
+           
+      }
 
     validatePassword = (password) => {
 
@@ -124,6 +214,116 @@ class PushToEarnSignUp extends Component {
            this.setState({ usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
            console.log("Email is Correct");
         }
+
+    }
+
+    componentWillReceiveProps(nextProps) {
+        // console.log("in Form One screen language received="+nextProps.language);
+        // if (this.props.navigation.state.params.language !== nextProps.language) {
+        //     this.setState({ language: nextProps.language });
+        //     this.setText();
+        // }
+    }
+
+    componentDidMount() {
+        // console.log("language from props="+this.props.navigation.state.params.language);
+        // console.log("default language="+this.state.language);
+        // this.setState({ language: this.props.navigation.state.params.language });
+        // console.log("language="+this.state.language);
+        // this.setText();
+        // console.log("this.state.firstName="+this.state.firstName);
+        // console.log("this.state.buttonText="+this.state.buttonText);
+    }
+
+    // setText =  () => {
+
+    //     this.setState({language: this.props.navigation.state.params.language});
+    //     console.log("this.state.language="+this.state.language);
+
+    //     if (this.props.navigation.state.params.language === 'NEDERLANDS') {
+    //         console.log("setting in Nederlands");
+    //         this.setState({
+    //             firstName:  LanguageSettings.dutch.firstNameText,
+    //             name:       LanguageSettings.dutch.lastNameText,
+    //             phoneNumber: LanguageSettings.dutch.telephoneNumberText,
+    //             buttonText: LanguageSettings.dutch.buttonNextText
+    //         });
+    //     }
+    //     else
+    //         if (this.props.navigation.state.params.language === 'ENGLISH') {
+    //             console.log("setting in English");
+    //             this.setState({
+    //                 firstName:  LanguageSettings.english.firstNameText,
+    //                 name: LanguageSettings.english.lastNameText,
+    //                 phoneNumber: LanguageSettings.english.telephoneNumberText,
+    //                 buttonText: LanguageSettings.english.buttonNextText
+    //             });
+    //         }
+    //         else
+    //           {
+    //             console.log("setting in French");
+    //             this.setState({
+    //                 firstName:  LanguageSettings.french.firstNameText,
+    //                 name: LanguageSettings.french.lastNameText,
+    //                 phoneNumber: LanguageSettings.french.telephoneNumberText,
+    //                 buttonText: LanguageSettings.french.buttonNextText
+    //             });
+    //         }
+    
+       
+    // }
+
+    renderNothing = () => {
+
+    }
+
+    renderValidation = () => {
+
+        //if(this.state.language === 'NEDERLANDS')
+
+        console.log("empty error text="+this.state.EmptyErrorText);
+        console.log("first Name Input="+this.state.firstNameInput);
+        console.log("phone Number Input="+this.state.phoneNumberInput);
+
+        let errorString = this.state.EmptyErrorText;
+
+        if(this.state.firstNameError===true || this.state.firstNameInput === '')
+            errorString = errorString + '\n' + this.state.firstNameErrorText;
+
+        // if(this.state.lastNameError===true)
+        //     errorString = errorString + '\n' + this.state.lastNameErrorText;
+
+        if(this.state.phoneNumberError===true || this.state.phoneNumberInput==='')
+            errorString = errorString + '\n' + this.state.phoneNumberErrorText;
+            
+            console.log("errorString="+errorString);
+        
+            if(this.state.firstNameEmptyError === false  && this.state.phoneNumberEmptyError === false && this.state.firstNameError===false && this.state.lastNameError===false && this.state.phoneNumberError===false )
+                return (                        
+                    <View style={newStyle.validationStyle}> 
+                            <Validation
+                                objectParams = 
+                                {{
+                                    'btnText': errorString, 
+                                    'language': this.state.language,
+                                    'backgroundColor':'transparent'
+                                }} />
+                    </View>
+                );
+            else
+                return (                        
+                    <View style={newStyle.validationStyle}> 
+                            <Validation
+                                objectParams = 
+                                {{
+                                    'btnText': errorString, 
+                                    'language': this.state.language,
+                                    'backgroundColor': 'normal'
+                                }} />
+                    </View>
+            );
+                
+        return;
 
     }
 
@@ -220,121 +420,7 @@ class PushToEarnSignUp extends Component {
         return currentDate+' '+fullTime;
       }
 
-    PhoneNumberPickerChanged = (country, callingCode, phoneNumber) => {
-        this.setState({countryName: country.name, callingCode: callingCode, phoneNo:phoneNumber});
-     }
-
-    componentWillReceiveProps(nextProps) {
-        // console.log("in Form One screen language received="+nextProps.language);
-        // if (this.props.navigation.state.params.language !== nextProps.language) {
-        //     this.setState({ language: nextProps.language });
-        //     this.setText();
-        // }
-    }
-
-    componentDidMount() {
-        // console.log("language from props="+this.props.navigation.state.params.language);
-        // console.log("default language="+this.state.language);
-        // this.setState({ language: this.props.navigation.state.params.language });
-        // console.log("language="+this.state.language);
-        // this.setText();
-        // console.log("this.state.firstName="+this.state.firstName);
-        // console.log("this.state.buttonText="+this.state.buttonText);
-    }
-
-    // setText =  () => {
-
-    //     this.setState({language: this.props.navigation.state.params.language});
-    //     console.log("this.state.language="+this.state.language);
-
-    //     if (this.props.navigation.state.params.language === 'NEDERLANDS') {
-    //         console.log("setting in Nederlands");
-    //         this.setState({
-    //             firstName:  LanguageSettings.dutch.firstNameText,
-    //             name:       LanguageSettings.dutch.lastNameText,
-    //             phoneNumber: LanguageSettings.dutch.telephoneNumberText,
-    //             buttonText: LanguageSettings.dutch.buttonNextText
-    //         });
-    //     }
-    //     else
-    //         if (this.props.navigation.state.params.language === 'ENGLISH') {
-    //             console.log("setting in English");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.english.firstNameText,
-    //                 name: LanguageSettings.english.lastNameText,
-    //                 phoneNumber: LanguageSettings.english.telephoneNumberText,
-    //                 buttonText: LanguageSettings.english.buttonNextText
-    //             });
-    //         }
-    //         else
-    //           {
-    //             console.log("setting in French");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.french.firstNameText,
-    //                 name: LanguageSettings.french.lastNameText,
-    //                 phoneNumber: LanguageSettings.french.telephoneNumberText,
-    //                 buttonText: LanguageSettings.french.buttonNextText
-    //             });
-    //         }
-    
-       
-    // }
-
-    renderNothing = () => {
-
-    }
-
-    renderValidation = () => {
-
-        //if(this.state.language === 'NEDERLANDS')
-
-        console.log("empty error text="+this.state.EmptyErrorText);
-        console.log("first Name Input="+this.state.firstNameInput);
-        console.log("phone Number Input="+this.state.phoneNumberInput);
-
-        let errorString = this.state.EmptyErrorText;
-
-        if(this.state.firstNameError===true || this.state.firstNameInput === '')
-            errorString = errorString + '\n' + this.state.firstNameErrorText;
-
-        // if(this.state.lastNameError===true)
-        //     errorString = errorString + '\n' + this.state.lastNameErrorText;
-
-        if(this.state.phoneNumberError===true || this.state.phoneNumberInput==='')
-            errorString = errorString + '\n' + this.state.phoneNumberErrorText;
-            
-            console.log("errorString="+errorString);
-        
-            if(this.state.firstNameEmptyError === false  && this.state.phoneNumberEmptyError === false && this.state.firstNameError===false && this.state.lastNameError===false && this.state.phoneNumberError===false )
-                return (                        
-                    <View style={newStyle.validationStyle}> 
-                            <Validation
-                                objectParams = 
-                                {{
-                                    'btnText': errorString, 
-                                    'language': this.props.navigation.state.params.language,
-                                    'backgroundColor':'transparent'
-                                }} />
-                    </View>
-                );
-            else
-                return (                        
-                    <View style={newStyle.validationStyle}> 
-                            <Validation
-                                objectParams = 
-                                {{
-                                    'btnText': errorString, 
-                                    'language': this.props.navigation.state.params.language,
-                                    'backgroundColor': 'normal'
-                                }} />
-                    </View>
-            );
-                
-        return;
-
-    }
-
-    callLogin = async () => {
+      callLogin = async () => {
 
         let username = 'faisal@esteinternational.com';
         let password = 'hello4';
@@ -378,6 +464,9 @@ class PushToEarnSignUp extends Component {
 
     }
 
+
+
+
     func = (renderValidate,EmptyErrorText) => {
       this.setState({renderValidate,EmptyErrorText});
     }
@@ -415,14 +504,14 @@ class PushToEarnSignUp extends Component {
                         textAlign: "center",
                         color: "#E73D50" 
                         }}>
-                    Sign Up
+                    Sign up 
                     </Text>
                 </View>                
 
                 <View style= { newStyle.socialIcons }>
 
                         <View style={{ width: 70, height: 70, marginRight: 20, borderRadius: 70, backgroundColor: '#E73D50' }}>
-                                <TouchableOpacity onPress={() => this.props.navigation.goBack() }
+                                <TouchableOpacity onPress={() => this.onFacebookButtonClick() }
                                     activeOpacity={0.5}
                                     style={ newStyle.iconStyle }>
                                         <Icon
@@ -431,12 +520,12 @@ class PushToEarnSignUp extends Component {
                                             type='font-awesome'
                                             color='#fff'
                                             size = {35}
-                                            onPress={() => console.log('hello')} /> 
+                                            onPress={() => this.onFacebookButtonClick()} /> 
                                 </TouchableOpacity>
                         </View>
 
                         <View style= {{width: 70, height: 70,marginRight: 20, borderRadius: 70, backgroundColor: '#E73D50' }}>
-                                <TouchableOpacity onPress={() => this.props.navigation.goBack() }
+                                <TouchableOpacity onPress={() => this.linkedin() }
                                     activeOpacity={0.5}
                                     style={ newStyle.iconStyle }>
                                         <Icon
@@ -446,11 +535,17 @@ class PushToEarnSignUp extends Component {
                                             color='#fff'
                                             size = {35}
                                             onPress={() => console.log('hello')} /> 
+                                            <LinkedInModal
+                                                        linkText=''
+                                                        clientID="81td97f0ibm93v"
+                                                        clientSecret="RotJQJQRBbBoWG7l"
+                                                        redirectUri="https://www.linkedin.com/developer/apps"
+                                                        onSuccess={token => console.log(token)} />
                                 </TouchableOpacity>
                         </View>
 
                         <View style = {{width: 70, height: 70,marginRight: 20, borderRadius: 70, backgroundColor: '#E73D50'}}>
-                                <TouchableOpacity onPress={() => this.props.navigation.goBack() }
+                                <TouchableOpacity onPress={() => { this.twitterSignIn() } }
                                     activeOpacity={0.5}
                                     style={ newStyle.iconStyle }>
                                         <Icon
@@ -459,12 +554,12 @@ class PushToEarnSignUp extends Component {
                                             type='font-awesome'
                                             color='#fff'
                                             size = {35}
-                                            onPress={() => console.log('hello')} /> 
+                                            onPress={() => this.twitterSignIn() } /> 
                                 </TouchableOpacity>
                         </View>
 
                         <View style = {{ width: 70, height: 70, marginRight: 20, borderRadius: 70, backgroundColor: '#E73D50' }}>
-                                <TouchableOpacity onPress={() => this.props.navigation.goBack() }
+                                <TouchableOpacity onPress={() => this.onGoogleButtonClick() }
                                     activeOpacity={0.5}
                                     style={ newStyle.iconStyle }>
                                         <Icon
@@ -473,12 +568,12 @@ class PushToEarnSignUp extends Component {
                                             type='font-awesome'
                                             color='#fff'
                                             size = {35}
-                                            onPress={() => console.log('hello')} /> 
+                                            onPress={() => this.onGoogleButtonClick() } /> 
                                 </TouchableOpacity>
                         </View>
                </View>
 
-                  <View style= {{ flex:1, marginTop: 25}}>
+                  <View style= {{ flex:1, marginTop: 0}}>
                         <Text 
                         style={{
                         width: 334,
@@ -497,8 +592,8 @@ class PushToEarnSignUp extends Component {
                 </View>                
 
                 <View style={newStyle.inputContainer}>
-
-                  <Text style={newStyle.firstName}>Email Address</Text>
+               
+                    <Text style={newStyle.firstName}>Email Address</Text>
                     <TextInput
                                 style={ newStyle.nameInput }
                                 placeholder=''
@@ -506,36 +601,37 @@ class PushToEarnSignUp extends Component {
                                 onChangeText={(usernameInput) => this.validateEmail(usernameInput)}/>
                             
 
-                    <Text style={newStyle.firstName}>Password</Text>
+                    <Text style={newStyle.password}>Password</Text>
                     <TextInput
-                        style={ newStyle.nameInput}
+                        style={ newStyle.nameInputPassword}
                         placeholder=''
                         underlineColorAndroid= 'transparent'
                         onChangeText= { (passwordInput) => this.validatePassword(passwordInput) }/>
 
-
-                    <Text style={newStyle.firstName}>Confirm Password</Text>
+                    <Text style={newStyle.cpassword}>Password</Text>
                     <TextInput
-                        style={ newStyle.nameInput}
+                        style={ newStyle.nameInputPassword}
                         placeholder=''
                         underlineColorAndroid= 'transparent'
-                        onChangeText= { (confirmpasswordInput) => this.validateconfirmPassword(confirmpasswordInput) }/>
+                        onChangeText= { (cpasswordInput) => this.validatePassword(cpasswordInput) }/>
+
+
 
                     <View style={newStyle.endButtons}>
-                        
-                         <TouchableOpacity
+
+                     <TouchableOpacity
                             onPress={() => { this.callLogin(); } }
                             activeOpacity={0.5}
                             style={{
                                 width: 330,
                                 height: 57,
-                                marginBottom: 0,
-                                marginLeft: 0,
+                                marginBottom: 10,
+                                marginLeft: 40,
                                 borderRadius: 8,
                                 backgroundColor: '#E73D50',
-                                marginTop: viewPortHeight / 600,
+                                marginTop: viewPortHeight / 30,            
                                 justifyContent: 'center',
-                                alignItems: 'flex-start'
+                                alignItems: 'center'
                             }}>
                             <Text
                                 style={{
@@ -551,46 +647,9 @@ class PushToEarnSignUp extends Component {
                                     textAlign: 'center'}}
                             > {this.state.buttonText.toUpperCase()}</Text>
                         </TouchableOpacity>
-                   
-                    </View>
+                    </View>                
 
                 </View>
-
-                   {/* <ButtonSignUp
-                        objectParams=
-                        {{
-                            btnText: 'SIGN UP', 
-                            language: '',
-                            firstName: this.state.firstNameInput,
-                            lastName: this.state.lastNameInput,
-                            phoneNumber: this.state.phoneNumberInput,
-                            firstNameError: this.state.firstNameError,
-                            lastNameError: this.state.lastNameError,
-                            phoneNumberError: this.state.phoneNumberError,
-                            firstNameEmpty: this.state.firstNameEmptyError,
-                            lastNameEmpty: this.state.lastNameEmptyError,
-                            phoneNumberEmpty: this.state.phoneNumberEmptyError
-                        }}
-                        func = {this.func}
-                        navigation = { this.props.navigation}
-                    /> */}
-
-                    {/* <ButtonNext 
-                            objectParams=
-                                {{
-                                    btnText: this.state.buttonText, 
-                                    language: this.props.navigation.state.params.language,
-                                    firstName: this.state.firstNameInput,
-                                    lastName: this.state.lastNameInput,
-                                    phoneNumber: this.state.phoneNumberInput,
-                                    firstNameError: this.state.firstNameError,
-                                    lastNameError: this.state.lastNameError,
-                                    phoneNumberError: this.state.phoneNumberError,
-                                    firstNameEmpty: this.state.firstNameEmptyError,
-                                    lastNameEmpty: this.state.lastNameEmptyError,
-                                    phoneNumberEmpty: this.state.phoneNumberEmptyError
-                                }}
-                            func = {this.func}/> */}
  
             </KeyboardAwareScrollView>:
             <ScrollView>
@@ -625,12 +684,6 @@ class PushToEarnSignUp extends Component {
                      onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
 
                  <Text style={newStyle.phoneNumberStyle}>{this.state.phoneNumber}</Text>
-                 {/* <TextInput
-                     keyboardType= "numeric"
-                     style={ newStyle.nameInput}
-                     placeholder=''
-                     underlineColorAndroid= 'transparent'
-                     onChangeText= { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }/>                 */}
                  <PhoneInput 
                          ref='phone'
                          initialCountry='be'
@@ -673,23 +726,6 @@ class PushToEarnSignUp extends Component {
                             navigation = { this.props.navigation}
                 />
 
-
-                 {/* <ButtonNext 
-                         objectParams=
-                             {{
-                                 btnText: this.state.buttonText, 
-                                 language: this.props.navigation.state.params.language,
-                                 firstName: this.state.firstNameInput,
-                                 lastName: this.state.lastNameInput,
-                                 phoneNumber: this.state.phoneNumberInput,
-                                 firstNameError: this.state.firstNameError,
-                                 lastNameError: this.state.lastNameError,
-                                 phoneNumberError: this.state.phoneNumberError,
-                                 firstNameEmpty: this.state.firstNameEmptyError,
-                                 lastNameEmpty: this.state.lastNameEmptyError,
-                                 phoneNumberEmpty: this.state.phoneNumberEmptyError
-                             }}
-                         func = {this.func}/> */}
             </View>
          {/* </View> */}
          </KeyboardAvoidingView>
@@ -726,19 +762,20 @@ const newStyle = StyleSheet.create({
     headerImage: {
         width: viewPortWidth * 0.65,
         height: Platform.OS === 'ios'?40:120,
-        flex: Platform.OS === 'ios'?17:8,
+        flex: Platform.OS === 'ios'?8:8,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
     },
 
     inputContainer: {
-        backgroundColor: 'white',        
+        backgroundColor: 'white',
         marginTop: Platform.OS === 'ios'?25:10,
         padding: 25,
-        marginLeft: 30,
-        flex: Platform.OS === 'ios'?65:1,
-        backgroundColor: 'transparent'
+        flex: Platform.OS === 'ios'?20:1,
+        backgroundColor: 'transparent',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 
     socialIcons: {
@@ -763,7 +800,42 @@ const newStyle = StyleSheet.create({
         fontStyle: 'normal',
         letterSpacing: 0.67,
         textAlign: 'left',
-        marginBottom: 15
+        marginBottom: 15,
+        position: 'absolute',
+        left: 70,
+        top: 0,
+    },
+
+    password:{
+        width: 159,
+        height: 19,
+        fontFamily: 'WorkSans-Regular',
+        fontSize: 16,
+        fontWeight: '500',
+        fontStyle: 'normal',
+        letterSpacing: 0.67,
+        textAlign: 'left',
+        marginBottom: 15,
+        marginTop: 10,
+        position: 'absolute',
+        left: 70,
+        top: 85,
+    },
+
+    cpassword:{
+        width: 159,
+        height: 19,
+        fontFamily: 'WorkSans-Regular',
+        fontSize: 16,
+        fontWeight: '500',
+        fontStyle: 'normal',
+        letterSpacing: 0.67,
+        textAlign: 'left',
+        marginBottom: 15,
+        marginTop: 10,
+        position: 'absolute',
+        left: 70,
+        top: 180,
     },
 
     forgotPassword:{
@@ -775,6 +847,9 @@ const newStyle = StyleSheet.create({
         fontStyle: "normal",
         letterSpacing: 0.43,
         color: "#E73D50",
+        position: 'absolute',
+        left: 70,
+        top: 190,
     },
 
     phoneNumberStyle: {
@@ -797,6 +872,17 @@ const newStyle = StyleSheet.create({
         backgroundColor: '#f6f6f6',
         marginBottom: 15,
         padding: 10,
+        marginTop: 0,
+    },
+
+    nameInputPassword: {
+        width: 334,
+        height: 57,
+        borderRadius: 8,
+        backgroundColor: '#f6f6f6',
+        marginBottom: 15,
+        padding: 10,
+        marginTop: 25,
     },
 
     buttons: {
@@ -814,9 +900,9 @@ const newStyle = StyleSheet.create({
 
     endButtons: {
         width: viewPortWidth,
-        height: Platform.OS === 'ios'?150:150,
+        height: Platform.OS === 'ios'?50:150,
         zIndex: 999,
-        flex: Platform.OS === 'ios'?15:4,
+        flex: Platform.OS === 'ios'?4:4,
         flexDirection: 'row',
         backgroundColor: 'white',
         justifyContent: 'flex-start',
@@ -857,15 +943,20 @@ const newStyle = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
+        fetching: LoginSelectors.getFetching(state),
+        userinfo: state.user,
     };
   };
   
   const mapDispatchToProps = dispatch => {
-    return {  
+    return {
         registerAction: ( payload ) => 
         dispatch({ type: 'REGISTER_REQUEST', payload }),
-      resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
+      
+       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
+      
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
+      
       navigateBack: () => this.props.navigation.goBack(),
     };
   };

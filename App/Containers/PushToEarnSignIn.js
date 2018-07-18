@@ -36,6 +36,7 @@ import ButtonLogin from '../Components/ButtonLogin';
 import CryptoJS from 'crypto-js';
 import utf8 from 'utf8';
 import Api from './Api';
+import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -97,6 +98,46 @@ class PushToEarnSignIn extends Component {
             passwordEmptyError:false,
         };    
     }
+
+    onGoogleButtonClick = async () => {
+        await GoogleSignin.configure({
+          iosClientId: '1041950784543-pkmc6rhf0e6av81q1j8qhspb10oqa7dn.apps.googleusercontent.com',
+        })
+          .then(() => {
+          // you can now call currentUserAsync()
+            GoogleSignin.currentUserAsync().then((user) => {
+              console.log('USER', user);
+              this.setState({ user });
+            }).done();
+          });
+        const userNew = GoogleSignin.currentUser();
+    
+        GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
+          // play services are available. can now configure library
+        })
+          .catch((err) => {
+            console.log('Play services error', err.code, err.message);
+          });
+    
+        GoogleSignin.signIn()
+          .then((user) => {
+            console.log(user);
+            this.setState({ user });
+    
+            GoogleSignin.getAccessToken()
+              .then((token) => {
+                console.log(token);
+              })
+              .catch((err) => {
+                console.log(err);
+              })
+              .done();
+          })
+          .catch((err) => {
+            console.log('WRONG SIGNIN', err);
+          })
+          .done();
+      };
 
     twitterSignIn = () => {
         console.warn('twitter button clicked'); // eslint-disable-line
@@ -487,7 +528,7 @@ class PushToEarnSignIn extends Component {
                                             type='font-awesome'
                                             color='#fff'
                                             size = {35}
-                                            onPress={() => console.log('hello')} /> 
+                                            onPress={() => this.onFacebookButtonClick()} /> 
                                 </TouchableOpacity>
                         </View>
 
@@ -503,7 +544,7 @@ class PushToEarnSignIn extends Component {
                                             size = {35}
                                             onPress={() => console.log('hello')} /> 
                                             <LinkedInModal
-                                                        linkText='L'
+                                                        linkText=''
                                                         clientID="81td97f0ibm93v"
                                                         clientSecret="RotJQJQRBbBoWG7l"
                                                         redirectUri="https://www.linkedin.com/developer/apps"
@@ -526,7 +567,7 @@ class PushToEarnSignIn extends Component {
                         </View>
 
                         <View style = {{ width: 70, height: 70, marginRight: 20, borderRadius: 70, backgroundColor: '#E73D50' }}>
-                                <TouchableOpacity onPress={() => this.props.navigation.goBack() }
+                                <TouchableOpacity onPress={() => this.onGoogleButtonClick() }
                                     activeOpacity={0.5}
                                     style={ newStyle.iconStyle }>
                                         <Icon
@@ -535,7 +576,7 @@ class PushToEarnSignIn extends Component {
                                             type='font-awesome'
                                             color='#fff'
                                             size = {35}
-                                            onPress={() => console.log('hello')} /> 
+                                            onPress={() => this.onGoogleButtonClick() } /> 
                                 </TouchableOpacity>
                         </View>
                </View>
@@ -568,9 +609,9 @@ class PushToEarnSignIn extends Component {
                                 onChangeText={(usernameInput) => this.validateEmail(usernameInput)}/>
                             
 
-                    <Text style={newStyle.firstName}>Password</Text>
+                    <Text style={newStyle.password}>Password</Text>
                     <TextInput
-                        style={ newStyle.nameInput}
+                        style={ newStyle.nameInputPassword}
                         placeholder=''
                         underlineColorAndroid= 'transparent'
                         onChangeText= { (passwordInput) => this.validatePassword(passwordInput) }/>
@@ -579,25 +620,6 @@ class PushToEarnSignIn extends Component {
 
                     <View style={newStyle.endButtons}>
 
-                    {/* <ButtonLogin 
-                        objectParams=
-                        {{
-                            btnText: this.state.buttonText, 
-                            language: '',
-                            firstName: this.state.firstNameInput,
-                            lastName: this.state.lastNameInput,
-                            phoneNumber: this.state.phoneNumberInput,
-                            firstNameError: this.state.firstNameError,
-                            lastNameError: this.state.lastNameError,
-                            phoneNumberError: this.state.phoneNumberError,
-                            firstNameEmpty: this.state.firstNameEmptyError,
-                            lastNameEmpty: this.state.lastNameEmptyError,
-                            phoneNumberEmpty: this.state.phoneNumberEmptyError
-                        }}
-                        func = {this.func}
-                        navigation = { this.props.navigation}
-                    /> */}
-
                      <TouchableOpacity
                             onPress={() => { this.callLogin(); } }
                             activeOpacity={0.5}
@@ -605,7 +627,7 @@ class PushToEarnSignIn extends Component {
                                 width: 330,
                                 height: 57,
                                 marginBottom: 10,
-                                marginLeft: 0,
+                                marginLeft: 40,
                                 borderRadius: 8,
                                 backgroundColor: '#E73D50',
                                 marginTop: viewPortHeight / 30,            
@@ -642,28 +664,25 @@ class PushToEarnSignIn extends Component {
                         textAlign: "center",
                         color: "#353535"
                         }}>
-                        Don't have an Account ? Sign up here !
+                        Don't have an Account ? Sign up <Text
+                        style={{
+                            width: 334,
+                            height: 34,
+                            fontFamily: "WorkSans-Medium",
+                            fontSize: 14,
+                            fontWeight: "500",
+                            fontStyle: "normal",
+                            lineHeight: 34,
+                            letterSpacing: 0,
+                            textAlign: "center",
+                            color: "#E73D50"
+                            }}
+                        onPress = { () => this.props.navigation.navigate('PushToEarnSignUp')}
+                        >here</Text>!
                     </Text>
                 </View>                
 
                 </View>
-
-                    {/* <ButtonNext 
-                            objectParams=
-                                {{
-                                    btnText: this.state.buttonText, 
-                                    language: this.props.navigation.state.params.language,
-                                    firstName: this.state.firstNameInput,
-                                    lastName: this.state.lastNameInput,
-                                    phoneNumber: this.state.phoneNumberInput,
-                                    firstNameError: this.state.firstNameError,
-                                    lastNameError: this.state.lastNameError,
-                                    phoneNumberError: this.state.phoneNumberError,
-                                    firstNameEmpty: this.state.firstNameEmptyError,
-                                    lastNameEmpty: this.state.lastNameEmptyError,
-                                    phoneNumberEmpty: this.state.phoneNumberEmptyError
-                                }}
-                            func = {this.func}/> */}
  
             </KeyboardAwareScrollView>:
             <ScrollView>
@@ -698,12 +717,6 @@ class PushToEarnSignIn extends Component {
                      onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
 
                  <Text style={newStyle.phoneNumberStyle}>{this.state.phoneNumber}</Text>
-                 {/* <TextInput
-                     keyboardType= "numeric"
-                     style={ newStyle.nameInput}
-                     placeholder=''
-                     underlineColorAndroid= 'transparent'
-                     onChangeText= { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }/>                 */}
                  <PhoneInput 
                          ref='phone'
                          initialCountry='be'
@@ -746,23 +759,6 @@ class PushToEarnSignIn extends Component {
                             navigation = { this.props.navigation}
                 />
 
-
-                 {/* <ButtonNext 
-                         objectParams=
-                             {{
-                                 btnText: this.state.buttonText, 
-                                 language: this.props.navigation.state.params.language,
-                                 firstName: this.state.firstNameInput,
-                                 lastName: this.state.lastNameInput,
-                                 phoneNumber: this.state.phoneNumberInput,
-                                 firstNameError: this.state.firstNameError,
-                                 lastNameError: this.state.lastNameError,
-                                 phoneNumberError: this.state.phoneNumberError,
-                                 firstNameEmpty: this.state.firstNameEmptyError,
-                                 lastNameEmpty: this.state.lastNameEmptyError,
-                                 phoneNumberEmpty: this.state.phoneNumberEmptyError
-                             }}
-                         func = {this.func}/> */}
             </View>
          {/* </View> */}
          </KeyboardAvoidingView>
@@ -806,12 +802,13 @@ const newStyle = StyleSheet.create({
     },
 
     inputContainer: {
-        backgroundColor: 'white',        
+        backgroundColor: 'white',
         marginTop: Platform.OS === 'ios'?25:10,
         padding: 25,
-        marginLeft: 30,
-        flex: Platform.OS === 'ios'?30:1,
-        backgroundColor: 'transparent'
+        flex: Platform.OS === 'ios'?20:1,
+        backgroundColor: 'transparent',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 
     socialIcons: {
@@ -836,7 +833,26 @@ const newStyle = StyleSheet.create({
         fontStyle: 'normal',
         letterSpacing: 0.67,
         textAlign: 'left',
-        marginBottom: 15
+        marginBottom: 15,
+        position: 'absolute',
+        left: 70,
+        top: 0,
+    },
+
+    password:{
+        width: 159,
+        height: 19,
+        fontFamily: 'WorkSans-Regular',
+        fontSize: 16,
+        fontWeight: '500',
+        fontStyle: 'normal',
+        letterSpacing: 0.67,
+        textAlign: 'left',
+        marginBottom: 15,
+        marginTop: 10,
+        position: 'absolute',
+        left: 70,
+        top: 85,
     },
 
     forgotPassword:{
@@ -848,6 +864,9 @@ const newStyle = StyleSheet.create({
         fontStyle: "normal",
         letterSpacing: 0.43,
         color: "#E73D50",
+        position: 'absolute',
+        left: 70,
+        top: 190,
     },
 
     phoneNumberStyle: {
@@ -870,6 +889,17 @@ const newStyle = StyleSheet.create({
         backgroundColor: '#f6f6f6',
         marginBottom: 15,
         padding: 10,
+        marginTop: 0,
+    },
+
+    nameInputPassword: {
+        width: 334,
+        height: 57,
+        borderRadius: 8,
+        backgroundColor: '#f6f6f6',
+        marginBottom: 15,
+        padding: 10,
+        marginTop: 25,
     },
 
     buttons: {

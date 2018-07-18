@@ -16,7 +16,8 @@ const Api_url = {
   signUpLoginUrl: 'https://famobileutilityapiinterfacedev.azurewebsites.net',
   signUpLoginUrlNew: 'https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnMobileUserLogin?code=DbWj0tGuU5tWOY8vrtJih/iut9pAUkesWOFTuxnoCL0mDNPbmL3bfA==',
   otpURL: 'https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnOtpVerification?code=mZ7N5kRn1GS7jcRgB0CPAthEYoFf8jVdg7CtG9YhhNL1qj9FeRbePQ==',
-  signupURL2: 'https://prod-33.westeurope.logic.azure.com:443/workflows/e0e864dc6aaa42508ce3f8d1f5906bf3/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=qfzJp5LbHOaf9768aAS7Fhp8ueLZLj9x3TxvjPXtkRM',
+  signupURL2: 'https://prod-33.westeurope.logic.azure.com:443',
+
 };
 
 export default Api_url;

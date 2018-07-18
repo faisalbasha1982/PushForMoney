@@ -40,7 +40,6 @@ export const newrequest = (state, { payload }) => {
   return {...state, fetching: true, payload }
 }
 
-
 // successful api lookup
 export const success = state => {
   return { ...state,  fetching: false,};
@@ -52,7 +51,7 @@ export const failure = state => {
 }
  
 // request OTP verification
-export const otp = (state, { payload }) => {
+export const otp = (state, {payload}) => {
   return {...state, fetching: true, payload }
 }
 

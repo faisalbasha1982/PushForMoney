@@ -3,6 +3,7 @@ package com.pushformoney;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.goldenowl.twittersignin.TwitterSigninPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -30,6 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNGoogleSigninPackage(),
             new FBSDKPackage(),
             new TwitterSigninPackage(),
             new VectorIconsPackage(),
