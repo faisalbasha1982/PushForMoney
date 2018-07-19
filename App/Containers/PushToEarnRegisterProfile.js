@@ -287,62 +287,9 @@ class PushToEarnRegisterProfile extends Component {
 
     callPrivateScreen = () => {
         //NavigationService.navigate('PushToEarnPrivatePolicy');
-        this.prop.navigation.navigate('PushToEarnPrivatePolicy');
+        this.props.navigation.navigate('PushToEarnPrivatePolicy');
     }
 
-    renderValidation = () => {
-
-        //if(this.state.language === 'NEDERLANDS')
-
-        console.log("empty error text="+this.state.EmptyErrorText);
-        console.log("first Name Input="+this.state.firstNameInput);
-        console.log("phone Number Input="+this.state.phoneNumberInput);
-
-        let errorString = this.state.EmptyErrorText;
-
-        if(this.state.firstNameError===true || this.state.firstNameInput === '')
-            errorString = errorString + '\n' + this.state.firstNameErrorText;
-
-        // if(this.state.lastNameError===true)
-        //     errorString = errorString + '\n' + this.state.lastNameErrorText;
-
-        if(this.state.phoneNumberError===true || this.state.phoneNumberInput==='')
-            errorString = errorString + '\n' + this.state.phoneNumberErrorText;
-            
-            console.log("errorString="+errorString);
-        
-            if(this.state.firstNameEmptyError === false  && this.state.phoneNumberEmptyError === false && this.state.firstNameError===false && this.state.lastNameError===false && this.state.phoneNumberError===false )
-                return (                        
-                    <View style={newStyle.validationStyle}> 
-                            <Validation
-                                objectParams = 
-                                {{
-                                    'btnText': errorString, 
-                                    'language': this.props.navigation.state.params.language,
-                                    'backgroundColor':'transparent'
-                                }} />
-                    </View>
-                );
-            else
-                return (                        
-                    <View style={newStyle.validationStyle}> 
-                            <Validation
-                                objectParams = 
-                                {{
-                                    'btnText': errorString, 
-                                    'language': this.props.navigation.state.params.language,
-                                    'backgroundColor': 'normal'
-                                }} />
-                    </View>
-            );
-                
-        return;
-
-    }
-
-    func = (renderValidate,EmptyErrorText) => {
-      this.setState({renderValidate,EmptyErrorText});
-    }
 
     render() {
         const platform = Platform.OS;
@@ -418,8 +365,8 @@ class PushToEarnRegisterProfile extends Component {
                         onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
                 </View>
 
-                     <TouchableOpacity
-                            onPress={() => { this.callPrivateScreen(); } }
+                     {/* <TouchableOpacity
+                            onPress={() => { this.renderNothing(); } }
                             activeOpacity={0.5}
                             style={{
                                 width: 330,
@@ -446,7 +393,7 @@ class PushToEarnRegisterProfile extends Component {
                                     textAlign: 'center'}}
                             > {this.state.buttonText.toUpperCase()}</Text>
                         </TouchableOpacity>
-                   
+                    */}
  
             </KeyboardAwareScrollView>
 
@@ -463,19 +410,6 @@ const newStyle = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
-    },
-
-    keyboardScrollViewContainer: {
-        backgroundColor: 'transparent',
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-
-    scrollStyle: {
-        flex:1,
-        margin:0,
-        padding:0,
     },
 
     headerImage: {
@@ -621,7 +555,7 @@ const mapStateToProps = state => {
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
-      register: (payload) => dispatch(RegisterActions.registerRequest(payload)),
+    //   register: (payload) => dispatch(RegisterActions.registerRequest(payload)),
     };
   };
   

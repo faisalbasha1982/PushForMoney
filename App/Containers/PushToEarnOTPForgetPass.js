@@ -56,7 +56,7 @@ export const IMAGE_HEIGHT_SMALL = window.width /7;
 
 let cLanguage = '';
 
-class PushToEarnOTPReSend extends Component {
+class PushToEarnOTPForgetPass extends Component {
 
     static propTypes = {
         language: PropTypes.string.isRequired
@@ -69,25 +69,14 @@ class PushToEarnOTPReSend extends Component {
         this.state = {
             language: 'NEDERLANDS',
             firstName:'',
-            name:'',
-            phoneNumber:'',
             validation: false,
             renderValidate: false,
-            firstNameInput:'',
-            lastNameInput:'',
+            passwordInput:'',
+            confirmpasswordInput:'',
             phoneNumberInput:'',
             buttonText: 'START NOW!',
-            firstNameError:true,
-            firstNameErrorText:'',            
-            lastNameError:false,
-            lastNameErrorText:'',
-            phoneNumberError:true,
-            phoneNumberErrorText:'',
             ErrorText:'',
             EmptyErrorText:'',
-            firstNameEmptyError:false,
-            lastNameEmptyError:false,
-            phoneNumberEmptyError:false,
         };    
     }
 
@@ -341,15 +330,19 @@ class PushToEarnOTPReSend extends Component {
         console.tron.log("calling OTP....");
 
         let payload = {
-            "AuthenticationData": "{'Lang': 'en', 'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-18 11:45:12' ,'R' : 'ssf3dfd'}",
-            "OTP": "W2374d",
-            "OTPType": "S",
-            "TestingMode":"Testing@JobFixers#09876"
-        };
+
+            "AuthenticationData": "{'Lang': 'en', 'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-19 8:45:12' ,'R' : 'er3rssf3d'}",            
+            "MobileUserId" : 1,            
+            "OTP" : "WSS2",            
+            "NewPassword" : "bALAJI@124$",            
+            "ConfirmPassword" : " bALAJI@124$",            
+            "TestingMode":"Testing@JobFixers#09876"            
+            };
+            
 
         console.tron.log("payload="+payload);
 
-        this.props.verifyOTP(payload);
+        this.props.verifyOTPForgetPassword(payload);
     }
 
     func = (renderValidate,EmptyErrorText) => {
@@ -412,7 +405,7 @@ class PushToEarnOTPReSend extends Component {
                            textAlign: "center",
                            color: "#000000"
                      }}>
-                         We send you an email with One Time                          {'\n'}
+                         We send you an email with One Time {'\n'}
                          Password.Please enter the code below.                         
                     </Text>
                 </View>
@@ -457,6 +450,20 @@ class PushToEarnOTPReSend extends Component {
                             
                     <View style={newStyle.endButtons}>
 
+                        <Text style={newStyle.firstName}>Password</Text>
+                        <TextInput
+                                style={ newStyle.nameInput }
+                                placeholder=''
+                                underlineColorAndroid= 'transparent'
+                                onChangeText={(passwordInput) => this.validationFirstName(passwordInput)}/>
+
+                        <Text style={newStyle.firstName}>Confrm Password</Text>
+                        <TextInput
+                                style={ newStyle.nameInput }
+                                placeholder=''
+                                underlineColorAndroid= 'transparent'
+                                onChangeText={(confirmpasswordInput) => this.validationFirstName(confirmpasswordInput)}/>
+
                       <TouchableOpacity
                             onPress={() => { this.callOTP() } }
                             activeOpacity={0.5}
@@ -486,65 +493,7 @@ class PushToEarnOTPReSend extends Component {
                             > {this.state.buttonText.toUpperCase()}</Text>
                         </TouchableOpacity>
 
-                            {/* <ButtonLogin 
-                                objectParams=
-                                {{
-                                    btnText: 'START NOW!',
-                                    language: '',
-                                    firstName: this.state.firstNameInput,
-                                    lastName: this.state.lastNameInput,
-                                    phoneNumber: this.state.phoneNumberInput,
-                                    firstNameError: this.state.firstNameError,
-                                    lastNameError: this.state.lastNameError,
-                                    phoneNumberError: this.state.phoneNumberError,
-                                    firstNameEmpty: this.state.firstNameEmptyError,
-                                    lastNameEmpty: this.state.lastNameEmptyError,
-                                    phoneNumberEmpty: this.state.phoneNumberEmptyError,
-                                }}
-                        func = {this.func}
-                        navigation = { this.props.navigation}
-                    />                               */}
-
-                    </View>
-
-                    <View style= {{ width: 334, height: 34,}}>
-                            <Text style={{
-                                 fontFamily: "WorkSans-Medium",
-                                 fontSize: 21,
-                                 fontWeight: "500",
-                                 fontStyle: "normal",
-                                 lineHeight: 34,
-                                 letterSpacing: 0,                          
-                                 textAlign: 'center',
-                                 color: "#E73D50"       
-                            }}> Contact Support </Text>
-                    </View>
-
-                    <View style = {{ width: 333, height: 95, }}>
-                     <Text style= {{
-                           fontFamily: "WorkSans-Medium",
-                           fontSize: 16,
-                           fontWeight: "500",
-                           fontStyle: "normal",
-                           letterSpacing: 0.57,
-                           textAlign: "center",                         
-                     }}>
-                     Mauris de numero bent kend the berore rhelogic
-                     halp pinses berore rhelogic did berore rhelogic
-                     palse
-
-                     </Text>
-                     <Text style= {{
-                         fontFamily: "WorkSans-Medium",
-                         fontSize: 16,
-                         marginTop: 10,
-                         fontWeight: "500",
-                         fontStyle: "normal",
-                         letterSpacing: 0.57,
-                         textAlign: "center",
-                         color: "#E73D50"  
-                     }}>support@jobfixers.be</Text>
-                     </View>
+                    </View>                    
                 </View>
  
             </KeyboardAwareScrollView>:
@@ -628,25 +577,7 @@ class PushToEarnOTPReSend extends Component {
                             navigation = { this.props.navigation}
                 />
 
-
-                 {/* <ButtonNext 
-                         objectParams=
-                             {{
-                                 btnText: this.state.buttonText, 
-                                 language: this.props.navigation.state.params.language,
-                                 firstName: this.state.firstNameInput,
-                                 lastName: this.state.lastNameInput,
-                                 phoneNumber: this.state.phoneNumberInput,
-                                 firstNameError: this.state.firstNameError,
-                                 lastNameError: this.state.lastNameError,
-                                 phoneNumberError: this.state.phoneNumberError,
-                                 firstNameEmpty: this.state.firstNameEmptyError,
-                                 lastNameEmpty: this.state.lastNameEmptyError,
-                                 phoneNumberEmpty: this.state.phoneNumberEmptyError
-                             }}
-                         func = {this.func}/> */}
             </View>
-         {/* </View> */}
          </KeyboardAvoidingView>
          </ScrollView>
 
@@ -791,7 +722,7 @@ const newStyle = StyleSheet.create({
         padding: 0,
         height: Platform.OS === 'ios'?50:150,
         zIndex: 999,
-        flex: Platform.OS === 'ios'?2:4,
+        flex: Platform.OS === 'ios'?5:4,
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         backgroundColor:'transparent'
@@ -838,8 +769,11 @@ const mapStateToProps = state => {
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
-      verifyOTP: (payload) => dispatch({ type: 'VERIFY_OTP', payload }),
+      verifyOTPForgetPassword: (payload) => dispatch({ type: 'VERIFY_OTP_FP', payload }),
     };
   };
   
-  export default connect(mapStateToProps, mapDispatchToProps)(PushToEarnOTPReSend);
+  export default connect(mapStateToProps, mapDispatchToProps)(PushToEarnOTPForgetPass);
+
+
+//   https://prod-36.westeurope.logic.azure.com/workflows/64111a66520a4621a4f949f0d3a12413/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=EcEqv1IaEYCat3Jx3zeQ8HLQzUiuqK8QAzP0R8cJcPw

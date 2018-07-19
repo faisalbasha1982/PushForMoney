@@ -8,6 +8,8 @@ const { Types, Creators } = createActions({
   registerSuccess: null,
   registerFailure: null,
   verifyOtp: ["payload"],
+  verifyOtpFp: ["payload"],
+  forgetPassword: ["payload"],
 });
 
 export const RegisterTypes = Types;
@@ -55,6 +57,15 @@ export const otp = (state, {payload}) => {
   return {...state, fetching: true, payload }
 }
 
+// request forget password
+export const forget = (state, {payload}) => {
+  return {...state, fetching: true, payload }
+}
+
+export const otpforgetpassword = (state, {payload}) => {
+  return { ...state, fetching: true, payload }
+}
+
 // Default Handler 
 export const defaultHandler = (state) => {
   return { ...state}
@@ -68,5 +79,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.REGISTER_SUCCESS]: success,
   [Types.REGISTER_FAILURE]: failure,
   [Types.VERIFY_OTP]: otp,
+  [Types.VERIFY_OTP_FP]: otpforgetpassword,
+  [Types.FORGET_PASSWORD]: forget,
   [ReduxSauceTypes.DEFAULT]: defaultHandler
 });

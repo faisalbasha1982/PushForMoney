@@ -17,7 +17,7 @@ import { RegisterTypes } from '../Redux/RegisterRedux'
 import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
 import { LoginRequest } from './LoginSagas'
-import { RegisterRequest, RegisterRequestNew, OtpRequest } from './RegisterSagas'
+import { RegisterRequest, RegisterRequestNew, OtpRequest,forgotPasswordRequest, forgotPasswordOTPRequest } from './RegisterSagas'
 
 /* ------------- API ------------- */
 
@@ -47,5 +47,12 @@ export default function * root () {
 
     //Register saga for verfiy OTP
     takeLatest(RegisterTypes.VERIFY_OTP, OtpRequest ,api),
+
+    //Register saga for verfiy OTP
+    takeLatest(RegisterTypes.VERIFY_OTP_FP, forgotPasswordOTPRequest ,api),
+
+    //Register Saga for forgotPass
+    takeLatest(RegisterTypes.FORGET_PASSWORD,forgotPasswordRequest,apiSignUp2),
+        
    ])
 }

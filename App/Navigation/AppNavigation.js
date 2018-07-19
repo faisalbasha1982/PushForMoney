@@ -16,6 +16,7 @@ import LanguageButton from '../Components/LanguageButton';
 import PushToEarnSignIn from '../Containers/PushToEarnSignIn';
 import PushToEarnSignUp from '../Containers/PushToEarnSignUp';
 import PushToEarnForgetPass from '../Containers/PushToEarnForgetPass';
+import PushToEarnOTPForgetPass from '../Containers/PushToEarnOTPForgetPass';
 import PushToEarnOTP from '../Containers/PushToEarnOTP';
 import PushToEarnRegisterProfile from '../Containers/PushToEarnRegisterProfile';
 import PushToEarnWelcomeScreen from '../Containers/PushToEarnWelcomeScreen';
@@ -48,6 +49,7 @@ const AppNavigation = createStackNavigator({
   PushToEarnSignUp: { screen: PushToEarnSignUp },
   PushToEarnForgetPass: { screen: PushToEarnForgetPass },
   PushToEarnOTP: { screen: PushToEarnOTP },
+  PushToEarnOTPForgetPass: { screen: PushToEarnOTPForgetPass },
   PushToEarnRegisterProfile: { screen: PushToEarnRegisterProfile },
   PushToEarnWelcomeScreen: { screen: PushToEarnWelcomeScreen },
   PushToEarnProfileCardDetails: { screen: PushToEarnProfileCardDetails},
@@ -93,7 +95,7 @@ const AppNavigation = createStackNavigator({
 }, {
   // Default config for all screens
   headerMode: 'none',
-  initialRouteName: 'PushToEarnOTP',
+  initialRouteName: 'PushForJob',
   mode: "card",
   navigationOptions: {
     headerStyle: styles.header

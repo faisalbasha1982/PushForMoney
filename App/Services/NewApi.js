@@ -43,6 +43,8 @@ const create = (baseURL = 'https://prod-33.westeurope.logic.azure.com:443') => {
   //
   const setHeaders = headers => newapi.setHeaders(headers); 
   const registerNew = body => newapi.post("/workflows/323809c537374426ba02f3e2c3be43e8/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=IcTbqosnIfKjBYobByn5CbmrDhrghcZdiPkv58CJNSI",body);
+  const forgotPass = body => newapi.post("/workflows/ba352440699a4f83afdd89ec8d2d98f0/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=mn8pocAEO81yHgwe6_R0cQT-LsiG1jMF4oW1gFW753E",body);
+  
 
   // ------
   // STEP 3
@@ -61,6 +63,7 @@ const create = (baseURL = 'https://prod-33.westeurope.logic.azure.com:443') => {
     newapi,
     registerNew,
     setHeaders,
+    forgotPass,
   }
 }
 

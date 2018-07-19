@@ -42,7 +42,6 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
   // way at this level.
   //
   const setHeaders = headers => api.setHeaders(headers);
-
   const register = body => api.post("/api/fnMobileUserLogin?code=DbWj0tGuU5tWOY8vrtJih/iut9pAUkesWOFTuxnoCL0mDNPbmL3bfA==",body);
  
   const registerNew = body => 
@@ -51,12 +50,18 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
     api.setBaseURL("https://prod-33.westeurope.logic.azure.com:443");
     console.tron.log("setting baseurl as ---> https://prod-33.westeurope.logic.azure.com:443");
     api.post("/workflows/323809c537374426ba02f3e2c3be43e8/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=IcTbqosnIfKjBYobByn5CbmrDhrghcZdiPkv58CJNSI",body);
-  }
+  };
 
-  const login = (payload) =>
-    api.post("/api/fnMobileUserLogin?code=DbWj0tGuU5tWOY8vrtJih/iut9pAUkesWOFTuxnoCL0mDNPbmL3bfA==", payload);
+  const login = (payload) => api.post("/api/fnMobileUserLogin?code=DbWj0tGuU5tWOY8vrtJih/iut9pAUkesWOFTuxnoCL0mDNPbmL3bfA==", payload);
 
-  const verifyOTP = body => api.post(Api_url.otpURL, body);
+  const verifyOTP = body => api.post("/api/fnOtpVerification?code=mZ7N5kRn1GS7jcRgB0CPAthEYoFf8jVdg7CtG9YhhNL1qj9FeRbePQ==", body);
+
+  const verifyOTPFP = (body) => {
+    api.setBaseURL("https://prod-36.westeurope.logic.azure.com:443");
+    api.post("/workflows/64111a66520a4621a4f949f0d3a12413/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=EcEqv1IaEYCat3Jx3zeQ8HLQzUiuqK8QAzP0R8cJcPw",body);
+  };
+
+  const apiCall = (url,payload) => api.post(url,payload);
 
   const getRoot = () => api.get('')
   const getRate = () => api.get('rate_limit')
@@ -84,7 +89,8 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
     getRoot,
     getRate,
     getUser,
-    verifyOTP
+    verifyOTP,
+    verifyOTPFP,
   }
 }
 

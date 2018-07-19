@@ -341,11 +341,11 @@ class PushToEarnOTP extends Component {
         console.tron.log("calling OTP....");
 
         let payload = {
-            "AuthenticationData": "{'Lang': 'en', 'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-18 11:45:12' ,'R' : 'ssf3dfd'}",
-            "OTP": "W2374d",
+            "AuthenticationData": "{'Lang': 'en', 'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-19 3:53:12' ,'R' : 'ssf3dfd'}",
+            "OTP": "9G7z",
             "OTPType": "S",
             "TestingMode":"Testing@JobFixers#09876"
-        };
+     }
 
         console.tron.log("payload="+payload);
 
