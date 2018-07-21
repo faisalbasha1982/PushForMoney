@@ -69,8 +69,12 @@ class PushToEarnProfile extends Component {
             validation: false,
             renderValidate: false,
             firstNameInput:'',
+            firstNameEditable: false,
             lastNameInput:'',
             phoneNumberInput:'',
+            emailInput:'',
+            passwordInput:'',
+            cardDetails:'',
             buttonText: '',
             firstNameError:true,
             firstNameErrorText:'',
@@ -83,6 +87,8 @@ class PushToEarnProfile extends Component {
             firstNameEmptyError:false,
             lastNameEmptyError:false,
             phoneNumberEmptyError:false,
+            emailEmptyError:false,
+            cardDetailsError:false,
         };    
     }
 
@@ -227,9 +233,34 @@ class PushToEarnProfile extends Component {
         //     this.setState({ language: nextProps.language });
         //     this.setText();
         // }
+
+        if(this.props !== nextProps)
+        {
+            let payload = 
+            {
+    
+                "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-21 11:42:12' ,'R' : 'er3rssf3dfd'}",
+                "LoginAccessToken": "{'MobileUserEmail' : 'Balaji_sp@yahoo.com','MobileUserName':'Balaji Subbiah','MobileUserID' : 1,'Approval':'True','LoginDate':'2018-06-24 5:05:12','LoginExpiryDate':'2018-08-24 6:54:12', 'RandomString' : 'er3rssfd'}",
+                "TestingMode":"Testing@JobFixers#09876",
+            };
+    
+            this.props.getProfile(payload);
+        }            
     }
 
     componentDidMount() {
+
+        let payload = 
+        {
+
+            "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-21 11:42:12' ,'R' : 'er3rssf3dfd'}",
+            "LoginAccessToken": "{'MobileUserEmail' : 'Balaji_sp@yahoo.com','MobileUserName':'Balaji Subbiah','MobileUserID' : 1,'Approval':'True','LoginDate':'2018-06-24 5:05:12','LoginExpiryDate':'2018-08-24 6:54:12', 'RandomString' : 'er3rssfd'}",
+            "TestingMode":"Testing@JobFixers#09876",
+        };
+
+        console.tron.log("payload="+payload);
+        this.props.getProfile(payload);
+
         // console.log("language from props="+this.props.navigation.state.params.language);
         // console.log("default language="+this.state.language);
         // //cLanguage = this.props.navigation.state.params.language;
@@ -282,65 +313,15 @@ class PushToEarnProfile extends Component {
 
     }
 
+    seteditable = () => {
+        this.setState({firstNameEditable: true});
+    }
+
     callDetails = () => {
 
         //this.props.navigation.navigate('PushToEarnProfileCardDetails');
-    }
+      
 
-    renderValidation = () => {
-
-        //if(this.state.language === 'NEDERLANDS')
-
-        console.log("empty error text="+this.state.EmptyErrorText);
-        console.log("first Name Input="+this.state.firstNameInput);
-        console.log("phone Number Input="+this.state.phoneNumberInput);
-
-        let errorString = this.state.EmptyErrorText;
-
-        if(this.state.firstNameError===true || this.state.firstNameInput === '')
-            errorString = errorString + '\n' + this.state.firstNameErrorText;
-
-        // if(this.state.lastNameError===true)
-        //     errorString = errorString + '\n' + this.state.lastNameErrorText;
-
-        if(this.state.phoneNumberError===true || this.state.phoneNumberInput==='')
-            errorString = errorString + '\n' + this.state.phoneNumberErrorText;
-            
-            console.log("errorString="+errorString);
-        
-            if(this.state.firstNameEmptyError === false  && this.state.phoneNumberEmptyError === false && this.state.firstNameError===false && this.state.lastNameError===false && this.state.phoneNumberError===false )
-                return (                        
-                    <View style={newStyle.validationStyle}> 
-                            <Validation
-                                objectParams = 
-                                {{
-                                    'btnText': errorString, 
-                                    'language': '',
-                                    'backgroundColor':'transparent'
-                                }} />
-                    </View>
-                );
-            else
-                return (                        
-                    <View style={newStyle.validationStyle}> 
-                            <Validation
-                                objectParams = 
-                                {{
-                                    'btnText': errorString, 
-                                    'language': '',
-                                    'backgroundColor': 'normal'
-                                }} />
-                    </View>
-            );
-        
-
-        
-        return;
-
-    }
-
-    func = (renderValidate,EmptyErrorText) => {
-      this.setState({renderValidate,EmptyErrorText});
     }
 
     render() {
@@ -433,39 +414,55 @@ class PushToEarnProfile extends Component {
                         <View style= {newStyle.inputContainer}>
 
                             <Text style={newStyle.firstName}>First Name</Text>
+
+                            <View style={newStyle.innerContainer}>
                             <TextInput
                                         style={ newStyle.nameInput }
                                         placeholder='first name'
-                                        underlineColorAndroid= 'transparent'
-                                        onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
-                                    
+                                        editable={this.state.firstNameEditable}
+                                        ref={(ref) => { this.FirstInput = ref; }}                                        underlineColorAndroid= 'transparent'
+                                        onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>                            
+                            <Icon
+                                        containerStyle={newStyle.iconImageStyle}
+                                        name='edit'
+                                        type='font-awesome'
+                                        color='#E73D50'
+                                        size = {20}                                        
+                                        onPress={ () => this.seteditable()  } />                                         
+                            </View>
+
                             <Text style={newStyle.firstName}>Last Name</Text>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder='last name'
+                                editable={true}
                                 underlineColorAndroid= 'transparent'
-                                onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
+                                onChangeText= { (lastNameInput) => this.validationLastName({lastNameInput}) }/>
+
 
                             <Text style={newStyle.firstName}>Email Address</Text>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder='Email Address'
+                                editable={true}
                                 underlineColorAndroid= 'transparent'
-                                onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
+                                onChangeText= { (emailInput) => this.validationFirstName({emailInput}) }/>
 
                             <Text style={newStyle.firstName}>Phone Number</Text>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder='Phone Number'
+                                editable={true}
                                 underlineColorAndroid= 'transparent'
-                                onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>                                
+                                onChangeText= { (phoneNumberInput) => this.setState({phoneNumberInput}) }/>                                
 
                             <Text style={newStyle.firstName}>Password</Text>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder='Password'
+                                editable={true}
                                 underlineColorAndroid= 'transparent'
-                                onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
+                                onChangeText= { (passwordInput) => this.setState({passwordInput}) }/>
 
                             {/* <Text style={newStyle.firstName}>Card Details</Text>
                             <View style={newStyle.nameInput}
@@ -597,6 +594,13 @@ const newStyle = StyleSheet.create({
         alignItems: 'center',
     },
 
+    innerContainer: {
+
+        flexDirection: 'row',
+        backgroundColor: 'transparent'
+
+    },
+
     keyboardScrollViewContainer: {
         backgroundColor: 'transparent',
         flex: 1,
@@ -629,7 +633,8 @@ const newStyle = StyleSheet.create({
         fontStyle: 'normal',
         letterSpacing: 0.67,
         textAlign: 'left',
-        marginBottom: 15
+        marginBottom: 1,
+        marginTop: 5,
     },
 
     phoneNumberStyle: {
@@ -642,17 +647,17 @@ const newStyle = StyleSheet.create({
         letterSpacing: 0.67,
         textAlign: 'left',
         marginBottom: 15
-
     },
 
     nameInput: {
         width: 280,
-        height: 17,
+        height: 50,
+        margin:0,
         borderBottomColor: "#353535",
         borderBottomWidth: StyleSheet.hairlineWidth,
-        backgroundColor: 'white',
-        marginBottom: 15,
-        padding: 10,
+        backgroundColor: 'transparent',
+        marginBottom: 0,
+        padding: 0,
     },
 
     buttons: {
@@ -812,6 +817,7 @@ const mapStateToProps = state => {
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
+      getProfile:(payload) => dispatch({ type: 'GET_PROFILE_REQUEST', payload }),
     };
   };
   

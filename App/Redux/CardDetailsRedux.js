@@ -2,14 +2,14 @@ import { createReducer, createActions, Types as ReduxSauceTypes } from 'reduxsau
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  loginRequest: ["payload"],
-  loginSuccess: ['user'],
-  loginFailure: ['error'],
-  userRegistered: ['user'],
-  logout: null
-})
+    cardDetailsRequest: ["payload"],
+    cardDetailsSuccess: ['user'],
+    cardDetailsFailure: ['error'],
+    userRegistered: ['user'],
+    logout: null
+});
 
-export const LoginTypes = Types;
+export const CardDetailsTypes = Types;
 export default Creators;
 
 /* ------------- Initial State ------------- */
@@ -23,10 +23,10 @@ export const INITIAL_STATE = {
 
 /* ------------- Selectors ------------- */
 
-export const LoginSelectors = {
-  getUser: state => state['login'].user,
-  getFetching: state => state['login'].fetching,
-  getError: state => state['login'].error
+export const CardDetailsSelectors = {
+  getUser: state => state['cardDetails'].user,
+  getFetching: state => state['cardDetails'].fetching,
+  getError: state => state['cardDetails'].error
 };
 
 /* ------------- Reducers ------------- */
@@ -58,9 +58,9 @@ export const defaultHandler = (state) => {
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.LOGIN_REQUEST]: request,
-  [Types.LOGIN_SUCCESS]: success,
-  [Types.LOGIN_FAILURE]: failure,
+  [Types.CARD_DETAILS_REQUEST]: request,
+  [Types.CARD_DETAILS_SUCCESS]: success,
+  [Types.CARD_DETAILS_FAILURE]: failure,
   [Types.USER_REGISTERED]: registered,
   [Types.LOGOUT]: logout,
   [ReduxSauceTypes.DEFAULT]: defaultHandler

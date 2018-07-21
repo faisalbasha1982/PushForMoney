@@ -11,6 +11,8 @@ import { StartupTypes } from '../Redux/StartupRedux'
 import { GithubTypes } from '../Redux/GithubRedux'
 import { LoginTypes } from '../Redux/LoginRedux'
 import { RegisterTypes } from '../Redux/RegisterRedux'
+import { ProfileTypes } from '../Redux/ProfileRedux'
+import { CardDetailsTypes } from '../Redux/CardDetailsRedux'
 
 /* ------------- Sagas ------------- */
 
@@ -18,6 +20,8 @@ import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
 import { LoginRequest } from './LoginSagas'
 import { RegisterRequest, RegisterRequestNew, OtpRequest,forgotPasswordRequest, forgotPasswordOTPRequest } from './RegisterSagas'
+import { ProfileRequest } from './ProfileSagas'
+import { cardDetailsRequest } from './CardDetailsSagas'
 
 /* ------------- API ------------- */
 
@@ -53,6 +57,11 @@ export default function * root () {
 
     //Register Saga for forgotPass
     takeLatest(RegisterTypes.FORGET_PASSWORD,forgotPasswordRequest,apiSignUp2),
-        
+
+    //Profile Saga from
+    takeLatest(ProfileTypes.GET_PROFILE_REQUEST,ProfileRequest,api),
+
+    takeLatest(CardDetailsTypes.CARD_DETAILS_REQUEST,cardDetailsRequest,api),
+
    ])
 }

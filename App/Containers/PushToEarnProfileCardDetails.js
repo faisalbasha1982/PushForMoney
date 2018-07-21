@@ -71,7 +71,7 @@ class PushToEarnCardDetails extends Component {
             firstNameInput:'',
             lastNameInput:'',
             phoneNumberInput:'',
-            buttonText: '',
+            buttonText: 'SAVE DATA',
             firstNameError:true,
             firstNameErrorText:'',
             lastNameError:false,
@@ -338,6 +338,21 @@ class PushToEarnCardDetails extends Component {
       this.setState({renderValidate,EmptyErrorText});
     }
 
+    saveData = () => {
+        
+        let payload = {
+            "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-21 5:05:12' ,'R' : 'er3rssf3dfd'}",
+            "LoginAccessToken": "{'MobileUserEmail' : 'Balaji.sp@esteinternationalgroup.be.com','MobileUserName':'hello16','MobileUserID' : 3,'Approval':'True','LoginDate':'2018-07-26 5:05:12','LoginExpiryDate':'2018-08-26 6:54:12', 'RandomString' : 'er3rssfd'}",        
+            "Bankname" : "Bankname",        
+            "IBAN" : "05121445712115421",
+            "BIC_NO" : "4234234",
+            "Status" : "1",        
+            "TestingMode":"Testing@JobFixers#09876"
+        };
+
+        this.props.cardDetails(payload);
+    }
+
     render() {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
@@ -452,24 +467,34 @@ class PushToEarnCardDetails extends Component {
 
 
                         <View style={newStyle.buttonView}>
-                                <ButtonNew
-                                    objectParams=
-                                        {{
-                                            btnText: "SAVE DATA", 
-                                            language: "ENGLISH",
-                                            firstName: this.state.firstNameInput,
-                                            lastName: this.state.lastNameInput,
-                                            phoneNumber: this.state.phoneNumberInput,
-                                            firstNameError: this.state.firstNameError,
-                                            lastNameError: this.state.lastNameError,
-                                            phoneNumberError: this.state.phoneNumberError,
-                                            firstNameEmpty: this.state.firstNameEmptyError,
-                                            lastNameEmpty: this.state.lastNameEmptyError,
-                                            phoneNumberEmpty: this.state.phoneNumberEmptyError
-                                        }}
-                                func = {this.func}
-                                navigation = { this.props.navigation}
-                                />
+                        <TouchableOpacity
+                            onPress={() => { this.saveData() } }
+                            activeOpacity={0.5}
+                            style={{
+                                width: 280,
+                                height: 57,
+                                marginBottom: 10,
+                                marginLeft: 0,
+                                borderRadius: 8,
+                                backgroundColor: '#E73D50',
+                                marginTop: viewPortHeight / 110,            
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}>
+                            <Text
+                                style={{
+                                    fontSize: 17,
+                                    width: 333,
+                                    height: 19,
+                                    fontFamily: 'WorkSans-Regular',
+                                    fontWeight: '500',
+                                    fontStyle: 'normal',
+                                    color: '#ffffff',
+                                    marginTop: 0,                
+                                    letterSpacing: 0.67,
+                                    textAlign: 'center'}}
+                            > {this.state.buttonText.toUpperCase()}</Text>
+                        </TouchableOpacity>               
                         </View>
 
                     </View>
@@ -786,6 +811,7 @@ const mapStateToProps = state => {
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
+      cardDetails: ( payload ) => dispatch({ type: 'CARD_DETAILS_REQUEST', payload }),
     };
   };
   

@@ -490,22 +490,39 @@ class PushToEarnSignUp extends Component {
                     <Image source={logoNew} resizeMode="contain" style={{ width: 225, height: 45 }} />
                 </View>
 
-                <View style= {{ flex:1, }}>
+                <View style= {{ flex:1, flexDirection: 'row', }}>
                         <Text 
-                        style={{
-                        width: 334,
-                        height: 34,
-                        fontFamily: "WorkSans-Medium",
-                        fontSize: 21,
-                        fontWeight: "500",
-                        fontStyle: "normal",
-                        lineHeight: 34,
-                        letterSpacing: 0,
-                        textAlign: "center",
-                        color: "#E73D50" 
+                            style={{
+                            width: 334,
+                            height: 34,
+                            fontFamily: "WorkSans-Medium",
+                            fontSize: 21,
+                            fontWeight: "500",
+                            fontStyle: "normal",
+                            lineHeight: 34,
+                            letterSpacing: 0,
+                            textAlign: "center",
+                            color: "#E73D50" 
                         }}>
-                    Sign up 
+                            Sign up 
                     </Text>
+                    <Text
+                        style={{    
+                            width: 43,
+                            height: 14,
+                            marginTop:10,
+                            fontFamily: "WorkSans-Medium",
+                            fontSize: 12,
+                            fontWeight: "500",
+                            fontStyle: "normal",
+                            letterSpacing: 0.43,
+                            textAlign: "center",
+                            color: "rgb(231, 61, 80)",
+                            textDecorationLine: 'underline',
+                        }}
+                        onPress = { () => this.props.navigation.navigate('PushToEarnSignIn') }>
+                           Sign in
+                        </Text>
                 </View>                
 
                 <View style= { newStyle.socialIcons }>

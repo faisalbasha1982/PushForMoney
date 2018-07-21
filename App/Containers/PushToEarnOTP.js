@@ -345,7 +345,7 @@ class PushToEarnOTP extends Component {
             "OTP": "9G7z",
             "OTPType": "S",
             "TestingMode":"Testing@JobFixers#09876"
-     }
+     };
 
         console.tron.log("payload="+payload);
 
