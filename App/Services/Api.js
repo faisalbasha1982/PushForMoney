@@ -66,15 +66,21 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
     api.post("/workflows/f59e53901f7a46559be64f3a4605091e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=7rKezGQLhIz7v96JpmKZ4zQ0BUUCLZMW0csfSUWM4JM",body);
   };
 
+  const updateName = (body) => {
+    api.setBaseURL('https://prod-28.westeurope.logic.azure.com:443');
+    api.post("/workflows/8758d6d96f2145cbaaa86e5d032392dc/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=6pUlAjHE5FumdVSxpK_uevwWemeMwM9ODipl2oHvWZE",body);
+  };
+
+
   const cardDetailsRequest = (body) => {
     api.setBaseURL('https://prod-48.westeurope.logic.azure.com:443');
     api.post("/workflows/603a11a2a15b407a8903f7a75b39f7f8/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=XzGng6yxY8XYiC5pTdC7rQphhH7Kr2tJgZ2pBZaZlAM",body);
   };
 
-  const addProfile = () => {
+  const addReferrals = (body) => {
     api.setBaseURL('https://prod-10.westeurope.logic.azure.com:443');
-    api.post('/workflows/a23a19abad104ab1854363c6536802aa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=eLy-zN-st8ISnuzhGMyvqK7zKNKFqt0myhDf14achPw');
-  }
+    api.post('/workflows/a23a19abad104ab1854363c6536802aa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=eLy-zN-st8ISnuzhGMyvqK7zKNKFqt0myhDf14achPw',body);
+  };
 
   const apiCall = (url,payload) => api.post(url,payload);
 
@@ -97,6 +103,7 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
   return {
     // a list of the API functions from step 2
     api,
+    addReferrals,
     cardDetailsRequest,
     register,
     registerNew,
@@ -106,6 +113,7 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
     getRate,
     getUser,
     getProfile,
+    updateName,
     verifyOTP,
     verifyOTPFP,
   }

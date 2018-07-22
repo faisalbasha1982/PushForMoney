@@ -19,8 +19,10 @@ import { CardDetailsTypes } from '../Redux/CardDetailsRedux'
 import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
 import { LoginRequest } from './LoginSagas'
-import { RegisterRequest, RegisterRequestNew, OtpRequest,forgotPasswordRequest, forgotPasswordOTPRequest } from './RegisterSagas'
-import { ProfileRequest } from './ProfileSagas'
+import { RegisterRequest, RegisterRequestNew, OtpRequest,
+         forgotPasswordRequest, forgotPasswordOTPRequest } 
+from './RegisterSagas'
+import { ProfileRequest, firstNameUpdate } from './ProfileSagas'
 import { cardDetailsRequest } from './CardDetailsSagas'
 
 /* ------------- API ------------- */
@@ -61,6 +63,10 @@ export default function * root () {
     //Profile Saga from
     takeLatest(ProfileTypes.GET_PROFILE_REQUEST,ProfileRequest,api),
 
+    //Profile Saga Name update
+    takeLatest(ProfileTypes.UPDATE_FIRST_NAME,firstNameUpdate,api),
+
+    //Card Details Saga
     takeLatest(CardDetailsTypes.CARD_DETAILS_REQUEST,cardDetailsRequest,api),
 
    ])

@@ -3,6 +3,7 @@ import { createReducer, createActions, Types as ReduxSauceTypes } from 'reduxsau
 
 const { Types, Creators } = createActions({
   getProfileRequest: ["payload"],
+  updateFirstName:["payload"],
   profileSuccess: ['user'],
   profileFailure: ['error'],
   userRegistered: ['user'],
@@ -35,6 +36,10 @@ export const request = (state, { payload }) => {
   return { ...state, fetching: true, payload }
 }
 
+export const newrequest = (state, { payload }) => {
+    return { ...state, fetching: true, payload }
+  }
+
 export const success = (state, {user}) => {
   return { ...state, user, fetching: false, }
 }
@@ -59,6 +64,7 @@ export const defaultHandler = (state) => {
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_PROFILE_REQUEST]: request,
+  [Types.UPDATE_FIRST_NAME]: newrequest,
   [Types.PROFILE_SUCCESS]: success,
   [Types.PROFILE_FAILURE]: failure,
   [Types.USER_REGISTERED]: registered,

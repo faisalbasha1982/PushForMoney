@@ -95,7 +95,7 @@ const AppNavigation = createStackNavigator({
 }, {
   // Default config for all screens
   headerMode: 'none',
-  initialRouteName: 'PushToEarnProfileCardDetails',
+  initialRouteName: 'PushToEarnProfile',
   mode: "card",
   navigationOptions: {
     headerStyle: styles.header

@@ -72,10 +72,16 @@ class PushToEarnProfile extends Component {
             firstNameEditable: false,
             lastNameInput:'',
             phoneNumberInput:'',
-            emailInput:'',
+            emailInput:'',            
             passwordInput:'',
             cardDetails:'',
             buttonText: '',
+            firstToggle: false,
+            secondToggle: false,
+            thirdToggle: false,
+            fourthToggle: false,
+            fifthToggle: false,
+            sixToggle: false,
             firstNameError:true,
             firstNameErrorText:'',
             lastNameError:false,
@@ -92,7 +98,7 @@ class PushToEarnProfile extends Component {
         };    
     }
 
-    validationLastName = (name) => {
+    validateLastName = (name) => {
 
         let reg = /^[a-zA-Z\s]+$/;
 
@@ -132,7 +138,7 @@ class PushToEarnProfile extends Component {
         }    
     } 
 
-    validationFirstName = (name) => {
+    validateFirstName = (name) => {
 
         let reg = /^[a-zA-Z\s]+$/;
 
@@ -223,6 +229,10 @@ class PushToEarnProfile extends Component {
     
     }
 
+    validateEmail = (email) => {
+
+    }
+
     PhoneNumberPickerChanged = (country, callingCode, phoneNumber) => {
         this.setState({countryName: country.name, callingCode: callingCode, phoneNo:phoneNumber});
      }
@@ -247,6 +257,8 @@ class PushToEarnProfile extends Component {
             this.props.getProfile(payload);
         }            
     }
+
+
 
     componentDidMount() {
 
@@ -318,10 +330,20 @@ class PushToEarnProfile extends Component {
     }
 
     callDetails = () => {
-
         //this.props.navigation.navigate('PushToEarnProfileCardDetails');
-      
+    }
 
+    callUpdateName = (name) => {
+
+        let payload = {         
+            "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-22 08:18:12' ,'R' : 'er3rssf3dfd'}",
+            "LoginAccessToken": "{'MobileUserEmail' : 'Balaji.sp@esteinternationalgroup.be.com','MobileUserName':'hello16','MobileUserID' : 12,'Approval':'True','LoginDate':'2018-07-03 08:18:12','LoginExpiryDate':'2018-08-02 08:18:12', 'RandomString' : 'fasdf13a'}",
+            "NewFirstName": "kumar",
+            "NewLastName": "Somasundaram",
+            "TestingMode":"Testing@JobFixers#09876"
+        };
+
+        this.props.nameUpdate(payload);
     }
 
     render() {
@@ -420,15 +442,17 @@ class PushToEarnProfile extends Component {
                                         style={ newStyle.nameInput }
                                         placeholder='first name'
                                         editable={this.state.firstNameEditable}
-                                        ref={(ref) => { this.FirstInput = ref; }}                                        underlineColorAndroid= 'transparent'
-                                        onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>                            
+                                        ref={(ref) => { this.FirstInput = ref; }}
+                                        underlineColorAndroid= 'transparent'
+                                        onBlur = { () => this.callUpdateName(this.state.firstNameInput)}
+                                        onChangeText={(firstNameInput) => this.validateFirstName(firstNameInput)}/>                            
                             <Icon
                                         containerStyle={newStyle.iconImageStyle}
                                         name='edit'
                                         type='font-awesome'
                                         color='#E73D50'
-                                        size = {20}                                        
-                                        onPress={ () => this.seteditable()  } />                                         
+                                        size = {20}    
+                                        onPress={ () => this.seteditable()  } />                
                             </View>
 
                             <Text style={newStyle.firstName}>Last Name</Text>
@@ -436,17 +460,19 @@ class PushToEarnProfile extends Component {
                                 style={ newStyle.nameInput}
                                 placeholder='last name'
                                 editable={true}
+                                onBlur = { () => this.callUpdateName(this.state.lastNameInput)}
                                 underlineColorAndroid= 'transparent'
-                                onChangeText= { (lastNameInput) => this.validationLastName({lastNameInput}) }/>
+                                onChangeText= { (lastNameInput) => this.validateLastName(lastNameInput) }/>
 
 
                             <Text style={newStyle.firstName}>Email Address</Text>
                             <TextInput
-                                style={ newStyle.nameInput}
+                                style={ newStyle.nameInput }
                                 placeholder='Email Address'
                                 editable={true}
                                 underlineColorAndroid= 'transparent'
-                                onChangeText= { (emailInput) => this.validationFirstName({emailInput}) }/>
+                                onBlur = { () => this.callUpdateName(this.state.emailInput)}
+                                onChangeText= { (emailInput) => this.validateEmail(emailInput) }/>
 
                             <Text style={newStyle.firstName}>Phone Number</Text>
                             <TextInput
@@ -454,7 +480,8 @@ class PushToEarnProfile extends Component {
                                 placeholder='Phone Number'
                                 editable={true}
                                 underlineColorAndroid= 'transparent'
-                                onChangeText= { (phoneNumberInput) => this.setState({phoneNumberInput}) }/>                                
+                                onBlur = { () => this.callUpdateName(this.state.phoneNumberInput)}
+                                onChangeText= { (phoneNumberInput) => this.validatePhoneNumber(phoneNumberInput) }/>    
 
                             <Text style={newStyle.firstName}>Password</Text>
                             <TextInput
@@ -462,7 +489,8 @@ class PushToEarnProfile extends Component {
                                 placeholder='Password'
                                 editable={true}
                                 underlineColorAndroid= 'transparent'
-                                onChangeText= { (passwordInput) => this.setState({passwordInput}) }/>
+                                onBlur = { () => this.callUpdateName(this.state.passwordInput)}
+                                onChangeText= { (passwordInput) => this.validatePassword(passwordInput) }/>
 
                             {/* <Text style={newStyle.firstName}>Card Details</Text>
                             <View style={newStyle.nameInput}
@@ -818,6 +846,7 @@ const mapStateToProps = state => {
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
       getProfile:(payload) => dispatch({ type: 'GET_PROFILE_REQUEST', payload }),
+      nameUpdate: (payload) => dispatch({ type: 'UPDATE_FIRST_NAME', payload })
     };
   };
   
