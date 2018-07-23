@@ -4,6 +4,9 @@ import { createReducer, createActions, Types as ReduxSauceTypes } from 'reduxsau
 const { Types, Creators } = createActions({
   getProfileRequest: ["payload"],
   updateFirstName:["payload"],
+  changePassword:["payload"],
+  changeMobile:["payload"],
+  verifyOtpMobile:["payload"],
   profileSuccess: ['user'],
   profileFailure: ['error'],
   userRegistered: ['user'],
@@ -40,6 +43,18 @@ export const newrequest = (state, { payload }) => {
     return { ...state, fetching: true, payload }
   }
 
+export const changePassword = (state, {payload}) => {
+    return { ...state, fetching: true, payload }
+}
+
+export const changeMobile = (state, {payload}) => {
+    return { ...state, fetching:true, payload }
+}
+
+export const verifyOtpMobile = (state, {payload}) => {
+    return { ...state, fetching:true, payload }
+}
+
 export const success = (state, {user}) => {
   return { ...state, user, fetching: false, }
 }
@@ -65,6 +80,9 @@ export const defaultHandler = (state) => {
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_PROFILE_REQUEST]: request,
   [Types.UPDATE_FIRST_NAME]: newrequest,
+  [Types.CHANGE_PASSWORD]: changePassword,
+  [Types.CHANGE_MOBILE]: changeMobile,
+  [Types.VERIFY_OTP_MOBILE]: verifyOtpMobile,
   [Types.PROFILE_SUCCESS]: success,
   [Types.PROFILE_FAILURE]: failure,
   [Types.USER_REGISTERED]: registered,

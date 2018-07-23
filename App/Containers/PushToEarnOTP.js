@@ -839,6 +839,7 @@ const mapStateToProps = state => {
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
       verifyOTP: (payload) => dispatch({ type: 'VERIFY_OTP', payload }),
+      verfifyMobileOTP: (payload) => dispatch({ type: 'VERIFY_OTP_MOBILE',payload}),
     };
   };
   

@@ -336,14 +336,37 @@ class PushToEarnProfile extends Component {
     callUpdateName = (name) => {
 
         let payload = {         
-            "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-22 08:18:12' ,'R' : 'er3rssf3dfd'}",
+            "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-23 08:18:12' ,'R' : 'er3rssf3dfd'}",
             "LoginAccessToken": "{'MobileUserEmail' : 'Balaji.sp@esteinternationalgroup.be.com','MobileUserName':'hello16','MobileUserID' : 12,'Approval':'True','LoginDate':'2018-07-03 08:18:12','LoginExpiryDate':'2018-08-02 08:18:12', 'RandomString' : 'fasdf13a'}",
             "NewFirstName": "kumar",
-            "NewLastName": "Somasundaram",
             "TestingMode":"Testing@JobFixers#09876"
         };
 
         this.props.nameUpdate(payload);
+    }
+
+    callUpdateLastName = (name) => {
+        let payload = {         
+            "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-23 08:18:12' ,'R' : 'er3rssf3dfd'}",
+            "LoginAccessToken": "{'MobileUserEmail' : 'Balaji.sp@esteinternationalgroup.be.com','MobileUserName':'hello16','MobileUserID' : 12,'Approval':'True','LoginDate':'2018-07-03 08:18:12','LoginExpiryDate':'2018-08-02 08:18:12', 'RandomString' : 'fasdf13a'}",
+            "NewLastName": name,
+            "TestingMode":"Testing@JobFixers#09876"
+        };
+
+        this.props.nameUpdate(payload);
+    }
+
+    changeMobile = (phoneNumber) => {
+
+        let payload = {             
+
+            "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-22 08:18:12' ,'R' : 'er3rssf3dfd'}",
+            "LoginAccessToken": "{'MobileUserEmail' : 'Balaji_sp@yahoo.com','MobileUserName':'Balaji Subbiah','MobileUserID' : 1,'Approval':'True','LoginDate':'2018-07-03 08:18:12','LoginExpiryDate':'2018-08-02 08:18:12', 'RandomString' : 'fasdf13a'}",
+            "NewMobileNumber": phoneNumber,
+            "TestingMode":"Testing@JobFixers#09876"
+        };
+
+        this.props.changeMobile(payload);
     }
 
     render() {
@@ -441,7 +464,7 @@ class PushToEarnProfile extends Component {
                             <TextInput
                                         style={ newStyle.nameInput }
                                         placeholder='first name'
-                                        editable={this.state.firstNameEditable}
+                                        editable={true}
                                         ref={(ref) => { this.FirstInput = ref; }}
                                         underlineColorAndroid= 'transparent'
                                         onBlur = { () => this.callUpdateName(this.state.firstNameInput)}
@@ -460,7 +483,7 @@ class PushToEarnProfile extends Component {
                                 style={ newStyle.nameInput}
                                 placeholder='last name'
                                 editable={true}
-                                onBlur = { () => this.callUpdateName(this.state.lastNameInput)}
+                                onBlur = { () => this.callUpdateLastName(this.state.lastNameInput)}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText= { (lastNameInput) => this.validateLastName(lastNameInput) }/>
 
@@ -480,7 +503,7 @@ class PushToEarnProfile extends Component {
                                 placeholder='Phone Number'
                                 editable={true}
                                 underlineColorAndroid= 'transparent'
-                                onBlur = { () => this.callUpdateName(this.state.phoneNumberInput)}
+                                onBlur = { () => this.changeMobile(this.state.phoneNumberInput)}
                                 onChangeText= { (phoneNumberInput) => this.validatePhoneNumber(phoneNumberInput) }/>    
 
                             <Text style={newStyle.firstName}>Password</Text>
@@ -846,7 +869,8 @@ const mapStateToProps = state => {
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
       getProfile:(payload) => dispatch({ type: 'GET_PROFILE_REQUEST', payload }),
-      nameUpdate: (payload) => dispatch({ type: 'UPDATE_FIRST_NAME', payload })
+      nameUpdate: (payload) => dispatch({ type: 'UPDATE_FIRST_NAME', payload }),
+      changeMobile: (payload) => dispatch({ type: 'CHANGE_MOBILE', payload }),
     };
   };
   

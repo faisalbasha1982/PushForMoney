@@ -82,6 +82,21 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
     api.post('/workflows/a23a19abad104ab1854363c6536802aa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=eLy-zN-st8ISnuzhGMyvqK7zKNKFqt0myhDf14achPw',body);
   };
 
+  const changePassword = (body) => {
+    api.setBaseURL('https://famobileutilityapiinterfacedev.azurewebsites.net');
+    api.post('/api/fnChangePassword?code=lyD3B1naoL9SLo01LEz2Gxc8YOCnk66K1JY3XR6aNoP8M8PsrKKVTw==',body);
+  };
+
+  const changeMobile = (body) => {
+    api.setBaseURL('https://famobileutilityapiinterfacedev.azurewebsites.net');
+    api.post('/api/fnMobileChangeMobileNumber?code=2mYXy92zbHwa2uO7H73ZCE1TS0/3vEIKcuBc/wucBeLywMCEgnJX0A==');
+  };
+  
+  const verifyOTPMobile = (body) => {
+    api.setBaseURL('https://prod-49.westeurope.logic.azure.com:443');
+    api.post('/workflows/19bdce4bb7d740f586a5f86bf9014efa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LU6WJJr0yUTzSFLdH9TXCBdYPVh6x3SMGegOPX0OTfA',body);
+  };
+
   const apiCall = (url,payload) => api.post(url,payload);
 
   const getRoot = () => api.get('')
@@ -105,6 +120,8 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
     api,
     addReferrals,
     cardDetailsRequest,
+    changePassword,
+    changeMobile,
     register,
     registerNew,
     setHeaders,
@@ -116,6 +133,7 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
     updateName,
     verifyOTP,
     verifyOTPFP,
+    verifyOTPMobile
   }
 }
 

@@ -22,7 +22,7 @@ import { LoginRequest } from './LoginSagas'
 import { RegisterRequest, RegisterRequestNew, OtpRequest,
          forgotPasswordRequest, forgotPasswordOTPRequest } 
 from './RegisterSagas'
-import { ProfileRequest, firstNameUpdate } from './ProfileSagas'
+import { ProfileRequest, firstNameUpdate,changePassword, changeMobile, verifyMobileOtpRequest,} from './ProfileSagas'
 import { cardDetailsRequest } from './CardDetailsSagas'
 
 /* ------------- API ------------- */
@@ -69,5 +69,13 @@ export default function * root () {
     //Card Details Saga
     takeLatest(CardDetailsTypes.CARD_DETAILS_REQUEST,cardDetailsRequest,api),
 
+    //Change Password
+    takeLatest(ProfileTypes.CHANGE_PASSWORD,changePassword,api),
+
+    //Change Mobile Number
+    takeLatest(ProfileTypes.CHANGE_MOBILE,changeMobile,api),
+
+    //Mobile 
+    takeLatest(ProfileTypes.VERIFY_OTP_MOBILE,verifyMobileOtpRequest,api),
    ])
 }
