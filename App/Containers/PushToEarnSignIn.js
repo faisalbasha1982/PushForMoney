@@ -84,7 +84,7 @@ class PushToEarnSignIn extends Component {
 
         this.state = {
             isLoggedIn: false,
-            language: 'NEDERLANDS',
+            language: 'ENGLISH',
             validation: false,
             renderValidate: false,
             usernameInput:'',
@@ -200,13 +200,29 @@ class PushToEarnSignIn extends Component {
 
     validateEmail = (text) => {
 
-        console.log(text);
+        console.log("email="+text);
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
-        if(reg.test(text) === false)
+        let nreg = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+        let pattern = /^[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+([A-Za-z0-9]{2,4}|museum)$/;
+
+
+        if(pattern.exec(text))
         {
             console.log("Email is Not Correct");
-            this.setState({ usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
-               return false;
+            // this.setState({ usernameInput: '', usernameEmptyError: false, EmptyErrorText: '' });
+            //    return false;
+
+               Alert.alert(
+                'Email is in Correct',
+                'Please fill in the Email in proper format',
+                [                      
+                    {
+                      text: 'OK', 
+                      onPress: () => console.log('Ask me later Pressed')
+                    },                      
+                ],
+                {cancelable: false}
+            );
         }
         else 
         {
@@ -428,11 +444,36 @@ class PushToEarnSignIn extends Component {
         console.log("username="+username);
         console.log("password="+password);
 
-        if(username === '' || password === '')
+        if(this.state.usernameInput === '' || this.state.passwordInput === '')
             {
-                if(username === '')
+                if(this.state.usernameInput === '')
                 {   
-                    // this.renderValidation();
+                    Alert.alert(
+                        'Username is Empty',
+                        'Fill in Username',
+                        [                      
+                            {
+                              text: 'Please fill in the Username Field *', 
+                              onPress: () => console.log('Ask me later Pressed')
+                            },                      
+                        ],
+                        {cancelable: false}
+                    );
+                }
+
+                if(this.state.passwordInput === '')
+                {
+                    Alert.alert(
+                        'Password is Empty',
+                        'Fill in Password',
+                        [                      
+                            {
+                              text: 'Please fill in the Password Field *', 
+                              onPress: () => console.log('Ask me later Pressed')
+                            },                      
+                        ],
+                        {cancelable: false}
+                    );
                 }
 
             }
@@ -445,15 +486,15 @@ class PushToEarnSignIn extends Component {
             //   Balaji@esteinternational.com
             //   hello4
         
-              let encrypted = this.aes(cAuthenticationData);
-              console.log('loginfunction Encrypted :' + encrypted);
+              let authEncrypted = this.aes(cAuthenticationData);
+              let loginDataEncrypted = this.aes("{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}");
+              console.log('loginfunction Encrypted :' + authEncrypted);
               console.log("{'U' :"+" '"+username+"',"+" 'P':"+"'"+password+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}");
               //encrypted.toString()
 
               let payload = JSON.stringify({
-                    "AuthenticationData": cAuthenticationData,
-                    "LoginData":  "{'U':"+"'"+username+"',"+" 'P':"+"'"+password+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}",
-                    "TestingMode": "Testing@JobFixers#09876",
+                    "AuthenticationData": authEncrypted.toString(),
+                    "LoginData": loginDataEncrypted.toString()
                 });
 
                 Alert.alert(
@@ -606,7 +647,9 @@ class PushToEarnSignIn extends Component {
                                 style={ newStyle.nameInput }
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
-                                onChangeText={(usernameInput) => this.validateEmail(usernameInput)}/>
+                                onChangeText = { (usernameInput) => this.setState({usernameInput}) }
+                                onBlur = { () => this.validateEmail(this.state.usernameInput) }
+                    />
                             
 
                     <Text style={newStyle.password}>Password</Text>
@@ -624,10 +667,10 @@ class PushToEarnSignIn extends Component {
                             onPress={() => { this.callLogin(); } }
                             activeOpacity={0.5}
                             style={{
-                                width: 330,
+                                width: 335,
                                 height: 57,
                                 marginBottom: 10,
-                                marginLeft: 40,
+                                marginLeft: 20,
                                 borderRadius: 8,
                                 backgroundColor: '#E73D50',
                                 marginTop: viewPortHeight / 30,            

@@ -54,7 +54,7 @@ export function * firstNameUpdate(api,action) {
         console.tron.log("response from api call ="+response);
         console.log("repsonse from api call="+response);
     
-        if (response.status === 200) {
+        if (response.Status === 200) {
             // const resp = path(['data', 'items'], response)[0];
             console.tron.log("response data=",response.data);
             const token = response.data.LoginAccessToken;
@@ -93,7 +93,7 @@ export function * changePassword(api,action)
         console.tron.log("response from api call ="+response);
         console.log("repsonse from api call="+response);
     
-        if (response.status === 200) {
+        if (response.Status === 200) {
             // const resp = path(['data', 'items'], response)[0];
             console.tron.log("response data=",response.data);
             const token = response.data.LoginAccessToken;
@@ -131,7 +131,7 @@ export function * changeMobile(api,action)
         console.tron.log("response from api call ="+response);
         console.log("repsonse from api call="+response);
     
-        if (response.status === 200) {
+        if (response.Status === 200) {
             // const resp = path(['data', 'items'], response)[0];
             console.tron.log("response data=",response.data);
             const token = response.data.LoginAccessToken;
@@ -169,7 +169,7 @@ export function * verifyMobileOtpRequest(api,action)
         console.tron.log("response from api call ="+response);
         console.log("repsonse from api call="+response);
     
-        if (response.status === 200) {
+        if (response.Status === 200) {
             // const resp = path(['data', 'items'], response)[0];
             console.tron.log("response data=",response.data);
             const token = response.data.LoginAccessToken;

@@ -32,6 +32,7 @@ import Validation from '../Components/ButtonValidation';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
+import { FriendSelectors } from '../Redux/FriendRedux';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -226,9 +227,14 @@ class PushToEarnFriendsOverview extends Component {
         //     this.setState({ language: nextProps.language });
         //     this.setText();
         // }
+
+        if(this.props != nextProps)
+            this.getFriendList();
     }
 
     componentDidMount() {
+
+        this.getFriendList();
         // console.log("language from props="+this.props.navigation.state.params.language);
         // console.log("default language="+this.state.language);
         // //cLanguage = this.props.navigation.state.params.language;
@@ -281,60 +287,60 @@ class PushToEarnFriendsOverview extends Component {
 
     }
 
-    renderValidation = () => {
 
-        //if(this.state.language === 'NEDERLANDS')
+    getFriendList = () => {
 
-        console.log("empty error text="+this.state.EmptyErrorText);
-        console.log("first Name Input="+this.state.firstNameInput);
-        console.log("phone Number Input="+this.state.phoneNumberInput);
+        let payload = {
 
-        let errorString = this.state.EmptyErrorText;
+            "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-23 6:54:12' ,'R' : 'er3rssf3dfd'}",
+            "LoginAccessToken": "{'MobileUserEmail' : 'Balaji.sp@esteinternationalgroup.be.com','MobileUserName':'hello16','MobileUserID' : 3,'Approval':'True','LoginDate':'2018-06-18 6:54:12','LoginExpiryDate':'2018-08-18 6:54:12', 'RandomString' : 'er3rssfd'}",
+            "TestingMode":"Testing@JobFixers#09876"
+        };
 
-        if(this.state.firstNameError===true || this.state.firstNameInput === '')
-            errorString = errorString + '\n' + this.state.firstNameErrorText;
+        this.props.friendRequest(payload);
 
-        // if(this.state.lastNameError===true)
-        //     errorString = errorString + '\n' + this.state.lastNameErrorText;
+        console.tron.log("referral=",this.props.referral);
 
-        if(this.state.phoneNumberError===true || this.state.phoneNumberInput==='')
-            errorString = errorString + '\n' + this.state.phoneNumberErrorText;
+        // this.props.referral.map(
             
-            console.log("errorString="+errorString);
-        
-            if(this.state.firstNameEmptyError === false  && this.state.phoneNumberEmptyError === false && this.state.firstNameError===false && this.state.lastNameError===false && this.state.phoneNumberError===false )
-                return (                        
-                    <View style={newStyle.validationStyle}> 
-                            <Validation
-                                objectParams = 
-                                {{
-                                    'btnText': errorString, 
-                                    'language': '',
-                                    'backgroundColor':'transparent'
-                                }} />
-                    </View>
-                );
-            else
-                return (                        
-                    <View style={newStyle.validationStyle}> 
-                            <Validation
-                                objectParams = 
-                                {{
-                                    'btnText': errorString, 
-                                    'language': '',
-                                    'backgroundColor': 'normal'
-                                }} />
-                    </View>
-            );
-        
+        //     (item,index) => {
 
-        
-        return;
+        //         <View key={index}>
+        //              <Text style={newStyle.firstName}>item.Name</Text>
+        //              <View style={newStyle.borderBottom}> </View>
+        //         </View>
 
-    }
+        //     }
 
-    func = (renderValidate,EmptyErrorText) => {
-      this.setState({renderValidate,EmptyErrorText});
+        // );
+
+        //array of object
+
+        // [
+        //     {
+        //         "MobileReferralID": 1,
+        //         "Name": "Balaji Subbiah",
+        //         "ReferredPersonStatus": "Pending",
+        //         "ReferralDateTime": "2018-05-17T10:33:45.92",
+        //         "FirstContractStartDate": "2017-12-05T00:00:00",
+        //         "ReferredMobileUserID": 3,
+        //         "Email": null,
+        //         "MobilePhone": "00971505642721",
+        //         "PostalCode": "2330",
+        //         "PersonID": 1,
+        //         "EmailVerifiedStatus": false,
+        //         "ReRequestCount": 0
+        //     }
+        // ]
+
+
+
+        return (
+            <View>
+                <Text style={newStyle.firstName}></Text>
+                <View style={newStyle.borderBottom}> </View>
+            </View>
+        );
     }
 
     render() {
@@ -425,10 +431,6 @@ class PushToEarnFriendsOverview extends Component {
                         </View>
 
                         <View style= {newStyle.inputContainer}>
-
-                            <Text style={newStyle.firstName}>Name LastName</Text>
-
-                            <View style={newStyle.borderBottom}> </View>
                                     
                             <Text style={newStyle.firstName}>Last Name</Text>
 
@@ -788,14 +790,16 @@ const newStyle = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
+        referral: FriendSelectors.getReferral(state)
     };
   };
   
   const mapDispatchToProps = dispatch => {
-    return {  
+    return {          
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
+      friendRequest: (payload) => dispatch({type: 'GET_FRIEND_REQUEST',payload}),
     };
   };
   

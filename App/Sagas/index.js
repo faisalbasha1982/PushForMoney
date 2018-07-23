@@ -12,6 +12,7 @@ import { GithubTypes } from '../Redux/GithubRedux'
 import { LoginTypes } from '../Redux/LoginRedux'
 import { RegisterTypes } from '../Redux/RegisterRedux'
 import { ProfileTypes } from '../Redux/ProfileRedux'
+import { FriendTypes } from '../Redux/FriendRedux'
 import { CardDetailsTypes } from '../Redux/CardDetailsRedux'
 
 /* ------------- Sagas ------------- */
@@ -24,6 +25,7 @@ import { RegisterRequest, RegisterRequestNew, OtpRequest,
 from './RegisterSagas'
 import { ProfileRequest, firstNameUpdate,changePassword, changeMobile, verifyMobileOtpRequest,} from './ProfileSagas'
 import { cardDetailsRequest } from './CardDetailsSagas'
+import { FriendRequest } from './FriendSagas'
 
 /* ------------- API ------------- */
 
@@ -77,5 +79,8 @@ export default function * root () {
 
     //Mobile 
     takeLatest(ProfileTypes.VERIFY_OTP_MOBILE,verifyMobileOtpRequest,api),
+
+    //Friend Request
+    takeLatest(FriendTypes.GET_FRIEND_REQUEST,FriendRequest,api)
    ])
 }

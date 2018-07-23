@@ -13,6 +13,7 @@ export const reducers = combineReducers({
   login: require('./LoginRedux').reducer,
   profile: require('./ProfileRedux').reducer,
   cardDetails: require("./CardDetailsRedux").reducer,
+  friend: require("./FriendRedux").reducer,
 })
 
 export default () => {
