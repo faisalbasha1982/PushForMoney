@@ -137,6 +137,8 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-rsa-util')
+    compile project(':react-native-rsa-native')
     compile project(':react-native-google-signin')
     compile project(':react-native-fbsdk')
     compile project(':react-native-twitter-signin')

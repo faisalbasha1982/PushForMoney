@@ -3,6 +3,8 @@ package com.pushformoney;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import cn.touna.reactnativersautil.ReactNativeRSAUtilPackage;
+import com.RNRSA.RNRSAPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.goldenowl.twittersignin.TwitterSigninPackage;
@@ -31,6 +33,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativeRSAUtilPackage(),
+            new RNRSAPackage(),
             new RNGoogleSigninPackage(),
             new FBSDKPackage(),
             new TwitterSigninPackage(),

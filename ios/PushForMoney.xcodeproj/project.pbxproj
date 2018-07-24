@@ -46,6 +46,7 @@
 		2DF0FFEE2056DD460020B375 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2F2EF5E9981E467F8ED4583B /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 849CB61C48F64FD4855D0828 /* Zocial.ttf */; };
 		2FC3D9028A274ACC8F921067 /* Barlow-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E64A1D22277B4233B45F44CD /* Barlow-BlackItalic.otf */; };
+		3250347221E1453DBCE67BDC /* libReactNativeRSAUtil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A93EEADCAE2947DA93057AD9 /* libReactNativeRSAUtil.a */; };
 		32ED8CD6743A4260AC4180E3 /* WorkSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FFD00AA23169496AB28BFC06 /* WorkSans-ExtraBold.ttf */; };
 		3680A4DE9CB34B3EA4997BA9 /* Barlow-ExtraLightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CC64407DDA7942FEB604C809 /* Barlow-ExtraLightItalic.otf */; };
 		38993C44DFBE456BBAC70C1B /* Roboto_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3D47765412D48EEA4AD7F79 /* Roboto_medium.ttf */; };
@@ -66,6 +67,7 @@
 		6215C1FC4B664F31883E9FD4 /* BarlowCondensed-SemiBoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = BD179F938A44496C87A65B6E /* BarlowCondensed-SemiBoldItalic.otf */; };
 		62415EA1A7BD4B1EAC01AB9D /* WorkSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 42F9C91124EA43D4B7F9D44A /* WorkSans-Light.ttf */; };
 		63F8ED8EE0D244DA899853F4 /* libRNDeviceInfo-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB846754F1A84A4786B42158 /* libRNDeviceInfo-tvOS.a */; };
+		6DCD5B8AA0884B57A48630E7 /* libRNRSA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3352F58FF13C4E74B796AEC5 /* libRNRSA.a */; };
 		6F81695E5FE74CAA92331D49 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA41D55E329343688AEAA4AD /* SimpleLineIcons.ttf */; };
 		73CF7C70B078438E94944A2C /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A8EBEEFBB9F4160A5E4AECF /* FontAwesome.ttf */; };
 		75D7297AE0E14C25A3D16D92 /* Barlow-SemiBoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 791299FA021049BBB00090C1 /* Barlow-SemiBoldItalic.otf */; };
@@ -416,6 +418,20 @@
 			remoteGlobalIDString = 9FD355121D3E4A2900D06170;
 			remoteInfo = RNGoogleSignin;
 		};
+		7BA690ED2106F73700A56807 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FF9C8B10665448078A65D7B8 /* RNRSA.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BF40FFBD1F05EC4000DC4E95;
+			remoteInfo = RNRSA;
+		};
+		7BA6914F2107515E00A56807 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5CDF534B0DCF4E499387B180 /* ReactNativeRSAUtil.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3F60CC131CEAFA360079DA9C;
+			remoteInfo = ReactNativeRSAUtil;
+		};
 		7BBBB17020F9D0130073AF21 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CB926471A22E4F09993E5932 /* ReactNativeConfig.xcodeproj */;
@@ -517,6 +533,7 @@
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D6BA4B94BEB47379592236D /* Barlow-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Black.otf"; path = "../assets/fonts/Barlow-Black.otf"; sourceTree = "<group>"; };
 		2F89F4281C67483AAC529342 /* BarlowCondensed-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowCondensed-Thin.otf"; path = "../assets/fonts/BarlowCondensed-Thin.otf"; sourceTree = "<group>"; };
+		3352F58FF13C4E74B796AEC5 /* libRNRSA.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNRSA.a; sourceTree = "<group>"; };
 		339D4658E05B4DDEA7198CBC /* BarlowSemiCondensed-BlackItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowSemiCondensed-BlackItalic.otf"; path = "../assets/fonts/BarlowSemiCondensed-BlackItalic.otf"; sourceTree = "<group>"; };
 		35CE786A0EF64250878DC7F8 /* BarlowSemiCondensed-SemiBoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowSemiCondensed-SemiBoldItalic.otf"; path = "../assets/fonts/BarlowSemiCondensed-SemiBoldItalic.otf"; sourceTree = "<group>"; };
 		36304ECECCFF4205B1A421A0 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
@@ -534,6 +551,7 @@
 		5A09D39911D149C1815D7694 /* BarlowCondensed-ExtraBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowCondensed-ExtraBold.otf"; path = "../assets/fonts/BarlowCondensed-ExtraBold.otf"; sourceTree = "<group>"; };
 		5BD35474B2A043D796BEDA3F /* BarlowSemiCondensed-ExtraBoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowSemiCondensed-ExtraBoldItalic.otf"; path = "../assets/fonts/BarlowSemiCondensed-ExtraBoldItalic.otf"; sourceTree = "<group>"; };
 		5BF6B698C6C145FAA0B4A798 /* SystemConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		5CDF534B0DCF4E499387B180 /* ReactNativeRSAUtil.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeRSAUtil.xcodeproj; path = "../node_modules/react-native-rsa-util/iOS/ReactNativeRSAUtil.xcodeproj"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		65325E937BB14DE08E16CF20 /* libRNTwitterSignIn.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNTwitterSignIn.a; sourceTree = "<group>"; };
 		6589370D4ADC4EB38290A9E0 /* WorkSans-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-Thin.ttf"; path = "../assets/fonts/WorkSans-Thin.ttf"; sourceTree = "<group>"; };
@@ -587,6 +605,7 @@
 		999DC86DBD73486FB3A71E8C /* Barlow-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Thin.otf"; path = "../assets/fonts/Barlow-Thin.otf"; sourceTree = "<group>"; };
 		A3EA03385EFF4EE0ABAF0E0B /* BarlowSemiCondensed-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowSemiCondensed-Black.otf"; path = "../assets/fonts/BarlowSemiCondensed-Black.otf"; sourceTree = "<group>"; };
 		A7592D8F2633477CB98132D5 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		A93EEADCAE2947DA93057AD9 /* libReactNativeRSAUtil.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeRSAUtil.a; sourceTree = "<group>"; };
 		AA41D55E329343688AEAA4AD /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/native-base/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		AD702F0959C14711B05EAA75 /* libReactNativeConfig.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeConfig.a; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
@@ -626,6 +645,7 @@
 		F9142C6A01A247CD92212AEC /* barlowcondensed-blackitalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "barlowcondensed-blackitalic.otf"; path = "../assets/fonts/barlowcondensed-blackitalic.otf"; sourceTree = "<group>"; };
 		FB846754F1A84A4786B42158 /* libRNDeviceInfo-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNDeviceInfo-tvOS.a"; sourceTree = "<group>"; };
 		FC8FBFD16D3348A09DAFAC5F /* libSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSplashScreen.a; sourceTree = "<group>"; };
+		FF9C8B10665448078A65D7B8 /* RNRSA.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNRSA.xcodeproj; path = "../node_modules/react-native-rsa-native/ios/RNRSA.xcodeproj"; sourceTree = "<group>"; };
 		FFD00AA23169496AB28BFC06 /* WorkSans-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-ExtraBold.ttf"; path = "../assets/fonts/WorkSans-ExtraBold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -679,6 +699,8 @@
 				03AA05B952B644338DE76F36 /* SafariServices.framework in Frameworks */,
 				12AEC714AB414F9894A28212 /* SystemConfiguration.framework in Frameworks */,
 				D3665B1B827B4E5CBA27B44D /* AddressBook.framework in Frameworks */,
+				6DCD5B8AA0884B57A48630E7 /* libRNRSA.a in Frameworks */,
+				3250347221E1453DBCE67BDC /* libReactNativeRSAUtil.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -955,6 +977,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		7BA690EA2106F73700A56807 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7BA690EE2106F73700A56807 /* libRNRSA.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7BA6914C2107515E00A56807 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7BA691502107515E00A56807 /* libReactNativeRSAUtil.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		7BBBB13C20F9D0120073AF21 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -967,6 +1005,8 @@
 				65325E937BB14DE08E16CF20 /* libRNTwitterSignIn.a */,
 				71F624134B53421DB9F2BDDF /* libRCTFBSDK.a */,
 				09518903CB934513AF2C8DC4 /* libRNGoogleSignin.a */,
+				3352F58FF13C4E74B796AEC5 /* libRNRSA.a */,
+				A93EEADCAE2947DA93057AD9 /* libReactNativeRSAUtil.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1042,6 +1082,8 @@
 				DD89506B730E40F1B7692E9E /* RNTwitterSignIn.xcodeproj */,
 				36304ECECCFF4205B1A421A0 /* RCTFBSDK.xcodeproj */,
 				7B3FADB390AF476C99AF84DA /* RNGoogleSignin.xcodeproj */,
+				FF9C8B10665448078A65D7B8 /* RNRSA.xcodeproj */,
+				5CDF534B0DCF4E499387B180 /* ReactNativeRSAUtil.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1277,12 +1319,20 @@
 					ProjectRef = CB926471A22E4F09993E5932 /* ReactNativeConfig.xcodeproj */;
 				},
 				{
+					ProductGroup = 7BA6914C2107515E00A56807 /* Products */;
+					ProjectRef = 5CDF534B0DCF4E499387B180 /* ReactNativeRSAUtil.xcodeproj */;
+				},
+				{
 					ProductGroup = 7BBBB16620F9D0130073AF21 /* Products */;
 					ProjectRef = 114151272EEA4FE09BD03B97 /* RNDeviceInfo.xcodeproj */;
 				},
 				{
 					ProductGroup = 7BA6900420FEFB6B00A56807 /* Products */;
 					ProjectRef = 7B3FADB390AF476C99AF84DA /* RNGoogleSignin.xcodeproj */;
+				},
+				{
+					ProductGroup = 7BA690EA2106F73700A56807 /* Products */;
+					ProjectRef = FF9C8B10665448078A65D7B8 /* RNRSA.xcodeproj */;
 				},
 				{
 					ProductGroup = 7BBBB21420FCBBB40073AF21 /* Products */;
@@ -1558,6 +1608,20 @@
 			fileType = archive.ar;
 			path = libRNGoogleSignin.a;
 			remoteRef = 7BA6903020FEFB6B00A56807 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7BA690EE2106F73700A56807 /* libRNRSA.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNRSA.a;
+			remoteRef = 7BA690ED2106F73700A56807 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7BA691502107515E00A56807 /* libReactNativeRSAUtil.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativeRSAUtil.a;
+			remoteRef = 7BA6914F2107515E00A56807 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		7BBBB17120F9D0130073AF21 /* libReactNativeConfig.a */ = {
@@ -1858,12 +1922,16 @@
 					"$(SRCROOT)/../node_modules/react-native-twitter-signin/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
+					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
+					"$(SRCROOT)/../node_modules/react-native-rsa-util/iOS/ReactNativeRSAUtil",
 				);
 				INFOPLIST_FILE = PushForMoneyTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1900,12 +1968,16 @@
 					"$(SRCROOT)/../node_modules/react-native-twitter-signin/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
+					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
+					"$(SRCROOT)/../node_modules/react-native-rsa-util/iOS/ReactNativeRSAUtil",
 				);
 				INFOPLIST_FILE = PushForMoneyTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1952,6 +2024,8 @@
 					"$(SRCROOT)/../node_modules/react-native-twitter-signin/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
+					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
+					"$(SRCROOT)/../node_modules/react-native-rsa-util/iOS/ReactNativeRSAUtil",
 				);
 				INFOPLIST_FILE = PushForMoney/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1992,6 +2066,8 @@
 					"$(SRCROOT)/../node_modules/react-native-twitter-signin/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
+					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
+					"$(SRCROOT)/../node_modules/react-native-rsa-util/iOS/ReactNativeRSAUtil",
 				);
 				INFOPLIST_FILE = PushForMoney/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2028,11 +2104,15 @@
 					"$(SRCROOT)/../node_modules/react-native-twitter-signin/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
+					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
+					"$(SRCROOT)/../node_modules/react-native-rsa-util/iOS/ReactNativeRSAUtil",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2077,11 +2157,15 @@
 					"$(SRCROOT)/../node_modules/react-native-twitter-signin/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
+					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
+					"$(SRCROOT)/../node_modules/react-native-rsa-util/iOS/ReactNativeRSAUtil",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2125,11 +2209,15 @@
 					"$(SRCROOT)/../node_modules/react-native-twitter-signin/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
+					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
+					"$(SRCROOT)/../node_modules/react-native-rsa-util/iOS/ReactNativeRSAUtil",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2173,11 +2261,15 @@
 					"$(SRCROOT)/../node_modules/react-native-twitter-signin/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
+					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
+					"$(SRCROOT)/../node_modules/react-native-rsa-util/iOS/ReactNativeRSAUtil",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

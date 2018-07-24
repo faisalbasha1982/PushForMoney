@@ -13,6 +13,7 @@ const Api_url = {
   signUpURLA: 'http://prod-54.westeurope.logic.azure.com:443/workflows/fad35cb3bf804958806170aab090f5fd/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PIqV4C0NMg6yGjaBeaOMl8oLM8DK8v8NilOL-4azW7A',
   signUpURLE: 'https://famobileutilityapiinterfacedev.azurewebsites.net',
   securityKey: 'VyhoMoGxi25xn/Tc',
+  rsaKey: '<RSAKeyValue><Modulus>0iFWNUIGY2Td+N3g/oIa1hUjHyZ2X9OcLhUtNlaa33nQuG8JKdfCAR5JGN2fa2RgOz018OU+HQTwPxKH9Lv0I6//B6JcClb6pr8wO6V6LYkWhnjADZc476TdqiD/jIPK3czKxbf2DWt2IXJqD+6aEEjRlH8u18bpXfSwXvtocsiuPKLwwfb0jMGsW2YuycoFKAYovuyXaAB4ra+ID6R2fH2CwGRlYxcGOsWEdhP7zFA0YwVwFLx96f/H43mz+AZisnwK/txXXQM4fcaLXXktZzSDwwanGbaYJe3o9SGACz607Q0v0mFMP8z9kyL3700TKyd35M5j2Qryk8OW3OVpLQ==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>',
   signUpLoginUrl: 'https://famobileutilityapiinterfacedev.azurewebsites.net',
   signUpLoginUrlNew: 'https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnMobileUserLogin?code=DbWj0tGuU5tWOY8vrtJih/iut9pAUkesWOFTuxnoCL0mDNPbmL3bfA==',
   otpURL: 'https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnOtpVerification?code=mZ7N5kRn1GS7jcRgB0CPAthEYoFf8jVdg7CtG9YhhNL1qj9FeRbePQ==',

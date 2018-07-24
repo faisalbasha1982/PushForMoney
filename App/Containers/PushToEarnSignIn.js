@@ -36,8 +36,12 @@ import ButtonLogin from '../Components/ButtonLogin';
 import CryptoJS from 'crypto-js';
 import utf8 from 'utf8';
 import Api from './Api';
+import ApiKey from '../Services/Api_url';
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
+import {RSA, RSAKeychain } from 'react-native-rsa-native';
+import ReactNativeRSAUtil from 'react-native-rsa-util';
 
+// import { RSAKey } from 'react-native-rsa';
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
 
@@ -195,25 +199,38 @@ class PushToEarnSignIn extends Component {
         if(password.length >= 6 && !password.includes(" "))
             this.setState({ passwordEmptyError: false, passwordInput: password, EmptyErrorText: '' });
         else
-            console.log("password incorrect---->"+password);
+            {
+                console.log("password incorrect---->"+password);
+
+                Alert.alert(
+                    'Password is Incorrect',
+                    'Password needs to be atleast 6 characters and no spaces',
+                    [                      
+                        {
+                          text: 'OK', 
+                          onPress: () => console.log('Ask me later Pressed')
+                        },                      
+                    ],
+                    {cancelable: false}
+                );
+            }
     }
 
     validateEmail = (text) => {
 
         console.log("email="+text);
-        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         let nreg = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
         let pattern = /^[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+([A-Za-z0-9]{2,4}|museum)$/;
 
-
-        if(pattern.exec(text))
+        if(reg.test(text) === false)
         {
             console.log("Email is Not Correct");
             // this.setState({ usernameInput: '', usernameEmptyError: false, EmptyErrorText: '' });
             //    return false;
 
                Alert.alert(
-                'Email is in Correct',
+                'Email is Incorrect',
                 'Please fill in the Email in proper format',
                 [                      
                     {
@@ -353,6 +370,117 @@ class PushToEarnSignIn extends Component {
        return rString;
      }
 
+     rsaGen = (content) => {
+
+        ReactNativeRSAUtil.encryptString(content,ApiKey.rsaKey, (error,data) => {
+                if( !error )
+                      console.log("encrypted data="+data);
+            }
+        );
+
+     }
+
+    rsa = (data) => {
+
+        let keyTag = ApiKey.rsaKey;
+        let secret = data;
+
+        try {
+
+            RSA.generateKeys(2048) // set key size
+            .then(keys => {
+              //console.log('4096 private:', keys.private) // the private key
+              //console.log('4096 public:', keys.public) // the public key
+            })
+
+            // RSA.encrypt(secret, keys.public)
+            //     .then(encodedMessage => {
+            //     //   RSA.decrypt(encodedMessage, keyTag)
+            //     //     .then(message => {
+            //     //       console.log("decrypt="+message);
+            //     //     });
+            //         console.log('encoded Message=',encodedMessage);
+            //       });
+          
+          RSA.generate()
+            .then(keys => {
+              
+              //console.log(keys.private) // the private key
+              //console.log(keys.public) // the public key
+        
+              RSA.encrypt(secret, keys.public)
+                .then(encodedMessage => {
+                //   RSA.decrypt(encodedMessage, keyTag)
+                //     .then(message => {
+                //       console.log("decrypt="+message);
+                //     });
+                    console.log('encoded Message=',encodedMessage);
+                  })
+          
+              RSA.sign(secret, keys.public)
+                .then(signature => {
+                  console.log(signature);
+          
+                  RSA.verify(signature, secret, keys.public)
+                    .then(valid => {
+                      console.log(valid);
+                    })
+                  })
+            })    
+          
+            // RSAKeychain.generate(keyTag)
+            // .then(keys => {
+
+            //   console.log("keyTag="+keyTag);
+            //   console.log("secret="+secret);
+          
+            //   RSAKeychain.encrypt(secret, keyTag)
+            //     .then(encodedMessage => {
+
+            //       console.log("encoded message="+encodedMessage);
+          
+            //     //   RSAKeychain.decrypt(encodedMessage, keyTag)
+            //     //     .then(message => {
+            //     //       console.log(message);
+            //     //     })
+            //     //   })
+            // })
+            // .then(() => {
+            // return RSAKeychain.sign(secret, keyTag)
+            //   .then(signature => {
+
+            //     console.log('signature', signature);
+          
+            //     RSAKeychain.verify(signature, secret, keyTag)
+            //       .then(valid => {
+            //         console.log('verified', valid);
+            //       })
+            //     })
+            // })
+            // .then(() => {
+            //   RSAKeychain.deletePrivateKey(keyTag)
+            //   .then( success => {
+            //     console.log('delete success', success)
+            //   })
+            // });
+
+        // RSAKeychain.encrypt(secret, keyTag)
+        //         .then(encodedMessage => {
+        //           console.log(encodedMessage);
+        //         });
+
+        // RSAKeychain.decrypt(encodedMessage, keyTag)
+        //             .then(message => {
+        //               console.log(message);
+        //             });
+                  
+
+        } catch (error) {
+            console.log('error=',error);
+        }
+       
+    }
+
     aes  = (authenticationData) => {
      
         const ivRandom = this.randomStringIV();
@@ -444,7 +572,7 @@ class PushToEarnSignIn extends Component {
         console.log("username="+username);
         console.log("password="+password);
 
-        if(this.state.usernameInput === '' || this.state.passwordInput === '')
+        if(this.state.usernameInput === '' || this.state.passwordInput === '' || this.state.passwordInput.length < 6)
             {
                 if(this.state.usernameInput === '')
                 {   
@@ -453,7 +581,7 @@ class PushToEarnSignIn extends Component {
                         'Fill in Username',
                         [                      
                             {
-                              text: 'Please fill in the Username Field *', 
+                              text: 'OK', 
                               onPress: () => console.log('Ask me later Pressed')
                             },                      
                         ],
@@ -468,12 +596,27 @@ class PushToEarnSignIn extends Component {
                         'Fill in Password',
                         [                      
                             {
-                              text: 'Please fill in the Password Field *', 
+                              text: 'OK', 
                               onPress: () => console.log('Ask me later Pressed')
                             },                      
                         ],
                         {cancelable: false}
                     );
+                }
+
+                if(this.state.passwordInput.length < 6 || !password.includes(" ") )
+                {
+                    Alert.alert(
+                        'Password Length is less than 6 and no spaces',
+                        'Password',
+                        [                      
+                            {
+                              text: 'OK', 
+                              onPress: () => console.log('Ask me later Pressed')
+                            },                      
+                        ],
+                        {cancelable: false}
+                    );    
                 }
 
             }
@@ -487,14 +630,15 @@ class PushToEarnSignIn extends Component {
             //   hello4
         
               let authEncrypted = this.aes(cAuthenticationData);
-              let loginDataEncrypted = this.aes("{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}");
+              let loginDataEncrypted = this.rsaGen("{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}");
               console.log('loginfunction Encrypted :' + authEncrypted);
-              console.log("{'U' :"+" '"+username+"',"+" 'P':"+"'"+password+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}");
+              console.log('loginData encrypted='+ loginDataEncrypted);
+              console.log("{'U' :"+" '"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}");
               //encrypted.toString()
 
               let payload = JSON.stringify({
-                    "AuthenticationData": authEncrypted.toString(),
-                    "LoginData": loginDataEncrypted.toString()
+                    "AuthenticationData": authEncrypted,
+                    "LoginData": loginDataEncrypted
                 });
 
                 Alert.alert(
@@ -585,7 +729,7 @@ class PushToEarnSignIn extends Component {
                                             size = {35}
                                             onPress={() => console.log('hello')} /> 
                                             <LinkedInModal
-                                                        linkText=''
+                                                        linkText='L'
                                                         clientID="81td97f0ibm93v"
                                                         clientSecret="RotJQJQRBbBoWG7l"
                                                         redirectUri="https://www.linkedin.com/developer/apps"
@@ -657,7 +801,8 @@ class PushToEarnSignIn extends Component {
                         style={ newStyle.nameInputPassword}
                         placeholder=''
                         underlineColorAndroid= 'transparent'
-                        onChangeText= { (passwordInput) => this.validatePassword(passwordInput) }/>
+                        onBlur = { () => this.validatePassword(this.state.passwordInput) }
+                        onChangeText= { (passwordInput) => this.setState({passwordInput}) }/>
 
                       <Text style={newStyle.forgotPassword}>Forgot Password?</Text>
 

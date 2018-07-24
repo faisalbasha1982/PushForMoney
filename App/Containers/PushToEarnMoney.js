@@ -496,7 +496,7 @@ class PushToEarnMoney extends Component {
                                     style={newStyle.iconStyle}>
                                 <Icon
                                     containerStyle={newStyle.iconImageStyle}
-                                    name='euro-sign'
+                                    name='euro'
                                     type='font-awesome'
                                     color='#E73D50'
                                     size = {20}
@@ -859,12 +859,12 @@ const newStyle = StyleSheet.create({
     totalText: {
         width: 280,
         height: 40,
-        fontFamily: 'WorkSans-Regular',
-        fontSize: 16,
-        fontWeight: '500',
-        fontStyle: 'normal',
-        letterSpacing: 0.67,
-        textAlign: 'left',
+        // fontFamily: "WorkSans-Regular",
+        // fontSize: 16,
+        // fontWeight: "500",
+        // fontStyle: "normal",
+        // letterSpacing: 0.67,
+        // textAlign: "left",
         flex: 2,
         marginTop: 10,
     },
