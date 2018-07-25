@@ -3,6 +3,7 @@ import { createReducer, createActions, Types as ReduxSauceTypes } from 'reduxsau
 
 const { Types, Creators } = createActions({
   loginRequest: ["payload"],
+  rsaRequest:["payload"],
   loginSuccess: ['user'],
   loginFailure: ['error'],
   userRegistered: ['user'],
@@ -18,7 +19,7 @@ export const INITIAL_STATE = {
   user: null,
   fetching: false,
   error: '',
-  payload: null
+  payload: null,
 }
 
 /* ------------- Selectors ------------- */
@@ -32,6 +33,10 @@ export const LoginSelectors = {
 /* ------------- Reducers ------------- */
 
 export const request = (state, { payload }) => {
+  return { ...state, fetching: true, payload }
+}
+
+export const rsarequest = (state, {payload}) => {
   return { ...state, fetching: true, payload }
 }
 
@@ -59,6 +64,7 @@ export const defaultHandler = (state) => {
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.LOGIN_REQUEST]: request,
+  [Types.RSA_REQUEST]:   rsarequest,
   [Types.LOGIN_SUCCESS]: success,
   [Types.LOGIN_FAILURE]: failure,
   [Types.USER_REGISTERED]: registered,

@@ -62,6 +62,7 @@ export const IMAGE_HEIGHT_SMALL = window.width /7;
 
 const { RNTwitterSignIn } = NativeModules;
 
+
 const Constants = {
     // Dev Parse keys
     TWITTER_COMSUMER_KEY: 'B9gQXS1YrrtH5Q9HDFl08MVVS',
@@ -74,7 +75,6 @@ const Constants = {
 let cLanguage = '';
 
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
 
 class PushToEarnSignIn extends Component {
 
@@ -100,6 +100,7 @@ class PushToEarnSignIn extends Component {
             EmptyErrorText:'',
             usernameEmptyError:false,
             passwordEmptyError:false,
+            encodedText: '',
         };    
     }
 
@@ -255,9 +256,12 @@ class PushToEarnSignIn extends Component {
         //     this.setState({ language: nextProps.language });
         //     this.setText();
         // }
+
+
     }
 
     componentDidMount() {
+
         // console.log("language from props="+this.props.navigation.state.params.language);
         // console.log("default language="+this.state.language);
         // this.setState({ language: this.props.navigation.state.params.language });
@@ -368,117 +372,128 @@ class PushToEarnSignIn extends Component {
              rString = rString + chars.substr(Math.random()*62,1);
      
        return rString;
-     }
+     }    
 
-     rsaGen = (content) => {
+     updateText = (encodedMessage) => {
+         
+        this.setState({encodedText: encodedMessage});
 
-        ReactNativeRSAUtil.encryptString(content,ApiKey.rsaKey, (error,data) => {
-                if( !error )
-                      console.log("encrypted data="+data);
-            }
-        );
-
-     }
+     } 
 
     rsa = (data) => {
 
-        let keyTag = ApiKey.rsaKey;
         let secret = data;
+        let encodedT ='';
 
-        try {
+        const privateKeyNew = 
+        "-----BEGIN RSA PRIVATE KEY-----\n"+
+        "MIIEpAIBAAKCAQEAsM/NEwCFn/Jci2ayfM+lYEY35fSa7S6JzMFNBnq8MHzxwR7D"+
+        "S4AcGWudORH39E3UGDlpVdCXlcaj+ivvdUIe6HhjhM4EfXp5cBo52ORLawETuHmS"+
+        "qfysNUtESxx3gWwHIIsgXhBMt+0ysHrfiYAylIKP+b1f9j4oCRwd4mX+eYUHhqMQ"+
+        "h3fu3vy82wce1K8N1XCjWC3ABMEUDB3bp+nQnW1ZWg7jVh/Cmk6yvRehgc29gyNB"+
+        "o5bkgp8Ha7dLIGc1mzv17uc6kQ3lS3FStqeGn0mdv6OQF1pQ2iOiTwTBWvU8hlJF"+
+        "+aVM72s5YYzTOzXKfrsEqtvCcFKwhajb1fRDZQIDAQABAoIBAASxZ0yPUXym1qz+"+
+        "i1NDwax2AKrSXMBZ4V91bAF1hYQ19Ma+9ckNu/EyyYgHwZCS9kO0VmboM/XOQXD0"+
+        "9JSkriRWebG/NCBOfWWr1Ig8uwG6lBbr5ygq5Dk/566ksUlWoDPNbY0Bmr+xBIzp"+
+        "ngBMzkrh0kd7Ls5e5Pok7Ggjc+cuxPHprhAZKtfufb7Rp/6nO+B9O2Wy9NGcYCBv"+
+        "XFI8xjDBqxaaiv8IbHe6UUKjJFrTGMIst2/NR43jo+W13JuIJ7nGAUXzCYjfQ2JO"+
+        "0JGfvjh/mCI7x2damj/quR8z9oihHSjOw//Cr10B/LgBXAR0jD9rY2pzLuKnttC5"+
+        "Set4vpsCgYEA2WhSVGyJ7mHoFWlDu3RLi0Q6qOlf1K3HOS+JokFgRXs7YADK9sUa"+
+        "AE3X4PJmpHlS17bH85FHoO5OykHQzcCbznHj7nXjDx1TUbWD/K/H5fZvkIj4s8nl"+
+        "ZkvvYf9u59FuMEdY/4CBSoB8aj5XOOS/n39RNQxemYfY8o0aA+H+G/cCgYEA0DKu"+
+        "CxgGqUbMvHGha2zdSadX/a5BcbHlzhX6BvsXDoz8pfAFNyt85FiQSAxqpJbyUBZ1"+
+        "tJJjX6nrKlkad5OiArq2blmyflJHFb71OktohHD0cu62+1XrAP7weWxYJravxWVS"+
+        "fOv6kDO4LRsahT8NWpyRyqOgECJMWElWmp5urIMCgYEAiIIGX9ge6z0yem80BjnJ"+
+        "TVKz+mc+ss3Cr9d3dhfSmQ39hBQ7XKL55oL6L9ZEOLWtHKE5/2eTMCsx8bFNqENu"+
+        "ETxVv97piQ4CyOVOUJUW0P/hoUE/17PHhGndjwzR2GEZ7Np/uT448Eyo0hT+s0x+"+
+        "PWm11bdEluZDhFiwowt9gJUCgYBs8she59C8jl8fEbtt0sct/tMt3h1DGNvv71Iq"+
+        "iwSyyZaAY0znZOtzNuExwsWfoZnlzQsFVkGIUwvL2lreTjROh1RmBKxCLF4khAwh"+
+        "2Eo2XEGfT0oT1g8nM0G12Lt8bscmXfI/iuFQyq/Lcs57AdbEHwCv8NYW+0vGO4KF"+
+        "YPj7bwKBgQCswX+t8pweGBy5d1LUr1+iEDCH8aW3Iq5Nyi/fwTvvAn2cQUP36Svi"+
+        "Cls2sSm61qi6INY8R19d0VbHc928CwXPhkih1nwU6Ncj7vqutbjEtElfHgJeot4B"+
+        "LZubRTknSNxpi1AxkRjvJNthAvRWgeg6vN/YJ+e78X1ASYY4V8owCA==\n"+
+        "-----END RSA PRIVATE KEY-----";
 
-            RSA.generateKeys(2048) // set key size
-            .then(keys => {
-              //console.log('4096 private:', keys.private) // the private key
-              //console.log('4096 public:', keys.public) // the public key
-            })
+        const publicKeyNew = 
+        "-----BEGIN RSA PUBLIC KEY-----\n"+
+        "MIIBCgKCAQEAsM/NEwCFn/Jci2ayfM+lYEY35fSa7S6JzMFNBnq8MHzxwR7DS4Ac"+
+        "GWudORH39E3UGDlpVdCXlcaj+ivvdUIe6HhjhM4EfXp5cBo52ORLawETuHmSqfys"+
+        "NUtESxx3gWwHIIsgXhBMt+0ysHrfiYAylIKP+b1f9j4oCRwd4mX+eYUHhqMQh3fu"+
+        "3vy82wce1K8N1XCjWC3ABMEUDB3bp+nQnW1ZWg7jVh/Cmk6yvRehgc29gyNBo5bk"+
+        "gp8Ha7dLIGc1mzv17uc6kQ3lS3FStqeGn0mdv6OQF1pQ2iOiTwTBWvU8hlJF+aVM"+
+        "72s5YYzTOzXKfrsEqtvCcFKwhajb1fRDZQIDAQAB\n"+
+        "-----END RSA PUBLIC KEY-----";
 
-            // RSA.encrypt(secret, keys.public)
-            //     .then(encodedMessage => {
-            //     //   RSA.decrypt(encodedMessage, keyTag)
-            //     //     .then(message => {
-            //     //       console.log("decrypt="+message);
-            //     //     });
-            //         console.log('encoded Message=',encodedMessage);
-            //       });
-          
-          RSA.generate()
-            .then(keys => {
-              
-              //console.log(keys.private) // the private key
-              //console.log(keys.public) // the public key
-        
-              RSA.encrypt(secret, keys.public)
-                .then(encodedMessage => {
-                //   RSA.decrypt(encodedMessage, keyTag)
-                //     .then(message => {
-                //       console.log("decrypt="+message);
-                //     });
-                    console.log('encoded Message=',encodedMessage);
-                  })
-          
-              RSA.sign(secret, keys.public)
-                .then(signature => {
-                  console.log(signature);
-          
-                  RSA.verify(signature, secret, keys.public)
-                    .then(valid => {
-                      console.log(valid);
-                    })
-                  })
-            })    
-          
-            // RSAKeychain.generate(keyTag)
-            // .then(keys => {
+        const privateKey = 
+        "-----BEGIN RSA PRIVATE KEY-----\n"+
+        "MIIEowIBAAKCAQEAuXMytO6R54GKgQkym94wvVIDJu4VPWrrwEnZVIgBqoPH7tJf"+
+        "FI29qScrR5kvTb+fQR89Vz/vBN8AyWxNmc0tAsvj3ukkpKTh2F3TXbMRrFULz2Od"+
+        "gP6xueQVQE0mZ3z3lTbIqQj/DHGMRm8c6CT+RBKzQhb/FlqqC4HPG9xCGBn+pqfY"+
+        "D9HoOgsY+/ugyx6A3En1cWtDcmOwoApM6s2UiYyioe+gu+psBOfErgeTkuRxYA28"+
+        "MOKhQ6IGNyLAUyKPBxNz1z8jMllVrqRBrpkAbyMRe+pjZdoMVH47hhzjNPQbEz6q"+
+        "wJT76w0XOEtUQlIyNJU5GQdK/pIXIIPlTpLmKwIDAQABAoIBAFgWqi1bbR7EX5/v"+
+        "WITFQ+2JuUmSqbAky5ro+Ty35eKy+hMtBlDjCwYAPwShdOC/dsweJKr/CXAM5XjH"+
+        "4wx9czXy12iY4fj7APQfjTjiyDBNrXBzZutRD+a2uolynB1oNMpB3Yq9ZTjp7rG+"+
+        "McLrX4PCRjfMaJqbsk4I+PHI6/Q6BLMmTXd4llwOJ0sblJTkPSxwzUqrRDxFvm78"+
+        "z8UWTQtR2n4E2e2ZKaB/iP3bSrFgWZw7QDIKPGlKTwBAQ+Z1UKzxlqtxEdM/AK55"+
+        "fhHfJDQIpfsIvoKFXyrCN1y/JbUlAiVSEbc/WngxSeBm9EMfAfJQTZz4gmPgq2WJ"+
+        "/EFKdeECgYEA8UdMOgN6Rb+p2yaVxwrC55thDtOjR+dlWdK+k7a1J4E2o+UXeIn3"+
+        "gw1Kw63HGnoVSDDflQ8KXI9VUTvAGWED5On8jDwLfwYHEW2jvm8cZU2VEBLpU4Bw"+
+        "Uvq2jpFT7OWjdx0HzB+Rv5ADQwGL+v94jW1i9U4mz595a/ss5SBW29kCgYEAxMPf"+
+        "6coLG4HkWOD4LvoH/0k/qWu6VyhLVr8f4rNUfWaN5odMPdHF+5aU+11XJi5phplw"+
+        "M31nDxLydYH+s5ZzJOwj+77cfmyfeFzg5ZMHQUEPejeXRxlOA1yhYrjlj11a4F6W"+
+        "Et7pM8YguQuyy0WvYdPK9fhzcUlDJBzsijpAY6MCgYEA2VsQaWa+nNznyHv/C9s+"+
+        "7+SC0BeKDXmATSXT9z/t/BOkRItZ1IX9inrL8nG3XrvCNlGI6UAuZmndQxvflz1V"+
+        "g7/iefaRqLGmZmXtz91KqFv2wA85ULbw+V/QW6jCATRySRjG8HU0GG1E8vUOxGOm"+
+        "l0mGj1QDFKEmgkc5D4RNmykCgYBABzU/0H1Y0CXMPjjEoJwlmGJc8S9L2VLawYrQ"+
+        "rGZcABlA4NoQa8ivG8sTGMaZKBUytY9rUe1NXG8Fie2l5tlFNIppCyyY/yPNePu9"+
+        "+OAtfcxZiulxO2zFb0kc5OnegxRlWqIfNeZQ8LIJRSNDPkPZ459x9w0p2hs9DyRx"+
+        "vo7hXQKBgDFdnQACX5NDSjOStEZK+pRh0jI4lQWBdCHG5Pd6Wmb6P3aFAfwaEYvk"+
+        "QA0J/2DdXPoN8Jm2Mm7rFrPWZ53yjcq4LmRfO2fFBHliqWDten7tWKdfLBe3Bh2Z"+
+        "N/NkqkZfDLfEXa3dJubEcqbOHYYyTxfyabAoQWn+AdaPkTXXhR5A\n"+
+        "-----END RSA PRIVATE KEY-----";
 
-            //   console.log("keyTag="+keyTag);
-            //   console.log("secret="+secret);
-          
-            //   RSAKeychain.encrypt(secret, keyTag)
-            //     .then(encodedMessage => {
+        const publicKey = "-----BEGIN RSA PUBLIC KEY-----\n"+ 
+        "MIIBCgKCAQEAuXMytO6R54GKgQkym94wvVIDJu4VPWrrwEnZVIgBqoPH7tJfFI29"
+        +"qScrR5kvTb+fQR89Vz/vBN8AyWxNmc0tAsvj3ukkpKTh2F3TXbMRrFULz2OdgP6x"
+        +"ueQVQE0mZ3z3lTbIqQj/DHGMRm8c6CT+RBKzQhb/FlqqC4HPG9xCGBn+pqfYD9Ho"
+        +"OgsY+/ugyx6A3En1cWtDcmOwoApM6s2UiYyioe+gu+psBOfErgeTkuRxYA28MOKh"
+        +"Q6IGNyLAUyKPBxNz1z8jMllVrqRBrpkAbyMRe+pjZdoMVH47hhzjNPQbEz6qwJT7"
+        +"6w0XOEtUQlIyNJU5GQdK/pIXIIPlTpLmKwIDAQAB\n"+
+        "-----END RSA PUBLIC KEY-----";
 
-            //       console.log("encoded message="+encodedMessage);
-          
-            //     //   RSAKeychain.decrypt(encodedMessage, keyTag)
-            //     //     .then(message => {
-            //     //       console.log(message);
-            //     //     })
-            //     //   })
-            // })
-            // .then(() => {
-            // return RSAKeychain.sign(secret, keyTag)
-            //   .then(signature => {
+        try {            
 
-            //     console.log('signature', signature);
-          
-            //     RSAKeychain.verify(signature, secret, keyTag)
-            //       .then(valid => {
-            //         console.log('verified', valid);
-            //       })
-            //     })
-            // })
-            // .then(() => {
-            //   RSAKeychain.deletePrivateKey(keyTag)
-            //   .then( success => {
-            //     console.log('delete success', success)
-            //   })
-            // });
+                RSA.encrypt(secret, publicKeyNew)
+                        .then(encodedMessage => {
 
-        // RSAKeychain.encrypt(secret, keyTag)
-        //         .then(encodedMessage => {
-        //           console.log(encodedMessage);
-        //         });
+                            // let payload = {
+                            //     "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-25 7:45:12' ,'R' : 'er3rssf3dfd'}",
+                            //     "StringToDecrypt": encodedMessage,
+                            //     "TestingMode":"Testing@JobFixers#09876"
+                            // };
 
-        // RSAKeychain.decrypt(encodedMessage, keyTag)
-        //             .then(message => {
-        //               console.log(message);
-        //             });
-                  
+                            //this.props.rsa(payload);
+
+                            encodedT = encodedMessage;
+
+                            console.log("publicKey="+publicKeyNew);
+                            console.log("privateKey="+privateKeyNew);
+
+                            console.log('encoded Message=',encodedMessage);
+
+                            RSA.decrypt(encodedMessage, privateKeyNew)
+                            .then(msg => {
+                            console.log("decrypt="+msg);
+                            });
+
+                        });                  
 
         } catch (error) {
             console.log('error=',error);
         }
        
+        return encodedT;
     }
 
     aes  = (authenticationData) => {
@@ -629,10 +644,10 @@ class PushToEarnSignIn extends Component {
             //   Balaji@esteinternational.com
             //   hello4
         
-              let authEncrypted = this.aes(cAuthenticationData);
-              let loginDataEncrypted = this.rsaGen("{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}");
+              let authEncrypted = this.aes(cAuthenticationData);              
+              let loginDataEncrypted = this.rsa("{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}");
               console.log('loginfunction Encrypted :' + authEncrypted);
-              console.log('loginData encrypted='+ loginDataEncrypted);
+              console.log('loginData encrypted='+ this.state.encodedText);
               console.log("{'U' :"+" '"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}");
               //encrypted.toString()
 
@@ -1155,9 +1170,10 @@ const mapStateToProps = state => {
   
   const mapDispatchToProps = dispatch => {
     return {
-      loginAction: ( payload ) => 
-        dispatch({ type: 'LOGIN_REQUEST', payload }),
-      
+      loginAction: ( payload ) => dispatch({ type: 'LOGIN_REQUEST', payload }),
+
+    //    rsa: (payload) => dispatch({type: 'RSA_REQUEST', payload}),
+             
        resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),

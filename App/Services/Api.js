@@ -101,6 +101,12 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
     api.post('/workflows/0604ad5d855444be85a5137166c67d25/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Lh0jJoxB6xqbZCq_j9xMONuPuBOMOl_F_oZrwIEBckY',body);
   }; 
 
+  
+  const rsa = (body) => {
+    api.setBaseURL('https://famobileutilityapiinterfacedev.azurewebsites.net');
+    api.post('/api/fnMobileRSADecrypt?code=9fbzZgqh85K4Je94JcDxqPGYIrYKNC4jKyaZaJz48ANuMmcdaX2zyw==',body);
+  }
+
   const apiCall = (url,payload) => api.post(url,payload);
 
   const getRoot = () => api.get('')
@@ -135,6 +141,7 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
     getUser,
     getProfile,
     getReferrals,
+    rsa,
     updateName,
     verifyOTP,
     verifyOTPFP,

@@ -19,7 +19,7 @@ import { CardDetailsTypes } from '../Redux/CardDetailsRedux'
 
 import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
-import { LoginRequest } from './LoginSagas'
+import { LoginRequest,rsaRequest } from './LoginSagas'
 import { RegisterRequest, RegisterRequestNew, OtpRequest,
          forgotPasswordRequest, forgotPasswordOTPRequest } 
 from './RegisterSagas'
@@ -81,6 +81,9 @@ export default function * root () {
     takeLatest(ProfileTypes.VERIFY_OTP_MOBILE,verifyMobileOtpRequest,api),
 
     //Friend Request
-    takeLatest(FriendTypes.GET_FRIEND_REQUEST,FriendRequest,api)
+    takeLatest(FriendTypes.GET_FRIEND_REQUEST,FriendRequest,api),
+
+    takeLatest(LoginTypes.RSA_REQUEST,rsaRequest,api),
+
    ])
 }

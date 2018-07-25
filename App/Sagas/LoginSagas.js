@@ -5,6 +5,25 @@ import Api from '../Services/Api';
 import LoginActions from '../Redux/LoginRedux';
 import * as NavigationService from '../Navigation/NavigationService';
 
+export function * rsaRequest(api,payload) {
+  try{
+
+    const response = yield call(api.rsa, payload.payload);
+
+    console.tron.log("response from api call =",response);
+
+    if (response.ok ) {
+      console.tron.log("response="+response.data.StatusCode);
+      console.tron.log("data="+response.data.Message);
+    }
+
+
+  }catch(error)
+  {
+
+  }
+}
+
 export function * LoginRequest(api,payload) {
   try{
 
