@@ -20,6 +20,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { NavigationActions } from "react-navigation";
 import LoginActions, { LoginSelectors } from "../Redux/LoginRedux";
+import RegisterActions, { RegisterSelectors } from "../Redux/RegisterRedux";
 import ButtonNext from '../Components/ButtonNext';
 import ButtonWelcome from '../Components/ButtonWelcome';
 import LanguageButton from '../Components/LanguageButton';
@@ -420,51 +421,315 @@ class PushToEarnSignUp extends Component {
         return currentDate+' '+fullTime;
       }
 
+      updateText = (encodedMessage) => {         
+
+        console.log("updateText=",encodedMessage);
+        this.setState({encodedText: encodedMessage, loginD: encodedMessage});
+        console.log("after setting state encodedText=",this.state.encodedText);
+
+     }
+
+    getLoginEncData = () => {
+
+        console.log("state encodedText=",this.state.encodedText);
+        console.log("state loginD=",this.state.loginD);
+        return this.state.encodedText;
+
+    }
+
+    rsa = (data) => {
+
+        let secret = data;
+
+        var encodedT ="bDJxsO65xybMkjHgroG/xPDgj7mVNpdbNTJ1oreGzF1coMBxrAL7HneqkzGOxF/W"+
+        "QrSntpF6deb39KvalBrBLDxKwZgjoArnaCBPGEoRcIlCeXspvyWTsIIUjrorirIv"+
+        "6oLcmqxX91HJk4d/3wNA98lEfYEkAM1oGDLZIR3cRqe+sgDByder7tYoAYyXl8Z2"+
+        "jyJN8VBNhcWLtvqaj6BwitZh+H4bZjoKn4LiqQtuyiKKDonS2G7qBBrFNs+MAdeU"+
+        "ykDrGndhugO8asOFIzrqPKwbiL3KWqKaIn1GFHP96tUW+DZ75rSE/SczYRv4bYiO"+
+        "tesbLW82TJo/NpEXlsSGEQ==";
+
+        const privateKeyNew = 
+        "-----BEGIN RSA PRIVATE KEY-----\n"+
+        "MIIEpAIBAAKCAQEAsM/NEwCFn/Jci2ayfM+lYEY35fSa7S6JzMFNBnq8MHzxwR7D"+
+        "S4AcGWudORH39E3UGDlpVdCXlcaj+ivvdUIe6HhjhM4EfXp5cBo52ORLawETuHmS"+
+        "qfysNUtESxx3gWwHIIsgXhBMt+0ysHrfiYAylIKP+b1f9j4oCRwd4mX+eYUHhqMQ"+
+        "h3fu3vy82wce1K8N1XCjWC3ABMEUDB3bp+nQnW1ZWg7jVh/Cmk6yvRehgc29gyNB"+
+        "o5bkgp8Ha7dLIGc1mzv17uc6kQ3lS3FStqeGn0mdv6OQF1pQ2iOiTwTBWvU8hlJF"+
+        "+aVM72s5YYzTOzXKfrsEqtvCcFKwhajb1fRDZQIDAQABAoIBAASxZ0yPUXym1qz+"+
+        "i1NDwax2AKrSXMBZ4V91bAF1hYQ19Ma+9ckNu/EyyYgHwZCS9kO0VmboM/XOQXD0"+
+        "9JSkriRWebG/NCBOfWWr1Ig8uwG6lBbr5ygq5Dk/566ksUlWoDPNbY0Bmr+xBIzp"+
+        "ngBMzkrh0kd7Ls5e5Pok7Ggjc+cuxPHprhAZKtfufb7Rp/6nO+B9O2Wy9NGcYCBv"+
+        "XFI8xjDBqxaaiv8IbHe6UUKjJFrTGMIst2/NR43jo+W13JuIJ7nGAUXzCYjfQ2JO"+
+        "0JGfvjh/mCI7x2damj/quR8z9oihHSjOw//Cr10B/LgBXAR0jD9rY2pzLuKnttC5"+
+        "Set4vpsCgYEA2WhSVGyJ7mHoFWlDu3RLi0Q6qOlf1K3HOS+JokFgRXs7YADK9sUa"+
+        "AE3X4PJmpHlS17bH85FHoO5OykHQzcCbznHj7nXjDx1TUbWD/K/H5fZvkIj4s8nl"+
+        "ZkvvYf9u59FuMEdY/4CBSoB8aj5XOOS/n39RNQxemYfY8o0aA+H+G/cCgYEA0DKu"+
+        "CxgGqUbMvHGha2zdSadX/a5BcbHlzhX6BvsXDoz8pfAFNyt85FiQSAxqpJbyUBZ1"+
+        "tJJjX6nrKlkad5OiArq2blmyflJHFb71OktohHD0cu62+1XrAP7weWxYJravxWVS"+
+        "fOv6kDO4LRsahT8NWpyRyqOgECJMWElWmp5urIMCgYEAiIIGX9ge6z0yem80BjnJ"+
+        "TVKz+mc+ss3Cr9d3dhfSmQ39hBQ7XKL55oL6L9ZEOLWtHKE5/2eTMCsx8bFNqENu"+
+        "ETxVv97piQ4CyOVOUJUW0P/hoUE/17PHhGndjwzR2GEZ7Np/uT448Eyo0hT+s0x+"+
+        "PWm11bdEluZDhFiwowt9gJUCgYBs8she59C8jl8fEbtt0sct/tMt3h1DGNvv71Iq"+
+        "iwSyyZaAY0znZOtzNuExwsWfoZnlzQsFVkGIUwvL2lreTjROh1RmBKxCLF4khAwh"+
+        "2Eo2XEGfT0oT1g8nM0G12Lt8bscmXfI/iuFQyq/Lcs57AdbEHwCv8NYW+0vGO4KF"+
+        "YPj7bwKBgQCswX+t8pweGBy5d1LUr1+iEDCH8aW3Iq5Nyi/fwTvvAn2cQUP36Svi"+
+        "Cls2sSm61qi6INY8R19d0VbHc928CwXPhkih1nwU6Ncj7vqutbjEtElfHgJeot4B"+
+        "LZubRTknSNxpi1AxkRjvJNthAvRWgeg6vN/YJ+e78X1ASYY4V8owCA==\n"+
+        "-----END RSA PRIVATE KEY-----";
+
+        const publicKeyNew = 
+        "-----BEGIN RSA PUBLIC KEY-----\n"+
+        "MIIBCgKCAQEAsM/NEwCFn/Jci2ayfM+lYEY35fSa7S6JzMFNBnq8MHzxwR7DS4Ac"+
+        "GWudORH39E3UGDlpVdCXlcaj+ivvdUIe6HhjhM4EfXp5cBo52ORLawETuHmSqfys"+
+        "NUtESxx3gWwHIIsgXhBMt+0ysHrfiYAylIKP+b1f9j4oCRwd4mX+eYUHhqMQh3fu"+
+        "3vy82wce1K8N1XCjWC3ABMEUDB3bp+nQnW1ZWg7jVh/Cmk6yvRehgc29gyNBo5bk"+
+        "gp8Ha7dLIGc1mzv17uc6kQ3lS3FStqeGn0mdv6OQF1pQ2iOiTwTBWvU8hlJF+aVM"+
+        "72s5YYzTOzXKfrsEqtvCcFKwhajb1fRDZQIDAQAB\n"+
+        "-----END RSA PUBLIC KEY-----";
+
+        const privateKey = 
+        "-----BEGIN RSA PRIVATE KEY-----\n"+
+        "MIIEowIBAAKCAQEAuXMytO6R54GKgQkym94wvVIDJu4VPWrrwEnZVIgBqoPH7tJf"+
+        "FI29qScrR5kvTb+fQR89Vz/vBN8AyWxNmc0tAsvj3ukkpKTh2F3TXbMRrFULz2Od"+
+        "gP6xueQVQE0mZ3z3lTbIqQj/DHGMRm8c6CT+RBKzQhb/FlqqC4HPG9xCGBn+pqfY"+
+        "D9HoOgsY+/ugyx6A3En1cWtDcmOwoApM6s2UiYyioe+gu+psBOfErgeTkuRxYA28"+
+        "MOKhQ6IGNyLAUyKPBxNz1z8jMllVrqRBrpkAbyMRe+pjZdoMVH47hhzjNPQbEz6q"+
+        "wJT76w0XOEtUQlIyNJU5GQdK/pIXIIPlTpLmKwIDAQABAoIBAFgWqi1bbR7EX5/v"+
+        "WITFQ+2JuUmSqbAky5ro+Ty35eKy+hMtBlDjCwYAPwShdOC/dsweJKr/CXAM5XjH"+
+        "4wx9czXy12iY4fj7APQfjTjiyDBNrXBzZutRD+a2uolynB1oNMpB3Yq9ZTjp7rG+"+
+        "McLrX4PCRjfMaJqbsk4I+PHI6/Q6BLMmTXd4llwOJ0sblJTkPSxwzUqrRDxFvm78"+
+        "z8UWTQtR2n4E2e2ZKaB/iP3bSrFgWZw7QDIKPGlKTwBAQ+Z1UKzxlqtxEdM/AK55"+
+        "fhHfJDQIpfsIvoKFXyrCN1y/JbUlAiVSEbc/WngxSeBm9EMfAfJQTZz4gmPgq2WJ"+
+        "/EFKdeECgYEA8UdMOgN6Rb+p2yaVxwrC55thDtOjR+dlWdK+k7a1J4E2o+UXeIn3"+
+        "gw1Kw63HGnoVSDDflQ8KXI9VUTvAGWED5On8jDwLfwYHEW2jvm8cZU2VEBLpU4Bw"+
+        "Uvq2jpFT7OWjdx0HzB+Rv5ADQwGL+v94jW1i9U4mz595a/ss5SBW29kCgYEAxMPf"+
+        "6coLG4HkWOD4LvoH/0k/qWu6VyhLVr8f4rNUfWaN5odMPdHF+5aU+11XJi5phplw"+
+        "M31nDxLydYH+s5ZzJOwj+77cfmyfeFzg5ZMHQUEPejeXRxlOA1yhYrjlj11a4F6W"+
+        "Et7pM8YguQuyy0WvYdPK9fhzcUlDJBzsijpAY6MCgYEA2VsQaWa+nNznyHv/C9s+"+
+        "7+SC0BeKDXmATSXT9z/t/BOkRItZ1IX9inrL8nG3XrvCNlGI6UAuZmndQxvflz1V"+
+        "g7/iefaRqLGmZmXtz91KqFv2wA85ULbw+V/QW6jCATRySRjG8HU0GG1E8vUOxGOm"+
+        "l0mGj1QDFKEmgkc5D4RNmykCgYBABzU/0H1Y0CXMPjjEoJwlmGJc8S9L2VLawYrQ"+
+        "rGZcABlA4NoQa8ivG8sTGMaZKBUytY9rUe1NXG8Fie2l5tlFNIppCyyY/yPNePu9"+
+        "+OAtfcxZiulxO2zFb0kc5OnegxRlWqIfNeZQ8LIJRSNDPkPZ459x9w0p2hs9DyRx"+
+        "vo7hXQKBgDFdnQACX5NDSjOStEZK+pRh0jI4lQWBdCHG5Pd6Wmb6P3aFAfwaEYvk"+
+        "QA0J/2DdXPoN8Jm2Mm7rFrPWZ53yjcq4LmRfO2fFBHliqWDten7tWKdfLBe3Bh2Z"+
+        "N/NkqkZfDLfEXa3dJubEcqbOHYYyTxfyabAoQWn+AdaPkTXXhR5A\n"+
+        "-----END RSA PRIVATE KEY-----";
+
+        const publicKey = "-----BEGIN RSA PUBLIC KEY-----\n"+ 
+        "MIIBCgKCAQEAuXMytO6R54GKgQkym94wvVIDJu4VPWrrwEnZVIgBqoPH7tJfFI29"
+        +"qScrR5kvTb+fQR89Vz/vBN8AyWxNmc0tAsvj3ukkpKTh2F3TXbMRrFULz2OdgP6x"
+        +"ueQVQE0mZ3z3lTbIqQj/DHGMRm8c6CT+RBKzQhb/FlqqC4HPG9xCGBn+pqfYD9Ho"
+        +"OgsY+/ugyx6A3En1cWtDcmOwoApM6s2UiYyioe+gu+psBOfErgeTkuRxYA28MOKh"
+        +"Q6IGNyLAUyKPBxNz1z8jMllVrqRBrpkAbyMRe+pjZdoMVH47hhzjNPQbEz6qwJT7"
+        +"6w0XOEtUQlIyNJU5GQdK/pIXIIPlTpLmKwIDAQAB\n"+
+        "-----END RSA PUBLIC KEY-----";
+
+        let that = this;
+
+        try {            
+
+                RSA.encrypt(secret, publicKeyNew)
+                        .then(encodedMessage => {
+
+                            encodedT = encodedMessage;
+
+                            console.log("publicKey="+publicKeyNew);
+                            console.log("privateKey="+privateKeyNew);
+
+                            that.updateText(encodedMessage);
+
+                            console.log('encoded Message stored =',encodedT);
+                            console.log('encoded Message=',encodedMessage);
+
+                            RSA.decrypt(encodedMessage, privateKeyNew)
+                            .then(msg => {
+                            console.log("decrypt="+msg);
+                            });
+
+                        });                  
+
+        } catch (error) {
+            console.log('error=',error);
+        }
+
+        //console.log("encoded message to return ="+this.state.encodedText);
+       
+        return this.getLoginEncData();
+    }
+
       callLogin = async () => {
 
-        let username = 'faisal@esteinternational.com';
-        let password = 'hello4';
-        let language = "nl";
+        let language = "en";
 
-        console.log("username="+username);
-        console.log("password="+password);
-
-        if(username === '' || password === '')
+        if(this.state.usernameInput === '' || this.state.cpasswordInput === '' || this.state.cpasswordInput.length < 6 ||  this.state.passwordInput === '' || this.state.passwordInput.length < 6)
             {
-                if(username === '')
+                if(this.state.usernameInput === '')
                 {   
-                    // this.renderValidation();
+                    Alert.alert(
+                        'Username is Empty',
+                        'Fill in Username',
+                        [                      
+                            {
+                              text: 'OK', 
+                              onPress: () => console.log('Ask me later Pressed')
+                            },                      
+                        ],
+                        {cancelable: false}
+                    );
+                }
+
+                if(this.state.passwordInput === '')
+                {
+                    Alert.alert(
+                        'Password is Empty',
+                        'Fill in Password',
+                        [                      
+                            {
+                              text: 'OK', 
+                              onPress: () => console.log('Ask me later Pressed')
+                            },                      
+                        ],
+                        {cancelable: false}
+                    );
+                }
+
+                if(this.state.passwordInput.length < 6 || !password.includes(" ") )
+                {
+                    Alert.alert(
+                        'Password Length is less than 6 and no spaces',
+                        'Password',
+                        [                      
+                            {
+                              text: 'OK', 
+                              onPress: () => console.log('Ask me later Pressed')
+                            },                      
+                        ],
+                        {cancelable: false}
+                    );    
+                }
+
+                if(this.state.cpasswordInput === '')
+                {
+                    Alert.alert(
+                        'Password is Empty',
+                        'Fill in Password',
+                        [                      
+                            {
+                              text: 'OK', 
+                              onPress: () => console.log('Ask me later Pressed')
+                            },                      
+                        ],
+                        {cancelable: false}
+                    );
+                }
+
+                if(this.state.cpasswordInput.length < 6 || !this.state.cpasswordInput.includes(" ") )
+                {
+                    Alert.alert(
+                        'Password Length is less than 6 and no spaces',
+                        'Password',
+                        [                      
+                            {
+                              text: 'OK', 
+                              onPress: () => console.log('Ask me later Pressed')
+                            },                      
+                        ],
+                        {cancelable: false}
+                    );    
                 }
 
             }
         else
            {
+
+            console.log('password sent='+this.state.cpasswordInput);
+
+            this.setState({isLoading: true});
+
+                if(this.state.cpasswordInput.length >= 6 && !this.state.cpasswordInput.includes(" ") &&
+                   this.state.cpasswordInput.length >= 6 && !this.state.cpasswordInput.includes(" "))
+                {
+                    //this.setState({ passwordEmptyError: false, passwordInput: password, EmptyErrorText: '' });
+                    this.validateEncrypt(this.state.cpasswordInput);
+                }
+                else
+                    {
+                        console.log("password incorrect---->"+this.state.cpasswordInput);
+
+                        Alert.alert(
+                            'Password is Incorrect',
+                            'Password needs to be atleast 6 characters and no spaces',
+                            [                      
+                                {
+                                text: 'OK', 
+                                onPress: () => console.log('Ask me later Pressed')
+                                },                      
+                            ],
+                            {cancelable: false}
+                        );
+                    }            
                
-              let cAuthenticationData = "{'Lang':"+" '"+language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
-              console.log("AuthenticationData:",cAuthenticationData);
+            //   let cAuthenticationData = "{'Lang':"+" '"+language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
+            //   console.log("AuthenticationData:",cAuthenticationData);
 
-            //   Balaji@esteinternational.com
-            //   hello4
+            //   let loginData = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";
         
-              let encrypted = this.aes(cAuthenticationData);
-              console.log('loginfunction Encrypted :' + encrypted);
-              console.log("{'U' :"+" '"+username+"',"+" 'P':"+"'"+password+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}");
-              //encrypted.toString()
+            //   let authEncrypted = this.aes(cAuthenticationData);              
+            //   let loginDataEncrypted = this.rsa(loginData);
 
-              let payload = JSON.stringify({
-                    "AuthenticationData": cAuthenticationData,
-                    "LoginData":  "{'U':"+"'"+username+"',"+" 'P':"+"'"+password+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}",
-                    "TestingMode": "Testing@JobFixers#09876",
-                    "SignupMode": true,
-                });
+            //   console.log('authentication Data Encrypted :' + authEncrypted);
+            //   console.log('login Data encrypted='+ loginDataEncrypted);
 
-              this.props.registerAction(payload);
+            setTimeout( () => {
+                if( this.state.encodedText !== ""  || this.state.cAuthenticationData !== "" )
+                {
+  
+                  let payload = JSON.stringify({
+                     
+                      "AuthenticationData": this.state.cAuthenticationData,
+                      "LoginData": this.state.encodedText,
+                      "SignupMode": true
+               
+                    });
+    
+                    this.props.registerAction(payload);
+                    
+                    this.setState({isLoading: false});
+                }
+                else
+                  console.log("loginData  or authentication Data is empty");
+            },6000);
 
-            }
+        }
 
     }
 
+    validatePassword = (password) => {
 
+        console.log('password sent='+password);
+
+        if(password.length >= 6 && !password.includes(" "))
+        {
+            this.setState({ passwordEmptyError: false, passwordInput: password, EmptyErrorText: '' });
+        }
+        else
+            {
+                console.log("password incorrect---->"+password);
+
+                Alert.alert(
+                    'Password is Incorrect',
+                    'Password needs to be atleast 6 characters and no spaces',
+                    [                      
+                        {
+                          text: 'OK', 
+                          onPress: () => console.log('Ask me later Pressed')
+                        },                      
+                    ],
+                    {cancelable: false}
+                );
+            }            
+    }
 
 
     func = (renderValidate,EmptyErrorText) => {
@@ -511,12 +776,13 @@ class PushToEarnSignUp extends Component {
                             width: 43,
                             height: 14,
                             marginTop:10,
+                            marginRight:30,
                             fontFamily: "WorkSans-Medium",
                             fontSize: 12,
                             fontWeight: "500",
                             fontStyle: "normal",
                             letterSpacing: 0.43,
-                            textAlign: "center",
+                            textAlign: "left",
                             color: "rgb(231, 61, 80)",
                             textDecorationLine: 'underline',
                         }}
@@ -615,38 +881,38 @@ class PushToEarnSignUp extends Component {
                                 style={ newStyle.nameInput }
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
-                                onChangeText={(usernameInput) => this.validateEmail(usernameInput)}/>
-                            
+                                onBlur = { () => this.validateEmail(this.state.usernameInput) }
+                                onChangeText={(usernameInput) => this.setState(usernameInput)}/>
 
                     <Text style={newStyle.password}>Password</Text>
                     <TextInput
                         style={ newStyle.nameInputPassword}
                         placeholder=''
                         underlineColorAndroid= 'transparent'
-                        onChangeText= { (passwordInput) => this.validatePassword(passwordInput) }/>
+                        onBlur = { () => this.validateEmail(this.state.usernameInput) }
+                        onChangeText= { (passwordInput) => this.setState(passwordInput) }/>
 
                     <Text style={newStyle.cpassword}>Password</Text>
                     <TextInput
                         style={ newStyle.nameInputPassword}
                         placeholder=''
                         underlineColorAndroid= 'transparent'
+                        onBlur = { () => this.validateEmail(this.state.usernameInput) }
                         onChangeText= { (cpasswordInput) => this.validatePassword(cpasswordInput) }/>
-
-
 
                     <View style={newStyle.endButtons}>
 
                      <TouchableOpacity
-                            onPress={() => { this.callLogin(); } }
+                            onPress={() => { this.callLogin(); }}
                             activeOpacity={0.5}
                             style={{
-                                width: 330,
+                                width: 340,
                                 height: 57,
                                 marginBottom: 10,
-                                marginLeft: 40,
+                                marginLeft: 20,
                                 borderRadius: 8,
                                 backgroundColor: '#E73D50',
-                                marginTop: viewPortHeight / 30,            
+                                marginTop: viewPortHeight / 130,            
                                 justifyContent: 'center',
                                 alignItems: 'center'
                             }}>
@@ -706,8 +972,6 @@ class PushToEarnSignUp extends Component {
                          initialCountry='be'
                          style= {newStyle.nameInput}
                          onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) } />
-
-
              </View>
 
             <View style={newStyle.endButtons}>
@@ -960,7 +1224,7 @@ const newStyle = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        fetching: LoginSelectors.getFetching(state),
+        fetching: RegisterSelectors.getFetching(state),
         userinfo: state.user,
     };
   };

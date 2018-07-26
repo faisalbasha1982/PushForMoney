@@ -15,6 +15,16 @@ import {
     findNodeHandle,
     NativeModules,
 } from 'react-native';
+import {
+    BallIndicator,
+    BarIndicator,
+    DotIndicator,
+    PacmanIndicator,
+    PulseIndicator,
+    SkypeIndicator,
+    UIActivityIndicator,
+    WaveIndicator,
+  } from 'react-native-indicators';
 import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -93,6 +103,7 @@ class PushToEarnSignIn extends Component {
             renderValidate: false,
             usernameInput:'',
             passwordInput:'',
+            isLoading:false,
             buttonText: 'LOGIN',
             usernameError:true,
             emailErrorText:'',     
@@ -101,6 +112,8 @@ class PushToEarnSignIn extends Component {
             usernameEmptyError:false,
             passwordEmptyError:false,
             encodedText: '',
+            cAuthenticationData:'',
+            loginD:'',
         };    
     }
 
@@ -198,7 +211,9 @@ class PushToEarnSignIn extends Component {
 
         console.log('password sent='+password);
         if(password.length >= 6 && !password.includes(" "))
+        {
             this.setState({ passwordEmptyError: false, passwordInput: password, EmptyErrorText: '' });
+        }
         else
             {
                 console.log("password incorrect---->"+password);
@@ -214,7 +229,8 @@ class PushToEarnSignIn extends Component {
                     ],
                     {cancelable: false}
                 );
-            }
+            }            
+
     }
 
     validateEmail = (text) => {
@@ -374,16 +390,32 @@ class PushToEarnSignIn extends Component {
        return rString;
      }    
 
-     updateText = (encodedMessage) => {
-         
-        this.setState({encodedText: encodedMessage});
+     updateText = (encodedMessage) => {         
 
-     } 
+        console.log("updateText=",encodedMessage);
+        this.setState({encodedText: encodedMessage, loginD: encodedMessage});
+        console.log("after setting state encodedText=",this.state.encodedText);
+
+     }
+
+    getLoginEncData = () => {
+
+        console.log("state encodedText=",this.state.encodedText);
+        console.log("state loginD=",this.state.loginD);
+        return this.state.encodedText;
+
+    }
 
     rsa = (data) => {
 
         let secret = data;
-        let encodedT ='';
+
+        var encodedT ="bDJxsO65xybMkjHgroG/xPDgj7mVNpdbNTJ1oreGzF1coMBxrAL7HneqkzGOxF/W"+
+        "QrSntpF6deb39KvalBrBLDxKwZgjoArnaCBPGEoRcIlCeXspvyWTsIIUjrorirIv"+
+        "6oLcmqxX91HJk4d/3wNA98lEfYEkAM1oGDLZIR3cRqe+sgDByder7tYoAYyXl8Z2"+
+        "jyJN8VBNhcWLtvqaj6BwitZh+H4bZjoKn4LiqQtuyiKKDonS2G7qBBrFNs+MAdeU"+
+        "ykDrGndhugO8asOFIzrqPKwbiL3KWqKaIn1GFHP96tUW+DZ75rSE/SczYRv4bYiO"+
+        "tesbLW82TJo/NpEXlsSGEQ==";
 
         const privateKeyNew = 
         "-----BEGIN RSA PRIVATE KEY-----\n"+
@@ -462,24 +494,21 @@ class PushToEarnSignIn extends Component {
         +"6w0XOEtUQlIyNJU5GQdK/pIXIIPlTpLmKwIDAQAB\n"+
         "-----END RSA PUBLIC KEY-----";
 
+        let that = this;
+
         try {            
 
                 RSA.encrypt(secret, publicKeyNew)
                         .then(encodedMessage => {
-
-                            // let payload = {
-                            //     "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-25 7:45:12' ,'R' : 'er3rssf3dfd'}",
-                            //     "StringToDecrypt": encodedMessage,
-                            //     "TestingMode":"Testing@JobFixers#09876"
-                            // };
-
-                            //this.props.rsa(payload);
 
                             encodedT = encodedMessage;
 
                             console.log("publicKey="+publicKeyNew);
                             console.log("privateKey="+privateKeyNew);
 
+                            that.updateText(encodedMessage);
+
+                            console.log('encoded Message stored =',encodedT);
                             console.log('encoded Message=',encodedMessage);
 
                             RSA.decrypt(encodedMessage, privateKeyNew)
@@ -492,8 +521,10 @@ class PushToEarnSignIn extends Component {
         } catch (error) {
             console.log('error=',error);
         }
+
+        //console.log("encoded message to return ="+this.state.encodedText);
        
-        return encodedT;
+        return this.getLoginEncData();
     }
 
     aes  = (authenticationData) => {
@@ -578,14 +609,53 @@ class PushToEarnSignIn extends Component {
         return currentDate+' '+fullTime;
       }
 
+    validateEncrypt = (password) => {
+
+        console.log("validate Encrypt");
+        if(this.state.usernameInput === '')
+            {
+                if(this.state.usernameInput === '')
+                {   
+                    Alert.alert(
+                        'Username is Empty',
+                        'Fill in Username',
+                        [
+                            {
+                              text: 'OK', 
+                              onPress: () => console.log('Ask me later Pressed')
+                            },                      
+                        ],
+                        {cancelable: false}
+                    );
+                }
+
+            }
+          else
+          {
+
+            let language = "en";
+            let cAuthenticationData = "{'Lang':"+" '"+language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
+            console.log("AuthenticationData:",cAuthenticationData);
+
+            let loginInfo = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";
+      
+            let authEncrypted = this.aes(cAuthenticationData);
+            this.rsa(loginInfo);
+
+            this.setState({ cAuthenticationData: authEncrypted,});
+
+            console.log('authentication Data Encrypted :' + authEncrypted);
+            console.log("Login Data encrypted is =",this.state.encodedText);
+          }
+    }
+
+    somethingElse = ()  => {
+
+    }
+
     callLogin = async () => {
 
-        let username = 'Balaji@esteinternational.com';
-        let password = 'hello4';
-        let language = "nl";
-
-        console.log("username="+username);
-        console.log("password="+password);
+        let language = "en";
 
         if(this.state.usernameInput === '' || this.state.passwordInput === '' || this.state.passwordInput.length < 6)
             {
@@ -637,39 +707,62 @@ class PushToEarnSignIn extends Component {
             }
         else
            {
+
+            console.log('password sent='+this.state.passwordInput);
+
+            this.setState({isLoading: true});
+
+                if(this.state.passwordInput.length >= 6 && !this.state.passwordInput.includes(" "))
+                {
+                    //this.setState({ passwordEmptyError: false, passwordInput: password, EmptyErrorText: '' });
+                    this.validateEncrypt(this.state.passwordInput);
+                }
+                else
+                    {
+                        console.log("password incorrect---->"+this.state.passwordInput);
+
+                        Alert.alert(
+                            'Password is Incorrect',
+                            'Password needs to be atleast 6 characters and no spaces',
+                            [                      
+                                {
+                                text: 'OK', 
+                                onPress: () => console.log('Ask me later Pressed')
+                                },                      
+                            ],
+                            {cancelable: false}
+                        );
+                    }            
                
-              let cAuthenticationData = "{'Lang':"+" '"+language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
-              console.log("AuthenticationData:",cAuthenticationData);
+            //   let cAuthenticationData = "{'Lang':"+" '"+language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
+            //   console.log("AuthenticationData:",cAuthenticationData);
 
-            //   Balaji@esteinternational.com
-            //   hello4
+            //   let loginData = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";
         
-              let authEncrypted = this.aes(cAuthenticationData);              
-              let loginDataEncrypted = this.rsa("{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}");
-              console.log('loginfunction Encrypted :' + authEncrypted);
-              console.log('loginData encrypted='+ this.state.encodedText);
-              console.log("{'U' :"+" '"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}");
-              //encrypted.toString()
+            //   let authEncrypted = this.aes(cAuthenticationData);              
+            //   let loginDataEncrypted = this.rsa(loginData);
 
-              let payload = JSON.stringify({
-                    "AuthenticationData": authEncrypted,
-                    "LoginData": loginDataEncrypted
-                });
+            //   console.log('authentication Data Encrypted :' + authEncrypted);
+            //   console.log('login Data encrypted='+ loginDataEncrypted);
 
-                Alert.alert(
-                    'Alert Title',
-                    'login start',
-                    [                      
-                        {
-                          text: 'Ask Me Later', 
-                          onPress: () => console.log('Ask me later Pressed')
-                        },                      
-                    ],
-                    {cancelable: false}
-                );
-              this.props.loginAction(payload);
+            setTimeout( () => {
+                if( this.state.encodedText !== ""  || this.state.cAuthenticationData !== "" )
+                {
+  
+                  let payload = JSON.stringify({
+                      "AuthenticationData": this.state.cAuthenticationData,
+                      "LoginData": this.state.encodedText
+                  });
+    
+                    this.props.loginAction(payload);
+                    
+                    this.setState({isLoading: false});
+                }
+                else
+                  console.log("loginData  or authentication Data is empty");
+            },6000);
 
-            }
+        }
 
     }
 
@@ -779,7 +872,7 @@ class PushToEarnSignIn extends Component {
                                             onPress={() => this.onGoogleButtonClick() } /> 
                                 </TouchableOpacity>
                         </View>
-               </View>
+               </View>                     
 
                   <View style= {{ flex:1, marginTop: 20}}>
                         <Text 
@@ -796,8 +889,15 @@ class PushToEarnSignIn extends Component {
                         color: "#353535"
                         }}>
                     or sign in with:
-                    </Text>
+                    </Text>                    
                 </View>                
+
+                  {
+                            this.state.isLoading===true?
+                            <View style = {{position: 'absolute' , zIndex:3999, left: 30, top: 0, right: 0, bottom: 0}}>
+                            <BallIndicator color='#e73d50' />
+                            </View>:this.somethingElse()
+                  }      
 
                 <View style={newStyle.inputContainer}>
                
@@ -809,7 +909,7 @@ class PushToEarnSignIn extends Component {
                                 onChangeText = { (usernameInput) => this.setState({usernameInput}) }
                                 onBlur = { () => this.validateEmail(this.state.usernameInput) }
                     />
-                            
+
 
                     <Text style={newStyle.password}>Password</Text>
                     <TextInput

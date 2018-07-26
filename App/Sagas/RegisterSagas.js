@@ -78,7 +78,7 @@ export function * RegisterRequest(api,payload) {
 
   console.tron.log("response from api call =",response);
 
-  if (response.status === 200) {
+  if (response.ok) {
     // const resp = path(['data', 'items'], response)[0];
     console.tron.log("response data=",response.data);
     const token = response.data.LoginAccessToken;
@@ -101,17 +101,22 @@ export function * RegisterRequest(api,payload) {
     else
         Alert.alert(
             'User already exists',
-            'Please Login',
+            ''+response.data.Message,
             [
-                { text: 'Please Login', onPress:() => console.log('user exists ask me later')}
+                { 
+                    text: 'Please Login', 
+                    onPress:() => console.log('user exists ask me later')
+                }
             ],
             {
                 cancelable: false
             }
         )        
 
-  } else {
-    yield put(RegisterActions.registerFailure())
+  } 
+  else 
+  {
+        yield put(RegisterActions.registerFailure())
   }
 }
 catch(error) {
