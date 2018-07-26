@@ -882,23 +882,23 @@ class PushToEarnSignUp extends Component {
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
                                 onBlur = { () => this.validateEmail(this.state.usernameInput) }
-                                onChangeText={(usernameInput) => this.setState(usernameInput)}/>
+                                onChangeText={(usernameInput) => this.setState({usernameInput})}/>
 
                     <Text style={newStyle.password}>Password</Text>
                     <TextInput
                         style={ newStyle.nameInputPassword}
                         placeholder=''
                         underlineColorAndroid= 'transparent'
-                        onBlur = { () => this.validateEmail(this.state.usernameInput) }
-                        onChangeText= { (passwordInput) => this.setState(passwordInput) }/>
+                        onBlur = { () => this.validatePassword(this.state.passwordInput) }
+                        onChangeText= { (passwordInput) => this.setState({passwordInput}) }/>
 
                     <Text style={newStyle.cpassword}>Password</Text>
                     <TextInput
                         style={ newStyle.nameInputPassword}
                         placeholder=''
                         underlineColorAndroid= 'transparent'
-                        onBlur = { () => this.validateEmail(this.state.usernameInput) }
-                        onChangeText= { (cpasswordInput) => this.validatePassword(cpasswordInput) }/>
+                        onBlur = { () => this.validatePassword(this.state.usernameInput) }
+                        onChangeText= { (cpasswordInput) => this.setState({cpasswordInput}) }/>
 
                     <View style={newStyle.endButtons}>
 
