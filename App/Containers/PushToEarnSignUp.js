@@ -38,6 +38,7 @@ import CryptoJS from 'crypto-js';
 import utf8 from 'utf8';
 import Api from './Api';
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
+import {RSA, RSAKeychain } from 'react-native-rsa-native';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -47,7 +48,7 @@ import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/page1.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { LoginManager } from 'react-native-fbsdk';
-import LinkedInModal from 'react-native-linkedin'
+import LinkedInModal from 'react-native-linkedin';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -69,7 +70,6 @@ const Constants = {
 // Styles
 
 let cLanguage = '';
-
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 
@@ -202,7 +202,7 @@ class PushToEarnSignUp extends Component {
 
     validateEmail = (text) => {
 
-        console.log(text);
+        console.log("email="+text);
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
         if(reg.test(text) === false)
         {
@@ -344,11 +344,13 @@ class PushToEarnSignUp extends Component {
         const ivRandom = this.randomStringIV();
       
         // var key = CryptoJS.enc.Utf8.parse('VyhoMoGxi25xn/Tc');
+
         var key = CryptoJS.enc.Utf8.parse(Api.securityKey);
         var iv = CryptoJS.enc.Utf8.parse(ivRandom.toString());
         const ivFirstPart = ivRandom.substr(0,8);
         const ivLastPart = ivRandom.substring(8);
-        console.log('first part='+ivFirstPart+ " Last part="+ivLastPart);
+        
+        //console.log('first part='+ivFirstPart+ " Last part="+ivLastPart);
       
         var encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(authenticationData), key,
             {
@@ -365,12 +367,12 @@ class PushToEarnSignUp extends Component {
             padding: CryptoJS.pad.Pkcs7
         });
       
-        console.log('Encrypted :' + encrypted);
-        console.log('Key :' + encrypted.key);
-        console.log('Salt :' + encrypted.salt);
-        console.log('iv :' + encrypted.iv);
-        console.log('Decrypted : ' + decrypted);
-        console.log('utf8 = ' + decrypted.toString(CryptoJS.enc.Utf8));
+        // console.log('Encrypted :' + encrypted);
+        // console.log('Key :' + encrypted.key);
+        // console.log('Salt :' + encrypted.salt);
+        // console.log('iv :' + encrypted.iv);
+        // console.log('Decrypted : ' + decrypted);
+        // console.log('utf8 = ' + decrypted.toString(CryptoJS.enc.Utf8));
       
         return ivFirstPart + encrypted.toString() + ivLastPart;
      }
@@ -534,17 +536,17 @@ class PushToEarnSignUp extends Component {
 
                             encodedT = encodedMessage;
 
-                            console.log("publicKey="+publicKeyNew);
-                            console.log("privateKey="+privateKeyNew);
+                            //console.log("publicKey="+publicKeyNew);
+                            //console.log("privateKey="+privateKeyNew);
 
                             that.updateText(encodedMessage);
 
-                            console.log('encoded Message stored =',encodedT);
-                            console.log('encoded Message=',encodedMessage);
+                            //console.log('encoded Message stored =',encodedT);
+                            //console.log('encoded Message=',encodedMessage);
 
                             RSA.decrypt(encodedMessage, privateKeyNew)
                             .then(msg => {
-                            console.log("decrypt="+msg);
+                                //console.log("decrypt="+msg);
                             });
 
                         });                  
@@ -558,9 +560,53 @@ class PushToEarnSignUp extends Component {
         return this.getLoginEncData();
     }
 
-      callLogin = async () => {
+    validateEncrypt = (password) => {
+
+        console.log("validate Encrypt");
+        if(this.state.usernameInput === '')
+            {
+                if(this.state.usernameInput === '')
+                {   
+                    Alert.alert(
+                        'Username is Empty',
+                        'Fill in Username',
+                        [
+                            {
+                              text: 'OK', 
+                              onPress: () => console.log('Ask me later Pressed')
+                            },                      
+                        ],
+                        {cancelable: false}
+                    );
+                }
+
+            }
+          else
+          {
+
+            let language = "en";
+            let cAuthenticationData = "{'Lang':"+" '"+language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
+            
+            //console.log("AuthenticationData:",cAuthenticationData);
+
+            let loginInfo = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";
+      
+            let authEncrypted = this.aes(cAuthenticationData);
+            this.rsa(loginInfo);
+
+            this.setState({ cAuthenticationData: authEncrypted,});
+
+            //console.log('authentication Data Encrypted :' + authEncrypted);
+            //console.log("Login Data encrypted is =",this.state.encodedText);
+          }
+    }
+
+      signUp = async () => {
 
         let language = "en";
+
+        console.log("signup field has value="+this.state.usernameInput);
+        console.log("password field has value="+this.state.passwordInput);
 
         if(this.state.usernameInput === '' || this.state.cpasswordInput === '' || this.state.cpasswordInput.length < 6 ||  this.state.passwordInput === '' || this.state.passwordInput.length < 6)
             {
@@ -594,7 +640,7 @@ class PushToEarnSignUp extends Component {
                     );
                 }
 
-                if(this.state.passwordInput.length < 6 || !password.includes(" ") )
+                if(this.state.passwordInput.length < 6 || !this.state.passwordInput.includes(" ") )
                 {
                     Alert.alert(
                         'Password Length is less than 6 and no spaces',
@@ -670,16 +716,17 @@ class PushToEarnSignUp extends Component {
                         );
                     }            
                
-            //   let cAuthenticationData = "{'Lang':"+" '"+language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
-            //   console.log("AuthenticationData:",cAuthenticationData);
+               let cAuthenticationData = "{'Lang':"+" '"+language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
+               //console.log("AuthenticationData:",cAuthenticationData);
 
-            //   let loginData = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";
+               let loginData = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";
         
-            //   let authEncrypted = this.aes(cAuthenticationData);              
-            //   let loginDataEncrypted = this.rsa(loginData);
+              let authEncrypted = this.aes(cAuthenticationData);              
+              let loginDataEncrypted = this.rsa(loginData);
 
-            //   console.log('authentication Data Encrypted :' + authEncrypted);
-            //   console.log('login Data encrypted='+ loginDataEncrypted);
+              console.log('authentication Data Encrypted to send --->' + authEncrypted);
+              console.log('login Data encrypted to send --->'+ loginDataEncrypted);
+            
 
             setTimeout( () => {
                 if( this.state.encodedText !== ""  || this.state.cAuthenticationData !== "" )
@@ -693,7 +740,7 @@ class PushToEarnSignUp extends Component {
                
                     });
     
-                    this.props.registerAction(payload);
+                    this.props.registerAction(payload, this.state.usernameInput,this.state.passwordInput);
                     
                     this.setState({isLoading: false});
                 }
@@ -897,13 +944,13 @@ class PushToEarnSignUp extends Component {
                         style={ newStyle.nameInputPassword}
                         placeholder=''
                         underlineColorAndroid= 'transparent'
-                        onBlur = { () => this.validatePassword(this.state.usernameInput) }
+                        onBlur = { () => this.validatePassword(this.state.cpasswordInput) }
                         onChangeText= { (cpasswordInput) => this.setState({cpasswordInput}) }/>
 
                     <View style={newStyle.endButtons}>
 
                      <TouchableOpacity
-                            onPress={() => { this.callLogin(); }}
+                            onPress={() => { this.signUp(); }}
                             activeOpacity={0.5}
                             style={{
                                 width: 340,
@@ -1224,21 +1271,19 @@ const newStyle = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        fetching: RegisterSelectors.getFetching(state),
-        userinfo: state.user,
+        // fetching: RegisterSelectors.getFetching(state),
+        userinfo: state.register.user,
     };
   };
   
   const mapDispatchToProps = dispatch => {
     return {
-        registerAction: ( payload ) => 
-        dispatch({ type: 'REGISTER_REQUEST', payload }),
-      
-       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
-      
-      navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
-      
-      navigateBack: () => this.props.navigation.goBack(),
+    
+    registerAction: ( payload,username,password ) => dispatch(RegisterActions.makeRegisterRequest(payload, username, password)),
+    resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
+    navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
+    navigateBack: () => this.props.navigation.goBack(),
+
     };
   };
   

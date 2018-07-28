@@ -21,7 +21,8 @@ import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
 import { LoginRequest,rsaRequest } from './LoginSagas'
 import { RegisterRequest, RegisterRequestNew, OtpRequest,
-         forgotPasswordRequest, forgotPasswordOTPRequest } 
+         forgotPasswordRequest, forgotPasswordOTPRequest,
+         makeRegisterRequest, } 
 from './RegisterSagas'
 import { ProfileRequest, firstNameUpdate,changePassword, changeMobile, verifyMobileOtpRequest,} from './ProfileSagas'
 import { cardDetailsRequest } from './CardDetailsSagas'
@@ -48,7 +49,7 @@ export default function * root () {
     takeLatest(LoginTypes.LOGIN_REQUEST, LoginRequest, api),
 
     // Register sagas
-    takeLatest(RegisterTypes.REGISTER_REQUEST, RegisterRequest, api),
+    takeLatest(RegisterTypes.MAKE_REGISTER_REQUEST, makeRegisterRequest, api),
 
     // Register sagas
     takeLatest(RegisterTypes.REGISTER_REQUEST_NEW, RegisterRequestNew,apiSignUp2),

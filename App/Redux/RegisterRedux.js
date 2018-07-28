@@ -3,9 +3,10 @@ import { createReducer, createActions, Types as ReduxSauceTypes } from "reduxsau
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
+  makeRegisterRequest: ["payload",'username','password'],
   registerRequest: ["payload"],
   registerRequestNew: ["payload"],
-  registerSuccess: null,
+  registerSuccess: ['user'],
   registerFailure: null,
   verifyOtp: ["payload"],
   verifyOtpFp: ["payload"],
@@ -20,12 +21,16 @@ export default Creators;
 export const INITIAL_STATE = {
   fetching: null,
   payload: null,
-  error: null
+  error: null,
+  user: null,
+  username: null,
+  password: null,
 };
 
 /* ------------- Selectors ------------- */
 
 export const RegisterSelectors = {
+  getUser: state => state["register"].user,
   getFetching: state => state["register"].fetching,
   getError: state => state["register"].error
 };
@@ -37,13 +42,18 @@ export const request = (state, { payload }) => {
   return {...state, fetching: true, payload }
 }
 
+export const makerequest = (state, action) => {
+  const { payload, username, password } = action
+  return {...state, fetching: true, payload, username, password }
+}
+
 // new request the data from an api
 export const newrequest = (state, { payload }) => {
   return {...state, fetching: true, payload }
 }
 
 // successful api lookup
-export const success = state => {
+export const success = (state, {user}) => {
   return { ...state,  fetching: false,};
 };
 
@@ -74,6 +84,7 @@ export const defaultHandler = (state) => {
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
+  [Types.MAKE_REGISTER_REQUEST]: makerequest,
   [Types.REGISTER_REQUEST]: request,
   [Types.REGISTER_REQUEST_NEW]: newrequest,
   [Types.REGISTER_SUCCESS]: success,

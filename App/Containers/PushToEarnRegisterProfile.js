@@ -58,7 +58,9 @@ let cLanguage = '';
 class PushToEarnRegisterProfile extends Component {
 
     static propTypes = {
-        language: PropTypes.string.isRequired
+        language: PropTypes.string.isRequired,
+        uname: PropTypes.string.isRequired,
+        pword: PropTypes.string.isRequired,
     }
 
     constructor(props)
@@ -75,6 +77,8 @@ class PushToEarnRegisterProfile extends Component {
             firstNameInput:'',
             lastNameInput:'',
             phoneNumberInput:'',
+            usernameInput:'',
+            passwordInput:'',
             buttonText: 'I\'M READY!',
             firstNameError:true,
             firstNameErrorText:'',            
@@ -231,9 +235,20 @@ class PushToEarnRegisterProfile extends Component {
         //     this.setState({ language: nextProps.language });
         //     this.setText();
         // }
+
+        if(nextProps != this.props)
+            {
+                console.log("usrname=",this.props.navigation.state.params.uname);
+                console.log("password=",this.props.navigation.state.params.pword);   
+                    }
+
     }
 
     componentDidMount() {
+
+        console.log("usrname=",this.props.navigation.state.params.uname);
+        console.log("password=",this.props.navigation.state.params.pword);   
+
         // console.log("language from props="+this.props.navigation.state.params.language);
         // console.log("default language="+this.state.language);
         // this.setState({ language: this.props.navigation.state.params.language });
@@ -285,6 +300,12 @@ class PushToEarnRegisterProfile extends Component {
 
     }
 
+    loadData = () => {
+        
+        this.setState({ usernameInput: this.props.uname, passwordInput: this.props.pword });
+
+    }
+
     callPrivateScreen = () => {
         //NavigationService.navigate('PushToEarnPrivatePolicy');
         this.props.navigation.navigate('PushToEarnPrivatePolicy');
@@ -293,6 +314,9 @@ class PushToEarnRegisterProfile extends Component {
 
     render() {
         const platform = Platform.OS;
+        const username = this.props.navigation.state.params.uname;
+        const password = this.props.navigation.state.params.pword;
+
         console.log("platform --->",Platform.OS);
         return (
 
@@ -329,49 +353,52 @@ class PushToEarnRegisterProfile extends Component {
 
                 <View style={newStyle.inputContainer}>
                
-                    <Text style={newStyle.firstName}>Email Address</Text>
+                    <Text style={newStyle.firstName}>First Name</Text>
                     <TextInput
                                 style={ newStyle.nameInput }
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
                             
-                    <Text style={newStyle.firstName}>Password</Text>
+                    <Text style={newStyle.firstName}>Last Name</Text>
                     <TextInput
                         style={ newStyle.nameInput}
                         placeholder=''
                         underlineColorAndroid= 'transparent'
                         onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
 
-                    <Text style={newStyle.firstName}>Password</Text>
+                    <Text style={newStyle.firstName}>Email Address</Text>
                     <TextInput
                         style={ newStyle.nameInput}
                         placeholder=''
+                        editable = {false}
                         underlineColorAndroid= 'transparent'
-                        onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
+                        value = { username }/>
 
-                    <Text style={newStyle.firstName}>Password</Text>
+                    <Text style={newStyle.firstName}>Phone Number</Text>
                     <TextInput
                         style={ newStyle.nameInput}
                         placeholder=''
                         underlineColorAndroid= 'transparent'
-                        onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
+                        onChangeText= { (phonenumberInput) => this.setState({phonenumberInput}) }/>
                     <Text style={newStyle.firstName}>Password</Text>
 
                     <TextInput
                         style={ newStyle.nameInput}
                         placeholder=''
+                        editable = {false}
                         underlineColorAndroid= 'transparent'
-                        onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
+                        value = { password } />
                 </View>
 
-                     {/* <TouchableOpacity
+                     <TouchableOpacity
                             onPress={() => { this.renderNothing(); } }
                             activeOpacity={0.5}
                             style={{
                                 width: 330,
-                                height: 57,
-                                marginBottom: 0,
+                                height: 50,
+                                marginTop: 20,
+                                marginBottom: 10,
                                 marginLeft: 0,
                                 borderRadius: 8,
                                 backgroundColor: '#E73D50',
@@ -393,7 +420,7 @@ class PushToEarnRegisterProfile extends Component {
                                     textAlign: 'center'}}
                             > {this.state.buttonText.toUpperCase()}</Text>
                         </TouchableOpacity>
-                    */}
+                   
  
             </KeyboardAwareScrollView>
 
@@ -424,9 +451,9 @@ const newStyle = StyleSheet.create({
     inputContainer: {
         backgroundColor: 'white',        
         marginTop: Platform.OS === 'ios'?25:10,
-        padding: 25,
+        padding: 10,
         marginLeft: 0,
-        flex: Platform.OS === 'ios'?60:1,
+        flex: Platform.OS === 'ios'?100:1,
         backgroundColor: 'transparent'
     },
 
@@ -481,10 +508,10 @@ const newStyle = StyleSheet.create({
 
     nameInput: {
         width: 334,
-        height: 57,
+        height: 50,
         borderRadius: 8,
         backgroundColor: '#f6f6f6',
-        marginBottom: 15,
+        marginBottom: 10,
         padding: 10,
     },
 
@@ -546,7 +573,8 @@ const newStyle = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        fetchingRegister: RegisterSelectors.getFetching(state)
+        fetchingRegister: RegisterSelectors.getFetching(state),
+        getUser: RegisterSelectors.getUser(state),
     };
   };
   
