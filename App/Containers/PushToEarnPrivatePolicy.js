@@ -92,15 +92,18 @@ class PushToEarnPrivatePolicy extends Component {
     }
 
 
-    callOTP = () => {
+    callOTP = (payload) => {
 
         // NavigationService.navigate('PushToEarnOTP');
-        let payload =    {
-			"AuthenticationData": "{'Lang': 'en', 'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-18 11:15:12' ,'R' : 'ssf3dfd'}",
-            "LoginData": "{ 'U' : 'rtasdfdaxxasasls@esteinternational.com','P':'hello4','D':'2018-07-18 11:15:12', 'R' : 'er3rssfd'}",
-            "SignUpData": "{ 'FName' : 'Balaji', 'LName' : 'Subbiah', 'Mob':'971505642343','Approval':'true','Device':'ios','D':'2018-07-18 11:15:12','R' : 'er3rssf3dfd'}",
-            "TestingMode":"Testing@JobFixers#09876"
-         };
+
+        // let payload =    {
+
+		// 	"AuthenticationData": "{'Lang': 'en', 'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-18 11:15:12' ,'R' : 'ssf3dfd'}",
+        //     "LoginData": "{ 'U' : 'rtasdfdaxxasasls@esteinternational.com','P':'hello4','D':'2018-07-18 11:15:12', 'R' : 'er3rssfd'}",
+        //     "SignUpData": "{ 'FName' : 'Balaji', 'LName' : 'Subbiah', 'Mob':'971505642343','Approval':'true','Device':'ios','D':'2018-07-18 11:15:12','R' : 'er3rssf3dfd'}",
+        //     "TestingMode":"Testing@JobFixers#09876"
+
+        //  };
             
         this.props.registerAction(payload);
     }
@@ -114,6 +117,8 @@ class PushToEarnPrivatePolicy extends Component {
    
     render() {
         const platform = Platform.OS;
+        const payload  = this.props.navigation.state.params.payload;
+
         console.log("platform --->",Platform.OS);
         return (
 
@@ -153,7 +158,7 @@ class PushToEarnPrivatePolicy extends Component {
                     <View style={newStyle.endButtons}>                
                 
                         <TouchableOpacity
-                            onPress={() => { this.callOTP(); } }
+                            onPress={() => { this.callOTP(payload); } }
                             activeOpacity={0.5}
                             style={{
                                 width: 150,

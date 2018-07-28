@@ -106,7 +106,7 @@ export function * makeRegisterRequest(api,action) {
           yield put(RegisterActions.registerSuccess(userinfo));
       
           if( statusCode === 200)
-              NavigationService.navigate('PushToEarnRegisterProfile',{uname: action.username, pword: action.password});
+              NavigationService.navigate('PushToEarnRegisterProfile',{uname: action.username, pword: action.password, payload: action.payload});
           else
               Alert.alert(
                   'User already exists',
