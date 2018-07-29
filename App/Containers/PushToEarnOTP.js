@@ -191,7 +191,7 @@ class PushToEarnOTP extends Component {
 
              let otpText = this.state.firstInput + this.state.secondInput + this.state.thirdInput + this.state.fourthInput;
 
-             let token = AsyncStorage.getItem("token");
+             let token = AsyncStorage.getItem('token');
 
              console.log("token="+token);
     
@@ -201,6 +201,7 @@ class PushToEarnOTP extends Component {
              console.tron.log("payload="+newpayload);
     
              this.props.verifyOTP(newpayload);
+             
          }
     }
 
