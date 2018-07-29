@@ -401,9 +401,25 @@ class PushToEarnRegisterProfile extends Component {
 
     callPrivateScreen = (payload) => {
 
+        let signUpData = "\"SignUpData\":" +"\""+this.aes("{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.state.phonenumberInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}") +"\"";
+
+        console.log("signUpData=",signUpData);
+
         console.log("encrypted signup data="+this.aes("{ 'FName' : "+this.state.firstNameInput+", 'LName' : "+this.state.lastNameInput+", 'Mob':"+this.state.phonenumberInput+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}"));
-        console.log("payload passed to private pplicy=",payload.SignUpData);
-        this.props.navigation.navigate('PushToEarnPrivatePolicy',{payload: payload});
+        console.log("payload passed to private policy=",payload);
+
+        let newPayload = payload.substring(1,payload.length-1);
+        console.log("newpayload="+newPayload);
+
+        let payloadArray = newPayload.split(",");
+        console.log("payloadArray="+payloadArray[0]);
+
+        let finalPayload = "{" + payloadArray[0] + "," + payloadArray[1] + "," + signUpData + "}";
+
+        console.log("finalPayload = "+finalPayload);
+
+        this.props.navigation.navigate('PushToEarnPrivatePolicy',{payload: finalPayload});
+
     }
 
 
@@ -412,7 +428,7 @@ class PushToEarnRegisterProfile extends Component {
         const platform = Platform.OS;
         const username = this.props.navigation.state.params.uname;
         const password = this.props.navigation.state.params.pword;
-        const payload  = this.props.navigation.state.params.payload;
+        let payload  = this.props.navigation.state.params.payload;
 
         console.log("platform --->",Platform.OS);
         return (

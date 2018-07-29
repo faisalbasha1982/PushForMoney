@@ -13,10 +13,11 @@ export function * RegisterRequestNew(api,payload) {
 
     try{
         // make the call to the api
-        console.log("api="+api);
-        const response = yield call(api.registerNew, payload.payload);
+        console.log("incoming payload="+payload.payload);
 
-        console.tron.log("response="+response.ok);
+        const response = yield call(api.signUp2, payload.payload);
+
+        console.log("response type=",response.ok);
 
         if(!response.ok)
         {
@@ -34,15 +35,26 @@ export function * RegisterRequestNew(api,payload) {
                 {
                     cancelable: false
                 }
-            )        
+            );
         }
         else      
-        if (response.data.StatusCode === 200) {
+        if (response.ok) {
 
           console.tron.log("response data=",response.data);
           const token = response.data.LoginAccessToken;
           const userinfo = response.data.userinfo;
           const statusCode = response.data.StatusCode;
+
+          Alert.alert(
+            'Signed in successfully',
+            response.data.Message,
+            [
+                { text: 'OK', onPress:() => console.log('user exists ask me later')}
+            ],
+            {
+                cancelable: false
+            }
+        );
       
           try {
                //Save token in Async Storage
@@ -56,10 +68,10 @@ export function * RegisterRequestNew(api,payload) {
           console.tron.log("login access token=",token);
 
           // do data conversion here if needed
-          yield put(RegisterActions.registerSuccess(userinfo));      
+          //yield put(RegisterActions.registerSuccess(userinfo));      
 
           //Navigate to OTP page
-          NavigationService.navigate('PushToEarnOTP');
+          NavigationService.navigate('PushToEarnOTP',{payload: payload.payload});
       
         } else {
           yield put(RegisterActions.registerFailure())

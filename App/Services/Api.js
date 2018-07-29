@@ -46,7 +46,6 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
  
   const registerNew = body => 
   {
-
     api.setBaseURL("https://prod-33.westeurope.logic.azure.com:443");
     console.tron.log("setting baseurl as ---> https://prod-33.westeurope.logic.azure.com:443");
     api.post("/workflows/323809c537374426ba02f3e2c3be43e8/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=IcTbqosnIfKjBYobByn5CbmrDhrghcZdiPkv58CJNSI",body);
@@ -54,7 +53,11 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
 
   const login = (payload) => api.post("/api/fnMobileUserLogin?code=zybwff3HRf2XC/mYhHJtcZOeG5vkCOJhJOsXKUgHNAYu8tiG9tH2kw==", payload);
 
-  const verifyOTP = body => api.post("/api/fnOtpVerification?code=mZ7N5kRn1GS7jcRgB0CPAthEYoFf8jVdg7CtG9YhhNL1qj9FeRbePQ==", body);
+  const verifyOTP = body => 
+  {
+    api.setBaseURL("https://prod-49.westeurope.logic.azure.com:443");
+    api.post("/workflows/19bdce4bb7d740f586a5f86bf9014efa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LU6WJJr0yUTzSFLdH9TXCBdYPVh6x3SMGegOPX0OTfA", body);
+  };
 
   const verifyOTPFP = (body) => {
     api.setBaseURL("https://prod-36.westeurope.logic.azure.com:443");

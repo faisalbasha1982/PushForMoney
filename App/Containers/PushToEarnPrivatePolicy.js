@@ -94,6 +94,30 @@ class PushToEarnPrivatePolicy extends Component {
 
     callOTP = (payload) => {
 
+        console.log("payload sent to private policy page=",payload);
+
+        let newPayload = payload.substring(1,payload.length-1);
+
+        console.log("newpayload=",newPayload);
+
+        let arraypayload = newPayload.split(",");
+
+        console.log("arraypayload 0 ="+arraypayload[0]);
+        console.log("arraypayload 1 ="+arraypayload[1]);
+        console.log("arraypayload 2 ="+arraypayload[2]);
+
+        const authCode   = arraypayload[0].split(":");
+        const loginCode  = arraypayload[1].split(":");
+        const signupCode = arraypayload[2].split(":");
+
+        let authString = authCode[1];
+        let loginString = loginCode[1];
+        let signupString = signupCode[1];
+
+        console.log("authCode 2   =",authCode[1]);
+        console.log("loginCode 2  =",loginCode[1]);
+        console.log("signupCode 2 =",signupCode[1]);
+
         // NavigationService.navigate('PushToEarnOTP');
 
         // let payload =    {
@@ -104,6 +128,14 @@ class PushToEarnPrivatePolicy extends Component {
         //     "TestingMode":"Testing@JobFixers#09876"
 
         //  };
+
+        let finalPayload = {
+            "AuthenticationData": authString.substring(1,authString.length-1),
+            "LoginData":loginString.substring(1,loginString.length-1),
+            "SignUpData": signupString.substring(1,signupString.length-1)
+        };
+
+        console.log("payload to pass=",finalPayload);
             
         this.props.registerAction(payload);
     }
@@ -188,7 +220,7 @@ class PushToEarnPrivatePolicy extends Component {
                         </TouchableOpacity>
 
                         <TouchableOpacity
-                            onPress={() => { this.callOTP(); } }
+                            onPress={() => { this.callOTP(payload); } }
                             activeOpacity={0.5}
                             style={{
                                 width: 150,
