@@ -721,11 +721,11 @@ class PushToEarnSignUp extends Component {
 
                let loginData = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";
         
-              let authEncrypted = this.aes(cAuthenticationData);              
-              let loginDataEncrypted = this.rsa(loginData);
+               let authEncrypted = this.aes(cAuthenticationData);              
+               let loginDataEncrypted = this.rsa(loginData);
 
-              console.log('authentication Data Encrypted to send --->' + authEncrypted);
-              console.log('login Data encrypted to send --->'+ loginDataEncrypted);
+               console.log('authentication Data Encrypted to send --->' + authEncrypted);
+               console.log('login Data encrypted to send --->'+ loginDataEncrypted);
             
 
             setTimeout( () => {
@@ -927,6 +927,7 @@ class PushToEarnSignUp extends Component {
                     <TextInput
                                 style={ newStyle.nameInput }
                                 placeholder=''
+                                autoCapitalize="none"
                                 underlineColorAndroid= 'transparent'
                                 onBlur = { () => this.validateEmail(this.state.usernameInput) }
                                 onChangeText={(usernameInput) => this.setState({usernameInput})}/>
@@ -935,6 +936,7 @@ class PushToEarnSignUp extends Component {
                     <TextInput
                         style={ newStyle.nameInputPassword}
                         placeholder=''
+                        autoCapitalize="none"
                         underlineColorAndroid= 'transparent'
                         onBlur = { () => this.validatePassword(this.state.passwordInput) }
                         onChangeText= { (passwordInput) => this.setState({passwordInput}) }/>
@@ -943,6 +945,7 @@ class PushToEarnSignUp extends Component {
                     <TextInput
                         style={ newStyle.nameInputPassword}
                         placeholder=''
+                        autoCapitalize="none"
                         underlineColorAndroid= 'transparent'
                         onBlur = { () => this.validatePassword(this.state.cpasswordInput) }
                         onChangeText= { (cpasswordInput) => this.setState({cpasswordInput}) }/>

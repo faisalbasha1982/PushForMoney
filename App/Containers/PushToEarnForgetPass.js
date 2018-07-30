@@ -31,6 +31,9 @@ import LanguageSettings from '../Containers/LanguageSettingsNew';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
 import ButtonLogin from '../Components/ButtonLogin';
+import CryptoJS from 'crypto-js';
+import utf8 from 'utf8';
+import Api from './Api';
 
 
 import { Colors } from "../Themes";
@@ -53,6 +56,8 @@ export const IMAGE_HEIGHT_SMALL = window.width /7;
 // Styles
 
 let cLanguage = '';
+
+const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 class PushToEarnForgetPass extends Component 
 {
@@ -101,12 +106,132 @@ class PushToEarnForgetPass extends Component
 
     }
 
+    validateEmail = (text) => {
+
+        console.log("email="+text);
+
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+        if(reg.test(text) === false)
+        {
+            console.log("Email is Not Correct");
+            this.setState({ usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
+               return false;
+        }
+        else 
+        {
+           this.setState({ usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
+           console.log("Email is Correct");
+        }
+
+    }
+
+    randomStringIV = () => {
+
+        let c = Math.random()*62;
+        let rString = chars.substr(c,1);
+     
+          for(i=0;i<15;i++)
+             rString = rString + chars.substr(Math.random()*62,1);
+     
+       return rString;
+     }    
+
+
+    getUTCDate = () => {
+        //2018-04-30 11:30:12
+    
+        var date, day, month, year;
+        var today = new Date();
+    
+        day = parseInt(today.getUTCDate())>10?today.getUTCDate():('0'+today.getUTCDate().toString());
+        month = parseInt(today.getUTCMonth()+1)>10?parseInt(today.getUTCMonth()+1):('0'+parseInt(today.getUTCMonth()+1));
+        year = today.getUTCFullYear().toString();
+    
+        // let currentDate = year + '-' + month>10?month:('0'+month) + '-' + day>10?day:('0'+day);
+        let currentDate = year + '-'+month+'-'+ day;
+    
+        // Creating variables to hold time.
+        var date, TimeType, hour, minutes, seconds, fullTime;
+        
+        // Getting current hour from Date object.
+        hour = today.getUTCHours(); 
+    
+        if(hour < 10)
+          hour = '0' + today.getUTCHours();
+    
+        // Getting the current minutes from date object.
+        minutes = today.getUTCMinutes();
+     
+        // // Checking if the minutes value is less then 10 then add 0 before minutes.
+        if(minutes < 10)
+          minutes = '0' + minutes.toString();
+     
+        //Getting current seconds from date object.
+        seconds = today.getUTCSeconds();
+     
+        // // If seconds value is less than 10 then add 0 before seconds.
+        if(seconds < 10)
+          seconds = '0' + seconds.toString();
+     
+        // Adding all the variables in fullTime variable.
+        fullTime = hour.toString() + ':' + minutes.toString() + ':' + seconds.toString();
+    
+        //var utcDate = new Date(Date.UTC(year,month-1,day,hour,minutes,seconds));
+       
+      //   Alert.alert('Day & Time UTC', currentDate+' '+fullTime);
+    
+        return currentDate+' '+fullTime;
+      }
+
+      aes  = (authenticationData) => {
+     
+        const ivRandom = this.randomStringIV();
+      
+        // var key = CryptoJS.enc.Utf8.parse('VyhoMoGxi25xn/Tc');
+        var key = CryptoJS.enc.Utf8.parse(Api.securityKey);
+        var iv = CryptoJS.enc.Utf8.parse(ivRandom.toString());
+        const ivFirstPart = ivRandom.substr(0,8);
+        const ivLastPart = ivRandom.substring(8);
+        console.log('first part='+ivFirstPart+ " Last part="+ivLastPart);
+      
+        var encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(authenticationData), key,
+            {
+                keySize: 256 / 8,
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            });
+      
+        var decrypted = CryptoJS.AES.decrypt(encrypted, key, {
+            keySize: 256 / 8,
+            iv: iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        });
+      
+        console.log('Encrypted :' + encrypted);
+        console.log('Key :' + encrypted.key);
+        console.log('Salt :' + encrypted.salt);
+        console.log('iv :' + encrypted.iv);
+        console.log('Decrypted : ' + decrypted);
+        console.log('utf8 = ' + decrypted.toString(CryptoJS.enc.Utf8));
+      
+        return ivFirstPart + encrypted.toString() + ivLastPart;
+     }
+
+
     forgetPasswordCall = () => {
 
+        console.log("email=",this.state.firstNameInput);
+
+        //"{'Lang': 'en', 'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-18 12:45:12' ,'R' : 'er3rssf3d'}"
+        let cAuthenticationData = "{'Lang':"+" '"+this.state.language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
         let payload = {
-            "AuthenticationData": "{'Lang': 'en', 'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-18 12:45:12' ,'R' : 'er3rssf3d'}",
-            "Email": "linktonaga@gmail.com",
-            "TestingMode":"Testing@JobFixers#09876"
+
+            "AuthenticationData":this.aes(cAuthenticationData),
+            "Email": this.state.firstNameInput,
+
         };
 
         this.props.forgetPassword(payload);
@@ -152,8 +277,9 @@ class PushToEarnForgetPass extends Component
                     <TextInput
                                 style={ newStyle.nameInput }
                                 placeholder=''
+                                autoCapitalize="none"
                                 underlineColorAndroid= 'transparent'
-                                onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
+                                onChangeText={(firstNameInput) => this.setState({firstNameInput})}/>
                             
                     <View style={newStyle.endButtons}>
 
@@ -164,7 +290,7 @@ class PushToEarnForgetPass extends Component
                                 width: 330,
                                 height: 57,
                                 marginBottom: 10,
-                                marginLeft: 40,
+                                marginLeft: 20,
                                 borderRadius: 8,
                                 backgroundColor: '#E73D50',
                                 marginTop: viewPortHeight / 110,            

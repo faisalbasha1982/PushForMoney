@@ -33,6 +33,9 @@ import PhoneInput from 'react-native-phone-input';
 import ButtonLogin from '../Components/ButtonLogin';
 import TimerCountdown from 'react-native-timer-countdown';
 import CountDown from 'react-native-countdown-component';
+import CryptoJS from 'crypto-js';
+import utf8 from 'utf8';
+import Api from './Api';
 
 
 import { Colors } from "../Themes";
@@ -56,6 +59,9 @@ export const IMAGE_HEIGHT_SMALL = window.width /7;
 
 let cLanguage = '';
 
+const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+
 class PushToEarnOTPForgetPass extends Component {
 
     static propTypes = {
@@ -68,7 +74,10 @@ class PushToEarnOTPForgetPass extends Component {
 
         this.state = {
             language: 'NEDERLANDS',
-            firstName:'',
+            firstInput:'',
+            secondInput:'',
+            thirdInput:'',
+            fourthInput:'',
             validation: false,
             renderValidate: false,
             passwordInput:'',
@@ -79,141 +88,38 @@ class PushToEarnOTPForgetPass extends Component {
             EmptyErrorText:'',
         };    
     }
+   
+    validateOTPText1 = (text) => {
 
-    validationLastName = (name) => {
+        var regExp = /^[A-Za-z0-9]+$/;
 
-        let reg = /^[a-zA-Z\s]+$/;
-
-        console.log("last name="+name);
-
-        if(name === '')
-        {
-            //this.setState({ lastNameError: true, ErrorText: 'Last Name is Required' });
-            this.setState({lastNameInput: ''});
-
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
-        else
-        {
-
-            if(reg.exec(name))
-            {
-              this.setState({ lastNameEmptyError: false, EmptyErrorText: '',lastNameError: false, lastNameInput: name,lastNameErrorText:'' });
-            }
-            else
-            {
-                console.log("found digits");
-              if(this.state.language === 'NEDERLANDS')
-                  this.setState({ lastNameEmptyError: false, lastNameError: true, lastNameErrorText: LanguageSettings.dutch.LNameErrorText });
-              else
-                  if(this.state.language === 'ENGLISH')
-                      this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.english.LNameErrorText });
-                  else
-                      this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.french.LNameErrorText });
-            }    
-        }    
-    } 
-
-    validationFirstName = (name) => {
-
-        let reg = /^[a-zA-Z\s]+$/;
-
-        console.log("validating First Name="+name);
-
-        if(name === '')
-        {
-            console.log("First name is empty="+name);
-            console.log("Language ="+this.state.language);
-            this.setState({firstNameInput: ''});
-            //this.setState({ firstNameError: true, ErrorText: 'First Name is Required' });
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
-        else
-        {
-            if(reg.exec(name))
-            {
-              this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: false, firstNameInput: name, firstNameErrorText:'' });
-            }
-            else
-            {
-              if(this.state.language === 'NEDERLANDS')
-                  this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.dutch.FNameErrorText });
-              else
-                  if(this.state.language === 'ENGLISH')
-                      this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.english.FNameErrorText });
-                  else
-                      this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.french.FNameErrorText });
-            }
-        }        
+        if(regExp.test(text) === true )
+            this.setState({ firstInput: text });
     }
 
-    validatePhone = (phone) => {
+    validateOTPText2 = (text) => {
 
-        console.log("phone="+phone);
+        var regExp = /^[A-Za-z0-9]+$/;
 
-        let phoneSub = phone.substring(1);
-
-        console.log("phone="+phoneSub);
-
-        let reg = /^[0-9]{12}$/;
-        let regNew = /^(?=(.*\d){10})(?!(.*\d){13})[\d\(\)\s+-]{10,}$/;
-
-        if(phone === '')
-        {
-            //this.setState({ phoneNumberError: true, ErrorText: 'Phone Number is Required' });
-            this.setState({phoneNumberInput: ''});
-
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
-        else
-        {
-            // home phone number belgium
-            let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
-            // mobile phone number belgium
-            let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
-    
-            this.phoneText = this.state.country;
-    
-            if (regNew.exec(phoneSub))
-              this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
-            else
-                if(this.state.language === 'NEDERLANDS')
-                    this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.dutch.TelephoneNumberError });
-                else
-                    if(this.state.language === 'ENGLISH')
-                        this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.english.TelephoneNumberError });
-                    else
-                        this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
-        }
-    
-        // if (homePhone.exec(phone))
-        //   this.setState({ phoneError: false, phone: phone });
-        // else
-        //   this.setState({ phoneError: true });
-    
+        if(regExp.test(text) === true )
+            this.setState({ secondInput: text });
     }
 
-    PhoneNumberPickerChanged = (country, callingCode, phoneNumber) => {
-        this.setState({countryName: country.name, callingCode: callingCode, phoneNo:phoneNumber});
-     }
+    validateOTPText3 = (text) => {
+
+        var regExp = /^[A-Za-z0-9]+$/;
+
+        if(regExp.test(text) === true )
+            this.setState({ thirdInput: text });
+    }
+
+    validateOTPText4 = (text) => {
+
+        var regExp = /^[A-Za-z0-9]+$/;
+
+        if(regExp.test(text) === true )
+            this.setState({ fourthInput: text });
+    }   
 
     componentWillReceiveProps(nextProps) {
         // console.log("in Form One screen language received="+nextProps.language);
@@ -325,24 +231,193 @@ class PushToEarnOTPForgetPass extends Component {
 
     }
 
-    callOTP = () => {
+    aes  = (authenticationData) => {
+     
+        const ivRandom = this.randomStringIV();
+      
+        // var key = CryptoJS.enc.Utf8.parse('VyhoMoGxi25xn/Tc');
+        var key = CryptoJS.enc.Utf8.parse(Api.securityKey);
+        var iv = CryptoJS.enc.Utf8.parse(ivRandom.toString());
+        const ivFirstPart = ivRandom.substr(0,8);
+        const ivLastPart = ivRandom.substring(8);
+        console.log('first part='+ivFirstPart+ " Last part="+ivLastPart);
+      
+        var encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(authenticationData), key,
+            {
+                keySize: 256 / 8,
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            });
+      
+        var decrypted = CryptoJS.AES.decrypt(encrypted, key, {
+            keySize: 256 / 8,
+            iv: iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        });
+      
+        console.log('Encrypted :' + encrypted);
+        console.log('Key :' + encrypted.key);
+        console.log('Salt :' + encrypted.salt);
+        console.log('iv :' + encrypted.iv);
+        console.log('Decrypted : ' + decrypted);
+        console.log('utf8 = ' + decrypted.toString(CryptoJS.enc.Utf8));
+      
+        return ivFirstPart + encrypted.toString() + ivLastPart;
+     }
 
-        console.tron.log("calling OTP....");
+    getUTCDate = () => {
+        //2018-04-30 11:30:12
+    
+        var date, day, month, year;
+        var today = new Date();
+    
+        day = parseInt(today.getUTCDate())>10?today.getUTCDate():('0'+today.getUTCDate().toString());
+        month = parseInt(today.getUTCMonth()+1)>10?parseInt(today.getUTCMonth()+1):('0'+parseInt(today.getUTCMonth()+1));
+        year = today.getUTCFullYear().toString();
+    
+        // let currentDate = year + '-' + month>10?month:('0'+month) + '-' + day>10?day:('0'+day);
+        let currentDate = year + '-'+month+'-'+ day;
+    
+        // Creating variables to hold time.
+        var date, TimeType, hour, minutes, seconds, fullTime;
+        
+        // Getting current hour from Date object.
+        hour = today.getUTCHours(); 
+    
+        if(hour < 10)
+          hour = '0' + today.getUTCHours();
+    
+        // Getting the current minutes from date object.
+        minutes = today.getUTCMinutes();
+     
+        // // Checking if the minutes value is less then 10 then add 0 before minutes.
+        if(minutes < 10)
+          minutes = '0' + minutes.toString();
+     
+        //Getting current seconds from date object.
+        seconds = today.getUTCSeconds();
+     
+        // // If seconds value is less than 10 then add 0 before seconds.
+        if(seconds < 10)
+          seconds = '0' + seconds.toString();
+     
+        // Adding all the variables in fullTime variable.
+        fullTime = hour.toString() + ':' + minutes.toString() + ':' + seconds.toString();
+    
+        //var utcDate = new Date(Date.UTC(year,month-1,day,hour,minutes,seconds));
+       
+      //   Alert.alert('Day & Time UTC', currentDate+' '+fullTime);
+    
+        return currentDate+' '+fullTime;
+      }
 
-        let payload = {
+    randomStringIV = () => {
 
-            "AuthenticationData": "{'Lang': 'en', 'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-19 8:45:12' ,'R' : 'er3rssf3d'}",            
-            "MobileUserId" : 1,            
-            "OTP" : "WSS2",            
-            "NewPassword" : "bALAJI@124$",            
-            "ConfirmPassword" : " bALAJI@124$",            
-            "TestingMode":"Testing@JobFixers#09876"            
+        let c = Math.random()*62;
+        let rString = chars.substr(c,1);
+     
+          for(i=0;i<15;i++)
+             rString = rString + chars.substr(Math.random()*62,1);
+     
+       return rString;
+     }
+
+     validatePassword = (password) => {
+
+        console.log('password sent='+password);
+        if(password.length >= 6 && !password.includes(" "))
+        {
+            this.setState({ passwordEmptyError: false, passwordInput: password, EmptyErrorText: '' });
+        }
+        else
+            {
+                console.log("password incorrect---->"+password);
+
+                // Alert.alert(
+                //     'Password is Incorrect',
+                //     'Password needs to be atleast 6 characters and no spaces',
+                //     [                      
+                //         {
+                //           text: 'OK', 
+                //           onPress: () => console.log('Ask me later Pressed')
+                //         },                      
+                //     ],
+                //     {cancelable: false}
+                // );
+            }            
+
+    }
+
+    validateConfirmPassword = (password) => {
+
+        console.log('password sent='+password);
+        if(password.length >= 6 && !password.includes(" "))
+        {
+            this.setState({ passwordEmptyError: false, confirmpasswordInput: password, EmptyErrorText: '' });
+        }
+        else
+            {
+                console.log("password incorrect---->"+password);
+
+                Alert.alert(
+                    'Password is Incorrect',
+                    'Password needs to be atleast 6 characters and no spaces',
+                    [                      
+                        {
+                          text: 'OK', 
+                          onPress: () => console.log('Ask me later Pressed')
+                        },                      
+                    ],
+                    {cancelable: false}
+                );
+            }            
+
+    }
+
+    callOTP = (mobileUserId) => {
+
+        console.log("password=",this.state.passwordInput);
+        console.log("confirm password=",this.state.confirmpasswordInput);
+
+        if(this.state.passwordInput === this.state.confirmpasswordInput)
+        {
+
+            console.tron.log("calling OTP....");
+            let otpString = this.state.firstInput + this.state.secondInput + this.state.thirdInput + this.state.fourthInput;
+
+            let cAuthenticationData = "{'Lang':"+" '"+this.state.language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
+
+            let payload = {
+
+                "AuthenticationData":this.aes(cAuthenticationData),
+                "MobileUserId" : mobileUserId,
+                "OTP" : otpString,
+                "NewPassword" : this.state.passwordInput,
+                "ConfirmPassword" : this.state.confirmpasswordInput,
+
             };
-            
 
-        console.tron.log("payload="+payload);
+                
+            console.tron.log("payload="+payload);
+            this.props.verifyOTPForgetPassword(payload);
 
-        this.props.verifyOTPForgetPassword(payload);
+        }
+        else
+        {
+
+            Alert.alert(
+                'Passwords MisMatch',
+                 'Please Input matching passwords',
+                [
+                    { text: 'Please Login', onPress:() => console.log('user exists ask me later')}
+                ],
+                {
+                    cancelable: false
+                }
+            );
+        }
     }
 
     func = (renderValidate,EmptyErrorText) => {
@@ -351,6 +426,7 @@ class PushToEarnOTPForgetPass extends Component {
 
     render() {
         const platform = Platform.OS;
+        const mobileUserId = this.props.navigation.state.params.mobileId;
         console.log("platform --->",Platform.OS);
         return (
 
@@ -417,24 +493,32 @@ class PushToEarnOTPForgetPass extends Component {
                     <TextInput
                                 style={ newStyle.otpInput }
                                 placeholder=''
+                                maxLength={1}
+                                autoCapitalize="none"
                                 underlineColorAndroid= 'transparent'
-                                onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
+                                onChangeText={(firstInput) => this.validateOTPText1(firstInput)}/>
 
                     <TextInput
                                 style={ newStyle.otpInput }
                                 placeholder=''
+                                maxLength={1}
+                                autoCapitalize="none"
                                 underlineColorAndroid= 'transparent'
-                                onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
+                                onChangeText={(secondInput) => this.validateOTPText2(secondInput)}/>
                     <TextInput
                                 style={ newStyle.otpInput }
                                 placeholder=''
+                                maxLength={1}
+                                autoCapitalize="none"
                                 underlineColorAndroid= 'transparent'
-                                onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
+                                onChangeText={(thirdInput) => this.validateOTPText3(thirdInput)}/>
                     <TextInput
                                 style={ newStyle.otpInput }
                                 placeholder=''
+                                maxLength={1}
+                                autoCapitalize="none"
                                 underlineColorAndroid= 'transparent'
-                                onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>                                                    
+                                onChangeText={(fourthInput) => this.validateOTPText4(fourthInput)}/>                                                    
                     </View>
 
                     <View style= {{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -447,6 +531,36 @@ class PushToEarnOTPForgetPass extends Component {
                                     timeToShow={ ['M','S'] }
                                     />
                     </View>
+
+                    <View style={{flex:1,justifyContent: 'center', alignItems: 'center' }}>
+
+                             <TouchableOpacity
+                            onPress={() => { this.resendOTP() } }
+                            activeOpacity={0.5}
+                            style={{
+                                width: 100,
+                                height: 30,
+                                backgroundColor: 'transparent',
+                                marginTop: viewPortHeight / 30,            
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}>
+                            <Text
+                                style={{
+                                    fontSize: 10,
+                                    width: 200,
+                                    height: 19,
+                                    fontFamily: 'WorkSans-Regular',
+                                    fontWeight: '500',
+                                    fontStyle: 'normal',
+                                    color: '#ffffff',
+                                    marginTop: 0,                
+                                    letterSpacing: 0.67,
+                                    textAlign: 'center'}}
+                            > {"Re-send OTP".toUpperCase()}</Text>
+                        </TouchableOpacity>
+
+                    </View>
                             
                     <View style={newStyle.endButtons}>
 
@@ -455,23 +569,23 @@ class PushToEarnOTPForgetPass extends Component {
                                 style={ newStyle.nameInput }
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
-                                onChangeText={(passwordInput) => this.validationFirstName(passwordInput)}/>
+                                onChangeText={(passwordInput) => this.validatePassword(passwordInput)}/>
 
                         <Text style={newStyle.firstName}>Confrm Password</Text>
                         <TextInput
                                 style={ newStyle.nameInput }
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
-                                onChangeText={(confirmpasswordInput) => this.validationFirstName(confirmpasswordInput)}/>
+                                onChangeText={(confirmpasswordInput) => this.validateConfirmPassword(confirmpasswordInput)}/>
 
                       <TouchableOpacity
-                            onPress={() => { this.callOTP() } }
+                            onPress={() => { this.callOTP(mobileUserId) } }
                             activeOpacity={0.5}
                             style={{
                                 width: 330,
-                                height: 57,
-                                marginBottom: 10,
-                                marginLeft: 20,
+                                height: 50,
+                                marginBottom: 30,
+                                marginLeft: 0,
                                 borderRadius: 8,
                                 backgroundColor: '#E73D50',
                                 marginTop: viewPortHeight / 30,            
@@ -621,10 +735,10 @@ const newStyle = StyleSheet.create({
     inputContainer: {
         backgroundColor: 'white',        
         width: viewPortWidth,
-        marginTop: Platform.OS === 'ios'?25:10,
+        marginTop: Platform.OS === 'ios'?0:10,
         padding: 25,
         marginLeft: 0,
-        flex: Platform.OS === 'ios'?35:1,
+        flex: Platform.OS === 'ios'?40:1,
         backgroundColor: 'transparent'
     },
 

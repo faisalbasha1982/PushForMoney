@@ -34,7 +34,7 @@ import PhoneInput from 'react-native-phone-input';
 import ButtonLogin from '../Components/ButtonLogin';
 import TimerCountdown from 'react-native-timer-countdown';
 import CountDown from 'react-native-countdown-component';
-
+import localStorage from 'react-native-sync-localstorage';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -75,6 +75,7 @@ class PushToEarnOTP extends Component {
             secondInput:'',
             thirdInput:'',
             fourthInput:'',
+            loginAccessToken:'',
             buttonText: 'START NOW!',
             ErrorText:'',
             EmptyErrorText:'',
@@ -188,20 +189,25 @@ class PushToEarnOTP extends Component {
 
              let authCode = AuthenticationData.split(":");
              console.log("authCode=",authCode[1]);
-
+            
              let otpText = this.state.firstInput + this.state.secondInput + this.state.thirdInput + this.state.fourthInput;
 
-             let token = AsyncStorage.getItem('token');
+            AsyncStorage.getItem('token').then((value) => {
+                this.setState({loginAccessToken: value});
+            }).done();
 
-             console.log("token="+token);
+            let tokenLocalStorage = localStorage.getItem('token');
+            this.setState({loginAccessToken:tokenLocalStorage});
+
+            console.log("token from local storage=",tokenLocalStorage);
     
              //"{'Lang': 'en', 'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-19 3:53:12' ,'R' : 'ssf3dfd'}",
-             let newpayload = "{" + "AuthenticationData"+"\""+":"+ authCode[1]+","+"\""+"OTP"+"\""+":"+ "\""+otpText+"\""+","+"\""+"OTPType"+"\""+":"+"\""+ "S" + "}";
+             let newpayload = "{" +"\"" + "AuthenticationData"+"\""+":"+ authCode[1]+"\""+","+"\""+"LoginAccessToken"+"\""+":"+"\""+tokenLocalStorage+"\""+","+"\""+"OTP"+"\""+":"+ "\""+otpText+"\""+","+"\""+"OTPType"+"\""+":"+"\""+ "S"+"\"" + "}";
     
              console.tron.log("payload="+newpayload);
     
              this.props.verifyOTP(newpayload);
-             
+
          }
     }
 
@@ -275,22 +281,30 @@ class PushToEarnOTP extends Component {
                     <TextInput
                                 style={ newStyle.otpInput }
                                 placeholder=''
+                                maxLength={1}
+                                autoCapitalize="none"
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(firstInput) => this.validateOTPText1(firstInput)}/>
 
                     <TextInput
                                 style={ newStyle.otpInput }
                                 placeholder=''
+                                maxLength={1}
+                                autoCapitalize="none"
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(secondInput) => this.validateOTPText2(secondInput)}/>
                     <TextInput
                                 style={ newStyle.otpInput }
                                 placeholder=''
+                                maxLength={1}
+                                autoCapitalize="none"
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(thirdInput) => this.validateOTPText3(thirdInput)}/>
                     <TextInput
                                 style={ newStyle.otpInput }
                                 placeholder=''
+                                maxLength={1}
+                                autoCapitalize="none"
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(fourthInput) => this.validateOTPText4(fourthInput)}/>                                                    
                     </View>

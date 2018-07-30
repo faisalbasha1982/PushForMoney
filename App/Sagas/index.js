@@ -55,7 +55,7 @@ export default function * root () {
     takeLatest(RegisterTypes.REGISTER_REQUEST_NEW, RegisterRequestNew,apiSignUp2),
 
     //Register saga for verfiy OTP
-    takeLatest(RegisterTypes.VERIFY_OTP, OtpRequest ,api),
+    takeLatest(RegisterTypes.VERIFY_OTP, OtpRequest ,apiSignUp2),
 
     //Register saga for verfiy OTP
     takeLatest(RegisterTypes.VERIFY_OTP_FP, forgotPasswordOTPRequest ,api),

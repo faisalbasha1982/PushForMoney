@@ -755,7 +755,7 @@ class PushToEarnSignIn extends Component {
                   });
     
                     this.props.loginAction(payload);
-                    
+
                     this.setState({isLoading: false});
                 }
                 else
@@ -905,21 +905,26 @@ class PushToEarnSignIn extends Component {
                     <TextInput
                                 style={ newStyle.nameInput }
                                 placeholder=''
+                                autoCapitalize="none"
                                 underlineColorAndroid= 'transparent'
                                 onChangeText = { (usernameInput) => this.setState({usernameInput}) }
                                 onBlur = { () => this.validateEmail(this.state.usernameInput) }
                     />
 
-
                     <Text style={newStyle.password}>Password</Text>
                     <TextInput
                         style={ newStyle.nameInputPassword}
                         placeholder=''
+                        autoCapitalize="none"
                         underlineColorAndroid= 'transparent'
                         onBlur = { () => this.validatePassword(this.state.passwordInput) }
                         onChangeText= { (passwordInput) => this.setState({passwordInput}) }/>
 
-                      <Text style={newStyle.forgotPassword}>Forgot Password?</Text>
+                      <Text style={newStyle.forgotPassword}
+                            onPress= {() => this.props.navigation.navigate('PushToEarnForgetPass')}
+                      >
+                        Forgot Password?
+                     </Text>
 
                     <View style={newStyle.endButtons}>
 
