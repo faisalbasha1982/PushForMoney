@@ -5,7 +5,7 @@ import Api from '../Services/Api';
 import LoginActions from '../Redux/LoginRedux';
 import * as NavigationService from '../Navigation/NavigationService';
 import localStorage from 'react-native-sync-localstorage';
-import AuthData from '../Components/AuthComponent';
+import * as AuthComponent from '../Components/AuthComponent';
 
 export function * rsaRequest(api,payload) {
   try{
@@ -29,21 +29,23 @@ export function * rsaRequest(api,payload) {
 export function * LoginRequest(api,payload) {
   try{
 
-    const signUpToken = localStorage.getItem('token');
+    // let signUpToken = localStorage.getItem('token');
 
-    console.log("signUpToken=",typeof(signUpToken));
+    // console.log("signUpToken=",typeof(signUpToken));
 
-    if(signUpToken !== '')
-    {
+    // console.tron.log("signUpToken=",signUpToken);
 
-      let newPayload = {
-          "AuthenticationData": <AuthData language="nl" />,
-      };
+    // if(signUpToken !== '')
+    // {
 
-      NavigationService.navigate('PushToEarnOTPLogin',newPayload);
-    }
-    else
-    {
+    //   let newPayload = {
+    //       "AuthenticationData": AuthComponent.authenticationData("en")
+    //   };
+
+    //   NavigationService.navigate('PushToEarnOTPLogin',newPayload);
+    // }
+    // else
+    // {
 
           // make the call to the api
     const response = yield call(api.login, payload.payload);
@@ -103,7 +105,7 @@ export function * LoginRequest(api,payload) {
 }
 
 
-}
+//}
 catch(error) {
   console.tron.log("Error@login",error);
   console.log("error="+error);

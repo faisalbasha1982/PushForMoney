@@ -14,7 +14,16 @@ import {
     findNodeHandle,
     AsyncStorage
 } from 'react-native';
-
+import {
+    BallIndicator,
+    BarIndicator,
+    DotIndicator,
+    PacmanIndicator,
+    PulseIndicator,
+    SkypeIndicator,
+    UIActivityIndicator,
+    WaveIndicator,
+  } from 'react-native-indicators';
 import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -193,6 +202,10 @@ class PushToEarnOTP extends Component {
 
     }        
 
+    somethingElse = () => {
+        
+    }
+
     callOTP = (payload) => {
 
         console.tron.log("calling OTP....");
@@ -306,6 +319,7 @@ class PushToEarnOTP extends Component {
                                 placeholder=''
                                 maxLength={1}
                                 autoCapitalize="none"
+                                autoFocus = {true}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(firstInput) => this.validateOTPText1(firstInput)}/>
 
@@ -314,6 +328,7 @@ class PushToEarnOTP extends Component {
                                 placeholder=''
                                 maxLength={1}
                                 autoCapitalize="none"
+                                autoFocus = {true}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(secondInput) => this.validateOTPText2(secondInput)}/>
                     <TextInput
@@ -321,6 +336,7 @@ class PushToEarnOTP extends Component {
                                 placeholder=''
                                 maxLength={1}
                                 autoCapitalize="none"
+                                autoFocus = {true}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(thirdInput) => this.validateOTPText3(thirdInput)}/>
                     <TextInput
@@ -328,9 +344,17 @@ class PushToEarnOTP extends Component {
                                 placeholder=''
                                 maxLength={1}
                                 autoCapitalize="none"
+                                autoFocus = {true}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(fourthInput) => this.validateOTPText4(fourthInput)}/>                                                    
                     </View>
+
+                     {
+                            this.state.isLoading===true?
+                            <View style = {{position: 'absolute' , zIndex:3999, left: 30, top: 0, right: 0, bottom: 0}}>
+                            <WaveIndicator color='#e73d50' />
+                            </View>:this.somethingElse()
+                      }            
 
                     <View style= {{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 

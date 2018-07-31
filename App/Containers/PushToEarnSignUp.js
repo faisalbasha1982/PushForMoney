@@ -15,6 +15,16 @@ import {
     findNodeHandle,
     NativeModules,
 } from 'react-native';
+import {
+    BallIndicator,
+    BarIndicator,
+    DotIndicator,
+    PacmanIndicator,
+    PulseIndicator,
+    SkypeIndicator,
+    UIActivityIndicator,
+    WaveIndicator,
+  } from 'react-native-indicators';
 import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -215,6 +225,10 @@ class PushToEarnSignUp extends Component {
            this.setState({ usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
            console.log("Email is Correct");
         }
+
+    }
+
+    somethingElse = () => {
 
     }
 
@@ -921,6 +935,13 @@ class PushToEarnSignUp extends Component {
                     </Text>
                 </View>                
 
+                 {
+                            this.state.isLoading===true?
+                            <View style = {{position: 'absolute' , zIndex:3999, left: 30, top: 0, right: 0, bottom: 0}}>
+                            <BallIndicator color='#e73d50' />
+                            </View>:this.somethingElse()
+                  }
+
                 <View style={newStyle.inputContainer}>
                
                     <Text style={newStyle.firstName}>Email Address</Text>
@@ -928,6 +949,7 @@ class PushToEarnSignUp extends Component {
                                 style={ newStyle.nameInput }
                                 placeholder=''
                                 autoCapitalize="none"
+                                autoFocus = {true}
                                 underlineColorAndroid= 'transparent'
                                 onBlur = { () => this.validateEmail(this.state.usernameInput) }
                                 onChangeText={(usernameInput) => this.setState({usernameInput})}/>
@@ -937,6 +959,7 @@ class PushToEarnSignUp extends Component {
                         style={ newStyle.nameInputPassword}
                         placeholder=''
                         autoCapitalize="none"
+                        autoFocus = {true}
                         underlineColorAndroid= 'transparent'
                         onBlur = { () => this.validatePassword(this.state.passwordInput) }
                         onChangeText= { (passwordInput) => this.setState({passwordInput}) }/>
@@ -946,6 +969,7 @@ class PushToEarnSignUp extends Component {
                         style={ newStyle.nameInputPassword}
                         placeholder=''
                         autoCapitalize="none"
+                        autoFocus = {true}
                         underlineColorAndroid= 'transparent'
                         onBlur = { () => this.validatePassword(this.state.cpasswordInput) }
                         onChangeText= { (cpasswordInput) => this.setState({cpasswordInput}) }/>

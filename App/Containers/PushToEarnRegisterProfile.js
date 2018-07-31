@@ -13,7 +13,16 @@ import {
     Platform,    
     findNodeHandle,
 } from 'react-native';
-
+import {
+    BallIndicator,
+    BarIndicator,
+    DotIndicator,
+    PacmanIndicator,
+    PulseIndicator,
+    SkypeIndicator,
+    UIActivityIndicator,
+    WaveIndicator,
+  } from 'react-native-indicators';
 import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -422,6 +431,10 @@ class PushToEarnRegisterProfile extends Component {
 
     }
 
+    somethingElse = () => {
+
+    }
+
 
     render() {
 
@@ -463,6 +476,13 @@ class PushToEarnRegisterProfile extends Component {
                     Profile
                     </Text>
                 </View>                
+
+                 {
+                            this.state.isLoading===true?
+                            <View style = {{position: 'absolute' , zIndex:3999, left: 30, top: 0, right: 0, bottom: 0}}>
+                            <WaveIndicator color='#e73d50' />
+                            </View>:this.somethingElse()
+                  }
 
                 <View style={newStyle.inputContainer}>
                

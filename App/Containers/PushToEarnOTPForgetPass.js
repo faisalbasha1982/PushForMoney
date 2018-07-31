@@ -495,6 +495,7 @@ class PushToEarnOTPForgetPass extends Component {
                                 placeholder=''
                                 maxLength={1}
                                 autoCapitalize="none"
+                                autoFocus = {true}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(firstInput) => this.validateOTPText1(firstInput)}/>
 
@@ -503,6 +504,7 @@ class PushToEarnOTPForgetPass extends Component {
                                 placeholder=''
                                 maxLength={1}
                                 autoCapitalize="none"
+                                autoFocus = {true}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(secondInput) => this.validateOTPText2(secondInput)}/>
                     <TextInput
@@ -510,6 +512,7 @@ class PushToEarnOTPForgetPass extends Component {
                                 placeholder=''
                                 maxLength={1}
                                 autoCapitalize="none"
+                                autoFocus = {true}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(thirdInput) => this.validateOTPText3(thirdInput)}/>
                     <TextInput
@@ -517,6 +520,7 @@ class PushToEarnOTPForgetPass extends Component {
                                 placeholder=''
                                 maxLength={1}
                                 autoCapitalize="none"
+                                autoFocus = {true}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(fourthInput) => this.validateOTPText4(fourthInput)}/>                                                    
                     </View>
@@ -541,7 +545,7 @@ class PushToEarnOTPForgetPass extends Component {
                                 width: 100,
                                 height: 30,
                                 backgroundColor: 'transparent',
-                                marginTop: viewPortHeight / 30,            
+                                marginTop: viewPortHeight / 30,
                                 justifyContent: 'center',
                                 alignItems: 'center'
                             }}>
