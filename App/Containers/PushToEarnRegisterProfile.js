@@ -244,7 +244,7 @@ class PushToEarnRegisterProfile extends Component {
             {
                 console.log("usrname=",this.props.navigation.state.params.uname);
                 console.log("password=",this.props.navigation.state.params.pword);   
-                    }
+            }
 
     }
 

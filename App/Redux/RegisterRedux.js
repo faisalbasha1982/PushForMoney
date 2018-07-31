@@ -10,6 +10,7 @@ const { Types, Creators } = createActions({
   registerFailure: null,
   verifyOtp: ["payload"],
   verifyOtpFp: ["payload"],
+  verifyOtpResend: ["payload"],
   forgetPassword: ["payload"],
 });
 
@@ -60,10 +61,14 @@ export const success = (state, {user}) => {
 // Something went wrong somewhere.
 export const failure = state => {
   return {...state, fetching: false, }
-}
+};
  
 // request OTP verification
 export const otp = (state, {payload}) => {
+  return {...state, fetching: true, payload }
+};
+
+export const otpResend = (state, {payload}) => {
   return {...state, fetching: true, payload }
 }
 
@@ -91,6 +96,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.REGISTER_FAILURE]: failure,
   [Types.VERIFY_OTP]: otp,
   [Types.VERIFY_OTP_FP]: otpforgetpassword,
+  [Types.VERIFY_OTP_RESEND]: otpResend,
   [Types.FORGET_PASSWORD]: forget,
   [ReduxSauceTypes.DEFAULT]: defaultHandler
 });

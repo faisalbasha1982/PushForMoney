@@ -35,8 +35,6 @@ import ButtonLogin from '../Components/ButtonLogin';
 import TimerCountdown from 'react-native-timer-countdown';
 import CountDown from 'react-native-countdown-component';
 import localStorage from 'react-native-sync-localstorage';
-import * as AuthComponent from '../Components/AuthComponent';
-import * as AesComponent from '../Components/AesComponent';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -59,7 +57,7 @@ export const IMAGE_HEIGHT_SMALL = window.width /7;
 
 let cLanguage = '';
 
-class PushToEarnOTP extends Component {
+class PushToEarnOTPResend extends Component {
 
     static propTypes = {
         language: PropTypes.string.isRequired
@@ -172,26 +170,7 @@ class PushToEarnOTP extends Component {
             this.setState({ fourthInput: text });
     }
 
-    callResendOTP = () => {
-
-        let tokenLocalStorage = localStorage.getItem('token');
-        this.setState({loginAccessToken:tokenLocalStorage});
-
-        let authData = AuthComponent.authenticationData("en");
-        console.log("authdata=",authData);
-
-        let encryptedData = AesComponent.aesCallback(authData);
-        console.log("encrypted data=",encryptedData);
-
-        let payload = {
-            "AuthenticationData": encryptedData,
-            "LoginAccessToken": tokenLocalStorage,
-            "SignupType": "S",
-        };
-
-        this.props.verifyOTPResend(payload);
-
-    }        
+        
 
     callOTP = (payload) => {
 
@@ -334,40 +313,13 @@ class PushToEarnOTP extends Component {
 
                     <View style= {{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 
-                                {/* <CountDown
+                                <CountDown
                                     until={600}
                                     onFinish={ () => alert('finished')}
                                     onPress={ () => alert('hello')}
                                     size={20}
                                     timeToShow={ ['M','S'] }
-                                    /> */}
-
-                                <TouchableOpacity
-                                    onPress={() => { this.callResendOTP() } }
-                                    activeOpacity={0.5}
-                                    style={{
-                                    width: 120,
-                                    height: 20,
-                                    marginBottom: 10,
-                                    marginLeft: 0,
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    backgroundColor: 'transparent',
-                                }}>
-                                    <Text
-                                        style={{
-                                            fontSize: 17,
-                                            width: 120,
-                                            height: 20,
-                                            fontFamily: 'WorkSans-Regular',
-                                            fontWeight: '500',
-                                            fontStyle: 'normal',
-                                            color:'#E73D50',
-                                            marginTop: 0,
-                                            letterSpacing: 0.67,
-                                            textAlign: 'center'}}> Re-send.....
-                                    </Text>
-                                </TouchableOpacity>
+                                    />
                     </View>
                             
                     <View style={newStyle.endButtons}>
@@ -754,9 +706,8 @@ const mapStateToProps = state => {
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
       verifyOTP: (payload) => dispatch({ type: 'VERIFY_OTP', payload }),
-      verifyOTPResend: (payload) => dispatch({ type: 'VERIFY_OTP_RESEND',payload }),
       verfifyMobileOTP: (payload) => dispatch({ type: 'VERIFY_OTP_MOBILE',payload}),
     };
   };
   
-  export default connect(mapStateToProps, mapDispatchToProps)(PushToEarnOTP);
+  export default connect(mapStateToProps, mapDispatchToProps)(PushToEarnOTPResend);

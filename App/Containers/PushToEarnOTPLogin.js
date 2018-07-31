@@ -35,8 +35,6 @@ import ButtonLogin from '../Components/ButtonLogin';
 import TimerCountdown from 'react-native-timer-countdown';
 import CountDown from 'react-native-countdown-component';
 import localStorage from 'react-native-sync-localstorage';
-import * as AuthComponent from '../Components/AuthComponent';
-import * as AesComponent from '../Components/AesComponent';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -59,7 +57,7 @@ export const IMAGE_HEIGHT_SMALL = window.width /7;
 
 let cLanguage = '';
 
-class PushToEarnOTP extends Component {
+class PushToEarnOTPLogin extends Component {
 
     static propTypes = {
         language: PropTypes.string.isRequired
@@ -172,63 +170,31 @@ class PushToEarnOTP extends Component {
             this.setState({ fourthInput: text });
     }
 
-    callResendOTP = () => {
-
-        let tokenLocalStorage = localStorage.getItem('token');
-        this.setState({loginAccessToken:tokenLocalStorage});
-
-        let authData = AuthComponent.authenticationData("en");
-        console.log("authdata=",authData);
-
-        let encryptedData = AesComponent.aesCallback(authData);
-        console.log("encrypted data=",encryptedData);
-
-        let payload = {
-            "AuthenticationData": encryptedData,
-            "LoginAccessToken": tokenLocalStorage,
-            "SignupType": "S",
-        };
-
-        this.props.verifyOTPResend(payload);
-
-    }        
+        
 
     callOTP = (payload) => {
 
         console.tron.log("calling OTP....");
+
+        let otpString = this.state.firstInput + this.state.secondInput + this.state.thirdInput + this.state.fourthInput;
 
         if(this.state.firstInput === '' || this.state.secondInput === '' || this.state.thirdInput === '' || this.state.fourthInput === '')
         {
             //Alert Box to fill in otp text
         }
         else
-         {
-             console.log("received payload for OTP screen=",payload);
+         {                 
+             let authData = payload.split(":");
+             let encryptedData = this.aes(authData[1]);
 
-             let arrayData = payload.split(",");
-             let AuthenticationData = arrayData[0].substring(2,arrayData[0].length-1);
+             let newPayload = {
 
-             console.log("AuthenticationData=",AuthenticationData);
+                 "AuthenticationData": encryptedData,
+                 "OTP": otpString,
+                 "OTPType" : "S",
+                 
+             };
 
-             let authCode = AuthenticationData.split(":");
-             console.log("authCode=",authCode[1]);
-            
-             let otpText = this.state.firstInput + this.state.secondInput + this.state.thirdInput + this.state.fourthInput;
-
-            AsyncStorage.getItem('token').then((value) => {
-                this.setState({loginAccessToken: value});
-            }).done();
-
-            let tokenLocalStorage = localStorage.getItem('token');
-            this.setState({loginAccessToken:tokenLocalStorage});
-
-            console.log("token from local storage=",tokenLocalStorage);
-    
-             //"{'Lang': 'en', 'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-19 3:53:12' ,'R' : 'ssf3dfd'}",
-             let newpayload = "{" +"\"" + "AuthenticationData"+"\""+":"+ authCode[1]+"\""+","+"\""+"LoginAccessToken"+"\""+":"+"\""+tokenLocalStorage+"\""+","+"\""+"OTP"+"\""+":"+ "\""+otpText+"\""+","+"\""+"OTPType"+"\""+":"+"\""+ "S"+"\"" + "}";
-    
-             console.tron.log("payload="+newpayload);
-    
              this.props.verifyOTP(newpayload);
 
          }
@@ -236,7 +202,7 @@ class PushToEarnOTP extends Component {
 
     render() {
         const platform = Platform.OS;
-        const payload  = this.props.navigation.state.params.payload;
+        const payload  = this.props.navigation.state.params.payload;;
 
         console.log("platform --->",Platform.OS);
         return (
@@ -334,40 +300,13 @@ class PushToEarnOTP extends Component {
 
                     <View style= {{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 
-                                {/* <CountDown
+                                <CountDown
                                     until={600}
                                     onFinish={ () => alert('finished')}
                                     onPress={ () => alert('hello')}
                                     size={20}
                                     timeToShow={ ['M','S'] }
-                                    /> */}
-
-                                <TouchableOpacity
-                                    onPress={() => { this.callResendOTP() } }
-                                    activeOpacity={0.5}
-                                    style={{
-                                    width: 120,
-                                    height: 20,
-                                    marginBottom: 10,
-                                    marginLeft: 0,
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    backgroundColor: 'transparent',
-                                }}>
-                                    <Text
-                                        style={{
-                                            fontSize: 17,
-                                            width: 120,
-                                            height: 20,
-                                            fontFamily: 'WorkSans-Regular',
-                                            fontWeight: '500',
-                                            fontStyle: 'normal',
-                                            color:'#E73D50',
-                                            marginTop: 0,
-                                            letterSpacing: 0.67,
-                                            textAlign: 'center'}}> Re-send.....
-                                    </Text>
-                                </TouchableOpacity>
+                                    />
                     </View>
                             
                     <View style={newStyle.endButtons}>
@@ -400,25 +339,6 @@ class PushToEarnOTP extends Component {
                                     textAlign: 'center'}}
                             > {this.state.buttonText.toUpperCase()}</Text>
                         </TouchableOpacity>
-
-                            {/* <ButtonLogin 
-                                objectParams=
-                                {{
-                                    btnText: 'START NOW!',
-                                    language: '',
-                                    firstName: this.state.firstNameInput,
-                                    lastName: this.state.lastNameInput,
-                                    phoneNumber: this.state.phoneNumberInput,
-                                    firstNameError: this.state.firstNameError,
-                                    lastNameError: this.state.lastNameError,
-                                    phoneNumberError: this.state.phoneNumberError,
-                                    firstNameEmpty: this.state.firstNameEmptyError,
-                                    lastNameEmpty: this.state.lastNameEmptyError,
-                                    phoneNumberEmpty: this.state.phoneNumberEmptyError,
-                                }}
-                        func = {this.func}
-                        navigation = { this.props.navigation}
-                    />                               */}
 
                     </View>
 
@@ -541,27 +461,8 @@ class PushToEarnOTP extends Component {
                                 }}
                             func = {this.func}
                             navigation = { this.props.navigation}
-                />
-
-
-                 {/* <ButtonNext 
-                         objectParams=
-                             {{
-                                 btnText: this.state.buttonText, 
-                                 language: this.props.navigation.state.params.language,
-                                 firstName: this.state.firstNameInput,
-                                 lastName: this.state.lastNameInput,
-                                 phoneNumber: this.state.phoneNumberInput,
-                                 firstNameError: this.state.firstNameError,
-                                 lastNameError: this.state.lastNameError,
-                                 phoneNumberError: this.state.phoneNumberError,
-                                 firstNameEmpty: this.state.firstNameEmptyError,
-                                 lastNameEmpty: this.state.lastNameEmptyError,
-                                 phoneNumberEmpty: this.state.phoneNumberEmptyError
-                             }}
-                         func = {this.func}/> */}
+                />        
             </View>
-         {/* </View> */}
          </KeyboardAvoidingView>
          </ScrollView>
 
@@ -754,9 +655,7 @@ const mapStateToProps = state => {
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
       verifyOTP: (payload) => dispatch({ type: 'VERIFY_OTP', payload }),
-      verifyOTPResend: (payload) => dispatch({ type: 'VERIFY_OTP_RESEND',payload }),
-      verfifyMobileOTP: (payload) => dispatch({ type: 'VERIFY_OTP_MOBILE',payload}),
     };
   };
   
-  export default connect(mapStateToProps, mapDispatchToProps)(PushToEarnOTP);
+  export default connect(mapStateToProps, mapDispatchToProps)(PushToEarnOTPLogin);

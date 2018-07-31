@@ -4,6 +4,8 @@ import { path } from 'ramda';
 import Api from '../Services/Api';
 import LoginActions from '../Redux/LoginRedux';
 import * as NavigationService from '../Navigation/NavigationService';
+import localStorage from 'react-native-sync-localstorage';
+import AuthData from '../Components/AuthComponent';
 
 export function * rsaRequest(api,payload) {
   try{
@@ -27,26 +29,42 @@ export function * rsaRequest(api,payload) {
 export function * LoginRequest(api,payload) {
   try{
 
-  // make the call to the api
-  const response = yield call(api.login, payload.payload);
+    const signUpToken = localStorage.getItem('token');
 
-  console.tron.log("response from api call =",response);
-  console.tron.log("response ok=",response.ok);
-  console.tron.log("response StatusCode=",response.data.StatusCode);
+    console.log("signUpToken=",typeof(signUpToken));
 
-  if (response.ok && response.data.StatusCode === 200 ) {
+    if(signUpToken !== '')
+    {
 
-    Alert.alert(
-      'Login Successfull',
-      'Push To Earn Money Page',
-      [                      
-          {
-            text: 'OK', 
-            onPress: () => console.log('Ask me later Pressed')
-          },                      
-      ],
-      {cancelable: false}
-  );
+      let newPayload = {
+          "AuthenticationData": <AuthData language="nl" />,
+      };
+
+      NavigationService.navigate('PushToEarnOTPLogin',newPayload);
+    }
+    else
+    {
+
+          // make the call to the api
+    const response = yield call(api.login, payload.payload);
+
+    console.tron.log("response from api call =",response);
+    console.tron.log("response ok=",response.ok);
+    console.tron.log("response StatusCode=",response.data.StatusCode);
+
+    if (response.ok && response.data.StatusCode === 200 ) {
+
+      Alert.alert(
+        'Login Successfull',
+        'Push To Earn Money Page',
+        [                      
+            {
+              text: 'OK', 
+              onPress: () => console.log('Ask me later Pressed')
+            },                      
+        ],
+        {cancelable: false}
+    );
 
     console.tron.log("response data=",response.data);
     const token = response.data.LoginAccessToken;
@@ -82,6 +100,9 @@ export function * LoginRequest(api,payload) {
       {cancelable: false}
   );
   }
+}
+
+
 }
 catch(error) {
   console.tron.log("Error@login",error);

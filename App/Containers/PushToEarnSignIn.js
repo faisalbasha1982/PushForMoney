@@ -50,6 +50,7 @@ import ApiKey from '../Services/Api_url';
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 import {RSA, RSAKeychain } from 'react-native-rsa-native';
 import ReactNativeRSAUtil from 'react-native-rsa-util';
+import localStorage from 'react-native-sync-localstorage';
 
 // import { RSAKey } from 'react-native-rsa';
 import { Colors } from "../Themes";
@@ -78,7 +79,6 @@ const Constants = {
     TWITTER_COMSUMER_KEY: 'B9gQXS1YrrtH5Q9HDFl08MVVS',
     TWITTER_CONSUMER_SECRET: 'ourqEe3JmhpRh7ceLpCxN4RoIRXJT9FLslqqgfLscTtHtVvCXs',
   };
-
 
 // Styles
 
@@ -1276,13 +1276,9 @@ const mapStateToProps = state => {
   const mapDispatchToProps = dispatch => {
     return {
       loginAction: ( payload ) => dispatch({ type: 'LOGIN_REQUEST', payload }),
-
-    //    rsa: (payload) => dispatch({type: 'RSA_REQUEST', payload}),
-             
-       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
-      
-      navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
-      
+    //    rsa: (payload) => dispatch({type: 'RSA_REQUEST', payload}),             
+       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),      
+      navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),      
       navigateBack: () => this.props.navigation.goBack(),
     };
   };

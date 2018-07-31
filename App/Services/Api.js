@@ -59,6 +59,13 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
     api.post("/workflows/19bdce4bb7d740f586a5f86bf9014efa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LU6WJJr0yUTzSFLdH9TXCBdYPVh6x3SMGegOPX0OTfA", body);
   };
 
+  const verifyOTPResend = (payload) => {
+
+    api.setBaseURL("https://prod-56.westeurope.logic.azure.com:443");
+    api.post("/workflows/9834ab95eb784c9b87f174acdd1f87b0/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LenubOpJgzckOgeOAbq12BS9_0JFjtGUYogtgKYRlRE");
+
+  };
+
   const verifyOTPFP = (body) => {
     api.setBaseURL("https://prod-36.westeurope.logic.azure.com:443");
     api.post("/workflows/64111a66520a4621a4f949f0d3a12413/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=EcEqv1IaEYCat3Jx3zeQ8HLQzUiuqK8QAzP0R8cJcPw",body);
@@ -148,7 +155,8 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
     updateName,
     verifyOTP,
     verifyOTPFP,
-    verifyOTPMobile
+    verifyOTPMobile,
+    verifyOTPResend
   }
 }
 

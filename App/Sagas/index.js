@@ -22,7 +22,7 @@ import { getUserAvatar } from './GithubSagas'
 import { LoginRequest,rsaRequest } from './LoginSagas'
 import { RegisterRequest, RegisterRequestNew, OtpRequest,
          forgotPasswordRequest, forgotPasswordOTPRequest,
-         makeRegisterRequest, } 
+         makeRegisterRequest, OtpRequestResend } 
 from './RegisterSagas'
 import { ProfileRequest, firstNameUpdate,changePassword, changeMobile, verifyMobileOtpRequest,} from './ProfileSagas'
 import { cardDetailsRequest } from './CardDetailsSagas'
@@ -59,6 +59,9 @@ export default function * root () {
 
     //Register saga for verfiy OTP
     takeLatest(RegisterTypes.VERIFY_OTP_FP, forgotPasswordOTPRequest ,api),
+
+    //Register saga for verfiy OTP resend
+    takeLatest(RegisterTypes.VERIFY_OTP_RESEND, OtpRequestResend, api),
 
     //Register Saga for forgotPass
     takeLatest(RegisterTypes.FORGET_PASSWORD,forgotPasswordRequest,apiSignUp2),
