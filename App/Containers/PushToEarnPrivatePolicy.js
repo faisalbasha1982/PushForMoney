@@ -155,7 +155,10 @@ class PushToEarnPrivatePolicy extends Component {
     componentDidMount() {
     }
 
-   
+    somethingElse = ( ) => {
+
+    }
+
     render() {
         const platform = Platform.OS;
         const payload  = this.props.navigation.state.params.payload;
