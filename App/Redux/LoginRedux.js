@@ -3,6 +3,7 @@ import { createReducer, createActions, Types as ReduxSauceTypes } from 'reduxsau
 
 const { Types, Creators } = createActions({
   loginRequest: ["payload"],
+  facebookData:["payload"],
   rsaRequest:["payload"],
   loginSuccess: ['user'],
   loginFailure: ['error'],
@@ -40,6 +41,10 @@ export const rsarequest = (state, {payload}) => {
   return { ...state, fetching: true, payload }
 }
 
+export const facebookdata = (state, {payload}) => {
+  return { ...state, fetching: true, payload }
+}
+
 export const success = (state, {user}) => {
   return { ...state, user, fetching: false, }
 }
@@ -64,6 +69,7 @@ export const defaultHandler = (state) => {
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.LOGIN_REQUEST]: request,
+  [Types.FACEBOOK_DATA]: facebookdata,
   [Types.RSA_REQUEST]:   rsarequest,
   [Types.LOGIN_SUCCESS]: success,
   [Types.LOGIN_FAILURE]: failure,

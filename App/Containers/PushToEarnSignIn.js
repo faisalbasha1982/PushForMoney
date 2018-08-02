@@ -34,7 +34,7 @@ import ButtonNext from '../Components/ButtonNext';
 import ButtonWelcome from '../Components/ButtonWelcome';
 import LanguageButton from '../Components/LanguageButton';
 import Spinner from "react-native-loading-spinner-overlay";
-import DeviceInfo from 'react-native-device-info'
+import DeviceInfo from 'react-native-device-info';
 import * as Animatable from 'react-native-animatable';
 import { StyleSheet } from 'react-native';
 import CompanyBanner from '../Components/CompanyBanner';
@@ -51,6 +51,8 @@ import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 import {RSA, RSAKeychain } from 'react-native-rsa-native';
 import ReactNativeRSAUtil from 'react-native-rsa-util';
 import localStorage from 'react-native-sync-localstorage';
+import * as AuthComponent from '../Components/AuthComponent';
+import * as AesComponent from '../Components/AesComponent';
 
 // import { RSAKey } from 'react-native-rsa';
 import { Colors } from "../Themes";
@@ -60,7 +62,7 @@ import headerImage from '../Images/headerImage.png';
 import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/page1.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { LoginManager } from 'react-native-fbsdk';
+import { AccessToken, LoginManager, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 import LinkedInModal from 'react-native-linkedin'
 
 const viewPortHeight = Dimensions.get('window').height;
@@ -184,17 +186,120 @@ class PushToEarnSignIn extends Component {
         });
     }
 
+    _responseInfoCallback = (error, result) => {
+        if (error) {
+            Alert.alert('Error fetching data: ' + error.toString());
+        } else {
+
+            Alert.alert('Success fetching data user id: ' + result.id+ ' username='+ result.name + " email="+result.email);
+
+          let authData = AuthComponent.authenticationData("en");
+          console.log("authdata=",authData);
+
+          let encryptedData = AesComponent.aesCallback(authData);
+          console.log("encrypted data=",encryptedData);
+
+          let loginInfo = "{ 'F' : '"+result.id.toString()+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
+          console.log("loginData="+loginInfo);
+          this.rsa(loginInfo);
+
+          this.setState({isLoading: false});
+
+          setTimeout(() => 
+          {
+            if( this.state.encodedText !== "")
+            {
+
+              let payload = JSON.stringify({
+                  "AuthenticationData": encryptedData,
+                  "LoginData": this.state.encodedText,
+                  "SignupMode": false,
+
+              });
+
+              let payloadNew = {
+
+                firstname: result.first_name,
+                lastname: result.last_name,
+                email: result.email,
+                id: result.id,
+
+          };
+
+              this.props.loginFaceBook(payload,payloadNew);
+            }
+            else
+              console.log("loginData  or authentication Data is empty");
+            },3000);
+          
+        }
+      }
+
+    initUser = (token) => {
+
+            Alert.alert(
+                'Fetching User Data',
+                'inside initUser method',
+                [                      
+                    {
+                    text: 'OK', 
+                    onPress: () => console.log('Ask me later Pressed')
+                    },                      
+                ],
+                {cancelable: false}
+            );
+          
+            // Create a graph request asking for user information with 
+            // a callback to handle the response.
+
+            const infoRequest = new GraphRequest(
+                '/me',
+                {
+                    accessToken: token,
+                    parameters: {
+                      fields: {
+                        string: 'email,name,first_name,middle_name,last_name,id'
+                      }
+                    }
+                },this._responseInfoCallback
+              );
+
+            // Start the graph request.
+            new GraphRequestManager().addRequest(infoRequest).start();        
+          
+    }
+
     onFacebookButtonClick = () => {
         console.log('facebook butotn clicked');
         console.warn('Facebook button clicked'); // eslint-disable-line
     
-        LoginManager.logInWithReadPermissions(['public_profile']).then(
+        LoginManager.logInWithReadPermissions(['user_friends', 'public_profile', 'email']).then(
           (result) => {
             if (result.isCancelled) {
               console.log('Login was cancelled');
             } else {
               console.log(`Login was successful with permissions: ${
                 result.grantedPermissions.toString()}`);
+
+                const data = AccessToken.getCurrentAccessToken();
+
+                AccessToken.getCurrentAccessToken().then((data) => {
+                    const { accessToken } = data;                    
+
+                    Alert.alert(
+                        'accessToken Received',
+                        'accessToken Received='+accessToken,
+                        [                      
+                            {
+                              text: 'OK', 
+                              onPress: () => console.log('Ask me later Pressed')
+                            },                      
+                        ],
+                        {cancelable: false}
+                    );
+
+                    this.initUser(accessToken)
+                  });
             }
           },
           (error) => {
@@ -278,6 +383,8 @@ class PushToEarnSignIn extends Component {
 
     componentDidMount() {
 
+        LoginManager.logOut();
+        
         // console.log("language from props="+this.props.navigation.state.params.language);
         // console.log("default language="+this.state.language);
         // this.setState({ language: this.props.navigation.state.params.language });
@@ -1276,7 +1383,7 @@ const mapStateToProps = state => {
   const mapDispatchToProps = dispatch => {
     return {
       loginAction: ( payload ) => dispatch({ type: 'LOGIN_REQUEST', payload }),
-    //    rsa: (payload) => dispatch({type: 'RSA_REQUEST', payload}),             
+      loginFaceBook: ( payload, payloadNew ) => dispatch({ type: 'FACEBOOK_DATA', payload, payloadNew}),
        resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),      
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),      
       navigateBack: () => this.props.navigation.goBack(),

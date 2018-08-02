@@ -19,7 +19,7 @@ import { CardDetailsTypes } from '../Redux/CardDetailsRedux'
 
 import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
-import { LoginRequest,rsaRequest } from './LoginSagas'
+import { LoginRequest,rsaRequest, facebookRequest } from './LoginSagas'
 import { RegisterRequest, RegisterRequestNew, OtpRequest,
          forgotPasswordRequest, forgotPasswordOTPRequest,
          makeRegisterRequest, OtpRequestResend } 
@@ -47,6 +47,9 @@ export default function * root () {
 
     // Login sagas
     takeLatest(LoginTypes.LOGIN_REQUEST, LoginRequest, api),
+
+    // Facebook login
+    takeLatest(LoginTypes.FACEBOOK_DATA,facebookRequest,api),
 
     // Register sagas
     takeLatest(RegisterTypes.MAKE_REGISTER_REQUEST, makeRegisterRequest, api),

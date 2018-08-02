@@ -43,6 +43,8 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
   //
   const setHeaders = headers => api.setHeaders(headers);
   const register = body => api.post("/api/fnMobileUserLogin?code=zybwff3HRf2XC/mYhHJtcZOeG5vkCOJhJOsXKUgHNAYu8tiG9tH2kw==",body);
+
+  const facebook = body => api.post("/api/fnMobileUserLogin?code=zybwff3HRf2XC/mYhHJtcZOeG5vkCOJhJOsXKUgHNAYu8tiG9tH2kw==",body)
  
   const registerNew = body => 
   {
@@ -146,6 +148,7 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
     registerNew,
     setHeaders,
     login,
+    facebook,
     getRoot,
     getRate,
     getUser,

@@ -101,13 +101,15 @@ class PushToEarnSignUp extends Component {
             usernameInput:'',
             passwordInput:'',
             cpasswordInput:'',
+            usernameInputError:false,
+            passwordInputError:false,
+            cpasswordInputError:false,
             buttonText: 'SIGNUP',
-            usernameError:true,
-            emailErrorText:'',     
             ErrorText:'',
             EmptyErrorText:'',
             usernameEmptyError:false,
             passwordEmptyError:false,
+            cpasswordEmptyError: false,
         };    
     }
 
@@ -178,17 +180,121 @@ class PushToEarnSignUp extends Component {
         });
     }
 
+    _responseInfoCallback = (error, result) => {
+        if (error) {
+            Alert.alert('Error fetching data: ' + error.toString());
+        } else {
+
+            Alert.alert('Success fetching data user id: ' + result.id+ ' username='+ result.name + " email="+result.email);
+
+          let authData = AuthComponent.authenticationData("en");
+          console.log("authdata=",authData);
+
+          let encryptedData = AesComponent.aesCallback(authData);
+          console.log("encrypted data=",encryptedData);
+
+          let loginInfo = "{ 'F' : '"+result.id.toString()+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
+          console.log("loginData="+loginInfo);
+          this.rsa(loginInfo);
+
+          this.setState({isLoading: false});
+
+          setTimeout(() => 
+          {
+            if( this.state.encodedText !== "")
+            {
+
+              let payload = JSON.stringify({
+
+                  "AuthenticationData": encryptedData,
+                  "LoginData": this.state.encodedText,
+                  "SignupMode": false,
+
+              });
+
+              let payloadNew = {
+
+                    firstname: result.first_name,
+                    lastname: result.last_name,
+                    email: result.email,
+                    id: result.id,
+
+              };
+
+              this.props.signUpFaceBook(payload,payloadNew);
+            }
+            else
+              console.log("loginData  or authentication Data is empty");
+            },3000);
+          
+        }
+      }
+
+    initUser = (token) => {
+
+            Alert.alert(
+                'Fetching User Data',
+                'inside initUser method',
+                [                      
+                    {
+                    text: 'OK', 
+                    onPress: () => console.log('Ask me later Pressed')
+                    },                      
+                ],
+                {cancelable: false}
+            );
+          
+            // Create a graph request asking for user information with 
+            // a callback to handle the response.
+
+            const infoRequest = new GraphRequest(
+                '/me',
+                {
+                    accessToken: token,
+                    parameters: {
+                      fields: {
+                        string: 'email,name,first_name,middle_name,last_name,id'
+                      }
+                    }
+                },this._responseInfoCallback
+              );
+
+            // Start the graph request.
+            new GraphRequestManager().addRequest(infoRequest).start();        
+          
+    }
+
     onFacebookButtonClick = () => {
         console.log('facebook butotn clicked');
         console.warn('Facebook button clicked'); // eslint-disable-line
     
-        LoginManager.logInWithReadPermissions(['public_profile']).then(
+        LoginManager.logInWithReadPermissions(['user_friends', 'public_profile', 'email']).then(
           (result) => {
             if (result.isCancelled) {
               console.log('Login was cancelled');
             } else {
               console.log(`Login was successful with permissions: ${
                 result.grantedPermissions.toString()}`);
+
+                const data = AccessToken.getCurrentAccessToken();
+
+                AccessToken.getCurrentAccessToken().then((data) => {
+                    const { accessToken } = data;                    
+
+                    Alert.alert(
+                        'accessToken Received',
+                        'accessToken Received='+accessToken,
+                        [                      
+                            {
+                              text: 'OK', 
+                              onPress: () => console.log('Ask me later Pressed')
+                            },                      
+                        ],
+                        {cancelable: false}
+                    );
+
+                    this.initUser(accessToken)
+                  });
             }
           },
           (error) => {
@@ -203,11 +309,13 @@ class PushToEarnSignUp extends Component {
 
     validatePassword = (password) => {
 
-        console.log('password sent='+password);
         if(password.length >= 6 && !password.includes(" "))
-            this.setState({ passwordEmptyError: false, passwordInput: password, EmptyErrorText: '' });
+            this.setState({ passwordInputError: false, passwordEmptyError: false, passwordInput: password, EmptyErrorText: '' });
         else
-            console.log("password incorrect---->"+password);
+        {
+            this.setState({ passwordInputError:true, passwordEmptyError: false, passwordInput: password, EmptyErrorText: '' });
+
+        }
     }
 
     validateEmail = (text) => {
@@ -217,13 +325,12 @@ class PushToEarnSignUp extends Component {
         if(reg.test(text) === false)
         {
             console.log("Email is Not Correct");
-            this.setState({ usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
-               return false;
+            this.setState({ usernameInputError: true, usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
+            //    return false;
         }
         else 
         {
-           this.setState({ usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
-           console.log("Email is Correct");
+           this.setState({ usernameInputError: false, usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
         }
 
     }
@@ -599,10 +706,8 @@ class PushToEarnSignUp extends Component {
           {
 
             let language = "en";
-            let cAuthenticationData = "{'Lang':"+" '"+language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
-            
-            //console.log("AuthenticationData:",cAuthenticationData);
 
+            let cAuthenticationData = "{'Lang':"+" '"+language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";            
             let loginInfo = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";
       
             let authEncrypted = this.aes(cAuthenticationData);
@@ -610,8 +715,6 @@ class PushToEarnSignUp extends Component {
 
             this.setState({ cAuthenticationData: authEncrypted,});
 
-            //console.log('authentication Data Encrypted :' + authEncrypted);
-            //console.log("Login Data encrypted is =",this.state.encodedText);
           }
     }
 
@@ -707,7 +810,7 @@ class PushToEarnSignUp extends Component {
 
             this.setState({isLoading: true});
 
-                if(this.state.cpasswordInput.length >= 6 && !this.state.cpasswordInput.includes(" ") &&
+                if(this.state.passwordInput.length >= 6 && !this.state.passwordInput.includes(" ") &&
                    this.state.cpasswordInput.length >= 6 && !this.state.cpasswordInput.includes(" "))
                 {
                     //this.setState({ passwordEmptyError: false, passwordInput: password, EmptyErrorText: '' });
@@ -766,29 +869,33 @@ class PushToEarnSignUp extends Component {
 
     }
 
+    validateConfirmPassword = (confirmPassword) => {
+
+        console.log('password sent='+confirmPassword);
+
+        if(confirmPassword.length >= 6 && !confirmPassword.includes(" "))
+        {
+            this.setState({ cpasswordInputError: false, cpasswordInput: confirmPassword, EmptyErrorText: '' });
+        }
+        else
+            {
+
+                this.setState({ cpasswordInputError: true, cpasswordInput: confirmPassword, EmptyErrorText: '' });            
+            }            
+    }
+
     validatePassword = (password) => {
 
         console.log('password sent='+password);
 
         if(password.length >= 6 && !password.includes(" "))
         {
-            this.setState({ passwordEmptyError: false, passwordInput: password, EmptyErrorText: '' });
+            this.setState({ passwordInputError: false, passwordInput: password, EmptyErrorText: '' });
         }
         else
             {
-                console.log("password incorrect---->"+password);
+                this.setState({ passwordInputError: true, passwordInput: password, EmptyErrorText: '' });
 
-                Alert.alert(
-                    'Password is Incorrect',
-                    'Password needs to be atleast 6 characters and no spaces',
-                    [                      
-                        {
-                          text: 'OK', 
-                          onPress: () => console.log('Ask me later Pressed')
-                        },                      
-                    ],
-                    {cancelable: false}
-                );
             }            
     }
 
@@ -946,33 +1053,30 @@ class PushToEarnSignUp extends Component {
                
                     <Text style={newStyle.firstName}>Email Address</Text>
                     <TextInput
-                                style={ newStyle.nameInput }
+                                style={ [newStyle.nameInput, {color: this.state.usernameInputError === true? 'red': 'black'}] }
                                 placeholder=''
                                 autoCapitalize="none"
                                 autoFocus = {true}
                                 underlineColorAndroid= 'transparent'
-                                onBlur = { () => this.validateEmail(this.state.usernameInput) }
-                                onChangeText={(usernameInput) => this.setState({usernameInput})}/>
+                                onChangeText={(usernameInput) => this.validateEmail(usernameInput)}/>
 
                     <Text style={newStyle.password}>Password</Text>
                     <TextInput
-                        style={ newStyle.nameInputPassword}
+                        style={ [newStyle.nameInputPassword,{ color: this.state.passwordInputError === true? 'red': 'black' }]}
                         placeholder=''
                         autoCapitalize="none"
                         autoFocus = {true}
                         underlineColorAndroid= 'transparent'
-                        onBlur = { () => this.validatePassword(this.state.passwordInput) }
-                        onChangeText= { (passwordInput) => this.setState({passwordInput}) }/>
+                        onChangeText= { (passwordInput) => this.validatePassword(passwordInput) }/>
 
                     <Text style={newStyle.cpassword}>Password</Text>
                     <TextInput
-                        style={ newStyle.nameInputPassword}
+                        style={ [newStyle.confirmInputPassword,{ color: this.state.cpasswordInputError === true? 'red': 'black'}]}
                         placeholder=''
                         autoCapitalize="none"
                         autoFocus = {true}
                         underlineColorAndroid= 'transparent'
-                        onBlur = { () => this.validatePassword(this.state.cpasswordInput) }
-                        onChangeText= { (cpasswordInput) => this.setState({cpasswordInput}) }/>
+                        onChangeText= { (cpasswordInput) => this.validateConfirmPassword(cpasswordInput) }/>
 
                     <View style={newStyle.endButtons}>
 
@@ -1240,6 +1344,16 @@ const newStyle = StyleSheet.create({
         marginTop: 25,
     },
 
+    confirmInputPassword: {
+        width: 334,
+        height: 57,
+        borderRadius: 8,
+        backgroundColor: '#f6f6f6',
+        marginBottom: 15,
+        padding: 10,
+        marginTop: 25,
+    },
+
     buttons: {
         width: viewPortWidth,
         height: 20,
@@ -1307,6 +1421,7 @@ const mapStateToProps = state => {
     return {
     
     registerAction: ( payload,username,password ) => dispatch(RegisterActions.makeRegisterRequest(payload, username, password)),
+    signUpFaceBook: (payload,payloadNew) => dispatch({type: 'FACEBOOK_DATA', payload, payloadNew}),
     resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
     navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
     navigateBack: () => this.props.navigation.goBack(),

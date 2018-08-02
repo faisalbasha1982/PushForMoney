@@ -75,6 +75,7 @@ class PushToEarnPrivatePolicy extends Component {
         super(props);             
 
         this.state = {
+            isLoading: false,
             language: 'NEDERLANDS',
             firstName:'',
             name:'',
@@ -102,6 +103,8 @@ class PushToEarnPrivatePolicy extends Component {
 
 
     callOTP = (payload) => {
+
+        this.setState({ isLoading: true});
 
         console.log("payload sent to private policy page=",payload);
 

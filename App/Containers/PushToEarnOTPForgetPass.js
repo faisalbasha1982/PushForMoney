@@ -13,7 +13,16 @@ import {
     Platform,    
     findNodeHandle,
 } from 'react-native';
-
+import {
+    BallIndicator,
+    BarIndicator,
+    DotIndicator,
+    PacmanIndicator,
+    PulseIndicator,
+    SkypeIndicator,
+    UIActivityIndicator,
+    WaveIndicator,
+  } from 'react-native-indicators';
 import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -74,6 +83,7 @@ class PushToEarnOTPForgetPass extends Component {
 
         this.state = {
             language: 'NEDERLANDS',
+            isLoading: false,
             firstInput:'',
             secondInput:'',
             thirdInput:'',
@@ -122,6 +132,7 @@ class PushToEarnOTPForgetPass extends Component {
     }   
 
     componentWillReceiveProps(nextProps) {
+
         // console.log("in Form One screen language received="+nextProps.language);
         // if (this.props.navigation.state.params.language !== nextProps.language) {
         //     this.setState({ language: nextProps.language });
@@ -130,6 +141,7 @@ class PushToEarnOTPForgetPass extends Component {
     }
 
     componentDidMount() {
+
         // console.log("language from props="+this.props.navigation.state.params.language);
         // console.log("default language="+this.state.language);
         // this.setState({ language: this.props.navigation.state.params.language });
@@ -376,7 +388,13 @@ class PushToEarnOTPForgetPass extends Component {
 
     }
 
+    somethingElse = () => {
+
+    }
+
     callOTP = (mobileUserId) => {
+
+        this.setState({isLoading:true});
 
         console.log("password=",this.state.passwordInput);
         console.log("confirm password=",this.state.confirmpasswordInput);
@@ -493,78 +511,91 @@ class PushToEarnOTPForgetPass extends Component {
                     <TextInput
                                 style={ newStyle.otpInput }
                                 placeholder=''
+                                returnKeyType= {"next"}
+                                autoFocus = {true}
+                                onSubmitEditing= {(event) => {this.refs.secondInput.focus();}}
                                 maxLength={1}
                                 autoCapitalize="none"
-                                autoFocus = {true}
+                                blurOnSubmit={false}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(firstInput) => this.validateOTPText1(firstInput)}/>
+
+                    {
+                            this.state.isLoading===true?
+                            <View style = {{position: 'absolute' , zIndex:3999, left: 10, top: 50, right: 0, bottom: 0}}>
+                            <BarIndicator color='#e73d50' />
+                            </View>:this.somethingElse()
+                    }                      
+
 
                     <TextInput
                                 style={ newStyle.otpInput }
                                 placeholder=''
+                                ref='secondInput'
+                                returnKeyType= {"next"}
+                                autoFocus = {true}
+                                onSubmitEditing= {(event) => {this.refs.thirdInput.focus();}}
                                 maxLength={1}
                                 autoCapitalize="none"
-                                autoFocus = {true}
+                                blurOnSubmit={false}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(secondInput) => this.validateOTPText2(secondInput)}/>
                     <TextInput
                                 style={ newStyle.otpInput }
                                 placeholder=''
+                                ref='thirdInput'
+                                returnKeyType= {"next"}
+                                autoFocus = {true}
+                                onSubmitEditing= {(event) => {this.refs.fourthInput.focus();}}
                                 maxLength={1}
                                 autoCapitalize="none"
-                                autoFocus = {true}
+                                blurOnSubmit={false}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(thirdInput) => this.validateOTPText3(thirdInput)}/>
                     <TextInput
                                 style={ newStyle.otpInput }
                                 placeholder=''
+                                ref='fourthInput'
+                                returnKeyType= {"next"}
+                                autoFocus = {true}
+                                onSubmitEditing= {(event) => {this.refs.passwordInput.focus();}}
                                 maxLength={1}
                                 autoCapitalize="none"
-                                autoFocus = {true}
+                                blurOnSubmit={false}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(fourthInput) => this.validateOTPText4(fourthInput)}/>                                                    
                     </View>
 
-                    <View style= {{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                     <View style= {{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+
+                        <TouchableOpacity
+                                    onPress={() => { this.callResendOTP() } }
+                                    activeOpacity={0.5}
+                                    style={{
+                                    width: 120,
+                                    height: 20,
+                                    marginBottom: 10,
+                                    marginLeft: 0,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    backgroundColor: 'transparent',
+                                }}>
+                                    <Text
+                                        style={{
+                                            fontSize: 17,
+                                            width: 120,
+                                            height: 20,
+                                            fontFamily: 'WorkSans-Regular',
+                                            fontWeight: '500',
+                                            fontStyle: 'normal',
+                                            color:'#E73D50',
+                                            marginTop: 0,
+                                            letterSpacing: 0.67,
+                                            textAlign: 'center'}}> Re-send.....
+                                    </Text>
+                                </TouchableOpacity>
                 
-                                <CountDown
-                                    until={600}
-                                    onFinish={ () => alert('finished')}
-                                    onPress={ () => alert('hello')}
-                                    size={20}
-                                    timeToShow={ ['M','S'] }
-                                    />
-                    </View>
-
-                    <View style={{flex:1,justifyContent: 'center', alignItems: 'center' }}>
-
-                             <TouchableOpacity
-                            onPress={() => { this.resendOTP() } }
-                            activeOpacity={0.5}
-                            style={{
-                                width: 100,
-                                height: 30,
-                                backgroundColor: 'transparent',
-                                marginTop: viewPortHeight / 30,
-                                justifyContent: 'center',
-                                alignItems: 'center'
-                            }}>
-                            <Text
-                                style={{
-                                    fontSize: 10,
-                                    width: 200,
-                                    height: 19,
-                                    fontFamily: 'WorkSans-Regular',
-                                    fontWeight: '500',
-                                    fontStyle: 'normal',
-                                    color: '#ffffff',
-                                    marginTop: 0,                
-                                    letterSpacing: 0.67,
-                                    textAlign: 'center'}}
-                            > {"Re-send OTP".toUpperCase()}</Text>
-                        </TouchableOpacity>
-
-                    </View>
+                    </View> 
                             
                     <View style={newStyle.endButtons}>
 
@@ -572,13 +603,22 @@ class PushToEarnOTPForgetPass extends Component {
                         <TextInput
                                 style={ newStyle.nameInput }
                                 placeholder=''
+                                ref='passwordInput'
+                                returnKeyType= {"next"}
+                                autoFocus = {true}
+                                onSubmitEditing= {(event) => {this.refs.confirmPasswordInput.focus();}}
                                 underlineColorAndroid= 'transparent'
+                                blurOnSubmit={false}
                                 onChangeText={(passwordInput) => this.validatePassword(passwordInput)}/>
 
-                        <Text style={newStyle.firstName}>Confrm Password</Text>
+                        <Text style={newStyle.firstName}>Confirm Password</Text>
                         <TextInput
                                 style={ newStyle.nameInput }
                                 placeholder=''
+                                ref='confirmPasswordInput'
+                                returnKeyType= {"next"}
+                                autoFocus = {true}
+                                blurOnSubmit={false}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(confirmpasswordInput) => this.validateConfirmPassword(confirmpasswordInput)}/>
 

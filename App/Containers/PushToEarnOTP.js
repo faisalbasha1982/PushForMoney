@@ -80,6 +80,7 @@ class PushToEarnOTP extends Component {
 
         this.state = {
             language: 'NEDERLANDS',
+            isLoading: false,
             validation: false,
             renderValidate: false,
             firstInput:'',
@@ -183,6 +184,8 @@ class PushToEarnOTP extends Component {
 
     callResendOTP = () => {
 
+        this.setState({ isLoading: true});
+
         let tokenLocalStorage = localStorage.getItem('token');
         this.setState({loginAccessToken:tokenLocalStorage});
 
@@ -209,6 +212,8 @@ class PushToEarnOTP extends Component {
     callOTP = (payload) => {
 
         console.tron.log("calling OTP....");
+
+        this.setState({ isLoading: true});
 
         if(this.state.firstInput === '' || this.state.secondInput === '' || this.state.thirdInput === '' || this.state.fourthInput === '')
         {
@@ -305,10 +310,17 @@ class PushToEarnOTP extends Component {
                            textAlign: "center",
                            color: "#000000"
                      }}>
-                         We send you an email with One Time                          {'\n'}
+                         We send you an email with One Time {'\n'}
                          Password.Please enter the code below.                         
                     </Text>
                 </View>
+
+                {
+                    this.state.isLoading===true?
+                    <View style = {{position: 'absolute' , zIndex:3999, left: 30, top: 0, right: 0, bottom: 0}}>
+                    <SkypeIndicator color='#e73d50' />
+                    </View>:this.somethingElse()
+                }                       
 
                 <View style={newStyle.inputContainer}>
 
@@ -323,6 +335,7 @@ class PushToEarnOTP extends Component {
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(firstInput) => this.validateOTPText1(firstInput)}/>
 
+
                     <TextInput
                                 style={ newStyle.otpInput }
                                 placeholder=''
@@ -330,7 +343,8 @@ class PushToEarnOTP extends Component {
                                 autoCapitalize="none"
                                 autoFocus = {true}
                                 underlineColorAndroid= 'transparent'
-                                onChangeText={(secondInput) => this.validateOTPText2(secondInput)}/>
+                                onChangeText={(secondInput) => this.validateOTPText2(secondInput)}/>            
+
                     <TextInput
                                 style={ newStyle.otpInput }
                                 placeholder=''
@@ -349,12 +363,7 @@ class PushToEarnOTP extends Component {
                                 onChangeText={(fourthInput) => this.validateOTPText4(fourthInput)}/>                                                    
                     </View>
 
-                     {
-                            this.state.isLoading===true?
-                            <View style = {{position: 'absolute' , zIndex:3999, left: 30, top: 0, right: 0, bottom: 0}}>
-                            <WaveIndicator color='#e73d50' />
-                            </View>:this.somethingElse()
-                      }            
+                    
 
                     <View style= {{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 
@@ -423,26 +432,7 @@ class PushToEarnOTP extends Component {
                                     letterSpacing: 0.67,
                                     textAlign: 'center'}}
                             > {this.state.buttonText.toUpperCase()}</Text>
-                        </TouchableOpacity>
-
-                            {/* <ButtonLogin 
-                                objectParams=
-                                {{
-                                    btnText: 'START NOW!',
-                                    language: '',
-                                    firstName: this.state.firstNameInput,
-                                    lastName: this.state.lastNameInput,
-                                    phoneNumber: this.state.phoneNumberInput,
-                                    firstNameError: this.state.firstNameError,
-                                    lastNameError: this.state.lastNameError,
-                                    phoneNumberError: this.state.phoneNumberError,
-                                    firstNameEmpty: this.state.firstNameEmptyError,
-                                    lastNameEmpty: this.state.lastNameEmptyError,
-                                    phoneNumberEmpty: this.state.phoneNumberEmptyError,
-                                }}
-                        func = {this.func}
-                        navigation = { this.props.navigation}
-                    />                               */}
+                        </TouchableOpacity>                        
 
                     </View>
 
@@ -492,7 +482,6 @@ class PushToEarnOTP extends Component {
                style = {newStyle.container}
                behavior = "padding"
                enabled>
-             {/* <View style={newStyle.container}> */}
             
              <View style={newStyle.headerImage}>
                  <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
@@ -519,12 +508,7 @@ class PushToEarnOTP extends Component {
                      onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
 
                  <Text style={newStyle.phoneNumberStyle}>{this.state.phoneNumber}</Text>
-                 {/* <TextInput
-                     keyboardType= "numeric"
-                     style={ newStyle.nameInput}
-                     placeholder=''
-                     underlineColorAndroid= 'transparent'
-                     onChangeText= { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }/>                 */}
+
                  <PhoneInput 
                          ref='phone'
                          initialCountry='be'
@@ -567,25 +551,7 @@ class PushToEarnOTP extends Component {
                             navigation = { this.props.navigation}
                 />
 
-
-                 {/* <ButtonNext 
-                         objectParams=
-                             {{
-                                 btnText: this.state.buttonText, 
-                                 language: this.props.navigation.state.params.language,
-                                 firstName: this.state.firstNameInput,
-                                 lastName: this.state.lastNameInput,
-                                 phoneNumber: this.state.phoneNumberInput,
-                                 firstNameError: this.state.firstNameError,
-                                 lastNameError: this.state.lastNameError,
-                                 phoneNumberError: this.state.phoneNumberError,
-                                 firstNameEmpty: this.state.firstNameEmptyError,
-                                 lastNameEmpty: this.state.lastNameEmptyError,
-                                 phoneNumberEmpty: this.state.phoneNumberEmptyError
-                             }}
-                         func = {this.func}/> */}
             </View>
-         {/* </View> */}
          </KeyboardAvoidingView>
          </ScrollView>
 

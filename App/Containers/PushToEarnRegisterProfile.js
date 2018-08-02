@@ -54,6 +54,7 @@ import headerImage from '../Images/headerImage.png';
 import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/page1.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { setContext } from '../../node_modules/redux-saga/effects';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -82,6 +83,7 @@ class PushToEarnRegisterProfile extends Component {
 
         this.state = {
             language: 'NEDERLANDS',
+            isLoading: false,
             firstName:'',
             name:'',
             phoneNumber:'',
@@ -253,6 +255,8 @@ class PushToEarnRegisterProfile extends Component {
             {
                 console.log("usrname=",this.props.navigation.state.params.uname);
                 console.log("password=",this.props.navigation.state.params.pword);   
+
+                this.setText();
             }
 
     }
@@ -260,54 +264,46 @@ class PushToEarnRegisterProfile extends Component {
     componentDidMount() {
 
         console.log("usrname=",this.props.navigation.state.params.uname);
-        console.log("password=",this.props.navigation.state.params.pword);   
-
-        // console.log("language from props="+this.props.navigation.state.params.language);
-        // console.log("default language="+this.state.language);
-        // this.setState({ language: this.props.navigation.state.params.language });
-        // console.log("language="+this.state.language);
-        // this.setText();
-        // console.log("this.state.firstName="+this.state.firstName);
-        // console.log("this.state.buttonText="+this.state.buttonText);
+        console.log("password=",this.props.navigation.state.params.pword);
+        this.setText();
     }
 
-    // setText =  () => {
+    setText =  () => {
 
-    //     this.setState({language: this.props.navigation.state.params.language});
-    //     console.log("this.state.language="+this.state.language);
+        let payload = this.props.navigation.state.params.payload;
 
-    //     if (this.props.navigation.state.params.language === 'NEDERLANDS') {
-    //         console.log("setting in Nederlands");
-    //         this.setState({
-    //             firstName:  LanguageSettings.dutch.firstNameText,
-    //             name:       LanguageSettings.dutch.lastNameText,
-    //             phoneNumber: LanguageSettings.dutch.telephoneNumberText,
-    //             buttonText: LanguageSettings.dutch.buttonNextText
-    //         });
-    //     }
-    //     else
-    //         if (this.props.navigation.state.params.language === 'ENGLISH') {
-    //             console.log("setting in English");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.english.firstNameText,
-    //                 name: LanguageSettings.english.lastNameText,
-    //                 phoneNumber: LanguageSettings.english.telephoneNumberText,
-    //                 buttonText: LanguageSettings.english.buttonNextText
-    //             });
-    //         }
-    //         else
-    //           {
-    //             console.log("setting in French");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.french.firstNameText,
-    //                 name: LanguageSettings.french.lastNameText,
-    //                 phoneNumber: LanguageSettings.french.telephoneNumberText,
-    //                 buttonText: LanguageSettings.french.buttonNextText
-    //             });
-    //         }
-    
-       
-    // }
+        let firstname = payload.firstname;
+        let lastname = payload.lastname;
+        let email = payload.email;
+        let id = payload.id;
+
+        if (this.state.language === 'NEDERLANDS') {
+            console.log("setting in Nederlands");
+            this.setState({
+                firstNameInput: firstname,
+                lastNameInput: lastname,
+                usernameInput: email,
+            });
+        }
+        else
+            if (this.state.language === 'ENGLISH') {
+                console.log("setting in English");
+                this.setState({
+                    firstNameInput: firstname,
+                    lastNameInput: lastname,
+                    usernameInput: email,                    
+                });
+            }
+            else
+              {
+                console.log("setting in French");
+                this.setState({
+                    firstNameInput: firstname,
+                    lastNameInput: lastname,
+                    usernameInput: email,                    
+                });
+            }   
+    }
 
     renderNothing = () => {
 
@@ -410,6 +406,8 @@ class PushToEarnRegisterProfile extends Component {
 
     callPrivateScreen = (payload) => {
 
+        this.setState({ isLoading: true});
+
         let signUpData = "\"SignUpData\":" +"\""+this.aes("{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.state.phonenumberInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}") +"\"";
 
         console.log("signUpData=",signUpData);
@@ -477,12 +475,6 @@ class PushToEarnRegisterProfile extends Component {
                     </Text>
                 </View>                
 
-                 {
-                            this.state.isLoading===true?
-                            <View style = {{position: 'absolute' , zIndex:3999, left: 30, top: 0, right: 0, bottom: 0}}>
-                            <WaveIndicator color='#e73d50' />
-                            </View>:this.somethingElse()
-                  }
 
                 <View style={newStyle.inputContainer}>
                
@@ -499,6 +491,13 @@ class PushToEarnRegisterProfile extends Component {
                         placeholder=''
                         underlineColorAndroid= 'transparent'
                         onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
+ 
+                      {
+                            this.state.isLoading===true?
+                            <View style = {{position: 'absolute' , zIndex:3999, left: 30, top: 0, right: 0, bottom: 0}}>
+                            <WaveIndicator color='#e73d50' />
+                            </View>:this.somethingElse()
+                      }
 
                     <Text style={newStyle.firstName}>Email Address</Text>
                     <TextInput
