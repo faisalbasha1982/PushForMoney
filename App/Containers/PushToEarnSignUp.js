@@ -82,7 +82,6 @@ const Constants = {
 let cLanguage = '';
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-
 class PushToEarnSignUp extends Component {
 
     static propTypes = {
