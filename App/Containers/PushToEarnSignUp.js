@@ -49,6 +49,8 @@ import utf8 from 'utf8';
 import Api from './Api';
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 import {RSA, RSAKeychain } from 'react-native-rsa-native';
+import * as AuthComponent from '../Components/AuthComponent';
+import * as AesComponent from '../Components/AesComponent';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -57,7 +59,7 @@ import headerImage from '../Images/headerImage.png';
 import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/page1.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { LoginManager } from 'react-native-fbsdk';
+import { AccessToken, LoginManager, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 import LinkedInModal from 'react-native-linkedin';
 
 const viewPortHeight = Dimensions.get('window').height;
@@ -113,6 +115,9 @@ class PushToEarnSignUp extends Component {
     }
 
     onGoogleButtonClick = async () => {
+
+        console.warn('google button clicked'); // eslint-disable-line
+
         await GoogleSignin.configure({
           iosClientId: '1041950784543-pkmc6rhf0e6av81q1j8qhspb10oqa7dn.apps.googleusercontent.com',
         })
@@ -121,8 +126,13 @@ class PushToEarnSignUp extends Component {
             GoogleSignin.currentUserAsync().then((user) => {
               console.log('USER', user);
               this.setState({ user });
+
+              if(user === null)
+                  this.googleSignOut();
+
             }).done();
           });
+
         const userNew = GoogleSignin.currentUser();
     
         GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
@@ -130,39 +140,223 @@ class PushToEarnSignUp extends Component {
         })
           .catch((err) => {
             console.log('Play services error', err.code, err.message);
-          });
+          });        
+
+          if(userNew === null)
+            {
+               this.googleSignOut();
+            }
+
+            this.googleSignIn();
+
+            // GoogleSignin.signIn()
+            // .then((user) => {
     
-        GoogleSignin.signIn()
-          .then((user) => {
-            console.log(user);
-            this.setState({ user });
+            //   console.log(user);
+            //   //this.setState({ user });
     
-            GoogleSignin.getAccessToken()
-              .then((token) => {
-                console.log(token);
-              })
-              .catch((err) => {
-                console.log(err);
-              })
-              .done();
-          })
-          .catch((err) => {
-            console.log('WRONG SIGNIN', err);
-          })
-          .done();
+            //   this.googleLogin(user);
+      
+            //   GoogleSignin.getAccessToken()
+            //     .then((token) => {
+            //       console.log(token);
+            //     })
+            //     .catch((err) => {
+            //       console.log(err);
+            //     })
+            //     .done();
+            // })
+            // .catch((err) => {
+            //   console.log('WRONG SIGNIN', err);
+            // })
+            // .done();
       };
+
+      
+
+      googleSignOut = async () => {
+        try {
+          await GoogleSignin.revokeAccess();
+          await GoogleSignin.signOut();
+          this.setState({ user: null });
+        } catch (error) {
+          this.setState({
+            error,
+          });
+        }
+      };
+
+      googleSignIn = async () => {
+        GoogleSignin.signIn()
+        .then((user) => {
+
+            Alert.alert(
+                'google login in Progress',
+                'user Received='+user,
+                [                      
+                    {
+                      text: 'OK', 
+                      onPress: () => console.log('Ask me later Pressed')
+                    },                      
+                ],
+                {cancelable: false}
+            );
+          //this.setState({ user });
+
+          this.googleLogin(user);
+  
+          GoogleSignin.getAccessToken()
+            .then((token) => {
+              console.log(token);
+            })
+            .catch((err) => {
+              console.log(err);
+            })
+            .done();
+        })
+        .catch((err) => {
+          console.log('WRONG SIGNIN', err);
+        })
+        .done();
+      }
+
+    //   id: <user id. do not use on the backend>
+    //   name: <user name>
+    //   givenName: <user given name> (Android only)
+    //   familyName: <user family name> (Android only)
+    //   email: <user email>
+    //   photo: <user picture profile>
+    //   idToken: <token to authenticate the user on the backend>
+    //   serverAuthCode: <one-time token to access Google API from the backend on behalf of the user>
+    //   scopes: <list of authorized scopes>
+    //   accessToken: <needed to access google API from the application>      
+
+    googleLogin = (user) =>
+    {
+
+        Alert.alert(
+            'google login in Progress',
+            'accessToken Received userID='+user.id,
+            [                      
+                {
+                  text: 'OK', 
+                  onPress: () => console.log('Ask me later Pressed')
+                },                      
+            ],
+            {cancelable: false}
+        );
+
+        let authData = AuthComponent.authenticationData("en");
+        console.log("authdata=",authData);
+
+        let encryptedData = AesComponent.aesCallback(authData);
+        console.log("encrypted data=",encryptedData);
+
+        let loginInfo = "{ 'G' : '"+user.id+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
+        console.log("loginData="+loginInfo);
+        this.rsa(loginInfo);
+
+        this.setState({isLoading: false});
+
+        setTimeout(() => 
+        {
+          if( this.state.encodedText !== "")
+          {
+
+            let payload = JSON.stringify({
+
+                "AuthenticationData": encryptedData,
+                "LoginData": this.state.encodedText,
+                "SignupMode": false,
+
+            });
+
+            // let payloadNew = JSON.stringify({
+            //       "userName": userName,
+            //       "id": userID,
+            // });
+
+            this.props.googleLogin(payload);
+        }
+          else
+            console.log("loginData  or authentication Data is empty");
+          },3000);
+
+    //    let payload = {
+    //        "username": user.id,
+    //        "name": user.givenName,
+    //        "email": user.email,
+    //    };
+
+    //    this.props.googleLogin(payload);
+
+    }
+
+    twitterLogin(userID,userName)
+    {
+        let authData = AuthComponent.authenticationData("en");
+        console.log("authdata=",authData);
+
+        let encryptedData = AesComponent.aesCallback(authData);
+        console.log("encrypted data=",encryptedData);
+
+        let loginInfo = "{ 'T' : '"+userID+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
+        console.log("loginData="+loginInfo);
+        this.rsa(loginInfo);
+
+        this.setState({isLoading: false});
+
+        setTimeout(() => 
+        {
+          if( this.state.encodedText !== "")
+          {
+
+            let payload = JSON.stringify({
+
+                "AuthenticationData": encryptedData,
+                "LoginData": this.state.encodedText,
+                "SignupMode": false,
+
+            });
+
+            let payloadNew = JSON.stringify({
+                  "userName": userName,
+                  "id": userID,
+            });
+
+            this.props.twitterlogin(payload);
+          }
+          else
+            console.log("loginData  or authentication Data is empty");
+          },3000);
+    }
 
     twitterSignIn = () => {
         console.warn('twitter button clicked'); // eslint-disable-line
         RNTwitterSignIn.init(Constants.TWITTER_COMSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
         RNTwitterSignIn.logIn()
           .then(loginData => {
-            console.log(loginData)
-            const { authToken, authTokenSecret } = loginData
+            console.log(loginData);
+            const { authToken, authTokenSecret, userID,userName } = loginData;
+
+            Alert.alert(
+                'accessToken Received',
+                'accessToken Received='+authToken +" userID="+userID,
+                [                      
+                    {
+                      text: 'OK', 
+                      onPress: () => console.log('Ask me later Pressed')
+                    },                      
+                ],
+                {cancelable: false}
+            );
+
             if (authToken && authTokenSecret) {
               this.setState({
                 isLoggedIn: true
-              })
+              });
+
+              this.twitterLogin(userID,userName);
             }
           })
           .catch(error => {
@@ -271,6 +465,19 @@ class PushToEarnSignUp extends Component {
           (result) => {
             if (result.isCancelled) {
               console.log('Login was cancelled');
+
+              Alert.alert(
+                'Login Unsuccessful',
+                'Login was Cancelled',
+                [                      
+                    {
+                      text: 'OK', 
+                      onPress: () => console.log('Ask me later Pressed')
+                    },                      
+                ],
+                {cancelable: false}
+            );
+
             } else {
               console.log(`Login was successful with permissions: ${
                 result.grantedPermissions.toString()}`);
@@ -292,7 +499,7 @@ class PushToEarnSignUp extends Component {
                         {cancelable: false}
                     );
 
-                    this.initUser(accessToken)
+                    this.initUser(accessToken);
                   });
             }
           },
@@ -347,6 +554,9 @@ class PushToEarnSignUp extends Component {
     }
 
     componentDidMount() {
+
+        LoginManager.logOut();
+
         // console.log("language from props="+this.props.navigation.state.params.language);
         // console.log("default language="+this.state.language);
         // this.setState({ language: this.props.navigation.state.params.language });
@@ -837,12 +1047,11 @@ class PushToEarnSignUp extends Component {
 
                let loginData = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";
         
-               let authEncrypted = this.aes(cAuthenticationData);              
+               let authEncrypted = this.aes(cAuthenticationData);     
                let loginDataEncrypted = this.rsa(loginData);
 
                console.log('authentication Data Encrypted to send --->' + authEncrypted);
-               console.log('login Data encrypted to send --->'+ loginDataEncrypted);
-            
+               console.log('login Data encrypted to send --->'+ loginDataEncrypted);            
 
             setTimeout( () => {
                 if( this.state.encodedText !== ""  || this.state.cAuthenticationData !== "" )
@@ -902,6 +1111,47 @@ class PushToEarnSignUp extends Component {
     func = (renderValidate,EmptyErrorText) => {
       this.setState({renderValidate,EmptyErrorText});
     }
+
+    getUser = async ( access_token ) => {
+
+        this.setState({ refreshing: true });
+
+        const baseApi = 'https://api.linkedin.com/v1/people/';
+        const qs = { format: 'json' };
+
+        const params = [
+          'first-name',
+          'last-name',
+          'picture-urls::(original)',
+          'headline',
+          'email-address',
+        ];
+    
+        const response = await fetch(`${baseApi}~:(${params.join(',')})?format=json`, {
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + access_token,
+          },
+        });
+
+        const payload = await response.json();
+
+        Alert.alert(
+            'Fetching User Data from linkedin',
+            'getUser method response='+payload,
+            [                      
+                {
+                text: 'OK', 
+                onPress: () => console.log('Ask me later Pressed')
+                },                      
+            ],
+            {cancelable: false}
+        ); 
+      }
+
+      linkedIn = () => {
+
+      }
 
     render() {
         const platform = Platform.OS;
@@ -986,7 +1236,7 @@ class PushToEarnSignUp extends Component {
                                             size = {35}
                                             onPress={() => console.log('hello')} /> 
                                             <LinkedInModal
-                                                        linkText=''
+                                                        linkText='L'
                                                         clientID="81td97f0ibm93v"
                                                         clientSecret="RotJQJQRBbBoWG7l"
                                                         redirectUri="https://www.linkedin.com/developer/apps"
@@ -1421,6 +1671,8 @@ const mapStateToProps = state => {
     
     registerAction: ( payload,username,password ) => dispatch(RegisterActions.makeRegisterRequest(payload, username, password)),
     signUpFaceBook: (payload,payloadNew) => dispatch({type: 'FACEBOOK_DATA', payload, payloadNew}),
+    twitterlogin: (payload) => dispatch({ type:'TWITTER_REQUEST',payload}),
+    googleLogin: (payload) => dispatch({ type: 'GOOGLE_REQUEST',payload}),
     resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
     navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
     navigateBack: () => this.props.navigation.goBack(),

@@ -75,7 +75,6 @@ export const IMAGE_HEIGHT_SMALL = window.width /7;
 
 const { RNTwitterSignIn } = NativeModules;
 
-
 const Constants = {
     // Dev Parse keys
     TWITTER_COMSUMER_KEY: 'B9gQXS1YrrtH5Q9HDFl08MVVS',
@@ -120,6 +119,9 @@ class PushToEarnSignIn extends Component {
     }
 
     onGoogleButtonClick = async () => {
+
+        console.warn('google button clicked'); // eslint-disable-line
+
         await GoogleSignin.configure({
           iosClientId: '1041950784543-pkmc6rhf0e6av81q1j8qhspb10oqa7dn.apps.googleusercontent.com',
         })
@@ -128,8 +130,13 @@ class PushToEarnSignIn extends Component {
             GoogleSignin.currentUserAsync().then((user) => {
               console.log('USER', user);
               this.setState({ user });
+
+              if(user === null)
+                  this.googleSignOut();
+
             }).done();
           });
+
         const userNew = GoogleSignin.currentUser();
     
         GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
@@ -137,39 +144,222 @@ class PushToEarnSignIn extends Component {
         })
           .catch((err) => {
             console.log('Play services error', err.code, err.message);
-          });
+          });        
+
+          if(userNew === null)
+            {
+               this.googleSignOut();
+               this.googleSignIn();
+            }
+
+            GoogleSignin.signIn()
+            .then((user) => {
     
-        GoogleSignin.signIn()
-          .then((user) => {
-            console.log(user);
-            this.setState({ user });
+              console.log(user);
+              //this.setState({ user });
     
-            GoogleSignin.getAccessToken()
-              .then((token) => {
-                console.log(token);
-              })
-              .catch((err) => {
-                console.log(err);
-              })
-              .done();
-          })
-          .catch((err) => {
-            console.log('WRONG SIGNIN', err);
-          })
-          .done();
+              this.googleLogin(user);
+      
+              GoogleSignin.getAccessToken()
+                .then((token) => {
+                  console.log(token);
+                })
+                .catch((err) => {
+                  console.log(err);
+                })
+                .done();
+            })
+            .catch((err) => {
+              console.log('WRONG SIGNIN', err);
+            })
+            .done();
       };
+
+      
+
+      googleSignOut = async () => {
+        try {
+          await GoogleSignin.revokeAccess();
+          await GoogleSignin.signOut();
+          this.setState({ user: null });
+        } catch (error) {
+          this.setState({
+            error,
+          });
+        }
+      };
+
+      googleSignIn = async () => {
+        GoogleSignin.signIn()
+        .then((user) => {
+
+            Alert.alert(
+                'google login in Progress',
+                'user Received= userID='+user,
+                [                      
+                    {
+                      text: 'OK', 
+                      onPress: () => console.log('Ask me later Pressed')
+                    },                      
+                ],
+                {cancelable: false}
+            );
+          //this.setState({ user });
+
+          this.googleLogin(user);
+  
+          GoogleSignin.getAccessToken()
+            .then((token) => {
+              console.log(token);
+            })
+            .catch((err) => {
+              console.log(err);
+            })
+            .done();
+        })
+        .catch((err) => {
+          console.log('WRONG SIGNIN', err);
+        })
+        .done();
+      }
+
+    //   id: <user id. do not use on the backend>
+    //   name: <user name>
+    //   givenName: <user given name> (Android only)
+    //   familyName: <user family name> (Android only)
+    //   email: <user email>
+    //   photo: <user picture profile>
+    //   idToken: <token to authenticate the user on the backend>
+    //   serverAuthCode: <one-time token to access Google API from the backend on behalf of the user>
+    //   scopes: <list of authorized scopes>
+    //   accessToken: <needed to access google API from the application>      
+
+    googleLogin = (user) =>
+    {
+
+        Alert.alert(
+            'google login in Progress',
+            'accessToken Received= userID='+user.id,
+            [                      
+                {
+                  text: 'OK', 
+                  onPress: () => console.log('Ask me later Pressed')
+                },                      
+            ],
+            {cancelable: false}
+        );
+
+        let authData = AuthComponent.authenticationData("en");
+        console.log("authdata=",authData);
+
+        let encryptedData = AesComponent.aesCallback(authData);
+        console.log("encrypted data=",encryptedData);
+
+        let loginInfo = "{ 'G' : '"+user.id+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
+        console.log("loginData="+loginInfo);
+        this.rsa(loginInfo);
+
+        this.setState({isLoading: false});
+
+        setTimeout(() => 
+        {
+          if( this.state.encodedText !== "")
+          {
+
+            let payload = JSON.stringify({
+
+                "AuthenticationData": encryptedData,
+                "LoginData": this.state.encodedText,
+                "SignupMode": false,
+
+            });
+
+            // let payloadNew = JSON.stringify({
+            //       "userName": userName,
+            //       "id": userID,
+            // });
+
+            this.props.googleLogin(payload);
+        }
+          else
+            console.log("loginData  or authentication Data is empty");
+          },3000);
+
+    //    let payload = {
+    //        "username": user.id,
+    //        "name": user.givenName,
+    //        "email": user.email,
+    //    };
+
+    //    this.props.googleLogin(payload);
+
+    }
+
+    twitterLogin(userID,userName)
+    {
+        let authData = AuthComponent.authenticationData("en");
+        console.log("authdata=",authData);
+
+        let encryptedData = AesComponent.aesCallback(authData);
+        console.log("encrypted data=",encryptedData);
+
+        let loginInfo = "{ 'T' : '"+userID+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
+        console.log("loginData="+loginInfo);
+        this.rsa(loginInfo);
+
+        this.setState({isLoading: false});
+
+        setTimeout(() => 
+        {
+          if( this.state.encodedText !== "")
+          {
+
+            let payload = JSON.stringify({
+
+                "AuthenticationData": encryptedData,
+                "LoginData": this.state.encodedText,
+                "SignupMode": false,
+
+            });
+
+            let payloadNew = JSON.stringify({
+                  "userName": userName,
+                  "id": userID,
+            });
+
+            this.props.twitterlogin(payload);
+          }
+          else
+            console.log("loginData  or authentication Data is empty");
+          },3000);
+    }
 
     twitterSignIn = () => {
         console.warn('twitter button clicked'); // eslint-disable-line
         RNTwitterSignIn.init(Constants.TWITTER_COMSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
         RNTwitterSignIn.logIn()
           .then(loginData => {
-            console.log(loginData)
-            const { authToken, authTokenSecret } = loginData
+            console.log(loginData);
+            const { authToken, authTokenSecret, userID,userName } = loginData;
+
+            Alert.alert(
+                'accessToken Received',
+                'accessToken Received='+authToken +" userID="+userID,
+                [                      
+                    {
+                      text: 'OK', 
+                      onPress: () => console.log('Ask me later Pressed')
+                    },                      
+                ],
+                {cancelable: false}
+            );
+
             if (authToken && authTokenSecret) {
               this.setState({
                 isLoggedIn: true
-              })
+              });
+
+              this.twitterLogin(userID,userName);
             }
           })
           .catch(error => {
@@ -310,6 +500,7 @@ class PushToEarnSignIn extends Component {
 
       linkedin = () => {
            
+        
       }
 
     validatePassword = (password) => {
@@ -378,13 +569,12 @@ class PushToEarnSignIn extends Component {
         //     this.setText();
         // }
 
-
     }
 
     componentDidMount() {
 
         LoginManager.logOut();
-        
+
         // console.log("language from props="+this.props.navigation.state.params.language);
         // console.log("default language="+this.state.language);
         // this.setState({ language: this.props.navigation.state.params.language });

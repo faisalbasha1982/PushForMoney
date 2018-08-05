@@ -74,24 +74,43 @@ function fetchFacebook(payload)
     )
       .catch((error) => console.error(error));}
 
-export function * facebookRequest(api,payload,payloadNew) {
 
-  Alert.alert("facebook request api call to server.....");
+export function * googleRequest(api,payload)
+{
 
-  try{
-        const response = yield call(api.facebook,payload.payload);
-        
-
+  try {
+    const response = yield call(api.mediaLogin, payload.payload);
+    
     console.tron.log("response from api call =",response);
     console.tron.log("response ok=",response.ok);
     console.tron.log("response StatusCode=",response.data.StatusCode);
 
-    if (response.ok && response.data.StatusCode === 200 ) 
+    if (response.ok && response.data.StatusCode === 200)
     {
 
+          Alert.alert(
+            'Google Login Successfull',
+            'Push To Earn Money Welcome Page',
+            [                      
+                {
+                  text: 'OK', 
+                  onPress: () => console.log('Ask me later Pressed')
+                },                      
+            ],
+            {cancelable: false}
+        );
+
+        NavigationService.navigate('PushToEarnWelcomeScreen');
+    }
+    else 
+    {
+      yield put(LoginActions.loginFailure());    
+
+      //NavigationService.navigate('PushToEarnRegisterProfile',{uname: '',pword:'', payload: payloadNew.payload});
+
       Alert.alert(
-        'Login Successfull',
-        'Push To Earn Money Welcome Page',
+        'Login Failed',
+        ""+response.data.Message,
         [                      
             {
               text: 'OK', 
@@ -99,32 +118,121 @@ export function * facebookRequest(api,payload,payloadNew) {
             },                      
         ],
         {cancelable: false}
-    );
+      );
+        //NavigationService.navigate('PushToEarnRegisterProfile');
 
-    NavigationService.navigate('PushToEarnWelcomeScreen');
+      }
   }
-  else 
-  {
-    yield put(LoginActions.loginFailure());    
+catch(error){
+console.log("error="+error);
+}
 
-    NavigationService.navigate('PushToEarnRegisterProfile',{uname: payloadNew.email,pword:'', payload: payloadNew.payload});
+}
 
-    Alert.alert(
-      'Login Failed',
-      ""+response.data.Message,
-      [                      
+export function * twitterRequest(api,payload) 
+{
+
+  Alert.alert("twitter request api call to server.....");
+
+  try {
+          const response = yield call(api.mediaLogin, payload.payload);
+          
+          console.tron.log("response from api call =",response);
+          console.tron.log("response ok=",response.ok);
+          console.tron.log("response StatusCode=",response.data.StatusCode);
+
+          if (response.ok && response.data.StatusCode === 200)
           {
-            text: 'OK', 
-            onPress: () => console.log('Ask me later Pressed')
-          },                      
-      ],
-      {cancelable: false}
-  );
-  //NavigationService.navigate('PushToEarnRegisterProfile');
 
+                Alert.alert(
+                  'Login Successfull',
+                  'Push To Earn Money Welcome Page',
+                  [                      
+                      {
+                        text: 'OK', 
+                        onPress: () => console.log('Ask me later Pressed')
+                      },                      
+                  ],
+                  {cancelable: false}
+              );
+
+              NavigationService.navigate('PushToEarnWelcomeScreen');
+          }
+          else 
+          {
+            yield put(LoginActions.loginFailure());    
+
+            //NavigationService.navigate('PushToEarnRegisterProfile',{uname: '',pword:'', payload: payloadNew.payload});
+
+            Alert.alert(
+              'Login Failed',
+              ""+response.data.Message,
+              [                      
+                  {
+                    text: 'OK', 
+                    onPress: () => console.log('Ask me later Pressed')
+                  },                      
+              ],
+              {cancelable: false}
+            );
+              //NavigationService.navigate('PushToEarnRegisterProfile');
+
+            }
+        }
+  catch(error){
+      console.log("error="+error);
   }
-
   
+}
+
+export function * facebookRequest(api,payload,payloadNew) {
+
+  Alert.alert("facebook request api call to server.....");
+
+  try{
+        const response = yield call(api.mediaLogin,payload.payload);
+        
+        console.tron.log("response from api call =",response);
+        console.tron.log("response ok=",response.ok);
+        console.tron.log("response StatusCode=",response.data.StatusCode);
+
+        if (response.ok && response.data.StatusCode === 200 ) 
+        {
+
+              Alert.alert(
+                'Login Successfull',
+                'Push To Earn Money Welcome Page',
+                [                      
+                    {
+                      text: 'OK', 
+                      onPress: () => console.log('Ask me later Pressed')
+                    },                      
+                ],
+                {cancelable: false}
+            );
+
+            NavigationService.navigate('PushToEarnWelcomeScreen');
+        }
+        else 
+        {
+          yield put(LoginActions.loginFailure());    
+
+          NavigationService.navigate('PushToEarnRegisterProfile',{uname: payloadNew.email,pword:'', payload: payloadNew.payload});
+
+          Alert.alert(
+            'Login Failed',
+            ""+response.data.Message,
+            [                      
+                {
+                  text: 'OK', 
+                  onPress: () => console.log('Ask me later Pressed')
+                },                      
+            ],
+            {cancelable: false}
+        );
+         //NavigationService.navigate('PushToEarnRegisterProfile');
+
+        }  
   }
   catch(error)
   {
