@@ -148,32 +148,9 @@ class PushToEarnSignUp extends Component {
             }
 
             this.googleSignIn();
-
-            // GoogleSignin.signIn()
-            // .then((user) => {
-    
-            //   console.log(user);
-            //   //this.setState({ user });
-    
-            //   this.googleLogin(user);
-      
-            //   GoogleSignin.getAccessToken()
-            //     .then((token) => {
-            //       console.log(token);
-            //     })
-            //     .catch((err) => {
-            //       console.log(err);
-            //     })
-            //     .done();
-            // })
-            // .catch((err) => {
-            //   console.log('WRONG SIGNIN', err);
-            // })
-            // .done();
       };
 
       
-
       googleSignOut = async () => {
         try {
           await GoogleSignin.revokeAccess();
@@ -201,7 +178,6 @@ class PushToEarnSignUp extends Component {
                 ],
                 {cancelable: false}
             );
-          //this.setState({ user });
 
           this.googleLogin(user);
   
@@ -220,23 +196,12 @@ class PushToEarnSignUp extends Component {
         .done();
       }
 
-    //   id: <user id. do not use on the backend>
-    //   name: <user name>
-    //   givenName: <user given name> (Android only)
-    //   familyName: <user family name> (Android only)
-    //   email: <user email>
-    //   photo: <user picture profile>
-    //   idToken: <token to authenticate the user on the backend>
-    //   serverAuthCode: <one-time token to access Google API from the backend on behalf of the user>
-    //   scopes: <list of authorized scopes>
-    //   accessToken: <needed to access google API from the application>      
-
     googleLogin = (user) =>
     {
 
         Alert.alert(
             'google login in Progress',
-            'accessToken Received userID='+user.id,
+            'userID='+user.id,
             [                      
                 {
                   text: 'OK', 
@@ -247,13 +212,9 @@ class PushToEarnSignUp extends Component {
         );
 
         let authData = AuthComponent.authenticationData("en");
-        console.log("authdata=",authData);
-
         let encryptedData = AesComponent.aesCallback(authData);
-        console.log("encrypted data=",encryptedData);
-
         let loginInfo = "{ 'G' : '"+user.id+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
-        console.log("loginData="+loginInfo);
+
         this.rsa(loginInfo);
 
         this.setState({isLoading: false});
@@ -271,40 +232,24 @@ class PushToEarnSignUp extends Component {
 
             });
 
-            // let payloadNew = JSON.stringify({
-            //       "userName": userName,
-            //       "id": userID,
-            // });
-
             this.props.googleLogin(payload);
         }
           else
             console.log("loginData  or authentication Data is empty");
           },3000);
 
-    //    let payload = {
-    //        "username": user.id,
-    //        "name": user.givenName,
-    //        "email": user.email,
-    //    };
-
-    //    this.props.googleLogin(payload);
-
     }
 
     twitterLogin(userID,userName)
     {
         let authData = AuthComponent.authenticationData("en");
-        console.log("authdata=",authData);
-
         let encryptedData = AesComponent.aesCallback(authData);
-        console.log("encrypted data=",encryptedData);
-
         let loginInfo = "{ 'T' : '"+userID+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
-        console.log("loginData="+loginInfo);
         this.rsa(loginInfo);
 
         this.setState({isLoading: false});
+
+        console.log("userName:"+userName);
 
         setTimeout(() => 
         {
@@ -324,7 +269,7 @@ class PushToEarnSignUp extends Component {
                   "id": userID,
             });
 
-            this.props.twitterlogin(payload);
+            this.props.twitterlogin(payload,userName);
           }
           else
             console.log("loginData  or authentication Data is empty");
@@ -336,12 +281,13 @@ class PushToEarnSignUp extends Component {
         RNTwitterSignIn.init(Constants.TWITTER_COMSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
         RNTwitterSignIn.logIn()
           .then(loginData => {
+
             console.log(loginData);
             const { authToken, authTokenSecret, userID,userName } = loginData;
 
             Alert.alert(
-                'accessToken Received',
-                'accessToken Received='+authToken +" userID="+userID,
+                'Twitter Login successful',
+                " userID="+userID + " userName="+ userName,
                 [                      
                     {
                       text: 'OK', 
@@ -352,12 +298,10 @@ class PushToEarnSignUp extends Component {
             );
 
             if (authToken && authTokenSecret) {
-              this.setState({
-                isLoggedIn: true
-              });
-
+              this.setState({ isLoggedIn: true });
               this.twitterLogin(userID,userName);
             }
+
           })
           .catch(error => {
             console.log(error)
@@ -374,20 +318,18 @@ class PushToEarnSignUp extends Component {
     }
 
     _responseInfoCallback = (error, result) => {
+
         if (error) {
             Alert.alert('Error fetching data: ' + error.toString());
-        } else {
+        } 
+        else 
+        {
 
-            Alert.alert('Success fetching data user id: ' + result.id+ ' username='+ result.name + " email="+result.email);
+          Alert.alert('Success fetching data user id: ' + result.id+ ' username='+ result.name + " email="+result.email);
 
           let authData = AuthComponent.authenticationData("en");
-          console.log("authdata=",authData);
-
           let encryptedData = AesComponent.aesCallback(authData);
-          console.log("encrypted data=",encryptedData);
-
           let loginInfo = "{ 'F' : '"+result.id.toString()+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
-          console.log("loginData="+loginInfo);
           this.rsa(loginInfo);
 
           this.setState({isLoading: false});
@@ -458,12 +400,14 @@ class PushToEarnSignUp extends Component {
     }
 
     onFacebookButtonClick = () => {
-        console.log('facebook butotn clicked');
+
+        console.log('facebook button clicked');
         console.warn('Facebook button clicked'); // eslint-disable-line
     
         LoginManager.logInWithReadPermissions(['user_friends', 'public_profile', 'email']).then(
           (result) => {
             if (result.isCancelled) {
+
               console.log('Login was cancelled');
 
               Alert.alert(
@@ -479,25 +423,25 @@ class PushToEarnSignUp extends Component {
             );
 
             } else {
-              console.log(`Login was successful with permissions: ${
-                result.grantedPermissions.toString()}`);
 
-                const data = AccessToken.getCurrentAccessToken();
+              console.log(`Login was successful with permissions: ${result.grantedPermissions.toString()}`);
+
+              const data = AccessToken.getCurrentAccessToken();
 
                 AccessToken.getCurrentAccessToken().then((data) => {
                     const { accessToken } = data;                    
 
-                    Alert.alert(
-                        'accessToken Received',
-                        'accessToken Received='+accessToken,
-                        [                      
-                            {
-                              text: 'OK', 
-                              onPress: () => console.log('Ask me later Pressed')
-                            },                      
-                        ],
-                        {cancelable: false}
-                    );
+                    // Alert.alert(
+                    //     'accessToken Received',
+                    //     'accessToken Received='+accessToken,
+                    //     [                      
+                    //         {
+                    //           text: 'OK', 
+                    //           onPress: () => console.log('Ask me later Pressed')
+                    //         },                      
+                    //     ],
+                    //     {cancelable: false}
+                    // );
 
                     this.initUser(accessToken);
                   });
@@ -546,71 +490,20 @@ class PushToEarnSignUp extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        // console.log("in Form One screen language received="+nextProps.language);
-        // if (this.props.navigation.state.params.language !== nextProps.language) {
-        //     this.setState({ language: nextProps.language });
-        //     this.setText();
-        // }
+
     }
 
     componentDidMount() {
 
         LoginManager.logOut();
 
-        // console.log("language from props="+this.props.navigation.state.params.language);
-        // console.log("default language="+this.state.language);
-        // this.setState({ language: this.props.navigation.state.params.language });
-        // console.log("language="+this.state.language);
-        // this.setText();
-        // console.log("this.state.firstName="+this.state.firstName);
-        // console.log("this.state.buttonText="+this.state.buttonText);
     }
-
-    // setText =  () => {
-
-    //     this.setState({language: this.props.navigation.state.params.language});
-    //     console.log("this.state.language="+this.state.language);
-
-    //     if (this.props.navigation.state.params.language === 'NEDERLANDS') {
-    //         console.log("setting in Nederlands");
-    //         this.setState({
-    //             firstName:  LanguageSettings.dutch.firstNameText,
-    //             name:       LanguageSettings.dutch.lastNameText,
-    //             phoneNumber: LanguageSettings.dutch.telephoneNumberText,
-    //             buttonText: LanguageSettings.dutch.buttonNextText
-    //         });
-    //     }
-    //     else
-    //         if (this.props.navigation.state.params.language === 'ENGLISH') {
-    //             console.log("setting in English");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.english.firstNameText,
-    //                 name: LanguageSettings.english.lastNameText,
-    //                 phoneNumber: LanguageSettings.english.telephoneNumberText,
-    //                 buttonText: LanguageSettings.english.buttonNextText
-    //             });
-    //         }
-    //         else
-    //           {
-    //             console.log("setting in French");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.french.firstNameText,
-    //                 name: LanguageSettings.french.lastNameText,
-    //                 phoneNumber: LanguageSettings.french.telephoneNumberText,
-    //                 buttonText: LanguageSettings.french.buttonNextText
-    //             });
-    //         }
-    
-       
-    // }
 
     renderNothing = () => {
 
     }
 
     renderValidation = () => {
-
-        //if(this.state.language === 'NEDERLANDS')
 
         console.log("empty error text="+this.state.EmptyErrorText);
         console.log("first Name Input="+this.state.firstNameInput);
@@ -620,9 +513,6 @@ class PushToEarnSignUp extends Component {
 
         if(this.state.firstNameError===true || this.state.firstNameInput === '')
             errorString = errorString + '\n' + this.state.firstNameErrorText;
-
-        // if(this.state.lastNameError===true)
-        //     errorString = errorString + '\n' + this.state.lastNameErrorText;
 
         if(this.state.phoneNumberError===true || this.state.phoneNumberInput==='')
             errorString = errorString + '\n' + this.state.phoneNumberErrorText;
@@ -673,15 +563,11 @@ class PushToEarnSignUp extends Component {
      
         const ivRandom = this.randomStringIV();
       
-        // var key = CryptoJS.enc.Utf8.parse('VyhoMoGxi25xn/Tc');
-
         var key = CryptoJS.enc.Utf8.parse(Api.securityKey);
         var iv = CryptoJS.enc.Utf8.parse(ivRandom.toString());
         const ivFirstPart = ivRandom.substr(0,8);
         const ivLastPart = ivRandom.substring(8);
-        
-        //console.log('first part='+ivFirstPart+ " Last part="+ivLastPart);
-      
+              
         var encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(authenticationData), key,
             {
                 keySize: 256 / 8,
@@ -696,13 +582,6 @@ class PushToEarnSignUp extends Component {
             mode: CryptoJS.mode.CBC,
             padding: CryptoJS.pad.Pkcs7
         });
-      
-        // console.log('Encrypted :' + encrypted);
-        // console.log('Key :' + encrypted.key);
-        // console.log('Salt :' + encrypted.salt);
-        // console.log('iv :' + encrypted.iv);
-        // console.log('Decrypted : ' + decrypted);
-        // console.log('utf8 = ' + decrypted.toString(CryptoJS.enc.Utf8));
       
         return ivFirstPart + encrypted.toString() + ivLastPart;
      }
@@ -755,16 +634,12 @@ class PushToEarnSignUp extends Component {
 
       updateText = (encodedMessage) => {         
 
-        console.log("updateText=",encodedMessage);
         this.setState({encodedText: encodedMessage, loginD: encodedMessage});
-        console.log("after setting state encodedText=",this.state.encodedText);
 
      }
 
     getLoginEncData = () => {
 
-        console.log("state encodedText=",this.state.encodedText);
-        console.log("state loginD=",this.state.loginD);
         return this.state.encodedText;
 
     }
@@ -865,18 +740,10 @@ class PushToEarnSignUp extends Component {
                         .then(encodedMessage => {
 
                             encodedT = encodedMessage;
-
-                            //console.log("publicKey="+publicKeyNew);
-                            //console.log("privateKey="+privateKeyNew);
-
                             that.updateText(encodedMessage);
-
-                            //console.log('encoded Message stored =',encodedT);
-                            //console.log('encoded Message=',encodedMessage);
 
                             RSA.decrypt(encodedMessage, privateKeyNew)
                             .then(msg => {
-                                //console.log("decrypt="+msg);
                             });
 
                         });                  
@@ -884,8 +751,6 @@ class PushToEarnSignUp extends Component {
         } catch (error) {
             console.log('error=',error);
         }
-
-        //console.log("encoded message to return ="+this.state.encodedText);
        
         return this.getLoginEncData();
     }
@@ -930,9 +795,6 @@ class PushToEarnSignUp extends Component {
       signUp = async () => {
 
         let language = "en";
-
-        console.log("signup field has value="+this.state.usernameInput);
-        console.log("password field has value="+this.state.passwordInput);
 
         if(this.state.usernameInput === '' || this.state.cpasswordInput === '' || this.state.cpasswordInput.length < 6 ||  this.state.passwordInput === '' || this.state.passwordInput.length < 6)
             {
@@ -1015,20 +877,15 @@ class PushToEarnSignUp extends Component {
         else
            {
 
-            console.log('password sent='+this.state.cpasswordInput);
-
             this.setState({isLoading: true});
 
                 if(this.state.passwordInput.length >= 6 && !this.state.passwordInput.includes(" ") &&
                    this.state.cpasswordInput.length >= 6 && !this.state.cpasswordInput.includes(" "))
                 {
-                    //this.setState({ passwordEmptyError: false, passwordInput: password, EmptyErrorText: '' });
                     this.validateEncrypt(this.state.cpasswordInput);
                 }
                 else
                     {
-                        console.log("password incorrect---->"+this.state.cpasswordInput);
-
                         Alert.alert(
                             'Password is Incorrect',
                             'Password needs to be atleast 6 characters and no spaces',
@@ -1043,15 +900,10 @@ class PushToEarnSignUp extends Component {
                     }            
                
                let cAuthenticationData = "{'Lang':"+" '"+language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
-               //console.log("AuthenticationData:",cAuthenticationData);
-
                let loginData = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";
         
                let authEncrypted = this.aes(cAuthenticationData);     
                let loginDataEncrypted = this.rsa(loginData);
-
-               console.log('authentication Data Encrypted to send --->' + authEncrypted);
-               console.log('login Data encrypted to send --->'+ loginDataEncrypted);            
 
             setTimeout( () => {
                 if( this.state.encodedText !== ""  || this.state.cAuthenticationData !== "" )
@@ -1079,8 +931,6 @@ class PushToEarnSignUp extends Component {
 
     validateConfirmPassword = (confirmPassword) => {
 
-        console.log('password sent='+confirmPassword);
-
         if(confirmPassword.length >= 6 && !confirmPassword.includes(" "))
         {
             this.setState({ cpasswordInputError: false, cpasswordInput: confirmPassword, EmptyErrorText: '' });
@@ -1093,8 +943,6 @@ class PushToEarnSignUp extends Component {
     }
 
     validatePassword = (password) => {
-
-        console.log('password sent='+password);
 
         if(password.length >= 6 && !password.includes(" "))
         {
@@ -1114,6 +962,8 @@ class PushToEarnSignUp extends Component {
 
     getUser = async ( access_token ) => {
 
+        console.log("access_token="+access_token.toString());
+
         this.setState({ refreshing: true });
 
         const baseApi = 'https://api.linkedin.com/v1/people/';
@@ -1126,19 +976,28 @@ class PushToEarnSignUp extends Component {
           'headline',
           'email-address',
         ];
-    
-        const response = await fetch(`${baseApi}~:(${params.join(',')})?format=json`, {
-          method: 'GET',
-          headers: {
-            Authorization: 'Bearer ' + access_token,
-          },
-        });
+
+        const response = await fetch(
+            `${baseApi}~:(${params.join(',')})?format=json`,
+            {
+              method: 'GET',
+              headers: {
+                Authorization: 'Bearer ' + access_token
+              }
+            }
+          );
 
         const payload = await response.json();
 
+        const userStr = JSON.stringify(payload);
+
+        JSON.parse(userStr, (key, value) => { 
+            console.log(value);
+        });
+
         Alert.alert(
             'Fetching User Data from linkedin',
-            'getUser method response='+payload,
+            'getUser method response='+JSON.parse(JSON.stringify(payload)),
             [                      
                 {
                 text: 'OK', 
@@ -1236,11 +1095,13 @@ class PushToEarnSignUp extends Component {
                                             size = {35}
                                             onPress={() => console.log('hello')} /> 
                                             <LinkedInModal
-                                                        linkText='L'
+                                                        linkText=''
                                                         clientID="81td97f0ibm93v"
                                                         clientSecret="RotJQJQRBbBoWG7l"
                                                         redirectUri="https://www.linkedin.com/developer/apps"
-                                                        onSuccess={token => console.log(token)} />
+                                                        onSuccess={token =>{
+                                                            this.getUser(token);
+                                                        }} />
                                 </TouchableOpacity>
                         </View>
 
@@ -1671,7 +1532,7 @@ const mapStateToProps = state => {
     
     registerAction: ( payload,username,password ) => dispatch(RegisterActions.makeRegisterRequest(payload, username, password)),
     signUpFaceBook: (payload,payloadNew) => dispatch({type: 'FACEBOOK_DATA', payload, payloadNew}),
-    twitterlogin: (payload) => dispatch({ type:'TWITTER_REQUEST',payload}),
+    twitterlogin: (payload,userName) => dispatch({ type:'TWITTER_REQUEST',payload,userName}),
     googleLogin: (payload) => dispatch({ type: 'GOOGLE_REQUEST',payload}),
     resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
     navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),

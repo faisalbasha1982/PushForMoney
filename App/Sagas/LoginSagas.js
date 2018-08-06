@@ -6,6 +6,8 @@ import LoginActions from '../Redux/LoginRedux';
 import * as NavigationService from '../Navigation/NavigationService';
 import localStorage from 'react-native-sync-localstorage';
 import * as AuthComponent from '../Components/AuthComponent';
+import { NavigationActions } from 'react-navigation';
+
 
 export function * rsaRequest(api,payload) {
   try{
@@ -106,7 +108,7 @@ export function * googleRequest(api,payload)
     {
       yield put(LoginActions.loginFailure());    
 
-      //NavigationService.navigate('PushToEarnRegisterProfile',{uname: '',pword:'', payload: payloadNew.payload});
+      NavigationService.navigate('PushToEarnRegisterProfile',{uname: '',pword:'', payload: payload.payload});
 
       Alert.alert(
         'Login Failed',
@@ -129,10 +131,11 @@ console.log("error="+error);
 
 }
 
-export function * twitterRequest(api,payload) 
+export function * twitterRequest(api,payload,userName) 
 {
 
   Alert.alert("twitter request api call to server.....");
+  console.log("twitter request api call to server..... with userName="+typeof(userName));  
 
   try {
           const response = yield call(api.mediaLogin, payload.payload);
@@ -140,6 +143,8 @@ export function * twitterRequest(api,payload)
           console.tron.log("response from api call =",response);
           console.tron.log("response ok=",response.ok);
           console.tron.log("response StatusCode=",response.data.StatusCode);
+          console.tron.log("response username=",userName);
+          console.log("username=",userName);
 
           if (response.ok && response.data.StatusCode === 200)
           {
@@ -162,7 +167,9 @@ export function * twitterRequest(api,payload)
           {
             yield put(LoginActions.loginFailure());    
 
-            //NavigationService.navigate('PushToEarnRegisterProfile',{uname: '',pword:'', payload: payloadNew.payload});
+            console.log("going to pass userName="+userName);
+
+            NavigationService.navigate('PushToEarnRegisterProfile',{uname: userName,pword:'', payload: payload.payload});
 
             Alert.alert(
               'Login Failed',

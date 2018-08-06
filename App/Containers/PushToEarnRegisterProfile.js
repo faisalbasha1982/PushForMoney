@@ -441,6 +441,9 @@ class PushToEarnRegisterProfile extends Component {
         const password = this.props.navigation.state.params.pword;
         let payload  = this.props.navigation.state.params.payload;
 
+        console.log("username received in register profile="+this.props.navigation.state.params.uname);
+        console.tron.log("username received in register profile="+this.props.navigation.state.params.uname);
+
         console.log("platform --->",Platform.OS);
         return (
 

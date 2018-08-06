@@ -195,7 +195,7 @@ class PushToEarnSignIn extends Component {
 
             Alert.alert(
                 'google login in Progress',
-                'user Received= userID='+user,
+                'userID='+user,
                 [                      
                     {
                       text: 'OK', 
@@ -239,7 +239,7 @@ class PushToEarnSignIn extends Component {
 
         Alert.alert(
             'google login in Progress',
-            'accessToken Received= userID='+user.id,
+            'userID='+user.id,
             [                      
                 {
                   text: 'OK', 
@@ -250,13 +250,10 @@ class PushToEarnSignIn extends Component {
         );
 
         let authData = AuthComponent.authenticationData("en");
-        console.log("authdata=",authData);
 
         let encryptedData = AesComponent.aesCallback(authData);
-        console.log("encrypted data=",encryptedData);
 
         let loginInfo = "{ 'G' : '"+user.id+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
-        console.log("loginData="+loginInfo);
         this.rsa(loginInfo);
 
         this.setState({isLoading: false});
@@ -297,14 +294,11 @@ class PushToEarnSignIn extends Component {
 
     twitterLogin(userID,userName)
     {
+        console.log("twitter login="+userName);
+
         let authData = AuthComponent.authenticationData("en");
-        console.log("authdata=",authData);
-
         let encryptedData = AesComponent.aesCallback(authData);
-        console.log("encrypted data=",encryptedData);
-
         let loginInfo = "{ 'T' : '"+userID+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
-        console.log("loginData="+loginInfo);
         this.rsa(loginInfo);
 
         this.setState({isLoading: false});
@@ -327,7 +321,7 @@ class PushToEarnSignIn extends Component {
                   "id": userID,
             });
 
-            this.props.twitterlogin(payload);
+            this.props.twitterlogin(payload,userName);
           }
           else
             console.log("loginData  or authentication Data is empty");
@@ -344,7 +338,7 @@ class PushToEarnSignIn extends Component {
 
             Alert.alert(
                 'accessToken Received',
-                'accessToken Received='+authToken +" userID="+userID,
+                'username Received='+userName +" userID="+userID,
                 [                      
                     {
                       text: 'OK', 
@@ -384,13 +378,8 @@ class PushToEarnSignIn extends Component {
             Alert.alert('Success fetching data user id: ' + result.id+ ' username='+ result.name + " email="+result.email);
 
           let authData = AuthComponent.authenticationData("en");
-          console.log("authdata=",authData);
-
           let encryptedData = AesComponent.aesCallback(authData);
-          console.log("encrypted data=",encryptedData);
-
           let loginInfo = "{ 'F' : '"+result.id.toString()+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
-          console.log("loginData="+loginInfo);
           this.rsa(loginInfo);
 
           this.setState({isLoading: false});
@@ -460,6 +449,7 @@ class PushToEarnSignIn extends Component {
     }
 
     onFacebookButtonClick = () => {
+
         console.log('facebook butotn clicked');
         console.warn('Facebook button clicked'); // eslint-disable-line
     
@@ -476,17 +466,17 @@ class PushToEarnSignIn extends Component {
                 AccessToken.getCurrentAccessToken().then((data) => {
                     const { accessToken } = data;                    
 
-                    Alert.alert(
-                        'accessToken Received',
-                        'accessToken Received='+accessToken,
-                        [                      
-                            {
-                              text: 'OK', 
-                              onPress: () => console.log('Ask me later Pressed')
-                            },                      
-                        ],
-                        {cancelable: false}
-                    );
+                    // Alert.alert(
+                    //     'accessToken Received',
+                    //     'accessToken Received='+accessToken,
+                    //     [                      
+                    //         {
+                    //           text: 'OK', 
+                    //           onPress: () => console.log('Ask me later Pressed')
+                    //         },                      
+                    //     ],
+                    //     {cancelable: false}
+                    // );
 
                     this.initUser(accessToken)
                   });
@@ -500,7 +490,7 @@ class PushToEarnSignIn extends Component {
 
       linkedin = () => {
            
-        
+
       }
 
     validatePassword = (password) => {
@@ -1031,17 +1021,6 @@ class PushToEarnSignIn extends Component {
                         );
                     }            
                
-            //   let cAuthenticationData = "{'Lang':"+" '"+language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
-            //   console.log("AuthenticationData:",cAuthenticationData);
-
-            //   let loginData = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";
-        
-            //   let authEncrypted = this.aes(cAuthenticationData);              
-            //   let loginDataEncrypted = this.rsa(loginData);
-
-            //   console.log('authentication Data Encrypted :' + authEncrypted);
-            //   console.log('login Data encrypted='+ loginDataEncrypted);
-
             setTimeout( () => {
                 if( this.state.encodedText !== ""  || this.state.cAuthenticationData !== "" )
                 {
@@ -1052,7 +1031,6 @@ class PushToEarnSignIn extends Component {
                   });
     
                     this.props.loginAction(payload);
-
                     this.setState({isLoading: false});
                 }
                 else
@@ -1134,7 +1112,7 @@ class PushToEarnSignIn extends Component {
                                             size = {35}
                                             onPress={() => console.log('hello')} /> 
                                             <LinkedInModal
-                                                        linkText='L'
+                                                        linkText=''
                                                         clientID="81td97f0ibm93v"
                                                         clientSecret="RotJQJQRBbBoWG7l"
                                                         redirectUri="https://www.linkedin.com/developer/apps"
@@ -1572,11 +1550,16 @@ const mapStateToProps = state => {
   
   const mapDispatchToProps = dispatch => {
     return {
+
       loginAction: ( payload ) => dispatch({ type: 'LOGIN_REQUEST', payload }),
+      signUpFaceBook: (payload,payloadNew) => dispatch({type: 'FACEBOOK_DATA', payload, payloadNew}),
       loginFaceBook: ( payload, payloadNew ) => dispatch({ type: 'FACEBOOK_DATA', payload, payloadNew}),
-       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),      
+      twitterlogin: (payload,userName) => dispatch({ type:'TWITTER_REQUEST',payload,userName}),
+      googleLogin: (payload) => dispatch({ type: 'GOOGLE_REQUEST',payload}),
+      resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),      
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),      
       navigateBack: () => this.props.navigation.goBack(),
+
     };
   };
   
