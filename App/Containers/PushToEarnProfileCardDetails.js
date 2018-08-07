@@ -55,7 +55,7 @@ export const IMAGE_HEIGHT_SMALL = window.width /7;
 
 let cLanguage = '';
 
-class PushToEarnCardDetails extends Component {
+class PushToEarnProfileCardDetails extends Component {
 
     constructor(props)
     {
@@ -68,6 +68,10 @@ class PushToEarnCardDetails extends Component {
             phoneNumber:'',
             validation: false,
             renderValidate: false,
+            selectionFirst: false,
+            selectionSecond: false,
+            selectionThird: false,
+            selectionFourth: false,
             firstNameInput:'',
             lastNameInput:'',
             phoneNumberInput:'',
@@ -378,8 +382,8 @@ class PushToEarnCardDetails extends Component {
                 <View style= { newStyle.layoutBelow }>
 
                     <View style={newStyle.leftButtons}>
-                        <View style={newStyle.leftButton}>
-                                <TouchableOpacity onPress={ ( ) => {} }
+                        <View style={(this.state.selectionFirst===true)?newStyle.leftButtonSelected:newStyle.leftButton}>
+                                <TouchableOpacity onPress={ (selectionFirst) => { this.setState({ selectionFirst: !this.state.selectionFirst})} }
                                     activeOpacity={0.5}
                                     style={newStyle.iconStyle}>
                                 <Icon
@@ -391,8 +395,8 @@ class PushToEarnCardDetails extends Component {
                                     onPress={() => console.log('hello')} /> 
                         </TouchableOpacity>
                         </View>
-                        <View style={newStyle.leftButton}>
-                                <TouchableOpacity onPress={ ( ) => {} }
+                        <View style={(this.state.selectionSecond===true)?newStyle.leftButtonSelected:newStyle.leftButton}>
+                                <TouchableOpacity onPress={ (selectionSecond) => { this.setState({ selectionSecond: !this.state.selectionSecond})} }
                                     activeOpacity={0.5}
                                     style={newStyle.iconStyle}>
                                 <Icon
@@ -404,21 +408,21 @@ class PushToEarnCardDetails extends Component {
                                     onPress={() => console.log('hello')} /> 
                         </TouchableOpacity>
                         </View>
-                        <View style={newStyle.leftButton}>
-                                <TouchableOpacity onPress={ ( ) => {} }
+                        <View style={(this.state.selectionThird===true)?newStyle.leftButtonSelected:newStyle.leftButton}>
+                                <TouchableOpacity onPress={ (selectionThird) => { this.setState({ selectionThird: !this.state.selectionThird})}}
                                     activeOpacity={0.5}
                                     style={newStyle.iconStyle}>
                                 <Icon
                                     containerStyle={newStyle.iconImageStyle}
-                                    name='euro-sign'
+                                    name='euro'
                                     type='font-awesome'
                                     color='#E73D50'
                                     size = {20}
                                     onPress={() => console.log('hello')} /> 
                         </TouchableOpacity>
                         </View>
-                        <View style={newStyle.leftButton}>
-                                <TouchableOpacity onPress={ ( ) => {} }
+                        <View style={(this.state.selectionFourth===true)?newStyle.leftButtonSelected:newStyle.leftButton}>
+                                <TouchableOpacity onPress={ (selectionFourth) => { this.setState({ selectionFourth: !this.state.selectionFourth})} }
                                     activeOpacity={0.5}
                                     style={newStyle.iconStyle}>
                                 <Icon
@@ -683,14 +687,16 @@ const newStyle = StyleSheet.create({
         },
         shadowRadius: 5,
         shadowOpacity: 1,
-        flex:2
+        flex:2,
+        justifyContent: 'center',
+        alignItems: 'center',        
   },
 
   leftButton: {
     width: 54,
     height: 111,
     backgroundColor: Colors.white,
-    shadowColor: "rgba(216, 216, 216, 0.20)",
+    shadowColor: "rgba(216, 216, 216, 0.15)",
     shadowOffset: {
       width: 1,
       height: 2
@@ -698,10 +704,30 @@ const newStyle = StyleSheet.create({
     shadowRadius: 5,
     shadowOpacity: 1,
     marginBottom: 5,
-    marginRight: 5,
+    marginRight: 10,
     justifyContent: 'center',
     alignItems: 'center',
     flex: 2,
+  },
+
+  leftButtonSelected: {
+
+    width: 54,
+    height: 111,
+    backgroundColor: "rgb(246, 246, 246)",
+    shadowColor: "rgba(216, 216, 216, 0.15)",
+    shadowOffset: {
+      width: 1,
+      height: 2
+    },
+    shadowRadius: 5,
+    shadowOpacity: 1,
+    marginBottom: 5,
+    marginRight: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 2,
+
   },
 
   endButtons: {
@@ -815,4 +841,4 @@ const mapStateToProps = state => {
     };
   };
   
-  export default connect(mapStateToProps, mapDispatchToProps)(PushToEarnCardDetails);
+  export default connect(mapStateToProps, mapDispatchToProps)(PushToEarnProfileCardDetails);

@@ -76,6 +76,10 @@ class PushToEarnProfile extends Component {
             passwordInput:'',
             cardDetails:'',
             buttonText: '',
+            selectionFirst:false,
+            selectionSecond:false,
+            selectionThird:false,
+            selectionFourth:false,
             firstToggle: false,
             secondToggle: false,
             thirdToggle: false,
@@ -394,8 +398,11 @@ class PushToEarnProfile extends Component {
                 <View style= { newStyle.layoutBelow }>
 
                     <View style={newStyle.leftButtons}>
-                        <View style={newStyle.leftButton}>
-                                <TouchableOpacity onPress={ ( ) => {} }
+                        <View style={ (this.state.selectionFirst === true)?newStyle.leftButtonSelected: newStyle.leftButton}>
+                                <TouchableOpacity onPress={ 
+                                    (selectionFirst) => {this.setState({ selectionFirst: true, selectionSecond: false, selectionThird: false, selectionFourth: false, });
+                                    this.props.navigation.navigate("PushToEarnAddFriend");
+                                }}
                                     activeOpacity={0.5}
                                     style={newStyle.iconStyle}>
                                 <Icon
@@ -406,9 +413,9 @@ class PushToEarnProfile extends Component {
                                     size = {20}
                                     onPress={() => console.log('hello')} /> 
                         </TouchableOpacity>
-                        </View>
-                        <View style={newStyle.leftButton}>
-                                <TouchableOpacity onPress={ ( ) => {} }
+                        </View>             
+                        <View style={(this.state.selectionSecond === true)?newStyle.leftButtonSelected: newStyle.leftButton}>
+                                <TouchableOpacity onPress={ (selectionSecond) => {this.setState({ selectionFirst: false, selectionSecond: true, selectionThird: false, selectionFourth: false, }) } }
                                     activeOpacity={0.5}
                                     style={newStyle.iconStyle}>
                                 <Icon
@@ -420,21 +427,21 @@ class PushToEarnProfile extends Component {
                                     onPress={() => console.log('hello')} /> 
                         </TouchableOpacity>
                         </View>
-                        <View style={newStyle.leftButton}>
-                                <TouchableOpacity onPress={ ( ) => {} }
+                        <View style={(this.state.selectionThird === true)?newStyle.leftButtonSelected: newStyle.leftButton}>
+                                <TouchableOpacity onPress={ (selectionThird) => {this.setState({ selectionFirst: false, selectionSecond: false, selectionThird: true, selectionFourth: false, }) } }
                                     activeOpacity={0.5}
                                     style={newStyle.iconStyle}>
                                 <Icon
                                     containerStyle={newStyle.iconImageStyle}
-                                    name='euro-sign'
+                                    name='euro'
                                     type='font-awesome'
                                     color='#E73D50'
                                     size = {20}
                                     onPress={() => console.log('hello')} /> 
                         </TouchableOpacity>
                         </View>
-                        <View style={newStyle.leftButton}>
-                                <TouchableOpacity onPress={ ( ) => {} }
+                        <View style={(this.state.selectionFourth === true)?newStyle.leftButtonSelected: newStyle.leftButton}>
+                                <TouchableOpacity onPress={ (selectionFourth) => {this.setState({ selectionFirst: false, selectionSecond: false, selectionThird: false, selectionFourth: true, }) } }
                                     activeOpacity={0.5}
                                     style={newStyle.iconStyle}>
                                 <Icon
@@ -751,6 +758,24 @@ const newStyle = StyleSheet.create({
     shadowOffset: {
       width: 1,
       height: 2
+    },
+    shadowRadius: 5,
+    shadowOpacity: 1,
+    marginBottom: 5,
+    marginRight: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 2,
+  },
+
+  leftButtonSelected: {
+    width: 54,
+    height: 111,
+    backgroundColor: "rgb(246, 246, 246)",
+    shadowColor: "rgba(216, 216, 216, 0.15)",
+    shadowOffset: {
+        width: 1,
+        height: 2
     },
     shadowRadius: 5,
     shadowOpacity: 1,
