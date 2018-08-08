@@ -398,11 +398,10 @@ class PushToEarnProfile extends Component {
                 <View style= { newStyle.layoutBelow }>
 
                     <View style={newStyle.leftButtons}>
-                        <View style={ (this.state.selectionFirst === true)?newStyle.leftButtonSelected: newStyle.leftButton}>
-                                <TouchableOpacity onPress={ 
-                                    (selectionFirst) => {this.setState({ selectionFirst: true, selectionSecond: false, selectionThird: false, selectionFourth: false, });
-                                    this.props.navigation.navigate("PushToEarnAddFriend");
-                                }}
+                        <View 
+                            style={ (this.state.selectionFirst === true)?newStyle.leftButtonSelected: newStyle.leftButton}
+                            onPress = { (selectionFirst) => {this.setState({ selectionFirst: true, selectionSecond: false, selectionThird: false, selectionFourth: false, });}}>
+                                <TouchableOpacity 
                                     activeOpacity={0.5}
                                     style={newStyle.iconStyle}>
                                 <Icon
@@ -414,7 +413,9 @@ class PushToEarnProfile extends Component {
                                     onPress={() => console.log('hello')} /> 
                         </TouchableOpacity>
                         </View>             
-                        <View style={(this.state.selectionSecond === true)?newStyle.leftButtonSelected: newStyle.leftButton}>
+                        <View style={(this.state.selectionSecond === true)?newStyle.leftButtonSelected: newStyle.leftButton}
+                              onPress = { (selectionFirst) => {this.setState({ selectionFirst: true, selectionSecond: false, selectionThird: false, selectionFourth: false, });}}
+                        >
                                 <TouchableOpacity onPress={ (selectionSecond) => {this.setState({ selectionFirst: false, selectionSecond: true, selectionThird: false, selectionFourth: false, }) } }
                                     activeOpacity={0.5}
                                     style={newStyle.iconStyle}>

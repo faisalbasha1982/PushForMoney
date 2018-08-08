@@ -33,6 +33,7 @@ import pushToEarnMoneyList from '../Containers/PushToEarnMoneyList';
 import PushToEarnPrivatePolicy from '../Containers/PushToEarnPrivatePolicy';
 import CollapsibleView from '../Components/CollapsibleView';
 import NewScreenMoney from  '../Containers/NewScreenMoney';
+import TestPage from '../Containers/TestPage';
 
 // const middleware = createReactNavigationReduxMiddleware(
 //   'root',
@@ -43,6 +44,7 @@ import NewScreenMoney from  '../Containers/NewScreenMoney';
 
 const AppNavigation = createStackNavigator({
   LaunchScreen: { screen: LaunchScreen },
+  TestPage: { screen: TestPage },
   LanguageButton: { screen: LanguageButton},
   LanguageScreen: { screen: LanguageScreen },
   PushToEarnSignIn: { screen: PushToEarnSignIn },
@@ -95,7 +97,7 @@ const AppNavigation = createStackNavigator({
 }, {
   // Default config for all screens
   headerMode: 'none',
-  initialRouteName: 'PushToEarnProfile',
+  initialRouteName: 'TestPage',
   mode: "card",
   navigationOptions: {
     headerStyle: styles.header

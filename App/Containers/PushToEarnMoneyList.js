@@ -394,7 +394,7 @@ class PushToEarnMoneyList extends Component {
                                     style={newStyle.iconStyle}>
                                 <Icon
                                     containerStyle={newStyle.iconImageStyle}
-                                    name='euro-sign'
+                                    name='euro'
                                     type='font-awesome'
                                     color='#E73D50'
                                     size = {20}
