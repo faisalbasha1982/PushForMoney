@@ -35,11 +35,6 @@ import CollapsibleView from '../Components/CollapsibleView';
 import NewScreenMoney from  '../Containers/NewScreenMoney';
 import TestPage from '../Containers/TestPage';
 
-// const middleware = createReactNavigationReduxMiddleware(
-//   'root',
-//   state => state.nav
-// );
-
 // Manifest of possible screens
 
 const AppNavigation = createStackNavigator({
@@ -97,19 +92,11 @@ const AppNavigation = createStackNavigator({
 }, {
   // Default config for all screens
   headerMode: 'none',
-  initialRouteName: 'TestPage',
+  initialRouteName: 'PushForJob',
   mode: "card",
   navigationOptions: {
     headerStyle: styles.header
   }
 })
-
-// const AppWithNavigationState = reduxifyNavigator(PrimaryNav, 'root');
-// const mapStateToProps = state => ({
-//   state: state.nav,
-// })
-// const AppNavigation = connect(mapStateToProps)(AppWithNavigationState);
-
-// export default { PrimaryNav, AppNavigation, middleware };
 
 export default AppNavigation;

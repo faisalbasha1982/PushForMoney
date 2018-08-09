@@ -64,8 +64,6 @@ const window = Dimensions.get('window');
 export const IMAGE_HEIGHT = window.width / 2;
 export const IMAGE_HEIGHT_SMALL = window.width /7;
 
-// Styles
-
 let cLanguage = '';
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -324,15 +322,11 @@ class PushToEarnRegisterProfile extends Component {
      
         const ivRandom = this.randomStringIV();
       
-        // var key = CryptoJS.enc.Utf8.parse('VyhoMoGxi25xn/Tc');
-
         var key = CryptoJS.enc.Utf8.parse(Api.securityKey);
         var iv = CryptoJS.enc.Utf8.parse(ivRandom.toString());
         const ivFirstPart = ivRandom.substr(0,8);
         const ivLastPart = ivRandom.substring(8);
-        
-        //console.log('first part='+ivFirstPart+ " Last part="+ivLastPart);
-      
+              
         var encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(authenticationData), key,
             {
                 keySize: 256 / 8,
@@ -348,19 +342,11 @@ class PushToEarnRegisterProfile extends Component {
             padding: CryptoJS.pad.Pkcs7
         });
       
-        // console.log('Encrypted :' + encrypted);
-        // console.log('Key :' + encrypted.key);
-        // console.log('Salt :' + encrypted.salt);
-        // console.log('iv :' + encrypted.iv);
-        // console.log('Decrypted : ' + decrypted);
-        // console.log('utf8 = ' + decrypted.toString(CryptoJS.enc.Utf8));
-      
         return ivFirstPart + encrypted.toString() + ivLastPart;
      }
 
     getUTCDate = () => {
-        //2018-04-30 11:30:12
-    
+            
         var date, day, month, year;
         var today = new Date();
     

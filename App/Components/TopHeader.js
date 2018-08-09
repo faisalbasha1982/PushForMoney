@@ -1,7 +1,7 @@
 
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import { View,Dimensions,TouchableOpacity,Image,Text } from "react-native";
+import { View,Dimensions,TouchableOpacity,Image,Text, Platform } from "react-native";
 import {
     
     Thumbnail
@@ -42,13 +42,11 @@ const newStyle = StyleSheet.create({
 
     headerImage: {
         width: viewPortWidth,
-        height: Platform.OS === 'ios'?viewPortHeight * 0.51:
-                                      viewPortHeight * 0.29,
+        height: viewPortHeight * 0.70,
         flex: Platform.OS === 'ios'?2:6,
         backgroundColor: 'white',
         justifyContent: 'center',
-        alignItems: 'center',        
+        alignItems: 'center',
     },
-
 
 });

@@ -13,19 +13,7 @@ import {
 import AppNavigation from './AppNavigation';
 
 class ReduxNavigation extends React.Component {
-  // componentWillMount () {
-  //   if (Platform.OS === 'ios') return
-  //   BackHandler.addEventListener('hardwareBackPress', () => {
-  //     const { dispatch, nav } = this.props
-  //     // change to whatever is your first screen, otherwise unpredictable results may occur
-  //     if (nav.routes.length === 1 && (nav.routes[0].routeName === 'LaunchScreen')) {
-  //       return false
-  //     }
-  //     // if (shouldCloseApp(nav)) return false
-  //     dispatch({ type: 'Navigation/BACK' })
-  //     return true
-  //   })
-  // }
+
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
   }
@@ -50,11 +38,6 @@ class ReduxNavigation extends React.Component {
   render () {
     const { dispatch, nav} = this.props;    
     const addListener = createReduxBoundAddListener("root");
-    // const navigation = addNavigationHelpers({
-    //   dispatch,
-    //   state: nav,
-    //   addListener
-    // });
 
     return <AppNavigation navigation={{
             dispatch: this.props.dispatch,

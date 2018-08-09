@@ -51,8 +51,6 @@ const window = Dimensions.get('window');
 export const IMAGE_HEIGHT = window.width / 2;
 export const IMAGE_HEIGHT_SMALL = window.width /7;
 
-// Styles
-
 let cLanguage = '';
 
 class PushToEarnProfile extends Component {
@@ -80,12 +78,6 @@ class PushToEarnProfile extends Component {
             selectionSecond:false,
             selectionThird:false,
             selectionFourth:false,
-            firstToggle: false,
-            secondToggle: false,
-            thirdToggle: false,
-            fourthToggle: false,
-            fifthToggle: false,
-            sixToggle: false,
             firstNameError:true,
             firstNameErrorText:'',
             lastNameError:false,
@@ -110,7 +102,6 @@ class PushToEarnProfile extends Component {
 
         if(name === '')
         {
-            //this.setState({ lastNameError: true, ErrorText: 'Last Name is Required' });
             this.setState({lastNameInput: ''});
 
             if(this.state.language === 'NEDERLANDS')
@@ -153,7 +144,7 @@ class PushToEarnProfile extends Component {
             console.log("First name is empty="+name);
             console.log("Language ="+this.state.language);
             this.setState({firstNameInput: ''});
-            //this.setState({ firstNameError: true, ErrorText: 'First Name is Required' });
+
             if(this.state.language === 'NEDERLANDS')
                 this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
             else
@@ -194,7 +185,6 @@ class PushToEarnProfile extends Component {
 
         if(phone === '')
         {
-            //this.setState({ phoneNumberError: true, ErrorText: 'Phone Number is Required' });
             this.setState({phoneNumberInput: ''});
 
             if(this.state.language === 'NEDERLANDS')
@@ -207,9 +197,7 @@ class PushToEarnProfile extends Component {
         }
         else
         {
-            // home phone number belgium
             let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
-            // mobile phone number belgium
             let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
     
             this.phoneText = this.state.country;
@@ -226,11 +214,6 @@ class PushToEarnProfile extends Component {
                         this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
         }
     
-        // if (homePhone.exec(phone))
-        //   this.setState({ phoneError: false, phone: phone });
-        // else
-        //   this.setState({ phoneError: true });
-    
     }
 
     validateEmail = (email) => {
@@ -242,11 +225,6 @@ class PushToEarnProfile extends Component {
      }
 
     componentWillReceiveProps(nextProps) {
-        //console.log("in Form One screen language received="+nextProps.language);
-        // if (this.props.navigation.state.params.language !== nextProps.language) {
-        //     this.setState({ language: nextProps.language });
-        //     this.setText();
-        // }
 
         if(this.props !== nextProps)
         {
@@ -276,54 +254,8 @@ class PushToEarnProfile extends Component {
 
         console.tron.log("payload="+payload);
         this.props.getProfile(payload);
-
-        // console.log("language from props="+this.props.navigation.state.params.language);
-        // console.log("default language="+this.state.language);
-        // //cLanguage = this.props.navigation.state.params.language;
-        // this.setState({ language: this.props.navigation.state.params.language });
-        // console.log("language="+this.state.language);
-        // this.setText();
-        // console.log("this.state.firstName="+this.state.firstName);
-        // console.log("this.state.buttonText="+this.state.buttonText);
     }
 
-    // setText =  () => {
-
-    //     this.setState({language: this.props.navigation.state.params.language});
-    //     console.log("this.state.language="+this.state.language);
-
-    //     if (this.props.navigation.state.params.language === 'NEDERLANDS') {
-    //         console.log("setting in Nederlands");
-    //         this.setState({
-    //             firstName:  LanguageSettings.dutch.firstNameText,
-    //             name:       LanguageSettings.dutch.lastNameText,
-    //             phoneNumber: LanguageSettings.dutch.telephoneNumberText,
-    //             buttonText: LanguageSettings.dutch.buttonNextText
-    //         });
-    //     }
-    //     else
-    //         if (this.props.navigation.state.params.language === 'ENGLISH') {
-    //             console.log("setting in English");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.english.firstNameText,
-    //                 name: LanguageSettings.english.lastNameText,
-    //                 phoneNumber: LanguageSettings.english.telephoneNumberText,
-    //                 buttonText: LanguageSettings.english.buttonNextText
-    //             });
-    //         }
-    //         else
-    //           {
-    //             console.log("setting in French");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.french.firstNameText,
-    //                 name: LanguageSettings.french.lastNameText,
-    //                 phoneNumber: LanguageSettings.french.telephoneNumberText,
-    //                 buttonText: LanguageSettings.french.buttonNextText
-    //             });
-    //         }
-    
-       
-    // }
 
     renderNothing = () => {
 
@@ -331,10 +263,6 @@ class PushToEarnProfile extends Component {
 
     seteditable = () => {
         this.setState({firstNameEditable: true});
-    }
-
-    callDetails = () => {
-        //this.props.navigation.navigate('PushToEarnProfileCardDetails');
     }
 
     callUpdateName = (name) => {
@@ -414,19 +342,18 @@ class PushToEarnProfile extends Component {
                         </TouchableOpacity>
                         </View>             
                         <View style={(this.state.selectionSecond === true)?newStyle.leftButtonSelected: newStyle.leftButton}
-                              onPress = { (selectionFirst) => {this.setState({ selectionFirst: true, selectionSecond: false, selectionThird: false, selectionFourth: false, });}}
-                        >
+                              onPress = { (selectionFirst) => {this.setState({ selectionFirst: true, selectionSecond: false, selectionThird: false, selectionFourth: false, });}}>
                                 <TouchableOpacity onPress={ (selectionSecond) => {this.setState({ selectionFirst: false, selectionSecond: true, selectionThird: false, selectionFourth: false, }) } }
                                     activeOpacity={0.5}
                                     style={newStyle.iconStyle}>
-                                <Icon
-                                    containerStyle={newStyle.iconImageStyle}
-                                    name='users'
-                                    type='font-awesome'
-                                    color='#E73D50'
-                                    size = {20}
-                                    onPress={() => console.log('hello')} /> 
-                        </TouchableOpacity>
+                                        <Icon
+                                            containerStyle={newStyle.iconImageStyle}
+                                            name='users'
+                                            type='font-awesome'
+                                            color='#E73D50'
+                                            size = {20}
+                                            onPress={() => console.log('hello')} /> 
+                                </TouchableOpacity>
                         </View>
                         <View style={(this.state.selectionThird === true)?newStyle.leftButtonSelected: newStyle.leftButton}>
                                 <TouchableOpacity onPress={ (selectionThird) => {this.setState({ selectionFirst: false, selectionSecond: false, selectionThird: true, selectionFourth: false, }) } }
@@ -522,12 +449,6 @@ class PushToEarnProfile extends Component {
                                 underlineColorAndroid= 'transparent'
                                 onBlur = { () => this.callUpdateName(this.state.passwordInput)}
                                 onChangeText= { (passwordInput) => this.validatePassword(passwordInput) }/>
-
-                            {/* <Text style={newStyle.firstName}>Card Details</Text>
-                            <View style={newStyle.nameInput}
-                                  onPress = { () => this.callDetails() }>
-
-                            </View> */}
 
                         </View>
 
