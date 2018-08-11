@@ -18,7 +18,7 @@ export default class TopHeader extends PureComponent
     constructor(props)
     {
         super(props);
-
+        
         this.state = {
 
         };
@@ -43,10 +43,10 @@ const newStyle = StyleSheet.create({
     headerImage: {
         width: viewPortWidth,
         height: viewPortHeight * 0.70,
-        flex: Platform.OS === 'ios'?2:6,
+        flex: Platform.OS === 'ios'?1:6,
         backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
     },
 
 });

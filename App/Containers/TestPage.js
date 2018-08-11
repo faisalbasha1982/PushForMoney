@@ -27,8 +27,7 @@ import { Colors } from "../Themes";
 import { Images } from '../Themes';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TopHeader from '../Components/TopHeader';
-
-// Styles
+import logoNew from '../Images/NewHeaderImage.png';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth  = Dimensions.get('window').width;
@@ -57,8 +56,20 @@ export default class TestPage extends Component {
         return(
                 <View style={newStyle.container}>
 
-                    <TopHeader />
+                    <View style={newStyle.topHeader}> 
+                            {/* <TopHeader /> */}
 
+                        <View style={newStyle.headerImage}>
+                                <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .36,}} />
+                                {/* {
+                                    (this.state.renderValidate === true)?this.renderValidation():this.renderNothing()
+                                } */}
+                        </View>
+
+                    </View>
+
+                    <View style={ newStyle.bottomLayout }>
+                    
                     <View style={(this.state.selectionFirst === true)?newStyle.leftButtonSelected: newStyle.leftButtons}>
                             <View
                                 style={ (this.state.selectionFirst === true)?newStyle.leftButtonSelected: newStyle.leftButton}
@@ -126,42 +137,58 @@ export default class TestPage extends Component {
                             </View>             
                     </View>
 
+                    <View style={newStyle.pageElement}>                            
+                        <Text style={{ justifyContent: 'center', alignItems: 'center' }}> Components </Text>
+                    </View>
+
+                    </View>
+
+
                 </View>
         );
 
     }
-
 }
 
 const newStyle = StyleSheet.create({
     
 container: {
-
             flex: 1,
             backgroundColor: 'white',
             flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+},
 
+topHeader: {
+            flex: 2,
+            backgroundColor: 'powderblue',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start'
+},
+
+bottomLayout: {
+            flex: 4,
+            backgroundColor: 'powderblue',
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start'
 },
 
 iconStyle: {
-
-    width: 30,
-    height: 30,
+    width: 54,
+    height: viewPortHeight * .64,
     borderRadius: 0,
     backgroundColor: 'transparent',
     marginTop: viewPortHeight / 80,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 10,
-
+    marginLeft: 0,
 },
 
 leftButton: {
     width: 54,
-    height: 110,
+    height: viewPortHeight * .64,
     backgroundColor: 'white',
     shadowColor: "rgba(216, 216, 216, 0.20)",
     shadowOffset: {
@@ -174,12 +201,12 @@ leftButton: {
     marginRight: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 4,
+    flex: 1,
   },
 
 leftButtons: {
     width: 54,
-    height: 110,
+    height: viewPortHeight * .64,
     backgroundColor: 'white',
     shadowColor: "rgba(216, 216, 216, 0.20)",
     shadowOffset: {
@@ -192,12 +219,12 @@ leftButtons: {
     marginRight: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 4,
+    flex: 1,
   },
 
   leftButtonSelected: {
     width: 54,
-    height: 110,
+    height: viewPortHeight * .64,
     backgroundColor: "rgb(246, 246, 246)",
     shadowColor: "rgba(216, 216, 216, 0.15)",
     shadowOffset: {
@@ -210,15 +237,22 @@ leftButtons: {
     marginRight: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 4,
+    flex: 1,
   },
 
   iconImageStyle:{
     backgroundColor: 'black',
     width: 54,
-    height: 110,
+    height: viewPortHeight * .64,
     justifyContent: 'center',
     alignItems: 'center'
 },
+
+pageElement: {
+    backgroundColor: 'red',
+    flex: 6,
+    alignItems: 'center',
+    justifyContent: 'center'
+}
 
 });

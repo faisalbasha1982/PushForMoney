@@ -92,7 +92,7 @@ const AppNavigation = createStackNavigator({
 }, {
   // Default config for all screens
   headerMode: 'none',
-  initialRouteName: 'PushForJob',
+  initialRouteName: 'TestPage',
   mode: "card",
   navigationOptions: {
     headerStyle: styles.header
