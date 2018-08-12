@@ -28,6 +28,10 @@ import { Images } from '../Themes';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TopHeader from '../Components/TopHeader';
 import logoNew from '../Images/NewHeaderImage.png';
+import ProfileComponent from '../Components/PushToEarnProfileComponent';
+import AddFriendComponent from '../Components/PushToEarnNoFriendsComponent';
+import MoneyComponent from '../Components/PushToEarnMoneyComponent';
+import InformationComponent from '../Components/PushToEarnInformationComponent';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth  = Dimensions.get('window').width;
@@ -41,7 +45,8 @@ export default class TestPage extends Component {
             selectionFirst: false,
             selectionSecond: false,
             selectionThird: false,
-            selectionFourth: false
+            selectionFourth: false,
+            menu: 1,
         };
     }
 
@@ -57,88 +62,98 @@ export default class TestPage extends Component {
                 <View style={newStyle.container}>
 
                     <View style={newStyle.topHeader}> 
-                            {/* <TopHeader /> */}
-
                         <View style={newStyle.headerImage}>
-                                <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .36,}} />
-                                {/* {
-                                    (this.state.renderValidate === true)?this.renderValidation():this.renderNothing()
-                                } */}
+                                <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .40,}} />
                         </View>
-
                     </View>
+
+                    {/* (this.state.selectionFirst === true)?newStyle.leftButtonSelected: */}
 
                     <View style={ newStyle.bottomLayout }>
                     
-                    <View style={(this.state.selectionFirst === true)?newStyle.leftButtonSelected: newStyle.leftButtons}>
+                    <View style={ newStyle.leftButtons}>
                             <View
                                 style={ (this.state.selectionFirst === true)?newStyle.leftButtonSelected: newStyle.leftButton}
-                                onPress = { (selectionFirst) => {this.setState({ selectionFirst: !this.state.selectionFirst, selectionSecond: false, selectionThird: false, selectionFourth: false, });}}>
+                                onPress = { (selectionFirst) => {
+                                    this.setState({ selectionFirst: !this.state.selectionFirst, selectionSecond: false, selectionThird: false, selectionFourth: false, menu: 1, });
+                                    }}>
                                     <TouchableOpacity
                                         activeOpacity={0.5}
                                         style={newStyle.iconStyle}
-                                        onPress = { (selectionFirst) => {this.setState({ selectionFirst: !this.state.selectionFirst, selectionSecond: false, selectionThird: false, selectionFourth: false, });}}>
+                                        onPress = { (selectionFirst) => {
+                                                        this.setState({ selectionFirst: !this.state.selectionFirst, selectionSecond: false, selectionThird: false, selectionFourth: false, menu: 1, });
+                                                }
+                                            }>
                                         <Icon
                                             containerStyle={newStyle.iconImageStyle}
                                             name='user'
                                             type='font-awesome'
                                             color='#E73D50'
                                             size = {20}
-                                            onPress={(selectionFirst) => {this.setState({ selectionFirst: !this.state.selectionFirst, selectionSecond: false, selectionThird: false, selectionFourth: false, });}} /> 
+                                            onPress={(selectionFirst) => {this.setState({ selectionFirst: !this.state.selectionFirst, selectionSecond: false, selectionThird: false, selectionFourth: false, menu: 1, });}} /> 
                                     </TouchableOpacity>
                             </View>             
                             <View
                                 style={ (this.state.selectionSecond === true)?newStyle.leftButtonSelected: newStyle.leftButton}
-                                onPress = { (selectionSecond) => {this.setState({ selectionFirst: false, selectionSecond: !this.state.selectionSecond, selectionThird: false, selectionFourth: false, });}}>
+                                onPress = { (selectionSecond) => {this.setState({ selectionFirst: false, selectionSecond: !this.state.selectionSecond, selectionThird: false, selectionFourth: false, menu: 2, });}}>
                                     <TouchableOpacity
                                         activeOpacity={0.5}
                                         style={newStyle.iconStyle}
-                                        onPress = { (selectionSecond) => {this.setState({ selectionFirst: false, selectionSecond: !this.state.selectionSecond, selectionThird: false, selectionFourth: false, });} }>
+                                        onPress = { (selectionSecond) => {this.setState({ selectionFirst: false, selectionSecond: !this.state.selectionSecond, selectionThird: false, selectionFourth: false, menu: 2, });} }>
                                         <Icon
                                             containerStyle={newStyle.iconImageStyle}
                                             name='users'
                                             type='font-awesome'
                                             color='#E73D50'
                                             size = {20}
-                                            onPress={(selectionSecond) => {this.setState({ selectionFirst: false, selectionSecond: !this.state.selectionSecond, selectionThird: false, selectionFourth: false, });}} /> 
+                                            onPress={(selectionSecond) => {this.setState({ selectionFirst: false, selectionSecond: !this.state.selectionSecond, selectionThird: false, selectionFourth: false, menu: 2, });}} /> 
                                     </TouchableOpacity>
                             </View>             
                             <View
                                 style={ (this.state.selectionThird === true)?newStyle.leftButtonSelected: newStyle.leftButton}
-                                onPress = { (selectionThird) => {this.setState({ selectionFirst: false, selectionSecond: false, selectionThird: !this.state.selectionThird, selectionFourth: false, });}}>
+                                onPress = { (selectionThird) => {this.setState({ selectionFirst: false, selectionSecond: false, selectionThird: !this.state.selectionThird, selectionFourth: false, menu: 3,  });}}>
                                     <TouchableOpacity
                                         activeOpacity={0.5}
                                         style={newStyle.iconStyle}
-                                        onPress = { (selectionThird) => {this.setState({ selectionFirst: false, selectionSecond: false, selectionThird: !this.state.selectionThird, selectionFourth: false, });} }>
+                                        onPress = { (selectionThird) => {this.setState({ selectionFirst: false, selectionSecond: false, selectionThird: !this.state.selectionThird, selectionFourth: false, menu: 3, });} }>
                                         <Icon
                                             containerStyle={newStyle.iconImageStyle}
                                             name='euro'
                                             type='font-awesome'
                                             color='#E73D50'
                                             size = {20}
-                                            onPress={(selectionThird) => {this.setState({ selectionFirst: false, selectionSecond: false, selectionThird: !this.state.selectionThird, selectionFourth: false, });}} /> 
+                                            onPress={(selectionThird) => {this.setState({ selectionFirst: false, selectionSecond: false, selectionThird: !this.state.selectionThird, selectionFourth: false, menu: 3, });}} /> 
                                     </TouchableOpacity>
                             </View>             
                             <View
                                 style={ (this.state.selectionFourth === true)?newStyle.leftButtonSelected: newStyle.leftButton}
-                                onPress = { (selectionFourth) => {this.setState({ selectionFirst: false, selectionSecond: false, selectionThird: false, selectionFourth: !this.state.selectionFourth, });}}>
+                                onPress = { (selectionFourth) => {this.setState({ selectionFirst: false, selectionSecond: false, selectionThird: false, selectionFourth: !this.state.selectionFourth, menu: 4,  });}}>
                                     <TouchableOpacity
                                         activeOpacity={0.5}
                                         style={newStyle.iconStyle}
-                                        onPress = { (selectionFourth) => {this.setState({ selectionFirst: false, selectionSecond: false, selectionThird: false, selectionFourth: !this.state.selectionFourth, });}}>
+                                        onPress = { (selectionFourth) => {this.setState({ selectionFirst: false, selectionSecond: false, selectionThird: false, selectionFourth: !this.state.selectionFourth, menu: 4,  });}}>
                                         <Icon
                                             containerStyle={newStyle.iconImageStyle}
                                             name='info-circle'
                                             type='font-awesome'
                                             color='#E73D50'
                                             size = {20}
-                                            onPress={(selectionFourth) => {this.setState({ selectionFirst: false, selectionSecond: false, selectionThird: false, selectionFourth: !this.state.selectionFourth, });}} /> 
+                                            onPress={(selectionFourth) => {this.setState({ selectionFirst: false, selectionSecond: false, selectionThird: false, selectionFourth: !this.state.selectionFourth,  menu: 4, });}} /> 
                                     </TouchableOpacity>
                             </View>             
                     </View>
 
-                    <View style={newStyle.pageElement}>                            
-                        <Text style={{ justifyContent: 'center', alignItems: 'center' }}> Components </Text>
+                    <View style={newStyle.pageElement}>              
+                            {
+                               this.state.menu === 1?
+                                    <ProfileComponent />:
+                               this.state.menu === 2?
+                                    <AddFriendComponent />:
+                               this.state.menu === 3?
+                                    <MoneyComponent />:
+                               this.state.menu === 4?
+                                    <InformationComponent />: this.doNothing
+                            }
                     </View>
 
                     </View>
@@ -153,44 +168,55 @@ export default class TestPage extends Component {
 const newStyle = StyleSheet.create({
     
 container: {
+
             flex: 1,
             backgroundColor: 'white',
             flexDirection: 'column',
             justifyContent: 'flex-start',
             alignItems: 'flex-start',
+
 },
 
 topHeader: {
+
             flex: 2,
             backgroundColor: 'powderblue',
             justifyContent: 'flex-start',
             alignItems: 'flex-start'
+
 },
 
 bottomLayout: {
-            flex: 4,
-            backgroundColor: 'powderblue',
+
+            flex: 5,
+            width: viewPortWidth,
+            height: viewPortHeight * .34,
+            backgroundColor: 'white',
             flexDirection: 'row',
             justifyContent: 'flex-start',
             alignItems: 'flex-start'
+
 },
 
 iconStyle: {
+
     width: 54,
-    height: viewPortHeight * .64,
+    height: viewPortHeight * .14,
     borderRadius: 0,
     backgroundColor: 'transparent',
     marginTop: viewPortHeight / 80,
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 0,
+
 },
 
 leftButton: {
+
     width: 54,
-    height: viewPortHeight * .64,
+    height: viewPortHeight * .34,
     backgroundColor: 'white',
-    shadowColor: "rgba(216, 216, 216, 0.20)",
+    shadowColor: "rgba(216, 216, 216, 0.15)",
     shadowOffset: {
       width: 1,
       height: 2
@@ -202,13 +228,15 @@ leftButton: {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+
   },
 
 leftButtons: {
+
     width: 54,
-    height: viewPortHeight * .64,
-    backgroundColor: 'white',
-    shadowColor: "rgba(216, 216, 216, 0.20)",
+    height: viewPortHeight * .72,
+    backgroundColor: 'rgb(246, 246, 246)',
+    shadowColor: "rgba(216, 216, 216, 0.15)",
     shadowOffset: {
       width: 1,
       height: 2
@@ -220,11 +248,13 @@ leftButtons: {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+
   },
 
   leftButtonSelected: {
+
     width: 54,
-    height: viewPortHeight * .64,
+    height: viewPortHeight * .34,
     backgroundColor: "rgb(246, 246, 246)",
     shadowColor: "rgba(216, 216, 216, 0.15)",
     shadowOffset: {
@@ -238,21 +268,26 @@ leftButtons: {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+
   },
 
   iconImageStyle:{
+
     backgroundColor: 'black',
     width: 54,
-    height: viewPortHeight * .64,
+    height: viewPortHeight * .14,
     justifyContent: 'center',
     alignItems: 'center'
-},
 
-pageElement: {
-    backgroundColor: 'red',
-    flex: 6,
-    alignItems: 'center',
-    justifyContent: 'center'
-}
+  },
+   
+  pageElement: {
+        
+        backgroundColor: 'transparent',
+        flex: 6,
+        alignItems: 'center',
+        justifyContent: 'center'
+
+    }
 
 });
