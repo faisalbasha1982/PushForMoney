@@ -21,8 +21,8 @@ import { NavigationActions } from "react-navigation";
 import ButtonNext from '../Components/ButtonNext';
 import ButtonLogin from '../Components/ButtonLogin';
 import ButtonPushWelcome from '../Components/ButtonPushWelcome';
-import ButtonPushNoFriends from '../Components/ButtonPushNoFriends';
 import ButtonWelcome from '../Components/ButtonWelcome';
+import ButtonNew from '../Components/ButtonNew';
 import LanguageButton from '../Components/LanguageButton';
 import Spinner from "react-native-loading-spinner-overlay";
 import DeviceInfo from 'react-native-device-info'
@@ -42,6 +42,7 @@ import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/NewHeaderImage.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
 
@@ -50,9 +51,11 @@ const window = Dimensions.get('window');
 export const IMAGE_HEIGHT = window.width / 2;
 export const IMAGE_HEIGHT_SMALL = window.width /7;
 
+// Styles
+
 let cLanguage = '';
 
-class PushToEarnChangePassword extends Component {
+class PushToEarnProfileBankInfoComponent extends Component {
 
     constructor(props)
     {
@@ -65,10 +68,14 @@ class PushToEarnChangePassword extends Component {
             phoneNumber:'',
             validation: false,
             renderValidate: false,
+            selectionFirst: false,
+            selectionSecond: false,
+            selectionThird: false,
+            selectionFourth: false,
             firstNameInput:'',
             lastNameInput:'',
             phoneNumberInput:'',
-            buttonText: '',
+            buttonText: 'SAVE DATA',
             firstNameError:true,
             firstNameErrorText:'',
             lastNameError:false,
@@ -207,11 +214,6 @@ class PushToEarnChangePassword extends Component {
                         this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
         }
     
-        // if (homePhone.exec(phone))
-        //   this.setState({ phoneError: false, phone: phone });
-        // else
-        //   this.setState({ phoneError: true });
-    
     }
 
     PhoneNumberPickerChanged = (country, callingCode, phoneNumber) => {
@@ -219,201 +221,38 @@ class PushToEarnChangePassword extends Component {
      }
 
     componentWillReceiveProps(nextProps) {
-        //console.log("in Form One screen language received="+nextProps.language);
-        // if (this.props.navigation.state.params.language !== nextProps.language) {
-        //     this.setState({ language: nextProps.language });
-        //     this.setText();
-        // }
+ 
     }
 
     componentDidMount() {
-        // console.log("language from props="+this.props.navigation.state.params.language);
-        // console.log("default language="+this.state.language);
-        // //cLanguage = this.props.navigation.state.params.language;
-        // this.setState({ language: this.props.navigation.state.params.language });
-        // console.log("language="+this.state.language);
-        // this.setText();
-        // console.log("this.state.firstName="+this.state.firstName);
-        // console.log("this.state.buttonText="+this.state.buttonText);
-    }
-
-    // setText =  () => {
-
-    //     this.setState({language: this.props.navigation.state.params.language});
-    //     console.log("this.state.language="+this.state.language);
-
-    //     if (this.props.navigation.state.params.language === 'NEDERLANDS') {
-    //         console.log("setting in Nederlands");
-    //         this.setState({
-    //             firstName:  LanguageSettings.dutch.firstNameText,
-    //             name:       LanguageSettings.dutch.lastNameText,
-    //             phoneNumber: LanguageSettings.dutch.telephoneNumberText,
-    //             buttonText: LanguageSettings.dutch.buttonNextText
-    //         });
-    //     }
-    //     else
-    //         if (this.props.navigation.state.params.language === 'ENGLISH') {
-    //             console.log("setting in English");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.english.firstNameText,
-    //                 name: LanguageSettings.english.lastNameText,
-    //                 phoneNumber: LanguageSettings.english.telephoneNumberText,
-    //                 buttonText: LanguageSettings.english.buttonNextText
-    //             });
-    //         }
-    //         else
-    //           {
-    //             console.log("setting in French");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.french.firstNameText,
-    //                 name: LanguageSettings.french.lastNameText,
-    //                 phoneNumber: LanguageSettings.french.telephoneNumberText,
-    //                 buttonText: LanguageSettings.french.buttonNextText
-    //             });
-    //         }
-    
        
-    // }
+    }   
 
     renderNothing = () => {
 
     }
 
-    renderValidation = () => {
+    
 
-        //if(this.state.language === 'NEDERLANDS')
-
-        console.log("empty error text="+this.state.EmptyErrorText);
-        console.log("first Name Input="+this.state.firstNameInput);
-        console.log("phone Number Input="+this.state.phoneNumberInput);
-
-        let errorString = this.state.EmptyErrorText;
-
-        if(this.state.firstNameError===true || this.state.firstNameInput === '')
-            errorString = errorString + '\n' + this.state.firstNameErrorText;
-
-        // if(this.state.lastNameError===true)
-        //     errorString = errorString + '\n' + this.state.lastNameErrorText;
-
-        if(this.state.phoneNumberError===true || this.state.phoneNumberInput==='')
-            errorString = errorString + '\n' + this.state.phoneNumberErrorText;
-            
-            console.log("errorString="+errorString);
+    saveData = () => {
         
-            if(this.state.firstNameEmptyError === false  && this.state.phoneNumberEmptyError === false && this.state.firstNameError===false && this.state.lastNameError===false && this.state.phoneNumberError===false )
-                return (                        
-                    <View style={newStyle.validationStyle}> 
-                            <Validation
-                                objectParams = 
-                                {{
-                                    'btnText': errorString, 
-                                    'language': '',
-                                    'backgroundColor':'transparent'
-                                }} />
-                    </View>
-                );
-            else
-                return (                        
-                    <View style={newStyle.validationStyle}> 
-                            <Validation
-                                objectParams = 
-                                {{
-                                    'btnText': errorString, 
-                                    'language': '',
-                                    'backgroundColor': 'normal'
-                                }} />
-                    </View>
-            );
-        
+        let payload = {
+            "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-21 5:05:12' ,'R' : 'er3rssf3dfd'}",
+            "LoginAccessToken": "{'MobileUserEmail' : 'Balaji.sp@esteinternationalgroup.be.com','MobileUserName':'hello16','MobileUserID' : 3,'Approval':'True','LoginDate':'2018-07-26 5:05:12','LoginExpiryDate':'2018-08-26 6:54:12', 'RandomString' : 'er3rssfd'}",        
+            "Bankname" : "Bankname",        
+            "IBAN" : "05121445712115421",
+            "BIC_NO" : "4234234",
+            "Status" : "1",        
+            "TestingMode":"Testing@JobFixers#09876"
+        };
 
-        
-        return;
-
-    }
-
-    func = (renderValidate,EmptyErrorText) => {
-      this.setState({renderValidate,EmptyErrorText});
+        this.props.cardDetails(payload);
     }
 
     render() {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
         return (
-
-            (platform === 'ios')?
-            <KeyboardAwareScrollView
-                behavior="padding"
-                enableOnAndroid={false}
-                contentContainerStyle={newStyle.container}
-                scrollEnabled={true}
-                scrollToEnd={true}
-                enableResetScrollToCoords={true}
-                enableAutomaticScroll={true}>
-            
-                <View style={newStyle.headerImage}>
-                    <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
-                    {
-                      (this.state.renderValidate === true)?this.renderValidation():this.renderNothing()
-                    }
-                </View>
-
-                <View style= { newStyle.layoutBelow }>
-
-                    <View style={newStyle.leftButtons}>
-                        <View style={newStyle.leftButton}>
-                                <TouchableOpacity onPress={ ( ) => {} }
-                                    activeOpacity={0.5}
-                                    style={newStyle.iconStyle}>
-                                <Icon
-                                    containerStyle={newStyle.iconImageStyle}
-                                    name='user'
-                                    type='font-awesome'
-                                    color='#E73D50'
-                                    size = {20}
-                                    onPress={() => console.log('hello')} /> 
-                        </TouchableOpacity>
-                        </View>
-                        <View style={newStyle.leftButton}>
-                                <TouchableOpacity onPress={ ( ) => {} }
-                                    activeOpacity={0.5}
-                                    style={newStyle.iconStyle}>
-                                <Icon
-                                    containerStyle={newStyle.iconImageStyle}
-                                    name='users'
-                                    type='font-awesome'
-                                    color='#E73D50'
-                                    size = {20}
-                                    onPress={() => console.log('hello')} /> 
-                        </TouchableOpacity>
-                        </View>
-                        <View style={newStyle.leftButton}>
-                                <TouchableOpacity onPress={ ( ) => {} }
-                                    activeOpacity={0.5}
-                                    style={newStyle.iconStyle}>
-                                <Icon
-                                    containerStyle={newStyle.iconImageStyle}
-                                    name='euro-sign'
-                                    type='font-awesome'
-                                    color='#E73D50'
-                                    size = {20}
-                                    onPress={() => console.log('hello')} /> 
-                        </TouchableOpacity>
-                        </View>
-                        <View style={newStyle.leftButton}>
-                                <TouchableOpacity onPress={ ( ) => {} }
-                                    activeOpacity={0.5}
-                                    style={newStyle.iconStyle}>
-                                <Icon
-                                    containerStyle={newStyle.iconImageStyle}
-                                    name='info-circle'
-                                    type='font-awesome'
-                                    color='#E73D50'
-                                    size = {20}
-                                    onPress={() => console.log('hello')} /> 
-                        </TouchableOpacity>
-                        </View>
-                    </View>
-
                     <View style={newStyle.endButtons}>     
 
                         <View style={newStyle.topView}>
@@ -424,21 +263,21 @@ class PushToEarnChangePassword extends Component {
 
                         <View style= {newStyle.inputContainer}>
 
-                            <Text style={newStyle.firstName}>Oud wachtwoord</Text>
+                            <Text style={newStyle.firstName}>Naam Kaart</Text>
                             <TextInput
                                         style={ newStyle.nameInput }
                                         placeholder=''
                                         underlineColorAndroid= 'transparent'
                                         onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
                                     
-                            <Text style={newStyle.firstName}>Nieuw wachtwoord</Text>
+                            <Text style={newStyle.firstName}>IBAN NUMBER</Text>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
                                 onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
 
-                            <Text style={newStyle.firstName}>Herhaall nieuw wachtwoord</Text>
+                            <Text style={newStyle.firstName}>BIC NUMBER</Text>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder=''
@@ -449,111 +288,37 @@ class PushToEarnChangePassword extends Component {
 
 
                         <View style={newStyle.buttonView}>
-                                <ButtonPushNoFriends
-                                    objectParams=
-                                        {{
-                                            btnText: "SAVE DATA", 
-                                            language: "ENGLISH",
-                                            firstName: this.state.firstNameInput,
-                                            lastName: this.state.lastNameInput,
-                                            phoneNumber: this.state.phoneNumberInput,
-                                            firstNameError: this.state.firstNameError,
-                                            lastNameError: this.state.lastNameError,
-                                            phoneNumberError: this.state.phoneNumberError,
-                                            firstNameEmpty: this.state.firstNameEmptyError,
-                                            lastNameEmpty: this.state.lastNameEmptyError,
-                                            phoneNumberEmpty: this.state.phoneNumberEmptyError
-                                        }}
-                                func = {this.func}
-                                navigation = { this.props.navigation}
-                                />
+                        <TouchableOpacity
+                            onPress={() => { this.saveData() } }
+                            activeOpacity={0.5}
+                            style={{
+                                width: 280,
+                                height: 57,
+                                marginBottom: 10,
+                                marginLeft: 0,
+                                borderRadius: 8,
+                                backgroundColor: '#E73D50',
+                                marginTop: viewPortHeight / 110,            
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}>
+                            <Text
+                                style={{
+                                    fontSize: 17,
+                                    width: 333,
+                                    height: 19,
+                                    fontFamily: 'WorkSans-Regular',
+                                    fontWeight: '500',
+                                    fontStyle: 'normal',
+                                    color: '#ffffff',
+                                    marginTop: 0,                
+                                    letterSpacing: 0.67,
+                                    textAlign: 'center'}}
+                            > {this.state.buttonText.toUpperCase()}</Text>
+                        </TouchableOpacity>               
                         </View>
 
                     </View>
-                
-
-                </View>
-                 
-            </KeyboardAwareScrollView>
-            :
-            <ScrollView>
-            <KeyboardAvoidingView
-               style = {newStyle.container}
-               behavior = "padding"
-               enabled>
-            
-             <View style={newStyle.headerImage}>
-                 <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
-                 {
-                   (this.state.renderValidate === true)?this.renderValidation():this.renderNothing()
-                 }
-             </View>
-
-             <View style={newStyle.inputContainer}>
-            
-                 <Text style={newStyle.firstName}>{this.state.firstName}</Text>
-                 <TextInput
-                             style={ newStyle.nameInput }
-                             placeholder=''
-                             underlineColorAndroid= 'transparent'
-                             onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
-                         
-
-                 <Text style={newStyle.firstName}>{this.state.name}</Text>
-                 <TextInput
-                     style={ newStyle.nameInput}
-                     placeholder=''
-                     underlineColorAndroid= 'transparent'
-                     onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
-
-                 <Text style={newStyle.phoneNumberStyle}>{this.state.phoneNumber}</Text>
-
-                 <PhoneInput 
-                         ref='phone'
-                         initialCountry='be'
-                         style= {newStyle.nameInput}
-                         onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) } />
-
-
-             </View>
-
-            <View style={newStyle.endButtons}>
-
-                <TouchableOpacity onPress={() => this.props.navigation.goBack() }
-                    activeOpacity={0.5}
-                    style={newStyle.iconStyle}>
-                        <Icon
-                            containerStyle={newStyle.iconImageStyle}                               
-                            name='angle-left'
-                            type='font-awesome'
-                            color='#fff'
-                            size = {40}
-                            onPress={() => console.log('hello')} /> 
-                </TouchableOpacity>
-
-                <ButtonNext 
-                            objectParams=
-                                {{
-                                    btnText: this.state.buttonText, 
-                                    language: "ENGLISH",
-                                    firstName: this.state.firstNameInput,
-                                    lastName: this.state.lastNameInput,
-                                    phoneNumber: this.state.phoneNumberInput,
-                                    firstNameError: this.state.firstNameError,
-                                    lastNameError: this.state.lastNameError,
-                                    phoneNumberError: this.state.phoneNumberError,
-                                    firstNameEmpty: this.state.firstNameEmptyError,
-                                    lastNameEmpty: this.state.lastNameEmptyError,
-                                    phoneNumberEmpty: this.state.phoneNumberEmptyError
-                                }}
-                            func = {this.func}
-                            navigation = { this.props.navigation}
-                />
-
-            </View>
-         </KeyboardAvoidingView>
-         </ScrollView>
-
         );
     }
 
@@ -593,7 +358,7 @@ const newStyle = StyleSheet.create({
     },
 
     firstName: {
-        width: 250,
+        width: 159,
         height: 19,
         fontFamily: 'WorkSans-Regular',
         fontSize: 16,
@@ -655,14 +420,16 @@ const newStyle = StyleSheet.create({
         },
         shadowRadius: 5,
         shadowOpacity: 1,
-        flex:2
+        flex:2,
+        justifyContent: 'center',
+        alignItems: 'center',        
   },
 
   leftButton: {
     width: 54,
     height: 111,
     backgroundColor: Colors.white,
-    shadowColor: "rgba(216, 216, 216, 0.20)",
+    shadowColor: "rgba(216, 216, 216, 0.15)",
     shadowOffset: {
       width: 1,
       height: 2
@@ -670,10 +437,30 @@ const newStyle = StyleSheet.create({
     shadowRadius: 5,
     shadowOpacity: 1,
     marginBottom: 5,
-    marginRight: 5,
+    marginRight: 10,
     justifyContent: 'center',
     alignItems: 'center',
     flex: 2,
+  },
+
+  leftButtonSelected: {
+
+    width: 54,
+    height: 111,
+    backgroundColor: "rgb(246, 246, 246)",
+    shadowColor: "rgba(216, 216, 216, 0.15)",
+    shadowOffset: {
+      width: 1,
+      height: 2
+    },
+    shadowRadius: 5,
+    shadowOpacity: 1,
+    marginBottom: 5,
+    marginRight: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 2,
+
   },
 
   endButtons: {
@@ -783,7 +570,8 @@ const mapStateToProps = state => {
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
+      cardDetails: ( payload ) => dispatch({ type: 'CARD_DETAILS_REQUEST', payload }),
     };
   };
   
-  export default connect(mapStateToProps, mapDispatchToProps)(PushToEarnChangePassword);
+  export default connect(mapStateToProps, mapDispatchToProps)(PushToEarnProfileBankInfoComponent);

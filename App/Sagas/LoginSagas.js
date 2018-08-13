@@ -294,18 +294,19 @@ export function * LoginRequest(api,payload) {
     const token = response.data.LoginAccessToken;
     const userinfo = response.data.userinfo;
 
-    try {
-          AsyncStorage.setItem('token',token);
-    }
-    catch(error){
-      console.tron.log('error='+error);
-    }
+    // try {
+    //       AsyncStorage.setItem('token',token);
+    // }
+    // catch(error){
+    //   console.tron.log('error='+error);
+    // }
 
+    localStorage.setItem('token', token);
     console.tron.log("login access token=",token);
 
     // do data conversion here if needed
     yield put(LoginActions.loginSuccess(userinfo));
-    NavigationService.navigate('PushToEarnWelcomeScreen');
+    NavigationService.navigate('TestPage');
 
   }   
   else 

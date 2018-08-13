@@ -7,9 +7,9 @@ const { Types, Creators } = createActions({
   changePassword:["payload"],
   changeMobile:["payload"],
   verifyOtpMobile:["payload"],
-  profileSuccess: ['user'],
+  profileSuccess: ['bankinfo'],
   profileFailure: ['error'],
-  userRegistered: ['user'],
+  userRegistered: ['bankinfo'],
   logout: null
 });
 
@@ -19,6 +19,7 @@ export default Creators;
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = {
+  bankinfo: null,
   user: null,
   fetching: false,
   error: '',
@@ -28,6 +29,7 @@ export const INITIAL_STATE = {
 /* ------------- Selectors ------------- */
 
 export const ProfileSelectors = {
+  getBankInfo: state => state['profile'].bankinfo,
   getUser: state => state['profile'].user,
   getFetching: state => state['profile'].fetching,
   getError: state => state['profile'].error
@@ -55,8 +57,8 @@ export const verifyOtpMobile = (state, {payload}) => {
     return { ...state, fetching:true, payload }
 }
 
-export const success = (state, {user}) => {
-  return { ...state, user, fetching: false, }
+export const success = (state, {bankinfo}) => {
+  return { ...state, bankinfo, fetching: false, }
 }
 
 export const failure = (state, {error}) => {

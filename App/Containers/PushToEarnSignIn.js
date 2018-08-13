@@ -81,8 +81,6 @@ const Constants = {
     TWITTER_CONSUMER_SECRET: 'ourqEe3JmhpRh7ceLpCxN4RoIRXJT9FLslqqgfLscTtHtVvCXs',
   };
 
-// Styles
-
 let cLanguage = '';
 
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -120,7 +118,8 @@ class PushToEarnSignIn extends Component {
 
     onGoogleButtonClick = async () => {
 
-        console.warn('google button clicked'); // eslint-disable-line
+        console.warn('google button clicked'); 
+        // eslint-disable-line
 
         await GoogleSignin.configure({
           iosClientId: '1041950784543-pkmc6rhf0e6av81q1j8qhspb10oqa7dn.apps.googleusercontent.com',
@@ -250,7 +249,6 @@ class PushToEarnSignIn extends Component {
         );
 
         let authData = AuthComponent.authenticationData("en");
-
         let encryptedData = AesComponent.aesCallback(authData);
 
         let loginInfo = "{ 'G' : '"+user.id+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";

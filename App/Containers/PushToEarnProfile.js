@@ -42,6 +42,10 @@ import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/NewHeaderImage.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import * as AuthComponent from '../Components/AuthComponent';
+import * as AesComponent from '../Components/AesComponent';
+import localStorage from 'react-native-sync-localstorage';
+import welcomeComponent from '../Components/PushToEarnWelcomeComponent';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -228,34 +232,49 @@ class PushToEarnProfile extends Component {
 
         if(this.props !== nextProps)
         {
-            let payload = 
-            {
-    
-                "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-21 11:42:12' ,'R' : 'er3rssf3dfd'}",
-                "LoginAccessToken": "{'MobileUserEmail' : 'Balaji_sp@yahoo.com','MobileUserName':'Balaji Subbiah','MobileUserID' : 1,'Approval':'True','LoginDate':'2018-06-24 5:05:12','LoginExpiryDate':'2018-08-24 6:54:12', 'RandomString' : 'er3rssfd'}",
-                "TestingMode":"Testing@JobFixers#09876",
-            };
+
+            let authData = AuthComponent.authenticationData("en");
+            let encryptedData = AesComponent.aesCallback(authData);
+            let ltoken = localStorage.getItem('token');        
+            this.setState({isLoading: true});
+
+            console.log("login access token="+ltoken);
+            console.tron.log("login access token="+ltoken);
+
+            setTimeout(() => 
+            {    
+                let payload = JSON.stringify(
+                {        
+                    "AuthenticationData": encryptedData,
+                    "LoginAccessToken": ltoken,
+                });        
+                
+                this.props.getProfile(payload);    
+              },3000 );            
+        }
+    }
+
+    componentDidMount() 
+    {
+
+        let authData = AuthComponent.authenticationData("en");
+        let encryptedData = AesComponent.aesCallback(authData);
+        let ltoken = localStorage.getItem('token');
+        this.setState({isLoading: true});
+
+        console.log("login access token="+ltoken);
+        console.tron.log("login access token="+ltoken);
+
+        setTimeout(() => 
+        {
+            let payload = JSON.stringify({
+                "AuthenticationData": encryptedData,
+                "LoginAccessToken": ltoken,
+            });
     
             this.props.getProfile(payload);
-        }            
+        },3000);
     }
-
-
-
-    componentDidMount() {
-
-        let payload = 
-        {
-
-            "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-21 11:42:12' ,'R' : 'er3rssf3dfd'}",
-            "LoginAccessToken": "{'MobileUserEmail' : 'Balaji_sp@yahoo.com','MobileUserName':'Balaji Subbiah','MobileUserID' : 1,'Approval':'True','LoginDate':'2018-06-24 5:05:12','LoginExpiryDate':'2018-08-24 6:54:12', 'RandomString' : 'er3rssfd'}",
-            "TestingMode":"Testing@JobFixers#09876",
-        };
-
-        console.tron.log("payload="+payload);
-        this.props.getProfile(payload);
-    }
-
 
     renderNothing = () => {
 
@@ -266,7 +285,6 @@ class PushToEarnProfile extends Component {
     }
 
     callUpdateName = (name) => {
-
         let payload = {         
             "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-23 08:18:12' ,'R' : 'er3rssf3dfd'}",
             "LoginAccessToken": "{'MobileUserEmail' : 'Balaji.sp@esteinternationalgroup.be.com','MobileUserName':'hello16','MobileUserID' : 12,'Approval':'True','LoginDate':'2018-07-03 08:18:12','LoginExpiryDate':'2018-08-02 08:18:12', 'RandomString' : 'fasdf13a'}",
@@ -291,7 +309,6 @@ class PushToEarnProfile extends Component {
     changeMobile = (phoneNumber) => {
 
         let payload = {             
-
             "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-22 08:18:12' ,'R' : 'er3rssf3dfd'}",
             "LoginAccessToken": "{'MobileUserEmail' : 'Balaji_sp@yahoo.com','MobileUserName':'Balaji Subbiah','MobileUserID' : 1,'Approval':'True','LoginDate':'2018-07-03 08:18:12','LoginExpiryDate':'2018-08-02 08:18:12', 'RandomString' : 'fasdf13a'}",
             "NewMobileNumber": phoneNumber,

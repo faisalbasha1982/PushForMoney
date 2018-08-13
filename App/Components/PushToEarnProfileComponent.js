@@ -33,6 +33,11 @@ import Validation from '../Components/ButtonValidation';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
+import { ProfileSelectors } from '../Redux/ProfileRedux';
+
+import * as AuthComponent from '../Components/AuthComponent';
+import * as AesComponent from '../Components/AesComponent';
+import localStorage from 'react-native-sync-localstorage';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -219,6 +224,21 @@ class PushToEarnProfileComponent extends Component {
 
     }
 
+    cardDetails = () => {
+        return (
+            <View>
+                    <Text style={newStyle.firstName}>Card Details</Text>
+                    <TextInput
+                        style={ newStyle.nameInput}
+                        placeholder='Password'
+                        editable={true}
+                        underlineColorAndroid= 'transparent'
+                        onChangeText= { (passwordInput) =>  { this.setState({ menu: 5})  }  }/>
+            </View>
+        );
+    }
+        
+
     PhoneNumberPickerChanged = (country, callingCode, phoneNumber) => {
         this.setState({countryName: country.name, callingCode: callingCode, phoneNo:phoneNumber});
      }
@@ -227,30 +247,47 @@ class PushToEarnProfileComponent extends Component {
 
         if(this.props !== nextProps)
         {
-            let payload = 
+            let authData = AuthComponent.authenticationData("en");
+            let encryptedData = AesComponent.aesCallback(authData);
+            let ltoken = localStorage.getItem('token');
+            this.setState({isLoading: true});
+
+            console.log("login access token="+ltoken);
+            console.tron.log("login access token="+ltoken);
+
+            setTimeout(() => 
             {
-    
-                "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-21 11:42:12' ,'R' : 'er3rssf3dfd'}",
-                "LoginAccessToken": "{'MobileUserEmail' : 'Balaji_sp@yahoo.com','MobileUserName':'Balaji Subbiah','MobileUserID' : 1,'Approval':'True','LoginDate':'2018-06-24 5:05:12','LoginExpiryDate':'2018-08-24 6:54:12', 'RandomString' : 'er3rssfd'}",
-                "TestingMode":"Testing@JobFixers#09876",
-            };
-    
-            this.props.getProfile(payload);
-        }            
+
+                let payload = JSON.stringify({
+                    "AuthenticationData": encryptedData,
+                    "LoginAccessToken": ltoken,
+                });
+
+                this.props.getProfile(payload);
+
+            },3000);
+        }
     }
 
     componentDidMount() {
 
-        let payload = 
+        let authData = AuthComponent.authenticationData("en");
+        let encryptedData = AesComponent.aesCallback(authData);
+        let ltoken = localStorage.getItem('token');
+        this.setState({isLoading: true});
+
+        console.log("login access token="+ltoken);
+        console.tron.log("login access token="+ltoken);
+
+        setTimeout(() => 
         {
+            let payload = JSON.stringify({
+                "AuthenticationData": encryptedData,
+                "LoginAccessToken": ltoken,
+            });
 
-            "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-21 11:42:12' ,'R' : 'er3rssf3dfd'}",
-            "LoginAccessToken": "{'MobileUserEmail' : 'Balaji_sp@yahoo.com','MobileUserName':'Balaji Subbiah','MobileUserID' : 1,'Approval':'True','LoginDate':'2018-06-24 5:05:12','LoginExpiryDate':'2018-08-24 6:54:12', 'RandomString' : 'er3rssfd'}",
-            "TestingMode":"Testing@JobFixers#09876",
-        };
-
-        console.tron.log("payload="+payload);
-        this.props.getProfile(payload);
+            this.props.getProfile(payload);
+        },3000);
     }
 
 
@@ -371,10 +408,17 @@ class PushToEarnProfileComponent extends Component {
                                 onBlur = { () => this.callUpdateName(this.state.passwordInput)}
                                 onChangeText= { (passwordInput) => this.validatePassword(passwordInput) }/>
 
+                        {
+                            (this.props.bankInfo.MobileUserBankDetails === 0)?
+                                        this.cardDetails()
+                                        :
+                                        this.doNothing()
+                        }
                         </View>
 
 
-                        <View style={newStyle.buttonView}>
+
+                        {/* <View style={newStyle.buttonView}>
                                 <ButtonCardDetails
                                     objectParams=
                                         {{
@@ -393,7 +437,7 @@ class PushToEarnProfileComponent extends Component {
                                 func = {this.func}
                                 navigation = { this.props.navigation}
                                 />
-                        </View>
+                        </View> */}
 
                     </View>
                 
@@ -650,6 +694,7 @@ const newStyle = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
+        bankInfo: ProfileSelectors.getBankInfo(state),
     };
   };
   

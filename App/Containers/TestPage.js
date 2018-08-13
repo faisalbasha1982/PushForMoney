@@ -1,30 +1,12 @@
 import React, { Component } from 'react'
 import {
-  ScrollView,
-  Text,
-  Image,
   View,
-  KeyboardAvoidingView,
   TouchableOpacity,
   Dimensions,
-  TextInput,
-  PixelRatio,
-  Alert,
-  Platform,
   StyleSheet,
+  Image
 } from 'react-native';
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import LanguageButton from '../Components/LanguageButton';
-import Spinner from "react-native-loading-spinner-overlay";
-import DeviceInfo from 'react-native-device-info';
-import * as Animatable from 'react-native-animatable';
-import CompanyBanner from '../Components/CompanyBanner';
-import LanguageSettings from '../Containers/LanguageSettingsNew';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { scale, verticalScale, moderateScale } from 'react-native-size-matters'; 
-import { Colors } from "../Themes";
-import { Images } from '../Themes';
+
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TopHeader from '../Components/TopHeader';
 import logoNew from '../Images/NewHeaderImage.png';
@@ -32,6 +14,12 @@ import ProfileComponent from '../Components/PushToEarnProfileComponent';
 import AddFriendComponent from '../Components/PushToEarnNoFriendsComponent';
 import MoneyComponent from '../Components/PushToEarnMoneyComponent';
 import InformationComponent from '../Components/PushToEarnInformationComponent';
+import localStorage from 'react-native-sync-localstorage';
+import WelcomeComponent from '../Components/PushToEarnWelcomeComponent';
+import ProfileChangePasswordComponent from '../Components/PushToEarnChangePasswordComponent';
+import ProfileBankInfoComponent from '../Components/PushToEarnProfileBankInfoComponent';
+import headerImage from '../Images/headerImage.png';
+import logoHeader from '../Images/logoheader.png';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth  = Dimensions.get('window').width;
@@ -46,7 +34,7 @@ export default class TestPage extends Component {
             selectionSecond: false,
             selectionThird: false,
             selectionFourth: false,
-            menu: 1,
+            menu: 0,
         };
     }
 
@@ -63,7 +51,7 @@ export default class TestPage extends Component {
 
                     <View style={newStyle.topHeader}> 
                         <View style={newStyle.headerImage}>
-                                <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .40,}} />
+                                <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .36,}} />
                         </View>
                     </View>
 
@@ -143,8 +131,10 @@ export default class TestPage extends Component {
                             </View>             
                     </View>
 
-                    <View style={newStyle.pageElement}>              
+                    <View style={newStyle.pageElement}>
                             {
+                               this.state.menu === 0?
+                                    <WelcomeComponent />:
                                this.state.menu === 1?
                                     <ProfileComponent />:
                                this.state.menu === 2?
@@ -152,7 +142,12 @@ export default class TestPage extends Component {
                                this.state.menu === 3?
                                     <MoneyComponent />:
                                this.state.menu === 4?
-                                    <InformationComponent />: this.doNothing
+                                    <InformationComponent />:
+                               this.state.menu === 5?
+                                    <ProfileBankInfoComponent />:
+                               this.state.menu === 6?
+                                    <ProfileChangePasswordComponent />:
+                                    this.doNothing()
                             }
                     </View>
 
@@ -179,7 +174,7 @@ container: {
 
 topHeader: {
 
-            flex: 2,
+            flex: 3,
             backgroundColor: 'powderblue',
             justifyContent: 'flex-start',
             alignItems: 'flex-start'
@@ -188,7 +183,7 @@ topHeader: {
 
 bottomLayout: {
 
-            flex: 5,
+            flex: 6,
             width: viewPortWidth,
             height: viewPortHeight * .34,
             backgroundColor: 'white',
@@ -234,7 +229,7 @@ leftButton: {
 leftButtons: {
 
     width: 54,
-    height: viewPortHeight * .72,
+    height: viewPortHeight * .67,
     backgroundColor: 'rgb(246, 246, 246)',
     shadowColor: "rgba(216, 216, 216, 0.15)",
     shadowOffset: {
