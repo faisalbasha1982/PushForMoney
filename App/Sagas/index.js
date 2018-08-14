@@ -24,7 +24,7 @@ import { RegisterRequest, RegisterRequestNew, OtpRequest,
          forgotPasswordRequest, forgotPasswordOTPRequest,
          makeRegisterRequest, OtpRequestResend } 
 from './RegisterSagas'
-import { ProfileRequest, firstNameUpdate,changePassword, changeMobile, verifyMobileOtpRequest,getProfile} from './ProfileSagas'
+import { ProfileRequest, firstNameUpdate,changePassword, changeMobile, verifyMobileOtpRequest,getProfile, ProfileRequestNew} from './ProfileSagas'
 import { cardDetailsRequest } from './CardDetailsSagas'
 import { FriendRequest } from './FriendSagas'
 
@@ -80,6 +80,9 @@ export default function * root () {
 
     //Profile Saga from
     takeLatest(ProfileTypes.GET_PROFILE,getProfile),
+
+    //Profile Saga from Profile Request New
+    takeLatest(ProfileTypes.GET_PROFILE_REQUEST_NEW, ProfileRequestNew),
 
     //Profile Saga Name update
     takeLatest(ProfileTypes.UPDATE_FIRST_NAME,firstNameUpdate,api),

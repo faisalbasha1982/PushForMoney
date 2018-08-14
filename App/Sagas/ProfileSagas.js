@@ -63,6 +63,44 @@ export function * getProfile(action)
 
 }
 
+function fetchJson(url,payload) {
+    return  fetch(url,{
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+    })
+      .then(response => {
+
+        if (!response.ok) {
+          const error = new Error(response.statusText);
+          error.response = response;
+          throw error;
+        }
+  
+        return response.json();
+      });
+  }
+  
+  function fetchProfile(payload) {
+    return fetchJson('https://prod-15.westeurope.logic.azure.com:443/workflows/f59e53901f7a46559be64f3a4605091e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=7rKezGQLhIz7v96JpmKZ4zQ0BUUCLZMW0csfSUWM4JM',payload);
+  }
+  
+
+export function * ProfileRequestNew(api,action)
+{
+    try{
+            const responseJson = yield call(fetchProfile,action.payload);
+            yield put(ProfileActions.profileSuccess(responseJson.MobileUserBankDetails));
+        }
+    catch(error)
+    {
+        yield put(ProfileActions.profileFailure());
+    }
+}
+
 export function * ProfileRequest(api,action) {
   try{
 
@@ -70,7 +108,8 @@ export function * ProfileRequest(api,action) {
 
     // make the call to the api
     const response = yield call(api.getProfile, JSON.stringify(action.payload));
-    console.tron.log("response from api call =",JSON.stringify(response));
+    console.tron.log("response from api call =",typeof(response));
+    console.log("response from api call =",typeof(response));
     console.log("response="+response.StatusCode);
 
     if (response.StatusCode === 200) {

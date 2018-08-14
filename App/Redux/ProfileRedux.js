@@ -4,6 +4,7 @@ import { createReducer, createActions, Types as ReduxSauceTypes } from 'reduxsau
 const { Types, Creators } = createActions({
   getProfileRequest: ["payload"],
   getProfile:["payload"],
+  getProfileRequestNew: ["payload"],
   updateFirstName:["payload"],
   changePassword:["payload"],
   changeMobile:["payload"],
@@ -83,6 +84,7 @@ export const defaultHandler = (state) => {
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_PROFILE_REQUEST]: request,
   [Types.GET_PROFILE]: request,
+  [Types.GET_PROFILE_REQUEST_NEW]: request,
   [Types.UPDATE_FIRST_NAME]: newrequest,
   [Types.CHANGE_PASSWORD]: changePassword,
   [Types.CHANGE_MOBILE]: changeMobile,
