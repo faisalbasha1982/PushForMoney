@@ -258,10 +258,10 @@ class PushToEarnProfileComponent extends Component {
             setTimeout(() => 
             {
 
-                let payload = JSON.stringify({
+                let payload = {
                     "AuthenticationData": encryptedData,
                     "LoginAccessToken": ltoken,
-                });
+                };
 
                 this.props.getProfile(payload);
 
@@ -281,10 +281,10 @@ class PushToEarnProfileComponent extends Component {
 
         setTimeout(() => 
         {
-            let payload = JSON.stringify({
+            let payload = {
                 "AuthenticationData": encryptedData,
                 "LoginAccessToken": ltoken,
-            });
+            };
 
             this.props.getProfile(payload);
         },3000);
@@ -380,7 +380,6 @@ class PushToEarnProfileComponent extends Component {
                                 underlineColorAndroid= 'transparent'
                                 onChangeText= { (lastNameInput) => this.validateLastName(lastNameInput) }/>
 
-
                             <Text style={newStyle.firstName}>Email Address</Text>
                             <TextInput
                                 style={ newStyle.nameInput }
@@ -408,15 +407,14 @@ class PushToEarnProfileComponent extends Component {
                                 onBlur = { () => this.callUpdateName(this.state.passwordInput)}
                                 onChangeText= { (passwordInput) => this.validatePassword(passwordInput) }/>
 
-                        {
-                            (this.props.bankInfo.MobileUserBankDetails === 0)?
-                                        this.cardDetails()
-                                        :
-                                        this.doNothing()
-                        }
+                            {/* {
+                                (this.props.bankInfo.MobileUserBankDetails.MobileUserBankDetailId === 0)?
+                                            this.cardDetails()
+                                            :
+                                            this.doNothing()
+                            } */}
+
                         </View>
-
-
 
                         {/* <View style={newStyle.buttonView}>
                                 <ButtonCardDetails

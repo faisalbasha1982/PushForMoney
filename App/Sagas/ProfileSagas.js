@@ -1,15 +1,17 @@
 import { call, put, takeLatest, takeEvery } from 'redux-saga/effects';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Alert } from 'react-native';
 import { path } from 'ramda';
 import Api from '../Services/Api';
 import ProfileActions from '../Redux/ProfileRedux';
 import * as NavigationService from '../Navigation/NavigationService';
 
-function getProfile(payload)
+export function * getProfile(action)
 {
-    const url = "https://prod-15.westeurope.logic.azure.com:443/workflows/f59e53901f7a46559be64f3a4605091e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=7rKezGQLhIz7v96JpmKZ4zQ0BUUCLZMW0csfSUWM4JM";
+    const url ="https://prod-15.westeurope.logic.azure.com:443/workflows/f59e53901f7a46559be64f3a4605091e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=7rKezGQLhIz7v96JpmKZ4zQ0BUUCLZMW0csfSUWM4JM";
+    console.log("profile payload=",action.payload);
 
-    console.log("profile payload=",payload);
+    let Gresponse = false;
+    let data = null;
 
     fetch(url,{
         method: 'POST',
@@ -17,12 +19,14 @@ function getProfile(payload)
             Accept: 'application/json',
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(action.payload),
     }).then((response) =>  response.json())
       .then((responseJson) => {
+
           console.log("response=",responseJson.StatusCode);
 
-          if (responseJson.StatusCode === 200) {
+          if (responseJson.StatusCode === 200)
+          {
 
             Alert.alert(
                 'Successfull',
@@ -36,33 +40,49 @@ function getProfile(payload)
             );
 
             console.tron.log("response data=",responseJson.Message);
+            console.tron.log("response data MobileUserBankDetailId="+responseJson.MobileUserBankDetails.MobileUserBankDetailId);
 
-        } 
-        else {
-            //yield put(RegisterActions.registerFailure())
+            console.log("response data MobileUserBankDetailId="+JSON.stringify(responseJson.MobileUserBankDetails));
+
+            Gresponse = true;
+            data = responseJson.MobileUserBankDetails;
+            console.log("1st Gresponse="+Gresponse);
+
+          }
+        else 
+        {
+            Gresponse = false;
+            data = null;
         }
+
       }
     )
-      .catch((error) => console.error(error));
+    .catch((error) => console.error(error));
+
+    console.log("Gresponse="+Gresponse);
+
 }
 
 export function * ProfileRequest(api,action) {
   try{
 
-    console.log("api="+api);
+    console.log("profile request api="+api);
 
     // make the call to the api
-    const response = yield call(getProfile, action.payload);    
-    console.tron.log("response from api call =",response);
+    const response = yield call(api.getProfile, JSON.stringify(action.payload));
+    console.tron.log("response from api call =",JSON.stringify(response));
+    console.log("response="+response.StatusCode);
 
-    if (response.ok) {
+    if (response.StatusCode === 200) {
 
         console.tron.log("response data=",response.data);
         const mobileUserBankDetailsInfo = response.data.MobileUserBankDetails;
 
-        // do data conversion here if needed
-        yield put(ProfileActions.profileSuccess(mobileUserBankDetailsInfo));
+        console.log("mobileUserBankDetailsInfo="+mobileUserBankDetailsInfo);
+        console.tron.log("mobileUserBankDetailsInfo="+mobileUserBankDetailsInfo);
 
+        // do data conversion here if needed
+        yield put(ProfileActions.profileSuccess(responseJson.MobileUserBankDetails));
     } 
     else {
         yield put(ProfileActions.profileFailure());
