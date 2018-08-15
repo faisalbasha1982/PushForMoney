@@ -38,6 +38,11 @@ export default class TestPage extends Component {
         };
     }
 
+    menuChange = (mChange) =>{
+
+        this.setState({ menu: mChange});
+
+    }
     doNothing = () => {
         
     }
@@ -136,7 +141,7 @@ export default class TestPage extends Component {
                                this.state.menu === 0?
                                     <WelcomeComponent />:
                                this.state.menu === 1?
-                                    <ProfileComponent />:
+                                    <ProfileComponent menu = {this.menuChange} />:
                                this.state.menu === 2?
                                     <AddFriendComponent />:
                                this.state.menu === 3?

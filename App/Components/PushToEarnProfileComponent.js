@@ -57,6 +57,10 @@ export const IMAGE_HEIGHT_SMALL = window.width /7;
 
 let cLanguage = '';
 
+let authData = AuthComponent.authenticationData("en");
+let encryptedData = AesComponent.aesCallback(authData);
+let ltoken = localStorage.getItem('token');
+
 class PushToEarnProfileComponent extends Component {
 
     constructor(props)
@@ -77,7 +81,7 @@ class PushToEarnProfileComponent extends Component {
             emailInput:'',            
             passwordInput:'',
             cardDetails:'',
-            buttonText: '',
+            buttonText: 'Password',
             selectionFirst:false,
             selectionSecond:false,
             selectionThird:false,
@@ -224,16 +228,11 @@ class PushToEarnProfileComponent extends Component {
 
     }
 
-    cardDetails = () => {
+    cardDetails = (MobileUserBankDetails) => {
         return (
-            <View>
-                    <Text style={newStyle.firstName}>Card Details</Text>
-                    <TextInput
-                        style={ newStyle.nameInput}
-                        placeholder='Password'
-                        editable={true}
-                        underlineColorAndroid= 'transparent'
-                        onChangeText= { (passwordInput) =>  { this.setState({ menu: 5})  }  }/>
+            <View style={{flex: 25, }}>
+                    <Text style={newStyle.firstName}>Card Details</Text> {'\n'}
+                    <Text style={newStyle.para}> Add your card details  <Text style={{ color: '#e73d50',fontFamily: 'WorkSans-Bold', fontWeight: '500', fontSize: 20  }} onPress={() => this.props.menu(5)}>here</Text> </Text>
             </View>
         );
     }
@@ -300,23 +299,33 @@ class PushToEarnProfileComponent extends Component {
     }
 
     callUpdateName = (name) => {
+     
+        this.setState({isLoading: true});
+
+        console.log("login access token="+ltoken);
+        console.tron.log("login access token="+ltoken);
 
         let payload = {         
-            "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-23 08:18:12' ,'R' : 'er3rssf3dfd'}",
-            "LoginAccessToken": "{'MobileUserEmail' : 'Balaji.sp@esteinternationalgroup.be.com','MobileUserName':'hello16','MobileUserID' : 12,'Approval':'True','LoginDate':'2018-07-03 08:18:12','LoginExpiryDate':'2018-08-02 08:18:12', 'RandomString' : 'fasdf13a'}",
-            "NewFirstName": "kumar",
-            "TestingMode":"Testing@JobFixers#09876"
+            "AuthenticationData": encryptedData,
+            "LoginAccessToken":ltoken,
+            "NewFirstName": name,
         };
 
         this.props.nameUpdate(payload);
     }
 
     callUpdateLastName = (name) => {
+
+        this.setState({isLoading: true});
+
+        console.log("login access token="+ltoken);
+        console.tron.log("login access token="+ltoken);
+
+
         let payload = {         
-            "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-23 08:18:12' ,'R' : 'er3rssf3dfd'}",
-            "LoginAccessToken": "{'MobileUserEmail' : 'Balaji.sp@esteinternationalgroup.be.com','MobileUserName':'hello16','MobileUserID' : 12,'Approval':'True','LoginDate':'2018-07-03 08:18:12','LoginExpiryDate':'2018-08-02 08:18:12', 'RandomString' : 'fasdf13a'}",
+            "AuthenticationData": encryptedData,
+            "LoginAccessToken":ltoken,
             "NewLastName": name,
-            "TestingMode":"Testing@JobFixers#09876"
         };
 
         this.props.nameUpdate(payload);
@@ -324,12 +333,16 @@ class PushToEarnProfileComponent extends Component {
 
     changeMobile = (phoneNumber) => {
 
-        let payload = {             
+        this.setState({isLoading: true});
 
-            "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-22 08:18:12' ,'R' : 'er3rssf3dfd'}",
-            "LoginAccessToken": "{'MobileUserEmail' : 'Balaji_sp@yahoo.com','MobileUserName':'Balaji Subbiah','MobileUserID' : 1,'Approval':'True','LoginDate':'2018-07-03 08:18:12','LoginExpiryDate':'2018-08-02 08:18:12', 'RandomString' : 'fasdf13a'}",
+        console.log("login access token="+ltoken);
+        console.tron.log("login access token="+ltoken);
+
+
+        let payload = {             
+            "AuthenticationData": encryptedData,
+            "LoginAccessToken":ltoken,
             "NewMobileNumber": phoneNumber,
-            "TestingMode":"Testing@JobFixers#09876"
         };
 
         this.props.changeMobile(payload);
@@ -361,7 +374,7 @@ class PushToEarnProfileComponent extends Component {
                                         ref={(ref) => { this.FirstInput = ref; }}
                                         underlineColorAndroid= 'transparent'
                                         onBlur = { () => this.callUpdateName(this.state.firstNameInput)}
-                                        onChangeText={(firstNameInput) => this.validateFirstName(firstNameInput)}/>                            
+                                        onChangeText={(firstNameInput) => this.validateFirstName(firstNameInput)}/>
                             <Icon
                                         containerStyle={newStyle.iconImageStyle}
                                         name='edit'
@@ -399,19 +412,62 @@ class PushToEarnProfileComponent extends Component {
                                 onChangeText= { (phoneNumberInput) => this.validatePhoneNumber(phoneNumberInput) }/>    
 
                             <Text style={newStyle.firstName}>Password</Text>
-                            <TextInput
+                            <TouchableOpacity
+                                onPress={() => { this.props.menu(6) } }
+                                activeOpacity={0.5}
+                                style={{
+                                    width: 280,
+                                    height: 50,
+                                    margin:0,
+                                    borderBottomColor: "#353535",
+                                    borderBottomWidth: StyleSheet.hairlineWidth,
+                                    backgroundColor: 'transparent',
+                                    marginBottom: 0,
+                                    padding: 0,
+                                    flex:11,
+                                }}>
+                                <Text
+                                    style={{
+                                        fontSize: 10,   
+                                        fontFamily: 'WorkSans-Regular',
+                                        fontWeight: '500',
+                                        fontStyle: 'normal',
+                                        color: '#000000',
+                                        marginTop: 0,                
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        letterSpacing: 0.67,
+                                        textAlign: 'left'}}
+                                > {this.state.buttonText.toUpperCase()}</Text>
+                            </TouchableOpacity>
+
+                            {/* <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder='Password'
                                 editable={true}
                                 underlineColorAndroid= 'transparent'
                                 onBlur = { () => this.callUpdateName(this.state.passwordInput)}
-                                onChangeText= { (passwordInput) => this.validatePassword(passwordInput) }/>
+                                onChangeText= { (passwordInput) => this.validatePassword(passwordInput) }/> */}
+
+                            <View style={{flex: 25, }}>
+                                <Text style={newStyle.firstName}>Card Details</Text> {'\n'}
+                                {
+                                     this.props.bankInfo !== null?                                 
+                                     (this.props.bankInfo.MobileUserBankDetails !== null)?<Text style={newStyle.para}> Add your card details  <Text style={{ color: '#e73d50',fontFamily: 'WorkSans-Bold', fontWeight: '500', fontSize: 20  }} onPress={() => this.props.menu(5)}>here</Text> </Text>
+                                     :<View style={{ flex:1, }}>
+                                            <Text> BIC NO: { this.props.bankInfo.MobileUserBankDetails.BIC_NO } </Text> {'\n'}
+                                            <Text> BANK NAME: { this.props.bankInfo.MobileUserBankDetails.IBAN } </Text> {'\n'}
+                                            <Text> IBAN NO: {  this.props.bankInfo.MobileUserBankDetails.Bankname } } </Text> {'\n'}
+                                      </View>
+                                     :this.renderNothing()
+
+                                }
+                            </View>
+
 
                             {/* {
-                                (this.props.bankInfo.MobileUserBankDetails.MobileUserBankDetailId === 0)?
-                                            this.cardDetails()
-                                            :
-                                            this.doNothing()
+                                this.props.bankInfo === null? this.renderNothing()
+                                    :this.cardDetails(this.props.bankInfo.MobileUserBankDetails)
                             } */}
 
                         </View>
@@ -439,7 +495,6 @@ class PushToEarnProfileComponent extends Component {
 
                     </View>
                 
-
                 </View>
                  
         );
@@ -462,8 +517,8 @@ const newStyle = StyleSheet.create({
     innerContainer: {
 
         flexDirection: 'row',
-        backgroundColor: 'transparent'
-
+        backgroundColor: 'transparent',
+        marginRight: 20,
     },
 
     keyboardScrollViewContainer: {
@@ -523,6 +578,7 @@ const newStyle = StyleSheet.create({
         backgroundColor: 'transparent',
         marginBottom: 0,
         padding: 0,
+        flex:11,
     },
 
     buttons: {
@@ -606,7 +662,7 @@ const newStyle = StyleSheet.create({
 
     inputContainer: {
         backgroundColor: 'white',
-        flex: Platform.OS === 'ios'?18:1,        
+        flex: Platform.OS === 'ios'?20:1,        
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
     },
@@ -668,6 +724,7 @@ const newStyle = StyleSheet.create({
         textAlign: "center",
         color: "rgb(231, 61, 80)", 
         marginTop: 30,
+        marginRight: 20,
     },
 
     iconStyle: {
@@ -701,7 +758,7 @@ const mapStateToProps = state => {
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
-      getProfile:(payload) => dispatch({ type: 'GET_PROFILE_REQUEST', payload }),
+      getProfile:(payload) => dispatch({ type: 'GET_PROFILE_REQUEST_NEW', payload }),
       nameUpdate: (payload) => dispatch({ type: 'UPDATE_FIRST_NAME', payload }),
       changeMobile: (payload) => dispatch({ type: 'CHANGE_MOBILE', payload }),
     };

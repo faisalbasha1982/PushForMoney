@@ -5,65 +5,69 @@ import Api from '../Services/Api';
 import ProfileActions from '../Redux/ProfileRedux';
 import * as NavigationService from '../Navigation/NavigationService';
 
-export function * getProfile(action)
-{
-    const url ="https://prod-15.westeurope.logic.azure.com:443/workflows/f59e53901f7a46559be64f3a4605091e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=7rKezGQLhIz7v96JpmKZ4zQ0BUUCLZMW0csfSUWM4JM";
-    console.log("profile payload=",action.payload);
+// export function * getProfile(action)
+// {
+//     const url ="https://prod-15.westeurope.logic.azure.com:443/workflows/f59e53901f7a46559be64f3a4605091e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=7rKezGQLhIz7v96JpmKZ4zQ0BUUCLZMW0csfSUWM4JM";
+//     console.log("profile payload=",action.payload);
 
-    let Gresponse = false;
-    let data = null;
+//     let Gresponse = false;
+//     let data = null;
 
-    fetch(url,{
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(action.payload),
-    }).then((response) =>  response.json())
-      .then((responseJson) => {
+//     fetch(url,{
+//         method: 'POST',
+//         headers: {
+//             Accept: 'application/json',
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(action.payload),
+//     }).then((response) =>  response.json())
+//       .then((responseJson) => {
 
-          console.log("response=",responseJson.StatusCode);
+//           console.log("response=",responseJson.StatusCode);
 
-          if (responseJson.StatusCode === 200)
-          {
+//           if (responseJson.StatusCode === 200)
+//           {
 
-            Alert.alert(
-                'Successfull',
-                responseJson.Message,
-                [
-                    { text: 'OK', onPress:() => console.log('user exists ask me later')}
-                ],
-                {
-                    cancelable: false
-                }
-            );
+//             Alert.alert(
+//                 'Successfull',
+//                 responseJson.Message,
+//                 [
+//                     { text: 'OK', onPress:() => console.log('user exists ask me later')}
+//                 ],
+//                 {
+//                     cancelable: false
+//                 }
+//             );
 
-            console.tron.log("response data=",responseJson.Message);
-            console.tron.log("response data MobileUserBankDetailId="+responseJson.MobileUserBankDetails.MobileUserBankDetailId);
+//             console.tron.log("response data=",responseJson.Message);
+//             console.tron.log("response data MobileUserBankDetailId="+responseJson.MobileUserBankDetails.MobileUserBankDetailId);
 
-            console.log("response data MobileUserBankDetailId="+JSON.stringify(responseJson.MobileUserBankDetails));
+//             console.log("response data MobileUserBankDetailId="+JSON.stringify(responseJson.MobileUserBankDetails));
 
-            Gresponse = true;
-            data = responseJson.MobileUserBankDetails;
-            console.log("1st Gresponse="+Gresponse);
+//             Gresponse = true;
+//             data = responseJson.MobileUserBankDetails;
+//             console.log("1st Gresponse="+Gresponse);
 
-          }
-        else 
-        {
-            Gresponse = false;
-            data = null;
-        }
+//           }
+//         else 
+//         {
+//             Gresponse = false;
+//             data = null;
+//         }
 
-      }
-    )
-    .catch((error) => console.error(error));
+//       }
+//     )
+//     .catch((error) => console.error(error));
 
-    console.log("Gresponse="+Gresponse);
+//     console.log("Gresponse="+Gresponse);
 
-}
+// }
 
 function fetchJson(url,payload) {
+
+    console.log("inside fetchJson:");
+    console.tron.log("inside fetch json");
+
     return  fetch(url,{
         method: 'POST',
         headers: {
@@ -85,13 +89,19 @@ function fetchJson(url,payload) {
   }
   
   function fetchProfile(payload) {
+      
+    console.log("inside fetch profile");
+    console.tron.log("inside fetch profile");
+
     return fetchJson('https://prod-15.westeurope.logic.azure.com:443/workflows/f59e53901f7a46559be64f3a4605091e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=7rKezGQLhIz7v96JpmKZ4zQ0BUUCLZMW0csfSUWM4JM',payload);
   }
   
 
 export function * ProfileRequestNew(api,action)
 {
+    
     try{
+          console.log("profile request new:");
             const responseJson = yield call(fetchProfile,action.payload);
             yield put(ProfileActions.profileSuccess(responseJson.MobileUserBankDetails));
         }
@@ -101,37 +111,37 @@ export function * ProfileRequestNew(api,action)
     }
 }
 
-export function * ProfileRequest(api,action) {
-  try{
+// export function * ProfileRequest(api,action) {
+//   try{
 
-    console.log("profile request api="+api);
+//     console.log("profile request api="+api);
 
-    // make the call to the api
-    const response = yield call(api.getProfile, JSON.stringify(action.payload));
-    console.tron.log("response from api call =",typeof(response));
-    console.log("response from api call =",typeof(response));
-    console.log("response="+response.StatusCode);
+//     // make the call to the api
+//     const response = yield call(api.getProfile, JSON.stringify(action.payload));
+//     console.tron.log("response from api call =",typeof(response));
+//     console.log("response from api call =",typeof(response));
+//     console.log("response="+response.StatusCode);
 
-    if (response.StatusCode === 200) {
+//     if (response.StatusCode === 200) {
 
-        console.tron.log("response data=",response.data);
-        const mobileUserBankDetailsInfo = response.data.MobileUserBankDetails;
+//         console.tron.log("response data=",response.data);
+//         const mobileUserBankDetailsInfo = response.data.MobileUserBankDetails;
 
-        console.log("mobileUserBankDetailsInfo="+mobileUserBankDetailsInfo);
-        console.tron.log("mobileUserBankDetailsInfo="+mobileUserBankDetailsInfo);
+//         console.log("mobileUserBankDetailsInfo="+mobileUserBankDetailsInfo);
+//         console.tron.log("mobileUserBankDetailsInfo="+mobileUserBankDetailsInfo);
 
-        // do data conversion here if needed
-        yield put(ProfileActions.profileSuccess(responseJson.MobileUserBankDetails));
-    } 
-    else {
-        yield put(ProfileActions.profileFailure());
-    }
-}
-catch(error) {
-  console.tron.log("Error@login",error);
-  console.log("error="+error);
-}
-}
+//         // do data conversion here if needed
+//         yield put(ProfileActions.profileSuccess(responseJson.MobileUserBankDetails));
+//     } 
+//     else {
+//         yield put(ProfileActions.profileFailure());
+//     }
+// }
+// catch(error) {
+//   console.tron.log("Error@login",error);
+//   console.log("error="+error);
+// }
+// }
 
 export function * firstNameUpdate(api,action) {
 

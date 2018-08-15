@@ -298,7 +298,7 @@ class PushToEarnProfileBankInfoComponent extends Component {
                                 marginLeft: 0,
                                 borderRadius: 8,
                                 backgroundColor: '#E73D50',
-                                marginTop: viewPortHeight / 110,            
+                                marginTop: viewPortHeight / 30,
                                 justifyContent: 'center',
                                 alignItems: 'center'
                             }}>
@@ -511,6 +511,7 @@ const newStyle = StyleSheet.create({
 
     buttonView: {
         flex: 7,
+        marginTop: 15,
     },
 
     para: {
