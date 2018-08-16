@@ -7,6 +7,7 @@ import {
   Image
 } from 'react-native';
 
+import { connect } from "react-redux";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TopHeader from '../Components/TopHeader';
 import logoNew from '../Images/NewHeaderImage.png';
@@ -14,17 +15,28 @@ import ProfileComponent from '../Components/PushToEarnProfileComponent';
 import AddFriendComponent from '../Components/PushToEarnNoFriendsComponent';
 import MoneyComponent from '../Components/PushToEarnMoneyComponent';
 import InformationComponent from '../Components/PushToEarnInformationComponent';
-import localStorage from 'react-native-sync-localstorage';
 import WelcomeComponent from '../Components/PushToEarnWelcomeComponent';
 import ProfileChangePasswordComponent from '../Components/PushToEarnChangePasswordComponent';
 import ProfileBankInfoComponent from '../Components/PushToEarnProfileBankInfoComponent';
+import ProfileDetailsComponent from '../Components/PushToEarnAddFriendDetailsComponent';
+import FriendsOverViewComponent from '../Components/PushToEarnOverViewFriendsComponent';
+import FriendsLastComponent from '../Components/PushToEarnAddFriendLastComponent';
+import { FriendSelectors } from '../Redux/FriendRedux';
 import headerImage from '../Images/headerImage.png';
 import logoHeader from '../Images/logoheader.png';
+
+import * as AuthComponent from '../Components/AuthComponent';
+import * as AesComponent from '../Components/AesComponent';
+import localStorage from 'react-native-sync-localstorage';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth  = Dimensions.get('window').width;
 
-export default class TestPage extends Component {
+let authData = AuthComponent.authenticationData("en");
+let encryptedData = AesComponent.aesCallback(authData);
+let ltoken = localStorage.getItem('token');
+
+class TestPage extends Component {
 
     constructor(props) {
         super(props);
@@ -43,8 +55,81 @@ export default class TestPage extends Component {
         this.setState({ menu: mChange});
 
     }
+
     doNothing = () => {
         
+    }
+
+    componentWillReceiveProps(nextProps) {
+
+        //console.log("in Form One screen language received="+nextProps.language);
+        // if (this.props.navigation.state.params.language !== nextProps.language) {
+        //     this.setState({ language: nextProps.language });
+        //     this.setText();
+        // }
+
+        console.log("this.props.referral="+this.props.refferal);
+        if(this.props.referral === null)
+            this.getFriendList();
+
+        if(this.props.referral !== nextProps.referral)
+        {
+            console.log("this.props.referral="+this.props.referral);
+            console.tron.log("this.props.referral="+this.props.referral);
+    
+            if(this.props.referral !== null)
+             {
+                 this.setState({ menu: 8 });
+             }
+             else
+            {
+                this.setState({ menu: 2});
+            }
+        }
+        else
+        {
+            this.setState({ menu: 2});
+        }
+    }
+
+    componentDidMount() {
+
+        //call all the api's relevant with inner screens
+        console.log("this.props.referral="+this.props.referral);
+        console.tron.log("this.props.referral="+this.props.referral);
+        this.getFriendList();
+
+    }
+
+    getFriendList = () => {
+
+        this.setState({isLoading: true,});
+        let ltoken = localStorage.getItem('token');
+
+
+        setTimeout(() => { 
+
+         ltoken = localStorage.getItem('token');
+
+        }, 2000);
+
+        console.log("token="+ltoken);
+
+        let payload = {
+            "AuthenticationData": encryptedData,
+            "LoginAccessToken": ltoken,
+        };
+
+        setTimeout(() => { 
+
+            this.props.friendRequest(payload); 
+
+        },
+        3000);
+
+        console.log("this.props.referral="+this.props.referral);
+        console.tron.log("this.props.referral="+this.props.referral);
+
     }
 
     render() {
@@ -143,7 +228,9 @@ export default class TestPage extends Component {
                                this.state.menu === 1?
                                     <ProfileComponent menu = {this.menuChange} />:
                                this.state.menu === 2?
+                            //    this.props.referral === null?
                                     <AddFriendComponent />:
+                                    // <FriendsOverViewComponent />:
                                this.state.menu === 3?
                                     <MoneyComponent />:
                                this.state.menu === 4?
@@ -152,6 +239,12 @@ export default class TestPage extends Component {
                                     <ProfileBankInfoComponent />:
                                this.state.menu === 6?
                                     <ProfileChangePasswordComponent />:
+                               this.state.menu === 7?
+                                    <ProfileDetailsComponent />:
+                               this.state.menu === 8?
+                                    <FriendsOverViewComponent />:
+                               this.state.menu === 9?
+                                    <FriendsLastComponent />:
                                     this.doNothing()
                             }
                     </View>
@@ -291,3 +384,20 @@ leftButtons: {
     }
 
 });
+
+const mapStateToProps = state => {
+    return {
+        referral: FriendSelectors.getReferral(state)
+    };
+  };
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+      resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
+      navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
+      navigateBack: () => this.props.navigation.goBack(),
+      friendRequest: (payload) => dispatch({type: 'GET_FRIEND_REQUEST',payload}),
+    };
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(TestPage);

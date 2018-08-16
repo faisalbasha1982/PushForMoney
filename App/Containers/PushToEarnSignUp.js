@@ -1179,7 +1179,7 @@ class PushToEarnSignUp extends Component {
                         underlineColorAndroid= 'transparent'
                         onChangeText= { (passwordInput) => this.validatePassword(passwordInput) }/>
 
-                    <Text style={newStyle.cpassword}>Password</Text>
+                    <Text style={newStyle.cpassword}>Confirm Password</Text>
                     <TextInput
                         style={ [newStyle.confirmInputPassword,{ color: this.state.cpasswordInputError === true? 'red': 'black'}]}
                         placeholder=''
