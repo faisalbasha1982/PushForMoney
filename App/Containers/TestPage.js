@@ -228,9 +228,9 @@ class TestPage extends Component {
                                this.state.menu === 1?
                                     <ProfileComponent menu = {this.menuChange} />:
                                this.state.menu === 2?
-                            //    this.props.referral === null?
+                               this.props.referral === null || this.props.referral === undefined?
                                     <AddFriendComponent />:
-                                    // <FriendsOverViewComponent />:
+                                    <FriendsOverViewComponent />:
                                this.state.menu === 3?
                                     <MoneyComponent />:
                                this.state.menu === 4?

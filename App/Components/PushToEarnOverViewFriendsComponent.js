@@ -33,6 +33,7 @@ import LanguageSettings from '../Containers/LanguageSettingsNew';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
 import { FriendSelectors } from '../Redux/FriendRedux';
+import _ from 'lodash';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -292,6 +293,35 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
     }
 
+    parseReferralObject = () => {
+
+        let nreferral = this.props.referral;
+
+        console.log("referral object="+nreferral);
+        console.tron.log("referral object="+nreferral);
+
+        nreferral.map(( users  ) => {
+
+            console.log("nreferral name="+users.Name);
+            console.log("nreferral status="+users.ReferredPersonStatus);
+
+        });
+
+        return (
+            nreferral.map(( users  ) => {
+
+                <View>
+                    <Text style={newStyle.firstName}>{users.Name + "\t" + users.ReferredPersonStatus }</Text>
+                    <View style={newStyle.borderBottom}> </View>
+                </View>
+
+                }
+
+            )
+        );
+
+    }
+
 
     getFriendList = () => {
 
@@ -307,22 +337,18 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
         console.tron.log("referral=",this.props.referral);
 
-        // this.props.referral.map(
-            
-        //     (item,index) => {
-
-        //         <View key={index}>
-        //              <Text style={newStyle.firstName}>item.Name</Text>
-        //              <View style={newStyle.borderBottom}> </View>
-        //         </View>
-
-        //     }
-
-        // );
-
         //array of object
+        return (
+            <View>
+                <Text style={newStyle.firstName}></Text>
+                <View style={newStyle.borderBottom}> </View>
+            </View>
+        );
+    }
 
-        // [
+    renderList = (personObj) => {
+
+       // [
         //     {
         //         "MobileReferralID": 1,
         //         "Name": "Balaji Subbiah",
@@ -339,19 +365,25 @@ class PushToEarnOverViewFriendsComponent extends Component {
         //     }
         // ]
 
+        if(personObj === null)
+        {
+            
+        }
 
+            return (            
+                <View style={{ padding: 2, }}>
+                        <Text style={newStyle.firstName}>{personObj.Name + "  "+ personObj.ReferredPersonStatus}</Text>
+                        {'\n'}
+                        <View style={newStyle.borderBottom}></View>
+                </View>
+            );
 
-        return (
-            <View>
-                <Text style={newStyle.firstName}></Text>
-                <View style={newStyle.borderBottom}> </View>
-            </View>
-        );
     }
 
     render() {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
+        console.log("referral object="+this.props.referral);
         return (
 
                 <View style= { newStyle.layoutBelow }>
@@ -370,31 +402,21 @@ class PushToEarnOverViewFriendsComponent extends Component {
                                         size = {20}    
                                         onPress={ () => { } } /> 
                         </View>
+                      
+                       
+                                <View style= {newStyle.inputContainer}>
+                                    {                                       
+                                        this.props.referral.map(                                            
+                                            personObj => 
 
-                        <View style= {newStyle.inputContainer}>
-                                    
-                            <Text style={newStyle.firstName}>Last Name</Text>
-
-                            <View style={newStyle.borderBottom}> </View>
-
-                            <Text style={newStyle.firstName}>Last Name</Text>
-
-                            <View style={newStyle.borderBottom}> </View>
-
-                            <Text style={newStyle.firstName}>Last Name</Text>
-
-                            <View style={newStyle.borderBottom}> </View>
-
-                            <Text style={newStyle.firstName}>Last Name</Text>
-
-                            <View style={newStyle.borderBottom}> </View>
-
-                            <Text style={newStyle.firstName}>Last Name</Text>
-
-                            <View style={newStyle.borderBottom}> </View>
-
-                        </View>
-
+                                                this.renderList(personObj)
+                                                // <Text style={newStyle.firstName}>{personObj.Name}</Text>
+                                                // {'\n'}
+                                                // <View style={newStyle.borderBottom}></View>
+                                            
+                                        )
+                                    }
+                                </View> 
 
                         <View style={newStyle.buttonView}>
 
@@ -442,7 +464,7 @@ const newStyle = StyleSheet.create({
     },
 
     firstName: {
-        width: 159,
+        width: 280,
         height: 19,
         fontFamily: 'WorkSans-Regular',
         fontSize: 16,
@@ -545,10 +567,11 @@ const newStyle = StyleSheet.create({
     },
 
     inputContainer: {
-        backgroundColor: 'white',
+        backgroundColor: 'powderblue',
         flex: Platform.OS === 'ios'?18:1,        
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
+        height: viewPortHeight * 0.45,
     },
 
     topText: {
