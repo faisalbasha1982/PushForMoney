@@ -104,5 +104,6 @@ export default function * root () {
 
     takeLatest(LoginTypes.RSA_REQUEST,rsaRequest,api),
 
+    takeLatest(CardDetailsTypes.CARD_DETAILS_REQUEST,cardDetailsRequest,api),
    ])
 }

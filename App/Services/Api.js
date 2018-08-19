@@ -95,7 +95,7 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
 
   const changePassword = (body) => {
     api.setBaseURL('https://famobileutilityapiinterfacedev.azurewebsites.net');
-    api.post('/api/fnChangePassword?code=lyD3B1naoL9SLo01LEz2Gxc8YOCnk66K1JY3XR6aNoP8M8PsrKKVTw==',body);
+    api.post('/api/fnChangePassword?code=lyD3B1naoL9SLo01LEz2Gxc8YOCnk66K1JY3XR6aNoP8M8PsrKKVTw==',body);    
   };
 
   const changeMobile = (body) => {

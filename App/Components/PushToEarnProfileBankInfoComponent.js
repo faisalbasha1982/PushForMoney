@@ -37,6 +37,11 @@ import PhoneInput from 'react-native-phone-input';
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
 
+import * as AuthComponent from '../Components/AuthComponent';
+import * as AesComponent from '../Components/AesComponent';
+import localStorage from 'react-native-sync-localstorage';
+
+
 import headerImage from '../Images/headerImage.png';
 import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/NewHeaderImage.png';
@@ -63,162 +68,18 @@ class PushToEarnProfileBankInfoComponent extends Component {
 
         this.state = {
             language: 'NEDERLANDS',
-            firstName:'',
-            name:'',
-            phoneNumber:'',
+            bankName:'',
+            ibanNumber: 34,
+            bicNumber: 12,
             validation: false,
             renderValidate: false,
             selectionFirst: false,
             selectionSecond: false,
             selectionThird: false,
             selectionFourth: false,
-            firstNameInput:'',
-            lastNameInput:'',
-            phoneNumberInput:'',
             buttonText: 'SAVE DATA',
-            firstNameError:true,
-            firstNameErrorText:'',
-            lastNameError:false,
-            lastNameErrorText:'',
-            phoneNumberError:true,
-            phoneNumberErrorText:'',
-            ErrorText:'',
-            EmptyErrorText:'',
-            firstNameEmptyError:false,
-            lastNameEmptyError:false,
-            phoneNumberEmptyError:false,
         };    
     }
-
-    validationLastName = (name) => {
-
-        let reg = /^[a-zA-Z\s]+$/;
-
-        console.log("last name="+name);
-
-        if(name === '')
-        {
-            //this.setState({ lastNameError: true, ErrorText: 'Last Name is Required' });
-            this.setState({lastNameInput: ''});
-
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
-        else
-        {
-
-            if(reg.exec(name))
-            {
-              this.setState({ lastNameEmptyError: false, EmptyErrorText: '',lastNameError: false, lastNameInput: name,lastNameErrorText:'' });
-            }
-            else
-            {
-                console.log("found digits");
-              if(this.state.language === 'NEDERLANDS')
-                  this.setState({ lastNameEmptyError: false, lastNameError: true, lastNameErrorText: LanguageSettings.dutch.LNameErrorText });
-              else
-                  if(this.state.language === 'ENGLISH')
-                      this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.english.LNameErrorText });
-                  else
-                      this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.french.LNameErrorText });
-            }    
-        }    
-    } 
-
-    validationFirstName = (name) => {
-
-        let reg = /^[a-zA-Z\s]+$/;
-
-        console.log("validating First Name="+name);
-
-        if(name === '')
-        {
-            console.log("First name is empty="+name);
-            console.log("Language ="+this.state.language);
-            this.setState({firstNameInput: ''});
-            //this.setState({ firstNameError: true, ErrorText: 'First Name is Required' });
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
-        else
-        {
-            if(reg.exec(name))
-            {
-              this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: false, firstNameInput: name, firstNameErrorText:'' });
-            }
-            else
-            {
-              if(this.state.language === 'NEDERLANDS')
-                  this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.dutch.FNameErrorText });
-              else
-                  if(this.state.language === 'ENGLISH')
-                      this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.english.FNameErrorText });
-                  else
-                      this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.french.FNameErrorText });
-            }
-        }        
-    }
-
-    validatePhone = (phone) => {
-
-        console.log("phone="+phone);
-
-        let phoneSub = phone.substring(1);
-
-        console.log("phone="+phoneSub);
-
-        let reg = /^[0-9]{12}$/;
-        let regNew = /^(?=(.*\d){10})(?!(.*\d){13})[\d\(\)\s+-]{10,}$/;
-
-        if(phone === '')
-        {
-            //this.setState({ phoneNumberError: true, ErrorText: 'Phone Number is Required' });
-            this.setState({phoneNumberInput: ''});
-
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
-        else
-        {
-            // home phone number belgium
-            let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
-            // mobile phone number belgium
-            let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
-    
-            this.phoneText = this.state.country;
-    
-            if (regNew.exec(phoneSub))
-              this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
-            else
-                if(this.state.language === 'NEDERLANDS')
-                    this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.dutch.TelephoneNumberError });
-                else
-                    if(this.state.language === 'ENGLISH')
-                        this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.english.TelephoneNumberError });
-                    else
-                        this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
-        }
-    
-    }
-
-    PhoneNumberPickerChanged = (country, callingCode, phoneNumber) => {
-        this.setState({countryName: country.name, callingCode: callingCode, phoneNo:phoneNumber});
-     }
 
     componentWillReceiveProps(nextProps) {
  
@@ -235,15 +96,19 @@ class PushToEarnProfileBankInfoComponent extends Component {
     
 
     saveData = () => {
+
+        let authData = AuthComponent.authenticationData("en");
+        let encryptedData = AesComponent.aesCallback(authData);
+        let ltoken = localStorage.getItem('token');
+        this.setState({isLoading: true});
         
         let payload = {
-            "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-21 5:05:12' ,'R' : 'er3rssf3dfd'}",
-            "LoginAccessToken": "{'MobileUserEmail' : 'Balaji.sp@esteinternationalgroup.be.com','MobileUserName':'hello16','MobileUserID' : 3,'Approval':'True','LoginDate':'2018-07-26 5:05:12','LoginExpiryDate':'2018-08-26 6:54:12', 'RandomString' : 'er3rssfd'}",        
-            "Bankname" : "Bankname",        
-            "IBAN" : "05121445712115421",
-            "BIC_NO" : "4234234",
-            "Status" : "1",        
-            "TestingMode":"Testing@JobFixers#09876"
+            "AuthenticationData":encryptedData,
+            "LoginAccessToken": ltoken,
+            "Bankname" : this.state.bankName,        
+            "IBAN" : this.state.ibanNumber,
+            "BIC_NO" : this.state.bicNumber,
+            "Status" : "1",
         };
 
         this.props.cardDetails(payload);
@@ -263,26 +128,26 @@ class PushToEarnProfileBankInfoComponent extends Component {
 
                         <View style= {newStyle.inputContainer}>
 
-                            <Text style={newStyle.firstName}>Naam Kaart</Text>
+                            <Text style={newStyle.firstName}>BANK NAME</Text>
                             <TextInput
                                         style={ newStyle.nameInput }
                                         placeholder=''
                                         underlineColorAndroid= 'transparent'
-                                        onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
+                                        onChangeText={(bankName) => this.setState(bankName)}/>
                                     
                             <Text style={newStyle.firstName}>IBAN NUMBER</Text>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
-                                onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
+                                onChangeText= { (ibanNumber) => this.setState({ibanNumber}) }/>
 
                             <Text style={newStyle.firstName}>BIC NUMBER</Text>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
-                                onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
+                                onChangeText= { (bicNumber) => this.setState({bicNumber}) }/>
 
                         </View>
 

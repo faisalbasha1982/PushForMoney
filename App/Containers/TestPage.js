@@ -68,64 +68,67 @@ class TestPage extends Component {
         //     this.setText();
         // }
 
-        console.log("this.props.referral="+this.props.refferal);
-        if(this.props.referral === null)
-            this.getFriendList();
+        // console.log("this.props.referral="+this.props.refferal);
+        // if(this.props.referral === null)
+        //     this.getFriendList();
 
-        if(this.props.referral !== nextProps.referral)
-        {
-            console.log("this.props.referral="+this.props.referral);
-            console.tron.log("this.props.referral="+this.props.referral);
+        // if(this.props.referral !== nextProps.referral)
+        // {
+        //     console.log("this.props.referral="+this.props.referral);
+        //     console.tron.log("this.props.referral="+this.props.referral);
     
-            if(this.props.referral !== null)
-             {
-                 this.setState({ menu: 8 });
-             }
-             else
-            {
-                this.setState({ menu: 2});
-            }
-        }
-        else
-        {
-            this.setState({ menu: 2});
-        }
+        //     if(this.props.referral !== null)
+        //      {
+        //          this.setState({ menu: 8 });
+        //          console.log("menu="+this.state.menu);
+        //      }
+        //      else
+        //     {
+        //         this.setState({ menu: 2});
+        //         console.log("menu="+this.state.menu);
+        //     }
+        // }
+        // else
+        // {
+        //     this.setState({ menu: 2});
+        //     console.log("menu="+this.state.menu);
+        // }
     }
 
     componentDidMount() {
 
         //call all the api's relevant with inner screens
-        console.log("this.props.referral="+this.props.referral);
-        console.tron.log("this.props.referral="+this.props.referral);
+        //console.log("this.props.referral="+this.props.referral);
+        //console.tron.log("this.props.referral="+this.props.referral);
         this.getFriendList();
 
     }
 
     getFriendList = () => {
 
+        console.log("INSIDE FRIEND LIST API CALL");
+
         this.setState({isLoading: true,});
-        let ltoken = localStorage.getItem('token');
+        let ltoken = localStorage.getItem('token');       
 
-
-        setTimeout(() => { 
-
-         ltoken = localStorage.getItem('token');
-
-        }, 2000);
-
-        console.log("token="+ltoken);
-
-        let payload = {
-            "AuthenticationData": encryptedData,
-            "LoginAccessToken": ltoken,
-        };
-
-        setTimeout(() => { 
+        console.log("token from getFriendList ="+ltoken);
+      
+        if(ltoken !== null || ltoken !== undefined)
+        {
+            let payload = {
+                "AuthenticationData": encryptedData,
+                "LoginAccessToken": ltoken,
+            };    
 
             this.props.friendRequest(payload); 
 
-        },
-        3000);
+        }
+        else
+        {
+            ltoken = localStorage.getItem('token');       
+        }
+        
+
 
         console.log("this.props.referral="+this.props.referral);
         console.tron.log("this.props.referral="+this.props.referral);
@@ -228,7 +231,7 @@ class TestPage extends Component {
                                this.state.menu === 1?
                                     <ProfileComponent menu = {this.menuChange} />:
                                this.state.menu === 2?
-                               this.props.referral === null || this.props.referral === undefined?
+                                (this.props.referral === null || this.props.referral === undefined)?
                                     <AddFriendComponent />:
                                     <FriendsOverViewComponent />:
                                this.state.menu === 3?
@@ -238,7 +241,7 @@ class TestPage extends Component {
                                this.state.menu === 5?
                                     <ProfileBankInfoComponent />:
                                this.state.menu === 6?
-                                    <ProfileChangePasswordComponent />:
+                                    <ProfileChangePasswordComponent menu = {this.menuChange} />:
                                this.state.menu === 7?
                                     <ProfileDetailsComponent />:
                                this.state.menu === 8?

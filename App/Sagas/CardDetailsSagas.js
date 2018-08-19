@@ -1,42 +1,63 @@
 import { call, put, takeLatest, takeEvery } from 'redux-saga/effects';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage,Alert } from 'react-native';
 import { path } from 'ramda';
 import Api from '../Services/Api';
-import LoginActions from '../Redux/LoginRedux';
+import CardDetailsActions from '../Redux/CardDetailsRedux';
 import * as NavigationService from '../Navigation/NavigationService';
 
-export function * cardDetailsRequest(api,payload) {
+function fetchJson(url,payload) {
+
+  console.log("inside fetchJson:");
+  console.tron.log("inside fetch json");
+
+  return  fetch(url,{
+      method: 'POST',
+      headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+  })
+    .then(response => {
+
+      if (!response.ok) {
+
+        Alert.alert(response.Message);
+        const error = new Error(response.statusText);
+        error.response = response;
+        throw error;
+      }
+      else
+      {
+        Alert.alert(response.Message);
+      }
+
+      return response.json();
+    });
+}
+
+function fetchCardDetails(payload) {
+    
+  console.log("inside fetch profile");
+  console.tron.log("inside fetch profile");
+
+  return fetchJson('https://prod-48.westeurope.logic.azure.com:443/workflows/603a11a2a15b407a8903f7a75b39f7f8/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=XzGng6yxY8XYiC5pTdC7rQphhH7Kr2tJgZ2pBZaZlAM',payload);
+}
+
+
+export function * cardDetailsRequest(api,action)
+{
+  
   try{
-
-  // make the call to the api
-  const response = yield call(api.cardDetailsRequest, payload.payload);
-
-  console.tron.log("response from api call =",response);
-
-  if (response.status === 200) {
-    // const resp = path(['data', 'items'], response)[0];
-    console.tron.log("response data=",response.data);
-    const token = response.data.LoginAccessToken;
-    const userinfo = response.data.userinfo;
-
-    try {
-          AsyncStorage.setItem('token',token);
-    }
-    catch(error){
-      console.tron.log('error='+error);
-    }
-
-    console.tron.log("login access token=",token);
-    // do data conversion here if needed
-    yield put(LoginActions.loginSuccess(userinfo));
-    NavigationService.navigate('PushToEarnMoney');
-  } else {
-    yield put(LoginActions.loginFailure())
+        console.log("profile request new:");
+          const responseJson = yield call(fetchCardDetails,action.payload);          
+          yield put(CardDetailsActions.CardDetailsSuccess(responseJson.MobileUserBankDetails));
+      }
+  catch(error)
+  {
+      yield put(CardDetailsActions.CardDetailsFailure());
   }
 }
-catch(error) {
-  console.tron.log("Error@login",error);
-  console.log("error="+error);
-}
-}
+
+
 

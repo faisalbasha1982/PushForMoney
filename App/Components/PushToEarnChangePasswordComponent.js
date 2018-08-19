@@ -13,7 +13,16 @@ import {
     Platform,    
     findNodeHandle,
 } from 'react-native';
-
+import {
+    BallIndicator,
+    BarIndicator,
+    DotIndicator,
+    PacmanIndicator,
+    PulseIndicator,
+    SkypeIndicator,
+    UIActivityIndicator,
+    WaveIndicator,
+  } from 'react-native-indicators';
 import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -42,6 +51,11 @@ import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/NewHeaderImage.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import * as AuthComponent from '../Components/AuthComponent';
+import * as AesComponent from '../Components/AesComponent';
+import localStorage from 'react-native-sync-localstorage';
+
+
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
 
@@ -60,153 +74,41 @@ class PushToEarnChangePasswordComponent extends Component {
 
         this.state = {
             language: 'NEDERLANDS',
-            firstName:'',
-            name:'',
-            phoneNumber:'',
-            validation: false,
-            renderValidate: false,
-            firstNameInput:'',
-            lastNameInput:'',
-            phoneNumberInput:'',
-            buttonText: '',
-            firstNameError:true,
-            firstNameErrorText:'',
-            lastNameError:false,
-            lastNameErrorText:'',
-            phoneNumberError:true,
-            phoneNumberErrorText:'',
-            ErrorText:'',
-            EmptyErrorText:'',
-            firstNameEmptyError:false,
-            lastNameEmptyError:false,
-            phoneNumberEmptyError:false,
+            oldPassword:'',
+            newPassword:'',
+            confirmNewPassword: '',
+            isLoading:false,
+            buttonText: 'CHANGE PASSWORD',
         };    
     }
+    somethingElse = ( ) => {
 
-    validationLastName = (name) => {
-
-        let reg = /^[a-zA-Z\s]+$/;
-
-        console.log("last name="+name);
-
-        if(name === '')
-        {
-            //this.setState({ lastNameError: true, ErrorText: 'Last Name is Required' });
-            this.setState({lastNameInput: ''});
-
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
-        else
-        {
-
-            if(reg.exec(name))
-            {
-              this.setState({ lastNameEmptyError: false, EmptyErrorText: '',lastNameError: false, lastNameInput: name,lastNameErrorText:'' });
-            }
-            else
-            {
-                console.log("found digits");
-              if(this.state.language === 'NEDERLANDS')
-                  this.setState({ lastNameEmptyError: false, lastNameError: true, lastNameErrorText: LanguageSettings.dutch.LNameErrorText });
-              else
-                  if(this.state.language === 'ENGLISH')
-                      this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.english.LNameErrorText });
-                  else
-                      this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.french.LNameErrorText });
-            }    
-        }    
-    } 
-
-    validationFirstName = (name) => {
-
-        let reg = /^[a-zA-Z\s]+$/;
-
-        console.log("validating First Name="+name);
-
-        if(name === '')
-        {
-            console.log("First name is empty="+name);
-            console.log("Language ="+this.state.language);
-            this.setState({firstNameInput: ''});
-            //this.setState({ firstNameError: true, ErrorText: 'First Name is Required' });
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
-        else
-        {
-            if(reg.exec(name))
-            {
-              this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: false, firstNameInput: name, firstNameErrorText:'' });
-            }
-            else
-            {
-              if(this.state.language === 'NEDERLANDS')
-                  this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.dutch.FNameErrorText });
-              else
-                  if(this.state.language === 'ENGLISH')
-                      this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.english.FNameErrorText });
-                  else
-                      this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.french.FNameErrorText });
-            }
-        }        
     }
 
-    validatePhone = (phone) => {
+    changePassword = () => {
 
-        console.log("phone="+phone);
+        this.setState({isLoading: true});
 
-        let phoneSub = phone.substring(1);
+        let authData = AuthComponent.authenticationData("en");
+        let encryptedData = AesComponent.aesCallback(authData);
+        let ltoken = localStorage.getItem('token');
 
-        console.log("phone="+phoneSub);
-
-        let reg = /^[0-9]{12}$/;
-        let regNew = /^(?=(.*\d){10})(?!(.*\d){13})[\d\(\)\s+-]{10,}$/;
-
-        if(phone === '')
+        if(this.state.newPassword === this.state.confirmNewPassword)
         {
-            //this.setState({ phoneNumberError: true, ErrorText: 'Phone Number is Required' });
-            this.setState({phoneNumberInput: ''});
+            let payload = {
+                "AuthenticationData": encryptedData,
+                "LoginAccessToken": ltoken,
+                "OldPassword": this.state.oldPassword,
+                "NewPassword": this.state.newPassword,            
+            };
 
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
+            this.props.changePassword(payload);            
         }
         else
         {
-            // home phone number belgium
-            let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
-            // mobile phone number belgium
-            let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
-    
-            this.phoneText = this.state.country;
-    
-            if (regNew.exec(phoneSub))
-              this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
-            else
-                if(this.state.language === 'NEDERLANDS')
-                    this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.dutch.TelephoneNumberError });
-                else
-                    if(this.state.language === 'ENGLISH')
-                        this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.english.TelephoneNumberError });
-                    else
-                        this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
+            Alert.alert("Your Passwords Don't Match");
         }
-    
+
     }
 
 
@@ -242,44 +144,61 @@ class PushToEarnChangePasswordComponent extends Component {
                                         style={ newStyle.nameInput }
                                         placeholder=''
                                         underlineColorAndroid= 'transparent'
-                                        onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
+                                        onChangeText={(oldPassword) => this.setState({oldPassword})}/>
                                     
                             <Text style={newStyle.firstName}>Nieuw wachtwoord</Text>
+
+                              {
+                                    this.state.isLoading===true?
+                                    <View style = {{position: 'absolute' , zIndex:3999, left: 30, top: 0, right: 0, bottom: 0}}>
+                                    <BallIndicator color='#e73d50' />
+                                    </View>:this.somethingElse()
+                              }      
+
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
-                                onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
+                                onChangeText= { (newPassword) => this.setState({newPassword}) }/>
 
                             <Text style={newStyle.firstName}>Herhaall nieuw wachtwoord</Text>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
-                                onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
+                                onChangeText= { (confirmNewPassword) => this.setState({confirmNewPassword}) }/>
 
                         </View>
 
-
                         <View style={newStyle.buttonView}>
-                                <ButtonPushNoFriends
-                                    objectParams=
-                                        {{
-                                            btnText: "SAVE DATA", 
-                                            language: "ENGLISH",
-                                            firstName: this.state.firstNameInput,
-                                            lastName: this.state.lastNameInput,
-                                            phoneNumber: this.state.phoneNumberInput,
-                                            firstNameError: this.state.firstNameError,
-                                            lastNameError: this.state.lastNameError,
-                                            phoneNumberError: this.state.phoneNumberError,
-                                            firstNameEmpty: this.state.firstNameEmptyError,
-                                            lastNameEmpty: this.state.lastNameEmptyError,
-                                            phoneNumberEmpty: this.state.phoneNumberEmptyError
-                                        }}
-                                func = {this.func}
-                                navigation = { this.props.navigation}
-                                />
+                                <TouchableOpacity
+                                    onPress={() => { this.changePassword() } }
+                                    activeOpacity={0.5}
+                                    style={{
+                                        width: 280,
+                                        height: 57,
+                                        marginBottom: 10,
+                                        marginLeft: 0,
+                                        borderRadius: 8,
+                                        backgroundColor: '#E73D50',
+                                        marginTop: viewPortHeight / 30,
+                                        justifyContent: 'center',
+                                        alignItems: 'center'
+                                    }}>
+                                    <Text
+                                        style={{
+                                            fontSize: 17,
+                                            width: 333,
+                                            height: 19,
+                                            fontFamily: 'WorkSans-Regular',
+                                            fontWeight: '500',
+                                            fontStyle: 'normal',
+                                            color: '#ffffff',
+                                            marginTop: 0,                
+                                            letterSpacing: 0.67,
+                                            textAlign: 'center'}}
+                                    > {this.state.buttonText.toUpperCase()}</Text>
+                                </TouchableOpacity>           
                         </View>
 
                     </View>                 
@@ -513,6 +432,7 @@ const mapStateToProps = state => {
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
+      changePassword: (payload) => dispatch({type:'CHANGE_PASSWORD',payload})
     };
   };
   

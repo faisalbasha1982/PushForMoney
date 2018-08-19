@@ -179,7 +179,7 @@ export function * changePassword(api,action)
 {
     try
     {
-        console.log("api="+api);
+        console.log("change password api="+api);
 
         // make the call to the api
         const response = yield call(api.changePassword, action.payload);
@@ -190,14 +190,14 @@ export function * changePassword(api,action)
         if (response.ok) {
             // const resp = path(['data', 'items'], response)[0];
             console.tron.log("response data=",response.data);
-            const token = response.data.LoginAccessToken;
-            const userinfo = response.data.userinfo;
-    
-            console.tron.log("login access token=",token);
+
+            Alert.alert(response.Message);
+          
             // do data conversion here if needed
-            yield put(ProfileActions.profileSuccess(userinfo));
-            NavigationService.navigate('PushToEarnMoney');
+            yield put(ProfileActions.profileSuccess());
+
         } else {
+            Alert.alert(response.Message);
             yield put(ProfileActions.profileFailure());
         }
     }

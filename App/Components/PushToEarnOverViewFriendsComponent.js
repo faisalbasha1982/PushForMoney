@@ -234,13 +234,13 @@ class PushToEarnOverViewFriendsComponent extends Component {
         //     this.setText();
         // }
 
-        if(this.props != nextProps)
-            this.getFriendList();
+        // if(this.props != nextProps)
+        //     this.getFriendList();
     }
 
     componentDidMount() {
 
-        this.getFriendList();
+        //this.getFriendList();
         // console.log("language from props="+this.props.navigation.state.params.language);
         // console.log("default language="+this.state.language);
         // //cLanguage = this.props.navigation.state.params.language;
@@ -323,29 +323,6 @@ class PushToEarnOverViewFriendsComponent extends Component {
     }
 
 
-    getFriendList = () => {
-
-        this.setState({isLoading: true});
-
-        let payload = {
-
-            "AuthenticationData": encryptedData,
-            "LoginAccessToken": ltoken,
-        };
-
-        this.props.friendRequest(payload);
-
-        console.tron.log("referral=",this.props.referral);
-
-        //array of object
-        return (
-            <View>
-                <Text style={newStyle.firstName}></Text>
-                <View style={newStyle.borderBottom}> </View>
-            </View>
-        );
-    }
-
     renderList = (personObj) => {
 
        // [
@@ -367,14 +344,16 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
         if(personObj === null)
         {
-            
+
         }
 
             return (            
-                <View style={{ padding: 2, }}>
-                        <Text style={newStyle.firstName}>{personObj.Name + "  "+ personObj.ReferredPersonStatus}</Text>
-                        {'\n'}
-                        <View style={newStyle.borderBottom}></View>
+                <View style={{ padding: 2, flexDirection: 'column',height: viewPortHeight*0.05, backgroundColor: 'white' }}>
+                        <View style={{ padding: 3, flex:1, height: viewPortHeight*0.08, flexDirection: 'row' , alignItems: 'flex-start', justifyContent: 'flex-start', backgroundColor: 'white'}}>
+                            <Text style={newStyle.nameStyle}>{ personObj.Name }</Text>
+                            <Text style={newStyle.statusStyle}>{ personObj.ReferredPersonStatus}</Text>                        
+                        </View>
+                         <View style={newStyle.borderBottom}></View>
                 </View>
             );
 
@@ -562,16 +541,15 @@ const newStyle = StyleSheet.create({
         flex: Platform.OS === 'ios'?11:4,
         flexDirection: 'column',
         justifyContent: 'flex-start',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         backgroundColor: 'white',        
     },
 
     inputContainer: {
-        backgroundColor: 'powderblue',
+        backgroundColor: 'white',
         flex: Platform.OS === 'ios'?18:1,        
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        height: viewPortHeight * 0.45,
     },
 
     topText: {
@@ -652,6 +630,33 @@ const newStyle = StyleSheet.create({
         width: 60,
         height: 60,    
     },
+
+    nameStyle: {
+        padding: 5,
+        margin: 5,
+        width: 111,
+        height: 50,
+        fontFamily: "WorkSans-Regular",
+        fontSize: 13,
+        fontWeight: "normal",
+        fontStyle: "normal",
+        letterSpacing: 0.46,
+        color: "rgb(53, 53, 53)"
+    },
+
+    statusStyle: {
+        width: 120,
+        height: 30,
+        paddingLeft: 5,
+        marginTop: 8,
+        fontFamily: "WorkSans-Regular",
+        fontSize: 11,
+        fontWeight: "normal",
+        fontStyle: "normal",
+        letterSpacing: 0.39,
+        color: "rgb(155, 155, 155)"
+    }
+
 });
 
 const mapStateToProps = state => {
