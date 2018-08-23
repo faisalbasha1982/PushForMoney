@@ -101,17 +101,43 @@ class PushToEarnProfileBankInfoComponent extends Component {
         let encryptedData = AesComponent.aesCallback(authData);
         let ltoken = localStorage.getItem('token');
         this.setState({isLoading: true});
-        
-        let payload = {
-            "AuthenticationData":encryptedData,
-            "LoginAccessToken": ltoken,
-            "Bankname" : this.state.bankName,        
-            "IBAN" : this.state.ibanNumber,
-            "BIC_NO" : this.state.bicNumber,
-            "Status" : "1",
-        };
 
-        this.props.cardDetails(payload);
+        if(this.state.bankName === null || this.state.bankName === undefined)
+            {
+                Alert.alert("Bank Name is empty");
+            }
+        else
+        {
+            if(this.state.ibanNumber === null || this.state.ibanNumber === undefined)
+            {
+                Alert.alert("bank Number is empty");
+            }
+            else
+                if(this.state.bicNumber === null || this.state.bicNumber === undefined)
+                {
+                    Alert.alert("bank Number is empty");
+                }
+                else
+                {
+
+                    if(this.state.bankName === '' || this.state.ibanNumber === '' || this.state.bicNumber === '')
+                    this.props.menu(1);
+
+
+                    let payload = {
+                        "AuthenticationData":encryptedData,
+                        "LoginAccessToken": ltoken,
+                        "Bankname" : this.state.bankName,        
+                        "IBAN" : this.state.ibanNumber,
+                        "BIC_NO" : this.state.bicNumber,
+                        "Status" : "1",
+                    };
+            
+                    this.props.cardDetails(payload);
+                    this.props.menu(1);
+                }
+        }
+
     }
 
     render() {

@@ -3,6 +3,7 @@ import { createReducer, createActions, Types as ReduxSauceTypes } from 'reduxsau
 
 const { Types, Creators } = createActions({
   getFriendRequest: ["payload"],
+  getArchive:["payload"],
   friendSuccess: ['referral'],
   friendFailure: ['error'],
   userRegistered: ['user'],
@@ -39,6 +40,10 @@ export const newrequest = (state, { payload }) => {
     return { ...state, fetching: true, payload }
   }
 
+export const archiveSuccess = (state, { payload }) => {
+    return { ...state, fetching: true, }
+}
+
 export const success = (state, { referral }) => {
   return { ...state, referral, fetching: false, }
 }
@@ -48,7 +53,7 @@ export const failure = (state, { error }) => {
 }
 
 export const registered = (state, {referral}) => {
-  return { ...state, user, fetching: false }
+  return { ...state, referral, fetching: false }
 }
 
 export const logout = (state) => {
@@ -63,6 +68,7 @@ export const defaultHandler = (state) => {
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_FRIEND_REQUEST]: request,
+  [Types.GET_ARCHIVE]: newrequest,
   [Types.FRIEND_SUCCESS]: success,
   [Types.FRIEND_FAILURE]: failure,
   [Types.USER_REGISTERED]: registered,

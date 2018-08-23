@@ -239,7 +239,7 @@ class TestPage extends Component {
                                this.state.menu === 4?
                                     <InformationComponent />:
                                this.state.menu === 5?
-                                    <ProfileBankInfoComponent />:
+                                    <ProfileBankInfoComponent menu = {this.menuChange} />:
                                this.state.menu === 6?
                                     <ProfileChangePasswordComponent menu = {this.menuChange} />:
                                this.state.menu === 7?

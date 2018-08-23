@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {
     ScrollView,
     Text,
@@ -34,7 +34,7 @@ import ButtonPushNoFriends from '../Components/ButtonPushNoFriends';
 import ButtonWelcome from '../Components/ButtonWelcome';
 import LanguageButton from '../Components/LanguageButton';
 import Spinner from "react-native-loading-spinner-overlay";
-import DeviceInfo from 'react-native-device-info'
+import DeviceInfo from 'react-native-device-info';
 import * as Animatable from 'react-native-animatable';
 import { StyleSheet } from 'react-native';
 import CompanyBanner from '../Components/CompanyBanner';
@@ -54,7 +54,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import localStorage from 'react-native-sync-localstorage';
-
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -102,11 +101,13 @@ class PushToEarnChangePasswordComponent extends Component {
                 "NewPassword": this.state.newPassword,            
             };
 
-            this.props.changePassword(payload);            
+            this.props.changePassword(payload);
+            this.props.menu(1);
         }
         else
         {
             Alert.alert("Your Passwords Don't Match");
+            this.setState({isLoading: false});
         }
 
     }

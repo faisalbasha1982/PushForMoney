@@ -40,6 +40,8 @@ function fetchJson(url,payload) {
     console.log("inside fetchJson:");
     console.tron.log("inside fetch json");
 
+    console.log("url="+url);
+
     return  fetch(url,{
         method: 'POST',
         headers: {
@@ -70,13 +72,30 @@ function fetchJson(url,payload) {
   
 
 export function * FriendRequest(api,action)
-{
-    
+{    
     try{
           console.log("friend request new:");
             const responseJson = yield call(fetchFriend,action.payload);
             yield put(FriendActions.friendSuccess(responseJson.ReferralInfo));
         }
+    catch(error)
+    {
+        yield put(FriendActions.friendFailure(error));
+    }
+}
+
+function fetchArchive(payload)
+{
+    console.log("archive request new:");
+    return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnMobileReferralsUpdateArchiveStatus?code=rXOBL7dodL54/WdfdVv11/xuBVN2WH9afB/9ODmHuc4xCKscIMQs8Q==',payload);
+}
+
+export function * archiveRequest(api,action)
+{
+    try{
+        const responseJson = yield call(fetchArchive,action.payload);
+        yield put(FriendActions.friendSuccess());
+    }
     catch(error)
     {
         yield put(FriendActions.friendFailure(error));

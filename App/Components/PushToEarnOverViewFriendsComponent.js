@@ -70,6 +70,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
         this.state = {
             language: 'NEDERLANDS',
             firstName:'',
+            ReferredPersonStatus: false,
             name:'',
             phoneNumber:'',
             validation: false,
@@ -323,6 +324,58 @@ class PushToEarnOverViewFriendsComponent extends Component {
     }
 
 
+    archiveApiCall = (personObj) => {
+
+        Alert.alert("called archive Api");
+        console.log("called archive Api");
+
+        let authData = AuthComponent.authenticationData("en");
+        let encryptedData = AesComponent.aesCallback(authData);
+        ltoken = localStorage.getItem('token');
+
+        let payload =
+                {
+                    "AuthenticationData": encryptedData,
+                    "LoginAccessToken": ltoken,
+                    "MobileReferralID" : personObj.MobileReferralID,
+                };
+
+        console.log("archive Api:");
+        console.log("ltoken="+ltoken);
+
+        Alert.alert("archive Api="+payload.MobileReferralID);
+
+        (ltoken===null || ltoken===undefined)?
+        setTimeout(() => {
+            ltoken = localStorage.getItem('token');
+        })
+        :
+        setTimeout(() => {
+            Alert.alert("calling Api for archive");
+            this.props.archiveApi(payload);
+        },3000)
+
+
+                // {
+
+                //     "StatusCode": 200,
+                //     "Message": "Referred Person \"kumarappan3 somasundaram\" is archived successfully.",
+                //     "ErrorDetails": "Referred Person \"kumarappan3 somasundaram\" is archived successfully.",
+                //     "Lang": "en"
+
+                // };
+
+                // {
+
+                //     "StatusCode": 304,
+                //     "Message": "Referred Person \"Balaji Subbiah\" cannot be archived.",
+                //     "ErrorDetails": "Referred Person \"Balaji Subbiah\" cannot be archived.",
+                //     "Lang": "en",
+
+                // }
+    }
+
+
     renderList = (personObj) => {
 
        // [
@@ -351,7 +404,33 @@ class PushToEarnOverViewFriendsComponent extends Component {
                 <View style={{ padding: 2, flexDirection: 'column',height: viewPortHeight*0.05, backgroundColor: 'white' }}>
                         <View style={{ padding: 3, flex:1, height: viewPortHeight*0.08, flexDirection: 'row' , alignItems: 'flex-start', justifyContent: 'flex-start', backgroundColor: 'white'}}>
                             <Text style={newStyle.nameStyle}>{ personObj.Name }</Text>
-                            <Text style={newStyle.statusStyle}>{ personObj.ReferredPersonStatus}</Text>                        
+                            <Text style={newStyle.statusStyle}>{ personObj.ReferredPersonStatus}</Text>
+                            {(personObj.ReferredPersonStatus === 'Finished')?
+                                <View style= {{ padding: 3,width: 120, height: 50, backgroundColor: 'transparent', marginTop: 5 }}>
+                                    
+                                    <TouchableOpacity
+                                    onPress={() => {  this.archiveApiCall(personObj) } }
+                                    activeOpacity={0.5}
+                                    style={{
+                                        width: 100,
+                                        height: 57,
+                                        backgroundColor: 'transparent',
+                                    }}>
+                                        <Icon
+                                            containerStyle={newStyle.iconImageStyleNew}
+                                            name='times-circle'
+                                            type='font-awesome'
+                                            color='#E73D50'
+                                            size = {10}
+                                            onPress={ () => {         
+                                                        console.log("called archive Api");
+                                                        } } />
+                                </TouchableOpacity>                                  
+                                </View>
+                                :
+                                this.renderNothing()
+                            }
+
                         </View>
                          <View style={newStyle.borderBottom}></View>
                 </View>
@@ -599,6 +678,19 @@ const newStyle = StyleSheet.create({
         alignItems: 'flex-start',
     },
 
+    iconImageStyleNew: {
+        width: 13,
+        height: 26,
+        fontFamily: "FontAwesome",
+        fontSize: 16,
+        fontWeight: "normal",
+        fontStyle: "normal",
+        letterSpacing: 0.67,
+        textAlign: "center",
+        color: "rgb(231, 61, 80)", 
+        marginTop: 0,
+    },
+
     iconImageStyle:{
         width: 13,
         height: 16,
@@ -671,6 +763,7 @@ const mapStateToProps = state => {
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
       friendRequest: (payload) => dispatch({type: 'GET_FRIEND_REQUEST',payload}),
+      archiveApi: (payload) => dispatch({ type: 'GET_ARCHIVE',payload}),
     };
   };
   

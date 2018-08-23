@@ -26,7 +26,8 @@ import { RegisterRequest, RegisterRequestNew, OtpRequest,
 from './RegisterSagas'
 import { firstNameUpdate,changePassword, changeMobile, verifyMobileOtpRequest, ProfileRequestNew } from './ProfileSagas'
 import { cardDetailsRequest } from './CardDetailsSagas'
-import { FriendRequest } from './FriendSagas'
+import { FriendRequest, archiveRequest } from './FriendSagas'
+import { take } from 'rxjs-compat/operator/take';
 
 /* ------------- API ------------- */
 
@@ -105,5 +106,7 @@ export default function * root () {
     takeLatest(LoginTypes.RSA_REQUEST,rsaRequest,api),
 
     takeLatest(CardDetailsTypes.CARD_DETAILS_REQUEST,cardDetailsRequest,api),
+
+    takeLatest(FriendTypes.GET_ARCHIVE,archiveRequest,api)
    ])
 }
