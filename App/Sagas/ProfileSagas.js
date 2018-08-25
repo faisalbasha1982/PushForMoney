@@ -101,7 +101,7 @@ export function * ProfileRequestNew(api,action)
 {
     
     try{
-          console.log("profile request new:");
+            console.log("profile request new:");
             const responseJson = yield call(fetchProfile,action.payload);
             yield put(ProfileActions.profileSuccess(responseJson.MobileUserBankDetails));
         }
@@ -175,34 +175,26 @@ export function * firstNameUpdate(api,action) {
    
 } 
 
+function fetchChangePassword(payload) {
+      
+    console.log("inside fetch change Password");
+    console.tron.log("inside fetch change Password");
+
+    return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnChangePassword?code=lyD3B1naoL9SLo01LEz2Gxc8YOCnk66K1JY3XR6aNoP8M8PsrKKVTw==',payload);
+  }
+
 export function * changePassword(api,action)
 {
     try
     {
         console.log("change password api="+api);
-
         // make the call to the api
-        const response = yield call(api.changePassword, action.payload);
-    
-        console.tron.log("response from api call ="+response);
-        console.log("repsonse from api call="+response);
-    
-        if (response.ok) {
-            // const resp = path(['data', 'items'], response)[0];
-            console.tron.log("response data=",response.data);
-
-            Alert.alert(response.Message);
-          
-            // do data conversion here if needed
-            yield put(ProfileActions.profileSuccess());
-
-        } else {
-            Alert.alert(response.Message);
-            yield put(ProfileActions.profileFailure());
-        }
-    }
+        const response = yield call(fetchChangePassword, action.payload);
+        Alert.alert(response.Message);
+        //yield put(ProfileActions.profileSuccess());
+    }     
     catch(error) {
-        console.tron.log("error="+error);
+        //yield put(ProfileActions.profileFailure());
     }
 }
 

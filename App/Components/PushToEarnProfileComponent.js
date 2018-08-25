@@ -351,6 +351,7 @@ class PushToEarnProfileComponent extends Component {
     render() {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
+        console.log("bankinfo="+this.props.bankInfo);
         return (
 
                 <View style= {newStyle.layoutBelow}>
@@ -452,15 +453,29 @@ class PushToEarnProfileComponent extends Component {
                             <View style={{flex: 25, }}>
                                 <Text style={newStyle.firstName}>Card Details</Text> {'\n'}
                                 {
-                                     this.props.bankInfo !== null?                                 
-                                     (this.props.bankInfo.MobileUserBankDetails !== null)?<Text style={newStyle.para}> Add your card details  <Text style={{ color: '#e73d50',fontFamily: 'WorkSans-Bold', fontWeight: '500', fontSize: 20  }} onPress={() => this.props.menu(5)}>here</Text> </Text>
-                                     :<View style={{ flex:1, }}>
-                                            <Text> BIC NO: { this.props.bankInfo.MobileUserBankDetails.BIC_NO } </Text> {'\n'}
-                                            <Text> BANK NAME: { this.props.bankInfo.MobileUserBankDetails.IBAN } </Text> {'\n'}
-                                            <Text> IBAN NO: {  this.props.bankInfo.MobileUserBankDetails.Bankname } } </Text> {'\n'}
+                                     this.props.bankInfo === null || this.props.bankInfo === undefined || this.props.bankInfo.MobileUserBankDetailId === 0?
+                                     <Text style={newStyle.para}> Add your card details  <Text style={{ color: '#e73d50',fontFamily: 'WorkSans-Bold', fontWeight: '500', fontSize: 20  }} onPress={() => this.props.menu(5)}>here</Text> </Text>
+                                     :
+                                      this.props.bankInfo.MobileUserBankDetailId !== 0?
+                                     <View style={{ flex:1,  }}>
+                                            <Text style={{  fontSize: 10,   
+                                        fontFamily: 'WorkSans-Regular',
+                                        fontWeight: '500',
+                                        fontStyle: 'normal',
+                                        color: '#000000', }}> BIC NO: { this.props.bankInfo.BIC_NO } </Text> {'\n'}
+                                            <Text style={{  fontSize: 10,   
+                                        fontFamily: 'WorkSans-Regular',
+                                        fontWeight: '500',
+                                        fontStyle: 'normal',
+                                        color: '#000000', }} > BANK NAME: { this.props.bankInfo.IBAN } </Text> {'\n'}
+                                            <Text style={{  fontSize: 10,   
+                                        fontFamily: 'WorkSans-Regular',
+                                        fontWeight: '500',
+                                        fontStyle: 'normal',
+                                        color: '#000000', }}> IBAN NO: {  this.props.bankInfo.Bankname }  </Text> {'\n'}
                                       </View>
-                                     :this.renderNothing()
-
+                                      : 
+                                      this.renderNothing()
                                 }
                             </View>
 

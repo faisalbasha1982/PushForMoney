@@ -148,19 +148,18 @@ class PushToEarnChangePasswordComponent extends Component {
                                         onChangeText={(oldPassword) => this.setState({oldPassword})}/>
                                     
                             <Text style={newStyle.firstName}>Nieuw wachtwoord</Text>
-
-                              {
-                                    this.state.isLoading===true?
-                                    <View style = {{position: 'absolute' , zIndex:3999, left: 30, top: 0, right: 0, bottom: 0}}>
-                                    <BallIndicator color='#e73d50' />
-                                    </View>:this.somethingElse()
-                              }      
-
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
                                 onChangeText= { (newPassword) => this.setState({newPassword}) }/>
+
+                              {
+                                    this.state.isLoading===true?
+                                    <View style = {{position: 'absolute' ,left: 30, top: 0, right: 0, bottom: 0}}>
+                                    <BarIndicator color='#e73d50' />
+                                    </View>:this.somethingElse()
+                              }      
 
                             <Text style={newStyle.firstName}>Herhaall nieuw wachtwoord</Text>
                             <TextInput

@@ -441,7 +441,8 @@ class PushToEarnOverViewFriendsComponent extends Component {
     render() {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
-        console.log("referral object="+this.props.referral);
+        console.log("inside friends overview component referral object="+this.props.referral);
+
         return (
 
                 <View style= { newStyle.layoutBelow }>
@@ -452,13 +453,24 @@ class PushToEarnOverViewFriendsComponent extends Component {
                             <Text style= {newStyle.topText}>           
                                     Kandidaten 
                             </Text>    
-                            <Icon
+                            <View style={newStyle.rightView}>
+                                <Icon
                                         containerStyle={newStyle.iconImageStyle}
                                         name='user-plus'
                                         type='font-awesome'
                                         color='#E73D50'
-                                        size = {20}    
-                                        onPress={ () => { } } /> 
+                                        size = {40}    
+                                        onPress={ () => { } } />
+                                <Text style={{    
+                                        fontFamily: "WorkSans-Medium",
+                                        fontSize: 21,
+                                        fontWeight: "600",
+                                        fontStyle: "normal",
+                                        lineHeight: 34,
+                                        letterSpacing: 0,
+                                        textAlign: "left",
+                                        color: "rgb(231, 61, 80)" }}>Kandidate</Text>                                
+                            </View> 
                         </View>
                       
                        
@@ -652,6 +664,14 @@ const newStyle = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
+    },
+
+    rightView: {
+        flex:1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        backgroundColor: 'powderblue'
     },
 
     paraView: {

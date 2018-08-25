@@ -135,9 +135,27 @@ class TestPage extends Component {
 
     }
 
+    addComponent = () => {
+
+        console.log("adding component this.props.referral = "+ typeof(this.props.referral) + "object="+this.props.referral);
+
+        if(_.isEmpty(this.props.referral))        
+            return (
+                <AddFriendComponent />
+            );
+        
+    return (
+            <FriendsOverViewComponent />
+        );            
+    }
+
+
     render() {
 
         const { navigate } = this.props.navigation;
+
+        console.log("test page this.props.referral="+typeof(this.props.referral));
+        console.tron.log("this.props.referral="+this.props.referral);
 
         return(
                 <View style={newStyle.container}>
@@ -231,9 +249,7 @@ class TestPage extends Component {
                                this.state.menu === 1?
                                     <ProfileComponent menu = {this.menuChange} />:
                                this.state.menu === 2?
-                                (this.props.referral === null || this.props.referral === undefined)?
-                                    <AddFriendComponent />:
-                                    <FriendsOverViewComponent />:
+                                    this.addComponent():
                                this.state.menu === 3?
                                     <MoneyComponent />:
                                this.state.menu === 4?
@@ -244,7 +260,7 @@ class TestPage extends Component {
                                     <ProfileChangePasswordComponent menu = {this.menuChange} />:
                                this.state.menu === 7?
                                     <ProfileDetailsComponent />:
-                               this.state.menu === 8?
+                               this.state.menu === 8 && this.props.referral !== null?
                                     <FriendsOverViewComponent />:
                                this.state.menu === 9?
                                     <FriendsLastComponent />:

@@ -3,7 +3,7 @@ import { createReducer, createActions, Types as ReduxSauceTypes } from 'reduxsau
 
 const { Types, Creators } = createActions({
   getFriendRequest: ["payload"],
-  getArchive:["payload"],
+  getArchive:["payload"],  
   friendSuccess: ['referral'],
   friendFailure: ['error'],
   userRegistered: ['user'],

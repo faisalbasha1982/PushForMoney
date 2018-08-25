@@ -286,6 +286,7 @@ class PushToEarnNoFriendsComponent extends Component {
     render() {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
+        console.log("currently in No Friends Component!!!");
         return (
 
                 <View style= { newStyle.layoutBelow }>
