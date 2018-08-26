@@ -3,6 +3,9 @@ package com.pushformoney;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.rt2zz.reactnativecontacts.ReactNativeContacts;
+import com.lynxit.contactswrapper.ContactsWrapperPackage;
+import ca.bigdata.voice.contacts.BDVSimpleContactsPackage;
 import cn.touna.reactnativersautil.ReactNativeRSAUtilPackage;
 import com.RNRSA.RNRSAPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
@@ -33,6 +36,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativeContacts(),
+            new ContactsWrapperPackage(),
+            new BDVSimpleContactsPackage(),
             new ReactNativeRSAUtilPackage(),
             new RNRSAPackage(),
             new RNGoogleSigninPackage(),

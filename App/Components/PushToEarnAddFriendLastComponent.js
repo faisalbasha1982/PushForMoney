@@ -42,6 +42,9 @@ import headerImage from '../Images/headerImage.png';
 import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/NewHeaderImage.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Contacts from 'react-native-unified-contacts';
+import AddressBook from 'react-native-addressbook';
+import Contacts from 'react-native-contacts';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -125,6 +128,45 @@ class PushToEarnAddFriendLastComponent extends Component {
        
     // }
 
+    telephoneBook = () => {       
+
+        // Contacts.requestAccessToContacts( (userCanAccessContacts) => {
+        //     if (userCanAccessContacts) {
+        //       console.log("User has access to Contacts!");
+        //     }
+        //     else {
+        //       console.log("User DOES NOT have access to Contacts!");
+        //     }
+        //   });
+          
+
+        // Contacts.getContacts( (error, contacts) =>  {
+        //     if (error) {
+        //       console.error(error);
+        //     }
+        //     else {
+        //       console.log(contacts);
+        //     }
+        //   });
+
+        // AddressBook.getContacts( (err, contacts) => {
+        //     if(err && err.type === 'permissionDenied'){
+        //       // x.x
+        //     }
+        //     else{
+        //       console.log(contacts)
+        //     }
+        //   })
+
+        Contacts.getAll((err, contacts) => {
+            if (err) throw err;
+          
+            // contacts returned
+            console.log(contacts)
+          })
+
+    }
+
     renderNothing = () => {
 
     }
@@ -145,7 +187,7 @@ class PushToEarnAddFriendLastComponent extends Component {
 
                          <View style={newStyle.buttonView}>
                                 <TouchableOpacity
-                                    onPress={() => {  } }
+                                    onPress={() => { this.telephoneBook() } }
                                     activeOpacity={0.5}
                                     style={{
                                         width: 280,

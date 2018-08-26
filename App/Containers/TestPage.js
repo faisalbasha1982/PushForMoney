@@ -145,7 +145,7 @@ class TestPage extends Component {
             );
         
     return (
-            <FriendsOverViewComponent />
+            <FriendsOverViewComponent menu = {this.menuChange} />
         );            
     }
 

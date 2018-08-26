@@ -453,23 +453,38 @@ class PushToEarnOverViewFriendsComponent extends Component {
                             <Text style= {newStyle.topText}>           
                                     Kandidaten 
                             </Text>    
+                            {/* <Text style= {{  width: 120, height: 20, backgroundColor: 'steelblue'}}>           
+                                    New Kandidaten 
+                            </Text>     */}
+
                             <View style={newStyle.rightView}>
+                                <TouchableOpacity
+                                    onPress={() => { this.props.menu(9) } }
+                                    activeOpacity={0.5}
+                                    style={{
+                                        width: 20,
+                                        height: 40,
+                                        alignItems:'center',
+                                        justifyContent:'center',
+                                        backgroundColor: 'powderblue',
+                                    }}>
                                 <Icon
-                                        containerStyle={newStyle.iconImageStyle}
+                                        containerStyle={newStyle.iconImageStyleNew}
                                         name='user-plus'
                                         type='font-awesome'
                                         color='#E73D50'
-                                        size = {40}    
+                                        size = {20}
                                         onPress={ () => { } } />
+                                </TouchableOpacity>
                                 <Text style={{    
                                         fontFamily: "WorkSans-Medium",
-                                        fontSize: 21,
+                                        fontSize: 11,
                                         fontWeight: "600",
                                         fontStyle: "normal",
                                         lineHeight: 34,
                                         letterSpacing: 0,
-                                        textAlign: "left",
-                                        color: "rgb(231, 61, 80)" }}>Kandidate</Text>                                
+                                        textAlign: "center",
+                                        color: "rgb(231, 61, 80)" }}>Kandidaat</Text>
                             </View> 
                         </View>
                       
@@ -644,7 +659,7 @@ const newStyle = StyleSheet.create({
     },
 
     topText: {
-        width: 321,
+        width: 120 ,
         height: 34,
         fontFamily: "WorkSans-Medium",
         fontSize: 21,
@@ -657,21 +672,24 @@ const newStyle = StyleSheet.create({
     },
 
     topView: {
-        width: 276,
+        width: viewPortWidth,
         height: 68,
         flex:2,
         marginTop: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
+        backgroundColor: 'transparent'
     },
 
     rightView: {
-        flex:1,
+        width: 120,
+        height: 40,        
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        backgroundColor: 'powderblue'
+        backgroundColor: 'transparent',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        marginRight: 30,
     },
 
     paraView: {
@@ -709,6 +727,7 @@ const newStyle = StyleSheet.create({
         textAlign: "center",
         color: "rgb(231, 61, 80)", 
         marginTop: 0,
+        marginRight: 15,
     },
 
     iconImageStyle:{

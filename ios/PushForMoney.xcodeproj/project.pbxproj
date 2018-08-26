@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -108,6 +109,7 @@
 		98298B3C3D9D4042B0004EEA /* BarlowSemiCondensed-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = A3EA03385EFF4EE0ABAF0E0B /* BarlowSemiCondensed-Black.otf */; };
 		996859EEBC1F4A8086063781 /* barlowsemicondensed-light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6F3DE97C82E148B4A9305B4F /* barlowsemicondensed-light.otf */; };
 		998509191C3A4FD39DA11BC3 /* BarlowCondensed-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2F89F4281C67483AAC529342 /* BarlowCondensed-Thin.otf */; };
+		9A6AAA52B5E841D9ADCD5F8F /* libBDVSimpleContacts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 21B6039C294D4AF0A23D7F3C /* libBDVSimpleContacts.a */; };
 		9B76C54E4A5F49DD9669D1EC /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C84BC70DF284D989F8C8A59 /* EvilIcons.ttf */; };
 		9C804584517640AEB2C9F9BE /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF86C2CB3C442AE882CB8AB /* Ionicons.ttf */; };
 		A00D3714C030423F9741BD3C /* libReactNativeConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD702F0959C14711B05EAA75 /* libReactNativeConfig.a */; };
@@ -127,9 +129,11 @@
 		BD735EF2B2BB4039B248C751 /* Barlow-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E851609ACAA6405FA62FDCEE /* Barlow-BoldItalic.otf */; };
 		BE76BE3C9FA04D82AD5239DD /* BarlowSemiCondensed-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E406D8003634ACE9A6076CB /* BarlowSemiCondensed-LightItalic.otf */; };
 		C00B64F7B0C34C079AE0EA91 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6C479A08AABF4CE2A60FFFA1 /* Foundation.ttf */; };
+		C00E086B610E4540B92CD3AF /* libRCTContacts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D45EAEC5992D478DA71328D3 /* libRCTContacts.a */; };
 		C5AC63E08A4C403BADD9B9AC /* WorkSans-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C21D1198C4D5429DACCCD6BD /* WorkSans-Black.ttf */; };
 		CD4F67B4B6214AF99EC49B24 /* barlowcondensed-blackitalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F9142C6A01A247CD92212AEC /* barlowcondensed-blackitalic.otf */; };
 		CE4EEF5C6786423A87831142 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7AD851F801CC4887AE05D454 /* MaterialCommunityIcons.ttf */; };
+		CF9494B9C6D14184889FC719 /* libRCTContactsWrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E28D29906B5470D8F82500E /* libRCTContactsWrapper.a */; };
 		D3001EA300C347DD86D7E397 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71F624134B53421DB9F2BDDF /* libRCTFBSDK.a */; };
 		D3665B1B827B4E5CBA27B44D /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC878E345CDB49B49899449C /* AddressBook.framework */; };
 		D41ABF6324B54B3288683055 /* BarlowSemiCondensed-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = EBDE6E539EE0486A8F39199A /* BarlowSemiCondensed-BoldItalic.otf */; };
@@ -411,6 +415,27 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RCTLinking;
 		};
+		7B2855802132720800EE1E87 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0EBC0C27824E4933B57D7E84 /* BDVSimpleContacts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = BDVSimpleContacts;
+		};
+		7B2855CC2132752B00EE1E87 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A63B8F709CC746DCA47BCE30 /* ContactsWrapper.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2B58405A1D10DE8700235F31;
+			remoteInfo = RCTContactsWrapper;
+		};
+		7B28561A213276C500EE1E87 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C593ECAD1AB44AD2B4C11827 /* RCTContacts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1441618E1BD0A79300FA4F59;
+			remoteInfo = RCTContacts;
+		};
 		7BA6903020FEFB6B00A56807 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7B3FADB390AF476C99AF84DA /* RNGoogleSignin.xcodeproj */;
@@ -511,6 +536,7 @@
 		09518903CB934513AF2C8DC4 /* libRNGoogleSignin.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGoogleSignin.a; sourceTree = "<group>"; };
 		0AA6479F140E4665BF574FEC /* BarlowCondensed-Italic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowCondensed-Italic.otf"; path = "../assets/fonts/BarlowCondensed-Italic.otf"; sourceTree = "<group>"; };
 		0DA8D48458B64318AD894D11 /* BarlowSemiCondensed-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowSemiCondensed-Medium.otf"; path = "../assets/fonts/BarlowSemiCondensed-Medium.otf"; sourceTree = "<group>"; };
+		0EBC0C27824E4933B57D7E84 /* BDVSimpleContacts.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = BDVSimpleContacts.xcodeproj; path = "../node_modules/react-native-simple-contacts/ios/BDVSimpleContacts.xcodeproj"; sourceTree = "<group>"; };
 		114151272EEA4FE09BD03B97 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/ios/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
@@ -526,6 +552,7 @@
 		1D213B82FC5847E4AAF865D0 /* Barlow-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-SemiBold.otf"; path = "../assets/fonts/Barlow-SemiBold.otf"; sourceTree = "<group>"; };
 		1EAA33B383E6470081E15CB6 /* Barlow-ThinItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-ThinItalic.otf"; path = "../assets/fonts/Barlow-ThinItalic.otf"; sourceTree = "<group>"; };
 		217D3CC4BFF4411396E530D6 /* Barlow-MediumItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-MediumItalic.otf"; path = "../assets/fonts/Barlow-MediumItalic.otf"; sourceTree = "<group>"; };
+		21B6039C294D4AF0A23D7F3C /* libBDVSimpleContacts.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBDVSimpleContacts.a; sourceTree = "<group>"; };
 		22298C92F6814529964BF035 /* barlowsemicondensed-extrabold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "barlowsemicondensed-extrabold.otf"; path = "../assets/fonts/barlowsemicondensed-extrabold.otf"; sourceTree = "<group>"; };
 		283518C440B44579AEDC4E30 /* BarlowCondensed-ExtraLight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowCondensed-ExtraLight.otf"; path = "../assets/fonts/BarlowCondensed-ExtraLight.otf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* PushForMoney-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PushForMoney-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -603,7 +630,9 @@
 		9398FC6BD6444E18ADA4D80A /* WorkSans-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-SemiBold.ttf"; path = "../assets/fonts/WorkSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		94DF0FEC98C2416D893FB09A /* BarlowCondensed-ExtraBoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowCondensed-ExtraBoldItalic.otf"; path = "../assets/fonts/BarlowCondensed-ExtraBoldItalic.otf"; sourceTree = "<group>"; };
 		999DC86DBD73486FB3A71E8C /* Barlow-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Thin.otf"; path = "../assets/fonts/Barlow-Thin.otf"; sourceTree = "<group>"; };
+		9E28D29906B5470D8F82500E /* libRCTContactsWrapper.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTContactsWrapper.a; sourceTree = "<group>"; };
 		A3EA03385EFF4EE0ABAF0E0B /* BarlowSemiCondensed-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowSemiCondensed-Black.otf"; path = "../assets/fonts/BarlowSemiCondensed-Black.otf"; sourceTree = "<group>"; };
+		A63B8F709CC746DCA47BCE30 /* ContactsWrapper.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ContactsWrapper.xcodeproj; path = "../node_modules/react-native-contacts-wrapper/ios/ContactsWrapper.xcodeproj"; sourceTree = "<group>"; };
 		A7592D8F2633477CB98132D5 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		A93EEADCAE2947DA93057AD9 /* libReactNativeRSAUtil.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeRSAUtil.a; sourceTree = "<group>"; };
 		AA41D55E329343688AEAA4AD /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/native-base/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
@@ -620,12 +649,14 @@
 		BEF7402F2F384ABFBC4DF2B1 /* libLottieReactNative.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libLottieReactNative.a; sourceTree = "<group>"; };
 		C21D1198C4D5429DACCCD6BD /* WorkSans-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-Black.ttf"; path = "../assets/fonts/WorkSans-Black.ttf"; sourceTree = "<group>"; };
 		C4421430360D44FB839D13B0 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
+		C593ECAD1AB44AD2B4C11827 /* RCTContacts.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTContacts.xcodeproj; path = "../node_modules/react-native-contacts/ios/RCTContacts.xcodeproj"; sourceTree = "<group>"; };
 		C8ED45F2E84040B3BD74A2AA /* BarlowCondensed-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowCondensed-SemiBold.otf"; path = "../assets/fonts/BarlowCondensed-SemiBold.otf"; sourceTree = "<group>"; };
 		CB926471A22E4F09993E5932 /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeConfig.xcodeproj; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; };
 		CC64407DDA7942FEB604C809 /* Barlow-ExtraLightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-ExtraLightItalic.otf"; path = "../assets/fonts/Barlow-ExtraLightItalic.otf"; sourceTree = "<group>"; };
 		CF23D08A2D5F4B7F8268A099 /* Barlow-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Regular.otf"; path = "../assets/fonts/Barlow-Regular.otf"; sourceTree = "<group>"; };
 		CF7F2AD5FD584EEBAC82CBBD /* BarlowCondensed-ThinItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowCondensed-ThinItalic.otf"; path = "../assets/fonts/BarlowCondensed-ThinItalic.otf"; sourceTree = "<group>"; };
 		D1013492206B48A682E7BB82 /* Barlow-ExtraBoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-ExtraBoldItalic.otf"; path = "../assets/fonts/Barlow-ExtraBoldItalic.otf"; sourceTree = "<group>"; };
+		D45EAEC5992D478DA71328D3 /* libRCTContacts.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTContacts.a; sourceTree = "<group>"; };
 		DA5065474E874DE79ECA1B8B /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		DB2B42B5A9A849019B44C79B /* BarlowCondensed-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowCondensed-Regular.otf"; path = "../assets/fonts/BarlowCondensed-Regular.otf"; sourceTree = "<group>"; };
 		DD89506B730E40F1B7692E9E /* RNTwitterSignIn.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNTwitterSignIn.xcodeproj; path = "../node_modules/react-native-twitter-signin/ios/RNTwitterSignIn.xcodeproj"; sourceTree = "<group>"; };
@@ -701,6 +732,9 @@
 				D3665B1B827B4E5CBA27B44D /* AddressBook.framework in Frameworks */,
 				6DCD5B8AA0884B57A48630E7 /* libRNRSA.a in Frameworks */,
 				3250347221E1453DBCE67BDC /* libReactNativeRSAUtil.a in Frameworks */,
+				9A6AAA52B5E841D9ADCD5F8F /* libBDVSimpleContacts.a in Frameworks */,
+				CF9494B9C6D14184889FC719 /* libRCTContactsWrapper.a in Frameworks */,
+				C00E086B610E4540B92CD3AF /* libRCTContacts.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -969,6 +1003,30 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		7B28557D2132720800EE1E87 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7B2855812132720800EE1E87 /* libBDVSimpleContacts.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7B2855C92132752B00EE1E87 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7B2855CD2132752B00EE1E87 /* libRCTContactsWrapper.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7B285617213276C500EE1E87 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7B28561B213276C500EE1E87 /* libRCTContacts.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		7BA6900420FEFB6B00A56807 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1007,6 +1065,9 @@
 				09518903CB934513AF2C8DC4 /* libRNGoogleSignin.a */,
 				3352F58FF13C4E74B796AEC5 /* libRNRSA.a */,
 				A93EEADCAE2947DA93057AD9 /* libReactNativeRSAUtil.a */,
+				21B6039C294D4AF0A23D7F3C /* libBDVSimpleContacts.a */,
+				9E28D29906B5470D8F82500E /* libRCTContactsWrapper.a */,
+				D45EAEC5992D478DA71328D3 /* libRCTContacts.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1084,6 +1145,9 @@
 				7B3FADB390AF476C99AF84DA /* RNGoogleSignin.xcodeproj */,
 				FF9C8B10665448078A65D7B8 /* RNRSA.xcodeproj */,
 				5CDF534B0DCF4E499387B180 /* ReactNativeRSAUtil.xcodeproj */,
+				0EBC0C27824E4933B57D7E84 /* BDVSimpleContacts.xcodeproj */,
+				A63B8F709CC746DCA47BCE30 /* ContactsWrapper.xcodeproj */,
+				C593ECAD1AB44AD2B4C11827 /* RCTContacts.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1263,6 +1327,14 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 7B28557D2132720800EE1E87 /* Products */;
+					ProjectRef = 0EBC0C27824E4933B57D7E84 /* BDVSimpleContacts.xcodeproj */;
+				},
+				{
+					ProductGroup = 7B2855C92132752B00EE1E87 /* Products */;
+					ProjectRef = A63B8F709CC746DCA47BCE30 /* ContactsWrapper.xcodeproj */;
+				},
+				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
 				},
@@ -1273,6 +1345,10 @@
 				{
 					ProductGroup = ADBDB9201DFEBF0600ED6528 /* Products */;
 					ProjectRef = ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */;
+				},
+				{
+					ProductGroup = 7B285617213276C500EE1E87 /* Products */;
+					ProjectRef = C593ECAD1AB44AD2B4C11827 /* RCTContacts.xcodeproj */;
 				},
 				{
 					ProductGroup = 7BBBB2A120FDF8BC0073AF21 /* Products */;
@@ -1603,6 +1679,27 @@
 			remoteRef = 78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		7B2855812132720800EE1E87 /* libBDVSimpleContacts.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBDVSimpleContacts.a;
+			remoteRef = 7B2855802132720800EE1E87 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7B2855CD2132752B00EE1E87 /* libRCTContactsWrapper.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTContactsWrapper.a;
+			remoteRef = 7B2855CC2132752B00EE1E87 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7B28561B213276C500EE1E87 /* libRCTContacts.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTContacts.a;
+			remoteRef = 7B28561A213276C500EE1E87 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		7BA6903120FEFB6B00A56807 /* libRNGoogleSignin.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1924,24 +2021,14 @@
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
 					"$(SRCROOT)/../node_modules/react-native-rsa-util/iOS/ReactNativeRSAUtil",
+					"$(SRCROOT)/../node_modules/react-native-simple-contacts/ios",
+					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
+					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 				);
 				INFOPLIST_FILE = PushForMoneyTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1970,24 +2057,14 @@
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
 					"$(SRCROOT)/../node_modules/react-native-rsa-util/iOS/ReactNativeRSAUtil",
+					"$(SRCROOT)/../node_modules/react-native-simple-contacts/ios",
+					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
+					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 				);
 				INFOPLIST_FILE = PushForMoneyTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2026,6 +2103,9 @@
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
 					"$(SRCROOT)/../node_modules/react-native-rsa-util/iOS/ReactNativeRSAUtil",
+					"$(SRCROOT)/../node_modules/react-native-simple-contacts/ios",
+					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
+					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 				);
 				INFOPLIST_FILE = PushForMoney/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2068,6 +2148,9 @@
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
 					"$(SRCROOT)/../node_modules/react-native-rsa-util/iOS/ReactNativeRSAUtil",
+					"$(SRCROOT)/../node_modules/react-native-simple-contacts/ios",
+					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
+					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 				);
 				INFOPLIST_FILE = PushForMoney/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2106,23 +2189,13 @@
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
 					"$(SRCROOT)/../node_modules/react-native-rsa-util/iOS/ReactNativeRSAUtil",
+					"$(SRCROOT)/../node_modules/react-native-simple-contacts/ios",
+					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
+					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2159,23 +2232,13 @@
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
 					"$(SRCROOT)/../node_modules/react-native-rsa-util/iOS/ReactNativeRSAUtil",
+					"$(SRCROOT)/../node_modules/react-native-simple-contacts/ios",
+					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
+					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2211,23 +2274,13 @@
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
 					"$(SRCROOT)/../node_modules/react-native-rsa-util/iOS/ReactNativeRSAUtil",
+					"$(SRCROOT)/../node_modules/react-native-simple-contacts/ios",
+					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
+					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2263,23 +2316,13 @@
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
 					"$(SRCROOT)/../node_modules/react-native-rsa-util/iOS/ReactNativeRSAUtil",
+					"$(SRCROOT)/../node_modules/react-native-simple-contacts/ios",
+					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
+					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
