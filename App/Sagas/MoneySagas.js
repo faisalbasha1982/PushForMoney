@@ -45,7 +45,29 @@ function fetchJson(url,payload) {
             console.log("profile request new:");
             const responseJson = yield call(fetchMoney,action.payload);
             yield put(MoneyActions.moneySuccess(responseJson.monthlyEarningGroupbyReferrals,responseJson.TotalWorkedHours,responseJson.TotalEarnings));
+
         }
+    catch(error)
+    {
+        yield put(MoneyActions.moneyFailure(error));
+    }
+}
+function fetchPerson(payload) {
+    console.log("inside fetch profile");
+    console.tron.log("inside fetch profile");
+
+    return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnGetMobileUserReferralsMonthlyEarning?code=IofAP/n6plRm21PIxHdHbDS6/NygvDjl9I/SbEJjWc7E2WfJQRqfvA==',payload);
+}
+
+export function * getPersonMonth(api,action)
+{
+    try {
+
+        console.log("profile request new:");
+        const responseJson = yield call(fetchMoney,action.payload);
+        yield put(MoneyActions.moneySuccess(responseJson.monthlyEarningGroupbyReferrals,responseJson.TotalWorkedHours,responseJson.TotalEarnings));
+
+    }
     catch(error)
     {
         yield put(MoneyActions.moneyFailure(error));

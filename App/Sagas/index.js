@@ -28,7 +28,7 @@ from './RegisterSagas'
 import { firstNameUpdate,changePassword, changeMobile, verifyMobileOtpRequest, ProfileRequestNew } from './ProfileSagas'
 import { cardDetailsRequest } from './CardDetailsSagas'
 import { FriendRequest, archiveRequest, saveReferrals } from './FriendSagas'
-import { getMoneyMonth } from './MoneySagas';
+import { getMoneyMonth, getPersonMonth } from './MoneySagas';
 import { take } from 'rxjs-compat/operator/take';
 
 /* ------------- API ------------- */
@@ -114,5 +114,7 @@ export default function * root () {
     takeLatest(FriendTypes.SAVE_REFERRALS,saveReferrals,api),
 
     takeLatest(MoneyTypes.GET_MONEY_MONTH,getMoneyMonth,api),
+
+    takeLatest(MoneyTypes.GET_PERSON_MONTH,getPersonMonth,api),
    ])
 }

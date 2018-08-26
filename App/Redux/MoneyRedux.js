@@ -27,7 +27,7 @@ export const INITIAL_STATE = {
 /* ------------- Selectors ------------- */
 
 export const MoneySelectors = {
-  getMoney: state => state['money'].referrals,
+  getPerson: state => state['money'].referrals,
   getTotalWorkedHours: state => state['money'].TotalWorkedHours,
   getTotalEarnings: state => state['money'].TotalEarnings,
   getFetching: state => state['money'].fetching,

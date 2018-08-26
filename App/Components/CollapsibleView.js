@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import localStorage from 'react-native-sync-localstorage';
+import { MoneySelectors } from "../Redux/MoneyRedux";
 
 let authData = AuthComponent.authenticationData("en");
 let encryptedData = AesComponent.aesCallback(authData);
@@ -178,6 +179,7 @@ iconStyle: {
 
 const mapStateToProps = state => {
   return {
+     referrals: MoneySelectors.getPerson(state),
   };
 };
 
