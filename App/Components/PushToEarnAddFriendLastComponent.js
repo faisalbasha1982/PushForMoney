@@ -42,9 +42,11 @@ import headerImage from '../Images/headerImage.png';
 import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/NewHeaderImage.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Contacts from 'react-native-unified-contacts';
-import AddressBook from 'react-native-addressbook';
+// import Contacts from 'react-native-unified-contacts';
+// import AddressBook from 'react-native-addressbook';
 import Contacts from 'react-native-contacts';
+import simpleContacts from 'react-native-unified-contacts';
+import ContactsWrapper from 'react-native-contacts-wrapper';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -158,12 +160,34 @@ class PushToEarnAddFriendLastComponent extends Component {
         //     }
         //   })
 
-        Contacts.getAll((err, contacts) => {
-            if (err) throw err;
+        // Contacts.getAll((err, contacts) => {
+        //     if (err) throw err;
           
-            // contacts returned
-            console.log(contacts)
-          })
+        //     // contacts returned
+        //     console.log(contacts)
+        //   })
+
+        // simpleContacts.getContacts( (error, contacts) =>  {
+        //     if (error) {
+        //       console.error(error);
+        //     }
+        //     else {
+        //       console.log(contacts);
+        //     }
+        //   });
+
+        ContactsWrapper.getContact()
+        .then((contact) => {
+            // Replace this code
+            console.log(contact);
+
+            this.props.menu(7,contact.name,contact.phone,contact.email);
+
+        })
+        .catch((error) => {
+            console.log("ERROR CODE: ", error.code);
+            console.log("ERROR MESSAGE: ", error.message);
+        });
 
     }
 

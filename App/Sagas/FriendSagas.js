@@ -101,3 +101,22 @@ export function * archiveRequest(api,action)
         yield put(FriendActions.friendFailure(error));
     }
 }
+
+function fetchReferral(payload)
+{
+    console.log("in fetch Referrals ");
+    return fetchJson('https://prod-10.westeurope.logic.azure.com:443/workflows/a23a19abad104ab1854363c6536802aa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=eLy-zN-st8ISnuzhGMyvqK7zKNKFqt0myhDf14achPw',payload);
+}
+
+export function * saveReferrals(api,action)
+{
+
+    try{
+        const responseJson = yield call(fetchReferral,action.payload);
+        Alert.alert(responseJson.Message);
+    }
+    catch(error)
+    {
+      Alert.alert(error);
+    }
+}

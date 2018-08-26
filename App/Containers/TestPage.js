@@ -47,7 +47,15 @@ class TestPage extends Component {
             selectionThird: false,
             selectionFourth: false,
             menu: 0,
+            nameParam:'',
+            phoneParam:'',
+            emailParam:'',
         };
+    }
+
+    menuChangeWithParameters = (mChange,name,phone,email) => {
+
+        this.setState({ menu: mChange, nameParam: name, phoneParam: phone, emailParam: email });
     }
 
     menuChange = (mChange) =>{
@@ -259,11 +267,11 @@ class TestPage extends Component {
                                this.state.menu === 6?
                                     <ProfileChangePasswordComponent menu = {this.menuChange} />:
                                this.state.menu === 7?
-                                    <ProfileDetailsComponent />:
+                                    <ProfileDetailsComponent name={this.state.nameParam} phone={this.state.phoneParam} email = {this.state.emailParam} />:
                                this.state.menu === 8 && this.props.referral !== null?
                                     <FriendsOverViewComponent />:
                                this.state.menu === 9?
-                                    <FriendsLastComponent />:
+                                    <FriendsLastComponent menu = {this.menuChangeWithParameters}/>:
                                     this.doNothing()
                             }
                     </View>

@@ -13,7 +13,16 @@ import {
     Platform,    
     findNodeHandle,
 } from 'react-native';
-
+import {
+    BallIndicator,
+    BarIndicator,
+    DotIndicator,
+    PacmanIndicator,
+    PulseIndicator,
+    SkypeIndicator,
+    UIActivityIndicator,
+    WaveIndicator,
+  } from 'react-native-indicators';
 import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -41,6 +50,10 @@ import headerImage from '../Images/headerImage.png';
 import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/NewHeaderImage.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
+import * as AuthComponent from '../Components/AuthComponent';
+import * as AesComponent from '../Components/AesComponent';
+import localStorage from 'react-native-sync-localstorage';
 
 
 const viewPortHeight = Dimensions.get('window').height;
@@ -282,6 +295,39 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
     }
 
+    saveReferrals = () => {
+
+        let authData = AuthComponent.authenticationData("en");
+        let encryptedData = AesComponent.aesCallback(authData);
+        let ltoken = localStorage.getItem('token');
+        this.setState({isLoading: true});
+
+        let payload = {
+            "AuthenticationData": encryptedData,
+            "LoginAccessToken": ltoken,
+            "MobileUsersReferrals":  [
+                            {"firstName":this.state.name.split(" ")[0], "lastName": this.state.name.split(" ")[1], "mobilePhone":this.state.phone, "email": this.state.email}
+                            ],
+        };
+
+        if(ltoken === null)
+            setTimeout(()=>{
+                ltoken = localStorage.getItem('token');
+            },2000)
+        else
+            {
+                payload = {
+                    "AuthenticationData": encryptedData,
+                    "LoginAccessToken": ltoken,
+                    "MobileUsersReferrals":  [
+                                    {"firstName":this.props.name.split(" ")[0], "lastName": this.props.name.split(" ")[1], "mobilePhone":this.props.phone, "email": this.props.email}
+                                    ],
+                };
+
+                this.props.saveReferrals(payload);
+            }
+    }
+
     renderValidation = () => {
 
         //if(this.state.language === 'NEDERLANDS')
@@ -377,37 +423,56 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                                         style={ newStyle.nameInput }
                                         placeholder=''
                                         underlineColorAndroid= 'transparent'
+                                        value={this.props.name}
                                         onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
-                                    
+
+                        {
+                            this.state.isLoading===true?
+                            <View style = {{position: 'absolute' , zIndex:3999, left: 30, top: 0, right: 0, bottom: 0}}>
+                            <BarIndicator color='#e73d50' />
+                            </View>:this.somethingElse()
+                        }      
+
                             <Text style={newStyle.firstName}>Phone number</Text>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
+                                value={this.props.phone}
                                 onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
 
                         </View>
 
 
                         <View style={newStyle.buttonViewBottom}>
-                                <ButtonFriends
-                                    objectParams=
-                                        {{
-                                            btnText: "VOEG EEN KANDIDAAT TOE", 
-                                            language: "ENGLISH",
-                                            firstName: this.state.firstNameInput,
-                                            lastName: this.state.lastNameInput,
-                                            phoneNumber: this.state.phoneNumberInput,
-                                            firstNameError: this.state.firstNameError,
-                                            lastNameError: this.state.lastNameError,
-                                            phoneNumberError: this.state.phoneNumberError,
-                                            firstNameEmpty: this.state.firstNameEmptyError,
-                                            lastNameEmpty: this.state.lastNameEmptyError,
-                                            phoneNumberEmpty: this.state.phoneNumberEmptyError
-                                        }}
-                                func = {this.func}
-                                navigation = { this.props.navigation}
-                                />
+                        <TouchableOpacity
+                                    onPress={() => { this.saveReferrals()  } }
+                                    activeOpacity={0.5}
+                                    style={{
+                                        width: 280,
+                                        height: 57,
+                                        marginBottom: 10,
+                                        marginLeft: 0,
+                                        borderRadius: 8,
+                                        backgroundColor: '#E73D50',
+                                        marginTop: viewPortHeight / 30,
+                                        justifyContent: 'center',
+                                        alignItems: 'center'
+                                    }}>
+                                    <Text
+                                        style={{
+                                            fontSize: 17,
+                                            width: 333,
+                                            height: 19,
+                                            fontFamily: 'WorkSans-Regular',
+                                            fontWeight: '500',
+                                            fontStyle: 'normal',
+                                            color: '#ffffff',
+                                            marginTop: 0,
+                                            letterSpacing: 0.67,
+                                            textAlign: 'center'}}
+                                    > VOEG EEN KANDIDAAT TOE </Text>
+                                </TouchableOpacity>                  
                         </View>
                     </View>
                 </View>
@@ -645,6 +710,7 @@ const mapStateToProps = state => {
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
+      saveReferrals:  (payload) => dispatch({type: 'SAVE_REFERRALS', payload})
     };
   };
   

@@ -4,6 +4,7 @@ import { createReducer, createActions, Types as ReduxSauceTypes } from 'reduxsau
 const { Types, Creators } = createActions({
   getFriendRequest: ["payload"],
   getArchive:["payload"],  
+  saveReferrals:["payload"],
   friendSuccess: ['referral'],
   friendFailure: ['error'],
   userRegistered: ['user'],
@@ -69,6 +70,7 @@ export const defaultHandler = (state) => {
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_FRIEND_REQUEST]: request,
   [Types.GET_ARCHIVE]: newrequest,
+  [Types.SAVE_REFERRALS]: request,
   [Types.FRIEND_SUCCESS]: success,
   [Types.FRIEND_FAILURE]: failure,
   [Types.USER_REGISTERED]: registered,
