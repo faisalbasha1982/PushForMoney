@@ -125,6 +125,7 @@ class PushToEarnMoneyComponent extends Component {
                         eleven : 'NOVEMBER',
                         twelve : 'DECEMBER',
                     },
+            currentYear:1982,
             currentMonthlyIndex: 6,
          
         };    
@@ -423,6 +424,18 @@ class PushToEarnMoneyComponent extends Component {
         return month;
     }
 
+    getPrevYear = () =>{
+        this.setState({ currentYear: this.state.currentYear - 1 });
+    }
+
+    getNextYear = () => {
+        this.setState({ currentYear: this.state.currentYear + 1});
+    }
+
+    getYear = () => {
+        return this.state.currentYear;
+    }
+
     getNextMonth = () => {
 
         if(this.state.currentMonthlyIndex !== 12)                
@@ -489,9 +502,35 @@ class PushToEarnMoneyComponent extends Component {
                                         onPress={() => { this.getNextMonth() } } /> 
                             </TouchableOpacity>
 
+                              <TouchableOpacity onPress={ ( ) => {} }
+                                    activeOpacity={0.5}
+                                    style={newStyle.iconStyle}>
+                                    <Icon
+                                        containerStyle={newStyle.iconImageStyle}
+                                        name='angle-left'
+                                        type='font-awesome'
+                                        color='rgb(155, 155, 155)'
+                                        size = {18}
+                                        onPress={() => {this.getPrevYear() } } /> 
+                            </TouchableOpacity>
+
+                             <Text style={newStyle.monthlyText}>{this.getYear()}</Text>
+
+                            <TouchableOpacity onPress={ ( ) => {} }
+                                    activeOpacity={0.5}
+                                    style={newStyle.iconStyle}>
+                                    <Icon
+                                        containerStyle={newStyle.iconImageStyle}
+                                        name='angle-right'
+                                        type='font-awesome'
+                                        color='rgb(155, 155, 155)'
+                                        size = {18}
+                                        onPress={() => { this.getNextYear() } } /> 
+                            </TouchableOpacity>
+
                             </View>
                             
-                            <CollapsibleView month = {this.getMonth()} />
+                            <CollapsibleView month = {this.getMonth()} year = {this.getYear()} />
 
                             <View style={newStyle.borderBottomNew}></View>
                             <View style={newStyle.totalText}>

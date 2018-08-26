@@ -84,7 +84,7 @@ _body(item){
     );
 }
 
-getPeron = () => {
+getPerson = () => {
 
   this.setState({isLoading: true});
   
@@ -92,7 +92,7 @@ getPeron = () => {
     "AuthenticationData": encryptedData,
     "LoginAccessToken": ltoken,
     "Month" : this.props.month,
-    "Year" : "2018",
+    "Year" : this.props.year,
   };
 
   this.props.getPerson(payload);
@@ -107,7 +107,7 @@ getMoney = () => {
     "AuthenticationData": encryptedData,
     "LoginAccessToken": ltoken,
     "Month" : this.props.month,
-    "Year" : "2018",
+    "Year" : this.props.year,
   };
 
   this.props.getMoney(payload);
