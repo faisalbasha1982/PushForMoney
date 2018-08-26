@@ -14,6 +14,7 @@ import { RegisterTypes } from '../Redux/RegisterRedux'
 import { ProfileTypes } from '../Redux/ProfileRedux'
 import { FriendTypes } from '../Redux/FriendRedux'
 import { CardDetailsTypes } from '../Redux/CardDetailsRedux'
+import { MoneyTypes } from '../Redux/MoneyRedux'
 
 /* ------------- Sagas ------------- */
 
@@ -27,6 +28,7 @@ from './RegisterSagas'
 import { firstNameUpdate,changePassword, changeMobile, verifyMobileOtpRequest, ProfileRequestNew } from './ProfileSagas'
 import { cardDetailsRequest } from './CardDetailsSagas'
 import { FriendRequest, archiveRequest, saveReferrals } from './FriendSagas'
+import { getMoneyMonth } from './MoneySagas';
 import { take } from 'rxjs-compat/operator/take';
 
 /* ------------- API ------------- */
@@ -110,5 +112,7 @@ export default function * root () {
     takeLatest(FriendTypes.GET_ARCHIVE,archiveRequest,api),
 
     takeLatest(FriendTypes.SAVE_REFERRALS,saveReferrals,api),
+
+    takeLatest(MoneyTypes.GET_MONEY_MONTH,getMoneyMonth,api),
    ])
 }

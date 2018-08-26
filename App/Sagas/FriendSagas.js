@@ -1,5 +1,5 @@
 import { call, put, takeLatest, takeEvery } from 'redux-saga/effects';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage,Alert } from 'react-native';
 import { path } from 'ramda';
 import Api from '../Services/Api';
 import FriendActions from '../Redux/FriendRedux';
@@ -113,10 +113,12 @@ export function * saveReferrals(api,action)
 
     try{
         const responseJson = yield call(fetchReferral,action.payload);
+        yield put(FriendActions.saveSuccess(responseJson.MobileReferrals));
         Alert.alert(responseJson.Message);
     }
     catch(error)
     {
       Alert.alert(error);
+      yield put(FriendActions.saveFailure(error));
     }
 }

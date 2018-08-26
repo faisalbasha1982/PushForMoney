@@ -42,6 +42,7 @@ import Validation from '../Components/ButtonValidation';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
+import _ from 'lodash';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -54,6 +55,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import localStorage from 'react-native-sync-localstorage';
+import { FriendSelectors } from '../Redux/FriendRedux';
 
 
 const viewPortHeight = Dimensions.get('window').height;
@@ -325,6 +327,29 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                 };
 
                 this.props.saveReferrals(payload);
+
+                setTimeout(() => {
+                    if(!_.isEmpty(this.props.MobileReferrals))
+                        {
+                            this.props.MobileReferrals.map(personObj =>
+    
+                                {
+                                    if(personObj.ReferralAddStatus === true)
+                                    {
+                                         this.props.menu(2);
+                                         this.setState({isLoading: false});
+                                    }
+                                    else
+                                    {
+                                        this.setState({isLoading: false});
+                                        //Alert.alert("Referrals not added");
+                                    }
+                                }
+                            )
+                        }
+                    else    
+                        console.log("mobileReferrals="+this.props.MobileReferrals); 
+                },4000);
             }
     }
 
@@ -377,6 +402,10 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
         
         return;
+
+    }
+
+    somethingElse = () => {
 
     }
 
@@ -702,11 +731,12 @@ const newStyle = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
+        MobileReferrals: FriendSelectors.getMobileReferral(state),
     };
   };
   
   const mapDispatchToProps = dispatch => {
-    return {  
+    return {
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),

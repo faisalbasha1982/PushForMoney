@@ -491,7 +491,7 @@ class PushToEarnMoneyComponent extends Component {
 
                             </View>
                             
-                            <CollapsibleView />
+                            <CollapsibleView month = {this.getMonth()} />
 
                             <View style={newStyle.borderBottomNew}></View>
                             <View style={newStyle.totalText}>

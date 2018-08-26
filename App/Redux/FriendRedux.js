@@ -7,6 +7,8 @@ const { Types, Creators } = createActions({
   saveReferrals:["payload"],
   friendSuccess: ['referral'],
   friendFailure: ['error'],
+  saveSuccess: ["MobileReferrals"],
+  saveFailure: ["error"],
   userRegistered: ['user'],
   logout: null
 });
@@ -18,6 +20,7 @@ export default Creators;
 
 export const INITIAL_STATE = {
   referral: null,
+  MobileReferrals:null,
   fetching: false,
   error: '',
   payload: null
@@ -26,6 +29,7 @@ export const INITIAL_STATE = {
 /* ------------- Selectors ------------- */
 
 export const FriendSelectors = {
+  getMobileReferral: state => state['friend'].MobileReferrals,
   getReferral: state => state['friend'].referral,
   getFetching: state => state['friend'].fetching,
   getError: state => state['friend'].error
@@ -43,6 +47,14 @@ export const newrequest = (state, { payload }) => {
 
 export const archiveSuccess = (state, { payload }) => {
     return { ...state, fetching: true, }
+}
+
+export const sSuccess = (state, { MobileReferrals }) => {
+  return { ...state, MobileReferrals, fetching: false, }
+}
+
+export const sFailure = (state, {error}) => {
+  return { ...state, error, fetching: false,}
 }
 
 export const success = (state, { referral }) => {
@@ -73,6 +85,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SAVE_REFERRALS]: request,
   [Types.FRIEND_SUCCESS]: success,
   [Types.FRIEND_FAILURE]: failure,
+  [Types.SAVE_SUCCESS]: sSuccess,
+  [Types.SAVE_FAILURE]: sFailure,
   [Types.USER_REGISTERED]: registered,
   [Types.LOGOUT]: logout,
   [ReduxSauceTypes.DEFAULT]: defaultHandler

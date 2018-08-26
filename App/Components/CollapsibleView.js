@@ -5,7 +5,16 @@ import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react
 import { Thumbnail, List, ListItem, Separator } from 'native-base';
 import { StyleSheet,TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { getMoneyMonth } from "../Sagas/MoneySagas";
+import { connect } from "react-redux";
 
+import * as AuthComponent from '../Components/AuthComponent';
+import * as AesComponent from '../Components/AesComponent';
+import localStorage from 'react-native-sync-localstorage';
+
+let authData = AuthComponent.authenticationData("en");
+let encryptedData = AesComponent.aesCallback(authData);
+let ltoken = localStorage.getItem('token');
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth  = Dimensions.get('window').width;
@@ -37,6 +46,7 @@ class CollapsibleView extends Component
         }
         ],
   }
+
 }
 
 _head(item){
@@ -72,6 +82,35 @@ _body(item){
           <Text style={newStyle.fontStyle}>{item.newTime}</Text>
         </View>
     );
+}
+
+getPeron = () => {
+
+  this.setState({isLoading: true});
+  
+  let payload = {
+    "AuthenticationData": encryptedData,
+    "LoginAccessToken": ltoken,
+    "Month" : this.props.month,
+    "Year" : "2018",
+  };
+
+  this.props.getPerson(payload);
+
+}
+
+getMoney = () => {
+
+  this.setState({isLoading: true});
+
+  let payload = {
+    "AuthenticationData": encryptedData,
+    "LoginAccessToken": ltoken,
+    "Month" : this.props.month,
+    "Year" : "2018",
+  };
+
+  this.props.getMoney(payload);
 }
 
 render() {
@@ -137,4 +176,19 @@ iconStyle: {
 
 });
 
-export default CollapsibleView;
+const mapStateToProps = state => {
+  return {
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {  
+    resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
+    navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
+    navigateBack: () => this.props.navigation.goBack(),
+    getMoney:  (payload) => dispatch({type: 'GET_MONEY_MONTH', payload}),
+    getPerson: (payload) => dispatch({type:'GET_PERSON_MONTH', payload})
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CollapsibleView);

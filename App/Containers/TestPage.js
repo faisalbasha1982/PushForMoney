@@ -267,7 +267,7 @@ class TestPage extends Component {
                                this.state.menu === 6?
                                     <ProfileChangePasswordComponent menu = {this.menuChange} />:
                                this.state.menu === 7?
-                                    <ProfileDetailsComponent name={this.state.nameParam} phone={this.state.phoneParam} email = {this.state.emailParam} />:
+                                    <ProfileDetailsComponent menu = {this.menuChange} name={this.state.nameParam} phone={this.state.phoneParam} email = {this.state.emailParam} />:
                                this.state.menu === 8 && this.props.referral !== null?
                                     <FriendsOverViewComponent />:
                                this.state.menu === 9?
