@@ -111,6 +111,7 @@
 		9A6AAA52B5E841D9ADCD5F8F /* libBDVSimpleContacts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 21B6039C294D4AF0A23D7F3C /* libBDVSimpleContacts.a */; };
 		9B76C54E4A5F49DD9669D1EC /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C84BC70DF284D989F8C8A59 /* EvilIcons.ttf */; };
 		9C804584517640AEB2C9F9BE /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF86C2CB3C442AE882CB8AB /* Ionicons.ttf */; };
+		9E6D28D6B91044A68C237940 /* libRCTBEEPickerManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 599E25F7770B4CD6BE85C3DC /* libRCTBEEPickerManager.a */; };
 		A00D3714C030423F9741BD3C /* libReactNativeConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD702F0959C14711B05EAA75 /* libReactNativeConfig.a */; };
 		A2AF8FDB04E344F98FA60B1C /* WorkSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9398FC6BD6444E18ADA4D80A /* WorkSans-SemiBold.ttf */; };
 		A2E71718FC594734839B90DA /* BarlowCondensed-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 48FC51FCE61D4B0E8FB49349 /* BarlowCondensed-BoldItalic.otf */; };
@@ -435,6 +436,13 @@
 			remoteGlobalIDString = 1441618E1BD0A79300FA4F59;
 			remoteInfo = RCTContacts;
 		};
+		7B4153772134209000CE3B86 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7EDD6D523F6C4ACEBDC9F096 /* RCTBEEPickerManager.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 17D41E551D7EE0CA0031415E;
+			remoteInfo = RCTBEEPickerManager;
+		};
 		7BA6903020FEFB6B00A56807 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7B3FADB390AF476C99AF84DA /* RNGoogleSignin.xcodeproj */;
@@ -574,6 +582,7 @@
 		4ED2F73BFD14445AACB6BD4C /* barlowsemicondensed-thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "barlowsemicondensed-thin.otf"; path = "../assets/fonts/barlowsemicondensed-thin.otf"; sourceTree = "<group>"; };
 		4FBA3F9FBCB34B41B8279DDE /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		570B7001105A4F8CA703FF17 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/native-base/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
+		599E25F7770B4CD6BE85C3DC /* libRCTBEEPickerManager.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTBEEPickerManager.a; sourceTree = "<group>"; };
 		5A09D39911D149C1815D7694 /* BarlowCondensed-ExtraBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowCondensed-ExtraBold.otf"; path = "../assets/fonts/BarlowCondensed-ExtraBold.otf"; sourceTree = "<group>"; };
 		5BD35474B2A043D796BEDA3F /* BarlowSemiCondensed-ExtraBoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowSemiCondensed-ExtraBoldItalic.otf"; path = "../assets/fonts/BarlowSemiCondensed-ExtraBoldItalic.otf"; sourceTree = "<group>"; };
 		5BF6B698C6C145FAA0B4A798 /* SystemConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -618,6 +627,7 @@
 		7C7AF2561C6E482A8F6AD710 /* barlowsemicondensed-extralightitalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "barlowsemicondensed-extralightitalic.otf"; path = "../assets/fonts/barlowsemicondensed-extralightitalic.otf"; sourceTree = "<group>"; };
 		7C84BC70DF284D989F8C8A59 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/native-base/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		7E406D8003634ACE9A6076CB /* BarlowSemiCondensed-LightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowSemiCondensed-LightItalic.otf"; path = "../assets/fonts/BarlowSemiCondensed-LightItalic.otf"; sourceTree = "<group>"; };
+		7EDD6D523F6C4ACEBDC9F096 /* RCTBEEPickerManager.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTBEEPickerManager.xcodeproj; path = "../node_modules/react-native-picker/ios/RCTBEEPickerManager.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		849CB61C48F64FD4855D0828 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		853CC1E925C846EBBC30A436 /* BarlowSemiCondensed-ExtraLight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowSemiCondensed-ExtraLight.otf"; path = "../assets/fonts/BarlowSemiCondensed-ExtraLight.otf"; sourceTree = "<group>"; };
@@ -734,6 +744,8 @@
 				9A6AAA52B5E841D9ADCD5F8F /* libBDVSimpleContacts.a in Frameworks */,
 				CF9494B9C6D14184889FC719 /* libRCTContactsWrapper.a in Frameworks */,
 				C00E086B610E4540B92CD3AF /* libRCTContacts.a in Frameworks */,
+				552F9D0143324C06B57F09C7 /* RCTAddressBookTests.xctest in Frameworks */,
+				9E6D28D6B91044A68C237940 /* libRCTBEEPickerManager.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1026,6 +1038,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		7B4153692134208800CE3B86 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7B4153782134209000CE3B86 /* libRCTBEEPickerManager.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		7BA6900420FEFB6B00A56807 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1067,6 +1087,9 @@
 				21B6039C294D4AF0A23D7F3C /* libBDVSimpleContacts.a */,
 				9E28D29906B5470D8F82500E /* libRCTContactsWrapper.a */,
 				D45EAEC5992D478DA71328D3 /* libRCTContacts.a */,
+				B703FA4EC95242A397A233B3 /* libRCTAddressBook.a */,
+				9C532C70BAC8453E93D61A50 /* RCTAddressBookTests.xctest */,
+				599E25F7770B4CD6BE85C3DC /* libRCTBEEPickerManager.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1147,6 +1170,7 @@
 				0EBC0C27824E4933B57D7E84 /* BDVSimpleContacts.xcodeproj */,
 				A63B8F709CC746DCA47BCE30 /* ContactsWrapper.xcodeproj */,
 				C593ECAD1AB44AD2B4C11827 /* RCTContacts.xcodeproj */,
+				7EDD6D523F6C4ACEBDC9F096 /* RCTBEEPickerManager.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1340,6 +1364,10 @@
 				{
 					ProductGroup = 5E91572E1DD0AC6500FF2AA8 /* Products */;
 					ProjectRef = 5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */;
+				},
+				{
+					ProductGroup = 7B4153692134208800CE3B86 /* Products */;
+					ProjectRef = 7EDD6D523F6C4ACEBDC9F096 /* RCTBEEPickerManager.xcodeproj */;
 				},
 				{
 					ProductGroup = ADBDB9201DFEBF0600ED6528 /* Products */;
@@ -1699,6 +1727,13 @@
 			remoteRef = 7B28561A213276C500EE1E87 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		7B4153782134209000CE3B86 /* libRCTBEEPickerManager.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTBEEPickerManager.a;
+			remoteRef = 7B4153772134209000CE3B86 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		7BA6903120FEFB6B00A56807 /* libRNGoogleSignin.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -2023,11 +2058,14 @@
 					"$(SRCROOT)/../node_modules/react-native-simple-contacts/ios",
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
+					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
 				);
 				INFOPLIST_FILE = PushForMoneyTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2059,11 +2097,14 @@
 					"$(SRCROOT)/../node_modules/react-native-simple-contacts/ios",
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
+					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
 				);
 				INFOPLIST_FILE = PushForMoneyTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2105,6 +2146,7 @@
 					"$(SRCROOT)/../node_modules/react-native-simple-contacts/ios",
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
+					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
 				);
 				INFOPLIST_FILE = PushForMoney/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2150,6 +2192,7 @@
 					"$(SRCROOT)/../node_modules/react-native-simple-contacts/ios",
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
+					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
 				);
 				INFOPLIST_FILE = PushForMoney/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2191,10 +2234,13 @@
 					"$(SRCROOT)/../node_modules/react-native-simple-contacts/ios",
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
+					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2234,10 +2280,13 @@
 					"$(SRCROOT)/../node_modules/react-native-simple-contacts/ios",
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
+					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2276,10 +2325,13 @@
 					"$(SRCROOT)/../node_modules/react-native-simple-contacts/ios",
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
+					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2318,10 +2370,13 @@
 					"$(SRCROOT)/../node_modules/react-native-simple-contacts/ios",
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
+					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",

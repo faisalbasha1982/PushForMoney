@@ -466,7 +466,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
                                         height: 40,
                                         alignItems:'center',
                                         justifyContent:'center',
-                                        backgroundColor: 'powderblue',
+                                        backgroundColor: 'white',
                                     }}>
                                 <Icon
                                         containerStyle={newStyle.iconImageStyleNew}

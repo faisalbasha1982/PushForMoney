@@ -3,6 +3,7 @@ package com.pushformoney;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.beefe.picker.PickerViewPackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 import com.lynxit.contactswrapper.ContactsWrapperPackage;
 import ca.bigdata.voice.contacts.BDVSimpleContactsPackage;
@@ -36,6 +37,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new PickerViewPackage(),
             new ReactNativeContacts(),
             new ContactsWrapperPackage(),
             new BDVSimpleContactsPackage(),

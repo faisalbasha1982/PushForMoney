@@ -29,6 +29,7 @@ import PushToEarnProfile from '../Containers/PushToEarnProfile';
 import PushToEarnFriendsOverview from '../Containers/PushToEarnFriendsOverview';
 import PushToEarnInformation from '../Containers/PushToEarnInformation';
 import PushToEarnMoney from '../Containers/PushToEarnMoney';
+import PushToEarnMoneyComponent from '../Components/PushToEarnMoneyComponent';
 import pushToEarnMoneyList from '../Containers/PushToEarnMoneyList';
 import PushToEarnPrivatePolicy from '../Containers/PushToEarnPrivatePolicy';
 import CollapsibleView from '../Components/CollapsibleView';
@@ -55,6 +56,7 @@ const AppNavigation = createStackNavigator({
   PushToEarnAddFriend: { screen: PushToEarnAddFriend },
   PushToEarnAddFriendsButtons: { screen: PushToEarnAddFriendsButtons },
   PushToEarnProfile: { screen: PushToEarnProfile },
+  PushToEarnMoneyComponent: { screen: PushToEarnMoneyComponent},
   PushToEarnFriendsOverview: { screen: PushToEarnFriendsOverview },
   PushToEarnInformation: { screen: PushToEarnInformation },
   PushToEarnMoney: { screen: PushToEarnMoney },

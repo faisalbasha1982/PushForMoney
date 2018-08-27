@@ -14,6 +14,7 @@ export const reducers = combineReducers({
   profile: require('./ProfileRedux').reducer,
   cardDetails: require("./CardDetailsRedux").reducer,
   friend: require("./FriendRedux").reducer,
+  money: require("./MoneyRedux").reducer,
 })
 
 export default () => {

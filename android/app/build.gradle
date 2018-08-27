@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-picker')
     compile project(':react-native-contacts')
     compile project(':react-native-contacts-wrapper')
     compile project(':react-native-simple-contacts')

@@ -44,6 +44,14 @@ import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/NewHeaderImage.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import * as AuthComponent from '../Components/AuthComponent';
+import * as AesComponent from '../Components/AesComponent';
+import localStorage from 'react-native-sync-localstorage';
+import { MoneySelectors } from "../Redux/MoneyRedux";
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import Picker from 'react-native-picker';
+
+
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
 
@@ -69,6 +77,14 @@ const SECTIONS = [
         title: 'Third',
         content: 'Correction - Contract -1'
     }];
+
+let pickerData = [
+        [1,2,3,4],
+        [5,6,7,8]
+    ];
+let selectedValue = ['JANUARY', 2013];
+
+
 
 class PushToEarnMoneyComponent extends Component {
 
@@ -98,6 +114,8 @@ class PushToEarnMoneyComponent extends Component {
             firstNameEmptyError:false,
             lastNameEmptyError:false,
             phoneNumberEmptyError:false,
+            isDateTimePickerVisible: false,
+            
             sections: [
                 {
                     title: 'First',
@@ -124,9 +142,22 @@ class PushToEarnMoneyComponent extends Component {
                         ten : 'OCTOBER',
                         eleven : 'NOVEMBER',
                         twelve : 'DECEMBER',
-                    },
-            currentYear:1982,
-            currentMonthlyIndex: 6,
+                    },                
+            currentYear:2013,
+            currentMonthlyIndex: 3,
+            currentYearMonth:'JUNE 2013',
+            yearData:[2016,2017,2018,2019,2020],
+            monthArray: ['JANUARY','FEBRUARY','MARCH',
+                         'APRIL','MAY','JUNE','JULY',
+                        'AUGUST','SEPTEMBER','OCTOBER',
+                        'NOVEMBER','DECEMBER'
+                        ],
+            pickerData: [[2016,2017,2018,2019,2020],['JANUARY','FEBRUARY','MARCH',
+            'APRIL','MAY','JUNE','JULY',
+           'AUGUST','SEPTEMBER','OCTOBER',
+           'NOVEMBER','DECEMBER'
+           ]],
+            selectedValue: ['JANUARY', 2013],
          
         };    
     }
@@ -283,6 +314,10 @@ class PushToEarnMoneyComponent extends Component {
         // this.setText();
         // console.log("this.state.firstName="+this.state.firstName);
         // console.log("this.state.buttonText="+this.state.buttonText);
+
+        this.getPerson();
+
+        
     }
 
     // setText =  () => {
@@ -391,6 +426,34 @@ class PushToEarnMoneyComponent extends Component {
             this.setState({ collapseButtonText: 'Show More'});
     }
 
+    getMonthNumber = (month) => {
+
+        if(month == "JANUARY")
+            return "01";
+        if(month == "FEBRUARY")
+            return "02";
+        if(month == "MARCH")
+            return "03";
+        if(month == "APRIL")
+            return "04";
+        if(month == "MAY")
+            return "05";
+        if(month == "JUNE")
+            return "06";
+        if(month == "JULY")
+            return "07";
+        if(month == "AUGUST")
+            return "08";
+        if(month == "SEPTEMBER")
+            return "09";
+        if(month == "OCTOBER")
+            return "10";
+        if(month == "NOVEMBER")
+            return "11";
+        if(month == "DECEMBER")
+            return "12";        
+    }
+
     getMonth = () => {
 
         var month = this.state.months.one;
@@ -424,8 +487,54 @@ class PushToEarnMoneyComponent extends Component {
         return month;
     }
 
+    getPrevYearMonth = () => {
+
+        let prevYearMonth = "";
+
+        let currentyearmonth = this.state.currentYearMonth;
+        let currentYMA = currentyearmonth.split(" ");
+
+        let currentMonth = currentYMA[0];
+        let currentYear = currentYMA[1];
+
+        let currentMonthNumber = this.getMonthNumber(currentMonth);
+
+        if(currentMonthNumber > 1)
+            prevYearMonth = getMonth(parseInt(currentMonth,10) - 1)+"  " + currentYear;
+
+        if(currentMonthNumber === 1)
+            prevYearMonth = getMonth(12) +"  "+ (parseInt(currentYear,10)-1);
+
+        this.setState({ currentYearMonth: prevYearMonth});
+    }
+   
+    getNextYearMonth = () => {
+
+        let nextYearMonth = "";
+
+        let currentyearmonth = this.state.currentYearMonth;
+        let currentYMA = currentyearmonth.split(" ");
+
+        let currentMonth = currentYMA[0];
+        let currentYear = currentYMA[1];
+
+        let currentMonthNumber = this.getMonthNumber(currentMonth);
+
+        if(currentMonthNumber < 12)
+            nextYearMonth = getMonth(parseInt(currentMonth,10) + 1)+"  " + currentYear;
+
+        if(currentMonthNumber === 12)
+            nextYearMonth = getMonth(1) + "  " + (parseInt(currentYear,10)+1);
+
+        this.setState({ currentYearMonth: nextYearMonth});
+    }
+
+    getCurrentYearMonth = () => {
+        return this.state.currentYearMonth;
+    }
+
     getPrevYear = () =>{
-        this.setState({ currentYear: this.state.currentYear - 1 });
+        this.setState({ currentYear: this.state.currentYear - 1 });        
     }
 
     getNextYear = () => {
@@ -449,7 +558,83 @@ class PushToEarnMoneyComponent extends Component {
             this.setState({ currentMonthlyIndex: this.state.currentMonthlyIndex - 1 });
     
     }
+
+    getPerson = () => {
+      
+        let authData = AuthComponent.authenticationData("en");
+        let encryptedData = AesComponent.aesCallback(authData);
+        let ltoken = localStorage.getItem('token');
+        this.setState({isLoading: true});
+      
+        let payload = {
+          "AuthenticationData": encryptedData,
+          "LoginAccessToken": ltoken,
+          "Month" : this.state.currentMonthlyIndex,
+          "Year" : this.state.currentYear,
+      };
+      
+        (ltoken === null)? setTimeout(() => {
+          ltoken = localStorage.getItem('token');
+        },2000)
+        :
+        setTimeout(() => {
+          
+          payload = {
+            "AuthenticationData": encryptedData,
+            "LoginAccessToken": ltoken,
+            "Month" : this.state.currentMonthlyIndex,
+            "Year" : this.state.currentYear,
+          };
+      
+          console.log("ltoken="+ltoken);
+          this.props.getPerson(payload);
+      
+        },4000)
+      
+      }
+
+      getMoney = () => {
+
+        this.setState({isLoading: true});
+      
+        let payload = {
+          "AuthenticationData": encryptedData,
+          "LoginAccessToken": ltoken,
+          "Month" : this.props.month,
+          "Year" : this.props.year,
+        };
+      
+        this.props.getMoney(payload);
+      }
+
+
+      showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+      hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
     
+      handleDatePicked = (date) => {
+        console.log('A date has been picked: ', date);
+        this.hideDateTimePicker();
+      };
+      
+    showPicker = () => {
+
+        Picker.init({
+            pickerData: this.state.pickerData,
+            selectedValue: this.state.selectedValue,
+            onPickerConfirm: data => {
+                console.log(data);
+            },
+            onPickerCancel: data => {
+                console.log(data);
+            },
+            onPickerSelect: data => {
+                console.log(data);
+            }
+        });
+        
+        Picker.show();
+    }
 
     render() {
         const platform = Platform.OS;
@@ -476,7 +661,18 @@ class PushToEarnMoneyComponent extends Component {
                             <View style={newStyle.borderBottom}> </View>
 
                             <View style={newStyle.monthlyBar}>
-                            <TouchableOpacity onPress={ ( ) => {} }
+
+                                 <TouchableOpacity onPress={ () => this.showPicker()}>
+                                    <Text style={newStyle.monthlyText}> {this.getCurrentYearMonth() }</Text>
+                                </TouchableOpacity>
+
+                                {/* // <DateTimePicker
+                                //     mode = {'time'}
+                                //     isVisible={this.state.isDateTimePickerVisible}
+                                //     onConfirm={this.handleDatePicked}
+                                //     onCancel={this.hideDateTimePicker} /> */}
+
+                            {/* <TouchableOpacity onPress={ ( ) => {} }
                                     activeOpacity={0.5}
                                     style={newStyle.iconStyle}>
                                     <Icon
@@ -485,10 +681,10 @@ class PushToEarnMoneyComponent extends Component {
                                         type='font-awesome'
                                         color='rgb(155, 155, 155)'
                                         size = {18}
-                                        onPress={() => {this.getPrevMonth() } } /> 
+                                        onPress={() => {this.getPrevYearMonth() } } /> 
                             </TouchableOpacity>
 
-                            <Text style={newStyle.monthlyText}>{this.getMonth()}</Text>
+                            <Text style={newStyle.monthlyText}>{this.getCurrentYearMonth()}</Text>
 
                             <TouchableOpacity onPress={ ( ) => {} }
                                     activeOpacity={0.5}
@@ -499,38 +695,12 @@ class PushToEarnMoneyComponent extends Component {
                                         type='font-awesome'
                                         color='rgb(155, 155, 155)'
                                         size = {18}
-                                        onPress={() => { this.getNextMonth() } } /> 
-                            </TouchableOpacity>
-
-                              <TouchableOpacity onPress={ ( ) => {} }
-                                    activeOpacity={0.5}
-                                    style={newStyle.iconStyle}>
-                                    <Icon
-                                        containerStyle={newStyle.iconImageStyle}
-                                        name='angle-left'
-                                        type='font-awesome'
-                                        color='rgb(155, 155, 155)'
-                                        size = {18}
-                                        onPress={() => {this.getPrevYear() } } /> 
-                            </TouchableOpacity>
-
-                             <Text style={newStyle.monthlyText}>{this.getYear()}</Text>
-
-                            <TouchableOpacity onPress={ ( ) => {} }
-                                    activeOpacity={0.5}
-                                    style={newStyle.iconStyle}>
-                                    <Icon
-                                        containerStyle={newStyle.iconImageStyle}
-                                        name='angle-right'
-                                        type='font-awesome'
-                                        color='rgb(155, 155, 155)'
-                                        size = {18}
-                                        onPress={() => { this.getNextYear() } } /> 
-                            </TouchableOpacity>
+                                        onPress={() => { this.getNextYearMonth() } } /> 
+                            </TouchableOpacity> */}
 
                             </View>
                             
-                            <CollapsibleView month = {this.getMonth()} year = {this.getYear()} />
+                            <CollapsibleView  referrals = {this.props.referrals} />
 
                             <View style={newStyle.borderBottomNew}></View>
                             <View style={newStyle.totalText}>
@@ -906,6 +1076,9 @@ const newStyle = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
+        referrals: MoneySelectors.getPerson(state),
+        TotalWorkedHours: MoneySelectors.getTotalWorkedHours(state),
+        TotalEarnings: MoneySelectors.getTotalEarnings(state)
     };
   };
   
@@ -914,6 +1087,8 @@ const mapStateToProps = state => {
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
+      getMoney:  (payload) => dispatch({type: 'GET_MONEY_MONTH', payload}),
+      getPerson: (payload) => dispatch({type:'GET_PERSON_MONTH', payload})  
     };
   };
   

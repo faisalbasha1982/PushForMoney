@@ -1,21 +1,44 @@
 import {AccordionList} from "accordion-collapse-react-native";
-import { View, Text, Dimensions } from 'react-native';
 import React, { Component } from 'react';
 import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
 import { Thumbnail, List, ListItem, Separator } from 'native-base';
-import { StyleSheet,TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { getMoneyMonth } from "../Sagas/MoneySagas";
 import { connect } from "react-redux";
+import _ from 'lodash';
+import {
+    ScrollView,
+    Text,
+    Image,
+    View,
+    KeyboardAvoidingView,
+    TouchableOpacity,
+    StyleSheet,
+    Dimensions,
+    TextInput,
+    PixelRatio,
+    Alert,
+    Platform,    
+    findNodeHandle,
+} from 'react-native';
+import {
+  BallIndicator,
+  BarIndicator,
+  DotIndicator,
+  PacmanIndicator,
+  PulseIndicator,
+  SkypeIndicator,
+  UIActivityIndicator,
+  WaveIndicator,
+} from 'react-native-indicators';
+import { Container, Header, Content, Input, Item } from 'native-base';
+import PropTypes from "prop-types";
+import { NavigationActions } from "react-navigation";
 
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import localStorage from 'react-native-sync-localstorage';
 import { MoneySelectors } from "../Redux/MoneyRedux";
-
-let authData = AuthComponent.authenticationData("en");
-let encryptedData = AesComponent.aesCallback(authData);
-let ltoken = localStorage.getItem('token');
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth  = Dimensions.get('window').width;
@@ -85,43 +108,73 @@ _body(item){
     );
 }
 
-getPerson = () => {
+renderList = (personObj) => {  
 
-  this.setState({isLoading: true});
-  
-  let payload = {
-    "AuthenticationData": encryptedData,
-    "LoginAccessToken": ltoken,
-    "Month" : this.props.month,
-    "Year" : this.props.year,
-  };
-
-  this.props.getPerson(payload);
+  return (
+    <Text style={newStyle.statusStyle}>{ personObj.Amount }</Text>
+  );
 
 }
 
-getMoney = () => {
 
-  this.setState({isLoading: true});
+somethingElse = () => {
 
-  let payload = {
-    "AuthenticationData": encryptedData,
-    "LoginAccessToken": ltoken,
-    "Month" : this.props.month,
-    "Year" : this.props.year,
-  };
+}
 
-  this.props.getMoney(payload);
+componentWillReceiveProps(newProps)
+{
+
+}
+
+componentDidMount()
+{
 }
 
 render() {
+
+    // console.log("referrals="+this.props.navigation.state.params.referrals);
+    // let referralsNew = this.props.referrals;
+
+    let referralsNew =  [
+      {
+          "MobileReferralID": 1,
+          "ReferredPersonName": "Balaji",
+          "PaidStatus": "0",
+          "TimeWorked": "18:0",
+          "Amount": "9.00"
+      },
+      {
+          "MobileReferralID": 1,
+          "ReferredPersonName": "Balaji",
+          "PaidStatus": "0",
+          "TimeWorked": "9:0",
+          "Amount": "4.50"
+      }
+  ];
+
     return (
-          <View style= {{ flex: 1,backgroundColor: 'white', marginTop: 0, justifyContent: 'flex-start', alignItems:'flex-start'   }}>
-          <AccordionList
+          <View style= {{ flex: 1,flexDirection: 'column',backgroundColor: 'powderblue', marginTop: 0, justifyContent: 'center', alignItems:'center'   }}>
+
+                  {
+                      this.state.isLoading===true?
+                      <View style = {{position: 'absolute' , zIndex:3999, left: 150, top: 0, right: 0, bottom: 0}}>
+                      <BallIndicator color='#e73d50' />
+                      </View>:this.somethingElse()
+                  }      
+
+                  <View style={{flex:1, flexDirection: 'column', backgroundColor: 'white'}}>
+                          {
+                            referralsNew.map(
+                              personObj => 
+                                  this.renderList(personObj))
+                          }
+                  </View>
+              
+              {/* <AccordionList
             list={this.state.list}
             header={this._head}
             body={this._body}
-          />
+          /> */}
           </View>
     );
 }
@@ -129,6 +182,32 @@ render() {
 }
 
 const newStyle = StyleSheet.create({
+
+  nameStyle: {
+    padding: 5,
+    margin: 5,
+    width: 111,
+    height: 50,
+    fontFamily: "WorkSans-Regular",
+    fontSize: 13,
+    fontWeight: "normal",
+    fontStyle: "normal",
+    letterSpacing: 0.46,
+    color: "rgb(53, 53, 53)"
+},
+
+statusStyle: {
+    width: 120,
+    height: 30,
+    paddingLeft: 5,
+    marginTop: 8,
+    fontFamily: "WorkSans-Regular",
+    fontSize: 11,
+    fontWeight: "normal",
+    fontStyle: "normal",
+    letterSpacing: 0.39,
+    color: "rgb(155, 155, 155)"
+},
 
 borderBottom: {
   width: viewPortWidth*0.75,
@@ -179,7 +258,7 @@ iconStyle: {
 
 const mapStateToProps = state => {
   return {
-     referrals: MoneySelectors.getPerson(state),
+
   };
 };
 
@@ -188,8 +267,6 @@ const mapDispatchToProps = dispatch => {
     resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
     navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
     navigateBack: () => this.props.navigation.goBack(),
-    getMoney:  (payload) => dispatch({type: 'GET_MONEY_MONTH', payload}),
-    getPerson: (payload) => dispatch({type:'GET_PERSON_MONTH', payload})
   };
 };
 

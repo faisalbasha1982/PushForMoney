@@ -4,7 +4,7 @@ import { createReducer, createActions, Types as ReduxSauceTypes } from 'reduxsau
 const { Types, Creators } = createActions({
   getMoneyMonth: ["payload"],
   getPersonMonth:["payload"],
-  moneySuccess: ['referrals'],
+  moneySuccess: ['referrals','TotalWorkedHours','TotalEarnings'],
   moneyFailure: ['error'],
   userRegistered: ['referrals'],
   logout: null
