@@ -530,7 +530,8 @@ class PushToEarnMoneyComponent extends Component {
     }
 
     getCurrentYearMonth = () => {
-        return this.state.currentYearMonth;
+        //this.setState({ currentYearMonth: this.state.currentMonth + " "+ this.state.currentYear });
+        return this.state.currentMonth + " "+ this.state.currentYear;
     }
 
     getPrevYear = () =>{
@@ -623,6 +624,8 @@ class PushToEarnMoneyComponent extends Component {
             pickerData: this.state.pickerData,
             selectedValue: this.state.selectedValue,
             onPickerConfirm: data => {
+                let monthNumber = this.getMonthNumber(data[1]);
+                this.setState({currentMonthlyIndex: monthNumber, currentYear: data[0]});
                 console.log(data);
             },
             onPickerCancel: data => {
@@ -630,7 +633,7 @@ class PushToEarnMoneyComponent extends Component {
             },
             onPickerSelect: data => {
                 console.log(data);
-            }
+            }   
         });
         
         Picker.show();
@@ -664,39 +667,7 @@ class PushToEarnMoneyComponent extends Component {
 
                                  <TouchableOpacity onPress={ () => this.showPicker()}>
                                     <Text style={newStyle.monthlyText}> {this.getCurrentYearMonth() }</Text>
-                                </TouchableOpacity>
-
-                                {/* // <DateTimePicker
-                                //     mode = {'time'}
-                                //     isVisible={this.state.isDateTimePickerVisible}
-                                //     onConfirm={this.handleDatePicked}
-                                //     onCancel={this.hideDateTimePicker} /> */}
-
-                            {/* <TouchableOpacity onPress={ ( ) => {} }
-                                    activeOpacity={0.5}
-                                    style={newStyle.iconStyle}>
-                                    <Icon
-                                        containerStyle={newStyle.iconImageStyle}
-                                        name='angle-left'
-                                        type='font-awesome'
-                                        color='rgb(155, 155, 155)'
-                                        size = {18}
-                                        onPress={() => {this.getPrevYearMonth() } } /> 
-                            </TouchableOpacity>
-
-                            <Text style={newStyle.monthlyText}>{this.getCurrentYearMonth()}</Text>
-
-                            <TouchableOpacity onPress={ ( ) => {} }
-                                    activeOpacity={0.5}
-                                    style={newStyle.iconStyle}>
-                                    <Icon
-                                        containerStyle={newStyle.iconImageStyle}
-                                        name='angle-right'
-                                        type='font-awesome'
-                                        color='rgb(155, 155, 155)'
-                                        size = {18}
-                                        onPress={() => { this.getNextYearMonth() } } /> 
-                            </TouchableOpacity> */}
+                                </TouchableOpacity>                                
 
                             </View>
                             
