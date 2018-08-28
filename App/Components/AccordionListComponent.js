@@ -34,7 +34,6 @@ import {
 import { Container, Header, Content, Input, Item } from 'native-base';
 import PropTypes from "prop-types";
 import { NavigationActions } from "react-navigation";
-import AccordionListComponent from './AccordionListComponent';
 
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
@@ -44,7 +43,7 @@ import { MoneySelectors } from "../Redux/MoneyRedux";
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth  = Dimensions.get('window').width;
 
-class CollapsibleView extends Component
+class AccordionListComponent extends Component
 {
   constructor(props)
   {
@@ -70,7 +69,6 @@ class CollapsibleView extends Component
           newTime: 'New Time 8:00',
         }
         ],
-    menu:1,
   }
 
 }
@@ -110,59 +108,7 @@ _body(item){
     );
 }
 
-renderList = (personObj) => {  
 
-  return (
-
-    <TouchableOpacity
-          onPress={ ( ) => { 
-            this.getMoney(personObj.MobileReferralID);
-            this.setState({menu: 2});
-          } }
-          activeOpacity={0.5}
-          style={ newStyle.buttonStyle }>
-
-        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
-          <Text style={newStyle.statusStyle}>{ personObj.ReferredPersonName }</Text>
-          {(personObj.PaidStatus === "0")?<Text style={newStyle.statusStyle}>Pending</Text>
-          :<Text style={newStyle.statusStyle}> Paid </Text>}
-          <Text style={newStyle.fontStyle}>€{ personObj.Amount }</Text>
-        </View>
-        <View style={newStyle.borderBottom}></View>
-
-    </TouchableOpacity>
-
-    /* <View style={{ flexDirection: 'column', justifyContent:'center', alignItems:'flex-start'}}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
-        <Text style={newStyle.statusStyle}>{ personObj.ReferredPersonName }</Text>
-        {(personObj.PaidStatus === "0")?<Text style={newStyle.statusStyle}>Pending</Text>
-        :<Text style={newStyle.statusStyle}> Paid </Text>}
-        <Text style={newStyle.fontStyle}>€{ personObj.Amount }</Text>
-    </View>
-    <View style={newStyle.borderBottom}></View>
-    </View> */
-
-  );
-
-}
-
-getMoney = (MobileReferralID) => {
-
-  let authData = AuthComponent.authenticationData("en");
-  let encryptedData = AesComponent.aesCallback(authData);
-  let ltoken = localStorage.getItem('token');
-  this.setState({isLoading: true});
-
-  let payload = {
-    "AuthenticationData": encryptedData,
-    "LoginAccessToken": ltoken,
-    "ReferralId": MobileReferralID,
-    "Month" : this.props.month,
-    "Year" : this.props.year,
-  };
-
-  this.props.getMoney(payload);
-}
 
 somethingElse = () => {
 
@@ -171,23 +117,70 @@ somethingElse = () => {
 componentWillReceiveProps(newProps)
 {
   if(this.props.monthlyEarningDetailsByReferrals === null)
-      this.getMoney();     
+      this.createListArray();
 }
 
 componentDidMount()
 {
-  this.getMoney();
+    setTimeout(() => {
+            this.createListArray();
+        },4000);
 }
 
-renderNothing = () => {
+
+createListArray = () => {
+
+    // "monthlyEarningDetailsByReferralsByContracts": {
+    //     "Time": "9:0",
+    //     "EarnedAmount": 4.5,
+    //     "Correction": "-0:30",
+    //     "CorrectionEarnedAmount": -0.5,
+    //     "NewTime": "8:30",
+    //     "NewEarnedAmount": 4
+    // }
+
+    console.log("inside accordion list component");
+
+    let list = [];
+    let counter = 0;
+
+    console.log("monthlyEarningDetailsByReferrals="+this.props.monthlyEarningDetailsByReferrals)
+
+    if(this.props.monthlyEarningDetailsByReferrals !== null)
+     {
+        this.props.monthlyEarningDetailsByReferrals.map( personObject => {
+
+            list[counter] = {
+                    "title": personObject.StartDate + " - "+ personObject.EndDate,
+                    "body" :  personObject.monthlyEarningDetailsByReferralsByContracts.ContractID,
+                    "time" : personObject.monthlyEarningDetailsByReferralsByContracts.Time,
+                    "newTime" : personObject.monthlyEarningDetailsByReferralsByContracts.NewTime
+            };
+
+            // list[counter].title = personObject.StartDate + " - "+ personObject.EndDate;
+            // list[counter].body =  personObject.monthlyEarningDetailsByReferralsByContracts.ContractID;
+            // list[counter].time = personObject.monthlyEarningDetailsByReferralsByContracts.Time;
+            // list[counter].newTime = personObject.monthlyEarningDetailsByReferralsByContracts.NewTime;
+            
+            counter = counter + 1;
+
+        });
+
+        console.log("list="+list);
+
+        if(list !== null)
+        {
+           this.setState({list: list});
+        }   
+     }     
 
 }
 
 render() {
 
     // console.log("referrals="+this.props.navigation.state.params.referrals);
-    let referralsNew = this.props.referrals;
-    console.log("referralsNew="+referralsNew);
+    // let referralsNew = this.props.referrals;
+    // console.log("referralsNew="+referralsNew);
 
   //   let referralsNew =  [
   //     {
@@ -207,34 +200,14 @@ render() {
   // ];
 
     return (
-          <View style= {{ flex: 1,flexDirection: 'column',backgroundColor: 'powderblue', marginTop: 0, justifyContent: 'center', alignItems:'center'   }}>
-
-                  {
-                      this.state.isLoading===true?
-                      <View style = {{position: 'absolute' , zIndex:3999, left: 150, top: 0, right: 0, bottom: 0}}>
-                      <BallIndicator color='#e73d50' />
-                      </View>:this.somethingElse()
-                  }      
-
-                  <View style={{flex:1, height: viewPortHeight*0.50, flexDirection: 'column', backgroundColor: 'steelblue'}}>
-                          {
-                            (this.state.menu===1)?
-                            referralsNew !== null && referralsNew.map(
-                              personObj => 
-                                  this.renderList(personObj))
-                            :
-                            (this.state.menu===2)?
-                            <AccordionListComponent monthlyEarningDetailsByReferrals={this.props.monthlyEarningDetailsByReferrals} />
-                            :
-                            this.renderNothing()
-                          }
-                  </View>
+          <View style= {{ flex: 1,flexDirection: 'column',backgroundColor: 'powderblue', marginTop: 0, justifyContent: 'center', alignItems:'center'   }}>                
               
-              {/* <AccordionList
-            list={this.state.list}
-            header={this._head}
-            body={this._body}
-          /> */}
+              <AccordionList
+                list={this.state.list}
+                header={this._head}
+                body={this._body}
+            />
+
           </View>
     );
 }
@@ -341,10 +314,6 @@ iconStyle: {
 const mapStateToProps = state => {
   return {
 
-    TotalWorkedHours: MoneySelectors.getTotalWorkedHours(state),
-    TotalEarnings: MoneySelectors.getTotalEarnings(state),
-    monthlyEarningDetailsByReferrals: MoneySelectors.getMonthlyReferrals(state),
-    ReferredPersonName: MoneySelectors.getReferredPersonName(state),
   };
 };
 
@@ -353,8 +322,7 @@ const mapDispatchToProps = dispatch => {
     resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
     navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
     navigateBack: () => this.props.navigation.goBack(),
-    getMoney: (payload) => dispatch({ type: 'GET_MONEY_MONTH', payload})
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CollapsibleView);
+export default connect(mapStateToProps, mapDispatchToProps)(AccordionListComponent);

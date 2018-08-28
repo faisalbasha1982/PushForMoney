@@ -6,6 +6,8 @@ const { Types, Creators } = createActions({
   getPersonMonth:["payload"],
   moneySuccess: ['referrals','TotalWorkedHours','TotalEarnings'],
   moneyFailure: ['error'],
+  moneyEarningsSuccess: ['monthlyEarningDetailsByReferrals','ReferredPersonName','TotalWorkedHours','TotalEarnings'],
+  moneyEarningsFailure: ['error'],
   userRegistered: ['referrals'],
   logout: null
 })
@@ -22,6 +24,8 @@ export const INITIAL_STATE = {
   payload: null,
   TotalWorkedHours: null,
   TotalEarnings: null,
+  monthlyEarningDetailsByReferrals:null,
+  ReferredPersonName:null,
 }
 
 /* ------------- Selectors ------------- */
@@ -30,6 +34,8 @@ export const MoneySelectors = {
   getPerson: state => state['money'].referrals,
   getTotalWorkedHours: state => state['money'].TotalWorkedHours,
   getTotalEarnings: state => state['money'].TotalEarnings,
+  getMonthlyReferrals: state => state['money'].monthlyEarningDetailsByReferrals,
+  getReferredPersonName: state => state['money'].ReferredPersonName,
   getFetching: state => state['money'].fetching,
   getError: state => state['money'].error
 };
@@ -46,6 +52,14 @@ export const success = (state, {referrals,TotalWorkedHours,TotalEarnings}) => {
 
 export const failure = (state, {error}) => {
   return { ...state, fetching: false, error}
+}
+
+export const successMoney = (state,{monthlyEarningDetailsByReferrals,ReferredPersonName,TotalWorkedHours,TotalEarnings}) => {
+   return { ...state, monthlyEarningDetailsByReferrals,ReferredPersonName,TotalWorkedHours,TotalEarnings, fetching:false, }
+}
+
+export const failureMoney = (state, {error}) => {
+    return { ...state, fetching: false, error}
 }
 
 export const registered = (state, {referrals}) => {
@@ -67,6 +81,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_PERSON_MONTH]: request,
   [Types.MONEY_SUCCESS]: success,
   [Types.MONEY_FAILURE]: failure,
+  [Types.MONEY_EARNINGS_SUCCESS]: successMoney,
+  [Types.MONEY_EARNINGS_FAILURE]: failureMoney,
   [Types.USER_REGISTERED]: registered,
   [Types.LOGOUT]: logout,
   [ReduxSauceTypes.DEFAULT]: defaultHandler

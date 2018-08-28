@@ -13,7 +13,16 @@ import {
     Platform,    
     findNodeHandle,
 } from 'react-native';
-
+import {
+    BallIndicator,
+    BarIndicator,
+    DotIndicator,
+    PacmanIndicator,
+    PulseIndicator,
+    SkypeIndicator,
+    UIActivityIndicator,
+    WaveIndicator,
+  } from 'react-native-indicators';
 import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -50,7 +59,7 @@ import localStorage from 'react-native-sync-localstorage';
 import { MoneySelectors } from "../Redux/MoneyRedux";
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import Picker from 'react-native-picker';
-
+import AccordionListComponent from './AccordionListComponent';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -115,7 +124,7 @@ class PushToEarnMoneyComponent extends Component {
             lastNameEmptyError:false,
             phoneNumberEmptyError:false,
             isDateTimePickerVisible: false,
-            
+            isLoading:false,
             sections: [
                 {
                     title: 'First',
@@ -143,9 +152,10 @@ class PushToEarnMoneyComponent extends Component {
                         eleven : 'NOVEMBER',
                         twelve : 'DECEMBER',
                     },                
-            currentYear:2013,
+            currentYear:2016,
+            currentMonth:'MARCH',
             currentMonthlyIndex: 3,
-            currentYearMonth:'JUNE 2013',
+            currentYearMonth:'JUNE 2016',
             yearData:[2016,2017,2018,2019,2020],
             monthArray: ['JANUARY','FEBRUARY','MARCH',
                          'APRIL','MAY','JUNE','JULY',
@@ -158,6 +168,7 @@ class PushToEarnMoneyComponent extends Component {
            'NOVEMBER','DECEMBER'
            ]],
             selectedValue: ['JANUARY', 2013],
+            menu:1,
          
         };    
     }
@@ -362,6 +373,10 @@ class PushToEarnMoneyComponent extends Component {
 
     }
 
+    somethingElse = () => {
+
+    }
+
     renderValidation = () => {
 
         //if(this.state.language === 'NEDERLANDS')
@@ -483,6 +498,7 @@ class PushToEarnMoneyComponent extends Component {
         if(this.state.currentMonthlyIndex === 12)
             month = this.state.months.twelve;
 
+        //console.log("current month="+this.state.currentMonthlyIndex);
          
         return month;
     }
@@ -570,7 +586,7 @@ class PushToEarnMoneyComponent extends Component {
         let payload = {
           "AuthenticationData": encryptedData,
           "LoginAccessToken": ltoken,
-          "Month" : this.state.currentMonthlyIndex,
+          "Month" : this.state.currentMonth,
           "Year" : this.state.currentYear,
       };
       
@@ -583,7 +599,7 @@ class PushToEarnMoneyComponent extends Component {
           payload = {
             "AuthenticationData": encryptedData,
             "LoginAccessToken": ltoken,
-            "Month" : this.state.currentMonthlyIndex,
+            "Month" : this.getMonthNumber(this.state.currentMonth),
             "Year" : this.state.currentYear,
           };
       
@@ -596,16 +612,35 @@ class PushToEarnMoneyComponent extends Component {
 
       getMoney = () => {
 
+        let authData = AuthComponent.authenticationData("en");
+        let encryptedData = AesComponent.aesCallback(authData);
+        let ltoken = localStorage.getItem('token');
         this.setState({isLoading: true});
       
         let payload = {
           "AuthenticationData": encryptedData,
           "LoginAccessToken": ltoken,
-          "Month" : this.props.month,
-          "Year" : this.props.year,
+          "ReferralId":this.props.referrals.MobileReferralID,
+          "Month" : this.getMonthNumber(this.state.currentMonth),
+          "Year" : this.state.currentYear,
         };
+
+        (ltoken === null)? setTimeout(() => {
+            ltoken = localStorage.getItem('token');
+          },2000)
+          :
+          setTimeout(() => {
+
+            payload = {
+                "AuthenticationData": encryptedData,
+                "LoginAccessToken": ltoken,
+                "ReferralId":this.props.referrals.MobileReferralID,
+                "Month" : this.getMonthNumber(this.state.currentMonth),
+                "Year" : this.state.currentYear,
+              };
+              this.props.getMoney(payload);
+            },4000);
       
-        this.props.getMoney(payload);
       }
 
 
@@ -625,7 +660,9 @@ class PushToEarnMoneyComponent extends Component {
             selectedValue: this.state.selectedValue,
             onPickerConfirm: data => {
                 let monthNumber = this.getMonthNumber(data[1]);
-                this.setState({currentMonthlyIndex: monthNumber, currentYear: data[0]});
+                console.log("monthNumber="+monthNumber);
+                this.setState({currentMonth: data[1], currentYear: data[0]});
+                this.getPerson();
                 console.log(data);
             },
             onPickerCancel: data => {
@@ -639,9 +676,15 @@ class PushToEarnMoneyComponent extends Component {
         Picker.show();
     }
 
+    changeMenu = (mChange) =>{
+        this.setState({ menu: mChange});
+    }
+
+
     render() {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
+        console.log("referrals="+this.props.referrals);
         return (
 
                 <View style= { newStyle.layoutBelow }>
@@ -670,8 +713,15 @@ class PushToEarnMoneyComponent extends Component {
                                 </TouchableOpacity>                                
 
                             </View>
-                            
-                            <CollapsibleView  referrals = {this.props.referrals} />
+
+                            {
+                                this.state.menu === 1 && this.props.referrals !== null?
+                                    <CollapsibleView month={this.getMonthNumber(this.state.currentMonth)} year={this.state.currentYear} referrals = {this.props.referrals} menu ={this.changeMenu} />
+                                    :this.state.menu === 2 && this.props.referrals !== null?
+                                    <AccordionListComponent  />
+                                    : this.renderNothing()
+
+                            }
 
                             <View style={newStyle.borderBottomNew}></View>
                             <View style={newStyle.totalText}>
@@ -864,7 +914,7 @@ const newStyle = StyleSheet.create({
         width: 280,
         height: 30,
         backgroundColor: '#353535',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: "rgb(246, 246, 246)",
         marginBottom: 30,
@@ -1049,7 +1099,8 @@ const mapStateToProps = state => {
     return {
         referrals: MoneySelectors.getPerson(state),
         TotalWorkedHours: MoneySelectors.getTotalWorkedHours(state),
-        TotalEarnings: MoneySelectors.getTotalEarnings(state)
+        TotalEarnings: MoneySelectors.getTotalEarnings(state),
+        
     };
   };
   

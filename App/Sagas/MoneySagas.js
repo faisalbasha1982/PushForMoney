@@ -32,10 +32,10 @@ function fetchJson(url,payload) {
 
   function fetchMoney(payload) {
       
-    console.log("inside fetch profile");
-    console.tron.log("inside fetch profile");
+    console.log("inside fetch money");
+    console.tron.log("inside fetch money");
 
-    return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnGetMobileUserReferralsMonthlyEarning?code=IofAP/n6plRm21PIxHdHbDS6/NygvDjl9I/SbEJjWc7E2WfJQRqfvA==',payload);
+    return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnGetMonthlyEarningDetailsByReferrals?code=l42IaaJ2JenjE0PMUveBbR26ODcefkEC3Mt7BmfVWR3VHZIvukGPJA==',payload);
   }
   
   export function * getMoneyMonth(api,action)
@@ -44,14 +44,14 @@ function fetchJson(url,payload) {
     try{
             console.log("profile request new:");
             const responseJson = yield call(fetchMoney,action.payload);
-            yield put(MoneyActions.moneySuccess(responseJson.monthlyEarningGroupbyReferrals,responseJson.TotalWorkedHours,responseJson.TotalEarnings));
-
+            yield put(MoneyActions.moneyEarningsSuccess(responseJson.monthlyEarningDetailsByReferrals,responseJson.ReferredPersonName,responseJson.TotalWorkedHours,responseJson.TotalEarnings));
         }
     catch(error)
     {
-        yield put(MoneyActions.moneyFailure(error));
+        yield put(MoneyActions.moneyEarningsFailure(error));
     }
 }
+
 function fetchPerson(payload) {
     console.log("inside fetch profile");
     console.tron.log("inside fetch profile");
@@ -64,7 +64,7 @@ export function * getPersonMonth(api,action)
     try {
 
         console.log("profile request new:");
-        const responseJson = yield call(fetchMoney,action.payload);
+        const responseJson = yield call(fetchPerson,action.payload);
         yield put(MoneyActions.moneySuccess(responseJson.monthlyEarningGroupbyReferrals,responseJson.TotalWorkedHours,responseJson.TotalEarnings));
 
     }
