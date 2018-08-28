@@ -694,39 +694,56 @@ class PushToEarnMoneyComponent extends Component {
                         <View style={newStyle.topView}>
                             <Text style= {newStyle.topText}>           
                                     Money 
-                            </Text>    
+                            </Text>
                         </View>
 
                         <View style= {newStyle.inputContainer}>
 
-                            <View style={newStyle.textContainer}>
-                                <Text style={newStyle.firstName}>Name LastName</Text>
-                                <Text style={newStyle.backText}>Back to Overview</Text>
-                            </View>
-
-                            <View style={newStyle.borderBottom}> </View>
-
                             <View style={newStyle.monthlyBar}>
+
+                                <TouchableOpacity onPress={ ( ) => {} }
+                                    activeOpacity={0.5}
+                                    style={newStyle.iconStyle}>
+                                    <Icon
+                                        containerStyle={newStyle.iconImageStyle}
+                                        name='angle-left'
+                                        type='font-awesome'
+                                        color='rgb(155, 155, 155)'
+                                        size = {18} /> 
+                                </TouchableOpacity>
 
                                  <TouchableOpacity onPress={ () => this.showPicker()}>
                                     <Text style={newStyle.monthlyText}> {this.getCurrentYearMonth() }</Text>
                                 </TouchableOpacity>                                
 
+                                <TouchableOpacity onPress={ ( ) => {} }
+                                    activeOpacity={0.5}
+                                    style={newStyle.iconStyle}>
+                                    <Icon
+                                        containerStyle={newStyle.iconImageStyle}
+                                        name='angle-right'
+                                        type='font-awesome'
+                                        color='rgb(155, 155, 155)'
+                                        size = {18}  /> 
+                            </TouchableOpacity>
+
                             </View>
 
-                            {
-                                this.state.menu === 1 && this.props.referrals !== null?
-                                    <CollapsibleView month={this.getMonthNumber(this.state.currentMonth)} year={this.state.currentYear} referrals = {this.props.referrals} menu ={this.changeMenu} />
-                                    :this.state.menu === 2 && this.props.referrals !== null?
-                                    <AccordionListComponent  />
-                                    : this.renderNothing()
+                            <View style={ newStyle.dataComponent }>
+                                    {
+                                        this.state.menu === 1 && this.props.referrals !== null?
+                                            <CollapsibleView month={this.getMonthNumber(this.state.currentMonth)} year={this.state.currentYear} referrals = {this.props.referrals} menu ={this.changeMenu} />
+                                            :this.state.menu === 2 && this.props.referrals !== null?
+                                            <AccordionListComponent  />
+                                            : this.renderNothing()
+                                    }
+                            </View>
 
-                            }
 
                             <View style={newStyle.borderBottomNew}></View>
                             <View style={newStyle.totalText}>
                                     <Text style={newStyle.firstName}>Totaal</Text>
-                                    <Text style={newStyle.firstName}>Totaal</Text>
+                                    <Text style={newStyle.fontStyle}>€ {this.props.TotalEarnings}</Text>
                             </View>
                         </View>
 
@@ -831,6 +848,8 @@ const newStyle = StyleSheet.create({
         marginBottom: 15
     },
 
+
+
     accordionStyle:{
         width: 159,
         height: 19,
@@ -911,7 +930,7 @@ const newStyle = StyleSheet.create({
 
     monthlyBar: {
 
-        width: 280,
+        width: 315,
         height: 30,
         backgroundColor: '#353535',
         justifyContent: 'center',
@@ -942,6 +961,20 @@ const newStyle = StyleSheet.create({
         // textAlign: "left",
         flex: 2,
         marginTop: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+
+    },
+
+    dataComponent: {
+
+        backgroundColor: 'steelblue',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        flex: 9,
+
     },
 
     buttons: {
@@ -999,7 +1032,7 @@ const newStyle = StyleSheet.create({
   },
 
   endButtons: {
-        width: viewPortWidth * 0.81,
+        width: viewPortWidth * 0.88,
         height: viewPortHeight * 0.70,
         zIndex: 999,
         flex: Platform.OS === 'ios'?11:4,
@@ -1010,7 +1043,7 @@ const newStyle = StyleSheet.create({
     },
 
     inputContainer: {
-        backgroundColor: 'white',
+        backgroundColor: 'steelblue',
         flex: Platform.OS === 'ios'?18:1,        
         justifyContent: 'flex-start',
         alignItems: 'flex-start',       
@@ -1034,7 +1067,7 @@ const newStyle = StyleSheet.create({
         width: 276,
         height: 68,
         flex:2,
-        marginTop: 10,
+        marginTop: 5,
         alignItems: 'center',
         justifyContent: 'flex-start'
     },
@@ -1048,6 +1081,16 @@ const newStyle = StyleSheet.create({
     buttonView: {
         flex: 7,
     },
+
+    fontStyle: {
+        fontFamily: "WorkSans-Medium",
+        fontSize: 14,
+        fontWeight: "normal",
+        fontStyle: "normal",
+        letterSpacing: 0.67,
+        textAlign: 'left',
+        color: "rgb(231, 61, 80)",
+      },      
 
     para: {
         width: 276,

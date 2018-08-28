@@ -118,7 +118,7 @@ renderList = (personObj) => {
           onPress={ ( ) => { 
             this.getMoney(personObj.MobileReferralID);
             this.setState({menu: 2});
-          } }
+          }}
           activeOpacity={0.5}
           style={ newStyle.buttonStyle }>
 
@@ -128,6 +128,7 @@ renderList = (personObj) => {
           :<Text style={newStyle.statusStyle}> Paid </Text>}
           <Text style={newStyle.fontStyle}>€{ personObj.Amount }</Text>
         </View>
+
         <View style={newStyle.borderBottom}></View>
 
     </TouchableOpacity>
@@ -207,7 +208,7 @@ render() {
   // ];
 
     return (
-          <View style= {{ flex: 1,flexDirection: 'column',backgroundColor: 'powderblue', marginTop: 0, justifyContent: 'center', alignItems:'center'   }}>
+          <View style= {{ height: viewPortHeight*0.50, flex: 1,flexDirection: 'column',backgroundColor: 'powderblue', marginTop: 0, justifyContent: 'center', alignItems:'center'   }}>
 
                   {
                       this.state.isLoading===true?
@@ -216,7 +217,7 @@ render() {
                       </View>:this.somethingElse()
                   }      
 
-                  <View style={{flex:1, height: viewPortHeight*0.50, flexDirection: 'column', backgroundColor: 'steelblue'}}>
+                  {/* <View style={{flex:1, height: viewPortHeight, flexDirection: 'column', backgroundColor: 'steelblue'}}> */}
                           {
                             (this.state.menu===1)?
                             referralsNew !== null && referralsNew.map(
@@ -228,13 +229,7 @@ render() {
                             :
                             this.renderNothing()
                           }
-                  </View>
-              
-              {/* <AccordionList
-            list={this.state.list}
-            header={this._head}
-            body={this._body}
-          /> */}
+                  {/* </View> */}
           </View>
     );
 }
@@ -275,7 +270,7 @@ buttonStyle: {
   height: 30,
   borderBottomColor: "#333",
   borderBottomWidth: StyleSheet.hairlineWidth,
-  backgroundColor: 'transparent',
+  backgroundColor: 'powderblue',
   justifyContent: 'flex-start',
   alignItems: 'flex-start',
   marginBottom: 10,
