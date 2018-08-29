@@ -49,31 +49,14 @@ class AccordionListComponent extends Component
   {
     super(props);
     this.state={
-    list:[
-        {
-          title: '14.03.2018 - 14.04.2018',
-          body: 'Correction -- Ann Contract - 1 ',
-          time: 'Time 6:00',
-          newTime: 'New Time 8:00',
-        },
-        {
-          title: '14.03.2018 - 14.04.2018',
-          body: 'Correction -- Ann Contract - 1 ',
-          time: 'Time 6:00',
-          newTime: 'New Time 8:00',
-        },
-        {
-          title: '14.03.2018 - 14.04.2018',
-          body: 'Correction -- Ann Contract - 1 ',
-          time: 'Time 6:00',
-          newTime: 'New Time 8:00',
-        }
-        ],
+    list:[],
   }
 
 }
 
 _head(item){
+    console.log("title="+item.title);
+    console.log("item.workedHours="+item.workedHours);
     return(
         <View style={ newStyle.borderBottom}>
           <Text style={{ color: '#000',  
@@ -81,30 +64,55 @@ _head(item){
                          fontSize: 14 }}>
             {item.title}
           </Text>
-         
-          <TouchableOpacity onPress={ ( ) => {} }
-                                    activeOpacity={0.5}
-                                    style={newStyle.iconStyle}>
-            <Icon
-              containerStyle={newStyle.iconImageStyle}
-              name='exclamation-triangle'
-              type='font-awesome'
-              color='#E73D50'
-              size = {15}
-              onPress={() => console.log('hello')} /> 
+         {
 
-          </TouchableOpacity>
+         (item.body !== undefined)? 
+         <TouchableOpacity onPress={ ( ) => {} }
+                                   activeOpacity={0.5}
+                                   style={newStyle.iconStyle}>
+           <Icon
+             containerStyle={newStyle.iconImageStyle}
+             name='exclamation-triangle'
+             type='font-awesome'
+             color='#E73D50'
+             size = {15}
+             onPress={() => console.log('hello')} /> 
+
+         </TouchableOpacity>
+         :
+         <TouchableOpacity onPress={ ( ) => {} }
+         activeOpacity={0.5}
+         style={newStyle.iconStyle}> 
+        </TouchableOpacity>
+
+         }
+
+          <Text style={{ color: '#000',  
+                        fontFamily: "WorkSans-Medium",
+                         fontSize: 14 }}>
+            {item.workedHours}
+          </Text>
+
         </View>
     );
 }
 
+renderNothing = () => {
+
+}
+
 _body(item){
+
     return (
+        (item.body !== undefined)?
         <View style={{padding:5}}>
           <Text style={ newStyle.fontStyle }>{item.body}</Text>
           <Text style={newStyle.fontStyle}>{item.time}</Text>
           <Text style={newStyle.fontStyle}>{item.newTime}</Text>
         </View>
+        :
+        <View
+        ></View>
     );
 }
 
@@ -144,23 +152,25 @@ createListArray = () => {
     let list = [];
     let counter = 0;
 
-    console.log("monthlyEarningDetailsByReferrals="+this.props.monthlyEarningDetailsByReferrals)
+    console.log("monthlyEarningDetailsByReferrals="+this.props.monthlyEarningDetailsByReferrals);
 
     if(this.props.monthlyEarningDetailsByReferrals !== null)
      {
         this.props.monthlyEarningDetailsByReferrals.map( personObject => {
 
-            list[counter] = {
-                    "title": personObject.StartDate.split("T")[0] + " - "+ personObject.EndDate.split("T")[0],
-                    "body" :  personObject.monthlyEarningDetailsByReferralsByContracts.ContractId,
-                    "time" : personObject.monthlyEarningDetailsByReferralsByContracts.Time,
-                    "newTime" : personObject.monthlyEarningDetailsByReferralsByContracts.NewTime
-            };
-
-            // list[counter].title = personObject.StartDate + " - "+ personObject.EndDate;
-            // list[counter].body =  personObject.monthlyEarningDetailsByReferralsByContracts.ContractID;
-            // list[counter].time = personObject.monthlyEarningDetailsByReferralsByContracts.Time;
-            // list[counter].newTime = personObject.monthlyEarningDetailsByReferralsByContracts.NewTime;
+            if(personObject.monthlyEarningDetailsByReferralsByContracts !== null)
+                list[counter] = {
+                        "title": personObject.StartDate.split("T")[0] + " - "+ personObject.EndDate.split("T")[0],
+                        "body" :  "Correction - Adjustment Contract",
+                        "time" : "Time: "+ personObject.monthlyEarningDetailsByReferralsByContracts.Time,
+                        "newTime" : "New Time: " + personObject.monthlyEarningDetailsByReferralsByContracts.NewTime,
+                        "workedHours": personObject.WorkedHours
+                };
+            else
+                list[counter] = {
+                "title": personObject.StartDate.split("T")[0] + " - "+ personObject.EndDate.split("T")[0],
+                "workedHours": personObject.WorkedHours
+            }
 
             counter = counter + 1;
 
@@ -200,15 +210,17 @@ render() {
   // ];
 
     return (
-          <View style= {{ flex: 1,flexDirection: 'column',backgroundColor: 'powderblue', marginTop: 0, justifyContent: 'center', alignItems:'center'   }}>                
+        <ScrollView>
+         <View style= {{ flex: 1,flexDirection: 'column',backgroundColor: 'transparent', marginTop: 20, justifyContent: 'center', alignItems:'center', }}>                
               
               <AccordionList
                 list={this.state.list}
                 header={this._head}
                 body={this._body}
             />
-
           </View>
+        </ScrollView>
+ 
     );
 }
 
@@ -244,7 +256,7 @@ statusStyle: {
 
 buttonStyle: {
 
-  width: viewPortWidth*0.75,
+  width: viewPortWidth*0.83,
   height: 30,
   borderBottomColor: "#333",
   borderBottomWidth: StyleSheet.hairlineWidth,
@@ -257,7 +269,7 @@ buttonStyle: {
 },
 
 borderBottom: {
-  width: viewPortWidth*0.75,
+  width: viewPortWidth*0.83,
   height: 30,
   borderBottomColor: "#333",
   borderBottomWidth: StyleSheet.hairlineWidth,

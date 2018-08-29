@@ -209,7 +209,7 @@ render() {
 
     return (
 
-
+        <ScrollView>
           <View style={{ flex:1, backgroundColor: 'transparent', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', overflow: "hidden" }}>
                    {
                     (this.state.menu===1)?
@@ -223,6 +223,7 @@ render() {
                     this.renderNothing()
                   }
           </View>
+          </ScrollView>
 
                   // {
                   //     this.state.isLoading===true?

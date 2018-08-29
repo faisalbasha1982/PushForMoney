@@ -371,7 +371,26 @@ class PushToEarnMoneyComponent extends Component {
     // }
 
     renderNothing = () => {
+        return(
 
+            <View style={{flex:1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{  fontFamily: 'WorkSans-Regular',
+                                fontSize: 25,
+                                fontWeight: '500',
+                                fontStyle: 'normal',
+                                letterSpacing: 0.67,
+                                textAlign: 'center',
+                                color: 'rgb(231, 61, 80)'
+                }}>
+                    NO RECORDS TO SHOW!!!!
+                </Text>
+            </View>
+
+        );
+    }
+
+    renderEmpty = () => {
+        
     }
 
     somethingElse = () => {
@@ -695,8 +714,54 @@ class PushToEarnMoneyComponent extends Component {
                         <View style= {newStyle.topView}>
                             <Text style= {newStyle.topText}>           
                                         Money 
-                                </Text>
+                            </Text>
                         </View>
+
+                        {
+                        (this.state.menu === 2)?
+                            <View style = {newStyle.nameAndback}>
+                        
+                                <Text style= {{
+                                    width: 110,
+                                    height: 15,
+                                    fontFamily: "WorkSans",
+                                    fontSize: 13,
+                                    fontWeight: "500",
+                                    fontStyle: "normal",
+                                    letterSpacing: 0.46,
+                                    color: "rgb(53, 53, 53)"
+                                
+                            }}>           
+                                    {this.props.referrals.ReferredPersonName}
+                            </Text>
+                            <TouchableOpacity onPress={ ( ) => { this.setState({menu: 1}) } }
+                                            activeOpacity={0.5}
+                                            style={newStyle.backButton}>
+                                            <Icon
+                                                containerStyle={newStyle.iconImageStyle}
+                                                name='angle-left'
+                                                type='font-awesome'
+                                                color='rgb(155, 155, 155)'
+                                                size = {18} /> 
+                                            <Text style= {{
+                                                width: 233,
+                                                height: 15,
+                                                fontFamily: "WorkSans",
+                                                fontSize: 13,
+                                                fontWeight: "500",
+                                                fontStyle: "normal",
+                                                letterSpacing: 0.54,
+                                                textAlign: "center",
+                                                color: "rgb(231, 61, 80)"
+                                            }}>           
+                                                Back To Overview
+                                            </Text>
+                                        </TouchableOpacity>                                     
+                            </View>
+                            :
+                            this.renderEmpty()
+
+                        }
 
                         <View style= {newStyle.inputContainer}>
 
@@ -731,8 +796,19 @@ class PushToEarnMoneyComponent extends Component {
 
                                     </View>
                              </View>
-                             <View style={{width: 310, height: 250, backgroundColor: 'transparent'}} >
+
+                                {/* {
+                                    this.state.isLoading===true?
+                                    <View style = {{position: 'absolute' , zIndex:3999, left: 20, top: 0, right: 0, bottom: 0}}>
+                                    <BallIndicator color='#e73d50' />
+                                    </View>:this.somethingElse()
+                                }       */}
+
+                             <View style={{width: 310, height: 280, backgroundColor: 'transparent'}} >
                                  {
+                                        this.props.referrals === null?
+                                            this.renderNothing()
+                                        :
                                         this.state.menu === 1 && this.props.referrals !== null?
                                             <CollapsibleView month={this.getMonthNumber(this.state.currentMonth)} year={this.state.currentYear} referrals = {this.props.referrals} menu ={this.changeMenu} />
                                             :this.state.menu === 2 && this.props.referrals !== null?
@@ -845,6 +921,23 @@ const newStyle = StyleSheet.create({
         textAlign: "left",   
         color: "rgb(231, 61, 80)"
         
+    },
+
+    nameAndback: {
+        width: viewPortWidth,
+        height: viewPortHeight * 0.20,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems:'center'
+
+    },
+
+    backButton: {
+
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems:'center'
+
     },
 
     keyboardScrollViewContainer: {
@@ -972,7 +1065,6 @@ const newStyle = StyleSheet.create({
         height: 1,
         borderBottomColor: "rgb(231, 61, 80)",
         borderBottomWidth: StyleSheet.hairlineWidth,
-        marginTop: 20,
         flex:2,
     },
 
