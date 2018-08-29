@@ -151,8 +151,8 @@ createListArray = () => {
         this.props.monthlyEarningDetailsByReferrals.map( personObject => {
 
             list[counter] = {
-                    "title": personObject.StartDate + " - "+ personObject.EndDate,
-                    "body" :  personObject.monthlyEarningDetailsByReferralsByContracts.ContractID,
+                    "title": personObject.StartDate.split("T")[0] + " - "+ personObject.EndDate.split("T")[0],
+                    "body" :  personObject.monthlyEarningDetailsByReferralsByContracts.ContractId,
                     "time" : personObject.monthlyEarningDetailsByReferralsByContracts.Time,
                     "newTime" : personObject.monthlyEarningDetailsByReferralsByContracts.NewTime
             };
@@ -161,7 +161,7 @@ createListArray = () => {
             // list[counter].body =  personObject.monthlyEarningDetailsByReferralsByContracts.ContractID;
             // list[counter].time = personObject.monthlyEarningDetailsByReferralsByContracts.Time;
             // list[counter].newTime = personObject.monthlyEarningDetailsByReferralsByContracts.NewTime;
-            
+
             counter = counter + 1;
 
         });

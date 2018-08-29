@@ -56,6 +56,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import localStorage from 'react-native-sync-localstorage';
+
 import { MoneySelectors } from "../Redux/MoneyRedux";
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import Picker from 'react-native-picker';
@@ -691,15 +692,60 @@ class PushToEarnMoneyComponent extends Component {
                   
                     <View style={newStyle.endButtons}>
 
-                        <View style={newStyle.topView}>
+                        <View style= {newStyle.topView}>
                             <Text style= {newStyle.topText}>           
-                                    Money 
-                            </Text>
+                                        Money 
+                                </Text>
                         </View>
 
                         <View style= {newStyle.inputContainer}>
 
-                            <View style={newStyle.monthlyBar}>
+                             <View style={{width: 310, height: 50, backgroundColor: 'powderblue'}}>
+                                    <View style={newStyle.monthlyBar}>
+
+                                        <TouchableOpacity onPress={ ( ) => {} }
+                                            activeOpacity={0.5}
+                                            style={newStyle.iconStyle}>
+                                            <Icon
+                                                containerStyle={newStyle.iconImageStyle}
+                                                name='angle-left'
+                                                type='font-awesome'
+                                                color='rgb(155, 155, 155)'
+                                                size = {18} /> 
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity onPress={ () => this.showPicker()}>
+                                            <Text style={newStyle.monthlyText}> {this.getCurrentYearMonth() }</Text>
+                                        </TouchableOpacity>                                
+
+                                        <TouchableOpacity onPress={ ( ) => {} }
+                                            activeOpacity={0.5}
+                                            style={newStyle.iconStyle}>
+                                            <Icon
+                                                containerStyle={newStyle.iconImageStyle}
+                                                name='angle-right'
+                                                type='font-awesome'
+                                                color='rgb(155, 155, 155)'
+                                                size = {18}  /> 
+                                    </TouchableOpacity>
+
+                                    </View>
+                             </View>
+                             <View style={{width: 310, height: 250, backgroundColor: 'transparent'}} >
+                                 {
+                                        this.state.menu === 1 && this.props.referrals !== null?
+                                            <CollapsibleView month={this.getMonthNumber(this.state.currentMonth)} year={this.state.currentYear} referrals = {this.props.referrals} menu ={this.changeMenu} />
+                                            :this.state.menu === 2 && this.props.referrals !== null?
+                                            <AccordionListComponent  />
+                                            : this.renderNothing()
+                                 }
+                             </View>
+                             {/* <View style={{width: 310, height: 50, backgroundColor: 'steelblue'}} />
+                             <View style={{width: 310, height: 50, backgroundColor: 'powderblue'}} />
+                             <View style={{width: 310, height: 50, backgroundColor: 'skyblue'}} />
+                             <View style={{width: 310, height: 50, backgroundColor: 'steelblue'}} /> */}
+
+                            {/* <View style={newStyle.monthlyBar}>
 
                                 <TouchableOpacity onPress={ ( ) => {} }
                                     activeOpacity={0.5}
@@ -737,15 +783,17 @@ class PushToEarnMoneyComponent extends Component {
                                             <AccordionListComponent  />
                                             : this.renderNothing()
                                     }
-                            </View>
+                            </View> */}
 
 
-                            <View style={newStyle.borderBottomNew}></View>
-                            <View style={newStyle.totalText}>
-                                    <Text style={newStyle.firstName}>Totaal</Text>
+                         <View style={newStyle.borderBottomNew}></View>
+                         <View style={newStyle.totalText}>
+                                    <Text style={newStyle.firstName}>Total</Text>
                                     <Text style={newStyle.fontStyle}>€ {this.props.TotalEarnings}</Text>
-                            </View>
+                         </View>
+
                         </View>
+
 
                     </View>                
 
@@ -794,7 +842,7 @@ const newStyle = StyleSheet.create({
         fontWeight: "500",
         fontStyle: "normal",
         letterSpacing: 0.54,
-        textAlign: "center",   
+        textAlign: "left",   
         color: "rgb(231, 61, 80)"
         
     },
@@ -920,7 +968,7 @@ const newStyle = StyleSheet.create({
     },
 
     borderBottomNew: {
-        width: 280,
+        width: 310,
         height: 1,
         borderBottomColor: "rgb(231, 61, 80)",
         borderBottomWidth: StyleSheet.hairlineWidth,
@@ -930,19 +978,19 @@ const newStyle = StyleSheet.create({
 
     monthlyBar: {
 
-        width: 315,
-        height: 30,
+        width: 310,
+        height: 50,
         backgroundColor: '#353535',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: "rgb(246, 246, 246)",
         marginBottom: 30,
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
 
     monthlyText: {
         fontFamily: "WorkSans-Medium",
-        fontSize: 13,
+        fontSize: 17,
         fontWeight: "500",
         fontStyle: "normal",
         letterSpacing: 0.54,
@@ -951,29 +999,30 @@ const newStyle = StyleSheet.create({
     },
 
     totalText: {
-        width: 280,
-        height: 40,
+        width: 310,
+        height: 20,
         // fontFamily: "WorkSans-Regular",
         // fontSize: 16,
         // fontWeight: "500",
         // fontStyle: "normal",
         // letterSpacing: 0.67,
         // textAlign: "left",
-        flex: 2,
-        marginTop: 10,
+        flex: 8,
+        marginTop: 20,
+        marginBottom: 20,
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-
+        justifyContent: 'space-evenly',
+        alignItems: 'flex-start',
     },
 
     dataComponent: {
 
-        backgroundColor: 'steelblue',
-        alignItems: 'center',
-        justifyContent: 'center',
+        backgroundColor: 'transparent',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
         flexDirection: 'column',
-        flex: 9,
+        width: viewPortWidth,
+        height: viewPortHeight*0.40
 
     },
 
@@ -1037,21 +1086,22 @@ const newStyle = StyleSheet.create({
         zIndex: 999,
         flex: Platform.OS === 'ios'?11:4,
         flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        backgroundColor: 'white',        
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        backgroundColor: 'transparent',        
     },
 
     inputContainer: {
-        backgroundColor: 'steelblue',
-        flex: Platform.OS === 'ios'?18:1,        
+        width: viewPortWidth * 0.83,
+        height: viewPortHeight * 0.60,
+        backgroundColor: 'transparent',        
+        flex: Platform.OS === 'ios'?21:1,
+        flexDirection: 'column',
         justifyContent: 'flex-start',
-        alignItems: 'flex-start',       
+        alignItems: 'flex-start',
     },
 
     topText: {
-        width: 321,
-        height: 34,
         fontFamily: "WorkSans-Medium",
         fontSize: 21,
         fontWeight: "600",
@@ -1064,12 +1114,13 @@ const newStyle = StyleSheet.create({
     },
 
     topView: {
-        width: 276,
-        height: 68,
+        width: 310,
+        height: 38,
         flex:2,
-        marginTop: 5,
+        marginTop: 0,
         alignItems: 'center',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        backgroundColor: 'white'
     },
 
     paraView: {

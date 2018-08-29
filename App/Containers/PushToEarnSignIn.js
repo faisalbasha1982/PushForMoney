@@ -97,6 +97,7 @@ class PushToEarnSignIn extends Component {
 
         this.state = {
             isLoggedIn: false,
+            hasToken: false,
             language: 'ENGLISH',
             validation: false,
             renderValidate: false,
@@ -561,7 +562,23 @@ class PushToEarnSignIn extends Component {
 
     componentDidMount() {
 
-        LoginManager.logOut();
+        let ltoken = localStorage.getItem('token');
+        console.log("ltoken="+ltoken);
+
+        // setTimeout(() => {
+        //     ltoken = localStorage.getItem('token');
+
+        //     console.log("ltoken="+ltoken);
+
+        //     if(ltoken !== null)
+        //         this.setState({ hasToken: true});
+        //     else
+        //         LoginManager.logOut();
+
+        //   },3000);
+
+         LoginManager.logOut();
+
 
         // console.log("language from props="+this.props.navigation.state.params.language);
         // console.log("default language="+this.state.language);
@@ -938,6 +955,26 @@ class PushToEarnSignIn extends Component {
 
     }
 
+    callLoginNoValidation = async() => {
+        
+        setTimeout( () => {
+            if( this.state.encodedText !== ""  || this.state.cAuthenticationData !== "" )
+            {
+
+              let payload = JSON.stringify({
+                  "AuthenticationData": this.state.cAuthenticationData,
+                  "LoginData": this.state.encodedText
+              });
+
+                this.props.loginAction(payload);
+                this.setState({isLoading: false});
+            }
+            else
+              console.log("loginData  or authentication Data is empty");
+        },6000);
+
+    }
+
     callLogin = async () => {
 
         let language = "en";
@@ -1050,7 +1087,7 @@ class PushToEarnSignIn extends Component {
         console.log("platform --->",Platform.OS);
         return (
 
-            (platform === 'ios')?
+            (platform === 'ios' && this.state.hasToken === false)?
             <KeyboardAwareScrollView
                 behavior="padding"
                 enableOnAndroid={false}
@@ -1265,86 +1302,9 @@ class PushToEarnSignIn extends Component {
 
                 </View>
  
-            </KeyboardAwareScrollView>:
-            <ScrollView>
-            <KeyboardAvoidingView
-               style = {newStyle.container}
-               behavior = "padding"
-               enabled>
-             {/* <View style={newStyle.container}> */}
-            
-             <View style={newStyle.headerImage}>
-                 <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
-                 {
-                   (this.state.renderValidate === true)?this.renderValidation():this.renderNothing()
-                 }
-             </View>
-
-             <View style={newStyle.inputContainer}>
-            
-                 <Text style={newStyle.firstName}>{this.state.firstName}</Text>
-                 <TextInput
-                             style={ newStyle.nameInput }
-                             placeholder=''
-                             underlineColorAndroid= 'transparent'
-                             onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
-                         
-
-                 <Text style={newStyle.firstName}>{this.state.name}</Text>
-                 <TextInput
-                     style={ newStyle.nameInput}
-                     placeholder=''
-                     underlineColorAndroid= 'transparent'
-                     onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
-
-                 <Text style={newStyle.phoneNumberStyle}>{this.state.phoneNumber}</Text>
-                 <PhoneInput 
-                         ref='phone'
-                         initialCountry='be'
-                         style= {newStyle.nameInput}
-                         onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) } />
-
-
-             </View>
-
-            <View style={newStyle.endButtons}>
-
-                <TouchableOpacity onPress={() => this.props.navigation.goBack() }
-                    activeOpacity={0.5}
-                    style={newStyle.iconStyle}>
-                        <Icon
-                            containerStyle={newStyle.iconImageStyle}                               
-                            name='angle-left'
-                            type='font-awesome'
-                            color='#fff'
-                            size = {40}
-                            onPress={() => console.log('hello')} /> 
-                </TouchableOpacity>
-
-                <ButtonNext 
-                            objectParams=
-                                {{
-                                    btnText: this.state.buttonText, 
-                                    language: this.state.language,
-                                    firstName: this.state.firstNameInput,
-                                    lastName: this.state.lastNameInput,
-                                    phoneNumber: this.state.phoneNumberInput,
-                                    firstNameError: this.state.firstNameError,
-                                    lastNameError: this.state.lastNameError,
-                                    phoneNumberError: this.state.phoneNumberError,
-                                    firstNameEmpty: this.state.firstNameEmptyError,
-                                    lastNameEmpty: this.state.lastNameEmptyError,
-                                    phoneNumberEmpty: this.state.phoneNumberEmptyError
-                                }}
-                            func = {this.func}
-                            navigation = { this.props.navigation}
-                />
-
-            </View>
-         {/* </View> */}
-         </KeyboardAvoidingView>
-         </ScrollView>
-
+            </KeyboardAwareScrollView>
+            :
+            this.callLoginNoValidation()
         );
     }
 

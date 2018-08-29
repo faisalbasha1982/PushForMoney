@@ -208,29 +208,30 @@ render() {
   // ];
 
     return (
-          <View style= {{ height: viewPortHeight*0.50, flex: 1,flexDirection: 'column',backgroundColor: 'powderblue', marginTop: 0, justifyContent: 'center', alignItems:'center'   }}>
 
-                  {
-                      this.state.isLoading===true?
-                      <View style = {{position: 'absolute' , zIndex:3999, left: 150, top: 0, right: 0, bottom: 0}}>
-                      <BallIndicator color='#e73d50' />
-                      </View>:this.somethingElse()
-                  }      
 
-                  {/* <View style={{flex:1, height: viewPortHeight, flexDirection: 'column', backgroundColor: 'steelblue'}}> */}
-                          {
-                            (this.state.menu===1)?
-                            referralsNew !== null && referralsNew.map(
-                              personObj => 
-                                  this.renderList(personObj))
-                            :
-                            (this.state.menu===2)?
-                            <AccordionListComponent monthlyEarningDetailsByReferrals={this.props.monthlyEarningDetailsByReferrals} />
-                            :
-                            this.renderNothing()
-                          }
-                  {/* </View> */}
+          <View style={{ flex:1, backgroundColor: 'transparent', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', overflow: "hidden" }}>
+                   {
+                    (this.state.menu===1)?
+                    referralsNew !== null && referralsNew.map(
+                      personObj => 
+                          this.renderList(personObj))
+                    :
+                    (this.state.menu===2)?
+                    <AccordionListComponent monthlyEarningDetailsByReferrals={this.props.monthlyEarningDetailsByReferrals} />
+                    :
+                    this.renderNothing()
+                  }
           </View>
+
+                  // {
+                  //     this.state.isLoading===true?
+                  //     <View style = {{position: 'absolute' , zIndex:3999, left: 150, top: 0, right: 0, bottom: 0}}>
+                  //     <BallIndicator color='#e73d50' />
+                  //     </View>:this.somethingElse()
+                  // }      
+
+ 
     );
 }
 
@@ -257,7 +258,7 @@ statusStyle: {
     paddingLeft: 5,
     marginTop: 8,
     fontFamily: "WorkSans-Regular",
-    fontSize: 11,
+    fontSize: 17,
     fontWeight: "normal",
     fontStyle: "normal",
     letterSpacing: 0.39,
@@ -266,11 +267,11 @@ statusStyle: {
 
 buttonStyle: {
 
-  width: viewPortWidth*0.75,
+  width: viewPortWidth*0.83,
   height: 30,
-  borderBottomColor: "#333",
-  borderBottomWidth: StyleSheet.hairlineWidth,
-  backgroundColor: 'powderblue',
+  // borderBottomColor: "#333",
+  // borderBottomWidth: StyleSheet.hairlineWidth,
+  backgroundColor: 'transparent',
   justifyContent: 'flex-start',
   alignItems: 'flex-start',
   marginBottom: 10,
@@ -279,15 +280,11 @@ buttonStyle: {
 },
 
 borderBottom: {
-  width: viewPortWidth*0.75,
-  height: 30,
-  borderBottomColor: "#333",
+  width: 310,
+  height: 1,
+  borderBottomColor: "rgb(155, 155, 155)",
   borderBottomWidth: StyleSheet.hairlineWidth,
-  backgroundColor: 'transparent',
-  justifyContent: 'flex-start',
-  alignItems: 'flex-start',
-  marginBottom: 10,
-  flexDirection: 'row'
+  flex:1,
 },
 
 fontStyle: {
@@ -299,6 +296,24 @@ fontStyle: {
   textAlign: 'left',
   color: "rgb(231, 61, 80)",
 },
+
+layoutBelow: {
+  flex: 4,
+  flexDirection: 'row',
+  backgroundColor: 'transparent'
+},
+
+endButtons: {
+  width: viewPortWidth * 0.77,
+  height: viewPortHeight * 0.70,
+  zIndex: 999,
+  flex: Platform.OS === 'ios'?11:4,
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: 'white',       
+},
+
 
 iconImageStyle:{
   width: 13,
