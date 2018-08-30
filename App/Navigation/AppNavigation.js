@@ -29,6 +29,7 @@ import PushToEarnProfile from '../Containers/PushToEarnProfile';
 import PushToEarnFriendsOverview from '../Containers/PushToEarnFriendsOverview';
 import PushToEarnInformation from '../Containers/PushToEarnInformation';
 import PushToEarnMoney from '../Containers/PushToEarnMoney';
+import AccordionListComponent from '../Components/AccordionListComponent';
 import PushToEarnMoneyComponent from '../Components/PushToEarnMoneyComponent';
 import pushToEarnMoneyList from '../Containers/PushToEarnMoneyList';
 import PushToEarnPrivatePolicy from '../Containers/PushToEarnPrivatePolicy';
@@ -39,6 +40,7 @@ import TestPage from '../Containers/TestPage';
 // Manifest of possible screens
 
 const AppNavigation = createStackNavigator({
+  AccordionListComponent: { screen: AccordionListComponent },
   LaunchScreen: { screen: LaunchScreen },
   TestPage: { screen: TestPage },
   LanguageButton: { screen: LanguageButton},

@@ -71,6 +71,7 @@ class CollapsibleView extends Component
         }
         ],
     menu:1,
+    currentPersonName:'',
   }
 
 }
@@ -118,6 +119,8 @@ renderList = (personObj) => {
           onPress={ ( ) => { 
             this.getMoney(personObj.MobileReferralID);
             this.setState({menu: 2});
+            this.setState({currentPersonName: personObj.ReferredPersonName});
+            this.props.back(personObj.ReferredPersonName);
           }}
           activeOpacity={0.5}
           style={ newStyle.buttonStyle }>
@@ -181,7 +184,29 @@ componentDidMount()
 }
 
 renderNothing = () => {
+  return(
 
+      <View style={{flex:1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{  fontFamily: 'WorkSans-Regular',
+                          fontSize: 25,
+                          fontWeight: '500',
+                          fontStyle: 'normal',
+                          letterSpacing: 0.67,
+                          textAlign: 'center',
+                          color: 'rgb(231, 61, 80)'
+          }}>
+              NO RECORDS TO SHOW!!!!
+          </Text>
+      </View>
+
+  );
+}
+changeMenu = (cMenu) => {
+  this.setState({ menu: cMenu});
+} 
+
+backMenu = (cMenu) => {
+  this.setState({ menu: cMenu});
 }
 
 render() {
@@ -212,13 +237,20 @@ render() {
         <ScrollView>
           <View style={{ flex:1, backgroundColor: 'transparent', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', overflow: "hidden" }}>
                    {
-                    (this.state.menu===1)?
+                    (this.state.menu===1 || this.props.childMenu === true)?
                     referralsNew !== null && referralsNew.map(
                       personObj => 
                           this.renderList(personObj))
                     :
                     (this.state.menu===2)?
-                    <AccordionListComponent monthlyEarningDetailsByReferrals={this.props.monthlyEarningDetailsByReferrals} />
+                    <AccordionListComponent 
+                        name={this.state.currentPersonName} 
+                        back={this.backMenu} 
+                        menu={this.changeMenu} 
+                        monthlyEarningDetailsByReferrals={this.props.monthlyEarningDetailsByReferrals}
+                        TotalEarnings = {this.props.TotalEarnings}
+                        TotalWorkedHours = { this.props.TotalWorkedHours}
+                    />
                     :
                     this.renderNothing()
                   }
@@ -254,22 +286,21 @@ const newStyle = StyleSheet.create({
 },
 
 statusStyle: {
-    width: 120,
-    height: 30,
     paddingLeft: 5,
     marginTop: 8,
     fontFamily: "WorkSans-Regular",
-    fontSize: 17,
+    fontSize: 14,
     fontWeight: "normal",
     fontStyle: "normal",
-    letterSpacing: 0.39,
-    color: "rgb(155, 155, 155)"
+    letterSpacing: 0.46,
+    width: 111,
+    height: 18,
 },
 
 buttonStyle: {
 
   width: viewPortWidth*0.83,
-  height: 30,
+  height: 40,
   // borderBottomColor: "#333",
   // borderBottomWidth: StyleSheet.hairlineWidth,
   backgroundColor: 'transparent',
@@ -286,6 +317,23 @@ borderBottom: {
   borderBottomColor: "rgb(155, 155, 155)",
   borderBottomWidth: StyleSheet.hairlineWidth,
   flex:1,
+},
+
+totalText: {
+  width: 310,
+  height: 20,
+  // fontFamily: "WorkSans-Regular",
+  // fontSize: 16,
+  // fontWeight: "500",
+  // fontStyle: "normal",
+  // letterSpacing: 0.67,
+  // textAlign: "left",
+  flex: 8,
+  marginTop: 20,
+  marginBottom: 20,
+  flexDirection: 'row',
+  justifyContent: 'space-evenly',
+  alignItems: 'flex-start',
 },
 
 fontStyle: {

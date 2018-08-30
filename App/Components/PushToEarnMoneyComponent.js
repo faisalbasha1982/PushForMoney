@@ -61,6 +61,7 @@ import { MoneySelectors } from "../Redux/MoneyRedux";
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import Picker from 'react-native-picker';
 import AccordionListComponent from './AccordionListComponent';
+import BackComponent from './BackComponent';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -170,7 +171,10 @@ class PushToEarnMoneyComponent extends Component {
            ]],
             selectedValue: ['JANUARY', 2013],
             menu:1,
-         
+            triggerBackComponent:false,
+            totalComponent:false,
+            currentName:'',
+            changeChildMenu:false,
         };    
     }
 
@@ -390,7 +394,7 @@ class PushToEarnMoneyComponent extends Component {
     }
 
     renderEmpty = () => {
-        
+        console.log("this.state.menu="+this.state.menu);
     }
 
     somethingElse = () => {
@@ -700,68 +704,84 @@ class PushToEarnMoneyComponent extends Component {
         this.setState({ menu: mChange});
     }
 
+    triggerBack = (name) => {
+        this.setState({triggerBackComponent: !this.state.triggerBackComponent, currentName: name});
+    }
+
+    sendToChildCollapsible = () => {
+        this.setState({ changeChildMenu: !this.state.changeChildMenu})
+    }
 
     render() {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
         console.log("referrals="+this.props.referrals);
+        console.log("menu="+this.state.menu);
         return (
 
-                <View style= { newStyle.layoutBelow }>
-                  
+                <View style= { newStyle.layoutBelow }>                  
                     <View style={newStyle.endButtons}>
-
                         <View style= {newStyle.topView}>
-                            <Text style= {newStyle.topText}>           
-                                        Money 
+                            <Text style= {newStyle.topText}>
+                                        MONEY
                             </Text>
                         </View>
 
                         {
-                        (this.state.menu === 2)?
-                            <View style = {newStyle.nameAndback}>
-                        
-                                <Text style= {{
-                                    width: 110,
-                                    height: 15,
-                                    fontFamily: "WorkSans",
-                                    fontSize: 13,
-                                    fontWeight: "500",
-                                    fontStyle: "normal",
-                                    letterSpacing: 0.46,
-                                    color: "rgb(53, 53, 53)"
-                                
-                            }}>           
-                                    {this.props.referrals.ReferredPersonName}
-                            </Text>
-                            <TouchableOpacity onPress={ ( ) => { this.setState({menu: 1}) } }
-                                            activeOpacity={0.5}
-                                            style={newStyle.backButton}>
-                                            <Icon
-                                                containerStyle={newStyle.iconImageStyle}
-                                                name='angle-left'
-                                                type='font-awesome'
-                                                color='rgb(155, 155, 155)'
-                                                size = {18} /> 
-                                            <Text style= {{
-                                                width: 233,
-                                                height: 15,
-                                                fontFamily: "WorkSans",
-                                                fontSize: 13,
-                                                fontWeight: "500",
-                                                fontStyle: "normal",
-                                                letterSpacing: 0.54,
-                                                textAlign: "center",
-                                                color: "rgb(231, 61, 80)"
-                                            }}>           
-                                                Back To Overview
-                                            </Text>
-                                        </TouchableOpacity>                                     
-                            </View>
+                            (this.state.triggerBackComponent === true && this.state.currentName !=='')?
+                            <BackComponent
+                                childMenuChange = { this.sendToChildCollapsible}
+                                menu = {this.changeMenu}
+                                back={this.triggerBack}
+                                name={this.state.currentName}
+                            />
                             :
                             this.renderEmpty()
-
                         }
+
+                            {/* {
+                                (this.state.menu === 2)?
+                                <View style={{flex:1,}}>                        
+                                    <Text style= {{
+                                        width: 110,
+                                        height: 15,
+                                        fontFamily: "WorkSans",
+                                        fontSize: 13,
+                                        fontWeight: "500",
+                                        fontStyle: "normal",
+                                        letterSpacing: 0.46,
+                                        color: "rgb(53, 53, 53)"}}>
+
+                                        {this.props.referrals.ReferredPersonName}
+                                    </Text>
+                                    <TouchableOpacity onPress={ ( ) => { this.setState({menu: 1}) } }
+                                                    activeOpacity={0.5}
+                                                    style={newStyle.backButton}>
+                                                    <Icon
+                                                        containerStyle={newStyle.iconImageStyle}
+                                                        name='angle-left'
+                                                        type='font-awesome'
+                                                        color='rgb(155, 155, 155)'
+                                                        size = {18} /> 
+                                                    <Text style= {{
+                                                        width: 233,
+                                                        height: 15,
+                                                        fontFamily: "WorkSans",
+                                                        fontSize: 13,
+                                                        fontWeight: "500",
+                                                        fontStyle: "normal",
+                                                        letterSpacing: 0.54,
+                                                        textAlign: "center",
+                                                        color: "rgb(231, 61, 80)"
+                                                    }}>           
+                                                        Back To Overview
+                                                    </Text>
+                                                </TouchableOpacity>
+                                <View>
+                            :
+                            this.renderEmpty()
+                        } */}
+
 
                         <View style= {newStyle.inputContainer}>
 
@@ -810,9 +830,16 @@ class PushToEarnMoneyComponent extends Component {
                                             this.renderNothing()
                                         :
                                         this.state.menu === 1 && this.props.referrals !== null?
-                                            <CollapsibleView month={this.getMonthNumber(this.state.currentMonth)} year={this.state.currentYear} referrals = {this.props.referrals} menu ={this.changeMenu} />
+                                            <CollapsibleView 
+                                                    childMenu = {this.state.changeChildMenu}
+                                                    month={this.getMonthNumber(this.state.currentMonth)}
+                                                    year={this.state.currentYear}
+                                                    referrals = {this.props.referrals}
+                                                    menu ={this.changeMenu}
+
+                                                    back={this.triggerBack} />
                                             :this.state.menu === 2 && this.props.referrals !== null?
-                                            <AccordionListComponent  />
+                                            <AccordionListComponent />
                                             : this.renderNothing()
                                  }
                              </View>
@@ -925,11 +952,11 @@ const newStyle = StyleSheet.create({
 
     nameAndback: {
         width: viewPortWidth,
-        height: viewPortHeight * 0.20,
+        height: viewPortHeight * 0.03,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems:'center'
-
+        alignItems:'center',
+        backgroundColor:'powderblue'
     },
 
     backButton: {

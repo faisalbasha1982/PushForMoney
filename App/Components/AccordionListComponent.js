@@ -55,8 +55,8 @@ class AccordionListComponent extends Component
 }
 
 _head(item){
-    console.log("title="+item.title);
-    console.log("item.workedHours="+item.workedHours);
+    // console.log("title="+item.title);
+    // console.log("item.workedHours="+item.workedHours);
     return(
         <View style={ newStyle.borderBottom}>
           <Text style={{ color: '#000',  
@@ -129,12 +129,11 @@ componentWillReceiveProps(newProps)
 }
 
 componentDidMount()
-{
+{    
     setTimeout(() => {
             this.createListArray();
         },4000);
 }
-
 
 createListArray = () => {
 
@@ -208,16 +207,66 @@ render() {
   //         "Amount": "4.50"
   //     }
   // ];
-
+  console.log("inside accordion list component");
     return (
         <ScrollView>
-         <View style= {{ flex: 1,flexDirection: 'column',backgroundColor: 'transparent', marginTop: 20, justifyContent: 'center', alignItems:'center', }}>                
-              
+         <View style= {{ flex: 1,flexDirection: 'column',backgroundColor: 'white', marginTop: 25, justifyContent: 'flex-start', alignItems:'flex-start', }}>
+
+            {/* <View style = {newStyle.nameAndback}>
+                <Text style={{
+                    fontFamily: "WorkSans-Regular",
+                    fontSize: 13,
+                    fontWeight: "500",
+                    fontStyle: "normal",
+                    letterSpacing: 0.54,
+                    textAlign: "left",
+                    color: "rgb(231, 61, 80)"
+                }}>{ this.props.name} </Text>
+
+                 <TouchableOpacity onPress={ ( ) => { this.props.menu(1); } }
+                                                    activeOpacity={0.5}
+                                                    style={newStyle.backButton}>
+                                                    <Icon
+                                                        containerStyle={newStyle.iconImageStyle}
+                                                        name='angle-left'
+                                                        type='font-awesome'
+                                                        color='rgb(155, 155, 155)'
+                                                        size = {18} /> 
+                                                    <Text style= {{
+                                                        width: 185,
+                                                        height: 15,
+                                                        marginLeft:10,
+                                                        fontFamily: "WorkSans-Medium",
+                                                        fontSize: 13,
+                                                        fontWeight: "500",
+                                                        fontStyle: "normal",
+                                                        letterSpacing: 0.54,
+                                                        textAlign: "left",
+                                                        color: "rgb(231, 61, 80)",
+                                                        backgroundColor: 'transparent'
+                                                    }}>           
+                                                        Back To Overview
+                                                    </Text>
+                                                </TouchableOpacity>
+            </View> */}
+
               <AccordionList
                 list={this.state.list}
                 header={this._head}
                 body={this._body}
             />
+
+            <View style={newStyle.borderBottomNew}></View>
+            <View style={{flex:1, flexDirection:'column' }}>
+                    <View style={newStyle.totalText}>
+                            <Text style={newStyle.firstName}>Total worked hours</Text>
+                            <Text style={newStyle.fontStyle}>€ {this.props.TotalWorkedHours}</Text>
+                    </View>
+                    <View style={newStyle.totalText}>
+                            <Text style={newStyle.firstName}>Total Earned</Text>
+                            <Text style={newStyle.fontStyle}>€ {this.props.TotalEarnings}</Text>
+                    </View>
+            </View>
           </View>
         </ScrollView>
  
@@ -255,7 +304,6 @@ statusStyle: {
 },
 
 buttonStyle: {
-
   width: viewPortWidth*0.83,
   height: 30,
   borderBottomColor: "#333",
@@ -265,7 +313,29 @@ buttonStyle: {
   alignItems: 'flex-start',
   marginBottom: 10,
   flexDirection: 'column'
+},
 
+nameAndback: {
+    width: viewPortWidth,
+    height: viewPortHeight * 0.03,
+    position: 'absolute',
+    top:-25,
+    left:0,
+    right:0,
+    bottom:0,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems:'center',
+    backgroundColor:'transparent',
+},
+
+backButton: {
+
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems:'center',
+    marginLeft:20,
+    backgroundColor: 'transparent'
 },
 
 borderBottom: {
@@ -280,6 +350,36 @@ borderBottom: {
   flexDirection: 'row'
 },
 
+totalText: {
+    width: 310,
+    height: 20,
+    // fontFamily: "WorkSans-Regular",
+    // fontSize: 16,
+    // fontWeight: "500",
+    // fontStyle: "normal",
+    // letterSpacing: 0.67,
+    // textAlign: "left",
+    flex: 8,
+    marginTop: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'flex-start',
+    fontFamily: "WorkSans-Regular",
+    fontSize: 13,
+    fontWeight: "bold",
+    fontStyle: "normal",
+    letterSpacing: 0.54,
+    color: "rgb(53, 53, 53)"
+  },
+
+  borderBottomNew: {
+    width: 310,
+    height: 1,
+    borderBottomColor: "rgb(231, 61, 80)",
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    flex:2,
+},
+
 fontStyle: {
   fontFamily: "WorkSans-Medium",
   fontSize: 14,
@@ -291,7 +391,7 @@ fontStyle: {
 },
 
 iconImageStyle:{
-  width: 13,
+  width: 15,
   height: 16,
   fontFamily: "FontAwesome",
   fontSize: 16,
@@ -300,6 +400,7 @@ iconImageStyle:{
   letterSpacing: 0.67,
   textAlign: 'right',
   color: "rgb(231, 61, 80)", 
+  marginRight:10,
 },
 
 iconStyle: {
