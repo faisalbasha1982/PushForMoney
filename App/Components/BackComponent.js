@@ -13,7 +13,6 @@ export default class BackComponent extends Component
         super(props);
 
         state = {
-
         }
     }
 
@@ -31,10 +30,9 @@ export default class BackComponent extends Component
                     color: "rgb(231, 61, 80)"
                 }}>{ this.props.name } </Text>
 
-                <TouchableOpacity onPress={ ( ) => { this.props.menu(1);
+                <TouchableOpacity onPress={ ( ) => { 
                                                       this.props.back();
-                                                      this.props.childMenuChange();
-                                                        } }
+                                                    }}
                                                 activeOpacity={0.5}
                                                 style={newStyle.backButton}>
                                                 <Icon

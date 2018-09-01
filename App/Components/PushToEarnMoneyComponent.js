@@ -174,7 +174,9 @@ class PushToEarnMoneyComponent extends Component {
             triggerBackComponent:false,
             totalComponent:false,
             currentName:'',
-            changeChildMenu:false,
+            displayDetails:false,
+            showPersonList:true,
+            showAccordionList: false,
         };    
     }
 
@@ -705,18 +707,26 @@ class PushToEarnMoneyComponent extends Component {
     }
 
     triggerBack = (name) => {
-        this.setState({triggerBackComponent: !this.state.triggerBackComponent, currentName: name});
+        console.log("calling trigger back");
+        this.setState({triggerBackComponent: !this.state.triggerBackComponent, currentName: name, showAccordionList: false});
+    }
+
+    tbBackComponent = () => {
+        this.setState({ triggerBackComponent: !this.state.triggerBackComponent, showAccordionList: false });
     }
 
     sendToChildCollapsible = () => {
-        this.setState({ changeChildMenu: !this.state.changeChildMenu})
+        this.setState({showAccordionList: false});
+         //this.setState({  : !this.state.displayDetails});
     }
 
     render() {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
         console.log("referrals="+this.props.referrals);
-        console.log("menu="+this.state.menu);
+        console.log("menu in money component="+this.state.menu);
+        console.log("show accordionlist="+this.state.showAccordionList);
+        console.log("show perons list="+this.state.showPersonList);
         return (
 
                 <View style= { newStyle.layoutBelow }>                  
@@ -730,10 +740,8 @@ class PushToEarnMoneyComponent extends Component {
                         {
                             (this.state.triggerBackComponent === true && this.state.currentName !=='')?
                             <BackComponent
-                                childMenuChange = { this.sendToChildCollapsible}
-                                menu = {this.changeMenu}
-                                back={this.triggerBack}
                                 name={this.state.currentName}
+                                back={this.tbBackComponent}
                             />
                             :
                             this.renderEmpty()
@@ -824,23 +832,24 @@ class PushToEarnMoneyComponent extends Component {
                                     </View>:this.somethingElse()
                                 }       */}
 
-                             <View style={{width: 310, height: 280, backgroundColor: 'transparent'}} >
+                             <View style={{width: 310, height: 280, backgroundColor: 'steelblue'}} >
                                  {
                                         this.props.referrals === null?
                                             this.renderNothing()
                                         :
-                                        this.state.menu === 1 && this.props.referrals !== null?
-                                            <CollapsibleView 
-                                                    childMenu = {this.state.changeChildMenu}
+                                        (this.state.showAccordionList === false)?
+                                            this.renderNothing()
+                                            :
+                                        <CollapsibleView 
+                                                    childMenu = {!this.state.showAccordionList}
+                                                    accordionList = { this.state.showAccordionList}
                                                     month={this.getMonthNumber(this.state.currentMonth)}
                                                     year={this.state.currentYear}
                                                     referrals = {this.props.referrals}
                                                     menu ={this.changeMenu}
-
                                                     back={this.triggerBack} />
-                                            :this.state.menu === 2 && this.props.referrals !== null?
-                                            <AccordionListComponent />
-                                            : this.renderNothing()
+                                            // :this.state.menu === 2 && this.props.referrals !== null?
+                                            // <AccordionListComponent />
                                  }
                              </View>
                              {/* <View style={{width: 310, height: 50, backgroundColor: 'steelblue'}} />

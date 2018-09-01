@@ -72,6 +72,7 @@ class CollapsibleView extends Component
         ],
     menu:1,
     currentPersonName:'',
+    showAccordionComponent: true,
   }
 
 }
@@ -118,8 +119,8 @@ renderList = (personObj) => {
     <TouchableOpacity
           onPress={ ( ) => { 
             this.getMoney(personObj.MobileReferralID);
-            this.setState({menu: 2});
-            this.setState({currentPersonName: personObj.ReferredPersonName});
+            this.setState({menu: 2,showAccordionComponent:true,});
+            this.setState({currentPersonName: personObj.ReferredPersonName, showAccordionComponent: true});
             this.props.back(personObj.ReferredPersonName);
           }}
           activeOpacity={0.5}
@@ -213,7 +214,9 @@ render() {
 
     // console.log("referrals="+this.props.navigation.state.params.referrals);
     let referralsNew = this.props.referrals;
-    console.log("referralsNew="+referralsNew);
+    console.log("show accordionLIST="+this.props.accordionList);
+    console.log("menu in collapsible view ="+this.state.menu);
+    console.log("this.props.childMenu="+this.props.childMenu);
 
   //   let referralsNew =  [
   //     {
@@ -237,16 +240,16 @@ render() {
         <ScrollView>
           <View style={{ flex:1, backgroundColor: 'transparent', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', overflow: "hidden" }}>
                    {
-                    (this.state.menu===1 || this.props.childMenu === true)?
+                    (this.state.menu===1 && this.props.childMenu === true)?
                     referralsNew !== null && referralsNew.map(
                       personObj => 
                           this.renderList(personObj))
                     :
-                    (this.state.menu===2)?
-                    <AccordionListComponent 
-                        name={this.state.currentPersonName} 
-                        back={this.backMenu} 
-                        menu={this.changeMenu} 
+                    (this.state.menu === 2 && this.state.showAccordionComponent === true)?
+                    <AccordionListComponent
+                        name={this.state.currentPersonName}
+                        back={this.backMenu}
+                        menu={this.changeMenu}
                         monthlyEarningDetailsByReferrals={this.props.monthlyEarningDetailsByReferrals}
                         TotalEarnings = {this.props.TotalEarnings}
                         TotalWorkedHours = { this.props.TotalWorkedHours}
