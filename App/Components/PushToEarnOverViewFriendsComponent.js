@@ -90,6 +90,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
             firstNameEmptyError:false,
             lastNameEmptyError:false,
             phoneNumberEmptyError:false,
+            screenHeight: 0,
         };    
     }
 
@@ -401,9 +402,9 @@ class PushToEarnOverViewFriendsComponent extends Component {
         }
 
             return (            
-                <View style={{ padding: 2, flexDirection: 'column',height: viewPortHeight*0.05, backgroundColor: 'white' }}>
-                        <View style={{ padding: 3, flex:1, height: viewPortHeight*0.08, flexDirection: 'row' , alignItems: 'flex-start', justifyContent: 'flex-start', backgroundColor: 'white'}}>
-                            <Text style={newStyle.nameStyle}>{ personObj.Name }</Text>
+                <View style={{ padding: 2, paddingTop: 3, paddingLeft:0, flexDirection: 'column',height: viewPortHeight*0.08, backgroundColor: 'white', }}>
+                        <View style={{ padding: 3,paddingLeft:0, paddingTop: 4, flex:1, height: viewPortHeight*0.31, flexDirection: 'row' , alignItems: 'flex-start', justifyContent: 'flex-start', backgroundColor: 'white'}}>
+                            <Text style={newStyle.nameStyle}>{ personObj.Name.split(' ')[0] }</Text>
                             <Text style={newStyle.statusStyle}>{ personObj.ReferredPersonStatus}</Text>
                             {(personObj.ReferredPersonStatus === 'Finished')?
                                 <View style= {{ padding: 3,width: 120, height: 50, backgroundColor: 'transparent', marginTop: 5 }}>
@@ -438,6 +439,11 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
     }
 
+    onContentSizeChange = (contentWidth, contentHeight) => {
+        // Save the content height in state
+        this.setState({ screenHeight: contentHeight });
+      };
+
     render() {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
@@ -462,11 +468,12 @@ class PushToEarnOverViewFriendsComponent extends Component {
                                     onPress={() => { this.props.menu(9) } }
                                     activeOpacity={0.5}
                                     style={{
-                                        width: 20,
+                                        width: 40,
                                         height: 40,
                                         alignItems:'center',
                                         justifyContent:'center',
                                         backgroundColor: 'white',
+                                        marginRight: 0,
                                     }}>
                                 <Icon
                                         containerStyle={newStyle.iconImageStyleNew}
@@ -476,20 +483,22 @@ class PushToEarnOverViewFriendsComponent extends Component {
                                         size = {20}
                                         onPress={ () => { } } />
                                 </TouchableOpacity>
-                                <Text style={{    
+                                <Text style={{
                                         fontFamily: "WorkSans-Medium",
                                         fontSize: 11,
                                         fontWeight: "600",
                                         fontStyle: "normal",
                                         lineHeight: 34,
                                         letterSpacing: 0,
-                                        textAlign: "center",
+                                        textAlign: "left",
                                         color: "rgb(231, 61, 80)" }}>Kandidaat</Text>
                             </View> 
                         </View>
                       
-                       
+
                                 <View style= {newStyle.inputContainer}>
+                                <ScrollView style={{ flex: 1, backgroundColor: 'transparent', height:viewPortHeight*0.90 }} contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', }} >
+
                                     {                                       
                                         this.props.referral.map(                                            
                                             personObj => 
@@ -501,10 +510,12 @@ class PushToEarnOverViewFriendsComponent extends Component {
                                             
                                         )
                                     }
+                                </ScrollView>
                                 </View> 
 
-                        <View style={newStyle.buttonView}>
 
+
+                        <View style={newStyle.buttonView}>
                         </View>
 
                     </View>
@@ -583,11 +594,14 @@ const newStyle = StyleSheet.create({
     },
 
     borderBottom: {
-        width: 280,
+        width: viewPortWidth*.80,
         height: 1,
-        borderBottomColor: "rgb(231, 61, 80)",
         borderBottomWidth: StyleSheet.hairlineWidth,
-        marginBottom: 20,
+        marginBottom: 10,
+        borderStyle: "solid",
+        borderWidth: 1,
+        borderColor: 'rgb(231, 61, 80)',
+        borderBottomColor: "rgb(231, 61, 80)"
     },
 
     buttons: {
@@ -652,10 +666,11 @@ const newStyle = StyleSheet.create({
     },
 
     inputContainer: {
-        backgroundColor: 'white',
+        backgroundColor: 'transparent',
         flex: Platform.OS === 'ios'?18:1,        
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
+        height: viewPortHeight
     },
 
     topText: {
@@ -683,10 +698,10 @@ const newStyle = StyleSheet.create({
     },
 
     rightView: {
-        width: 120,
-        height: 40,        
+        width: 140,
+        height: 40,
         flexDirection: 'row',
-        backgroundColor: 'transparent',
+        backgroundColor: 'white',
         justifyContent: 'flex-start',
         alignItems: 'center',
         marginRight: 30,
@@ -699,7 +714,8 @@ const newStyle = StyleSheet.create({
     },
 
     buttonView: {
-        flex: 7,
+        flex: 2,
+        backgroundColor: 'transparent'
     },
 
     para: {
@@ -727,7 +743,7 @@ const newStyle = StyleSheet.create({
         textAlign: "center",
         color: "rgb(231, 61, 80)", 
         marginTop: 0,
-        marginRight: 15,
+        marginRight: 10,
     },
 
     iconImageStyle:{
@@ -768,7 +784,7 @@ const newStyle = StyleSheet.create({
         width: 111,
         height: 50,
         fontFamily: "WorkSans-Regular",
-        fontSize: 13,
+        fontSize: 15,
         fontWeight: "normal",
         fontStyle: "normal",
         letterSpacing: 0.46,
@@ -781,7 +797,7 @@ const newStyle = StyleSheet.create({
         paddingLeft: 5,
         marginTop: 8,
         fontFamily: "WorkSans-Regular",
-        fontSize: 11,
+        fontSize: 13,
         fontWeight: "normal",
         fontStyle: "normal",
         letterSpacing: 0.39,

@@ -177,6 +177,8 @@ class PushToEarnMoneyComponent extends Component {
             displayDetails:false,
             showPersonList:true,
             showAccordionList: false,
+            changeMenuOneBack: false,
+            childMenu: 1,
         };    
     }
 
@@ -706,13 +708,17 @@ class PushToEarnMoneyComponent extends Component {
         this.setState({ menu: mChange});
     }
 
+    turnOffLoading = () => {
+            this.setState({ isLoading: false,});
+    }
+
     triggerBack = (name) => {
         console.log("calling trigger back");
-        this.setState({triggerBackComponent: !this.state.triggerBackComponent, currentName: name, showAccordionList: false});
+        this.setState({triggerBackComponent: !this.state.triggerBackComponent, currentName: name, showAccordionList: false, childMenu: 2});
     }
 
     tbBackComponent = () => {
-        this.setState({ triggerBackComponent: !this.state.triggerBackComponent, showAccordionList: false });
+        this.setState({ triggerBackComponent: !this.state.triggerBackComponent, changeMenuOneBack: true, childMenu:1 });
     }
 
     sendToChildCollapsible = () => {
@@ -725,8 +731,8 @@ class PushToEarnMoneyComponent extends Component {
         console.log("platform --->",Platform.OS);
         console.log("referrals="+this.props.referrals);
         console.log("menu in money component="+this.state.menu);
-        console.log("show accordionlist="+this.state.showAccordionList);
-        console.log("show perons list="+this.state.showPersonList);
+        console.log("money component show accordionlist="+this.state.showAccordionList);
+        console.log("money component show perons list="+this.state.showPersonList);
         return (
 
                 <View style= { newStyle.layoutBelow }>                  
@@ -793,7 +799,7 @@ class PushToEarnMoneyComponent extends Component {
 
                         <View style= {newStyle.inputContainer}>
 
-                             <View style={{width: 310, height: 50, backgroundColor: 'powderblue'}}>
+                             <View style={{width: 310, height: 50, backgroundColor: 'transparent'}}>
                                     <View style={newStyle.monthlyBar}>
 
                                         <TouchableOpacity onPress={ ( ) => {} }
@@ -825,28 +831,27 @@ class PushToEarnMoneyComponent extends Component {
                                     </View>
                              </View>
 
-                                {/* {
+                                {
                                     this.state.isLoading===true?
                                     <View style = {{position: 'absolute' , zIndex:3999, left: 20, top: 0, right: 0, bottom: 0}}>
                                     <BallIndicator color='#e73d50' />
                                     </View>:this.somethingElse()
-                                }       */}
+                                }      
 
-                             <View style={{width: 310, height: 280, backgroundColor: 'steelblue'}} >
+                             <View style={{width: 310, height: 280, backgroundColor: 'transparent'}} >
                                  {
                                         this.props.referrals === null?
                                             this.renderNothing()
                                         :
-                                        (this.state.showAccordionList === false)?
-                                            this.renderNothing()
-                                            :
                                         <CollapsibleView 
                                                     childMenu = {!this.state.showAccordionList}
                                                     accordionList = { this.state.showAccordionList}
                                                     month={this.getMonthNumber(this.state.currentMonth)}
                                                     year={this.state.currentYear}
                                                     referrals = {this.props.referrals}
-                                                    menu ={this.changeMenu}
+                                                    changeMenuOneBack = {this.state.changeMenuOneBack}
+                                                    menu ={this.state.childMenu}           
+                                                    isLoading = {this.turnOffLoading}
                                                     back={this.triggerBack} />
                                             // :this.state.menu === 2 && this.props.referrals !== null?
                                             // <AccordionListComponent />
@@ -899,10 +904,15 @@ class PushToEarnMoneyComponent extends Component {
 
 
                          <View style={newStyle.borderBottomNew}></View>
-                         <View style={newStyle.totalText}>
-                                    <Text style={newStyle.firstName}>Total</Text>
-                                    <Text style={newStyle.fontStyle}>€ {this.props.TotalEarnings}</Text>
-                         </View>
+                                <View style={newStyle.totalText}>
+                                            <Text style={newStyle.firstName}>Total Earnings</Text>
+                                            <Text style={newStyle.fontStyle}>€ {this.props.TotalEarnings}</Text>
+                                </View>
+
+                                <View style={newStyle.totalHoursText}>
+                                            <Text style={newStyle.firstName}>Total worked hours</Text>
+                                            <Text style={newStyle.hoursText}>{this.props.TotalWorkedHours}</Text>
+                                </View>
 
                         </View>
 
@@ -956,6 +966,7 @@ const newStyle = StyleSheet.create({
         letterSpacing: 0.54,
         textAlign: "left",   
         color: "rgb(231, 61, 80)"
+
         
     },
 
@@ -1014,7 +1025,7 @@ const newStyle = StyleSheet.create({
     },
 
     firstName: {
-        width: 159,
+        width: 180,
         height: 19,
         fontFamily: 'WorkSans-Regular',
         fontSize: 16,
@@ -1025,7 +1036,19 @@ const newStyle = StyleSheet.create({
         marginBottom: 15
     },
 
-
+    hoursText:{
+        width: 80,
+        height: 22,
+        fontFamily: 'WorkSans-Regular',
+        fontSize: 16,
+        fontWeight: '500',
+        fontStyle: 'normal',
+        letterSpacing: 0.67,
+        textAlign: 'center',
+        color: "rgb(231, 61, 80)",
+        marginBottom: 15,
+        backgroundColor: 'transparent'
+    },
 
     accordionStyle:{
         width: 159,
@@ -1136,11 +1159,23 @@ const newStyle = StyleSheet.create({
         // letterSpacing: 0.67,
         // textAlign: "left",
         flex: 8,
-        marginTop: 20,
-        marginBottom: 20,
+        marginTop: 5,
+        marginBottom: 0,
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         alignItems: 'flex-start',
+    },
+
+    totalHoursText:{
+        width: viewPortWidth*0.80,
+        height: 20,
+        flex: 12,
+        marginTop: 0,
+        marginBottom: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: 'transparent'
     },
 
     dataComponent: {
@@ -1263,12 +1298,13 @@ const newStyle = StyleSheet.create({
 
     fontStyle: {
         fontFamily: "WorkSans-Medium",
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: "normal",
         fontStyle: "normal",
         letterSpacing: 0.67,
         textAlign: 'left',
         color: "rgb(231, 61, 80)",
+        backgroundColor: 'transparent'
       },      
 
     para: {

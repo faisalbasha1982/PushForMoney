@@ -114,6 +114,11 @@ _body(item){
 
 renderList = (personObj) => {  
 
+  console.log("inside renderList personObj="+personObj);
+
+  if(this.props.referrals !== null)
+      this.props.isLoading();
+
   return (
 
     <TouchableOpacity
@@ -121,7 +126,7 @@ renderList = (personObj) => {
             this.getMoney(personObj.MobileReferralID);
             this.setState({menu: 2,showAccordionComponent:true,});
             this.setState({currentPersonName: personObj.ReferredPersonName, showAccordionComponent: true});
-            this.props.back(personObj.ReferredPersonName);
+            this.props.back(personObj.ReferredPersonName,2);
           }}
           activeOpacity={0.5}
           style={ newStyle.buttonStyle }>
@@ -176,12 +181,29 @@ somethingElse = () => {
 componentWillReceiveProps(newProps)
 {
   if(this.props.monthlyEarningDetailsByReferrals === null)
-      this.getMoney();     
+      this.getMoney();
+
+      console.log("componentWillReceiveProps of CollapsibleView");
+
+      if(this.props.changeMenuOneBack === true)
+      {
+        this.setState({ menu: 1});
+      }
 }
 
 componentDidMount()
 {
   this.getMoney();
+
+  console.log("componentDiDMount of CollapsibleView");
+
+  if(this.props.changeMenuOneBack === true)
+  {
+    this.setState({ menu: 1});
+  }
+
+  this.props.isLoading();
+  
 }
 
 renderNothing = () => {
@@ -214,9 +236,12 @@ render() {
 
     // console.log("referrals="+this.props.navigation.state.params.referrals);
     let referralsNew = this.props.referrals;
-    console.log("show accordionLIST="+this.props.accordionList);
-    console.log("menu in collapsible view ="+this.state.menu);
-    console.log("this.props.childMenu="+this.props.childMenu);
+    console.log("referralNew="+referralsNew);
+    console.log("collapsible view show accordionLIST="+this.props.accordionList);
+    console.log("collapsible view props.menu in collapsible view ="+this.props.menu);
+    console.log("collapsible view this.props.childMenu="+this.props.childMenu);
+    console.log("collapsible view state.menu in collapsible view ="+this.state.menu);
+
 
   //   let referralsNew =  [
   //     {
@@ -240,12 +265,12 @@ render() {
         <ScrollView>
           <View style={{ flex:1, backgroundColor: 'transparent', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', overflow: "hidden" }}>
                    {
-                    (this.state.menu===1 && this.props.childMenu === true)?
+                    (this.props.menu===1 && this.props.childMenu === true)?
                     referralsNew !== null && referralsNew.map(
                       personObj => 
                           this.renderList(personObj))
                     :
-                    (this.state.menu === 2 && this.state.showAccordionComponent === true)?
+                    (this.props.menu === 2)?
                     <AccordionListComponent
                         name={this.state.currentPersonName}
                         back={this.backMenu}

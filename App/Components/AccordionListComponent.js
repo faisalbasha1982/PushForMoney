@@ -117,7 +117,6 @@ _body(item){
 }
 
 
-
 somethingElse = () => {
 
 }
@@ -256,17 +255,17 @@ render() {
                 body={this._body}
             />
 
-            <View style={newStyle.borderBottomNew}></View>
-            <View style={{flex:1, flexDirection:'column' }}>
+            {/* <View style={newStyle.borderBottomNew}></View>
+            <View style={{flex:1, flexDirection:'column', }}>
                     <View style={newStyle.totalText}>
                             <Text style={newStyle.firstName}>Total worked hours</Text>
-                            <Text style={newStyle.fontStyle}>€ {this.props.TotalWorkedHours}</Text>
+                            <Text style={newStyle.fontStyle}>{this.props.TotalWorkedHours}</Text>
                     </View>
                     <View style={newStyle.totalText}>
                             <Text style={newStyle.firstName}>Total Earned</Text>
                             <Text style={newStyle.fontStyle}>€ {this.props.TotalEarnings}</Text>
                     </View>
-            </View>
+            </View> */}
           </View>
         </ScrollView>
  
