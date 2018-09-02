@@ -53,15 +53,20 @@ class TestPage extends Component {
         };
     }
 
-    menuChangeWithParameters = (mChange,name,phone,email) => {
+    formatPhone = (phone) => {
+       return phone.replace(/(?!\w|\s)./g, '');
+    }
 
-        this.setState({ menu: mChange, nameParam: name, phoneParam: phone, emailParam: email });
+
+    menuChangeWithParameters = (mChange,name,phone,email) => {
+        //format phone
+        let phoneString = this.formatPhone(phone);
+        console.log("phone number="+phoneString);
+        this.setState({ menu: mChange, nameParam: name, phoneParam: phoneString, emailParam: email });
     }
 
     menuChange = (mChange) =>{
-
         this.setState({ menu: mChange});
-
     }
 
     doNothing = () => {
@@ -136,8 +141,6 @@ class TestPage extends Component {
             ltoken = localStorage.getItem('token');       
         }
         
-
-
         console.log("this.props.referral="+this.props.referral);
         console.tron.log("this.props.referral="+this.props.referral);
 
@@ -149,7 +152,7 @@ class TestPage extends Component {
 
         if(_.isEmpty(this.props.referral))        
             return (
-                <AddFriendComponent />
+                <AddFriendComponent menu = { this.menuChange } />
             );
         
     return (

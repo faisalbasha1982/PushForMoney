@@ -180,6 +180,12 @@ class PushToEarnAddFriendDetailsComponent extends Component {
         }        
     }
 
+    formatPhone = (phone) => {
+
+        this.setState({lastNameInput: phone.replace(/(?!\w|\s)./g, '')});
+
+    }
+
     validatePhone = (phone) => {
 
         console.log("phone="+phone);
