@@ -243,13 +243,13 @@ class PushToEarnOTPResend extends Component {
                             fontWeight: "500",
                             fontStyle: "normal",
                             lineHeight: 34,
-                            letterSpacing: 0,                          
+                            letterSpacing: 0,
                             textAlign: 'center',
-                            color: "#E73D50"                        
+                            color: "#E73D50"
                         }}>
                     Enter OTP
                     </Text>
-                </View>                
+                </View>
 
                 <View style={{
                   flex: 4, 

@@ -237,6 +237,24 @@ class PushToEarnWelcomeScreen extends Component {
         // this.setText();
         // console.log("this.state.firstName="+this.state.firstName);
         // console.log("this.state.buttonText="+this.state.buttonText);
+
+        let language = localStorage.getItem('language');
+        console.log('local storage language='+language);
+
+        this.setState({ language: language});
+
+        if(language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch});
+        else
+            if(language === 'English')
+                this.setState({ text: languageSettingsPFM.English});
+        else
+            if(language === 'French')
+                this.setState({ text: languageSettingsPFM.French});            
+
+
+
+        
     }
 
     // setText =  () => {
@@ -422,7 +440,7 @@ class PushToEarnWelcomeScreen extends Component {
 
                     <View style={newStyle.topView}>
                         <Text style= {newStyle.topText}>           
-                                PUSH TO EARN MONEY!
+                                {this.state.text.money}
                         </Text>    
                     </View>
 
@@ -438,7 +456,7 @@ class PushToEarnWelcomeScreen extends Component {
                             <ButtonPushWelcome
                                 objectParams=
                                     {{
-                                        btnText: "HOW DOES IT WORK?", 
+                                        btnText: this.state.text.workButton, 
                                         language: "ENGLISH",
                                         firstName: this.state.firstNameInput,
                                         lastName: this.state.lastNameInput,

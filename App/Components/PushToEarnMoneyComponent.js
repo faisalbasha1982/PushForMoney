@@ -62,6 +62,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import Picker from 'react-native-picker';
 import AccordionListComponent from './AccordionListComponent';
 import BackComponent from './BackComponent';
+import _ from 'lodash';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -840,7 +841,7 @@ class PushToEarnMoneyComponent extends Component {
 
                              <View style={{width: 310, height: 280, backgroundColor: 'transparent'}} >
                                  {
-                                        this.props.referrals === null?
+                                        (this.props.referrals === null )?                                 
                                             this.renderNothing()
                                         :
                                         <CollapsibleView 

@@ -348,6 +348,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                                     else
                                     {
                                         this.setState({isLoading: false});
+                                        this.props.menu(9);
                                         //Alert.alert("Referrals not added");
                                     }
                                 }
@@ -430,26 +431,8 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                             </Text>    
                         </View>
 
-                         <View style={newStyle.buttonView}>
-                                <ButtonFriends
-                                    objectParams=
-                                        {{
-                                            btnText: "ZOEK EN JE TELEFOONBOEK", 
-                                            language: "NETHERLANDS",
-                                            firstName: this.state.firstNameInput,
-                                            lastName: this.state.lastNameInput,
-                                            phoneNumber: this.state.phoneNumberInput,
-                                            firstNameError: this.state.firstNameError,
-                                            lastNameError: this.state.lastNameError,
-                                            phoneNumberError: this.state.phoneNumberError,
-                                            firstNameEmpty: this.state.firstNameEmptyError,
-                                            lastNameEmpty: this.state.lastNameEmptyError,
-                                            phoneNumberEmpty: this.state.phoneNumberEmptyError
-                                        }}
-                                func = {this.func}
-                                navigation = { this.props.navigation}
-                                />
-                        </View>
+                         {/* <View style={newStyle.buttonView}>
+                        </View> */}
 
                         <View style= {newStyle.inputContainer}>
 
@@ -650,6 +633,7 @@ const newStyle = StyleSheet.create({
         flex: Platform.OS === 'ios'?14:1,        
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
+        marginTop:10,
     },
 
     topText: {

@@ -53,6 +53,7 @@ import ReactNativeRSAUtil from 'react-native-rsa-util';
 import localStorage from 'react-native-sync-localstorage';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 
 // import { RSAKey } from 'react-native-rsa';
 import { Colors } from "../Themes";
@@ -63,7 +64,7 @@ import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/page1.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AccessToken, LoginManager, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
-import LinkedInModal from 'react-native-linkedin'
+import LinkedInModal from 'react-native-linkedin';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -98,7 +99,7 @@ class PushToEarnSignIn extends Component {
         this.state = {
             isLoggedIn: false,
             hasToken: false,
-            language: 'ENGLISH',
+            language: '',
             validation: false,
             renderValidate: false,
             usernameInput:'',
@@ -114,6 +115,7 @@ class PushToEarnSignIn extends Component {
             encodedText: '',
             cAuthenticationData:'',
             loginD:'',
+            text:{},
         };    
     }
 
@@ -564,6 +566,22 @@ class PushToEarnSignIn extends Component {
 
         let ltoken = localStorage.getItem('token');
         console.log("ltoken="+ltoken);
+
+        let language = localStorage.getItem('language');
+        console.log('local storage language='+language);
+
+        this.setState({ language: this.props.navigation.state.params.language});
+
+        if(this.props.navigation.state.params.language === 'NEDERLANDS')
+            this.setState({ text: languageSettingsPFM.Dutch});
+        else
+            if(this.props.navigation.state.params.language === 'ENGLISH')
+            this.setState({ text: languageSettingsPFM.English});            
+        else
+            if(this.props.navigation.state.params.language === 'FRANÇAIS')
+            this.setState({ text: languageSettingsPFM.French});            
+    
+
 
         // setTimeout(() => {
         //     ltoken = localStorage.getItem('token');
@@ -1084,7 +1102,10 @@ class PushToEarnSignIn extends Component {
 
     render() {
         const platform = Platform.OS;
+        console.log("language sent="+this.props.navigation.state.params.language);
         console.log("platform --->",Platform.OS);
+        console.log("text="+this.state.text.SignIn);
+
         return (
 
             (platform === 'ios' && this.state.hasToken === false)?
@@ -1115,7 +1136,7 @@ class PushToEarnSignIn extends Component {
                         textAlign: "center",
                         color: "#E73D50" 
                         }}>
-                    Sign In 
+                    {this.state.text.SignIn}
                     </Text>
                 </View>                
 
@@ -1198,7 +1219,7 @@ class PushToEarnSignIn extends Component {
                         textAlign: "center",
                         color: "#353535"
                         }}>
-                    or sign in with:
+                    {this.state.text.SignWith}
                     </Text>                    
                 </View>                
 
@@ -1211,7 +1232,7 @@ class PushToEarnSignIn extends Component {
 
                 <View style={newStyle.inputContainer}>
                
-                    <Text style={newStyle.firstName}>Email Address</Text>
+                    <Text style={newStyle.firstName}>{this.state.text.Email}</Text>
                     <TextInput
                                 style={ newStyle.nameInput }
                                 placeholder=''
@@ -1221,7 +1242,7 @@ class PushToEarnSignIn extends Component {
                                 onBlur = { () => this.validateEmail(this.state.usernameInput) }
                     />
 
-                    <Text style={newStyle.password}>Password</Text>
+                    <Text style={newStyle.password}>{this.state.text.Password}</Text>
                     <TextInput
                         style={ newStyle.nameInputPassword}
                         placeholder=''
@@ -1233,7 +1254,7 @@ class PushToEarnSignIn extends Component {
                       <Text style={newStyle.forgotPassword}
                             onPress= {() => this.props.navigation.navigate('PushToEarnForgetPass')}
                       >
-                        Forgot Password?
+                        {this.state.text.forgot}
                      </Text>
 
                     <View style={newStyle.endButtons}>
@@ -1264,7 +1285,7 @@ class PushToEarnSignIn extends Component {
                                     marginTop: 0,                
                                     letterSpacing: 0.67,
                                     textAlign: 'center'}}
-                            > {this.state.buttonText.toUpperCase()}</Text>
+                            > {this.state.text.SButton}</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -1282,7 +1303,7 @@ class PushToEarnSignIn extends Component {
                         textAlign: "center",
                         color: "#353535"
                         }}>
-                        Don't have an Account ? Sign up <Text
+                        {this.state.text.bottomLine} <Text
                         style={{
                             width: 334,
                             height: 34,
@@ -1296,7 +1317,7 @@ class PushToEarnSignIn extends Component {
                             color: "#E73D50"
                             }}
                         onPress = { () => this.props.navigation.navigate('PushToEarnSignUp')}
-                        >here</Text>!
+                        >{this.state.text.here}</Text>
                     </Text>
                 </View>                
 
@@ -1397,7 +1418,7 @@ const newStyle = StyleSheet.create({
     },
 
     forgotPassword:{
-        width: 112,
+        width: 180,
         height: 14,
         fontFamily: "WorkSans-Medium",
         fontSize: 12,

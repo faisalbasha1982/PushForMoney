@@ -104,6 +104,7 @@ class PushToEarnRegisterProfile extends Component {
             firstNameEmptyError:false,
             lastNameEmptyError:false,
             phoneNumberEmptyError:false,
+            text:{}
         };    
     }
 
@@ -264,6 +265,19 @@ class PushToEarnRegisterProfile extends Component {
         console.log("usrname=",this.props.navigation.state.params.uname);
         console.log("password=",this.props.navigation.state.params.pword);
         this.setText();
+
+        let language = localStorage.getItem('language');
+        console.log('local storage language='+language);
+
+        if(language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch});
+        else
+        if(language === 'English')
+            this.setState({ text: languageSettingsPFM.English});
+        else
+        if(language === 'French')
+            this.setState({ text: languageSettingsPFM.French});
+
     }
 
     setText =  () => {
@@ -460,21 +474,21 @@ class PushToEarnRegisterProfile extends Component {
                         textAlign: "left",
                         color: "#E73D50" 
                         }}>
-                    Profile
+                    {this.state.text.profile}
                     </Text>
                 </View>                
 
 
                 <View style={newStyle.inputContainer}>
                
-                    <Text style={newStyle.firstName}>First Name</Text>
+                    <Text style={newStyle.firstName}>{this.state.text.firstName}</Text>
                     <TextInput
                                 style={ newStyle.nameInput }
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
                             
-                    <Text style={newStyle.firstName}>Last Name</Text>
+                    <Text style={newStyle.firstName}>{this.state.text.lastname}</Text>
                     <TextInput
                         style={ newStyle.nameInput}
                         placeholder=''
@@ -488,7 +502,7 @@ class PushToEarnRegisterProfile extends Component {
                             </View>:this.somethingElse()
                       }
 
-                    <Text style={newStyle.firstName}>Email Address</Text>
+                    <Text style={newStyle.firstName}>{this.state.text.Email}</Text>
                     <TextInput
                         style={ newStyle.nameInput}
                         placeholder=''
@@ -496,13 +510,13 @@ class PushToEarnRegisterProfile extends Component {
                         underlineColorAndroid= 'transparent'
                         value = { username }/>
 
-                    <Text style={newStyle.firstName}>Phone Number</Text>
+                    <Text style={newStyle.firstName}>{this.state.text.Phone}</Text>
                     <TextInput
                         style={ newStyle.nameInput}
                         placeholder=''
                         underlineColorAndroid= 'transparent'
                         onChangeText= { (phonenumberInput) => this.setState({phonenumberInput}) }/>
-                    <Text style={newStyle.firstName}>Password</Text>
+                    <Text style={newStyle.firstName}>{this.state.text.Password}</Text>
 
                     <TextInput
                         style={ newStyle.nameInput}

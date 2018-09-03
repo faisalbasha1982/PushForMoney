@@ -51,6 +51,7 @@ import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 import {RSA, RSAKeychain } from 'react-native-rsa-native';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
+import localStorage from 'react-native-sync-localstorage';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -61,6 +62,7 @@ import logoNew from '../Images/page1.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AccessToken, LoginManager, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 import LinkedInModal from 'react-native-linkedin';
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -96,7 +98,7 @@ class PushToEarnSignUp extends Component {
 
         this.state = {
             isLoggedIn: false,
-            language: 'NEDERLANDS',
+            language: '',
             validation: false,
             renderValidate: false,
             usernameInput:'',
@@ -111,6 +113,7 @@ class PushToEarnSignUp extends Component {
             usernameEmptyError:false,
             passwordEmptyError:false,
             cpasswordEmptyError: false,
+            text: {}
         };    
     }
 
@@ -494,6 +497,20 @@ class PushToEarnSignUp extends Component {
     }
 
     componentDidMount() {
+
+        let language = localStorage.getItem('language');
+        console.log('local storage language='+language);
+
+        this.setState({ language: language});
+        
+        if(language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch});
+        else
+            if(language === 'English')
+            this.setState({ text: languageSettingsPFM.English});
+        else
+            if(language === 'French')
+            this.setState({ text: languageSettingsPFM.French});            
 
         LoginManager.logOut();
 
@@ -1015,6 +1032,9 @@ class PushToEarnSignUp extends Component {
     render() {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
+        console.log('language='+this.state.language);
+        console.log('text='+this.state.text.SignUp);
+
         return (
 
             (platform === 'ios')?
@@ -1045,7 +1065,7 @@ class PushToEarnSignUp extends Component {
                             textAlign: "center",
                             color: "#E73D50" 
                         }}>
-                            Sign up 
+                        {this.state.text.SignUp}
                     </Text>
                     <Text
                         style={{    
@@ -1063,7 +1083,7 @@ class PushToEarnSignUp extends Component {
                             textDecorationLine: 'underline',
                         }}
                         onPress = { () => this.props.navigation.navigate('PushToEarnSignIn') }>
-                           Sign in
+                           {this.state.text.SignIn}
                         </Text>
                 </View>                
 
@@ -1148,7 +1168,7 @@ class PushToEarnSignUp extends Component {
                         textAlign: "center",
                         color: "#353535"
                         }}>
-                    or sign up with:
+                    {this.state.text.SignWith}
                     </Text>
                 </View>                
 
@@ -1161,7 +1181,7 @@ class PushToEarnSignUp extends Component {
 
                 <View style={newStyle.inputContainer}>
                
-                    <Text style={newStyle.firstName}>Email Address</Text>
+                    <Text style={newStyle.firstName}>{this.state.text.Email}</Text>
                     <TextInput
                                 style={ [newStyle.nameInput, {color: this.state.usernameInputError === true? 'red': 'black'}] }
                                 placeholder=''
@@ -1170,7 +1190,7 @@ class PushToEarnSignUp extends Component {
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(usernameInput) => this.validateEmail(usernameInput)}/>
 
-                    <Text style={newStyle.password}>Password</Text>
+                    <Text style={newStyle.password}>{this.state.text.Password}</Text>
                     <TextInput
                         style={ [newStyle.nameInputPassword,{ color: this.state.passwordInputError === true? 'red': 'black' }]}
                         placeholder=''
@@ -1179,7 +1199,7 @@ class PushToEarnSignUp extends Component {
                         underlineColorAndroid= 'transparent'
                         onChangeText= { (passwordInput) => this.validatePassword(passwordInput) }/>
 
-                    <Text style={newStyle.cpassword}>Confirm Password</Text>
+                    <Text style={newStyle.cpassword}>{this.state.text.confirmPassword}</Text>
                     <TextInput
                         style={ [newStyle.confirmInputPassword,{ color: this.state.cpasswordInputError === true? 'red': 'black'}]}
                         placeholder=''
@@ -1216,7 +1236,7 @@ class PushToEarnSignUp extends Component {
                                     marginTop: 0,                
                                     letterSpacing: 0.67,
                                     textAlign: 'center'}}
-                            > {this.state.buttonText.toUpperCase()}</Text>
+                            > {this.state.text.SignUp}</Text>
                         </TouchableOpacity>
                     </View>                
 
@@ -1392,7 +1412,7 @@ const newStyle = StyleSheet.create({
     },
 
     cpassword:{
-        width: 159,
+        width: 290,
         height: 19,
         fontFamily: 'WorkSans-Regular',
         fontSize: 16,

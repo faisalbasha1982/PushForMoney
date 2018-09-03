@@ -38,6 +38,7 @@ import { ProfileSelectors } from '../Redux/ProfileRedux';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import localStorage from 'react-native-sync-localstorage';
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -81,7 +82,7 @@ class PushToEarnProfileComponent extends Component {
             emailInput:'',            
             passwordInput:'',
             cardDetails:'',
-            buttonText: 'Password',
+            buttonText: '.........',
             selectionFirst:false,
             selectionSecond:false,
             selectionThird:false,
@@ -99,6 +100,7 @@ class PushToEarnProfileComponent extends Component {
             phoneNumberEmptyError:false,
             emailEmptyError:false,
             cardDetailsError:false,
+            text:{}
         };    
     }
 
@@ -287,6 +289,19 @@ class PushToEarnProfileComponent extends Component {
 
             this.props.getProfile(payload);
         },3000);
+
+        let language = localStorage.getItem('language');
+
+            if(language === 'Dutch')
+                this.setState({ text: languageSettingsPFM.Dutch});
+            else
+                if(language === 'English')
+                this.setState({ text: languageSettingsPFM.English});
+            else
+                if(language === 'French')
+                this.setState({ text: languageSettingsPFM.French});            
+    
+
     }
 
 
@@ -359,17 +374,16 @@ class PushToEarnProfileComponent extends Component {
 
                         <View style={newStyle.topView}>
                             <Text style= {newStyle.topText}>
-                                    My Profile
+                                    {this.state.text.myProfile}
                             </Text>
                         </View>
 
                         <View style= {newStyle.inputContainer}>
-
-                            <Text style={newStyle.firstName}>First Name</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.firstName}</Text>
 
                             <View style={newStyle.innerContainer}>
                             <TextInput
-                                        style={ newStyle.nameInput }
+                                        style={ newStyle.nameInputFirst }
                                         placeholder='first name'
                                         editable={true}
                                         ref={(ref) => { this.FirstInput = ref; }}
@@ -381,11 +395,12 @@ class PushToEarnProfileComponent extends Component {
                                         name='edit'
                                         type='font-awesome'
                                         color='#E73D50'
-                                        size = {20}    
+                                        size = {15}
                                         onPress={ () => this.seteditable()  } />                
                             </View>
 
-                            <Text style={newStyle.firstName}>Last Name</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.lastName}</Text>
+                            <View style={newStyle.innerContainer}>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder='last name'
@@ -393,17 +408,36 @@ class PushToEarnProfileComponent extends Component {
                                 onBlur = { () => this.callUpdateLastName(this.state.lastNameInput)}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText= { (lastNameInput) => this.validateLastName(lastNameInput) }/>
+                            <Icon
+                                        containerStyle={newStyle.iconImageStyle}
+                                        name='edit'
+                                        type='font-awesome'
+                                        color='#E73D50'
+                                        size = {15}
+                                        onPress={ () => this.seteditable()  } />
+                            </View>
 
-                            <Text style={newStyle.firstName}>Email Address</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.Email}</Text>
+                            <View style={newStyle.innerContainer}>
                             <TextInput
-                                style={ newStyle.nameInput }
+                                style={ newStyle.nameInputEmail }
                                 placeholder='Email Address'
                                 editable={true}
                                 underlineColorAndroid= 'transparent'
                                 onBlur = { () => this.callUpdateName(this.state.emailInput)}
                                 onChangeText= { (emailInput) => this.validateEmail(emailInput) }/>
+                            <Icon
+                                        containerStyle={newStyle.iconImageStyle}
+                                        name=''
+                                        type='font-awesome'
+                                        color='#E73D50'
+                                        size = {0}
+                                        onPress={ () => this.seteditable()  } />
+                            </View>
 
-                            <Text style={newStyle.firstName}>Phone Number</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.Phone}</Text>
+
+                            <View style={newStyle.innerContainer}>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder='Phone Number'
@@ -411,25 +445,35 @@ class PushToEarnProfileComponent extends Component {
                                 underlineColorAndroid= 'transparent'
                                 onBlur = { () => this.changeMobile(this.state.phoneNumberInput)}
                                 onChangeText= { (phoneNumberInput) => this.validatePhoneNumber(phoneNumberInput) }/>    
+                                  <Icon
+                                        containerStyle={newStyle.iconImageStyle}
+                                        name='edit'
+                                        type='font-awesome'
+                                        color='#E73D50'
+                                        size = {15}
+                                        onPress={ () => this.seteditable()  } />
+                            </View>
+                                
 
-                            <Text style={newStyle.firstName}>Password</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.Password}</Text>
+                            <View style={newStyle.innerContainer}>
                             <TouchableOpacity
                                 onPress={() => { this.props.menu(6) } }
                                 activeOpacity={0.5}
                                 style={{
                                     width: 280,
-                                    height: 50,
+                                    height: 30,
                                     margin:0,
                                     borderBottomColor: "#353535",
                                     borderBottomWidth: StyleSheet.hairlineWidth,
                                     backgroundColor: 'transparent',
                                     marginBottom: 0,
                                     padding: 0,
-                                    flex:11,
+                                    flex:8,
                                 }}>
                                 <Text
                                     style={{
-                                        fontSize: 10,   
+                                        fontSize: 25,   
                                         fontFamily: 'WorkSans-Regular',
                                         fontWeight: '500',
                                         fontStyle: 'normal',
@@ -441,6 +485,14 @@ class PushToEarnProfileComponent extends Component {
                                         textAlign: 'left'}}
                                 > {this.state.buttonText.toUpperCase()}</Text>
                             </TouchableOpacity>
+                            <Icon
+                                        containerStyle={newStyle.iconImageStyle}
+                                        name='edit'
+                                        type='font-awesome'
+                                        color='#E73D50'
+                                        size = {15}
+                                        onPress={ () => this.seteditable()  } />
+                            </View>
 
                             {/* <TextInput
                                 style={ newStyle.nameInput}
@@ -451,7 +503,7 @@ class PushToEarnProfileComponent extends Component {
                                 onChangeText= { (passwordInput) => this.validatePassword(passwordInput) }/> */}
 
                             <View style={{flex: 25, }}>
-                                <Text style={newStyle.firstName}>Card Details</Text> {'\n'}
+                                <Text style={newStyle.firstName}>{this.state.text.cardDetails}</Text> {'\n'}
                                 {
                                      this.props.bankInfo === null || this.props.bankInfo === undefined || this.props.bankInfo.MobileUserBankDetailId === 0?
                                      <Text style={newStyle.para}> Add your card details  <Text style={{ color: '#e73d50',fontFamily: 'WorkSans-Bold', fontWeight: '500', fontSize: 20  }} onPress={() => this.props.menu(5)}>here</Text> </Text>
@@ -463,7 +515,7 @@ class PushToEarnProfileComponent extends Component {
                                         fontWeight: '500',
                                         fontStyle: 'normal',
                                         color: '#000000', }}> BIC NO: { this.props.bankInfo.BIC_NO } </Text> {'\n'}
-                                            <Text style={{  fontSize: 10,   
+                                            <Text style={{  fontSize: 10,
                                         fontFamily: 'WorkSans-Regular',
                                         fontWeight: '500',
                                         fontStyle: 'normal',
@@ -486,6 +538,7 @@ class PushToEarnProfileComponent extends Component {
                             } */}
 
                         </View>
+
 
                         {/* <View style={newStyle.buttonView}>
                                 <ButtonCardDetails
@@ -533,7 +586,9 @@ const newStyle = StyleSheet.create({
 
         flexDirection: 'row',
         backgroundColor: 'transparent',
-        marginRight: 20,
+        marginRight: 4,
+        marginBottom: 5,
+        
     },
 
     keyboardScrollViewContainer: {
@@ -584,16 +639,40 @@ const newStyle = StyleSheet.create({
         marginBottom: 15
     },
 
-    nameInput: {
-        width: 280,
-        height: 50,
+    nameInputFirst:{
+        width: viewPortWidth*.83,
+        height: 30,
         margin:0,
         borderBottomColor: "#353535",
         borderBottomWidth: StyleSheet.hairlineWidth,
         backgroundColor: 'transparent',
         marginBottom: 0,
         padding: 0,
-        flex:11,
+        flex:8,
+    },
+
+    nameInputEmail:{
+        width: viewPortWidth*.78,
+        height: 30,
+        margin:0,
+        borderBottomColor: "#353535",
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        backgroundColor: 'transparent',
+        marginBottom: 0,
+        padding: 0,
+        flex:8,
+    },
+
+    nameInput: {
+        width: viewPortWidth*.83,
+        height: 30,
+        margin:0,
+        borderBottomColor: "#353535",
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        backgroundColor: 'transparent',
+        marginBottom: 5,
+        padding: 0,
+        flex:8,
     },
 
     buttons: {
@@ -729,17 +808,18 @@ const newStyle = StyleSheet.create({
     },
 
     iconImageStyle:{
-        width: 13,
+        width: 24,
         height: 16,
         fontFamily: "FontAwesome",
         fontSize: 16,
         fontWeight: "normal",
         fontStyle: "normal",
         letterSpacing: 0.67,
-        textAlign: "center",
+        textAlign: "left",
         color: "rgb(231, 61, 80)", 
         marginTop: 30,
         marginRight: 20,
+        backgroundColor: 'powderblue'
     },
 
     iconStyle: {

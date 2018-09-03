@@ -121,20 +121,23 @@ class PushToEarnProfileBankInfoComponent extends Component {
                 {
 
                     if(this.state.bankName === '' || this.state.ibanNumber === '' || this.state.bicNumber === '')
-                    this.props.menu(1);
+                        this.props.menu(1);
+                    else
+                    {
+                        let payload = {
+                            "AuthenticationData":encryptedData,
+                            "LoginAccessToken": ltoken,
+                            "Bankname" : this.state.bankName,        
+                            "IBAN" : this.state.ibanNumber,
+                            "BIC_NO" : this.state.bicNumber,
+                            "Status" : "1",
+                        };
+                
+                        this.props.cardDetails(payload);
+                        this.props.menu(1);
+                    }
 
 
-                    let payload = {
-                        "AuthenticationData":encryptedData,
-                        "LoginAccessToken": ltoken,
-                        "Bankname" : this.state.bankName,        
-                        "IBAN" : this.state.ibanNumber,
-                        "BIC_NO" : this.state.bicNumber,
-                        "Status" : "1",
-                    };
-            
-                    this.props.cardDetails(payload);
-                    this.props.menu(1);
                 }
         }
 

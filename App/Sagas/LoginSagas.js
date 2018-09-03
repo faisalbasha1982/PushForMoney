@@ -74,7 +74,8 @@ function fetchFacebook(payload)
         }
       }
     )
-      .catch((error) => console.error(error));}
+      .catch((error) => console.error(error));
+}
 
 
 export function * googleRequest(api,payload)

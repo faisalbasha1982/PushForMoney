@@ -44,6 +44,8 @@ export default class NewScreenMoney extends Component {
         console.log("width="+viewPortHeight);
         console.log("height="+viewPortWidth);
 
+        console.log('language settings='+LanguageSettings.dutch.languageText);
+
         return(
                 <View style={newStyle.container}>
                     <View style={newStyle.headerImageStyle}>

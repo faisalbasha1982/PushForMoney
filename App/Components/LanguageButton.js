@@ -7,7 +7,7 @@ import WelcomeScreen from '../Containers/WelcomeScreen';
 import { NavigationActions, createStackNavigator } from "react-navigation";
 import { connect } from 'react-redux';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'; 
-
+import localStorage from 'react-native-sync-localstorage';
 
 const viewPortWidth = Dimensions.get('window').width;
 const viewPortHeight = Dimensions.get('window').height;
@@ -50,11 +50,23 @@ class LanguageButton extends Component {
   // height: viewPortHeight / 11,
 
   buttonPress = (lang,app) => {
+
     console.log("app=",app);
+    console.log("selected language="+lang);
+
+    if(lang === 'FRANÇAIS')
+      localStorage.setItem("language",'French');
+    else
+    if(lang === 'NEDERLANDS')
+      localStorage.setItem("language",'Dutch');
+    else
+    if(lang === 'ENGLISH')
+      localStorage.setItem("language",'English');
+
     if(app===0)
       this.props.navigation.navigate("FormOne",{language: lang,navigation: this.props.navigation});
     if(app===1)
-      this.props.navigation.navigate("PushToEarnSignIn");
+      this.props.navigation.navigate("PushToEarnSignIn",{language: lang,navigation: this.props.navigation});
   }
 
   render() {

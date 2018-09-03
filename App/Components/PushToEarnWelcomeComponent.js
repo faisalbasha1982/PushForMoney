@@ -25,8 +25,10 @@ import Spinner from "react-native-loading-spinner-overlay";
 import DeviceInfo from 'react-native-device-info'
 import * as Animatable from 'react-native-animatable';
 import { StyleSheet } from 'react-native';
+import localStorage from 'react-native-sync-localstorage';
 
 import LanguageSettings from '../Containers/LanguageSettingsNew';
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -50,18 +52,38 @@ class PushToEarnWelcomeComponent extends Component {
         this.state = {
             language: 'NEDERLANDS',        
             buttonText: '',
+            text:{}
         };    
     }
 
+    componentDidMount()
+    {
+        let language = localStorage.getItem('language');
+        console.log('local storage language='+language);
+
+        if(language === 'Dutch')
+        this.setState({ text: languageSettingsPFM.Dutch});
+       else
+            if(language === 'English')
+            this.setState({ text: languageSettingsPFM.English});
+        else
+            if(language === 'French')
+            this.setState({ text: languageSettingsPFM.French});            
+
+    }
+
     render() {
+
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
+        console.log('text='+this.state.text.money);
+
         return (
 
                 <View style={newStyle.endButtons}>
                     <View style={newStyle.topView}>
                         <Text style= {newStyle.topText}>           
-                                PUSH TO EARN MONEY!
+                                {this.state.text.money}
                         </Text>    
                     </View>
 
@@ -77,7 +99,7 @@ class PushToEarnWelcomeComponent extends Component {
                             <ButtonPushWelcome
                                 objectParams=
                                     {{
-                                        btnText: "HOW DOES IT WORK?", 
+                                        btnText: this.state.text.workButton, 
                                         language: "ENGLISH",
                                         firstName: this.state.firstNameInput,
                                         lastName: this.state.lastNameInput,
