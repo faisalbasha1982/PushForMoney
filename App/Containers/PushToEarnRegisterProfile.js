@@ -37,6 +37,7 @@ import { StyleSheet } from 'react-native';
 import CompanyBanner from '../Components/CompanyBanner';
 import Validation from '../Components/ButtonValidation';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import RegisterActions, { RegisterSelectors } from "../Redux/RegisterRedux";
 import NavigationService from '../Navigation/NavigationService';
@@ -46,6 +47,7 @@ import ButtonSignUp from '../Components/ButtonSignUp';
 import CryptoJS from 'crypto-js';
 import utf8 from 'utf8';
 import Api from './Api';
+import localStorage from 'react-native-sync-localstorage';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -443,8 +445,9 @@ class PushToEarnRegisterProfile extends Component {
 
         console.log("username received in register profile="+this.props.navigation.state.params.uname);
         console.tron.log("username received in register profile="+this.props.navigation.state.params.uname);
-
         console.log("platform --->",Platform.OS);
+        console.log("lastname="+this.state.text.lastName);
+
         return (
 
             <KeyboardAwareScrollView
@@ -478,7 +481,6 @@ class PushToEarnRegisterProfile extends Component {
                     </Text>
                 </View>                
 
-
                 <View style={newStyle.inputContainer}>
                
                     <Text style={newStyle.firstName}>{this.state.text.firstName}</Text>
@@ -488,7 +490,7 @@ class PushToEarnRegisterProfile extends Component {
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
                             
-                    <Text style={newStyle.firstName}>{this.state.text.lastname}</Text>
+                    <Text style={newStyle.firstName}>{this.state.text.lastName}</Text>
                     <TextInput
                         style={ newStyle.nameInput}
                         placeholder=''
@@ -606,7 +608,7 @@ const newStyle = StyleSheet.create({
     },
 
     firstName: {
-        width: 159,
+        width: 190,
         height: 19,
         fontFamily: 'WorkSans-Regular',
         fontSize: 16,

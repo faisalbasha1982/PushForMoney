@@ -79,6 +79,7 @@ class PushToEarnMoney extends Component {
 
         this.state = {
             language: 'NEDERLANDS',
+            languageCode:'',
             firstName:'',
             name:'',
             phoneNumber:'',
@@ -283,6 +284,21 @@ class PushToEarnMoney extends Component {
         // this.setText();
         // console.log("this.state.firstName="+this.state.firstName);
         // console.log("this.state.buttonText="+this.state.buttonText);
+
+        let language = localStorage.getItem('language');
+        console.log('local storage language='+language);
+
+        this.setState({ language: language});
+        
+        if(language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch,languageCode: 'nl'});
+        else
+            if(language === 'English')
+            this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
+        else
+            if(language === 'French')
+            this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
+
     }
 
     // setText =  () => {
@@ -442,6 +458,7 @@ class PushToEarnMoney extends Component {
     render() {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
+        console.log("money="+ this.state.text);
         return (
 
             (platform === 'ios')?
@@ -522,7 +539,7 @@ class PushToEarnMoney extends Component {
 
                         <View style={newStyle.topView}>
                             <Text style= {newStyle.topText}>           
-                                    Money 
+                                    {this.state.text.Money} 
                             </Text>    
                         </View>
 

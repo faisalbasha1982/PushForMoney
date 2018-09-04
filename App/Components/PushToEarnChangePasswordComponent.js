@@ -54,6 +54,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import localStorage from 'react-native-sync-localstorage';
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -72,12 +73,14 @@ class PushToEarnChangePasswordComponent extends Component {
         super(props);             
 
         this.state = {
-            language: 'NEDERLANDS',
+            language: '',
+            languageCode: '',
             oldPassword:'',
             newPassword:'',
             confirmNewPassword: '',
             isLoading:false,
             buttonText: 'CHANGE PASSWORD',
+            text:{}
         };    
     }
     somethingElse = ( ) => {
@@ -88,7 +91,7 @@ class PushToEarnChangePasswordComponent extends Component {
 
         this.setState({isLoading: true});
 
-        let authData = AuthComponent.authenticationData("en");
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
         let ltoken = localStorage.getItem('token');
 
@@ -119,6 +122,18 @@ class PushToEarnChangePasswordComponent extends Component {
 
     componentDidMount() {
 
+        let language = localStorage.getItem('language');
+        console.log('local storage language='+language);
+
+        if(language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
+        else
+            if(language === 'English')
+            this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});            
+        else
+            if(language === 'French')
+            this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
+
     }
 
     renderNothing = () => {
@@ -129,25 +144,27 @@ class PushToEarnChangePasswordComponent extends Component {
     render() {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
+        console.log("text="+this.state.text.myProfile);
+
         return (
                     <View style={newStyle.endButtons}>     
 
                         <View style={newStyle.topView}>
                             <Text style= {newStyle.topText}>           
-                                    My Profile
+                                    {this.state.text.myProfile}
                             </Text>    
                         </View>
 
                         <View style= {newStyle.inputContainer}>
 
-                            <Text style={newStyle.firstName}>Oud wachtwoord</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.oldPassword}</Text>
                             <TextInput
                                         style={ newStyle.nameInput }
                                         placeholder=''
                                         underlineColorAndroid= 'transparent'
                                         onChangeText={(oldPassword) => this.setState({oldPassword})}/>
                                     
-                            <Text style={newStyle.firstName}>Nieuw wachtwoord</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.newPassword}</Text>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder=''
@@ -161,7 +178,7 @@ class PushToEarnChangePasswordComponent extends Component {
                                     </View>:this.somethingElse()
                               }      
 
-                            <Text style={newStyle.firstName}>Herhaall nieuw wachtwoord</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.confirmPassword}</Text>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder=''
@@ -197,7 +214,7 @@ class PushToEarnChangePasswordComponent extends Component {
                                             marginTop: 0,                
                                             letterSpacing: 0.67,
                                             textAlign: 'center'}}
-                                    > {this.state.buttonText.toUpperCase()}</Text>
+                                    > {this.state.text.changePassword}</Text>
                                 </TouchableOpacity>           
                         </View>
 
@@ -242,7 +259,7 @@ const newStyle = StyleSheet.create({
     },
 
     firstName: {
-        width: 250,
+        width: 290,
         height: 19,
         fontFamily: 'WorkSans-Regular',
         fontSize: 16,

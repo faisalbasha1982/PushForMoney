@@ -22,6 +22,7 @@ import ProfileDetailsComponent from '../Components/PushToEarnAddFriendDetailsCom
 import FriendsOverViewComponent from '../Components/PushToEarnOverViewFriendsComponent';
 import FriendsLastComponent from '../Components/PushToEarnAddFriendLastComponent';
 import { FriendSelectors } from '../Redux/FriendRedux';
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import headerImage from '../Images/headerImage.png';
 import logoHeader from '../Images/logoheader.png';
 
@@ -32,16 +33,14 @@ import localStorage from 'react-native-sync-localstorage';
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth  = Dimensions.get('window').width;
 
-let authData = AuthComponent.authenticationData("en");
-let encryptedData = AesComponent.aesCallback(authData);
-let ltoken = localStorage.getItem('token');
-
 class TestPage extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
+            language: '',
+            languageCode: '',
             selectionFirst: false,
             selectionSecond: false,
             selectionThird: false,
@@ -56,7 +55,6 @@ class TestPage extends Component {
     formatPhone = (phone) => {
        return phone.replace(/(?!\w|\s)./g, '');
     }
-
 
     menuChangeWithParameters = (mChange,name,phone,email) => {
         //format phone
@@ -113,16 +111,37 @@ class TestPage extends Component {
         //call all the api's relevant with inner screens
         //console.log("this.props.referral="+this.props.referral);
         //console.tron.log("this.props.referral="+this.props.referral);
-        this.getFriendList();
 
+        let language = localStorage.getItem('language');
+        console.log('local storage language='+language);
+
+        this.setState({ language: language});
+        
+        if(language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
+        else
+            if(language === 'English')
+            this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});
+        else
+            if(language === 'French')
+            this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
+
+        setTimeout(()=> {
+            this.getFriendList();        
+        },3000);
     }
 
     getFriendList = () => {
 
         console.log("INSIDE FRIEND LIST API CALL");
 
+        console.log("language Code="+this.state.languageCode);
+
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
+        let encryptedData = AesComponent.aesCallback(authData);
+        let ltoken = localStorage.getItem('token');
+
         this.setState({isLoading: true,});
-        let ltoken = localStorage.getItem('token');       
 
         console.log("token from getFriendList ="+ltoken);
       

@@ -40,6 +40,7 @@ import { StyleSheet } from 'react-native';
 import CompanyBanner from '../Components/CompanyBanner';
 import Validation from '../Components/ButtonValidation';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
 import _ from 'lodash';
@@ -56,7 +57,6 @@ import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import localStorage from 'react-native-sync-localstorage';
 import { FriendSelectors } from '../Redux/FriendRedux';
-
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -78,6 +78,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
         this.state = {
             language: 'NEDERLANDS',
+            languageCode:'',
             firstName:'',
             name:'',
             phoneNumber:'',
@@ -98,6 +99,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
             firstNameEmptyError:false,
             lastNameEmptyError:false,
             phoneNumberEmptyError:false,
+            text:{}
         };    
     }
 
@@ -251,6 +253,19 @@ class PushToEarnAddFriendDetailsComponent extends Component {
     }
 
     componentDidMount() {
+
+        let language = localStorage.getItem('language');
+        console.log('local storage language='+language);
+
+        if(language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
+        else
+            if(language === 'English')
+            this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});            
+        else
+            if(language === 'French')
+            this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
+
         // console.log("language from props="+this.props.navigation.state.params.language);
         // console.log("default language="+this.state.language);
         // //cLanguage = this.props.navigation.state.params.language;
@@ -305,7 +320,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
     saveReferrals = () => {
 
-        let authData = AuthComponent.authenticationData("en");
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
         let ltoken = localStorage.getItem('token');
         this.setState({isLoading: true});
@@ -427,7 +442,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
                         <View style={newStyle.topView}>
                             <Text style= {newStyle.topText}>           
-                                    Kandidaat toevoegan
+                                {this.state.text.addFriendNew}
                             </Text>    
                         </View>
 
@@ -436,7 +451,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
                         <View style= {newStyle.inputContainer}>
 
-                            <Text style={newStyle.firstName}>Voornam + naam </Text>
+                            <Text style={newStyle.firstName}>{this.state.text.addFriendName} </Text>
                             <TextInput
                                         style={ newStyle.nameInput }
                                         placeholder=''
@@ -451,7 +466,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                             </View>:this.somethingElse()
                         }      
 
-                            <Text style={newStyle.firstName}>Phone number</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.Phone}</Text>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder=''
@@ -489,7 +504,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                                             marginTop: 0,
                                             letterSpacing: 0.67,
                                             textAlign: 'center'}}
-                                    > VOEG EEN KANDIDAAT TOE </Text>
+                                    > {this.state.text.addFriendsButton} </Text>
                                 </TouchableOpacity>                  
                         </View>
                     </View>
@@ -534,7 +549,7 @@ const newStyle = StyleSheet.create({
     },
 
     firstName: {
-        width: 159,
+        width: 180,
         height: 19,
         fontFamily: 'WorkSans-Regular',
         fontSize: 16,

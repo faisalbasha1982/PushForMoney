@@ -33,6 +33,7 @@ import Validation from '../Components/ButtonValidation';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -235,6 +236,20 @@ class PushToEarnChangePassword extends Component {
         // this.setText();
         // console.log("this.state.firstName="+this.state.firstName);
         // console.log("this.state.buttonText="+this.state.buttonText);
+
+        let language = localStorage.getItem('language');
+        console.log('local storage language='+language);
+
+        this.setState({ language: this.props.navigation.state.params.language});
+
+        if(language === 'NEDERLANDS')
+            this.setState({ text: languageSettingsPFM.Dutch});
+        else
+            if(language === 'ENGLISH')
+            this.setState({ text: languageSettingsPFM.English});            
+        else
+            if(language === 'FRANÇAIS')
+            this.setState({ text: languageSettingsPFM.French});            
     }
 
     // setText =  () => {
@@ -418,27 +433,27 @@ class PushToEarnChangePassword extends Component {
 
                         <View style={newStyle.topView}>
                             <Text style= {newStyle.topText}>           
-                                    My Profile
+                                    {this.state.text.myProfile}
                             </Text>    
                         </View>
 
                         <View style= {newStyle.inputContainer}>
 
-                            <Text style={newStyle.firstName}>Oud wachtwoord</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.oldPassword}</Text>
                             <TextInput
                                         style={ newStyle.nameInput }
                                         placeholder=''
                                         underlineColorAndroid= 'transparent'
                                         onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
                                     
-                            <Text style={newStyle.firstName}>Nieuw wachtwoord</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.newPassword}</Text>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
                                 onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
 
-                            <Text style={newStyle.firstName}>Herhaall nieuw wachtwoord</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.confirmPassword}</Text>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder=''

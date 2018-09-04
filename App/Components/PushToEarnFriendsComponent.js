@@ -287,6 +287,8 @@ class PushToEarnFriendsComponent extends Component {
 
     getFriendList = () => {
 
+        
+
         let payload = {
 
             "AuthenticationData": "{'Lang': 'en',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-23 6:54:12' ,'R' : 'er3rssf3dfd'}",

@@ -280,7 +280,7 @@ export function * LoginRequest(api,payload) {
     if (response.ok && response.data.StatusCode === 200 ) {
 
       Alert.alert(
-        'Login Successfull',
+        ''+response.data.Message,
         'Push To Earn Money Page',
         [                      
             {
@@ -315,7 +315,7 @@ export function * LoginRequest(api,payload) {
     yield put(LoginActions.loginFailure());    
 
     Alert.alert(
-      'Login Failed',
+      ''+response.data.Message,
       ""+response.data.Message,
       [                      
           {

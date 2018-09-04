@@ -39,7 +39,6 @@ import * as Animatable from 'react-native-animatable';
 import { StyleSheet } from 'react-native';
 import CompanyBanner from '../Components/CompanyBanner';
 import Validation from '../Components/ButtonValidation';
-import LanguageSettings from '../Containers/LanguageSettingsNew';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
 import ButtonLogin from '../Components/ButtonLogin';
@@ -54,6 +53,7 @@ import localStorage from 'react-native-sync-localstorage';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
+import LanguageSettings from '../Containers/LanguageSettingsNew';
 
 // import { RSAKey } from 'react-native-rsa';
 import { Colors } from "../Themes";
@@ -94,12 +94,13 @@ class PushToEarnSignIn extends Component {
 
     constructor(props)
     {
-        super(props);             
+        super(props);
 
         this.state = {
             isLoggedIn: false,
             hasToken: false,
             language: '',
+            languageCode:'',
             validation: false,
             renderValidate: false,
             usernameInput:'',
@@ -107,7 +108,7 @@ class PushToEarnSignIn extends Component {
             isLoading:false,
             buttonText: 'LOGIN',
             usernameError:true,
-            emailErrorText:'',     
+            emailErrorText:'',
             ErrorText:'',
             EmptyErrorText:'',
             usernameEmptyError:false,
@@ -116,7 +117,7 @@ class PushToEarnSignIn extends Component {
             cAuthenticationData:'',
             loginD:'',
             text:{},
-        };    
+        };
     }
 
     onGoogleButtonClick = async () => {
@@ -251,7 +252,7 @@ class PushToEarnSignIn extends Component {
             {cancelable: false}
         );
 
-        let authData = AuthComponent.authenticationData("en");
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
 
         let loginInfo = "{ 'G' : '"+user.id+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
@@ -297,7 +298,7 @@ class PushToEarnSignIn extends Component {
     {
         console.log("twitter login="+userName);
 
-        let authData = AuthComponent.authenticationData("en");
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
         let loginInfo = "{ 'T' : '"+userID+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
         this.rsa(loginInfo);
@@ -378,7 +379,7 @@ class PushToEarnSignIn extends Component {
 
             Alert.alert('Success fetching data user id: ' + result.id+ ' username='+ result.name + " email="+result.email);
 
-          let authData = AuthComponent.authenticationData("en");
+          let authData = AuthComponent.authenticationData(this.state.languageCode);
           let encryptedData = AesComponent.aesCallback(authData);
           let loginInfo = "{ 'F' : '"+result.id.toString()+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
           this.rsa(loginInfo);
@@ -573,16 +574,14 @@ class PushToEarnSignIn extends Component {
         this.setState({ language: this.props.navigation.state.params.language});
 
         if(this.props.navigation.state.params.language === 'NEDERLANDS')
-            this.setState({ text: languageSettingsPFM.Dutch});
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
         else
             if(this.props.navigation.state.params.language === 'ENGLISH')
-            this.setState({ text: languageSettingsPFM.English});            
+            this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});            
         else
             if(this.props.navigation.state.params.language === 'FRANÇAIS')
-            this.setState({ text: languageSettingsPFM.French});            
+            this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});            
     
-
-
         // setTimeout(() => {
         //     ltoken = localStorage.getItem('token');
 
@@ -596,7 +595,6 @@ class PushToEarnSignIn extends Component {
         //   },3000);
 
          LoginManager.logOut();
-
 
         // console.log("language from props="+this.props.navigation.state.params.language);
         // console.log("default language="+this.state.language);
@@ -708,6 +706,7 @@ class PushToEarnSignIn extends Component {
              rString = rString + chars.substr(Math.random()*62,1);
      
        return rString;
+
      }    
 
      updateText = (encodedMessage) => {         
@@ -953,7 +952,8 @@ class PushToEarnSignIn extends Component {
           else
           {
 
-            let language = "en";
+            let language = this.state.languageCode;
+            
             let cAuthenticationData = "{'Lang':"+" '"+language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
             console.log("AuthenticationData:",cAuthenticationData);
 
@@ -995,7 +995,7 @@ class PushToEarnSignIn extends Component {
 
     callLogin = async () => {
 
-        let language = "en";
+        let language = this.state.languageCode;
 
         if(this.state.usernameInput === '' || this.state.passwordInput === '' || this.state.passwordInput.length < 6)
             {
@@ -1104,7 +1104,18 @@ class PushToEarnSignIn extends Component {
         const platform = Platform.OS;
         console.log("language sent="+this.props.navigation.state.params.language);
         console.log("platform --->",Platform.OS);
-        console.log("text="+this.state.text.SignIn);
+        console.log("text="+this.state.text.here);
+        console.log("text="+typeof(this.state.text.here));
+
+        let signup = '';
+        let signupone = '';
+        let signuptwo = '';
+
+        this.state.text.here !== undefined &&
+        this.state.text.here !== null ?
+        signup = this.state.text.here.split(" ")
+        :
+        signup = '';
 
         return (
 
@@ -1221,7 +1232,7 @@ class PushToEarnSignIn extends Component {
                         }}>
                     {this.state.text.SignWith}
                     </Text>                    
-                </View>                
+                </View>
 
                   {
                             this.state.isLoading===true?
@@ -1317,9 +1328,24 @@ class PushToEarnSignIn extends Component {
                             color: "#E73D50"
                             }}
                         onPress = { () => this.props.navigation.navigate('PushToEarnSignUp')}
-                        >{this.state.text.here}</Text>
+                        >{signup[0]+"  "}</Text>
+                        <Text
+                        style={{
+                            width: 334,
+                            height: 34,
+                            fontFamily: "WorkSans-Medium",
+                            fontSize: 14,
+                            fontWeight: "500",
+                            fontStyle: "normal",
+                            lineHeight: 34,
+                            letterSpacing: 0,
+                            textAlign: "center",
+                            color: "#353535"
+                            }}
+                        onPress = { () => this.props.navigation.navigate('PushToEarnSignUp')}
+                        >{signup[1]}</Text>
                     </Text>
-                </View>                
+                </View>
 
                 </View>
  
@@ -1397,7 +1423,7 @@ const newStyle = StyleSheet.create({
         textAlign: 'left',
         marginBottom: 15,
         position: 'absolute',
-        left: 70,
+        left: 50,
         top: 0,
     },
 
@@ -1413,7 +1439,7 @@ const newStyle = StyleSheet.create({
         marginBottom: 15,
         marginTop: 10,
         position: 'absolute',
-        left: 70,
+        left: 50,
         top: 85,
     },
 
@@ -1427,7 +1453,7 @@ const newStyle = StyleSheet.create({
         letterSpacing: 0.43,
         color: "#E73D50",
         position: 'absolute',
-        left: 70,
+        left: 50,
         top: 190,
     },
 

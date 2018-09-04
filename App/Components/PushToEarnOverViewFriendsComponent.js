@@ -30,6 +30,7 @@ import { StyleSheet } from 'react-native';
 import CompanyBanner from '../Components/CompanyBanner';
 import Validation from '../Components/ButtonValidation';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
 import { FriendSelectors } from '../Redux/FriendRedux';
@@ -68,7 +69,8 @@ class PushToEarnOverViewFriendsComponent extends Component {
         super(props);             
 
         this.state = {
-            language: 'NEDERLANDS',
+            language: '',
+            languageCode: '',
             firstName:'',
             ReferredPersonStatus: false,
             name:'',
@@ -91,6 +93,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
             lastNameEmptyError:false,
             phoneNumberEmptyError:false,
             screenHeight: 0,
+            text:{}
         };    
     }
 
@@ -242,6 +245,18 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
     componentDidMount() {
 
+        let language = localStorage.getItem('language');
+        console.log('local storage language='+language);
+
+        if(language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
+        else
+            if(language === 'English')
+            this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});            
+        else
+            if(language === 'French')
+            this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+
         //this.getFriendList();
         // console.log("language from props="+this.props.navigation.state.params.language);
         // console.log("default language="+this.state.language);
@@ -330,7 +345,9 @@ class PushToEarnOverViewFriendsComponent extends Component {
         Alert.alert("called archive Api");
         console.log("called archive Api");
 
-        let authData = AuthComponent.authenticationData("en");
+        console.log("language code="+this.state.languageCode);
+
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
         ltoken = localStorage.getItem('token');
 
@@ -426,7 +443,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
                                             onPress={ () => {         
                                                         console.log("called archive Api");
                                                         } } />
-                                </TouchableOpacity>                                  
+                                </TouchableOpacity>
                                 </View>
                                 :
                                 this.renderNothing()
@@ -457,7 +474,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
                         <View style={newStyle.topView}>
                             <Text style= {newStyle.topText}>           
-                                    Kandidaten 
+                                    {this.state.text.friend}
                             </Text>    
                             {/* <Text style= {{  width: 120, height: 20, backgroundColor: 'steelblue'}}>           
                                     New Kandidaten 
@@ -491,7 +508,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
                                         lineHeight: 34,
                                         letterSpacing: 0,
                                         textAlign: "left",
-                                        color: "rgb(231, 61, 80)" }}>Kandidaat</Text>
+                                        color: "rgb(231, 61, 80)" }}>{this.state.text.friends}</Text>
                             </View> 
                         </View>
                       

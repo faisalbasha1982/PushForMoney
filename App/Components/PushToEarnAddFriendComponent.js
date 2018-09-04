@@ -31,9 +31,10 @@ import { StyleSheet } from 'react-native';
 import CompanyBanner from '../Components/CompanyBanner';
 import Validation from '../Components/ButtonValidation';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
-
+import localStorage from 'react-native-sync-localstorage';
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
 
@@ -81,6 +82,7 @@ class PushToEarnAddFriendComponent extends Component {
             firstNameEmptyError:false,
             lastNameEmptyError:false,
             phoneNumberEmptyError:false,
+            text:{}
         };    
     }
 
@@ -219,7 +221,18 @@ class PushToEarnAddFriendComponent extends Component {
     }
 
     componentDidMount() {
-      
+
+        let language = localStorage.getItem('language');
+        console.log('local storage language='+language);
+
+        if(language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch});
+        else
+            if(language === 'English')
+            this.setState({ text: languageSettingsPFM.English});            
+        else
+            if(language === 'French')
+            this.setState({ text: languageSettingsPFM.French});
     }
 
     
@@ -293,7 +306,7 @@ class PushToEarnAddFriendComponent extends Component {
 
                         <View style={newStyle.topView}>
                             <Text style= {newStyle.topText}>           
-                                    Kandidaat toevoegan
+                                    {this.state.text.addFriendNew}
                             </Text>    
                         </View>
 
@@ -301,7 +314,7 @@ class PushToEarnAddFriendComponent extends Component {
                                 <ButtonFriends
                                     objectParams=
                                         {{
-                                            btnText: "ZOEK EN JE TELEFOONBOEK", 
+                                            btnText: this.state.text.addFriendPhoneButton, 
                                             language: "NETHERLANDS",
                                             firstName: this.state.firstNameInput,
                                             lastName: this.state.lastNameInput,
@@ -320,14 +333,14 @@ class PushToEarnAddFriendComponent extends Component {
 
                         <View style= {newStyle.inputContainer}>
 
-                            <Text style={newStyle.firstName}>Voornam + naam </Text>
+                            <Text style={newStyle.firstName}>{this.state.text.addFriendName} </Text>
                             <TextInput
                                         style={ newStyle.nameInput }
                                         placeholder=''
                                         underlineColorAndroid= 'transparent'
                                         onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
                                     
-                            <Text style={newStyle.firstName}>Phone number</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.Phone}</Text>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder=''
@@ -341,7 +354,7 @@ class PushToEarnAddFriendComponent extends Component {
                                 <ButtonFriends
                                     objectParams=
                                         {{
-                                            btnText: "VOEG EEN KANDIDAAT TOE", 
+                                            btnText: this.state.text.addFriendsButton, 
                                             language: "ENGLISH",
                                             firstName: this.state.firstNameInput,
                                             lastName: this.state.lastNameInput,

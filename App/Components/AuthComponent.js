@@ -12,7 +12,7 @@ const viewPortHeight = Dimensions.get('window').height;
 
 let clanguage = '';
 
-export function getUTCDate() 
+export function getUTCDate()
 {
     //2018-04-30 11:30:12
 
@@ -58,7 +58,6 @@ export function getUTCDate()
 
     return currentDate+' '+fullTime;
   }
-
 
   export function authenticationData(language) 
   {

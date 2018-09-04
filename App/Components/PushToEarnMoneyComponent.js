@@ -39,6 +39,7 @@ import { StyleSheet } from 'react-native';
 import CompanyBanner from '../Components/CompanyBanner';
 import Validation from '../Components/ButtonValidation';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
 import Accordion from 'react-native-collapsible/Accordion';
@@ -106,6 +107,7 @@ class PushToEarnMoneyComponent extends Component {
 
         this.state = {
             language: 'NEDERLANDS',
+            languageCode: '',
             firstName:'',
             name:'',
             phoneNumber:'',
@@ -327,6 +329,7 @@ class PushToEarnMoneyComponent extends Component {
     }
 
     componentDidMount() {
+
         // console.log("language from props="+this.props.navigation.state.params.language);
         // console.log("default language="+this.state.language);
         // //cLanguage = this.props.navigation.state.params.language;
@@ -336,8 +339,19 @@ class PushToEarnMoneyComponent extends Component {
         // console.log("this.state.firstName="+this.state.firstName);
         // console.log("this.state.buttonText="+this.state.buttonText);
 
-        this.getPerson();
+        let language = localStorage.getItem('language');
+        console.log('local storage language='+language);
 
+        if(language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
+        else
+            if(language === 'English')
+                this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});
+        else
+            if(language === 'French')
+                this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
+
+        this.getPerson();
         
     }
 
@@ -607,7 +621,7 @@ class PushToEarnMoneyComponent extends Component {
 
     getPerson = () => {
       
-        let authData = AuthComponent.authenticationData("en");
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
         let ltoken = localStorage.getItem('token');
         this.setState({isLoading: true});
@@ -639,9 +653,9 @@ class PushToEarnMoneyComponent extends Component {
       
       }
 
-      getMoney = () => {
+      getMoney = () => {        
 
-        let authData = AuthComponent.authenticationData("en");
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
         let ltoken = localStorage.getItem('token');
         this.setState({isLoading: true});

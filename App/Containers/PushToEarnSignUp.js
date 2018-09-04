@@ -99,6 +99,7 @@ class PushToEarnSignUp extends Component {
         this.state = {
             isLoggedIn: false,
             language: '',
+            languageCode: '',
             validation: false,
             renderValidate: false,
             usernameInput:'',
@@ -214,7 +215,7 @@ class PushToEarnSignUp extends Component {
             {cancelable: false}
         );
 
-        let authData = AuthComponent.authenticationData("en");
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
         let loginInfo = "{ 'G' : '"+user.id+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
 
@@ -245,7 +246,7 @@ class PushToEarnSignUp extends Component {
 
     twitterLogin(userID,userName)
     {
-        let authData = AuthComponent.authenticationData("en");
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
         let loginInfo = "{ 'T' : '"+userID+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
         this.rsa(loginInfo);
@@ -330,7 +331,7 @@ class PushToEarnSignUp extends Component {
 
           Alert.alert('Success fetching data user id: ' + result.id+ ' username='+ result.name + " email="+result.email);
 
-          let authData = AuthComponent.authenticationData("en");
+          let authData = AuthComponent.authenticationData(this.state.languageCode);
           let encryptedData = AesComponent.aesCallback(authData);
           let loginInfo = "{ 'F' : '"+result.id.toString()+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
           this.rsa(loginInfo);
@@ -504,13 +505,13 @@ class PushToEarnSignUp extends Component {
         this.setState({ language: language});
         
         if(language === 'Dutch')
-            this.setState({ text: languageSettingsPFM.Dutch});
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
         else
             if(language === 'English')
-            this.setState({ text: languageSettingsPFM.English});
+            this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});
         else
             if(language === 'French')
-            this.setState({ text: languageSettingsPFM.French});            
+            this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
 
         LoginManager.logOut();
 
@@ -796,7 +797,7 @@ class PushToEarnSignUp extends Component {
           else
           {
 
-            let language = "en";
+            let language = this.state.languageCode;
 
             let cAuthenticationData = "{'Lang':"+" '"+language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";            
             let loginInfo = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";
@@ -811,7 +812,7 @@ class PushToEarnSignUp extends Component {
 
       signUp = async () => {
 
-        let language = "en";
+        let language = this.state.languageCode;
 
         if(this.state.usernameInput === '' || this.state.cpasswordInput === '' || this.state.cpasswordInput.length < 6 ||  this.state.passwordInput === '' || this.state.passwordInput.length < 6)
             {
@@ -1391,7 +1392,7 @@ const newStyle = StyleSheet.create({
         textAlign: 'left',
         marginBottom: 15,
         position: 'absolute',
-        left: 70,
+        left: 50,
         top: 0,
     },
 
@@ -1407,7 +1408,7 @@ const newStyle = StyleSheet.create({
         marginBottom: 15,
         marginTop: 10,
         position: 'absolute',
-        left: 70,
+        left: 50,
         top: 85,
     },
 
@@ -1423,7 +1424,7 @@ const newStyle = StyleSheet.create({
         marginBottom: 15,
         marginTop: 10,
         position: 'absolute',
-        left: 70,
+        left: 50,
         top: 180,
     },
 
@@ -1437,7 +1438,7 @@ const newStyle = StyleSheet.create({
         letterSpacing: 0.43,
         color: "#E73D50",
         position: 'absolute',
-        left: 70,
+        left: 50,
         top: 190,
     },
 

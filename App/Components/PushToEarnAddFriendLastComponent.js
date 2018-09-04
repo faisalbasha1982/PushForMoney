@@ -32,6 +32,9 @@ import { StyleSheet } from 'react-native';
 import CompanyBanner from '../Components/CompanyBanner';
 import Validation from '../Components/ButtonValidation';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
+import localStorage from 'react-native-sync-localstorage';
+
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
 
@@ -42,8 +45,7 @@ import headerImage from '../Images/headerImage.png';
 import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/NewHeaderImage.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
-// import Contacts from 'react-native-unified-contacts';
-// import AddressBook from 'react-native-addressbook';
+
 import Contacts from 'react-native-contacts';
 import simpleContacts from 'react-native-unified-contacts';
 import ContactsWrapper from 'react-native-contacts-wrapper';
@@ -69,6 +71,8 @@ class PushToEarnAddFriendLastComponent extends Component {
         this.state = {
             language: 'NEDERLANDS',
             buttonText: '',
+            text:{},
+            languageCode: ''
         };    
     }
 
@@ -90,6 +94,18 @@ class PushToEarnAddFriendLastComponent extends Component {
         // this.setText();
         // console.log("this.state.firstName="+this.state.firstName);
         // console.log("this.state.buttonText="+this.state.buttonText);
+
+        let language = localStorage.getItem('language');
+        console.log('local storage language='+language);
+
+        if(language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
+        else
+            if(language === 'English')
+            this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});            
+        else
+            if(language === 'French')
+            this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
     }
 
     // setText =  () => {
@@ -205,7 +221,7 @@ class PushToEarnAddFriendLastComponent extends Component {
 
                         <View style={newStyle.topView}>
                             <Text style= {newStyle.topText}>           
-                                    voeg kandidaat toe
+                                    {this.state.text.addFriendsButton}
                             </Text>    
                         </View>
 
@@ -214,7 +230,7 @@ class PushToEarnAddFriendLastComponent extends Component {
                                     onPress={() => { this.telephoneBook() } }
                                     activeOpacity={0.5}
                                     style={{
-                                        width: 280,
+                                        width: 290,
                                         height: 57,
                                         marginBottom: 10,
                                         marginLeft: 0,
@@ -226,7 +242,7 @@ class PushToEarnAddFriendLastComponent extends Component {
                                     }}>
                                     <Text
                                         style={{
-                                            fontSize: 17,
+                                            fontSize: 10,
                                             width: 333,
                                             height: 19,
                                             fontFamily: 'WorkSans-Regular',
@@ -236,7 +252,7 @@ class PushToEarnAddFriendLastComponent extends Component {
                                             marginTop: 0,
                                             letterSpacing: 0.67,
                                             textAlign: 'center'}}
-                                    > ZOEK EN JE TELEFOONBOEK </Text>
+                                    > {this.state.text.addFriendPhoneButton} </Text>
                                 </TouchableOpacity>
                         </View>                    
 
@@ -257,7 +273,7 @@ class PushToEarnAddFriendLastComponent extends Component {
                                     }}>
                                     <Text
                                         style={{
-                                            fontSize: 17,
+                                            fontSize: 12,
                                             width: 333,
                                             height: 19,
                                             fontFamily: 'WorkSans-Regular',
@@ -267,7 +283,7 @@ class PushToEarnAddFriendLastComponent extends Component {
                                             marginTop: 0,
                                             letterSpacing: 0.67,
                                             textAlign: 'center'}}
-                                    > VOEG EEN KANDIDAAT TOE </Text>
+                                    > {this.state.text.addFriendsButton} </Text>
                                 </TouchableOpacity>                               
                         </View>
                     </View>

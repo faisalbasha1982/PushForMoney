@@ -473,12 +473,12 @@ class PushToEarnProfileComponent extends Component {
                                 }}>
                                 <Text
                                     style={{
-                                        fontSize: 25,   
+                                        fontSize: 25,
                                         fontFamily: 'WorkSans-Regular',
                                         fontWeight: '500',
                                         fontStyle: 'normal',
                                         color: '#000000',
-                                        marginTop: 0,                
+                                        marginTop: 0,   
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         letterSpacing: 0.67,
@@ -615,7 +615,7 @@ const newStyle = StyleSheet.create({
     },
 
     firstName: {
-        width: 159,
+        width: 190,
         height: 19,
         fontFamily: 'WorkSans-Regular',
         fontSize: 16,
