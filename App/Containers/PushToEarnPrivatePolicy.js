@@ -76,7 +76,8 @@ class PushToEarnPrivatePolicy extends Component {
 
         this.state = {
             isLoading: false,
-            language: 'NEDERLANDS',
+            language: '',
+            languageCode:'',
             firstName:'',
             name:'',
             phoneNumber:'',
@@ -98,6 +99,7 @@ class PushToEarnPrivatePolicy extends Component {
             firstNameEmptyError:false,
             lastNameEmptyError:false,
             phoneNumberEmptyError:false,
+            text:{}
         };    
     }
 
@@ -156,6 +158,19 @@ class PushToEarnPrivatePolicy extends Component {
     }
 
     componentDidMount() {
+
+        let language = localStorage.getItem('language');
+        console.log('local storage language='+language);
+
+        if(language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+        else
+        if(language === 'English')
+            this.setState({ text: languageSettingsPFM.English,languageCode:'en'});
+        else
+        if(language === 'French')
+            this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+
     }
 
     somethingElse = ( ) => {
@@ -196,7 +211,7 @@ class PushToEarnPrivatePolicy extends Component {
                             letterSpacing: 0,                          
                             color: "#353535" 
                         }}>
-                    Private Policy Text
+                        {this.state.text.pPolicy}
                     </Text>
                 </View>                
 
@@ -231,7 +246,7 @@ class PushToEarnPrivatePolicy extends Component {
                                     marginTop: 0,                
                                     letterSpacing: 0.67,
                                     textAlign: 'center'}}
-                            > {this.state.buttonText.toUpperCase()}</Text>
+                            > {this.state.text.agree}</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
@@ -260,7 +275,7 @@ class PushToEarnPrivatePolicy extends Component {
                                     marginTop: 0,                
                                     letterSpacing: 0.67,
                                     textAlign: 'center'}}
-                            > {this.state.buttonTextO.toUpperCase()}</Text>
+                            > {this.state.text.disagree}</Text>
                         </TouchableOpacity>                   
                    
 

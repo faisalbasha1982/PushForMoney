@@ -58,10 +58,6 @@ export const IMAGE_HEIGHT_SMALL = window.width /7;
 
 let cLanguage = '';
 
-let authData = AuthComponent.authenticationData("en");
-let encryptedData = AesComponent.aesCallback(authData);
-let ltoken = localStorage.getItem('token');
-
 class PushToEarnProfileComponent extends Component {
 
     constructor(props)
@@ -70,6 +66,7 @@ class PushToEarnProfileComponent extends Component {
 
         this.state = {
             language: 'NEDERLANDS',
+            languageCode:'',
             firstName:'',
             name:'',
             phoneNumber:'',
@@ -248,7 +245,18 @@ class PushToEarnProfileComponent extends Component {
 
         if(this.props !== nextProps)
         {
-            let authData = AuthComponent.authenticationData("en");
+            let language = localStorage.getItem('language');
+
+            if(language === 'Dutch')
+                this.setState({ text: languageSettingsPFM.Dutch});
+            else
+                if(language === 'English')
+                this.setState({ text: languageSettingsPFM.English});
+            else
+                if(language === 'French')
+                this.setState({ text: languageSettingsPFM.French});
+
+            let authData = AuthComponent.authenticationData(this.state.language);
             let encryptedData = AesComponent.aesCallback(authData);
             let ltoken = localStorage.getItem('token');
             this.setState({isLoading: true});
@@ -272,7 +280,18 @@ class PushToEarnProfileComponent extends Component {
 
     componentDidMount() {
 
-        let authData = AuthComponent.authenticationData("en");
+        let language = localStorage.getItem('language');
+
+        if(language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch});
+        else
+            if(language === 'English')
+            this.setState({ text: languageSettingsPFM.English});
+        else
+            if(language === 'French')
+            this.setState({ text: languageSettingsPFM.French});            
+
+        let authData = AuthComponent.authenticationData(this.state.language);
         let encryptedData = AesComponent.aesCallback(authData);
         let ltoken = localStorage.getItem('token');
         this.setState({isLoading: true});
@@ -288,19 +307,7 @@ class PushToEarnProfileComponent extends Component {
             };
 
             this.props.getProfile(payload);
-        },3000);
-
-        let language = localStorage.getItem('language');
-
-            if(language === 'Dutch')
-                this.setState({ text: languageSettingsPFM.Dutch});
-            else
-                if(language === 'English')
-                this.setState({ text: languageSettingsPFM.English});
-            else
-                if(language === 'French')
-                this.setState({ text: languageSettingsPFM.French});            
-    
+        },3000);    
 
     }
 
@@ -336,7 +343,6 @@ class PushToEarnProfileComponent extends Component {
         console.log("login access token="+ltoken);
         console.tron.log("login access token="+ltoken);
 
-
         let payload = {         
             "AuthenticationData": encryptedData,
             "LoginAccessToken":ltoken,
@@ -352,7 +358,6 @@ class PushToEarnProfileComponent extends Component {
 
         console.log("login access token="+ltoken);
         console.tron.log("login access token="+ltoken);
-
 
         let payload = {             
             "AuthenticationData": encryptedData,
@@ -506,7 +511,7 @@ class PushToEarnProfileComponent extends Component {
                                 <Text style={newStyle.firstName}>{this.state.text.cardDetails}</Text> {'\n'}
                                 {
                                      this.props.bankInfo === null || this.props.bankInfo === undefined || this.props.bankInfo.MobileUserBankDetailId === 0?
-                                     <Text style={newStyle.para}> Add your card details  <Text style={{ color: '#e73d50',fontFamily: 'WorkSans-Bold', fontWeight: '500', fontSize: 20  }} onPress={() => this.props.menu(5)}>here</Text> </Text>
+                                     <Text style={newStyle.para}> {this.state.text.add}  <Text style={{ color: '#e73d50',fontFamily: 'WorkSans-Bold', fontWeight: '500', fontSize: 20  }} onPress={() => this.props.menu(5)}>here</Text> </Text>
                                      :
                                       this.props.bankInfo.MobileUserBankDetailId !== 0?
                                      <View style={{ flex:1,  }}>
@@ -514,17 +519,17 @@ class PushToEarnProfileComponent extends Component {
                                         fontFamily: 'WorkSans-Regular',
                                         fontWeight: '500',
                                         fontStyle: 'normal',
-                                        color: '#000000', }}> BIC NO: { this.props.bankInfo.BIC_NO } </Text> {'\n'}
+                                        color: '#000000', }}> {this.state.text.Bic}: { this.props.bankInfo.BIC_NO } </Text> {'\n'}
                                             <Text style={{  fontSize: 10,
                                         fontFamily: 'WorkSans-Regular',
                                         fontWeight: '500',
                                         fontStyle: 'normal',
-                                        color: '#000000', }} > BANK NAME: { this.props.bankInfo.IBAN } </Text> {'\n'}
+                                        color: '#000000', }} > {this.state.text.BankName}: { this.props.bankInfo.IBAN } </Text> {'\n'}
                                             <Text style={{  fontSize: 10,   
                                         fontFamily: 'WorkSans-Regular',
                                         fontWeight: '500',
                                         fontStyle: 'normal',
-                                        color: '#000000', }}> IBAN NO: {  this.props.bankInfo.Bankname }  </Text> {'\n'}
+                                        color: '#000000', }}> {this.state.text.Iban}: {  this.props.bankInfo.Bankname }  </Text> {'\n'}
                                       </View>
                                       : 
                                       this.renderNothing()

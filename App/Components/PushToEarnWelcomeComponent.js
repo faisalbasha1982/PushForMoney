@@ -96,24 +96,35 @@ class PushToEarnWelcomeComponent extends Component {
                     </View>
 
                     <View style={newStyle.buttonView}>
-                            <ButtonPushWelcome
-                                objectParams=
-                                    {{
-                                        btnText: this.state.text.workButton, 
-                                        language: "ENGLISH",
-                                        firstName: this.state.firstNameInput,
-                                        lastName: this.state.lastNameInput,
-                                        phoneNumber: this.state.phoneNumberInput,
-                                        firstNameError: this.state.firstNameError,
-                                        lastNameError: this.state.lastNameError,
-                                        phoneNumberError: this.state.phoneNumberError,
-                                        firstNameEmpty: this.state.firstNameEmptyError,
-                                        lastNameEmpty: this.state.lastNameEmptyError,
-                                        phoneNumberEmpty: this.state.phoneNumberEmptyError
-                                    }}
-                            func = {this.func}
-                            navigation = { this.props.navigation}
-                            />
+
+                      <TouchableOpacity
+                                    onPress={() => {  } }
+                                    activeOpacity={0.5}
+                                    style={{
+                                        width: 280,
+                                        height: 57,
+                                        marginBottom: 10,
+                                        marginLeft: 0,
+                                        borderRadius: 8,
+                                        backgroundColor: '#E73D50',
+                                        marginTop: viewPortHeight / 30,
+                                        justifyContent: 'center',
+                                        alignItems: 'center'
+                                    }}>
+                                    <Text
+                                        style={{
+                                            fontSize: 17,
+                                            width: 333,
+                                            height: 19,
+                                            fontFamily: 'WorkSans-Regular',
+                                            fontWeight: '500',
+                                            fontStyle: 'normal',
+                                            color: '#ffffff',
+                                            marginTop: 0,
+                                            letterSpacing: 0.67,
+                                            textAlign: 'center'}}
+                                    > {this.state.text.workButton} </Text>
+                                </TouchableOpacity>      
                     </View>
                 </View>
         );

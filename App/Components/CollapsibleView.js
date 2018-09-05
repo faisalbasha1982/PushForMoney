@@ -39,6 +39,9 @@ import AccordionListComponent from './AccordionListComponent';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import localStorage from 'react-native-sync-localstorage';
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
+import LanguageSettings from '../Containers/LanguageSettingsNew';
+
 import { MoneySelectors } from "../Redux/MoneyRedux";
 
 const viewPortHeight = Dimensions.get('window').height;
@@ -73,6 +76,9 @@ class CollapsibleView extends Component
     menu:1,
     currentPersonName:'',
     showAccordionComponent: true,
+    language:'',
+    languageCode:'',
+    text:{}
   }
 
 }
@@ -133,8 +139,8 @@ renderList = (personObj) => {
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
           <Text style={newStyle.statusStyle}>{ personObj.ReferredPersonName }</Text>
-          {(personObj.PaidStatus === "0")?<Text style={newStyle.statusStyle}>Pending</Text>
-          :<Text style={newStyle.statusStyle}> Paid </Text>}
+          {(personObj.PaidStatus === "0")?<Text style={newStyle.statusStyle}>{this.state.text.payed}</Text>
+          :<Text style={newStyle.statusStyle}> {this.state.text.pending} </Text>}
           <Text style={newStyle.fontStyle}>€{ personObj.Amount }</Text>
         </View>
 
@@ -158,7 +164,21 @@ renderList = (personObj) => {
 
 getMoney = (MobileReferralID) => {
 
-  let authData = AuthComponent.authenticationData("en");
+  let language = localStorage.getItem('language');
+  console.log('local storage language='+language);
+
+  this.setState({ language: language});
+  
+  if(language === 'Dutch')
+      this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
+  else
+      if(language === 'English')
+      this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});
+  else
+      if(language === 'French')
+      this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
+
+  let authData = AuthComponent.authenticationData(this.state.languageCode);
   let encryptedData = AesComponent.aesCallback(authData);
   let ltoken = localStorage.getItem('token');
   this.setState({isLoading: true});
@@ -193,6 +213,7 @@ componentWillReceiveProps(newProps)
 
 componentDidMount()
 {
+
   this.getMoney();
 
   console.log("componentDiDMount of CollapsibleView");
@@ -370,8 +391,10 @@ fontStyle: {
   fontWeight: "normal",
   fontStyle: "normal",
   letterSpacing: 0.67,
-  textAlign: 'left',
+  textAlign: 'right',
   color: "rgb(231, 61, 80)",
+  marginLeft: 20,
+  marginTop:3,
 },
 
 layoutBelow: {

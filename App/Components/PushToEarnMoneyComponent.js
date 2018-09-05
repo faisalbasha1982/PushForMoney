@@ -182,6 +182,7 @@ class PushToEarnMoneyComponent extends Component {
             showAccordionList: false,
             changeMenuOneBack: false,
             childMenu: 1,
+            text:{}
         };    
     }
 
@@ -754,7 +755,7 @@ class PushToEarnMoneyComponent extends Component {
                     <View style={newStyle.endButtons}>
                         <View style= {newStyle.topView}>
                             <Text style= {newStyle.topText}>
-                                        MONEY
+                                        {this.state.text.Money}
                             </Text>
                         </View>
 
@@ -763,6 +764,7 @@ class PushToEarnMoneyComponent extends Component {
                             <BackComponent
                                 name={this.state.currentName}
                                 back={this.tbBackComponent}
+                                backText = {this.state.text.backOverview}
                             />
                             :
                             this.renderEmpty()
@@ -920,12 +922,12 @@ class PushToEarnMoneyComponent extends Component {
 
                          <View style={newStyle.borderBottomNew}></View>
                                 <View style={newStyle.totalText}>
-                                            <Text style={newStyle.firstName}>Total Earnings</Text>
+                                            <Text style={newStyle.firstName}>{this.state.text.TotalNext}</Text>
                                             <Text style={newStyle.fontStyle}>€ {this.props.TotalEarnings}</Text>
                                 </View>
 
                                 <View style={newStyle.totalHoursText}>
-                                            <Text style={newStyle.firstName}>Total worked hours</Text>
+                                            <Text style={newStyle.firstName}>{this.state.text.Total}</Text>
                                             <Text style={newStyle.hoursText}>{this.props.TotalWorkedHours}</Text>
                                 </View>
 

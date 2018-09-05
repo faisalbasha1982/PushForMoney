@@ -83,6 +83,7 @@ class PushToEarnRegisterProfile extends Component {
 
         this.state = {
             language: 'NEDERLANDS',
+            languageCode:'',
             isLoading: false,
             firstName:'',
             name:'',
@@ -272,13 +273,13 @@ class PushToEarnRegisterProfile extends Component {
         console.log('local storage language='+language);
 
         if(language === 'Dutch')
-            this.setState({ text: languageSettingsPFM.Dutch});
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
         else
         if(language === 'English')
-            this.setState({ text: languageSettingsPFM.English});
+            this.setState({ text: languageSettingsPFM.English,languageCode:'en'});
         else
         if(language === 'French')
-            this.setState({ text: languageSettingsPFM.French});
+            this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
 
     }
 

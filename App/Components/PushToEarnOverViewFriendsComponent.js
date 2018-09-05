@@ -419,9 +419,12 @@ class PushToEarnOverViewFriendsComponent extends Component {
         }
 
             return (            
-                <View style={{ padding: 2, paddingTop: 3, paddingLeft:0, flexDirection: 'column',height: viewPortHeight*0.08, backgroundColor: 'white', }}>
+                <View style={{ padding: 2, paddingTop: 3, paddingLeft:0, flexDirection: 'column',height: viewPortHeight*0.09, backgroundColor: 'white', }}>
                         <View style={{ padding: 3,paddingLeft:0, paddingTop: 4, flex:1, height: viewPortHeight*0.31, flexDirection: 'row' , alignItems: 'flex-start', justifyContent: 'flex-start', backgroundColor: 'white'}}>
-                            <Text style={newStyle.nameStyle}>{ personObj.Name.split(' ')[0] }</Text>
+                          <View style={{ flex:1, backgroundColor:'transparent', width:50,height:60, flexDirection: 'column' }}>
+                              <Text style={newStyle.nameStyles}>{ personObj.Name.split(' ')[0] }</Text>
+                              <Text style={newStyle.lastnameStyle}>{ personObj.Name.split(' ')[1] }</Text>
+                          </View>
                             <Text style={newStyle.statusStyle}>{ personObj.ReferredPersonStatus}</Text>
                             {(personObj.ReferredPersonStatus === 'Finished')?
                                 <View style= {{ padding: 3,width: 120, height: 50, backgroundColor: 'transparent', marginTop: 5 }}>
@@ -614,7 +617,7 @@ const newStyle = StyleSheet.create({
         width: viewPortWidth*.80,
         height: 1,
         borderBottomWidth: StyleSheet.hairlineWidth,
-        marginBottom: 10,
+        marginBottom: 5,
         borderStyle: "solid",
         borderWidth: 1,
         borderColor: 'rgb(231, 61, 80)',
@@ -808,11 +811,37 @@ const newStyle = StyleSheet.create({
         color: "rgb(53, 53, 53)"
     },
 
-    statusStyle: {
+    nameStyles:{
         width: 120,
+        height: 25,
+        fontFamily: "WorkSans-Regular",
+        fontSize: 15,
+        fontWeight: "normal",
+        fontStyle: "normal",
+        letterSpacing: 0.46,
+        color: "rgb(53, 53, 53)",
+        textAlign: "left",
+        backgroundColor:'transparent'
+    },
+
+    lastnameStyle:{
+        width: 120,
+        height: 25,
+        fontFamily: "WorkSans-Regular",
+        fontSize: 15,
+        fontWeight: "normal",
+        fontStyle: "normal",
+        letterSpacing: 0.46,
+        color: "rgb(53, 53, 53)",
+        textAlign: "right",
+    },
+
+    statusStyle: {
+        width: 150,
         height: 30,
         paddingLeft: 5,
         marginTop: 8,
+
         fontFamily: "WorkSans-Regular",
         fontSize: 13,
         fontWeight: "normal",

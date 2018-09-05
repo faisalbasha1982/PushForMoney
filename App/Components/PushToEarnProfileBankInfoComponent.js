@@ -31,6 +31,7 @@ import { StyleSheet } from 'react-native';
 import CompanyBanner from '../Components/CompanyBanner';
 import Validation from '../Components/ButtonValidation';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
 
@@ -68,6 +69,7 @@ class PushToEarnProfileBankInfoComponent extends Component {
 
         this.state = {
             language: 'NEDERLANDS',
+            languageCode: '',
             bankName:'',
             ibanNumber: 34,
             bicNumber: 12,
@@ -78,6 +80,7 @@ class PushToEarnProfileBankInfoComponent extends Component {
             selectionThird: false,
             selectionFourth: false,
             buttonText: 'SAVE DATA',
+            text:{}
         };    
     }
 
@@ -86,6 +89,16 @@ class PushToEarnProfileBankInfoComponent extends Component {
     }
 
     componentDidMount() {
+        let language = localStorage.getItem('language');
+
+        if(language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+        else
+            if(language === 'English')
+            this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
+        else
+            if(language === 'French')
+            this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
        
     }   
 
@@ -97,7 +110,8 @@ class PushToEarnProfileBankInfoComponent extends Component {
 
     saveData = () => {
 
-        let authData = AuthComponent.authenticationData("en");
+
+        let authData = AuthComponent.authenticationData(this.state.language);
         let encryptedData = AesComponent.aesCallback(authData);
         let ltoken = localStorage.getItem('token');
         this.setState({isLoading: true});
@@ -151,27 +165,27 @@ class PushToEarnProfileBankInfoComponent extends Component {
 
                         <View style={newStyle.topView}>
                             <Text style= {newStyle.topText}>           
-                                    My Profile
+                                    {this.state.text.myProfile}
                             </Text>    
                         </View>
 
                         <View style= {newStyle.inputContainer}>
 
-                            <Text style={newStyle.firstName}>BANK NAME</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.BankName}</Text>
                             <TextInput
                                         style={ newStyle.nameInput }
                                         placeholder=''
                                         underlineColorAndroid= 'transparent'
                                         onChangeText={(bankName) => this.setState(bankName)}/>
                                     
-                            <Text style={newStyle.firstName}>IBAN NUMBER</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.Iban}</Text>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
                                 onChangeText= { (ibanNumber) => this.setState({ibanNumber}) }/>
 
-                            <Text style={newStyle.firstName}>BIC NUMBER</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.Bic}</Text>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder=''

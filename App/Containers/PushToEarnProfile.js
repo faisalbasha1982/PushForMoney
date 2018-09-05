@@ -256,8 +256,22 @@ class PushToEarnProfile extends Component {
 
     componentDidMount() 
     {
+        let language = localStorage.getItem('language');
+        console.log('local storage language='+language);
 
-        let authData = AuthComponent.authenticationData("en");
+        this.setState({ language: language});
+        
+        if(language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
+        else
+            if(language === 'English')
+            this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});
+        else
+            if(language === 'French')
+            this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
+
+
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
         let ltoken = localStorage.getItem('token');
         this.setState({isLoading: true});
@@ -404,13 +418,13 @@ class PushToEarnProfile extends Component {
 
                         <View style={newStyle.topView}>
                             <Text style= {newStyle.topText}>           
-                                    My Profile
+                                    {this.state.text.myProfile}
                             </Text>    
                         </View>
 
                         <View style= {newStyle.inputContainer}>
 
-                            <Text style={newStyle.firstName}>First Name</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.firstName}</Text>
 
                             <View style={newStyle.innerContainer}>
                             <TextInput
@@ -430,7 +444,7 @@ class PushToEarnProfile extends Component {
                                         onPress={ () => this.seteditable()  } />                
                             </View>
 
-                            <Text style={newStyle.firstName}>Last Name</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.lastName}</Text>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder='last name'
@@ -440,7 +454,7 @@ class PushToEarnProfile extends Component {
                                 onChangeText= { (lastNameInput) => this.validateLastName(lastNameInput) }/>
 
 
-                            <Text style={newStyle.firstName}>Email Address</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.Email}</Text>
                             <TextInput
                                 style={ newStyle.nameInput }
                                 placeholder='Email Address'
@@ -449,7 +463,7 @@ class PushToEarnProfile extends Component {
                                 onBlur = { () => this.callUpdateName(this.state.emailInput)}
                                 onChangeText= { (emailInput) => this.validateEmail(emailInput) }/>
 
-                            <Text style={newStyle.firstName}>Phone Number</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.Phone}</Text>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder='Phone Number'
@@ -458,7 +472,7 @@ class PushToEarnProfile extends Component {
                                 onBlur = { () => this.changeMobile(this.state.phoneNumberInput)}
                                 onChangeText= { (phoneNumberInput) => this.validatePhoneNumber(phoneNumberInput) }/>    
 
-                            <Text style={newStyle.firstName}>Password</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.Password}</Text>
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder='Password'

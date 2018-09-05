@@ -12,7 +12,7 @@ export default class BackComponent extends Component
     {
         super(props);
 
-        state = {
+        state = {            
         }
     }
 
@@ -54,7 +54,7 @@ export default class BackComponent extends Component
                                                     color: "rgb(231, 61, 80)",
                                                     backgroundColor: 'transparent'
                                                 }}>
-                                                    Back To Overview
+                                                    {this.props.backText}
                                                 </Text>
                                             </TouchableOpacity>
         </View>

@@ -30,8 +30,10 @@ import { StyleSheet } from 'react-native';
 import CompanyBanner from '../Components/CompanyBanner';
 import Validation from '../Components/ButtonValidation';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
+import localStorage from 'react-native-sync-localstorage';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -62,6 +64,7 @@ class PushToEarnInformationComponent extends Component {
 
         this.state = {
             language: 'NEDERLANDS',
+            languageCode: '',
             firstName:'',
             name:'',
             phoneNumber:'',
@@ -82,6 +85,7 @@ class PushToEarnInformationComponent extends Component {
             firstNameEmptyError:false,
             lastNameEmptyError:false,
             phoneNumberEmptyError:false,
+            text:{}
         };    
     }
 
@@ -226,6 +230,20 @@ class PushToEarnInformationComponent extends Component {
 
     componentDidMount() {
 
+        let language = localStorage.getItem('language');
+        console.log('local storage language='+language);
+
+        this.setState({ language: language});
+        
+        if(language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
+        else
+            if(language === 'English')
+            this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});
+        else
+            if(language === 'French')
+            this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
+
     }
 
     renderNothing = () => {
@@ -243,13 +261,13 @@ class PushToEarnInformationComponent extends Component {
 
                         <View style={newStyle.topView}>
                             <Text style= {newStyle.topText}>           
-                                    Information 
+                                    {this.state.text.Information} 
                             </Text>    
                         </View>
 
                         <View style= {newStyle.inputContainer}>
 
-                            <Text style={newStyle.firstName}>Support </Text>
+                            <Text style={newStyle.firstName}>{this.state.text.Support} </Text>
 
                             <View style={newStyle.borderBottom}> </View>
                                     
@@ -257,7 +275,7 @@ class PushToEarnInformationComponent extends Component {
 
                             <View style={newStyle.borderBottom}> </View>
 
-                            <Text style={newStyle.firstName}>FAQ</Text>
+                            <Text style={newStyle.firstName}>{this.state.text.faq}</Text>
 
                             <View style={newStyle.borderBottom}> </View>
 

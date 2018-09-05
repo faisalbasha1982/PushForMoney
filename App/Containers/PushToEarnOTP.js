@@ -80,6 +80,7 @@ class PushToEarnOTP extends Component {
 
         this.state = {
             language: 'NEDERLANDS',
+            languageCode:'',
             isLoading: false,
             validation: false,
             renderValidate: false,
@@ -91,6 +92,7 @@ class PushToEarnOTP extends Component {
             buttonText: 'START NOW!',
             ErrorText:'',
             EmptyErrorText:'',
+            text:{}
         };    
     }
 
@@ -103,6 +105,20 @@ class PushToEarnOTP extends Component {
     }
 
     componentDidMount() {
+
+        let language = localStorage.getItem('language');
+        console.log('local storage language='+language);
+
+        if(language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+        else
+        if(language === 'English')
+            this.setState({ text: languageSettingsPFM.English,languageCode:'en'});
+        else
+        if(language === 'French')
+            this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+
+
         // console.log("language from props="+this.props.navigation.state.params.language);
         // console.log("default language="+this.state.language);
         // this.setState({ language: this.props.navigation.state.params.language });
@@ -189,7 +205,7 @@ class PushToEarnOTP extends Component {
         let tokenLocalStorage = localStorage.getItem('token');
         this.setState({loginAccessToken:tokenLocalStorage});
 
-        let authData = AuthComponent.authenticationData("en");
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
         console.log("authdata=",authData);
 
         let encryptedData = AesComponent.aesCallback(authData);
@@ -287,7 +303,7 @@ class PushToEarnOTP extends Component {
                             textAlign: 'center',
                             color: "#E73D50"                        
                         }}>
-                    Enter OTP
+                    {this.state.text.otp}
                     </Text>
                 </View>                
 
@@ -310,8 +326,9 @@ class PushToEarnOTP extends Component {
                            textAlign: "center",
                            color: "#000000"
                      }}>
-                         We send you an email with One Time {'\n'}
-                         Password.Please enter the code below.                         
+                         {this.state.text.otpMessage} 
+                         {'\n'}
+                         {this.state.text.otpMessagecntd}
                     </Text>
                 </View>
 
@@ -431,7 +448,7 @@ class PushToEarnOTP extends Component {
                                     marginTop: 0,                
                                     letterSpacing: 0.67,
                                     textAlign: 'center'}}
-                            > {this.state.buttonText.toUpperCase()}</Text>
+                            > {this.state.text.start}</Text>
                         </TouchableOpacity>                        
 
                     </View>
@@ -446,7 +463,7 @@ class PushToEarnOTP extends Component {
                                  letterSpacing: 0,                          
                                  textAlign: 'center',
                                  color: "#E73D50"       
-                            }}> Contact Support </Text>
+                            }}> {this.state.text.contactSupport} </Text>
                     </View>
 
                     <View style = {{ width: 333, height: 95, }}>
