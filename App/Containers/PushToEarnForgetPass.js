@@ -37,13 +37,14 @@ import { StyleSheet } from 'react-native';
 import CompanyBanner from '../Components/CompanyBanner';
 import Validation from '../Components/ButtonValidation';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
 import ButtonLogin from '../Components/ButtonLogin';
 import CryptoJS from 'crypto-js';
 import utf8 from 'utf8';
 import Api from './Api';
-
+import localStorage from 'react-native-sync-localstorage';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -81,6 +82,7 @@ class PushToEarnForgetPass extends Component
 
         this.state = {
             language: 'NEDERLANDS',
+            languageCode:'',
             firstName:'',
             name:'',
             isLoading:'',
@@ -102,6 +104,7 @@ class PushToEarnForgetPass extends Component
             firstNameEmptyError:false,
             lastNameEmptyError:false,
             phoneNumberEmptyError:false,
+            text:{},
         };    
     }
 
@@ -109,6 +112,20 @@ class PushToEarnForgetPass extends Component
     }
 
     componentDidMount() {
+
+        let language = localStorage.getItem('language');
+        console.log('local storage language='+language);
+
+        this.setState({ language: language});
+        
+        if(language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
+        else
+            if(language === 'English')
+            this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});
+        else
+            if(language === 'French')
+            this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
 
     }
 
@@ -238,7 +255,7 @@ class PushToEarnForgetPass extends Component
         this.setState({isLoading: true});
 
         //"{'Lang': 'en', 'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-18 12:45:12' ,'R' : 'er3rssf3d'}"
-        let cAuthenticationData = "{'Lang':"+" '"+this.state.language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
+        let cAuthenticationData = "{'Lang':"+" '"+this.state.languageCode+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
         let payload = {
 
             "AuthenticationData":this.aes(cAuthenticationData),
@@ -283,9 +300,8 @@ class PushToEarnForgetPass extends Component
                             letterSpacing: 0,                          
                             color: "#E73D50" 
                         }}>
-                    Forget Password
+                    {this.state.text.forget}
                     </Text>
-
 
                      {
                             this.state.isLoading===true?
@@ -298,7 +314,7 @@ class PushToEarnForgetPass extends Component
 
                 <View style={newStyle.inputContainer}>
                
-                    <Text style={newStyle.firstName}>Email Address</Text>
+                    <Text style={newStyle.firstName}>{this.state.text.Email}</Text>
                     <TextInput
                                 style={ newStyle.nameInput }
                                 placeholder=''
@@ -334,7 +350,7 @@ class PushToEarnForgetPass extends Component
                                     marginTop: 0,                
                                     letterSpacing: 0.67,
                                     textAlign: 'center'}}
-                            > {this.state.buttonText.toUpperCase()}</Text>
+                            > {this.state.text.resetPassword}</Text>
                         </TouchableOpacity>                
 
                     <View style= {{ flex:3, 
@@ -356,7 +372,7 @@ class PushToEarnForgetPass extends Component
                                 marginRight: 10,
                                 marginLeft: 15,
                             }}>
-                        Sign in 
+                        {this.state.text.SignIn} 
                         </Text>
                         <Text 
                             style={{
@@ -370,7 +386,7 @@ class PushToEarnForgetPass extends Component
                                 textAlign: "left",
                                 color: "#E73D50" 
                             }}>
-                        Sign up
+                        {this.state.text.SignUp}
                         </Text>
 
                     </View>
@@ -448,7 +464,7 @@ const newStyle = StyleSheet.create({
         textAlign: 'left',
         marginBottom: 15,
         position: 'absolute',
-        left:70,
+        left:50,
         top:0,
     },
 

@@ -156,7 +156,6 @@ class PushToEarnOTPForgetPass extends Component {
         if(language === 'French')
             this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
 
-
         // console.log("language from props="+this.props.navigation.state.params.language);
         // console.log("default language="+this.state.language);
         // this.setState({ language: this.props.navigation.state.params.language });

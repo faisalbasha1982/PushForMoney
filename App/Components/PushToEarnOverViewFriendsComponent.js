@@ -419,11 +419,11 @@ class PushToEarnOverViewFriendsComponent extends Component {
         }
 
             return (            
-                <View style={{ padding: 2, paddingTop: 3, paddingLeft:0, flexDirection: 'column',height: viewPortHeight*0.09, backgroundColor: 'white', }}>
+                <View style={{ padding: 2, paddingTop: 3, paddingLeft:0, flexDirection: 'column',height: viewPortHeight*0.08, backgroundColor: 'white', }}>
                         <View style={{ padding: 3,paddingLeft:0, paddingTop: 4, flex:1, height: viewPortHeight*0.31, flexDirection: 'row' , alignItems: 'flex-start', justifyContent: 'flex-start', backgroundColor: 'white'}}>
                           <View style={{ flex:1, backgroundColor:'transparent', width:50,height:60, flexDirection: 'column' }}>
-                              <Text style={newStyle.nameStyles}>{ personObj.Name.split(' ')[0] }</Text>
-                              <Text style={newStyle.lastnameStyle}>{ personObj.Name.split(' ')[1] }</Text>
+                              <Text style={newStyle.nameStyles}>{ personObj.Name }</Text>
+                              {/* <Text style={newStyle.lastnameStyle}>{ personObj.Name.split(' ')[1] }</Text> */}
                           </View>
                             <Text style={newStyle.statusStyle}>{ personObj.ReferredPersonStatus}</Text>
                             {(personObj.ReferredPersonStatus === 'Finished')?
@@ -821,7 +821,8 @@ const newStyle = StyleSheet.create({
         letterSpacing: 0.46,
         color: "rgb(53, 53, 53)",
         textAlign: "left",
-        backgroundColor:'transparent'
+        backgroundColor:'transparent',
+        alignItems:'center'
     },
 
     lastnameStyle:{
