@@ -1141,10 +1141,11 @@ const newStyle = StyleSheet.create({
     borderBottomNew: {
         width: 310,
         height: 1,
-        borderBottomColor: "rgb(202, 44, 62)",
-        borderStyle: "solid",
         borderBottomWidth: StyleSheet.hairlineWidth,
-        flex:2,
+        borderStyle: "solid",
+        borderWidth: 1,
+        borderColor: 'rgb(231, 61, 80)',
+        borderBottomColor: "rgb(231, 61, 80)"
     },
 
     monthlyBar: {

@@ -105,7 +105,6 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
         if(name === '')
         {
-            //this.setState({ lastNameError: true, ErrorText: 'Last Name is Required' });
             this.setState({lastNameInput: ''});
 
             if(this.state.language === 'NEDERLANDS')
@@ -148,7 +147,6 @@ class PushToEarnOverViewFriendsComponent extends Component {
             console.log("First name is empty="+name);
             console.log("Language ="+this.state.language);
             this.setState({firstNameInput: ''});
-            //this.setState({ firstNameError: true, ErrorText: 'First Name is Required' });
             if(this.state.language === 'NEDERLANDS')
                 this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
             else
@@ -219,13 +217,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
                         this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.english.TelephoneNumberError });
                     else
                         this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
-        }
-    
-        // if (homePhone.exec(phone))
-        //   this.setState({ phoneError: false, phone: phone });
-        // else
-        //   this.setState({ phoneError: true });
-    
+        }    
     }
 
     PhoneNumberPickerChanged = (country, callingCode, phoneNumber) => {
@@ -233,14 +225,6 @@ class PushToEarnOverViewFriendsComponent extends Component {
      }
 
     componentWillReceiveProps(nextProps) {
-        //console.log("in Form One screen language received="+nextProps.language);
-        // if (this.props.navigation.state.params.language !== nextProps.language) {
-        //     this.setState({ language: nextProps.language });
-        //     this.setText();
-        // }
-
-        // if(this.props != nextProps)
-        //     this.getFriendList();
     }
 
     componentDidMount() {
@@ -257,54 +241,10 @@ class PushToEarnOverViewFriendsComponent extends Component {
             if(language === 'French')
             this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
 
-        //this.getFriendList();
-        // console.log("language from props="+this.props.navigation.state.params.language);
-        // console.log("default language="+this.state.language);
-        // //cLanguage = this.props.navigation.state.params.language;
-        // this.setState({ language: this.props.navigation.state.params.language });
-        // console.log("language="+this.state.language);
-        // this.setText();
-        // console.log("this.state.firstName="+this.state.firstName);
-        // console.log("this.state.buttonText="+this.state.buttonText);
+            setTimeout(()=> {
+                this.getFriendList();        
+            },3000);            
     }
-
-    // setText =  () => {
-
-    //     this.setState({language: this.props.navigation.state.params.language});
-    //     console.log("this.state.language="+this.state.language);
-
-    //     if (this.props.navigation.state.params.language === 'NEDERLANDS') {
-    //         console.log("setting in Nederlands");
-    //         this.setState({
-    //             firstName:  LanguageSettings.dutch.firstNameText,
-    //             name:       LanguageSettings.dutch.lastNameText,
-    //             phoneNumber: LanguageSettings.dutch.telephoneNumberText,
-    //             buttonText: LanguageSettings.dutch.buttonNextText
-    //         });
-    //     }
-    //     else
-    //         if (this.props.navigation.state.params.language === 'ENGLISH') {
-    //             console.log("setting in English");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.english.firstNameText,
-    //                 name: LanguageSettings.english.lastNameText,
-    //                 phoneNumber: LanguageSettings.english.telephoneNumberText,
-    //                 buttonText: LanguageSettings.english.buttonNextText
-    //             });
-    //         }
-    //         else
-    //           {
-    //             console.log("setting in French");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.french.firstNameText,
-    //                 name: LanguageSettings.french.lastNameText,
-    //                 phoneNumber: LanguageSettings.french.telephoneNumberText,
-    //                 buttonText: LanguageSettings.french.buttonNextText
-    //             });
-    //         }
-    
-       
-    // }
 
     renderNothing = () => {
 
@@ -336,6 +276,39 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
             )
         );
+
+    }
+
+    getFriendList = () => {
+
+        console.log("INSIDE FRIEND LIST API CALL");
+        console.log("language Code="+this.state.languageCode);
+
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
+        let encryptedData = AesComponent.aesCallback(authData);
+        let ltoken = localStorage.getItem('token');
+
+        this.setState({isLoading: true,});
+
+        console.log("token from getFriendList ="+ltoken);
+      
+        if(ltoken !== null || ltoken !== undefined)
+        {
+            let payload = {
+                "AuthenticationData": encryptedData,
+                "LoginAccessToken": ltoken,
+            };    
+
+            this.props.friendRequest(payload); 
+
+        }
+        else
+        {
+            ltoken = localStorage.getItem('token');       
+        }
+        
+        console.log("this.props.referral="+this.props.referral);
+        console.tron.log("this.props.referral="+this.props.referral);
 
     }
 
@@ -373,51 +346,10 @@ class PushToEarnOverViewFriendsComponent extends Component {
             this.props.archiveApi(payload);
         },3000)
 
-
-                // {
-
-                //     "StatusCode": 200,
-                //     "Message": "Referred Person \"kumarappan3 somasundaram\" is archived successfully.",
-                //     "ErrorDetails": "Referred Person \"kumarappan3 somasundaram\" is archived successfully.",
-                //     "Lang": "en"
-
-                // };
-
-                // {
-
-                //     "StatusCode": 304,
-                //     "Message": "Referred Person \"Balaji Subbiah\" cannot be archived.",
-                //     "ErrorDetails": "Referred Person \"Balaji Subbiah\" cannot be archived.",
-                //     "Lang": "en",
-
-                // }
     }
 
 
     renderList = (personObj) => {
-
-       // [
-        //     {
-        //         "MobileReferralID": 1,
-        //         "Name": "Balaji Subbiah",
-        //         "ReferredPersonStatus": "Pending",
-        //         "ReferralDateTime": "2018-05-17T10:33:45.92",
-        //         "FirstContractStartDate": "2017-12-05T00:00:00",
-        //         "ReferredMobileUserID": 3,
-        //         "Email": null,
-        //         "MobilePhone": "00971505642721",
-        //         "PostalCode": "2330",
-        //         "PersonID": 1,
-        //         "EmailVerifiedStatus": false,
-        //         "ReRequestCount": 0
-        //     }
-        // ]
-
-        if(personObj === null)
-        {
-
-        }
-
             return (            
                 <View style={{ padding: 2, paddingTop: 3, paddingLeft:0, flexDirection: 'column',height: viewPortHeight*0.08, backgroundColor: 'white', }}>
                         <View style={{ padding: 3,paddingLeft:0, paddingTop: 4, flex:1, height: viewPortHeight*0.31, flexDirection: 'row' , alignItems: 'flex-start', justifyContent: 'flex-start', backgroundColor: 'white'}}>
@@ -425,32 +357,36 @@ class PushToEarnOverViewFriendsComponent extends Component {
                               <Text style={newStyle.nameStyles}>{ personObj.Name }</Text>
                               {/* <Text style={newStyle.lastnameStyle}>{ personObj.Name.split(' ')[1] }</Text> */}
                           </View>
-                            <Text style={newStyle.statusStyle}>{ personObj.ReferredPersonStatus}</Text>
-                            {(personObj.ReferredPersonStatus === 'Finished')?
-                                <View style= {{ padding: 3,width: 120, height: 50, backgroundColor: 'transparent', marginTop: 5 }}>
-                                    
-                                    <TouchableOpacity
-                                    onPress={() => {  this.archiveApiCall(personObj) } }
-                                    activeOpacity={0.5}
-                                    style={{
-                                        width: 100,
-                                        height: 57,
-                                        backgroundColor: 'transparent',
-                                    }}>
-                                        <Icon
-                                            containerStyle={newStyle.iconImageStyleNew}
-                                            name='times-circle'
-                                            type='font-awesome'
-                                            color='#E73D50'
-                                            size = {10}
-                                            onPress={ () => {         
-                                                        console.log("called archive Api");
-                                                        } } />
-                                </TouchableOpacity>
-                                </View>
-                                :
-                                this.renderNothing()
-                            }
+                          <View style={{ flex:1, backgroundColor:'transparent',flexDirection:'column',alignItems:'space-between', justifyContent:'flex-end' }}>
+                                {(personObj.ReferredPersonStatus === 'Finished' || personObj.ReferredPersonStatus === 'Afgewerkt' || personObj.ReferredPersonStatus === 'Fini')?
+                                        <View style= {{ padding: 3,alignItems:'flex-end',justifyContent:'flex-end',width: 20, height: 20, backgroundColor: 'transparent', marginTop: 5, }}>
+                                            
+                                            <TouchableOpacity
+                                            // onPress={() => {  this.archiveApiCall(personObj) } }
+                                            activeOpacity={0.5}
+                                            style={{
+                                                width: 20,
+                                                height: 20,
+                                                backgroundColor: 'transparent',
+                                            }}>
+                                                <Icon
+                                                    containerStyle={newStyle.iconImageStyleNew}
+                                                    name='times-circle'
+                                                    type='font-awesome'
+                                                    color='#E73D50'
+                                                    size = {10}
+                                                    onPress={ () => {         
+                                                                console.log("called archive Api");
+                                                                } } />
+                                        </TouchableOpacity>
+                                        </View>
+                                        :
+                                        this.renderNothing()
+                                    }
+
+                                    <Text style={newStyle.statusStyle}>{ personObj.ReferredPersonStatus}</Text>
+
+                          </View>
 
                         </View>
                          <View style={newStyle.borderBottom}></View>
@@ -764,6 +700,7 @@ const newStyle = StyleSheet.create({
         color: "rgb(231, 61, 80)", 
         marginTop: 0,
         marginRight: 10,
+        backgroundColor:'steelblue'
     },
 
     iconImageStyle:{
@@ -812,7 +749,7 @@ const newStyle = StyleSheet.create({
     },
 
     nameStyles:{
-        width: 120,
+        width: viewPortWidth,
         height: 25,
         fontFamily: "WorkSans-Regular",
         fontSize: 15,
@@ -838,17 +775,18 @@ const newStyle = StyleSheet.create({
     },
 
     statusStyle: {
-        width: 150,
-        height: 30,
+        width: 100,
+        height: 20,
         paddingLeft: 5,
-        marginTop: 8,
-
+        marginTop: 20,
         fontFamily: "WorkSans-Regular",
-        fontSize: 13,
+        fontSize: 11,
         fontWeight: "normal",
         fontStyle: "normal",
         letterSpacing: 0.39,
-        color: "rgb(155, 155, 155)"
+        color: "rgb(155, 155, 155)",
+        backgroundColor: 'transparent',
+        textAlign:'right'
     }
 
 });
