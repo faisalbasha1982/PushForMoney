@@ -354,9 +354,9 @@ class PushToEarnForgetPass extends Component
                         </TouchableOpacity>                
 
                     <View style= {{ flex:3, 
-                            backgroundColor: 'transparent', 
+                            backgroundColor: 'transparent',
                             flexDirection: 'row',
-                            alignItems: 'flex-start', 
+                            alignItems: 'flex-start',
                             justifyContent:'center' }}>
                             <Text 
                             style={{
@@ -367,11 +367,13 @@ class PushToEarnForgetPass extends Component
                                 fontWeight: "500",
                                 fontStyle: "normal",
                                 letterSpacing: 0.5,
-                                textAlign: "center",                           
+                                textAlign: "center",                 
                                 color: "#E73D50", 
                                 marginRight: 10,
                                 marginLeft: 15,
-                            }}>
+                            }}
+                            onPress = { () => this.props.navigation.navigate('PushToEarnSignIn') }
+                            >
                         {this.state.text.SignIn} 
                         </Text>
                         <Text 
@@ -385,7 +387,9 @@ class PushToEarnForgetPass extends Component
                                 letterSpacing: 0.5,
                                 textAlign: "left",
                                 color: "#E73D50" 
-                            }}>
+                            }}
+                            onPress = { () => this.props.navigation.navigate('PushToEarnSignUp') }
+                            >
                         {this.state.text.SignUp}
                         </Text>
 

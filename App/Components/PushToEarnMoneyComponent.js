@@ -97,8 +97,6 @@ let pickerData = [
     ];
 let selectedValue = ['JANUARY', 2013];
 
-
-
 class PushToEarnMoneyComponent extends Component {
 
     constructor(props)
@@ -395,6 +393,7 @@ class PushToEarnMoneyComponent extends Component {
     // }
 
     renderNothing = () => {
+            
         return(
 
             <View style={{flex:1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
@@ -406,7 +405,7 @@ class PushToEarnMoneyComponent extends Component {
                                 textAlign: 'center',
                                 color: 'rgb(231, 61, 80)'
                 }}>
-                    NO RECORDS TO SHOW!!!!
+                    {this.state.text.nothing}
                 </Text>
             </View>
 
@@ -660,6 +659,8 @@ class PushToEarnMoneyComponent extends Component {
         let encryptedData = AesComponent.aesCallback(authData);
         let ltoken = localStorage.getItem('token');
         this.setState({isLoading: true});
+
+        console.log("referralId="+this.props.referrals.MobileReferralID);
       
         let payload = {
           "AuthenticationData": encryptedData,
@@ -745,7 +746,8 @@ class PushToEarnMoneyComponent extends Component {
     render() {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
-        console.log("referrals="+this.props.referrals);
+        console.log("referrals="+typeof(this.props.referrals));
+        console.tron.log("referrals="+this.props.referrals);
         console.log("menu in money component="+this.state.menu);
         console.log("money component show accordionlist="+this.state.showAccordionList);
         console.log("money component show perons list="+this.state.showPersonList);
@@ -849,7 +851,7 @@ class PushToEarnMoneyComponent extends Component {
                              </View>
 
                                 {
-                                    this.state.isLoading===true?
+                                    this.props.fetching===true?
                                     <View style = {{position: 'absolute' , zIndex:3999, left: 20, top: 0, right: 0, bottom: 0}}>
                                     <BallIndicator color='#e73d50' />
                                     </View>:this.somethingElse()
@@ -857,7 +859,7 @@ class PushToEarnMoneyComponent extends Component {
 
                              <View style={{width: 310, height: 280, backgroundColor: 'transparent'}} >
                                  {
-                                        (this.props.referrals === null )?                                 
+                                        (_.isEmpty(this.props.referrals))?                                 
                                             this.renderNothing()
                                         :
                                         <CollapsibleView 
@@ -1139,7 +1141,8 @@ const newStyle = StyleSheet.create({
     borderBottomNew: {
         width: 310,
         height: 1,
-        borderBottomColor: "rgb(231, 61, 80)",
+        borderBottomColor: "rgb(202, 44, 62)",
+        borderStyle: "solid",
         borderBottomWidth: StyleSheet.hairlineWidth,
         flex:2,
     },
@@ -1372,6 +1375,8 @@ const newStyle = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
+
+        fetching: MoneySelectors.getFetching(state),
         referrals: MoneySelectors.getPerson(state),
         TotalWorkedHours: MoneySelectors.getTotalWorkedHours(state),
         TotalEarnings: MoneySelectors.getTotalEarnings(state),

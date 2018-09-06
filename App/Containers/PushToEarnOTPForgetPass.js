@@ -430,7 +430,6 @@ class PushToEarnOTPForgetPass extends Component {
                 "ConfirmPassword" : this.state.confirmpasswordInput,
 
             };
-
                 
             console.tron.log("payload="+payload);
             this.props.verifyOTPForgetPassword(payload);
@@ -486,11 +485,11 @@ class PushToEarnOTPForgetPass extends Component {
                             fontWeight: "500",
                             fontStyle: "normal",
                             lineHeight: 34,
-                            letterSpacing: 0,                          
+                            letterSpacing: 0,
                             textAlign: 'center',
-                            color: "#E73D50"                        
+                            color: "#E73D50"
                         }}>
-                    Enter OTP
+                    {this.state.text.otp}
                     </Text>
                 </View>                
 
@@ -513,8 +512,8 @@ class PushToEarnOTPForgetPass extends Component {
                            textAlign: "center",
                            color: "#000000"
                      }}>
-                         We send you an email with One Time {'\n'}
-                         Password.Please enter the code below.                         
+                         {this.state.text.otpMessage} {'\n'}
+                         {this.state.text.otpMessagecntd}
                     </Text>
                 </View>
 
@@ -613,7 +612,7 @@ class PushToEarnOTPForgetPass extends Component {
                             
                     <View style={newStyle.endButtons}>
 
-                        <Text style={newStyle.firstName}>Password</Text>
+                        <Text style={newStyle.firstName}>{this.state.text.Password}</Text>
                         <TextInput
                                 style={ newStyle.nameInput }
                                 placeholder=''
@@ -625,7 +624,7 @@ class PushToEarnOTPForgetPass extends Component {
                                 blurOnSubmit={false}
                                 onChangeText={(passwordInput) => this.validatePassword(passwordInput)}/>
 
-                        <Text style={newStyle.firstName}>Confirm Password</Text>
+                        <Text style={newStyle.firstName}>{this.state.text.confirmPassword}</Text>
                         <TextInput
                                 style={ newStyle.nameInput }
                                 placeholder=''
@@ -662,7 +661,7 @@ class PushToEarnOTPForgetPass extends Component {
                                     marginTop: 0,                
                                     letterSpacing: 0.67,
                                     textAlign: 'center'}}
-                            > {this.state.buttonText.toUpperCase()}</Text>
+                            > {this.state.text.start}</Text>
                         </TouchableOpacity>
 
                     </View>                    

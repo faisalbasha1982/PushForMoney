@@ -200,8 +200,8 @@ somethingElse = () => {
 
 componentWillReceiveProps(newProps)
 {
-  if(this.props.monthlyEarningDetailsByReferrals === null)
-      this.getMoney();
+  // if(this.props.monthlyEarningDetailsByReferrals === null)
+  //     this.getMoney();
 
       console.log("componentWillReceiveProps of CollapsibleView");
 
@@ -214,7 +214,7 @@ componentWillReceiveProps(newProps)
 componentDidMount()
 {
 
-  this.getMoney();
+  //this.getMoney();
 
   console.log("componentDiDMount of CollapsibleView");
 
@@ -285,6 +285,13 @@ render() {
 
         <ScrollView>
           <View style={{ flex:1, backgroundColor: 'transparent', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', overflow: "hidden" }}>
+
+             {
+                this.props.fetching===true?
+                <View style = {{position: 'absolute' , zIndex:3999, left: 20, top: 0, right: 0, bottom: 0}}>
+                <BallIndicator color='#e73d50' />
+                </View>:this.somethingElse()
+              }
                    {
                     (this.props.menu===1 && this.props.childMenu === true)?
                     referralsNew !== null && referralsNew.map(
@@ -450,7 +457,7 @@ iconStyle: {
 
 const mapStateToProps = state => {
   return {
-
+    fetching: MoneySelectors.getFetching(state),
     TotalWorkedHours: MoneySelectors.getTotalWorkedHours(state),
     TotalEarnings: MoneySelectors.getTotalEarnings(state),
     monthlyEarningDetailsByReferrals: MoneySelectors.getMonthlyReferrals(state),

@@ -50,6 +50,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
+let ltoken = localStorage.getItem('token');
+
 
 const window = Dimensions.get('window');
 
@@ -258,7 +260,7 @@ class PushToEarnProfileComponent extends Component {
 
             let authData = AuthComponent.authenticationData(this.state.language);
             let encryptedData = AesComponent.aesCallback(authData);
-            let ltoken = localStorage.getItem('token');
+             ltoken = localStorage.getItem('token');
             this.setState({isLoading: true});
 
             console.log("login access token="+ltoken);
@@ -293,7 +295,7 @@ class PushToEarnProfileComponent extends Component {
 
         let authData = AuthComponent.authenticationData(this.state.language);
         let encryptedData = AesComponent.aesCallback(authData);
-        let ltoken = localStorage.getItem('token');
+         ltoken = localStorage.getItem('token');
         this.setState({isLoading: true});
 
         console.log("login access token="+ltoken);
@@ -316,12 +318,15 @@ class PushToEarnProfileComponent extends Component {
 
     }
 
-    seteditable = () => {
-        this.setState({firstNameEditable: true});
+    seteditableFirstName = () => {
+        this.setState({firstNameEditable: !this.state.firstNameEditable});
     }
 
     callUpdateName = (name) => {
      
+        let authData = AuthComponent.authenticationData(this.state.language);
+        let encryptedData = AesComponent.aesCallback(authData);
+
         this.setState({isLoading: true});
 
         console.log("login access token="+ltoken);
@@ -338,6 +343,9 @@ class PushToEarnProfileComponent extends Component {
 
     callUpdateLastName = (name) => {
 
+        let authData = AuthComponent.authenticationData(this.state.language);
+        let encryptedData = AesComponent.aesCallback(authData);
+
         this.setState({isLoading: true});
 
         console.log("login access token="+ltoken);
@@ -353,6 +361,9 @@ class PushToEarnProfileComponent extends Component {
     }
 
     changeMobile = (phoneNumber) => {
+
+        let authData = AuthComponent.authenticationData(this.state.language);
+        let encryptedData = AesComponent.aesCallback(authData);
 
         this.setState({isLoading: true});
 
@@ -381,6 +392,9 @@ class PushToEarnProfileComponent extends Component {
                             <Text style= {newStyle.topText}>
                                     {this.state.text.myProfile}
                             </Text>
+                            <Text style={ newStyle.changeLanguage }>
+                                    {this.state.text.changeLanguage}
+                            </Text>
                         </View>
 
                         <View style= {newStyle.inputContainer}>
@@ -401,7 +415,7 @@ class PushToEarnProfileComponent extends Component {
                                         type='font-awesome'
                                         color='#E73D50'
                                         size = {15}
-                                        onPress={ () => this.seteditable()  } />                
+                                        onPress={ () => this.seteditableFirstName()  } />                
                             </View>
 
                             <Text style={newStyle.firstName}>{this.state.text.lastName}</Text>
@@ -785,7 +799,19 @@ const newStyle = StyleSheet.create({
         flex:2,
         marginTop: 10,
         alignItems: 'flex-start',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        flexDirection:'row'
+    },
+
+    changeLanguage:{
+        width: 73,
+        height: 13,
+        fontFamily: "WorkSans-Regular",
+        fontSize: 11,
+        fontWeight: "normal",
+        fontStyle: "normal",
+        letterSpacing: 0.39,
+        color: "rgb(231, 61, 80)"      
     },
 
     paraView: {

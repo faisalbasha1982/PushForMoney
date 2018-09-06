@@ -43,7 +43,10 @@ import PhoneInput from 'react-native-phone-input';
 import ButtonLogin from '../Components/ButtonLogin';
 import TimerCountdown from 'react-native-timer-countdown';
 import CountDown from 'react-native-countdown-component';
+
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import localStorage from 'react-native-sync-localstorage';
+
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 
