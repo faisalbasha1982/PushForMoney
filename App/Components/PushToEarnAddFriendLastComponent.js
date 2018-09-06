@@ -242,7 +242,7 @@ class PushToEarnAddFriendLastComponent extends Component {
                                     }}>
                                     <Text
                                         style={{
-                                            fontSize: 10,
+                                            fontSize: 12,
                                             width: 333,
                                             height: 19,
                                             fontFamily: 'WorkSans-Regular',
@@ -261,7 +261,7 @@ class PushToEarnAddFriendLastComponent extends Component {
                                     onPress={() => {  } }
                                     activeOpacity={0.5}
                                     style={{
-                                        width: 280,
+                                        width: 290,
                                         height: 57,
                                         marginBottom: 10,
                                         marginLeft: 0,
@@ -447,7 +447,9 @@ const newStyle = StyleSheet.create({
         flex:2,
         marginTop: 10,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor:'blue'
+
     },
 
     paraView: {
@@ -458,6 +460,9 @@ const newStyle = StyleSheet.create({
 
     buttonView: {
         flex: 7,
+        justifyContent:'flex-end',
+        alignItems:'flex-end',
+        backgroundColor:'transparent',
     },
 
     buttonViewBottom: {
