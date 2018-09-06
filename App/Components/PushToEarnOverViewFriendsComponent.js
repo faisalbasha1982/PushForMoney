@@ -357,34 +357,39 @@ class PushToEarnOverViewFriendsComponent extends Component {
                               <Text style={newStyle.nameStyles}>{ personObj.Name }</Text>
                               {/* <Text style={newStyle.lastnameStyle}>{ personObj.Name.split(' ')[1] }</Text> */}
                           </View>
-                          <View style={{ flex:1, backgroundColor:'transparent',flexDirection:'column',alignItems:'space-between', justifyContent:'flex-end' }}>
-                                {(personObj.ReferredPersonStatus === 'Finished' || personObj.ReferredPersonStatus === 'Afgewerkt' || personObj.ReferredPersonStatus === 'Fini')?
-                                        <View style= {{ padding: 3,alignItems:'flex-end',justifyContent:'flex-end',width: 20, height: 20, backgroundColor: 'transparent', marginTop: 5, }}>
+                          <View style={{ flex:2, backgroundColor:'transparent',flexDirection:'column',alignItems:'flex-end', justifyContent:'flex-end', marginTop:10, }}>
+                                 
+                                            <View style={{width: 120, height: 10, backgroundColor: 'transparent', justifyContent:'flex-end', alignItems:'flex-end'}}>
+                                            {(personObj.ReferredPersonStatus === 'Finished' || personObj.ReferredPersonStatus === 'Afgewerkt' || personObj.ReferredPersonStatus === 'Fini')?
                                             
-                                            <TouchableOpacity
-                                            // onPress={() => {  this.archiveApiCall(personObj) } }
-                                            activeOpacity={0.5}
-                                            style={{
-                                                width: 20,
-                                                height: 20,
-                                                backgroundColor: 'transparent',
-                                            }}>
-                                                <Icon
-                                                    containerStyle={newStyle.iconImageStyleNew}
-                                                    name='times-circle'
-                                                    type='font-awesome'
-                                                    color='#E73D50'
-                                                    size = {10}
-                                                    onPress={ () => {         
-                                                                console.log("called archive Api");
-                                                                } } />
-                                        </TouchableOpacity>
-                                        </View>
-                                        :
-                                        this.renderNothing()
-                                    }
+                                                    <TouchableOpacity
+                                                        onPress={() => {  this.archiveApiCall(personObj) } }
+                                                        activeOpacity={0.5}
+                                                        style={{
+                                                            width: 20,
+                                                            height: 20,
+                                                            backgroundColor: 'transparent',
+                                                            justifyContent:'center',
+                                                            alignItems:'flex-end'
+                                                        }}>
+                                                            <Icon
+                                                                containerStyle={newStyle.iconImageArchive}
+                                                                name='times-circle'
+                                                                type='font-awesome'
+                                                                color='#E73D50'
+                                                                size = {14}
+                                                                onPress={ () => {         
+                                                                            console.log("called archive Api");
+                                                                            } } />
+                                                    </TouchableOpacity>
+                                                    :
+                                                    this.renderNothing()
+                                                }
+                                            </View>
+                                            <View style={{width: 120, height: 15, backgroundColor: 'transparent'}}>
+                                                    <Text style={newStyle.statusStyle}>{ personObj.ReferredPersonStatus}</Text>
+                                            </View>
 
-                                    <Text style={newStyle.statusStyle}>{ personObj.ReferredPersonStatus}</Text>
 
                           </View>
 
@@ -703,6 +708,20 @@ const newStyle = StyleSheet.create({
         backgroundColor:'steelblue'
     },
 
+    iconImageArchive:{
+        width: 13,
+        height: 26,
+        fontFamily: "FontAwesome",
+        fontSize: 16,
+        fontWeight: "normal",
+        fontStyle: "normal",
+        letterSpacing: 0.67,
+        textAlign: "center",
+        color: "rgb(231, 61, 80)", 
+        marginTop: 0,
+        marginRight: 0,
+    },
+
     iconImageStyle:{
         width: 13,
         height: 16,
@@ -775,10 +794,10 @@ const newStyle = StyleSheet.create({
     },
 
     statusStyle: {
-        width: 100,
-        height: 20,
-        paddingLeft: 5,
-        marginTop: 20,
+        width: 120,
+        height: 13,
+        flex:1,
+        paddingLeft: 0,
         fontFamily: "WorkSans-Regular",
         fontSize: 11,
         fontWeight: "normal",
@@ -786,7 +805,8 @@ const newStyle = StyleSheet.create({
         letterSpacing: 0.39,
         color: "rgb(155, 155, 155)",
         backgroundColor: 'transparent',
-        textAlign:'right'
+        textAlign:'right',
+        alignItems:'flex-end'
     }
 
 });
