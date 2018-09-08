@@ -69,6 +69,8 @@ class PushToEarnProfileComponent extends Component {
         this.state = {
             language: 'NEDERLANDS',
             languageCode:'',
+            placeHolderColor:'',
+            placeHolderColorLastName:'',
             firstName:'',
             name:'',
             phoneNumber:'',
@@ -76,6 +78,7 @@ class PushToEarnProfileComponent extends Component {
             renderValidate: false,
             firstNameInput:'',
             firstNameEditable: false,
+            lastNameEditable: false,
             lastNameInput:'',
             phoneNumberInput:'',
             emailInput:'',            
@@ -319,7 +322,22 @@ class PushToEarnProfileComponent extends Component {
     }
 
     seteditableFirstName = () => {
-        this.setState({firstNameEditable: !this.state.firstNameEditable});
+        
+        this.setState({firstNameEditable: !this.state.firstNameEditable,});
+
+        (this.state.firstNameEditable === true)?
+        this.setState({placeHolderColor:'lightgray' })
+        :
+        this.setState({placeHolderColor:'grey'});
+    }
+
+    seteditableLasttName = () => {
+        this.setState({lastNameEditable: !this.state.lastNameEditable,});
+
+        (this.state.lastNameEditable === true)?
+        this.setState({placeHolderColorLastName:'lightgray' })
+        :
+        this.setState({placeHolderColorLastName:'grey'});
     }
 
     callUpdateName = (name) => {
@@ -389,12 +407,30 @@ class PushToEarnProfileComponent extends Component {
                     <View style={newStyle.endButtons}>
 
                         <View style={newStyle.topView}>
+
+                        <View style={{width: 80, height: 50, backgroundColor: 'transparent'}}>
                             <Text style= {newStyle.topText}>
                                     {this.state.text.myProfile}
                             </Text>
-                            <Text style={ newStyle.changeLanguage }>
+                        </View>
+                        <View style={{width: 100, height: 30, 
+                                      justifyContent:'flex-end',
+                                      alignItems:'flex-end',
+                                      backgroundColor: 'transparent',
+                                      borderBottomColor:'red',
+                                      borderBottomWidth:1,
+                                      borderStyle:'solid'}}>
+                            <Text
+                                style= {newStyle.changeLanguage}
+                                onPress={() => this.props.menu(10)}
+                            >
                                     {this.state.text.changeLanguage}
                             </Text>
+                        </View>
+ 
+                            {/* <Text style= {newStyle.topText}>
+                                    {this.state.text.myProfile}
+                            </Text> */}
                         </View>
 
                         <View style= {newStyle.inputContainer}>
@@ -404,18 +440,42 @@ class PushToEarnProfileComponent extends Component {
                             <TextInput
                                         style={ newStyle.nameInputFirst }
                                         placeholder='first name'
-                                        editable={true}
+                                        placeholderTextColor={this.state.placeHolderColor}
+                                        editable={this.state.firstNameEditable}
                                         ref={(ref) => { this.FirstInput = ref; }}
                                         underlineColorAndroid= 'transparent'
                                         onBlur = { () => this.callUpdateName(this.state.firstNameInput)}
                                         onChangeText={(firstNameInput) => this.validateFirstName(firstNameInput)}/>
-                            <Icon
-                                        containerStyle={newStyle.iconImageStyle}
-                                        name='edit'
-                                        type='font-awesome'
-                                        color='#E73D50'
-                                        size = {15}
-                                        onPress={ () => this.seteditableFirstName()  } />                
+
+                                     <TouchableOpacity
+                                            onPress={() => {  this.seteditableFirstName();  } }
+                                            activeOpacity={0.5}
+                                            style={{
+                                                width:15,
+                                                height:15,
+                                                justifyContent: 'center',
+                                                alignItems: 'center'
+                                            }}>
+                                        {
+                                         (this.state.firstNameEditable===true)?
+                                         <Icon
+                                         containerStyle={newStyle.iconImageStyle}
+                                         name='pencil'
+                                         type='font-awesome'
+                                         color='#E73D50'
+                                         size = {15} />
+                                         :
+                                         <Icon
+                                         containerStyle={newStyle.iconImageStyle}
+                                         name='edit'
+                                         type='font-awesome'
+                                         color='#E73D50'
+                                         size = {15} />
+                                     
+                                        }
+                                        </TouchableOpacity>                                        
+
+
                             </View>
 
                             <Text style={newStyle.firstName}>{this.state.text.lastName}</Text>
@@ -423,17 +483,39 @@ class PushToEarnProfileComponent extends Component {
                             <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder='last name'
-                                editable={true}
+                                placeholderTextColor = {this.state.placeHolderColorLastName}
+                                editable={this.state.lastNameEditable}
                                 onBlur = { () => this.callUpdateLastName(this.state.lastNameInput)}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText= { (lastNameInput) => this.validateLastName(lastNameInput) }/>
-                            <Icon
-                                        containerStyle={newStyle.iconImageStyle}
-                                        name='edit'
-                                        type='font-awesome'
-                                        color='#E73D50'
-                                        size = {15}
-                                        onPress={ () => this.seteditable()  } />
+                                 <TouchableOpacity
+                                        onPress={() => {  this.seteditableLasttName();  } }
+                                        activeOpacity={0.5}
+                                        style={{
+                                            width:15,
+                                            height:15,
+                                            justifyContent: 'center',
+                                            alignItems: 'center'
+                                        }}>
+                                     {
+                                         (this.state.lastNameEditable===true)?
+                                         <Icon
+                                         containerStyle={newStyle.iconImageStyle}
+                                         name='pencil'
+                                         type='font-awesome'
+                                         color='#E73D50'
+                                         size = {15} />
+                                         :
+                                         <Icon
+                                         containerStyle={newStyle.iconImageStyle}
+                                         name='edit'
+                                         type='font-awesome'
+                                         color='#E73D50'
+                                         size = {15} />
+                                     
+                                        }
+                                 </TouchableOpacity>
+                           
                             </View>
 
                             <Text style={newStyle.firstName}>{this.state.text.Email}</Text>
@@ -794,24 +876,30 @@ const newStyle = StyleSheet.create({
     },
 
     topView: {
-        width: 276,
+        width: viewPortWidth * 0.83,
         height: 68,
         flex:2,
         marginTop: 10,
         alignItems: 'flex-start',
-        justifyContent: 'flex-start',
-        flexDirection:'row'
+        justifyContent: 'space-between',
+        flexDirection:'row',
+        backgroundColor:'transparent',
     },
 
     changeLanguage:{
-        width: 73,
-        height: 13,
-        fontFamily: "WorkSans-Regular",
-        fontSize: 11,
-        fontWeight: "normal",
+        width: 120,
+        height: 24,
+        fontFamily: "WorkSans-Medium",
+        fontSize: 10,
+        fontWeight: "600",
         fontStyle: "normal",
-        letterSpacing: 0.39,
-        color: "rgb(231, 61, 80)"      
+        lineHeight: 34,
+        letterSpacing: 0,
+        textAlign: "right",
+        color: "rgb(231, 61, 80)",
+        borderBottomColor:'red',
+        borderBottomWidth:1,
+        borderStyle:'solid'
     },
 
     paraView: {
@@ -839,7 +927,7 @@ const newStyle = StyleSheet.create({
     },
 
     iconImageStyle:{
-        width: 24,
+        width: 30,
         height: 16,
         fontFamily: "FontAwesome",
         fontSize: 16,

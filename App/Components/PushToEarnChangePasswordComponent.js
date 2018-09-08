@@ -159,6 +159,7 @@ class PushToEarnChangePasswordComponent extends Component {
 
                             <Text style={newStyle.firstName}>{this.state.text.oldPassword}</Text>
                             <TextInput
+                                        secureTextEntry= {true}
                                         style={ newStyle.nameInput }
                                         placeholder=''
                                         underlineColorAndroid= 'transparent'
@@ -166,6 +167,7 @@ class PushToEarnChangePasswordComponent extends Component {
                                     
                             <Text style={newStyle.firstName}>{this.state.text.newPassword}</Text>
                             <TextInput
+                                secureTextEntry= {true}
                                 style={ newStyle.nameInput}
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
@@ -180,6 +182,7 @@ class PushToEarnChangePasswordComponent extends Component {
 
                             <Text style={newStyle.firstName}>{this.state.text.confirmPassword}</Text>
                             <TextInput
+                                secureTextEntry= {true}
                                 style={ newStyle.nameInput}
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'

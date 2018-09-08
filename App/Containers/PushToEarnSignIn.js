@@ -1255,6 +1255,7 @@ class PushToEarnSignIn extends Component {
 
                     <Text style={newStyle.password}>{this.state.text.Password}</Text>
                     <TextInput
+                        secureTextEntry= {true}
                         style={ newStyle.nameInputPassword}
                         placeholder=''
                         autoCapitalize="none"

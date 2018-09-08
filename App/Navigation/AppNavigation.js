@@ -29,6 +29,7 @@ import PushToEarnProfile from '../Containers/PushToEarnProfile';
 import PushToEarnFriendsOverview from '../Containers/PushToEarnFriendsOverview';
 import PushToEarnInformation from '../Containers/PushToEarnInformation';
 import PushToEarnMoney from '../Containers/PushToEarnMoney';
+import PushToEarnLanguageComponent from '../Components/PushToEarnLanguageComponent';
 import AccordionListComponent from '../Components/AccordionListComponent';
 import PushToEarnMoneyComponent from '../Components/PushToEarnMoneyComponent';
 import pushToEarnMoneyList from '../Containers/PushToEarnMoneyList';
@@ -61,6 +62,7 @@ const AppNavigation = createStackNavigator({
   PushToEarnMoneyComponent: { screen: PushToEarnMoneyComponent},
   PushToEarnFriendsOverview: { screen: PushToEarnFriendsOverview },
   PushToEarnInformation: { screen: PushToEarnInformation },
+  PushToEarnLanguageComponent: { screen: PushToEarnLanguageComponent },
   PushToEarnMoney: { screen: PushToEarnMoney },
   pushToEarnMoneyList: { screen: pushToEarnMoneyList },
   NewScreenMoney: { screen: NewScreenMoney },
@@ -92,7 +94,7 @@ const AppNavigation = createStackNavigator({
         gesturesEnabled: false,
       },
    },
-  PushForJob: { screen: PushForJob},
+  PushForJob: { screen: PushForJob },
 }, {
   // Default config for all screens
   headerMode: 'none',

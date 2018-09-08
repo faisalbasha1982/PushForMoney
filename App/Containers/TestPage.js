@@ -23,6 +23,7 @@ import FriendsOverViewComponent from '../Components/PushToEarnOverViewFriendsCom
 import FriendsLastComponent from '../Components/PushToEarnAddFriendLastComponent';
 import { FriendSelectors } from '../Redux/FriendRedux';
 import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
+import LanguageComponent from '../Components/PushToEarnLanguageComponent';
 import headerImage from '../Images/headerImage.png';
 import logoHeader from '../Images/logoheader.png';
 
@@ -294,6 +295,8 @@ class TestPage extends Component {
                                     <FriendsOverViewComponent />:
                                this.state.menu === 9?
                                     <FriendsLastComponent menu = {this.menuChangeWithParameters}/>:
+                               this.state.menu === 10?
+                                    <LanguageComponent menu = {this.menuChange} />:    
                                     this.doNothing()
                             }
                     </View>

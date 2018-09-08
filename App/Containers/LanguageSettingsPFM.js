@@ -1,7 +1,8 @@
 const languageSettings = {
 
     English: {
-    
+
+    languageText: "ENGLISH",
     SignIn: "SIGN IN",
     SignWith: "or sign in with:",
     SButton: "LOGIN",
@@ -19,6 +20,7 @@ const languageSettings = {
     timeleft: "seconds left",
     start: "START NOW!",
     contactSupport: "Contact support",
+    oldPassword:"Old Password",
     newPassword: "New password",
     confirmPassword: "Confirm password",
     changePassword: "Change password",
@@ -76,7 +78,8 @@ const languageSettings = {
     },
     
     Dutch: {
-    
+
+    languageText: "NEDERLANDS",
     SignIn: "Log in",
     SignWith: "of log in met:",
     SButton: "INLOGGEN",  
@@ -153,7 +156,8 @@ const languageSettings = {
     },
     
     French: {
-    
+
+    languageText: "FRANÇAIS",
     SignIn: "Se connecter",    
     SignWith: "ou connectez-vous avec:",    
     SButton: "LOGIN",    
