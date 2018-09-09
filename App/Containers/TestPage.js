@@ -21,6 +21,7 @@ import ProfileBankInfoComponent from '../Components/PushToEarnProfileBankInfoCom
 import ProfileDetailsComponent from '../Components/PushToEarnAddFriendDetailsComponent';
 import FriendsOverViewComponent from '../Components/PushToEarnOverViewFriendsComponent';
 import FriendsLastComponent from '../Components/PushToEarnAddFriendLastComponent';
+import PushToEarnOTPComponent from '../Components/PushToEarnOTPComponent';
 import { FriendSelectors } from '../Redux/FriendRedux';
 import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import LanguageComponent from '../Components/PushToEarnLanguageComponent';
@@ -297,6 +298,8 @@ class TestPage extends Component {
                                     <FriendsLastComponent menu = {this.menuChangeWithParameters}/>:
                                this.state.menu === 10?
                                     <LanguageComponent menu = {this.menuChange} />:    
+                               this.state.menu === 11?
+                                    <PushToEarnOTPComponent menu = {this.menuChange} />:
                                     this.doNothing()
                             }
                     </View>

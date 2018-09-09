@@ -111,38 +111,6 @@ export function * ProfileRequestNew(api,action)
     }
 }
 
-// export function * ProfileRequest(api,action) {
-//   try{
-
-//     console.log("profile request api="+api);
-
-//     // make the call to the api
-//     const response = yield call(api.getProfile, JSON.stringify(action.payload));
-//     console.tron.log("response from api call =",typeof(response));
-//     console.log("response from api call =",typeof(response));
-//     console.log("response="+response.StatusCode);
-
-//     if (response.StatusCode === 200) {
-
-//         console.tron.log("response data=",response.data);
-//         const mobileUserBankDetailsInfo = response.data.MobileUserBankDetails;
-
-//         console.log("mobileUserBankDetailsInfo="+mobileUserBankDetailsInfo);
-//         console.tron.log("mobileUserBankDetailsInfo="+mobileUserBankDetailsInfo);
-
-//         // do data conversion here if needed
-//         yield put(ProfileActions.profileSuccess(responseJson.MobileUserBankDetails));
-//     } 
-//     else {
-//         yield put(ProfileActions.profileFailure());
-//     }
-// }
-// catch(error) {
-//   console.tron.log("Error@login",error);
-//   console.log("error="+error);
-// }
-// }
-
 export function * firstNameUpdate(api,action) {
 
     try
@@ -156,12 +124,12 @@ export function * firstNameUpdate(api,action) {
         console.log("repsonse from api call="+response);
     
         if (response.ok) {
-            // const resp = path(['data', 'items'], response)[0];
             console.tron.log("response data=",response.data);
             const token = response.data.LoginAccessToken;
             const userinfo = response.data.userinfo;
         
             console.tron.log("login access token=",token);
+
             // do data conversion here if needed
             yield put(ProfileActions.profileSuccess(userinfo));
             NavigationService.navigate('PushToEarnMoney');
@@ -198,64 +166,42 @@ export function * changePassword(api,action)
     }
 }
 
+function fetchChangeMobile(payload) {
+    return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnMobileChangeMobileNumber?code=2mYXy92zbHwa2uO7H73ZCE1TS0/3vEIKcuBc/wucBeLywMCEgnJX0A==',payload);
+}
+
 export function * changeMobile(api,action)
 {
+
     try
     {
-        console.log("api="+api);
-
+        console.log("change password api="+api);
         // make the call to the api
-        const response = yield call(api.changeMobile, action.payload);
-    
-        console.tron.log("response from api call ="+response);
-        console.log("repsonse from api call="+response);
-    
-        if (response.ok) {
-            // const resp = path(['data', 'items'], response)[0];
-            console.tron.log("response data=",response.data);
-            const token = response.data.LoginAccessToken;
-            const userinfo = response.data.userinfo;
-    
-            console.tron.log("login access token=",token);
-            // do data conversion here if needed
-            yield put(ProfileActions.profileSuccess(userinfo));
-            NavigationService.navigate('PushToEarnMoneyOTP');
-        } else {
-            yield put(ProfileActions.profileFailure());
-        }
-    }
+        const response = yield call(fetchChangeMobile, action.payload);
+        Alert.alert(response.Message);
+        yield put(ProfileActions.profileSuccess());
+        NavigationService.navigate('PushToEarnMoneyOTP');
+    }     
     catch(error) {
-        console.tron.log("error="+error);
+        yield put(ProfileActions.profileFailure());
     }
+}
+
+function fetchOTPMobile(payload) {
+    return fetchJson('https://prod-49.westeurope.logic.azure.com:443/workflows/19bdce4bb7d740f586a5f86bf9014efa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LU6WJJr0yUTzSFLdH9TXCBdYPVh6x3SMGegOPX0OTfA',payload);
 }
 
 export function * verifyMobileOtpRequest(api,action)
 {
     try
     {
-        console.log("api="+api);
-
+        console.log("change password api="+api);
         // make the call to the api
-        const response = yield call(api.verifyOTPMobile, action.payload);
-    
-        console.tron.log("response from api call ="+response);
-        console.log("repsonse from api call="+response);
-    
-        if (response.ok) {
-            // const resp = path(['data', 'items'], response)[0];
-            console.tron.log("response data=",response.data);
-            const token = response.data.LoginAccessToken;
-            const userinfo = response.data.userinfo;
-        
-            console.tron.log("login access token=",token);
-            // do data conversion here if needed
-            yield put(ProfileActions.profileSuccess(userinfo));
-            NavigationService.navigate('PushToEarnMoneyOTP');
-        } else {
-            yield put(ProfileActions.profileFailure());
-        }
-    }
+        const response = yield call(fetchOTPMobile, action.payload);
+        Alert.alert(response.Message);
+        yield put(ProfileActions.profileSuccess());
+    }     
     catch(error) {
-        console.tron.log("error="+error);
+        yield put(ProfileActions.profileFailure());
     }
 }

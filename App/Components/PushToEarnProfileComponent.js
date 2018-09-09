@@ -13,7 +13,16 @@ import {
     Platform,    
     findNodeHandle,
 } from 'react-native';
-
+import {
+    BallIndicator,
+    BarIndicator,
+    DotIndicator,
+    PacmanIndicator,
+    PulseIndicator,
+    SkypeIndicator,
+    UIActivityIndicator,
+    WaveIndicator,
+  } from 'react-native-indicators';
 import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -25,7 +34,7 @@ import ButtonWelcome from '../Components/ButtonWelcome';
 import ButtonCardDetails from '../Components/ButtonCardDetails';
 import LanguageButton from '../Components/LanguageButton';
 import Spinner from "react-native-loading-spinner-overlay";
-import DeviceInfo from 'react-native-device-info'
+import DeviceInfo, { isPinOrFingerprintSet } from 'react-native-device-info'
 import * as Animatable from 'react-native-animatable';
 import { StyleSheet } from 'react-native';
 import CompanyBanner from '../Components/CompanyBanner';
@@ -71,6 +80,11 @@ class PushToEarnProfileComponent extends Component {
             languageCode:'',
             placeHolderColor:'',
             placeHolderColorLastName:'',
+            placeHolderColorEmail:'',
+            placeHolderColorPhone:'',
+            placeHolderColorPassword:'',
+            pickerData:'',
+            countryCode:'be',
             firstName:'',
             name:'',
             phoneNumber:'',
@@ -79,6 +93,9 @@ class PushToEarnProfileComponent extends Component {
             firstNameInput:'',
             firstNameEditable: false,
             lastNameEditable: false,
+            emailEditable:false,
+            phoneEditable:false,
+            passwordEditable:false,
             lastNameInput:'',
             phoneNumberInput:'',
             emailInput:'',            
@@ -186,11 +203,12 @@ class PushToEarnProfileComponent extends Component {
 
     validatePhone = (phone) => {
 
-        console.log("phone="+phone);
+        console.log("phone validation="+phone);
 
         let phoneSub = phone.substring(1);
 
         console.log("phone="+phoneSub);
+        console.tron.log("phone="+phone);
 
         let reg = /^[0-9]{12}$/;
         let regNew = /^(?=(.*\d){10})(?!(.*\d){13})[\d\(\)\s+-]{10,}$/;
@@ -215,12 +233,16 @@ class PushToEarnProfileComponent extends Component {
             this.phoneText = this.state.country;
     
             if (regNew.exec(phoneSub))
-              this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
+            {
+                this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
+                this.setState({isLoading:true});
+                this.changeMobile(this.state.phoneNumberInput);
+            }
             else
-                if(this.state.language === 'NEDERLANDS')
+                if(this.state.languageCode === 'nl')
                     this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.dutch.TelephoneNumberError });
                 else
-                    if(this.state.language === 'ENGLISH')
+                    if(this.state.languageCode === 'en')
                         this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.english.TelephoneNumberError });
                     else
                         this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
@@ -253,15 +275,15 @@ class PushToEarnProfileComponent extends Component {
             let language = localStorage.getItem('language');
 
             if(language === 'Dutch')
-                this.setState({ text: languageSettingsPFM.Dutch});
+                this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
             else
                 if(language === 'English')
-                this.setState({ text: languageSettingsPFM.English});
+                this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
             else
                 if(language === 'French')
-                this.setState({ text: languageSettingsPFM.French});
+                this.setState({ text: languageSettingsPFM.French,languageCode:'fr'});
 
-            let authData = AuthComponent.authenticationData(this.state.language);
+            let authData = AuthComponent.authenticationData(this.state.languageCode);
             let encryptedData = AesComponent.aesCallback(authData);
              ltoken = localStorage.getItem('token');
             this.setState({isLoading: true});
@@ -288,15 +310,15 @@ class PushToEarnProfileComponent extends Component {
         let language = localStorage.getItem('language');
 
         if(language === 'Dutch')
-            this.setState({ text: languageSettingsPFM.Dutch});
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
         else
             if(language === 'English')
-            this.setState({ text: languageSettingsPFM.English});
+            this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
         else
             if(language === 'French')
-            this.setState({ text: languageSettingsPFM.French});            
+            this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});            
 
-        let authData = AuthComponent.authenticationData(this.state.language);
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
          ltoken = localStorage.getItem('token');
         this.setState({isLoading: true});
@@ -321,6 +343,47 @@ class PushToEarnProfileComponent extends Component {
 
     }
 
+    changeCountry = () => {
+
+        // this.setState({ countryCode: this.phone.getPickerData() });
+
+    }
+
+    somethingElse = () => {
+
+    }
+
+    seteditablePassword = () => {        
+
+        this.setState({passwordEditable: !this.state.passwordEditable,});
+
+        (this.state.passwordEditable === true)?
+        this.setState({placeHolderColorPassword:'lightgray' })
+        :
+        this.setState({placeHolderColorPassword:'grey'});
+    }
+
+    seteditablePhone = () => {
+
+        this.setState({phoneEditable: !this.state.phoneEditable,});
+
+        (this.state.phoneEditable === true)?
+        this.setState({placeHolderColorPhone:'lightgray' })
+        :
+        this.setState({placeHolderColorPhone:'grey'});
+
+    }
+
+    seteditableEmail = () => {
+        this.setState({emailEditable: !this.state.emailEditable,});
+
+        (this.state.emailEditable === true)?
+        this.setState({placeHolderColorEmail:'lightgray' })
+        :
+        this.setState({placeHolderColorEmail:'grey'});
+
+    }
+
     seteditableFirstName = () => {
         
         this.setState({firstNameEditable: !this.state.firstNameEditable,});
@@ -342,7 +405,7 @@ class PushToEarnProfileComponent extends Component {
 
     callUpdateName = (name) => {
      
-        let authData = AuthComponent.authenticationData(this.state.language);
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
 
         this.setState({isLoading: true});
@@ -361,7 +424,7 @@ class PushToEarnProfileComponent extends Component {
 
     callUpdateLastName = (name) => {
 
-        let authData = AuthComponent.authenticationData(this.state.language);
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
 
         this.setState({isLoading: true});
@@ -380,7 +443,7 @@ class PushToEarnProfileComponent extends Component {
 
     changeMobile = (phoneNumber) => {
 
-        let authData = AuthComponent.authenticationData(this.state.language);
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
 
         this.setState({isLoading: true});
@@ -416,16 +479,19 @@ class PushToEarnProfileComponent extends Component {
                         <View style={{width: 100, height: 30, 
                                       justifyContent:'flex-end',
                                       alignItems:'flex-end',
-                                      backgroundColor: 'transparent',
-                                      borderBottomColor:'red',
-                                      borderBottomWidth:1,
-                                      borderStyle:'solid'}}>
+                                      backgroundColor: 'transparent',}}>
                             <Text
                                 style= {newStyle.changeLanguage}
-                                onPress={() => this.props.menu(10)}
-                            >
+                                onPress={() => this.props.menu(10)}>
                                     {this.state.text.changeLanguage}
                             </Text>
+                            <View style={{
+                                height:1,
+                                width: 100,
+                                borderBottomColor:'red',
+                                borderBottomWidth:1,
+                                borderStyle:'solid'
+                            }}></View>
                         </View>
  
                             {/* <Text style= {newStyle.topText}>
@@ -523,36 +589,139 @@ class PushToEarnProfileComponent extends Component {
                             <TextInput
                                 style={ newStyle.nameInputEmail }
                                 placeholder='Email Address'
-                                editable={true}
+                                placeholderTextColor={this.state.placeHolderColorEmail}
+                                editable={this.state.emailEditable}
                                 underlineColorAndroid= 'transparent'
                                 onBlur = { () => this.callUpdateName(this.state.emailInput)}
                                 onChangeText= { (emailInput) => this.validateEmail(emailInput) }/>
-                            <Icon
-                                        containerStyle={newStyle.iconImageStyle}
-                                        name=''
-                                        type='font-awesome'
-                                        color='#E73D50'
-                                        size = {0}
-                                        onPress={ () => this.seteditable()  } />
+                           <TouchableOpacity
+                                        onPress={() => {  this.seteditableEmail();  } }
+                                        activeOpacity={0.5}
+                                        style={{
+                                            width:15,
+                                            height:15,
+                                            justifyContent: 'center',
+                                            alignItems: 'center'
+                                        }}>
+                                     {
+                                         (this.state.emailEditable===true)?
+                                         <Icon
+                                         containerStyle={newStyle.iconImageStyle}
+                                         name='pencil'
+                                         type='font-awesome'
+                                         color='#E73D50'
+                                         size = {15} />
+                                         :
+                                         <Icon
+                                         containerStyle={newStyle.iconImageStyle}
+                                         name='edit'
+                                         type='font-awesome'
+                                         color='#E73D50'
+                                         size = {15} />
+                                     
+                                        }
+                                 </TouchableOpacity>
+                           
                             </View>
 
                             <Text style={newStyle.firstName}>{this.state.text.Phone}</Text>
 
                             <View style={newStyle.innerContainer}>
-                            <TextInput
+                                            
+                                {/* {
+                                            this.props.fetching===true?
+                                            <View style = {{position: 'absolute' , zIndex:3999, left: 30, top: 0, right: 0, bottom: 0}}>
+                                            <BallIndicator color='#e73d50' />
+                                            </View>:this.somethingElse()
+                                } */}
+
+                                {
+                                    (this.state.phoneEditable===true)?
+                                        // <PhoneInput
+                                        //     opacity={1}
+                                        //     ref={(ref) => { this.phone = ref; }}
+                                        //     initialCountry={this.state.countryCode}
+                                        //     onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
+                                        //     style= {newStyle.nameInput}
+                                        //     onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) } 
+                                        //     value = {this.state.phoneNumberInput}
+                                        //     />
+                                        <TouchableOpacity
+                                        onPress={() => { this.props.menu(11) } }
+                                        activeOpacity={0.5}
+                                        style={{
+                                            width: 280,
+                                            height: 30,
+                                            margin:0,
+                                            borderBottomColor: "#353535",
+                                            borderBottomWidth: StyleSheet.hairlineWidth,
+                                            backgroundColor: 'transparent',
+                                            marginBottom: 0,
+                                            padding: 0,
+                                            flex:8,
+                                        }}>
+                                        <Text
+                                            style={{
+                                                fontSize: 14,
+                                                fontFamily: 'WorkSans-Regular',
+                                                fontWeight: '500',
+                                                fontStyle: 'normal',
+                                                color: '#000000',
+                                                marginTop: 0,   
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                letterSpacing: 0.67,
+                                                textAlign: 'left'}}
+                                        > Change Mobile Number</Text>
+                                        </TouchableOpacity>
+                                    :
+                                    <View 
+                                        opacity={0.5}
+                                        style={newStyle.nameInputLite}>
+                                        <PhoneInput
+                                        opacity={0.5}
+                                        disabled={true}
+                                        ref='phone'
+                                        initialCountry={this.state.countryCode}
+                                        style= {newStyle.nameInput}
+                                        value = {this.state.phoneNumberInput} />
+                                    </View>
+                                }
+                            {/* <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder='Phone Number'
-                                editable={true}
+                                placeHolderColor = { this.state.placeHolderColorPhone}
+                                editable={this.state.phoneEditable}
                                 underlineColorAndroid= 'transparent'
                                 onBlur = { () => this.changeMobile(this.state.phoneNumberInput)}
-                                onChangeText= { (phoneNumberInput) => this.validatePhoneNumber(phoneNumberInput) }/>    
-                                  <Icon
-                                        containerStyle={newStyle.iconImageStyle}
-                                        name='edit'
-                                        type='font-awesome'
-                                        color='#E73D50'
-                                        size = {15}
-                                        onPress={ () => this.seteditable()  } />
+                                onChangeText= { (phoneNumberInput) => this.validatePhoneNumber(phoneNumberInput) }/>     */}
+                                 <TouchableOpacity
+                                        onPress={() => {  this.seteditablePhone();  } }
+                                        activeOpacity={0.5}
+                                        style={{
+                                            width:15,
+                                            height:15,
+                                            justifyContent: 'center',
+                                            alignItems: 'center'
+                                        }}>
+                                     {
+                                         (this.state.phoneEditable===true)?
+                                         <Icon
+                                         containerStyle={newStyle.iconImageStyle}
+                                         name='pencil'
+                                         type='font-awesome'
+                                         color='#E73D50'
+                                         size = {15} />
+                                         :
+                                         <Icon
+                                         containerStyle={newStyle.iconImageStyle}
+                                         name='edit'
+                                         type='font-awesome'
+                                         color='#E73D50'
+                                         size = {15} />
+                                     
+                                        }
+                                 </TouchableOpacity>
                             </View>
                                 
 
@@ -586,13 +755,33 @@ class PushToEarnProfileComponent extends Component {
                                         textAlign: 'left'}}
                                 > {this.state.buttonText.toUpperCase()}</Text>
                             </TouchableOpacity>
-                            <Icon
-                                        containerStyle={newStyle.iconImageStyle}
-                                        name='edit'
-                                        type='font-awesome'
-                                        color='#E73D50'
-                                        size = {15}
-                                        onPress={ () => this.seteditable()  } />
+                            <TouchableOpacity
+                                        onPress={() => {  this.seteditablePassword();  } }
+                                        activeOpacity={0.5}
+                                        style={{
+                                            width:15,
+                                            height:15,
+                                            justifyContent: 'center',
+                                            alignItems: 'center'
+                                        }}>
+                                     {
+                                         (this.state.passwordEditable===true)?
+                                         <Icon
+                                         containerStyle={newStyle.iconImageStyle}
+                                         name='pencil'
+                                         type='font-awesome'
+                                         color='#E73D50'
+                                         size = {15} />
+                                         :
+                                         <Icon
+                                         containerStyle={newStyle.iconImageStyle}
+                                         name='edit'
+                                         type='font-awesome'
+                                         color='#E73D50'
+                                         size = {15} />
+                                     
+                                        }
+                                 </TouchableOpacity>
                             </View>
 
                             {/* <TextInput
@@ -776,6 +965,15 @@ const newStyle = StyleSheet.create({
         flex:8,
     },
 
+    nameInputLite:
+    {
+        width: viewPortWidth*.83,
+        height: 35,
+        margin:0,
+        backgroundColor: 'transparent',
+        flex:8,        
+    },
+
     buttons: {
         width: viewPortWidth,
         height: 20,
@@ -897,9 +1095,6 @@ const newStyle = StyleSheet.create({
         letterSpacing: 0,
         textAlign: "right",
         color: "rgb(231, 61, 80)",
-        borderBottomColor:'red',
-        borderBottomWidth:1,
-        borderStyle:'solid'
     },
 
     paraView: {
@@ -964,6 +1159,7 @@ const newStyle = StyleSheet.create({
 const mapStateToProps = state => {
     return {
         bankInfo: ProfileSelectors.getBankInfo(state),
+        fetching: ProfileSelectors.getFetching(state),
     };
   };
   

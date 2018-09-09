@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -71,10 +70,8 @@
 		6DCD5B8AA0884B57A48630E7 /* libRNRSA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3352F58FF13C4E74B796AEC5 /* libRNRSA.a */; };
 		6F81695E5FE74CAA92331D49 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA41D55E329343688AEAA4AD /* SimpleLineIcons.ttf */; };
 		73CF7C70B078438E94944A2C /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A8EBEEFBB9F4160A5E4AECF /* FontAwesome.ttf */; };
-		74107116EF744045A79EAE20 /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B9BFB33F27647928098C24B /* libRCTAddressBook.a */; };
 		75D7297AE0E14C25A3D16D92 /* Barlow-SemiBoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 791299FA021049BBB00090C1 /* Barlow-SemiBoldItalic.otf */; };
 		76E1F1B816914C40BFC7A64E /* BarlowSemiCondensed-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0919C7BC5E714F8A9E2271A7 /* BarlowSemiCondensed-SemiBold.otf */; };
-		77C2BD6E27794C949DB50450 /* RCTAddressBookTests.xctest in Frameworks */ = {isa = PBXBuildFile; fileRef = 547DADC99FB140088DDE8FD8 /* RCTAddressBookTests.xctest */; };
 		7B74DC8F15AB4D52991BFFC5 /* Barlow-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF23D08A2D5F4B7F8268A099 /* Barlow-Regular.otf */; };
 		7BA6904A20FEFF4F00A56807 /* google-services.json in Resources */ = {isa = PBXBuildFile; fileRef = 7BA6904920FEFF4F00A56807 /* google-services.json */; };
 		7BA6904C20FEFFBE00A56807 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7BA6904B20FEFFBE00A56807 /* GoogleService-Info.plist */; };
@@ -439,20 +436,6 @@
 			remoteGlobalIDString = 1441618E1BD0A79300FA4F59;
 			remoteInfo = RCTContacts;
 		};
-		7B320C5F2143E4C5005E8E8D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CEFC2966B8F9467095B25A42 /* RCTAddressBook.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 145CC5701AED80100006342E;
-			remoteInfo = RCTAddressBook;
-		};
-		7B320C612143E4C5005E8E8D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CEFC2966B8F9467095B25A42 /* RCTAddressBook.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 145CC57B1AED80100006342E;
-			remoteInfo = RCTAddressBookTests;
-		};
 		7B4153772134209000CE3B86 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7EDD6D523F6C4ACEBDC9F096 /* RCTBEEPickerManager.xcodeproj */;
@@ -598,7 +581,6 @@
 		48FC51FCE61D4B0E8FB49349 /* BarlowCondensed-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowCondensed-BoldItalic.otf"; path = "../assets/fonts/BarlowCondensed-BoldItalic.otf"; sourceTree = "<group>"; };
 		4ED2F73BFD14445AACB6BD4C /* barlowsemicondensed-thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "barlowsemicondensed-thin.otf"; path = "../assets/fonts/barlowsemicondensed-thin.otf"; sourceTree = "<group>"; };
 		4FBA3F9FBCB34B41B8279DDE /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
-		547DADC99FB140088DDE8FD8 /* RCTAddressBookTests.xctest */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = RCTAddressBookTests.xctest; sourceTree = "<group>"; };
 		570B7001105A4F8CA703FF17 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/native-base/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		599E25F7770B4CD6BE85C3DC /* libRCTBEEPickerManager.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTBEEPickerManager.a; sourceTree = "<group>"; };
 		5A09D39911D149C1815D7694 /* BarlowCondensed-ExtraBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowCondensed-ExtraBold.otf"; path = "../assets/fonts/BarlowCondensed-ExtraBold.otf"; sourceTree = "<group>"; };
@@ -619,7 +601,6 @@
 		791299FA021049BBB00090C1 /* Barlow-SemiBoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-SemiBoldItalic.otf"; path = "../assets/fonts/Barlow-SemiBoldItalic.otf"; sourceTree = "<group>"; };
 		7AD851F801CC4887AE05D454 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		7B3FADB390AF476C99AF84DA /* RNGoogleSignin.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGoogleSignin.xcodeproj; path = "../node_modules/react-native-google-signin/ios/RNGoogleSignin.xcodeproj"; sourceTree = "<group>"; };
-		7B9BFB33F27647928098C24B /* libRCTAddressBook.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTAddressBook.a; sourceTree = "<group>"; };
 		7BA6904920FEFF4F00A56807 /* google-services.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "google-services.json"; sourceTree = "<group>"; };
 		7BA6904B20FEFFBE00A56807 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7BA6904D20FF00B300A56807 /* GoogleSignInDependencies.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignInDependencies.framework; sourceTree = "<group>"; };
@@ -681,7 +662,6 @@
 		C8ED45F2E84040B3BD74A2AA /* BarlowCondensed-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowCondensed-SemiBold.otf"; path = "../assets/fonts/BarlowCondensed-SemiBold.otf"; sourceTree = "<group>"; };
 		CB926471A22E4F09993E5932 /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeConfig.xcodeproj; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; };
 		CC64407DDA7942FEB604C809 /* Barlow-ExtraLightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-ExtraLightItalic.otf"; path = "../assets/fonts/Barlow-ExtraLightItalic.otf"; sourceTree = "<group>"; };
-		CEFC2966B8F9467095B25A42 /* RCTAddressBook.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTAddressBook.xcodeproj; path = "../node_modules/react-native-addressbook/RCTAddressBook.xcodeproj"; sourceTree = "<group>"; };
 		CF23D08A2D5F4B7F8268A099 /* Barlow-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Regular.otf"; path = "../assets/fonts/Barlow-Regular.otf"; sourceTree = "<group>"; };
 		CF7F2AD5FD584EEBAC82CBBD /* BarlowCondensed-ThinItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowCondensed-ThinItalic.otf"; path = "../assets/fonts/BarlowCondensed-ThinItalic.otf"; sourceTree = "<group>"; };
 		D1013492206B48A682E7BB82 /* Barlow-ExtraBoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-ExtraBoldItalic.otf"; path = "../assets/fonts/Barlow-ExtraBoldItalic.otf"; sourceTree = "<group>"; };
@@ -765,7 +745,6 @@
 				CF9494B9C6D14184889FC719 /* libRCTContactsWrapper.a in Frameworks */,
 				C00E086B610E4540B92CD3AF /* libRCTContacts.a in Frameworks */,
 				9E6D28D6B91044A68C237940 /* libRCTBEEPickerManager.a in Frameworks */,
-				74107116EF744045A79EAE20 /* libRCTAddressBook.a in Frameworks */,
 				77C2BD6E27794C949DB50450 /* RCTAddressBookTests.xctest in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1059,15 +1038,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		7B320C5B2143E4C4005E8E8D /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				7B320C602143E4C5005E8E8D /* libRCTAddressBook.a */,
-				7B320C622143E4C5005E8E8D /* RCTAddressBookTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		7B4153692134208800CE3B86 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1201,7 +1171,6 @@
 				A63B8F709CC746DCA47BCE30 /* ContactsWrapper.xcodeproj */,
 				C593ECAD1AB44AD2B4C11827 /* RCTContacts.xcodeproj */,
 				7EDD6D523F6C4ACEBDC9F096 /* RCTBEEPickerManager.xcodeproj */,
-				CEFC2966B8F9467095B25A42 /* RCTAddressBook.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1391,10 +1360,6 @@
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
-				},
-				{
-					ProductGroup = 7B320C5B2143E4C4005E8E8D /* Products */;
-					ProjectRef = CEFC2966B8F9467095B25A42 /* RCTAddressBook.xcodeproj */;
 				},
 				{
 					ProductGroup = 5E91572E1DD0AC6500FF2AA8 /* Products */;
@@ -1762,20 +1727,6 @@
 			remoteRef = 7B28561A213276C500EE1E87 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7B320C602143E4C5005E8E8D /* libRCTAddressBook.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTAddressBook.a;
-			remoteRef = 7B320C5F2143E4C5005E8E8D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		7B320C622143E4C5005E8E8D /* RCTAddressBookTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = RCTAddressBookTests.xctest;
-			remoteRef = 7B320C612143E4C5005E8E8D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		7B4153782134209000CE3B86 /* libRCTBEEPickerManager.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -2108,15 +2059,12 @@
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
-					"$(SRCROOT)/../node_modules/react-native-addressbook",
 				);
 				INFOPLIST_FILE = PushForMoneyTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2150,15 +2098,12 @@
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
-					"$(SRCROOT)/../node_modules/react-native-addressbook",
 				);
 				INFOPLIST_FILE = PushForMoneyTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2202,7 +2147,6 @@
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
-					"$(SRCROOT)/../node_modules/react-native-addressbook",
 				);
 				INFOPLIST_FILE = PushForMoney/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2249,7 +2193,6 @@
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
-					"$(SRCROOT)/../node_modules/react-native-addressbook",
 				);
 				INFOPLIST_FILE = PushForMoney/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2292,14 +2235,11 @@
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
-					"$(SRCROOT)/../node_modules/react-native-addressbook",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2341,14 +2281,11 @@
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
-					"$(SRCROOT)/../node_modules/react-native-addressbook",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2389,14 +2326,11 @@
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
-					"$(SRCROOT)/../node_modules/react-native-addressbook",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2437,14 +2371,11 @@
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
-					"$(SRCROOT)/../node_modules/react-native-addressbook",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
