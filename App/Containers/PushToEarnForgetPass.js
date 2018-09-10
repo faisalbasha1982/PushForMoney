@@ -171,8 +171,8 @@ class PushToEarnForgetPass extends Component
         var date, day, month, year;
         var today = new Date();
     
-        day = parseInt(today.getUTCDate())>10?today.getUTCDate():('0'+today.getUTCDate().toString());
-        month = parseInt(today.getUTCMonth()+1)>10?parseInt(today.getUTCMonth()+1):('0'+parseInt(today.getUTCMonth()+1));
+        day = parseInt(today.getUTCDate())>=10?today.getUTCDate():('0'+today.getUTCDate().toString());
+        month = parseInt(today.getUTCMonth()+1)>=10?parseInt(today.getUTCMonth()+1):('0'+parseInt(today.getUTCMonth()+1));
         year = today.getUTCFullYear().toString();
     
         // let currentDate = year + '-' + month>10?month:('0'+month) + '-' + day>10?day:('0'+day);
@@ -256,6 +256,7 @@ class PushToEarnForgetPass extends Component
 
         //"{'Lang': 'en', 'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-18 12:45:12' ,'R' : 'er3rssf3d'}"
         let cAuthenticationData = "{'Lang':"+" '"+this.state.languageCode+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
+        
         let payload = {
 
             "AuthenticationData":this.aes(cAuthenticationData),

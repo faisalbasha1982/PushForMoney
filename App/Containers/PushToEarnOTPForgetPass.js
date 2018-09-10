@@ -46,6 +46,9 @@ import CryptoJS from 'crypto-js';
 import utf8 from 'utf8';
 import Api from './Api';
 
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
+import localStorage from 'react-native-sync-localstorage';
+
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -419,11 +422,14 @@ class PushToEarnOTPForgetPass extends Component {
             console.tron.log("calling OTP....");
             let otpString = this.state.firstInput + this.state.secondInput + this.state.thirdInput + this.state.fourthInput;
 
-            let cAuthenticationData = "{'Lang':"+" '"+this.state.language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
-
+            let authData = AuthComponent.authenticationData(this.state.languageCode);
+            let encryptedData = AesComponent.aesCallback(authData);
+            let ltoken = localStorage.getItem('token');
+            this.setState({isLoading: true});
+    
             let payload = {
 
-                "AuthenticationData":this.aes(cAuthenticationData),
+                "AuthenticationData": encryptedData,
                 "MobileUserId" : mobileUserId,
                 "OTP" : otpString,
                 "NewPassword" : this.state.passwordInput,

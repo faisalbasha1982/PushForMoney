@@ -61,6 +61,7 @@ class PushToEarnChangePassword extends Component {
 
         this.state = {
             language: 'NEDERLANDS',
+            languageCode:'',
             firstName:'',
             name:'',
             phoneNumber:'',
@@ -81,6 +82,7 @@ class PushToEarnChangePassword extends Component {
             firstNameEmptyError:false,
             lastNameEmptyError:false,
             phoneNumberEmptyError:false,
+            text:{}
         };    
     }
 
@@ -243,13 +245,13 @@ class PushToEarnChangePassword extends Component {
         this.setState({ language: this.props.navigation.state.params.language});
 
         if(language === 'NEDERLANDS')
-            this.setState({ text: languageSettingsPFM.Dutch});
+            this.setState({ text: languageSettingsPFM.Dutch,languageCode:'nl'});
         else
             if(language === 'ENGLISH')
-            this.setState({ text: languageSettingsPFM.English});            
+            this.setState({ text: languageSettingsPFM.English,languageCode:'en'});            
         else
             if(language === 'FRANÇAIS')
-            this.setState({ text: languageSettingsPFM.French});            
+            this.setState({ text: languageSettingsPFM.French,languageCode:'fr'});            
     }
 
     // setText =  () => {

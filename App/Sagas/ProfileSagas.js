@@ -167,23 +167,27 @@ export function * changePassword(api,action)
 }
 
 function fetchChangeMobile(payload) {
-    return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnMobileChangeMobileNumber?code=2mYXy92zbHwa2uO7H73ZCE1TS0/3vEIKcuBc/wucBeLywMCEgnJX0A==',payload);
+    console.log("fetching json");
+    return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnMobileUserUpdateMobileNumber?code=OcoDRQqMiY2USkae7YMtPQxgkmLv0YmRyXL7sEmKKjM8U0aEftbQQg==',payload);
 }
 
 export function * changeMobile(api,action)
 {
+    Alert.alert("inside change Mobile");
 
     try
     {
-        console.log("change password api="+api);
+        console.log("change mobile api="+api);
+
         // make the call to the api
         const response = yield call(fetchChangeMobile, action.payload);
-        Alert.alert(response.Message);
+        Alert.alert(response.Message)
         yield put(ProfileActions.profileSuccess());
-        NavigationService.navigate('PushToEarnMoneyOTP');
-    }     
+        //NavigationService.navigate('PushToEarnMoneyOTP');
+    } 
     catch(error) {
         yield put(ProfileActions.profileFailure());
+        Alert.alert("Phone Number Incorrect");
     }
 }
 

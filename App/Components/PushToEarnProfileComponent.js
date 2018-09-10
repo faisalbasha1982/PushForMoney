@@ -98,7 +98,7 @@ class PushToEarnProfileComponent extends Component {
             passwordEditable:false,
             lastNameInput:'',
             phoneNumberInput:'',
-            emailInput:'',            
+            emailInput:'',     
             passwordInput:'',
             cardDetails:'',
             buttonText: '.........',
@@ -232,7 +232,7 @@ class PushToEarnProfileComponent extends Component {
     
             this.phoneText = this.state.country;
     
-            if (regNew.exec(phoneSub))
+            if (reg.exec(phoneSub))
             {
                 this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
                 this.setState({isLoading:true});
@@ -451,6 +451,9 @@ class PushToEarnProfileComponent extends Component {
         console.log("login access token="+ltoken);
         console.tron.log("login access token="+ltoken);
 
+        console.log("phoneNumber="+phoneNumber);
+        Alert.alert("phoneNumber="+phoneNumber);
+
         let payload = {             
             "AuthenticationData": encryptedData,
             "LoginAccessToken":ltoken,
@@ -458,6 +461,8 @@ class PushToEarnProfileComponent extends Component {
         };
 
         this.props.changeMobile(payload);
+
+        this.props.menu(11);
     }
 
     render() {
@@ -637,43 +642,45 @@ class PushToEarnProfileComponent extends Component {
 
                                 {
                                     (this.state.phoneEditable===true)?
-                                        // <PhoneInput
-                                        //     opacity={1}
-                                        //     ref={(ref) => { this.phone = ref; }}
-                                        //     initialCountry={this.state.countryCode}
-                                        //     onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
-                                        //     style= {newStyle.nameInput}
-                                        //     onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) } 
-                                        //     value = {this.state.phoneNumberInput}
-                                        //     />
-                                        <TouchableOpacity
-                                        onPress={() => { this.props.menu(11) } }
-                                        activeOpacity={0.5}
-                                        style={{
-                                            width: 280,
-                                            height: 30,
-                                            margin:0,
-                                            borderBottomColor: "#353535",
-                                            borderBottomWidth: StyleSheet.hairlineWidth,
-                                            backgroundColor: 'transparent',
-                                            marginBottom: 0,
-                                            padding: 0,
-                                            flex:8,
-                                        }}>
-                                        <Text
-                                            style={{
-                                                fontSize: 14,
-                                                fontFamily: 'WorkSans-Regular',
-                                                fontWeight: '500',
-                                                fontStyle: 'normal',
-                                                color: '#000000',
-                                                marginTop: 0,   
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                letterSpacing: 0.67,
-                                                textAlign: 'left'}}
-                                        > Change Mobile Number</Text>
-                                        </TouchableOpacity>
+                                        <PhoneInput
+                                            opacity={1}
+                                            ref={(ref) => { this.phone = ref; }}
+                                            initialCountry={this.state.countryCode}
+                                            onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
+                                            style= {newStyle.nameInput}
+                                            onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) } 
+                                            value = {this.state.phoneNumberInput}
+                                            />
+                                        // <TouchableOpacity
+                                        // onPress={() => { 
+                                        //     this.changeMobile(this.state.phoneNumberInput);
+                                        // }}
+                                        // activeOpacity={0.5}
+                                        // style={{
+                                        //     width: 280,
+                                        //     height: 30,
+                                        //     margin:0,
+                                        //     borderBottomColor: "#353535",
+                                        //     borderBottomWidth: StyleSheet.hairlineWidth,
+                                        //     backgroundColor: 'transparent',
+                                        //     marginBottom: 0,
+                                        //     padding: 0,
+                                        //     flex:8,
+                                        // }}>
+                                        // <Text
+                                        //     style={{
+                                        //         fontSize: 14,
+                                        //         fontFamily: 'WorkSans-Regular',
+                                        //         fontWeight: '500',
+                                        //         fontStyle: 'normal',
+                                        //         color: '#000000',
+                                        //         marginTop: 0,   
+                                        //         alignItems: 'center',
+                                        //         justifyContent: 'center',
+                                        //         letterSpacing: 0.67,
+                                        //         textAlign: 'left'}}
+                                        // > Change Mobile Number</Text>
+                                        // </TouchableOpacity>
                                     :
                                     <View 
                                         opacity={0.5}

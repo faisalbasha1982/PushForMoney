@@ -84,6 +84,8 @@ class PushToEarnOTPComponent extends Component {
         this.state = {
             language: 'NEDERLANDS',
             languageCode:'',
+            phoneNumberInput:'',
+            countryCode:'be',
             isLoading: false,
             firstInput:'',
             secondInput:'',
@@ -99,6 +101,74 @@ class PushToEarnOTPComponent extends Component {
             EmptyErrorText:'',
             text:{}
         };    
+    }
+
+    validatePhone = (phone) => {
+
+        console.log("phone validation="+phone);
+
+        let phoneSub = phone.substring(1);
+
+        console.log("phone="+phoneSub);
+        console.tron.log("phone="+phone);
+
+        let reg = /^[0-9]{12}$/;
+        let regNew = /^(?=(.*\d){10})(?!(.*\d){13})[\d\(\)\s+-]{10,}$/;
+
+        if(phone === '')
+        {
+            this.setState({phoneNumberInput: ''});
+
+            if(this.state.language === 'NEDERLANDS')
+                this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
+            else
+                if(this.state.language === 'ENGLISH')
+                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
+                else
+                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
+        }
+        else
+        {
+            let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
+            let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
+    
+            this.phoneText = this.state.country;
+    
+            if (regNew.exec(phoneSub))
+            {
+                this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
+                this.setState({isLoading:true});
+                this.changeMobile(this.state.phoneNumberInput);
+            }
+            else
+                if(this.state.languageCode === 'nl')
+                    this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.dutch.TelephoneNumberError });
+                else
+                    if(this.state.languageCode === 'en')
+                        this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.english.TelephoneNumberError });
+                    else
+                        this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
+        }
+    
+    }
+
+    changeMobile = (phoneNumber) => {
+
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
+        let encryptedData = AesComponent.aesCallback(authData);
+
+        this.setState({isLoading: true});
+
+        console.log("login access token="+ltoken);
+        console.tron.log("login access token="+ltoken);
+
+        let payload = {             
+            "AuthenticationData": encryptedData,
+            "LoginAccessToken":ltoken,
+            "NewMobileNumber": phoneNumber,
+        };
+
+        this.props.changeMobile(payload);
     }
    
     validateOTPText1 = (text) => {
@@ -182,13 +252,36 @@ class PushToEarnOTPComponent extends Component {
                 "OTP": otpString,
                 "OTPType" : "M",
             };
-                
+
             console.tron.log("payload="+payload);
             this.props.verifyOTPChangeMobile(payload);
 
             setTimeout(() => {
                 this.props.menu(1)
             },4000);
+    }
+
+    callResendOTP = () => {
+
+        this.setState({ isLoading: true});
+
+        let tokenLocalStorage = localStorage.getItem('token');
+        this.setState({loginAccessToken:tokenLocalStorage});
+
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
+        console.log("authdata=",authData);
+
+        let encryptedData = AesComponent.aesCallback(authData);
+        console.log("encrypted data=",encryptedData);
+
+        let payload = {
+            "AuthenticationData": encryptedData,
+            "LoginAccessToken": tokenLocalStorage,
+            "SignupType": "S",
+        };
+
+        this.props.verifyOTPResend(payload);
+
     }
 
     func = (renderValidate,EmptyErrorText) => {
@@ -203,16 +296,16 @@ class PushToEarnOTPComponent extends Component {
             <View style={{
                 flex: 1,
                 flexDirection: 'column',
-                justifyContent: 'center',
+                justifyContent: 'flex-start',
                 alignItems: 'center',
               }}>
-                <View style={{width: viewPortWidth*0.80, height: 50, backgroundColor: 'powderblue'}}>
-                      <Text 
+                <View style={{width: viewPortWidth*0.80, height: 50, backgroundColor: 'transparent', justifyContent:'center', alignItems:'center'}}>
+                      <Text
                             style={{
                                 width: 120,
-                                height: 14,
+                                height: 30,
                                 fontFamily: "WorkSans-Medium",
-                                fontSize: 15,
+                                fontSize: 18,
                                 fontWeight: "500",
                                 fontStyle: "normal",
                                 lineHeight: 34,
@@ -223,7 +316,7 @@ class PushToEarnOTPComponent extends Component {
                                     {this.state.text.otp}
                         </Text>
                 </View>
-                <View style={{width: viewPortWidth*0.80, height: 150, backgroundColor: 'skyblue'}}>
+                <View style={{width: viewPortWidth*0.80, height: 100, backgroundColor: 'transparent', justifyContent:'center', alignItems:'center'}}>
                         <Text style={{
                                         width: 310,
                                         height: 57,
@@ -239,8 +332,158 @@ class PushToEarnOTPComponent extends Component {
                                     {this.state.text.otpMessagecntd}
                                 </Text>
                 </View>
-                <View style={{width: 50, height: 50, backgroundColor: 'steelblue'}} />
-              </View>
+                <View style={{
+                            width: viewPortWidth*0.80, 
+                            height: 80, 
+                            backgroundColor: 'transparent',
+                            flexDirection:'row', 
+                            justifyContent:'center', 
+                            alignItems:'center'}}>                            
+                                <TextInput
+                                        style={ newStyle.otpInput }
+                                        placeholder=''
+                                        returnKeyType= {"next"}
+                                        autoFocus = {true}
+                                        onSubmitEditing= {(event) => {this.refs.secondInput.focus();}}
+                                        maxLength={1}
+                                        autoCapitalize="none"
+                                        blurOnSubmit={false}
+                                        underlineColorAndroid= 'transparent'
+                                        onChangeText={(firstInput) => this.validateOTPText1(firstInput)}/>
+
+                            {
+                                    this.state.isLoading===true?
+                                    <View style = {{position: 'absolute' , zIndex:3999, left: 10, top: 50, right: 0, bottom: 0}}>
+                                    <BarIndicator color='#e73d50' />
+                                    </View>:this.somethingElse()
+                            }                      
+
+
+                            <TextInput
+                                        style={ newStyle.otpInput }
+                                        placeholder=''
+                                        ref='secondInput'
+                                        returnKeyType= {"next"}
+                                        autoFocus = {true}
+                                        onSubmitEditing= {(event) => {this.refs.thirdInput.focus();}}
+                                        maxLength={1}
+                                        autoCapitalize="none"
+                                        blurOnSubmit={false}
+                                        underlineColorAndroid= 'transparent'
+                                        onChangeText={(secondInput) => this.validateOTPText2(secondInput)}/>
+                            <TextInput
+                                        style={ newStyle.otpInput }
+                                        placeholder=''
+                                        ref='thirdInput'
+                                        returnKeyType= {"next"}
+                                        autoFocus = {true}
+                                        onSubmitEditing= {(event) => {this.refs.fourthInput.focus();}}
+                                        maxLength={1}
+                                        autoCapitalize="none"
+                                        blurOnSubmit={false}
+                                        underlineColorAndroid= 'transparent'
+                                        onChangeText={(thirdInput) => this.validateOTPText3(thirdInput)}/>
+                            <TextInput
+                                        style={ newStyle.otpInput }
+                                        placeholder=''
+                                        ref='fourthInput'
+                                        returnKeyType= {"next"}
+                                        autoFocus = {true}
+                                        onSubmitEditing= {(event) => {this.refs.passwordInput.focus();}}
+                                        maxLength={1}
+                                        autoCapitalize="none"
+                                        blurOnSubmit={false}
+                                        underlineColorAndroid= 'transparent'
+                                        onChangeText={(fourthInput) => this.validateOTPText4(fourthInput)}/>                                                    
+                </View>
+
+                <View style={{
+                     width: viewPortWidth*0.80,
+                     height: 15,
+                     flex:1,
+                     backgroundColor: 'transparent',
+                     justifyContent:'center', 
+                     alignItems:'center'
+                 }}>
+                        <TouchableOpacity
+                            onPress={() => { this.callResendOTP() } }
+                            activeOpacity={0.5}
+                            style={{
+                            width: 120,
+                            height: 10,
+                            marginBottom: 0,
+                            marginLeft: 0,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: 'transparent',
+                                    }}>
+                                    <Text
+                                        style={{
+                                            fontSize: 17,
+                                            width: 120,
+                                            height: 20,
+                                            fontFamily: 'WorkSans-Regular',
+                                            fontWeight: '500',
+                                            fontStyle: 'normal',
+                                            color:'#E73D50',
+                                            marginTop: 0,
+                                            letterSpacing: 0.67,
+                                            textAlign: 'center'}}> Re-send.....
+                                    </Text>
+                        </TouchableOpacity>
+                </View>
+
+                <View style={{
+                      width: 280,
+                      height: 60,
+                      flex:4,
+                      backgroundColor: 'transparent',
+                      justifyContent:'flex-start',
+                      alignItems:'flex-start'
+                 }}>
+
+                    {/* <PhoneInput
+                        opacity={1}
+                        ref={(ref) => { this.phone = ref; }}
+                        initialCountry={this.state.countryCode}
+                        onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
+                        style= {newStyle.nameInput}
+                        onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) } 
+                        value = {this.state.phoneNumberInput}
+                        /> */}
+
+                   <TouchableOpacity
+                            onPress={() => { this.callOTP() } }
+                            activeOpacity={0.5}
+                            style={{
+                                width: 280,
+                                height: 50,
+                                marginBottom: 30,
+                                marginLeft: 0,
+                                borderRadius: 8,
+                                backgroundColor: '#E73D50',
+                                marginTop: viewPortHeight / 30,            
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}>
+                             <Text
+                                 style={{
+                                     fontSize: 17,
+                                    width: 333,
+                                    height: 19,
+                                    fontFamily: 'WorkSans-Regular',
+                                    fontWeight: '500',
+                                    fontStyle: 'normal',
+                                    color: '#ffffff',
+                                    marginTop: 0,                
+                                    letterSpacing: 0.67,
+                                    textAlign: 'center'}}
+                            > {this.state.text.start}</Text>
+                        </TouchableOpacity>
+
+                </View>
+                
+        </View>
             
             // <View style= {newStyle.layoutBelow}>
 
@@ -505,7 +748,7 @@ const newStyle = StyleSheet.create({
     },
 
     nameInput: {
-        width: 334,
+        width: 280,
         height: 57,
         borderRadius: 8,
         backgroundColor: '#f6f6f6',
@@ -589,6 +832,8 @@ const mapStateToProps = state => {
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
       verifyOTPChangeMobile: (payload) => dispatch({ type: 'VERIFY_OTP_MOBILE', payload }),
+      verifyOTPResend: (payload) => dispatch({ type: 'VERIFY_OTP_RESEND',payload }),
+      changeMobile: (payload) => dispatch({ type: 'CHANGE_MOBILE', payload }),
     };
   };
   
