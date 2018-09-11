@@ -223,7 +223,7 @@ export function * facebookRequest(api,payload,payloadNew) {
         }
         else 
         {
-          yield put(LoginActions.loginFailure());    
+          yield put(LoginActions.loginFailure());
 
           NavigationService.navigate('PushToEarnRegisterProfile',{uname: payloadNew.email,pword:'', payload: payloadNew.payload});
 

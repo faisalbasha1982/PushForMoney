@@ -164,6 +164,25 @@ class PushToEarnProfileBankInfoComponent extends Component {
                     <View style={newStyle.endButtons}>     
 
                         <View style={newStyle.topView}>
+                        <View style={{ marginLeft:25, width:80,justifyContent:'flex-end', alignItems:'flex-end' }}>
+                                    <TouchableOpacity
+                                            onPress={() => { this.props.menu(1) } }
+                                            activeOpacity={0.5}
+                                            style={{
+                                                width: 30,
+                                                height: 30, 
+                                                backgroundColor: 'transparent',
+                                                justifyContent: 'center',
+                                                alignItems: 'center'
+                                            }}> 
+                                            <Icon
+                                                containerStyle={newStyle.iconImageStyle}
+                                                name='arrow-circle-left'
+                                                type='font-awesome'
+                                                color='#E73D50'
+                                                size = {20} />
+                                    </TouchableOpacity>
+                                </View>
                             <Text style= {newStyle.topText}>           
                                     {this.state.text.myProfile}
                             </Text>    
@@ -406,6 +425,7 @@ const newStyle = StyleSheet.create({
         width: 276,
         height: 68,
         flex:2,
+        flexDirection:'row',
         marginTop: 10,
         alignItems: 'center',
         justifyContent: 'center'

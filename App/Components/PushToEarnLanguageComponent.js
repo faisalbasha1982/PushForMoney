@@ -125,18 +125,19 @@ class PushToEarnLanguageComponent extends Component {
 
                         <View style={newStyle.topView}>
 
-                        <View style={{width: 80, height: 50, backgroundColor: 'transparent'}}>
-                            <Text style= {newStyle.topText}>
-                                    {this.state.text.changeLanguage}
-                            </Text>
-                        </View>
+                            <View style={{width: 80, height: 50, backgroundColor: 'transparent'}}>
+                                <Text style= {newStyle.topText}>
+                                        {this.state.text.changeLanguage}
+                                </Text>
+                            </View>
+
+                            <View style={newStyle.languageTextContainer}>
+                                <Text style={newStyle.languageText}> Choose your language!</Text>
+                            </View>
  
                         </View>
 
                         <View style= {newStyle.inputContainer}>
-                        <View style={newStyle.languageTextContainer}>
-                                  <Text style={newStyle.languageText}> Choose your language!</Text>
-                        </View>
 
                             <View style={{width: viewPortWidth*.80, height: 80, backgroundColor: 'transparent',flex:1,}}>
                                     <TouchableOpacity
@@ -149,7 +150,6 @@ class PushToEarnLanguageComponent extends Component {
                                                 marginLeft: 0,
                                                 borderRadius: 8,
                                                 backgroundColor: '#E73D50',
-                                                marginTop: viewPortHeight / 30,
                                                 justifyContent: 'center',
                                                 alignItems: 'center'
                                             }}>
@@ -179,7 +179,7 @@ class PushToEarnLanguageComponent extends Component {
                                                 marginLeft: 0,
                                                 borderRadius: 8,
                                                 backgroundColor: '#E73D50',
-                                                marginTop: viewPortHeight / 50,
+                                                marginTop: viewPortHeight / 20,
                                                 justifyContent: 'center',
                                                 alignItems: 'flex-start'
                                             }}>
@@ -209,7 +209,7 @@ class PushToEarnLanguageComponent extends Component {
                                                 marginLeft: 0,
                                                 borderRadius: 8,
                                                 backgroundColor: '#E73D50',
-                                                marginTop: viewPortHeight / 80,
+                                                marginTop: viewPortHeight / 10,
                                                 justifyContent: 'center',
                                                 alignItems: 'center'
                                             }}>
@@ -228,6 +228,10 @@ class PushToEarnLanguageComponent extends Component {
                                             > {languageSettingsPFM.French.languageText} </Text>
                                         </TouchableOpacity>
                             </View>      
+
+                              <View style={newStyle.emptyContainer}>
+                                  <Text style={newStyle.languageText}></Text>
+                            </View>
                         </View>
 
                     </View>
@@ -427,9 +431,10 @@ const newStyle = StyleSheet.create({
         backgroundColor: 'transparent',
         width: 330,
         height: 34,
-        flex: Platform.OS === 'ios'?20:1,
-        justifyContent: 'flex-start',
+        flex: Platform.OS === 'ios'?6:1,
+        justifyContent: 'center',
         alignItems: 'center',
+        marginTop:10,
     },
 
     topText: {
@@ -452,7 +457,7 @@ const newStyle = StyleSheet.create({
         marginTop: 10,
         alignItems: 'flex-start',
         justifyContent: 'space-between',
-        flexDirection:'row',
+        flexDirection:'column',
         backgroundColor:'transparent',
     },
 
@@ -472,18 +477,27 @@ const newStyle = StyleSheet.create({
         borderStyle:'solid'
     },
 
-    languageTextContainer: {
-        width: viewPortWidth*0.85,
-        height: 35,
-        flex: 1,
+    emptyContainer:{
+        width: viewPortWidth*0.80,
+        height: 10,
+        flex: 2,
         backgroundColor: 'transparent',
         justifyContent: 'flex-start',
+        alignItems:'flex-start'        
+    },
+
+    languageTextContainer: {
+        width: viewPortWidth*0.80,
+        height: 10,
+        flex: 1,
+        backgroundColor: 'transparent',
+        justifyContent: 'center',
         alignItems:'flex-start'
     },
 
 languageText: {
         width: scale(viewPortWidth *0.80),
-        height: verticalScale(36) ,
+        height: verticalScale(40),
         fontFamily: 'WorkSans-Regular',
         fontSize: moderateScale(25),
         fontWeight: "400",
@@ -492,7 +506,6 @@ languageText: {
         letterSpacing: 0,
         textAlign: Platform.OS === 'ios'?'left':'left',
         marginLeft: Platform.OS === 'ios'?moderateScale(5):5,
-        marginTop: moderateScale(15)
     },
 
 

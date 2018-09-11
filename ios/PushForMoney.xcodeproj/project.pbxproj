@@ -745,7 +745,7 @@
 				CF9494B9C6D14184889FC719 /* libRCTContactsWrapper.a in Frameworks */,
 				C00E086B610E4540B92CD3AF /* libRCTContacts.a in Frameworks */,
 				9E6D28D6B91044A68C237940 /* libRCTBEEPickerManager.a in Frameworks */,
-				77C2BD6E27794C949DB50450 /* RCTAddressBookTests.xctest in Frameworks */,
+				65B366228FAF41D495143B72 /* RCTAddressBookTests.xctest in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1088,8 +1088,8 @@
 				9E28D29906B5470D8F82500E /* libRCTContactsWrapper.a */,
 				D45EAEC5992D478DA71328D3 /* libRCTContacts.a */,
 				599E25F7770B4CD6BE85C3DC /* libRCTBEEPickerManager.a */,
-				7B9BFB33F27647928098C24B /* libRCTAddressBook.a */,
-				547DADC99FB140088DDE8FD8 /* RCTAddressBookTests.xctest */,
+				31AAE5704DF54B239C103827 /* libRCTAddressBook.a */,
+				050E24E300674A46B9A3F53A /* RCTAddressBookTests.xctest */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";

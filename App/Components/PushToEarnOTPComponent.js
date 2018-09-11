@@ -246,9 +246,11 @@ class PushToEarnOTPComponent extends Component {
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
+        let ltoken = localStorage.getItem('token');
 
         let payload = {
                 "AuthenticationData":encryptedData,
+                "LoginAccessToken":ltoken,
                 "OTP": otpString,
                 "OTPType" : "M",
             };
