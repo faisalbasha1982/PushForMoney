@@ -216,7 +216,7 @@ render() {
   console.log("inside accordion list component");
     return (
         <ScrollView>
-         <View style= {{ flex: 1,flexDirection: 'column',backgroundColor: 'white', marginTop: 25, justifyContent: 'flex-start', alignItems:'flex-start', }}>
+         <View style= {{ flex: 1,flexDirection: 'column',backgroundColor: 'transparent', marginTop: 25, justifyContent: 'flex-start', alignItems:'flex-start', }}>
 
             {/* <View style = {newStyle.nameAndback}>
                 <Text style={{

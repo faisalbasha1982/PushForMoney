@@ -20,17 +20,29 @@ export default class BackComponent extends Component
         return (
 
             <View style = {newStyle.nameAndback}>
-                <Text style={{
-                    fontFamily: "WorkSans-Regular",
-                    fontSize: 13,
-                    fontWeight: "500",
-                    fontStyle: "normal",
-                    letterSpacing: 0.54,
-                    textAlign: "left",
-                    color: "rgb(231, 61, 80)"
+                <View style={{
+                     justifyContent:'flex-start',
+                     alignItems:'flex-start'
+                }}>
+                    <Text style={{
+                                fontFamily: "WorkSans-Regular",
+                                fontSize: 13,
+                                fontWeight: "500",
+                                fontStyle: "normal",
+                                letterSpacing: 0.54,
+                                textAlign: "left",
+                                color: "rgb(231, 61, 80)"
                 }}>{ this.props.name } </Text>
 
-                <TouchableOpacity onPress={ ( ) => { 
+                </View>
+
+                <View style={{
+                    justifyContent:'flex-end',
+                    alignItems:'flex-end',
+                    marginLeft:viewPortWidth*0.37
+
+                }}>
+                    <TouchableOpacity onPress={ ( ) => { 
                                                       this.props.back();
                                                     }}
                                                 activeOpacity={0.5}
@@ -57,6 +69,8 @@ export default class BackComponent extends Component
                                                     {this.props.backText}
                                                 </Text>
                                             </TouchableOpacity>
+                </View>
+
         </View>
         );
     }
@@ -68,9 +82,9 @@ const newStyle = StyleSheet.create({
 
   nameAndback: {
       width: viewPortWidth,
-      height: viewPortHeight * 0.03,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
+      height: viewPortHeight * 0.06,
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
       alignItems:'flex-start',
       backgroundColor:'transparent',
   },

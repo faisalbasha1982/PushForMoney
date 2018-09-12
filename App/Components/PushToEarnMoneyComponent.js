@@ -358,6 +358,18 @@ class PushToEarnMoneyComponent extends Component {
 
     renderEmpty = () => {
         console.log("this.state.menu="+this.state.menu);
+        return(
+            <View style={{
+                width: viewPortWidth,
+                height: viewPortHeight * 0.06,
+                flexDirection: 'column',
+                justifyContent: 'flex-start',
+                alignItems:'flex-start',
+                backgroundColor:'transparent',
+            }}>
+            
+            </View>
+        )
     }
 
     somethingElse = () => {
@@ -775,7 +787,8 @@ class PushToEarnMoneyComponent extends Component {
                              </View>
 
                          <View style={newStyle.borderBottomNew}></View>
-                                <View style={newStyle.totalText}>
+                                 <View style={{ justifyContent:'flex-start',alignItems:'center',flex:14, }}>
+                                 <View style={newStyle.totalText}>
                                             <Text style={newStyle.firstName}>{this.state.text.TotalNext}</Text>
                                             <Text style={newStyle.earningsText}>€{this.props.TotalEarnings}</Text>
                                 </View>
@@ -785,6 +798,8 @@ class PushToEarnMoneyComponent extends Component {
                                             <Text style={newStyle.hoursText}>{this.props.TotalWorkedHours}</Text>
                                 </View>
 
+                                 </View>
+                                
                         </View>
 
 
@@ -999,6 +1014,7 @@ const newStyle = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'rgb(231, 61, 80)',
         borderBottomColor: "rgb(231, 61, 80)",
+        marginBottom:5,
     },
 
     monthlyBar: {
@@ -1025,7 +1041,7 @@ const newStyle = StyleSheet.create({
 
     earningsText: {
         fontFamily: "WorkSans-Medium",
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: "normal",
         fontStyle: "normal",
         letterSpacing: 0.67,
@@ -1037,22 +1053,22 @@ const newStyle = StyleSheet.create({
 
     totalText: {
         width: viewPortWidth*0.80,
-        height: 20,
-        flex: 8,
-        marginTop: 5,
-        marginBottom: 0,
+        height: 25,
+        flex: 14,
+        marginTop: 0,
+        marginBottom: 15,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'flex-end',
+        alignItems: 'flex-start',
         backgroundColor:'transparent'
     },
 
     totalHoursText:{
         width: viewPortWidth*0.80,
         height: 20,
-        flex: 12,
+        flex: 14,
         marginTop: 0,
-        marginBottom: 10,
+        marginBottom: 20,
         marginLeft:5,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -1064,7 +1080,7 @@ const newStyle = StyleSheet.create({
         width: 80,
         height: 22,
         fontFamily: 'WorkSans-Regular',
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: '500',
         fontStyle: 'normal',
         letterSpacing: 0.67,
