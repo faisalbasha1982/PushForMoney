@@ -416,7 +416,7 @@ const newStyle = StyleSheet.create({
         zIndex: 999,
         flex: Platform.OS === 'ios'?11:4,
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: 'white',       
     },
@@ -443,12 +443,12 @@ const newStyle = StyleSheet.create({
 
     topView: {
         width: 276,
-        height: 68,
-        flex:2,
+        height: viewPortHeight*.60,
+        flex:3,
         marginTop: 10,
         alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor:'blue'
+        justifyContent: 'flex-end',
+        backgroundColor:'transparent'
 
     },
 
@@ -459,7 +459,7 @@ const newStyle = StyleSheet.create({
     },
 
     buttonView: {
-        flex: 7,
+        flex: 3,
         justifyContent:'flex-end',
         alignItems:'flex-end',
         backgroundColor:'transparent',

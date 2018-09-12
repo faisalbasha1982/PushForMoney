@@ -239,51 +239,11 @@ class PushToEarnInformation extends Component {
         // console.log("this.state.buttonText="+this.state.buttonText);
     }
 
-    // setText =  () => {
-
-    //     this.setState({language: this.props.navigation.state.params.language});
-    //     console.log("this.state.language="+this.state.language);
-
-    //     if (this.props.navigation.state.params.language === 'NEDERLANDS') {
-    //         console.log("setting in Nederlands");
-    //         this.setState({
-    //             firstName:  LanguageSettings.dutch.firstNameText,
-    //             name:       LanguageSettings.dutch.lastNameText,
-    //             phoneNumber: LanguageSettings.dutch.telephoneNumberText,
-    //             buttonText: LanguageSettings.dutch.buttonNextText
-    //         });
-    //     }
-    //     else
-    //         if (this.props.navigation.state.params.language === 'ENGLISH') {
-    //             console.log("setting in English");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.english.firstNameText,
-    //                 name: LanguageSettings.english.lastNameText,
-    //                 phoneNumber: LanguageSettings.english.telephoneNumberText,
-    //                 buttonText: LanguageSettings.english.buttonNextText
-    //             });
-    //         }
-    //         else
-    //           {
-    //             console.log("setting in French");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.french.firstNameText,
-    //                 name: LanguageSettings.french.lastNameText,
-    //                 phoneNumber: LanguageSettings.french.telephoneNumberText,
-    //                 buttonText: LanguageSettings.french.buttonNextText
-    //             });
-    //         }
-    
-       
-    // }
-
     renderNothing = () => {
 
     }
 
     renderValidation = () => {
-
-        //if(this.state.language === 'NEDERLANDS')
 
         console.log("empty error text="+this.state.EmptyErrorText);
         console.log("first Name Input="+this.state.firstNameInput);
@@ -332,6 +292,32 @@ class PushToEarnInformation extends Component {
         return;
 
     }
+
+    handleEmail = () => {
+        Mailer.mail({
+          subject: 'need help',
+          recipients: ['support@jobfixers.com'],
+          ccRecipients: ['supportCC@jobfixers.com'],
+          bccRecipients: ['supportBCC@jobfixers.com'],
+          body: '<b>A Bold Body</b>',
+          isHTML: true,
+          attachment: {
+            path: '',  // The absolute path of the file from which to read data.
+            type: '',   // Mime Type: jpg, png, doc, ppt, html, pdf, csv
+            name: '',   // Optional: Custom filename for attachment
+          }
+        }, (error, event) => {
+          Alert.alert(
+            error,
+            event,
+            [
+              {text: 'Ok', onPress: () => console.log('OK: Email Error Response')},
+              {text: 'Cancel', onPress: () => console.log('CANCEL: Email Error Response')}
+            ],
+            { cancelable: true }
+          )
+        });
+      }
 
     func = (renderValidate,EmptyErrorText) => {
       this.setState({renderValidate,EmptyErrorText});
@@ -426,7 +412,15 @@ class PushToEarnInformation extends Component {
 
                         <View style= {newStyle.inputContainer}>
 
-                            <Text style={newStyle.firstName}>Support </Text>
+                            <TouchableOpacity
+                                style={{
+                                    width:viewPortWidth*0.83,
+                                    height:60,
+                                    backgroundColor:'transparent'
+                                }}
+                                onPress = {()=> {this.handleEmail()}}>
+                                <Text style={newStyle.firstName}>Support </Text>
+                            </TouchableOpacity>
 
                             <View style={newStyle.borderBottom}> </View>
                                     

@@ -29,10 +29,10 @@ import * as Animatable from 'react-native-animatable';
 import { StyleSheet } from 'react-native';
 import CompanyBanner from '../Components/CompanyBanner';
 import Validation from '../Components/ButtonValidation';
-import LanguageSettings from '../Containers/LanguageSettingsNew';
-import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
+import LanguageSettings from '../Containers/LanguageSettingsNew';
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import localStorage from 'react-native-sync-localstorage';
 
 import { Colors } from "../Themes";
@@ -67,162 +67,10 @@ class PushToEarnInformationComponent extends Component {
             languageCode: '',
             firstName:'',
             name:'',
-            phoneNumber:'',
-            validation: false,
-            renderValidate: false,
-            firstNameInput:'',
-            lastNameInput:'',
-            phoneNumberInput:'',
             buttonText: '',
-            firstNameError:true,
-            firstNameErrorText:'',
-            lastNameError:false,
-            lastNameErrorText:'',
-            phoneNumberError:true,
-            phoneNumberErrorText:'',
-            ErrorText:'',
-            EmptyErrorText:'',
-            firstNameEmptyError:false,
-            lastNameEmptyError:false,
-            phoneNumberEmptyError:false,
             text:{}
         };    
-    }
-
-    validationLastName = (name) => {
-
-        let reg = /^[a-zA-Z\s]+$/;
-
-        console.log("last name="+name);
-
-        if(name === '')
-        {
-            //this.setState({ lastNameError: true, ErrorText: 'Last Name is Required' });
-            this.setState({lastNameInput: ''});
-
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
-        else
-        {
-
-            if(reg.exec(name))
-            {
-              this.setState({ lastNameEmptyError: false, EmptyErrorText: '',lastNameError: false, lastNameInput: name,lastNameErrorText:'' });
-            }
-            else
-            {
-                console.log("found digits");
-              if(this.state.language === 'NEDERLANDS')
-                  this.setState({ lastNameEmptyError: false, lastNameError: true, lastNameErrorText: LanguageSettings.dutch.LNameErrorText });
-              else
-                  if(this.state.language === 'ENGLISH')
-                      this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.english.LNameErrorText });
-                  else
-                      this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.french.LNameErrorText });
-            }    
-        }    
-    } 
-
-    validationFirstName = (name) => {
-
-        let reg = /^[a-zA-Z\s]+$/;
-
-        console.log("validating First Name="+name);
-
-        if(name === '')
-        {
-            console.log("First name is empty="+name);
-            console.log("Language ="+this.state.language);
-            this.setState({firstNameInput: ''});
-            //this.setState({ firstNameError: true, ErrorText: 'First Name is Required' });
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
-        else
-        {
-            if(reg.exec(name))
-            {
-              this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: false, firstNameInput: name, firstNameErrorText:'' });
-            }
-            else
-            {
-              if(this.state.language === 'NEDERLANDS')
-                  this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.dutch.FNameErrorText });
-              else
-                  if(this.state.language === 'ENGLISH')
-                      this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.english.FNameErrorText });
-                  else
-                      this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.french.FNameErrorText });
-            }
-        }        
-    }
-
-    validatePhone = (phone) => {
-
-        console.log("phone="+phone);
-
-        let phoneSub = phone.substring(1);
-
-        console.log("phone="+phoneSub);
-
-        let reg = /^[0-9]{12}$/;
-        let regNew = /^(?=(.*\d){10})(?!(.*\d){13})[\d\(\)\s+-]{10,}$/;
-
-        if(phone === '')
-        {
-            //this.setState({ phoneNumberError: true, ErrorText: 'Phone Number is Required' });
-            this.setState({phoneNumberInput: ''});
-
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
-        else
-        {
-            // home phone number belgium
-            let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
-            // mobile phone number belgium
-            let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
-    
-            this.phoneText = this.state.country;
-    
-            if (regNew.exec(phoneSub))
-              this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
-            else
-                if(this.state.language === 'NEDERLANDS')
-                    this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.dutch.TelephoneNumberError });
-                else
-                    if(this.state.language === 'ENGLISH')
-                        this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.english.TelephoneNumberError });
-                    else
-                        this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
-        }
-    
-        // if (homePhone.exec(phone))
-        //   this.setState({ phoneError: false, phone: phone });
-        // else
-        //   this.setState({ phoneError: true });
-    
-    }
-
-    PhoneNumberPickerChanged = (country, callingCode, phoneNumber) => {
-        this.setState({countryName: country.name, callingCode: callingCode, phoneNo:phoneNumber});
-     }
+    }   
 
     componentWillReceiveProps(nextProps) {
 
@@ -246,9 +94,79 @@ class PushToEarnInformationComponent extends Component {
 
     }
 
-    renderNothing = () => {
+    handleEmail = async () => {
 
-    }    
+        // Mailer.mail({
+        //   subject: 'need help',
+        //   recipients: ['support@jobfixers.com'],
+        //   ccRecipients: ['supportCC@jobfixers.com'],
+        //   bccRecipients: ['supportBCC@jobfixers.com'],
+        //   body: '<b>A Bold Body</b>',
+        //   isHTML: true,
+        //   attachment: {
+        //     path: '',  // The absolute path of the file from which to read data.
+        //     type: '',   // Mime Type: jpg, png, doc, ppt, html, pdf, csv
+        //     name: '',   // Optional: Custom filename for attachment
+        //   }
+        // }, (error, event) => {
+        //   Alert.alert(
+        //     error,
+        //     event,
+        //     [
+        //       {text: 'Ok', onPress: () => console.log('OK: Email Error Response')},
+        //       {text: 'Cancel', onPress: () => console.log('CANCEL: Email Error Response')}
+        //     ],
+        //     { cancelable: true }
+        //   )
+        // });
+
+        // email('support@jobfixers.com', {
+        //     // Optional additional arguments
+        //     cc: ['bazzy@moo.com', 'doooo@daaa.com'], // string or array of email addresses
+        //     bcc: 'mee@mee.com', // string or array of email addresses
+        //     subject: 'Show how to use',
+        //     body: 'Some body right here'
+        // }).catch(console.error)
+
+        // try {
+        //     await MessageCompose.send({
+        //       recipients: ['1234567890'],
+        //       subject: 'This is subject',
+        //       body: 'This is body',
+        //       // ![NOTE] SMS attachments are not supported in Android.
+        //       attachments: [{
+        //         filename: 'mytext', // [Optional] If not provided, UUID will be generated.
+        //         ext: '.txt',
+        //         mimeType: 'text/plain',
+        //         text: 'Hello my friend', // Use this if the data is in UTF8 text.
+        //         data: '...BASE64_ENCODED_STRING...', // Or, use this if the data is not in plain text.
+        //       }],
+        //     });
+        //   } catch (e) {
+        //     // e.code may be 'cannotSendText' || 'cancelled' || 'failed'
+        //   }
+
+        // try {
+        //     await MailCompose.send({
+        //       toRecipients: ['to1@example.com', 'to2@example.com'],
+        //       ccRecipients: ['cc1@example.com', 'cc2@example.com'],
+        //       bccRecipients: ['bcc1@example.com', 'bcc2@example.com'],
+        //       subject: 'This is subject',
+        //       text: 'This is body',
+        //       html: '<p>This is <b>html</b> body</p>', // Or, use this if you want html body. Note that some Android mail clients / devices don't support this properly.
+        //       attachments: [{
+        //         filename: 'mytext', // [Optional] If not provided, UUID will be generated.
+        //         ext: '.txt',
+        //         mimeType: 'text/plain',
+        //         text: 'Hello my friend', // Use this if the data is in UTF8 text.
+        //         data: '...BASE64_ENCODED_STRING...', // Or, use this if the data is not in plain text.
+        //       }],
+        //     });
+        //   } catch (e) {
+        //     // e.code may be 'cannotSendMail' || 'cancelled' || 'saved' || 'failed'
+        //   }
+        
+      }
 
     render() {
         const platform = Platform.OS;
@@ -267,7 +185,16 @@ class PushToEarnInformationComponent extends Component {
 
                         <View style= {newStyle.inputContainer}>
 
-                            <Text style={newStyle.firstName}>{this.state.text.Support} </Text>
+                            <TouchableOpacity
+                                style={{
+                                    width:viewPortWidth*0.83,
+                                    height:60,
+                                    backgroundColor:'transparent'
+                                }}
+                                onPress = {()=> {this.handleEmail()}}>
+                                <Text style={newStyle.firstName}>{this.state.text.Support} </Text>
+                            </TouchableOpacity>
+
 
                             <View style={newStyle.borderBottom}> </View>
                                     

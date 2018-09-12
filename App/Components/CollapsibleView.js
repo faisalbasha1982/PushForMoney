@@ -121,6 +121,9 @@ _body(item){
 renderList = (personObj) => {  
 
   console.log("inside renderList personObj="+personObj);
+  console.log("PersonObj.ReferredPersonName="+personObj.ReferredPersonName);
+  console.log('PersonObj.PaidStatus='+personObj.PaidStatus);
+  console.log('personObj.amount='+personObj.Amount);
 
   if(this.props.referrals !== null)
       this.props.isLoading();
@@ -138,7 +141,7 @@ renderList = (personObj) => {
           style={ newStyle.buttonStyle }>
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
-          <Text style={newStyle.statusStyle}>{ personObj.ReferredPersonName }</Text>
+          <Text style={newStyle.nameStyle}>{ personObj.ReferredPersonName }</Text>
           {(personObj.PaidStatus === "0")?<Text style={newStyle.statusStyle}>{this.state.text.payed}</Text>
           :<Text style={newStyle.statusStyle}> {this.state.text.pending} </Text>}
           <Text style={newStyle.fontStyle}>€{ personObj.Amount }</Text>
@@ -218,6 +221,18 @@ componentDidMount()
 
   console.log("componentDiDMount of CollapsibleView");
 
+  let lang = localStorage.getItem('language');
+  console.log('local storage language='+lang);
+
+  if(lang === 'Dutch')
+      this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
+  else
+      if(lang === 'English')
+          this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});
+  else
+      if(lang === 'French')
+          this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
+
   if(this.props.changeMenuOneBack === true)
   {
     this.setState({ menu: 1});
@@ -262,7 +277,6 @@ render() {
     console.log("collapsible view props.menu in collapsible view ="+this.props.menu);
     console.log("collapsible view this.props.childMenu="+this.props.childMenu);
     console.log("collapsible view state.menu in collapsible view ="+this.state.menu);
-
 
   //   let referralsNew =  [
   //     {
@@ -332,25 +346,31 @@ const newStyle = StyleSheet.create({
     padding: 5,
     margin: 5,
     width: 111,
-    height: 50,
-    fontFamily: "WorkSans-Regular",
+    height: 23,
+    fontFamily: "WorkSans-Medium",
     fontSize: 13,
     fontWeight: "normal",
     fontStyle: "normal",
     letterSpacing: 0.46,
-    color: "rgb(53, 53, 53)"
+    color: "rgb(53, 53, 53)",
+    backgroundColor:'transparent'
 },
 
 statusStyle: {
     paddingLeft: 5,
-    marginTop: 8,
+    marginTop: 28,
+    width: 80,
+    height: 15,
+    flex:1,
     fontFamily: "WorkSans-Regular",
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: "normal",
     fontStyle: "normal",
-    letterSpacing: 0.46,
-    width: 111,
-    height: 18,
+    letterSpacing: 0.39,
+    color: "rgb(155, 155, 155)",
+    backgroundColor: 'transparent',
+    textAlign:'center',
+    alignItems:'flex-end'
 },
 
 buttonStyle: {
@@ -394,14 +414,14 @@ totalText: {
 
 fontStyle: {
   fontFamily: "WorkSans-Medium",
-  fontSize: 14,
+  fontSize: 11,
   fontWeight: "normal",
   fontStyle: "normal",
   letterSpacing: 0.67,
   textAlign: 'right',
   color: "rgb(231, 61, 80)",
-  marginLeft: 20,
-  marginTop:3,
+  marginLeft: 15,
+  marginTop:28,
 },
 
 layoutBelow: {

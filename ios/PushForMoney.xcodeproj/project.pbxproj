@@ -29,6 +29,7 @@
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		166B8F140D1947E1BA4C7E72 /* BarlowCondensed-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = DB2B42B5A9A849019B44C79B /* BarlowCondensed-Regular.otf */; };
+		18FB32113721422EA4BAA51E /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 29797C7ADBB946D7B657BBC7 /* libRNMail.a */; };
 		1C988EEC498C4E92B8F42BC6 /* libRNGoogleSignin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09518903CB934513AF2C8DC4 /* libRNGoogleSignin.a */; };
 		1DAFCE020A764A929C3517C9 /* BarlowSemiCondensed-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F5670C8647D241B1BAADEF45 /* BarlowSemiCondensed-Bold.otf */; };
 		2C9CE829A2C54988A0F6D7A2 /* BarlowCondensed-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = BE3CB7BCDC4F4976B5788D4C /* BarlowCondensed-Bold.otf */; };
@@ -104,6 +105,7 @@
 		8A829E1497A845E68CB6599B /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A7592D8F2633477CB98132D5 /* libz.tbd */; };
 		8F5ACA0132724DD29C6C4EDC /* barlowsemicondensed-thinitalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = BE5EFC223B7B4E999F525E23 /* barlowsemicondensed-thinitalic.otf */; };
 		9498E6438A3844B2B99ED5FF /* WorkSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDD1CADB44C44BBE83E653F4 /* WorkSans-Bold.ttf */; };
+		95171317141C4163A7FAAEF5 /* RNMailTests.xctest in Frameworks */ = {isa = PBXBuildFile; fileRef = DEDFE98B46B34D66B94CF077 /* RNMailTests.xctest */; };
 		95B8A1339DFD4B2C80330A36 /* WorkSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6589370D4ADC4EB38290A9E0 /* WorkSans-Thin.ttf */; };
 		98298B3C3D9D4042B0004EEA /* BarlowSemiCondensed-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = A3EA03385EFF4EE0ABAF0E0B /* BarlowSemiCondensed-Black.otf */; };
 		996859EEBC1F4A8086063781 /* barlowsemicondensed-light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6F3DE97C82E148B4A9305B4F /* barlowsemicondensed-light.otf */; };
@@ -436,6 +438,20 @@
 			remoteGlobalIDString = 1441618E1BD0A79300FA4F59;
 			remoteInfo = RCTContacts;
 		};
+		7B320D572148E0C7005E8E8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4BA4FAA56614D15AFCF9F04 /* RNMail.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 46FEDE7F1AFF192F00D3261C;
+			remoteInfo = RNMail;
+		};
+		7B320D592148E0C7005E8E8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4BA4FAA56614D15AFCF9F04 /* RNMail.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 46FEDE8A1AFF192F00D3261C;
+			remoteInfo = RNMailTests;
+		};
 		7B4153772134209000CE3B86 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7EDD6D523F6C4ACEBDC9F096 /* RCTBEEPickerManager.xcodeproj */;
@@ -562,6 +578,7 @@
 		21B6039C294D4AF0A23D7F3C /* libBDVSimpleContacts.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBDVSimpleContacts.a; sourceTree = "<group>"; };
 		22298C92F6814529964BF035 /* barlowsemicondensed-extrabold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "barlowsemicondensed-extrabold.otf"; path = "../assets/fonts/barlowsemicondensed-extrabold.otf"; sourceTree = "<group>"; };
 		283518C440B44579AEDC4E30 /* BarlowCondensed-ExtraLight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowCondensed-ExtraLight.otf"; path = "../assets/fonts/BarlowCondensed-ExtraLight.otf"; sourceTree = "<group>"; };
+		29797C7ADBB946D7B657BBC7 /* libRNMail.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNMail.a; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* PushForMoney-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PushForMoney-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* PushForMoney-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PushForMoney-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -671,6 +688,7 @@
 		DD89506B730E40F1B7692E9E /* RNTwitterSignIn.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNTwitterSignIn.xcodeproj; path = "../node_modules/react-native-twitter-signin/ios/RNTwitterSignIn.xcodeproj"; sourceTree = "<group>"; };
 		DDD1CADB44C44BBE83E653F4 /* WorkSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-Bold.ttf"; path = "../assets/fonts/WorkSans-Bold.ttf"; sourceTree = "<group>"; };
 		DE9DCED35F414D5F8531B124 /* BarlowCondensed-ExtraLightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowCondensed-ExtraLightItalic.otf"; path = "../assets/fonts/BarlowCondensed-ExtraLightItalic.otf"; sourceTree = "<group>"; };
+		DEDFE98B46B34D66B94CF077 /* RNMailTests.xctest */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = RNMailTests.xctest; sourceTree = "<group>"; };
 		E2E43BCA55D042849F7771E4 /* Barlow-ExtraLight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-ExtraLight.otf"; path = "../assets/fonts/Barlow-ExtraLight.otf"; sourceTree = "<group>"; };
 		E64A1D22277B4233B45F44CD /* Barlow-BlackItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-BlackItalic.otf"; path = "../assets/fonts/Barlow-BlackItalic.otf"; sourceTree = "<group>"; };
 		E851609ACAA6405FA62FDCEE /* Barlow-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-BoldItalic.otf"; path = "../assets/fonts/Barlow-BoldItalic.otf"; sourceTree = "<group>"; };
@@ -678,6 +696,7 @@
 		E85CF0CABCE94B888EC54175 /* barlowsemicondensed-italic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "barlowsemicondensed-italic.otf"; path = "../assets/fonts/barlowsemicondensed-italic.otf"; sourceTree = "<group>"; };
 		EBDE6E539EE0486A8F39199A /* BarlowSemiCondensed-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowSemiCondensed-BoldItalic.otf"; path = "../assets/fonts/BarlowSemiCondensed-BoldItalic.otf"; sourceTree = "<group>"; };
 		F2F3219A0EA844BEB6B3B473 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/native-base/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		F4BA4FAA56614D15AFCF9F04 /* RNMail.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNMail.xcodeproj; path = "../node_modules/react-native-mail/RNMail.xcodeproj"; sourceTree = "<group>"; };
 		F4E3547D96DD4E2485A601A0 /* barlowsemicondensed-mediumitalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "barlowsemicondensed-mediumitalic.otf"; path = "../assets/fonts/barlowsemicondensed-mediumitalic.otf"; sourceTree = "<group>"; };
 		F5670C8647D241B1BAADEF45 /* BarlowSemiCondensed-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowSemiCondensed-Bold.otf"; path = "../assets/fonts/BarlowSemiCondensed-Bold.otf"; sourceTree = "<group>"; };
 		F6D85C1812D2409F8AD4C19E /* Barlow-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Light.otf"; path = "../assets/fonts/Barlow-Light.otf"; sourceTree = "<group>"; };
@@ -745,7 +764,8 @@
 				CF9494B9C6D14184889FC719 /* libRCTContactsWrapper.a in Frameworks */,
 				C00E086B610E4540B92CD3AF /* libRCTContacts.a in Frameworks */,
 				9E6D28D6B91044A68C237940 /* libRCTBEEPickerManager.a in Frameworks */,
-				65B366228FAF41D495143B72 /* RCTAddressBookTests.xctest in Frameworks */,
+				18FB32113721422EA4BAA51E /* libRNMail.a in Frameworks */,
+				95171317141C4163A7FAAEF5 /* RNMailTests.xctest in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1038,6 +1058,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		7B320D242148E0C7005E8E8D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7B320D582148E0C7005E8E8D /* libRNMail.a */,
+				7B320D5A2148E0C7005E8E8D /* RNMailTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		7B4153692134208800CE3B86 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1088,8 +1117,8 @@
 				9E28D29906B5470D8F82500E /* libRCTContactsWrapper.a */,
 				D45EAEC5992D478DA71328D3 /* libRCTContacts.a */,
 				599E25F7770B4CD6BE85C3DC /* libRCTBEEPickerManager.a */,
-				31AAE5704DF54B239C103827 /* libRCTAddressBook.a */,
-				050E24E300674A46B9A3F53A /* RCTAddressBookTests.xctest */,
+				29797C7ADBB946D7B657BBC7 /* libRNMail.a */,
+				DEDFE98B46B34D66B94CF077 /* RNMailTests.xctest */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1171,6 +1200,7 @@
 				A63B8F709CC746DCA47BCE30 /* ContactsWrapper.xcodeproj */,
 				C593ECAD1AB44AD2B4C11827 /* RCTContacts.xcodeproj */,
 				7EDD6D523F6C4ACEBDC9F096 /* RCTBEEPickerManager.xcodeproj */,
+				F4BA4FAA56614D15AFCF9F04 /* RNMail.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1432,6 +1462,10 @@
 				{
 					ProductGroup = 7BA6900420FEFB6B00A56807 /* Products */;
 					ProjectRef = 7B3FADB390AF476C99AF84DA /* RNGoogleSignin.xcodeproj */;
+				},
+				{
+					ProductGroup = 7B320D242148E0C7005E8E8D /* Products */;
+					ProjectRef = F4BA4FAA56614D15AFCF9F04 /* RNMail.xcodeproj */;
 				},
 				{
 					ProductGroup = 7BA690EA2106F73700A56807 /* Products */;
@@ -1725,6 +1759,20 @@
 			fileType = archive.ar;
 			path = libRCTContacts.a;
 			remoteRef = 7B28561A213276C500EE1E87 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7B320D582148E0C7005E8E8D /* libRNMail.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNMail.a;
+			remoteRef = 7B320D572148E0C7005E8E8D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7B320D5A2148E0C7005E8E8D /* RNMailTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RNMailTests.xctest;
+			remoteRef = 7B320D592148E0C7005E8E8D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		7B4153782134209000CE3B86 /* libRCTBEEPickerManager.a */ = {
@@ -2059,12 +2107,15 @@
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
+					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
 				);
 				INFOPLIST_FILE = PushForMoneyTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2098,12 +2149,15 @@
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
+					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
 				);
 				INFOPLIST_FILE = PushForMoneyTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2147,6 +2201,7 @@
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
+					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
 				);
 				INFOPLIST_FILE = PushForMoney/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2193,6 +2248,7 @@
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
+					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
 				);
 				INFOPLIST_FILE = PushForMoney/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2235,11 +2291,14 @@
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
+					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2281,11 +2340,14 @@
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
+					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2326,11 +2388,14 @@
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
+					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2371,11 +2436,14 @@
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
+					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

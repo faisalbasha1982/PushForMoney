@@ -308,11 +308,6 @@ class PushToEarnMoneyComponent extends Component {
                         this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
         }
     
-        // if (homePhone.exec(phone))
-        //   this.setState({ phoneError: false, phone: phone });
-        // else
-        //   this.setState({ phoneError: true });
-    
     }
 
     PhoneNumberPickerChanged = (country, callingCode, phoneNumber) => {
@@ -320,23 +315,10 @@ class PushToEarnMoneyComponent extends Component {
      }
 
     componentWillReceiveProps(nextProps) {
-        //console.log("in Form One screen language received="+nextProps.language);
-        // if (this.props.navigation.state.params.language !== nextProps.language) {
-        //     this.setState({ language: nextProps.language });
-        //     this.setText();
-        // }
+
     }
 
     componentDidMount() {
-
-        // console.log("language from props="+this.props.navigation.state.params.language);
-        // console.log("default language="+this.state.language);
-        // //cLanguage = this.props.navigation.state.params.language;
-        // this.setState({ language: this.props.navigation.state.params.language });
-        // console.log("language="+this.state.language);
-        // this.setText();
-        // console.log("this.state.firstName="+this.state.firstName);
-        // console.log("this.state.buttonText="+this.state.buttonText);
 
         let language = localStorage.getItem('language');
         console.log('local storage language='+language);
@@ -353,44 +335,6 @@ class PushToEarnMoneyComponent extends Component {
         this.getPerson();
         
     }
-
-    // setText =  () => {
-
-    //     this.setState({language: this.props.navigation.state.params.language});
-    //     console.log("this.state.language="+this.state.language);
-
-    //     if (this.props.navigation.state.params.language === 'NEDERLANDS') {
-    //         console.log("setting in Nederlands");
-    //         this.setState({
-    //             firstName:  LanguageSettings.dutch.firstNameText,
-    //             name:       LanguageSettings.dutch.lastNameText,
-    //             phoneNumber: LanguageSettings.dutch.telephoneNumberText,
-    //             buttonText: LanguageSettings.dutch.buttonNextText
-    //         });
-    //     }
-    //     else
-    //         if (this.props.navigation.state.params.language === 'ENGLISH') {
-    //             console.log("setting in English");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.english.firstNameText,
-    //                 name: LanguageSettings.english.lastNameText,
-    //                 phoneNumber: LanguageSettings.english.telephoneNumberText,
-    //                 buttonText: LanguageSettings.english.buttonNextText
-    //             });
-    //         }
-    //         else
-    //           {
-    //             console.log("setting in French");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.french.firstNameText,
-    //                 name: LanguageSettings.french.lastNameText,
-    //                 phoneNumber: LanguageSettings.french.telephoneNumberText,
-    //                 buttonText: LanguageSettings.french.buttonNextText
-    //             });
-    //         }
-    
-       
-    // }
 
     renderNothing = () => {
             
@@ -740,7 +684,6 @@ class PushToEarnMoneyComponent extends Component {
 
     sendToChildCollapsible = () => {
         this.setState({showAccordionList: false});
-         //this.setState({  : !this.state.displayDetails});
     }
 
     render() {
@@ -772,50 +715,6 @@ class PushToEarnMoneyComponent extends Component {
                             this.renderEmpty()
                         }
 
-                            {/* {
-                                (this.state.menu === 2)?
-                                <View style={{flex:1,}}>                        
-                                    <Text style= {{
-                                        width: 110,
-                                        height: 15,
-                                        fontFamily: "WorkSans",
-                                        fontSize: 13,
-                                        fontWeight: "500",
-                                        fontStyle: "normal",
-                                        letterSpacing: 0.46,
-                                        color: "rgb(53, 53, 53)"}}>
-
-                                        {this.props.referrals.ReferredPersonName}
-                                    </Text>
-                                    <TouchableOpacity onPress={ ( ) => { this.setState({menu: 1}) } }
-                                                    activeOpacity={0.5}
-                                                    style={newStyle.backButton}>
-                                                    <Icon
-                                                        containerStyle={newStyle.iconImageStyle}
-                                                        name='angle-left'
-                                                        type='font-awesome'
-                                                        color='rgb(155, 155, 155)'
-                                                        size = {18} /> 
-                                                    <Text style= {{
-                                                        width: 233,
-                                                        height: 15,
-                                                        fontFamily: "WorkSans",
-                                                        fontSize: 13,
-                                                        fontWeight: "500",
-                                                        fontStyle: "normal",
-                                                        letterSpacing: 0.54,
-                                                        textAlign: "center",
-                                                        color: "rgb(231, 61, 80)"
-                                                    }}>           
-                                                        Back To Overview
-                                                    </Text>
-                                                </TouchableOpacity>
-                                <View>
-                            :
-                            this.renderEmpty()
-                        } */}
-
-
                         <View style= {newStyle.inputContainer}>
 
                              <View style={{width: 310, height: 50, backgroundColor: 'transparent'}}>
@@ -834,7 +733,7 @@ class PushToEarnMoneyComponent extends Component {
 
                                         <TouchableOpacity onPress={ () => this.showPicker()}>
                                             <Text style={newStyle.monthlyText}> {this.getCurrentYearMonth() }</Text>
-                                        </TouchableOpacity>                                
+                                        </TouchableOpacity>
 
                                         <TouchableOpacity onPress={ ( ) => {} }
                                             activeOpacity={0.5}
@@ -872,64 +771,17 @@ class PushToEarnMoneyComponent extends Component {
                                                     menu ={this.state.childMenu}           
                                                     isLoading = {this.turnOffLoading}
                                                     back={this.triggerBack} />
-                                            // :this.state.menu === 2 && this.props.referrals !== null?
-                                            // <AccordionListComponent />
                                  }
                              </View>
-                             {/* <View style={{width: 310, height: 50, backgroundColor: 'steelblue'}} />
-                             <View style={{width: 310, height: 50, backgroundColor: 'powderblue'}} />
-                             <View style={{width: 310, height: 50, backgroundColor: 'skyblue'}} />
-                             <View style={{width: 310, height: 50, backgroundColor: 'steelblue'}} /> */}
-
-                            {/* <View style={newStyle.monthlyBar}>
-
-                                <TouchableOpacity onPress={ ( ) => {} }
-                                    activeOpacity={0.5}
-                                    style={newStyle.iconStyle}>
-                                    <Icon
-                                        containerStyle={newStyle.iconImageStyle}
-                                        name='angle-left'
-                                        type='font-awesome'
-                                        color='rgb(155, 155, 155)'
-                                        size = {18} /> 
-                                </TouchableOpacity>
-
-                                 <TouchableOpacity onPress={ () => this.showPicker()}>
-                                    <Text style={newStyle.monthlyText}> {this.getCurrentYearMonth() }</Text>
-                                </TouchableOpacity>                                
-
-                                <TouchableOpacity onPress={ ( ) => {} }
-                                    activeOpacity={0.5}
-                                    style={newStyle.iconStyle}>
-                                    <Icon
-                                        containerStyle={newStyle.iconImageStyle}
-                                        name='angle-right'
-                                        type='font-awesome'
-                                        color='rgb(155, 155, 155)'
-                                        size = {18}  /> 
-                            </TouchableOpacity>
-
-                            </View>
-
-                            <View style={ newStyle.dataComponent }>
-                                    {
-                                        this.state.menu === 1 && this.props.referrals !== null?
-                                            <CollapsibleView month={this.getMonthNumber(this.state.currentMonth)} year={this.state.currentYear} referrals = {this.props.referrals} menu ={this.changeMenu} />
-                                            :this.state.menu === 2 && this.props.referrals !== null?
-                                            <AccordionListComponent  />
-                                            : this.renderNothing()
-                                    }
-                            </View> */}
-
 
                          <View style={newStyle.borderBottomNew}></View>
                                 <View style={newStyle.totalText}>
                                             <Text style={newStyle.firstName}>{this.state.text.TotalNext}</Text>
-                                            <Text style={newStyle.fontStyle}>€ {this.props.TotalEarnings}</Text>
+                                            <Text style={newStyle.earningsText}>€{this.props.TotalEarnings}</Text>
                                 </View>
 
                                 <View style={newStyle.totalHoursText}>
-                                            <Text style={newStyle.firstName}>{this.state.text.Total}</Text>
+                                            <Text style={newStyle.firstNameTotalHours}>{this.state.text.Total}</Text>
                                             <Text style={newStyle.hoursText}>{this.props.TotalWorkedHours}</Text>
                                 </View>
 
@@ -1051,22 +903,23 @@ const newStyle = StyleSheet.create({
         fontWeight: '500',
         fontStyle: 'normal',
         letterSpacing: 0.67,
-        textAlign: 'left',
-        marginBottom: 15
+        textAlign: 'right',        
+        marginBottom: 0,
+        backgroundColor:'transparent',
+        marginLeft:28,
     },
 
-    hoursText:{
-        width: 80,
-        height: 22,
+    firstNameTotalHours:{
+        width: 180,
+        height: 19,
         fontFamily: 'WorkSans-Regular',
         fontSize: 16,
         fontWeight: '500',
         fontStyle: 'normal',
         letterSpacing: 0.67,
-        textAlign: 'center',
-        color: "rgb(231, 61, 80)",
+        textAlign: 'right',
         marginBottom: 15,
-        backgroundColor: 'transparent'
+        marginLeft:25
     },
 
     accordionStyle:{
@@ -1145,7 +998,7 @@ const newStyle = StyleSheet.create({
         borderStyle: "solid",
         borderWidth: 1,
         borderColor: 'rgb(231, 61, 80)',
-        borderBottomColor: "rgb(231, 61, 80)"
+        borderBottomColor: "rgb(231, 61, 80)",
     },
 
     monthlyBar: {
@@ -1170,21 +1023,28 @@ const newStyle = StyleSheet.create({
         color: "rgb(155, 155, 155)"
     },
 
+    earningsText: {
+        fontFamily: "WorkSans-Medium",
+        fontSize: 16,
+        fontWeight: "normal",
+        fontStyle: "normal",
+        letterSpacing: 0.67,
+        marginLeft:15,
+        textAlign: 'right',
+        color: "rgb(231, 61, 80)",
+        backgroundColor: 'transparent'
+      },      
+
     totalText: {
-        width: 310,
+        width: viewPortWidth*0.80,
         height: 20,
-        // fontFamily: "WorkSans-Regular",
-        // fontSize: 16,
-        // fontWeight: "500",
-        // fontStyle: "normal",
-        // letterSpacing: 0.67,
-        // textAlign: "left",
         flex: 8,
         marginTop: 5,
         marginBottom: 0,
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+        backgroundColor:'transparent'
     },
 
     totalHoursText:{
@@ -1193,9 +1053,24 @@ const newStyle = StyleSheet.create({
         flex: 12,
         marginTop: 0,
         marginBottom: 10,
+        marginLeft:5,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        backgroundColor: 'transparent'
+    },
+
+    hoursText:{
+        width: 80,
+        height: 22,
+        fontFamily: 'WorkSans-Regular',
+        fontSize: 16,
+        fontWeight: '500',
+        fontStyle: 'normal',
+        letterSpacing: 0.67,
+        textAlign: 'right',
+        color: "rgb(231, 61, 80)",
+        marginBottom: 15,
         backgroundColor: 'transparent'
     },
 
@@ -1317,16 +1192,6 @@ const newStyle = StyleSheet.create({
         flex: 7,
     },
 
-    fontStyle: {
-        fontFamily: "WorkSans-Medium",
-        fontSize: 16,
-        fontWeight: "normal",
-        fontStyle: "normal",
-        letterSpacing: 0.67,
-        textAlign: 'left',
-        color: "rgb(231, 61, 80)",
-        backgroundColor: 'transparent'
-      },      
 
     para: {
         width: 276,

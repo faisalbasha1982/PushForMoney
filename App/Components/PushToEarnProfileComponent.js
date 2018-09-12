@@ -495,31 +495,12 @@ class PushToEarnProfileComponent extends Component {
                     <View style={newStyle.endButtons}>
 
                         <View style={newStyle.topView}>                        
-                            <View>
-                                <TouchableOpacity
-                                        onPress={() => { this.props.menu(1) } }
-                                        activeOpacity={0.5}
-                                        style={{
-                                            width: 30,
-                                            height: 30,
-                                            backgroundColor: 'transparent',
-                                            justifyContent: 'center',
-                                            alignItems: 'center'
-                                        }}> 
-                                        <Icon
-                                            containerStyle={newStyle.iconImageStyle}
-                                            name='arrow-circle-left'
-                                            type='font-awesome'
-                                            color='#E73D50'
-                                            size = {20} />
-                                </TouchableOpacity>
-                            </View>
 
-                        <View style={{width: 80, height: 50, backgroundColor: 'transparent'}}>
-                            <Text style= {newStyle.topText}>
-                                    {this.state.text.myProfile}
-                            </Text>
-                        </View>
+                            <View style={{width: 80, height: 50, backgroundColor: 'transparent'}}>
+                                <Text style= {newStyle.topText}>
+                                        {this.state.text.myProfile}
+                                </Text>
+                            </View>
                         <View style={{width: 100, height: 30, 
                                       justifyContent:'flex-end',
                                       alignItems:'flex-end',
@@ -551,9 +532,6 @@ class PushToEarnProfileComponent extends Component {
                             }
                         </View>
  
-                            {/* <Text style= {newStyle.topText}>
-                                    {this.state.text.myProfile}
-                            </Text> */}
                         </View>
 
                         <View style= {newStyle.inputContainer}>
@@ -566,6 +544,7 @@ class PushToEarnProfileComponent extends Component {
                                             alignItems:'flex-end',
                                             flex:9,
                                     }}>
+                                        {/* <Text style={newStyle.firstName}>{this.state.text.firstName}</Text> */}
 
                                      <TouchableOpacity
                                             onPress={() => {  this.seteditableFirstName();  } }
@@ -793,6 +772,16 @@ class PushToEarnProfileComponent extends Component {
 
                                 {
                                     (this.state.phoneEditable===true)?
+                                    <View
+                                        opacity={1}
+                                        style={{
+                                            width: viewPortWidth*.83,
+                                            height: 30,
+                                            margin:0,
+                                            paddingLeft:0,
+                                            marginTop:5,
+                                            flex:8,
+                                        }}>
                                         <PhoneInput
                                             opacity={1}
                                             ref={(ref) => { this.phone = ref; }}
@@ -801,58 +790,29 @@ class PushToEarnProfileComponent extends Component {
                                             style= {newStyle.nameInput}
                                             onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) } 
                                             value = {this.state.phoneNumberInput}
-                                            />
-                                        // <TouchableOpacity
-                                        // onPress={() => { 
-                                        //     this.changeMobile(this.state.phoneNumberInput);
-                                        // }}
-                                        // activeOpacity={0.5}
-                                        // style={{
-                                        //     width: 280,
-                                        //     height: 30,
-                                        //     margin:0,
-                                        //     borderBottomColor: "#353535",
-                                        //     borderBottomWidth: StyleSheet.hairlineWidth,
-                                        //     backgroundColor: 'transparent',
-                                        //     marginBottom: 0,
-                                        //     padding: 0,
-                                        //     flex:8,
-                                        // }}>
-                                        // <Text
-                                        //     style={{
-                                        //         fontSize: 14,
-                                        //         fontFamily: 'WorkSans-Regular',
-                                        //         fontWeight: '500',
-                                        //         fontStyle: 'normal',
-                                        //         color: '#000000',
-                                        //         marginTop: 0,   
-                                        //         alignItems: 'center',
-                                        //         justifyContent: 'center',
-                                        //         letterSpacing: 0.67,
-                                        //         textAlign: 'left'}}
-                                        // > Change Mobile Number</Text>
-                                        // </TouchableOpacity>
+                                            />                                   
+                                    </View> 
                                     :
-                                    <View 
+                                    <View
                                         opacity={0.5}
-                                        style={newStyle.nameInputLite}>
+                                        style={{
+                                            width: viewPortWidth*.83,
+                                            height: 30,
+                                            margin:0,
+                                            marginTop:5,
+                                            paddingLeft:0,
+                                            flex:8,
+                                        }}
+                                        >
                                         <PhoneInput
                                         opacity={0.5}
                                         disabled={true}
                                         ref='phone'
                                         initialCountry={this.state.countryCode}
-                                        style= {newStyle.nameInput}
+                                        style= {newStyle.nameInputLite}
                                         value = {this.state.phoneNumberInput} />
                                     </View>
-                                }
-                            {/* <TextInput
-                                style={ newStyle.nameInput}
-                                placeholder='Phone Number'
-                                placeHolderColor = { this.state.placeHolderColorPhone}
-                                editable={this.state.phoneEditable}
-                                underlineColorAndroid= 'transparent'
-                                onBlur = { () => this.changeMobile(this.state.phoneNumberInput)}
-                                onChangeText= { (phoneNumberInput) => this.validatePhoneNumber(phoneNumberInput) }/>     */}
+                                }                         
                                  <TouchableOpacity
                                         onPress={() => {  this.seteditablePhone();  } }
                                         activeOpacity={0.5}
@@ -883,14 +843,14 @@ class PushToEarnProfileComponent extends Component {
                             </View>
                                 
 
-                            <Text style={newStyle.firstName}>{this.state.text.Password}</Text>
+                            <Text style={newStyle.passwordStyle}>{this.state.text.Password}</Text>
 
                             <View style={{
                                             flexDirection: 'column',
                                             backgroundColor: 'transparent',
                                             justifyContent:'flex-start',
                                             alignItems:'flex-end',
-                                            flex:9,
+                                            flex:8,
                                     }}>
 
                                      <TouchableOpacity
@@ -1099,16 +1059,19 @@ class PushToEarnProfileComponent extends Component {
                                             <Text style={{  fontSize: 10,   
                                         fontFamily: 'WorkSans-Regular',
                                         fontWeight: '500',
+                                        marginLeft:5,
                                         fontStyle: 'normal',
                                         color: '#000000', }}> {this.state.text.Bic}: { this.props.bankInfo.BIC_NO } </Text> {'\n'}
                                             <Text style={{  fontSize: 10,
                                         fontFamily: 'WorkSans-Regular',
                                         fontWeight: '500',
+                                        marginLeft:5,
                                         fontStyle: 'normal',
                                         color: '#000000', }} > {this.state.text.BankName}: { this.props.bankInfo.IBAN } </Text> {'\n'}
                                             <Text style={{  fontSize: 10,   
                                         fontFamily: 'WorkSans-Regular',
                                         fontWeight: '500',
+                                        marginLeft:5,
                                         fontStyle: 'normal',
                                         color: '#000000', }}> {this.state.text.Iban}: {  this.props.bankInfo.Bankname }  </Text> {'\n'}
                                       </View>
@@ -1215,6 +1178,21 @@ const newStyle = StyleSheet.create({
         alignItems:'flex-end',
     },
 
+    passwordStyle:{
+        width: 190,
+        height: 19,
+        fontFamily: 'WorkSans-Regular',
+        fontSize: 16,
+        fontWeight: '500',
+        fontStyle: 'normal',
+        letterSpacing: 0.67,
+        textAlign: 'left',
+        marginBottom: 1,
+        marginTop: 5,
+        marginLeft:5,
+        alignItems:'flex-end',
+    },
+
     phoneNumberStyle: {
         width: 190,
         height: 22,
@@ -1260,7 +1238,7 @@ const newStyle = StyleSheet.create({
         borderBottomColor: "#353535",
         borderBottomWidth: StyleSheet.hairlineWidth,
         backgroundColor: 'transparent',
-        marginBottom: 5,        
+        marginBottom: 0,
         padding: 0,
         paddingLeft:5,
         flex:8,
@@ -1269,11 +1247,13 @@ const newStyle = StyleSheet.create({
     nameInputLite:
     {
         width: viewPortWidth*.83,
-        height: 35,
+        height: 30,
         margin:0,
         paddingLeft:5,
         backgroundColor: 'transparent',
-        flex:8,        
+        borderBottomColor: "#353535",
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        flex:8,    
     },
 
     buttons: {
