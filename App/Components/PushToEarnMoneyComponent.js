@@ -358,18 +358,18 @@ class PushToEarnMoneyComponent extends Component {
 
     renderEmpty = () => {
         console.log("this.state.menu="+this.state.menu);
-        return(
-            <View style={{
-                width: viewPortWidth,
-                height: viewPortHeight * 0.06,
-                flexDirection: 'column',
-                justifyContent: 'flex-start',
-                alignItems:'flex-start',
-                backgroundColor:'transparent',
-            }}>
+        // return(
+        //     <View style={{
+        //         width: viewPortWidth,
+        //         height: viewPortHeight * 0.06,
+        //         flexDirection: 'column',
+        //         justifyContent: 'flex-start',
+        //         alignItems:'flex-start',
+        //         backgroundColor:'transparent',
+        //     }}>
             
-            </View>
-        )
+        //     </View>
+        // )
     }
 
     somethingElse = () => {
