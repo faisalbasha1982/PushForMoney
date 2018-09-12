@@ -59,9 +59,16 @@ _head(item){
     // console.log("item.workedHours="+item.workedHours);
     return(
         <View style={ newStyle.borderBottom}>
-          <Text style={{ color: '#000',  
-                        fontFamily: "WorkSans-Medium",
-                         fontSize: 14 }}>
+          <Text style={{ 
+                         fontFamily: "WorkSans-Medium",
+                         width: 220,
+                         height: 15,
+                         fontSize: 15,
+                         fontWeight: "normal",
+                         fontStyle: "normal",
+                         letterSpacing: 0.54,
+                         color: "rgb(53, 53, 53)"                   
+                        }}>
             {item.title}
           </Text>
          {
@@ -158,7 +165,7 @@ createListArray = () => {
 
             if(personObject.monthlyEarningDetailsByReferralsByContracts !== null)
                 list[counter] = {
-                        "title": personObject.StartDate.split("T")[0] + " - "+ personObject.EndDate.split("T")[0],
+                        "title": personObject.StartDate.split("T")[0] + " -  "+ personObject.EndDate.split("T")[0],
                         "body" :  "Correction - Adjustment Contract",
                         "time" : "Time: "+ personObject.monthlyEarningDetailsByReferralsByContracts.Time,
                         "newTime" : "New Time: " + personObject.monthlyEarningDetailsByReferralsByContracts.NewTime,
@@ -166,7 +173,7 @@ createListArray = () => {
                 };
             else
                 list[counter] = {
-                "title": personObject.StartDate.split("T")[0] + " - "+ personObject.EndDate.split("T")[0],
+                "title": personObject.StartDate.split("T")[0] + "  -  "+ personObject.EndDate.split("T")[0],
                 "workedHours": personObject.WorkedHours
             }
 

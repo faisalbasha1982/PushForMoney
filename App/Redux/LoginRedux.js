@@ -1,4 +1,5 @@
 import { createReducer, createActions, Types as ReduxSauceTypes } from 'reduxsauce'
+import { REHYDRATE } from 'redux-persist';
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
