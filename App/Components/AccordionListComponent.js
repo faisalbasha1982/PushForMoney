@@ -38,6 +38,7 @@ import { NavigationActions } from "react-navigation";
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import localStorage from 'react-native-sync-localstorage';
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import { MoneySelectors } from "../Redux/MoneyRedux";
 
 const viewPortHeight = Dimensions.get('window').height;
@@ -50,6 +51,8 @@ class AccordionListComponent extends Component
     super(props);
     this.state={
     list:[],
+    text:{},
+    fetching: true
   }
 
 }
@@ -62,12 +65,12 @@ _head(item){
           <Text style={{ 
                          fontFamily: "WorkSans-Medium",
                          width: 220,
-                         height: 15,
-                         fontSize: 15,
+                         height: 22,
+                         fontSize: 16,
                          fontWeight: "normal",
                          fontStyle: "normal",
                          letterSpacing: 0.54,
-                         color: "rgb(53, 53, 53)"                   
+                         color: "rgb(53, 53, 53)"             
                         }}>
             {item.title}
           </Text>
@@ -123,7 +126,6 @@ _body(item){
     );
 }
 
-
 somethingElse = () => {
 
 }
@@ -136,6 +138,18 @@ componentWillReceiveProps(newProps)
 
 componentDidMount()
 {    
+    let language = localStorage.getItem('language');
+    console.log('local storage language='+language);
+
+    if(language === 'Dutch')
+        this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
+    else
+        if(language === 'English')
+            this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});
+    else
+        if(language === 'French')
+            this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
+
     setTimeout(() => {
             this.createListArray();
         },4000);
@@ -152,6 +166,7 @@ createListArray = () => {
     //     "NewEarnedAmount": 4
     // }
 
+    this.setState({ fetching:false });
     console.log("inside accordion list component");
 
     let list = [];
@@ -175,10 +190,8 @@ createListArray = () => {
                 list[counter] = {
                 "title": personObject.StartDate.split("T")[0] + "  -  "+ personObject.EndDate.split("T")[0],
                 "workedHours": personObject.WorkedHours
-            }
-
+            }        
             counter = counter + 1;
-
         });
 
         console.log("list="+list);
@@ -216,7 +229,7 @@ render() {
   console.log("inside accordion list component");
     return (
         <ScrollView>
-         <View style= {{ flex: 1,flexDirection: 'column',backgroundColor: 'transparent', marginTop: 25, justifyContent: 'flex-start', alignItems:'flex-start', }}>
+         <View style= {{ flex: 1,flexDirection: 'column',backgroundColor: 'transparent', marginTop: 15, justifyContent: 'flex-start', alignItems:'flex-start', }}>
 
             {/* <View style = {newStyle.nameAndback}>
                 <Text style={{
@@ -256,23 +269,30 @@ render() {
                                                 </TouchableOpacity>
             </View> */}
 
+                 {
+                    this.state.fetching===true?
+                    <View style = {{position: 'absolute' , zIndex:3999, left: 20, top: 0, right: 0, bottom: 0}}>
+                    <BallIndicator color='#e73d50' />
+                    </View>:this.somethingElse()
+                }      
+
               <AccordionList
                 list={this.state.list}
                 header={this._head}
                 body={this._body}
             />
 
-            {/* <View style={newStyle.borderBottomNew}></View>
-            <View style={{flex:1, flexDirection:'column', }}>
+            <View style={newStyle.borderBottomNew}></View>
+            <View style={{ justifyContent:'flex-start',alignItems:'flex-start',flex:8, marginTop:10, backgroundColor:'transparent' }}>
                     <View style={newStyle.totalText}>
-                            <Text style={newStyle.firstName}>Total worked hours</Text>
-                            <Text style={newStyle.fontStyle}>{this.props.TotalWorkedHours}</Text>
+                                <Text style={newStyle.firstName}>{this.state.text.TotalNext}</Text>
+                                <Text style={newStyle.earningsText}>€{this.props.TotalEarnings}</Text>
                     </View>
-                    <View style={newStyle.totalText}>
-                            <Text style={newStyle.firstName}>Total Earned</Text>
-                            <Text style={newStyle.fontStyle}>€ {this.props.TotalEarnings}</Text>
+                    <View style={newStyle.totalHoursText}>
+                                <Text style={newStyle.firstNameTotalHours}>{this.state.text.Total}</Text>
+                                <Text style={newStyle.hoursText}>{this.props.TotalWorkedHours}</Text>
                     </View>
-            </View> */}
+            </View>
           </View>
         </ScrollView>
  
@@ -356,27 +376,81 @@ borderBottom: {
   flexDirection: 'row'
 },
 
-totalText: {
-    width: 310,
-    height: 20,
-    // fontFamily: "WorkSans-Regular",
-    // fontSize: 16,
-    // fontWeight: "500",
-    // fontStyle: "normal",
-    // letterSpacing: 0.67,
-    // textAlign: "left",
-    flex: 8,
-    marginTop: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'flex-start',
-    fontFamily: "WorkSans-Regular",
-    fontSize: 13,
-    fontWeight: "bold",
+earningsText: {
+    fontFamily: "WorkSans-Medium",
+    fontSize: 14,
+    fontWeight: "normal",
     fontStyle: "normal",
-    letterSpacing: 0.54,
-    color: "rgb(53, 53, 53)"
+    letterSpacing: 0.67,
+    marginLeft:15,
+    textAlign: 'right',
+    color: "rgb(231, 61, 80)",
+    backgroundColor: 'transparent'
   },
+  firstName: {
+    width: 180,
+    height: 19,
+    fontFamily: 'WorkSans-Regular',
+    fontSize: 16,
+    fontWeight: '500',
+    fontStyle: 'normal',
+    letterSpacing: 0.67,
+    textAlign: 'right',        
+    marginBottom: 0,
+    backgroundColor:'transparent',
+    marginLeft:28,
+},
+  firstNameTotalHours:{
+    width: 180,
+    height: 19,
+    fontFamily: 'WorkSans-Regular',
+    fontSize: 16,
+    fontWeight: '500',
+    fontStyle: 'normal',
+    letterSpacing: 0.67,
+    textAlign: 'right',
+    marginBottom: 15,
+    marginLeft:25
+},
+
+totalText: {
+    width: viewPortWidth*0.80,
+    height: 20,
+    flex: 12,
+    marginTop: 0,
+    marginBottom: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    backgroundColor:'transparent'
+},
+
+totalHoursText:{
+    width: viewPortWidth*0.80,
+    height: 20,
+    flex: 14,
+    marginTop: 0,
+    marginBottom: 20,
+    marginLeft:5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: 'transparent'
+},
+
+hoursText:{
+    width: 80,
+    height: 22,
+    fontFamily: 'WorkSans-Regular',
+    fontSize: 14,
+    fontWeight: '500',
+    fontStyle: 'normal',
+    letterSpacing: 0.67,
+    textAlign: 'right',
+    color: "rgb(231, 61, 80)",
+    marginBottom: 15,
+    backgroundColor: 'transparent'
+},
 
   borderBottomNew: {
     width: 310,

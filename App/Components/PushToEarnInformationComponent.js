@@ -34,6 +34,7 @@ import PhoneInput from 'react-native-phone-input';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
 import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import localStorage from 'react-native-sync-localstorage';
+import Mailer from 'react-native-mail';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -94,78 +95,30 @@ class PushToEarnInformationComponent extends Component {
 
     }
 
-    handleEmail = async () => {
-
-        // Mailer.mail({
-        //   subject: 'need help',
-        //   recipients: ['support@jobfixers.com'],
-        //   ccRecipients: ['supportCC@jobfixers.com'],
-        //   bccRecipients: ['supportBCC@jobfixers.com'],
-        //   body: '<b>A Bold Body</b>',
-        //   isHTML: true,
+      handleEmail = () => {
+        Mailer.mail({
+          subject: 'need help',
+          recipients: ['jobfixers@example.com'],
+          ccRecipients: ['supportCC@example.com'],
+          bccRecipients: ['supportBCC@example.com'],
+          body: '<b>A Bold Body</b>',
+          isHTML: true,
         //   attachment: {
-        //     path: '',  // The absolute path of the file from which to read data.
-        //     type: '',   // Mime Type: jpg, png, doc, ppt, html, pdf, csv
-        //     name: '',   // Optional: Custom filename for attachment
+        //     path: 'empty',  // The absolute path of the file from which to read data.
+        //     type: 'jpg',   // Mime Type: jpg, png, doc, ppt, html, pdf, csv
+        //     name: 'empty',   // Optional: Custom filename for attachment
         //   }
-        // }, (error, event) => {
-        //   Alert.alert(
-        //     error,
-        //     event,
-        //     [
-        //       {text: 'Ok', onPress: () => console.log('OK: Email Error Response')},
-        //       {text: 'Cancel', onPress: () => console.log('CANCEL: Email Error Response')}
-        //     ],
-        //     { cancelable: true }
-        //   )
-        // });
-
-        // email('support@jobfixers.com', {
-        //     // Optional additional arguments
-        //     cc: ['bazzy@moo.com', 'doooo@daaa.com'], // string or array of email addresses
-        //     bcc: 'mee@mee.com', // string or array of email addresses
-        //     subject: 'Show how to use',
-        //     body: 'Some body right here'
-        // }).catch(console.error)
-
-        // try {
-        //     await MessageCompose.send({
-        //       recipients: ['1234567890'],
-        //       subject: 'This is subject',
-        //       body: 'This is body',
-        //       // ![NOTE] SMS attachments are not supported in Android.
-        //       attachments: [{
-        //         filename: 'mytext', // [Optional] If not provided, UUID will be generated.
-        //         ext: '.txt',
-        //         mimeType: 'text/plain',
-        //         text: 'Hello my friend', // Use this if the data is in UTF8 text.
-        //         data: '...BASE64_ENCODED_STRING...', // Or, use this if the data is not in plain text.
-        //       }],
-        //     });
-        //   } catch (e) {
-        //     // e.code may be 'cannotSendText' || 'cancelled' || 'failed'
-        //   }
-
-        // try {
-        //     await MailCompose.send({
-        //       toRecipients: ['to1@example.com', 'to2@example.com'],
-        //       ccRecipients: ['cc1@example.com', 'cc2@example.com'],
-        //       bccRecipients: ['bcc1@example.com', 'bcc2@example.com'],
-        //       subject: 'This is subject',
-        //       text: 'This is body',
-        //       html: '<p>This is <b>html</b> body</p>', // Or, use this if you want html body. Note that some Android mail clients / devices don't support this properly.
-        //       attachments: [{
-        //         filename: 'mytext', // [Optional] If not provided, UUID will be generated.
-        //         ext: '.txt',
-        //         mimeType: 'text/plain',
-        //         text: 'Hello my friend', // Use this if the data is in UTF8 text.
-        //         data: '...BASE64_ENCODED_STRING...', // Or, use this if the data is not in plain text.
-        //       }],
-        //     });
-        //   } catch (e) {
-        //     // e.code may be 'cannotSendMail' || 'cancelled' || 'saved' || 'failed'
-        //   }
-        
+        }, (error, event) => {
+          Alert.alert(
+            error,
+            event,
+            [
+              {text: 'Ok', onPress: () => console.log('OK: Email Error Response')},
+              {text: 'Cancel', onPress: () => console.log('CANCEL: Email Error Response')}
+            ],
+            { cancelable: true }
+          )
+        });
       }
 
     render() {
@@ -188,7 +141,7 @@ class PushToEarnInformationComponent extends Component {
                             <TouchableOpacity
                                 style={{
                                     width:viewPortWidth*0.83,
-                                    height:60,
+                                    height:40,
                                     backgroundColor:'transparent'
                                 }}
                                 onPress = {()=> {this.handleEmail()}}>

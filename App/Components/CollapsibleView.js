@@ -136,15 +136,16 @@ renderList = (personObj) => {
             this.setState({menu: 2,showAccordionComponent:true,});
             this.setState({currentPersonName: personObj.ReferredPersonName, showAccordionComponent: true});
             this.props.back(personObj.ReferredPersonName,2);
+            this.props.totalText();
           }}
           activeOpacity={0.5}
           style={ newStyle.buttonStyle }>
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
-          <Text style={newStyle.nameStyle}>{ personObj.ReferredPersonName }</Text>
-          {(personObj.PaidStatus === "0")?<Text style={newStyle.statusStyle}>{this.state.text.payed}</Text>
-          :<Text style={newStyle.statusStyle}> {this.state.text.pending} </Text>}
-          <Text style={newStyle.fontStyle}>€{ personObj.Amount }</Text>
+              <Text style={newStyle.nameStyle}>{ personObj.ReferredPersonName }</Text>
+              {(personObj.PaidStatus === "0")?<Text style={newStyle.statusStyle}>{this.state.text.payed}</Text>
+              :<Text style={newStyle.statusStyle}> {this.state.text.pending} </Text>}
+              <Text style={newStyle.fontStyle}>€{ personObj.Amount }</Text>
         </View>
 
         <View style={newStyle.borderBottom}></View>
@@ -440,7 +441,6 @@ endButtons: {
   alignItems: 'center',
   backgroundColor: 'white',       
 },
-
 
 iconImageStyle:{
   width: 13,

@@ -180,6 +180,7 @@ class PushToEarnMoneyComponent extends Component {
             showAccordionList: false,
             changeMenuOneBack: false,
             childMenu: 1,
+            showTotalText:true,
             text:{}
         };    
     }
@@ -347,6 +348,7 @@ class PushToEarnMoneyComponent extends Component {
                                 fontStyle: 'normal',
                                 letterSpacing: 0.67,
                                 textAlign: 'center',
+                                marginLeft:15,
                                 color: 'rgb(231, 61, 80)'
                 }}>
                     {this.state.text.nothing}
@@ -644,7 +646,6 @@ class PushToEarnMoneyComponent extends Component {
       
       }
 
-
       showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
       hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
@@ -692,10 +693,15 @@ class PushToEarnMoneyComponent extends Component {
 
     tbBackComponent = () => {
         this.setState({ triggerBackComponent: !this.state.triggerBackComponent, changeMenuOneBack: true, childMenu:1 });
+        this.toggleTotalText();
     }
 
     sendToChildCollapsible = () => {
         this.setState({showAccordionList: false});
+    }
+
+    toggleTotalText = () => {
+        this.setState({ showTotalText: !this.state.showTotalText });
     }
 
     render() {
@@ -708,7 +714,7 @@ class PushToEarnMoneyComponent extends Component {
         console.log("money component show perons list="+this.state.showPersonList);
         return (
 
-                <View style= { newStyle.layoutBelow }>                  
+                <View style= { newStyle.layoutBelow }>
                     <View style={newStyle.endButtons}>
                         <View style= {newStyle.topView}>
                             <Text style= {newStyle.topText}>
@@ -729,7 +735,7 @@ class PushToEarnMoneyComponent extends Component {
 
                         <View style= {newStyle.inputContainer}>
 
-                             <View style={{width: 310, height: 50, backgroundColor: 'transparent'}}>
+                             <View style={{width: 310, height: 50, flex:1, backgroundColor: 'transparent'}}>
                                     <View style={newStyle.monthlyBar}>
 
                                         <TouchableOpacity onPress={ ( ) => {} }
@@ -768,7 +774,7 @@ class PushToEarnMoneyComponent extends Component {
                                     </View>:this.somethingElse()
                                 }      
 
-                             <View style={{width: 310, height: 280, backgroundColor: 'transparent'}} >
+                             <View style={{width: 310, height: 280, flex:6,justifyContent:'flex-start', alignItems:'flex-start', backgroundColor: 'transparent'}} >
                                  {
                                         (_.isEmpty(this.props.referrals))?                                 
                                             this.renderNothing()
@@ -780,26 +786,35 @@ class PushToEarnMoneyComponent extends Component {
                                                     year={this.state.currentYear}
                                                     referrals = {this.props.referrals}
                                                     changeMenuOneBack = {this.state.changeMenuOneBack}
-                                                    menu ={this.state.childMenu}           
-                                                    isLoading = {this.turnOffLoading}
+                                                    menu ={this.state.childMenu}
+                                                    totalText = {this.toggleTotalText}
+                                                    isLoading = {this.turnOffLoading}                            
                                                     back={this.triggerBack} />
                                  }
                              </View>
+                            {
+                                (this.state.showTotalText === true)?
+                                     <View style={newStyle.borderBottomNew}></View>
+                                :
+                                this.renderEmpty()
+                            }
+                         {
+                            (this.state.showTotalText === true)?
+                                        // <View style={{ flex:1,   backgroundColor:'red' }}>
+                                        //     <Text >Hello world</Text>
+                                        // </View>
+                                        <View style={newStyle.totalText}>
+                                                    <Text style={newStyle.firstName}>{this.state.text.TotalNext}</Text>
+                                                    <Text style={newStyle.earningsText}>€{this.props.TotalEarnings}</Text>
+                                        </View>
+                                        //  <View style={newStyle.totalHoursText}>
+                                        //             <Text style={newStyle.firstNameTotalHours}>{this.state.text.Total}</Text>
+                                        //             <Text style={newStyle.hoursText}>{this.props.TotalWorkedHours}</Text>
+                                        // </View> 
+                            :
+                                this.renderEmpty()
 
-                         <View style={newStyle.borderBottomNew}></View>
-                                 <View style={{ justifyContent:'flex-start',alignItems:'center',flex:14, }}>
-                                 <View style={newStyle.totalText}>
-                                            <Text style={newStyle.firstName}>{this.state.text.TotalNext}</Text>
-                                            <Text style={newStyle.earningsText}>€{this.props.TotalEarnings}</Text>
-                                </View>
-
-                                <View style={newStyle.totalHoursText}>
-                                            <Text style={newStyle.firstNameTotalHours}>{this.state.text.Total}</Text>
-                                            <Text style={newStyle.hoursText}>{this.props.TotalWorkedHours}</Text>
-                                </View>
-
-                                 </View>
-                                
+                         }                                
                         </View>
 
 
@@ -1015,10 +1030,10 @@ const newStyle = StyleSheet.create({
         borderColor: 'rgb(231, 61, 80)',
         borderBottomColor: "rgb(231, 61, 80)",
         marginBottom:5,
+        marginTop:5,
     },
 
     monthlyBar: {
-
         width: 310,
         height: 50,
         backgroundColor: '#353535',
@@ -1049,14 +1064,14 @@ const newStyle = StyleSheet.create({
         textAlign: 'right',
         color: "rgb(231, 61, 80)",
         backgroundColor: 'transparent'
-      },      
+      },
 
     totalText: {
         width: viewPortWidth*0.80,
-        height: 25,
-        flex: 14,
+        height: 10,
+        flex: 1,
         marginTop: 0,
-        marginBottom: 15,
+        marginBottom: 0,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
