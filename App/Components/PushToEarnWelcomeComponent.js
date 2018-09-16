@@ -264,6 +264,7 @@ const mapStateToProps = state => {
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
+      notificationRequest: (payload) => dispatch({ type: 'NOTIFICATION_REQUEST', payload})
     };
   };
   

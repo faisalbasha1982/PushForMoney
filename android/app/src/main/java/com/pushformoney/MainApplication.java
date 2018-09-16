@@ -3,6 +3,7 @@ package com.pushformoney;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.reactlibrary.mailcompose.RNMailComposePackage;
 import com.chirag.RNMail.RNMail;
 import com.beefe.picker.PickerViewPackage;
@@ -39,6 +40,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativePushNotificationPackage(),
             new RNMailComposePackage(),
             new RNMail(),
             new PickerViewPackage(),

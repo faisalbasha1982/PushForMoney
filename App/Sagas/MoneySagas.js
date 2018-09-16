@@ -38,9 +38,8 @@ function fetchJson(url,payload) {
     return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnGetMonthlyEarningDetailsByReferrals?code=l42IaaJ2JenjE0PMUveBbR26ODcefkEC3Mt7BmfVWR3VHZIvukGPJA==',payload);
   }
   
-  export function * getMoneyMonth(api,action)
+export function * getMoneyMonth(api,action)
 {
-    
     try{
             console.log("profile request new:");
             const responseJson = yield call(fetchMoney,action.payload);

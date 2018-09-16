@@ -249,6 +249,54 @@ export function * facebookRequest(api,payload,payloadNew) {
 
 }
 
+function fetchJson(url,payload) {
+
+  console.log("inside fetchJson:");
+  console.tron.log("inside fetch json");
+
+  return  fetch(url,{
+      method: 'POST',
+      headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+  })
+    .then(response => {
+
+      if (!response.ok) {
+        const error = new Error(response.statusText);
+        error.response = response;
+        throw error;
+      }
+
+      return response.json();
+    });
+}
+
+function fetchNotification(payload) {
+    
+  console.log("inside fetch notification");
+  console.tron.log("inside fetch notification");
+
+  return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnGetMobileNotificationWithUpdate?code=191modix7w8x/GF4bOY2PMAeOS8KmAr338nwwQqpVCYT4CKUfdP2Ig==',payload);
+}
+
+export function * notificationRequest(api,action) {
+
+  try{
+      console.log("notification new:");
+      const responseJson = yield call(fetchNotification,action.payload);
+      //yield put(MoneyActions.moneyEarningsSuccess(responseJson.monthlyEarningDetailsByReferrals,responseJson.ReferredPersonName,responseJson.TotalWorkedHours,responseJson.TotalEarnings));
+      yield put(LoginActions.notificationSuccess(responseJson.MobileNotifications,responseJson.LastViewedNotificationID));
+  }
+  catch(error)
+  {
+      yield put(LoginActions.notificationFailure(error));
+  }
+
+}
+
 export function * LoginRequest(api,payload) {
   try{
 

@@ -12,6 +12,7 @@ import {
     Alert,
     Platform,    
     findNodeHandle,
+    AppState
 } from 'react-native';
 
 import { Container, Header, Content, Input, Item } from 'native-base';
@@ -32,7 +33,8 @@ import Validation from '../Components/ButtonValidation';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
-
+import NotifService from './NotifService';
+import PushNotif from './PushNotif';
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
 
@@ -228,6 +230,23 @@ class PushToEarnWelcomeScreen extends Component {
         // }
     }
 
+    handleAppStateChange(appState)
+    {
+        if(appState === 'background')
+        {
+            return (
+                    <View style={{width: viewPortWidth*0.80, height: viewPortHeight*0.30, backgroundColor:'lightGray'}}>
+                        <Text> New Message! </Text>
+                    </View>
+            );
+        }
+    }
+
+    componentWillUnmount() {
+
+        AppState.addEventListener('change',this.handleAppStateChange);
+    }
+
     componentDidMount() {
         // console.log("language from props="+this.props.navigation.state.params.language);
         // console.log("default language="+this.state.language);
@@ -252,7 +271,7 @@ class PushToEarnWelcomeScreen extends Component {
             if(language === 'French')
                 this.setState({ text: languageSettingsPFM.French});            
 
-
+        AppState.addEventListener('change',this.handleAppStateChange);
 
         
     }
@@ -475,6 +494,7 @@ class PushToEarnWelcomeScreen extends Component {
 
                     </View>
                 
+                    <PushNotif />
 
                 </View>
                  

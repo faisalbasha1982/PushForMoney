@@ -20,7 +20,10 @@ import { MoneyTypes } from '../Redux/MoneyRedux'
 
 import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
-import { LoginRequest,rsaRequest, facebookRequest, twitterRequest, googleRequest } from './LoginSagas'
+import { LoginRequest,rsaRequest, facebookRequest, 
+         twitterRequest, googleRequest,
+         notificationRequest
+        } from './LoginSagas'
 import { RegisterRequest, RegisterRequestNew, OtpRequest,
          forgotPasswordRequest, forgotPasswordOTPRequest,
          makeRegisterRequest, OtpRequestResend } 
@@ -59,6 +62,9 @@ export default function * root () {
 
     // Google Login
     takeLatest(LoginTypes.GOOGLE_REQUEST, googleRequest, api),
+
+    // Notification Sagas
+    takeLatest(LoginTypes.NOTIFICATION_REQUEST, notificationRequest, api),
 
     // Register sagas
     takeLatest(RegisterTypes.MAKE_REGISTER_REQUEST, makeRegisterRequest, api),

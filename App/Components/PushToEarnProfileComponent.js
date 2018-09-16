@@ -10,7 +10,9 @@ import {
     TextInput,
     PixelRatio,
     Alert,
-    Platform,    
+    Platform,
+    AppState,
+    PushNotificationIOS,
     findNodeHandle,
 } from 'react-native';
 import {
@@ -43,11 +45,14 @@ import LanguageSettings from '../Containers/LanguageSettingsNew';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
 import { ProfileSelectors } from '../Redux/ProfileRedux';
+import { LoginSelectors } from '../Redux/LoginRedux';
 
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import localStorage from 'react-native-sync-localstorage';
 import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
+import PushNotif from '../Containers/PushNotif';
+import PushNotification from 'react-native-push-notification';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -325,6 +330,24 @@ class PushToEarnProfileComponent extends Component {
         }
     }
 
+    handleAppStateChange(appState)
+    {
+        if(appState === 'background')
+        {
+
+          let date = new Date(Date.now() + (10 * 1000));
+          
+            PushNotification.localNotificationSchedule({
+                message: "my Notification Message",
+                date
+            });
+        }
+    }
+
+    componentWillUnmount() {
+        AppState.addEventListener('change',this.handleAppStateChange);
+    }
+
     componentDidMount() {
 
         let language = localStorage.getItem('language');
@@ -346,6 +369,8 @@ class PushToEarnProfileComponent extends Component {
         console.log("login access token="+ltoken);
         console.tron.log("login access token="+ltoken);
 
+        console.tron.log("lastviewednotificationid="+this.props.LastViewedNotificationID);
+
         setTimeout(() => 
         {
             let payload = {
@@ -354,8 +379,20 @@ class PushToEarnProfileComponent extends Component {
             };
 
             this.props.getProfile(payload);
+
+            let newPayload = {
+                "AuthenticationData": encryptedData,
+                "LoginAccessToken": ltoken,
+                "UpdateRequired" : 0,
+                "ReadAll" :0,
+                "LastViewedNotificationID" : this.props.LastViewedNotificationID,
+            };
+
+            this.props.notificationRequest(newPayload);
+    
         },3000);    
 
+        AppState.addEventListener('change',this.handleAppStateChange);
     }
 
 
@@ -378,7 +415,7 @@ class PushToEarnProfileComponent extends Component {
         this.setState({passwordEditable: !this.state.passwordEditable,});
 
         (this.state.passwordEditable === true)?
-        this.setState({placeHolderColorPassword:'lightgray' })
+        this.setState({placeHolderColorPassword:'grey' })
         :
         this.setState({placeHolderColorPassword:'grey'});
     }
@@ -945,6 +982,8 @@ class PushToEarnProfileComponent extends Component {
 
                             </View>
 
+                            <PushNotif />
+
                             {/* <View style={newStyle.innerContainer}>
                             {
                                 (this.state.passwordEditable===true)?
@@ -1443,6 +1482,8 @@ const mapStateToProps = state => {
     return {
         bankInfo: ProfileSelectors.getBankInfo(state),
         fetching: ProfileSelectors.getFetching(state),
+        LastViewedNotificationID: LoginSelectors.getLastViewedNotificationID(state),
+        mobileNotifications: LoginSelectors.getMobileNotifications(state),
     };
   };
   
@@ -1454,6 +1495,7 @@ const mapStateToProps = state => {
       getProfile:(payload) => dispatch({ type: 'GET_PROFILE_REQUEST_NEW', payload }),
       nameUpdate: (payload) => dispatch({ type: 'UPDATE_FIRST_NAME', payload }),
       changeMobile: (payload) => dispatch({ type: 'CHANGE_MOBILE', payload }),
+      notificationRequest: (payload) => dispatch({ type: 'NOTIFICATION_REQUEST', payload})
     };
   };
   

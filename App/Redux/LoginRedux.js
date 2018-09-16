@@ -8,8 +8,11 @@ const { Types, Creators } = createActions({
   twitterRequest:["payload"],
   googleRequest:["payload"],
   rsaRequest:["payload"],
-  loginSuccess: ['user'],
+  loginSuccess: ['user'],  
   loginFailure: ['error'],
+  notificationRequest: ['payload'],
+  notificationSuccess: ['MobileNotifications', 'lastViewedNotificationID'],
+  notificationFailure: ['error'],
   userRegistered: ['user'],
   logout: null
 })
@@ -24,12 +27,16 @@ export const INITIAL_STATE = {
   fetching: false,
   error: '',
   payload: null,
+  lastViewedNotificationID: -1,
+  MobileNotifications:null,
 }
 
 /* ------------- Selectors ------------- */
 
 export const LoginSelectors = {
   getUser: state => state['login'].user,
+  getLastViewedNotificationID: state => state['login'].lastViewedNotificationID,
+  getMobileNotifications: state => state['login'].MobileNotifications,
   getFetching: state => state['login'].fetching,
   getError: state => state['login'].error
 };
@@ -68,6 +75,18 @@ export const registered = (state, {user}) => {
   return { ...state, user, fetching: false }
 }
 
+export const nrequest = (state, { payload }) => {
+  return { ...state, fetching: true, payload }
+}
+
+export const nsuccess = (state, {MobileNotifications,lastViewedNotificationID}) => {
+  return { ...state, MobileNotifications,lastViewedNotificationID, fetching: false, }
+}
+
+export const nfailure = (state, {error}) => {
+  return { ...state, error, fetching: false, }
+}
+
 export const logout = (state) => {
   return { ...INITIAL_STATE}
 }
@@ -87,6 +106,9 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.LOGIN_SUCCESS]: success,
   [Types.LOGIN_FAILURE]: failure,
   [Types.USER_REGISTERED]: registered,
+  [Types.NOTIFICATION_REQUEST]: nrequest,
+  [Types.NOTIFICATION_SUCCESS]: nsuccess,
+  [Types.NOTIFICATION_FAILURE]: nfailure,
   [Types.LOGOUT]: logout,
   [ReduxSauceTypes.DEFAULT]: defaultHandler
 });
