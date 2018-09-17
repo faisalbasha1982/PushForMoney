@@ -233,8 +233,7 @@ class PushToEarnAddFriendComponent extends Component {
         else
             if(language === 'French')
             this.setState({ text: languageSettingsPFM.French});
-    }
-
+    }    
     
 
     renderNothing = () => {

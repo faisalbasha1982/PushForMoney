@@ -51,7 +51,7 @@ export const changePassword = (state, {payload}) => {
     return { ...state, fetching: true, payload }
 }
 
-export const changeMobile = (state, {payload}) => {
+export const cMobile = (state, {payload}) => {
     return { ...state, fetching:true, payload }
 }
 
@@ -87,7 +87,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_PROFILE_REQUEST_NEW]: request,
   [Types.UPDATE_FIRST_NAME]: newrequest,
   [Types.CHANGE_PASSWORD]: changePassword,
-  [Types.CHANGE_MOBILE]: changeMobile,
+  [Types.CHANGE_MOBILE]: cMobile,
   [Types.VERIFY_OTP_MOBILE]: verifyOtpMobileSuccess,
   [Types.PROFILE_SUCCESS]: success,
   [Types.PROFILE_FAILURE]: failure,

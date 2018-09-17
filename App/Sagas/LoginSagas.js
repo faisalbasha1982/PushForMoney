@@ -351,6 +351,7 @@ export function * LoginRequest(api,payload) {
     // }
 
     localStorage.setItem('token', token);
+    AsyncStorage.setItem('token', token);
     console.tron.log("login access token=",token);
 
     // do data conversion here if needed

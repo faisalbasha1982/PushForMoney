@@ -4,6 +4,7 @@ import {
     Text,
     Image,
     View,
+    AsyncStorage,
     KeyboardAvoidingView,
     TouchableOpacity,
     Dimensions,
@@ -50,6 +51,7 @@ import { LoginSelectors } from '../Redux/LoginRedux';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import localStorage from 'react-native-sync-localstorage';
+
 import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import PushNotif from '../Containers/PushNotif';
 import PushNotification from 'react-native-push-notification';
@@ -124,6 +126,8 @@ class PushToEarnProfileComponent extends Component {
             phoneNumberEmptyError:false,
             emailEmptyError:false,
             cardDetailsError:false,
+            mobileNotifications:'',
+            aToken:'',
             text:{}
         };    
     }
@@ -279,6 +283,10 @@ class PushToEarnProfileComponent extends Component {
 
     }
 
+    renderNothing = () => {
+
+    }
+
     cardDetails = (MobileUserBankDetails) => {
         return (
             <View style={{flex: 25, }}>
@@ -330,17 +338,57 @@ class PushToEarnProfileComponent extends Component {
         }
     }
 
-    handleAppStateChange(appState)
+    pushNotification = () => {
+
+        let date = new Date(Date.now() + (20 * 1000));
+        console.log("push notifications");
+
+        (this.state.mobileNotifications !== null && this.state.mobileNotifications !== undefined)?
+        this.state.mobileNotifications.map(notificationObject => 
+                PushNotification.localNotificationSchedule({
+                    message: notificationObject.Message,
+                    date
+                }))
+       :
+       this.renderNothing();
+
+    }
+
+    handleAppStateChange = (appState) =>
     {
         if(appState === 'background')
         {
 
-          let date = new Date(Date.now() + (10 * 1000));
-          
-            PushNotification.localNotificationSchedule({
-                message: "my Notification Message",
-                date
-            });
+          console.log("inside handleAppStateChange");
+
+          setTimeout(() => {
+            this.pushNotification();
+          },3000);
+
+        //   console.log("mobileNotifications="+this.props.mobileNotifications);
+
+            // setTimeout( () => {
+            //             (this.props.mobileNotifications !== null && this.props.mobileNotifications !== undefined)?
+            //             this.props.mobileNotifications.map(notificationObject => 
+            //         PushNotification.localNotificationSchedule({
+            //             message: notificationObject.Message,
+            //             date
+            //         }))
+            //     :
+            //     this.renderNothing();
+            // }, 5000)
+
+        //   setTimeout(() => {
+        //     (this.props.mobileNotifications !== null || mns !== undefined)?
+        //     this.props.mobileNotifications.map(notificationObject => 
+        //       PushNotification.localNotificationSchedule({
+        //           message: notificationObject.Message,
+        //           date
+        //       }))
+        //      :
+        //      this.renderNothing();              
+        //   }, 3000);
+
         }
     }
 
@@ -363,12 +411,21 @@ class PushToEarnProfileComponent extends Component {
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
-         ltoken = localStorage.getItem('token');
+        ltoken = localStorage.getItem('token');
+
+        let asynToken = '';
+
+        let aToken = AsyncStorage.getItem('token').then((value) => {
+            console.tron.log("value="+value);
+            this.setState({ aToken: value });
+        });
         this.setState({isLoading: true});
 
         console.log("login access token="+ltoken);
         console.tron.log("login access token="+ltoken);
-
+        setTimeout(() => {
+            console.tron.log("async token="+this.state.aToken);
+        },4000);
         console.tron.log("lastviewednotificationid="+this.props.LastViewedNotificationID);
 
         setTimeout(() => 
@@ -384,15 +441,23 @@ class PushToEarnProfileComponent extends Component {
                 "AuthenticationData": encryptedData,
                 "LoginAccessToken": ltoken,
                 "UpdateRequired" : 0,
-                "ReadAll" :0,
+                "ReadAll" : 0,
                 "LastViewedNotificationID" : this.props.LastViewedNotificationID,
             };
 
             this.props.notificationRequest(newPayload);
-    
+
+            setTimeout(() => {
+                console.tron.log("mobilenotifications="+this.props.mobileNotifications);
+                this.setState({ mobileNotifications: this.props.mobileNotifications});
+            }, 3000);
+
         },3000);    
 
-        AppState.addEventListener('change',this.handleAppStateChange);
+
+        setTimeout(() => {
+            AppState.addEventListener('change',this.handleAppStateChange);            
+        },4000);
     }
 
 
