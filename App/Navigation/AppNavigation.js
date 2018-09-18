@@ -1,4 +1,4 @@
-import { createStackNavigator,NavigationActions } from 'react-navigation';
+import { createStackNavigator,NavigationActions, SwitchNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -106,3 +106,7 @@ const AppNavigation = createStackNavigator({
 })
 
 export default AppNavigation;
+
+export const createRootNavigator = (signedIn = false) => {
+
+}

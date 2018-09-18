@@ -10,7 +10,8 @@ import {
   TextInput,
   PixelRatio,
   Alert,
-  Platform
+  Platform,
+  AsyncStorage
 } from 'react-native';
 import PropTypes from "prop-types";
 import DeviceInfo from 'react-native-device-info'
@@ -25,11 +26,10 @@ import njobanimationImage from '../Images/newjobanimation.gif';
 import { NavigationActions } from "react-navigation";
 import { connect } from 'react-redux';
 import AppNavigation from '../Navigation/AppNavigation';
-
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
 import { Button } from 'react-native-elements';
-
+import { isNullOrUndefined } from 'util';
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth  = Dimensions.get('window').width;
 
@@ -60,6 +60,26 @@ const animationsNew = [
 // Styles
 
 class PushForJob extends Component {
+
+    constructor(props)
+    {
+      super(props);
+
+        this.state = {
+            hasToken:false,
+            isLoaded: false,
+        };
+
+       this.getToken();
+    }
+
+    getToken = async () => {
+
+        AsyncStorage.getItem('token').then((token) => {
+            this.setState({ hasToken: token !== null, isLoaded: true })
+          });
+
+    }
 
     reset = () => {
 
@@ -103,7 +123,10 @@ class PushForJob extends Component {
 
     render()
     {
+        let tokenAsync = '';
+
         return(
+                (this.state.hasToken === false)?
                 <View style={newStyle.container}>
                     <View style={newStyle.topContainer}>
                         {/* <Animatable.Text animation="zoomInUp" style={newStyle.pushStyle}>PUSH {'\n'} FOR {'\n'} A</Animatable.Text> */}
@@ -128,6 +151,8 @@ class PushForJob extends Component {
                             <Image source={logoHeader} resizeMode="contain" style={{ width: viewPortWidth * 0.350, height: viewPortHeight * 0.04 }} />
                     </View>
                 </View>                
+                :
+                this.props.navigation.navigate('TestPage')
         );
     }
 

@@ -1,9 +1,12 @@
 const key = '!@M*;-kATy_vcUkLq/U))QD`XL5Sg`5D';
+             //!@M*;-kATy_vcUkLq/U))QD`XL5Sg`5D
 const liClientId = '81td97f0ibm93v';
 const liState = 'DCEeFWf45A53sdfKef424';
 const liRedirectUri = 'https://www.example.com/auth/linkedin';
+const slot = 'prod';
 
 const Api_url = {
+  functionURL:`https://faazureapiinterface${slot}.azurewebsites.net/api/fnMoblieLogin?code=${key}`,
   LoginUrl: `https://faazureapiinterfacedev.azurewebsites.net/api/fnMoblieLogin?code=${key}`,
   LinkedUrl: `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${liClientId}&redirect_uri=${liRedirectUri}&state=${liState}&scope=r_basicprofile`,
   AuthId: 'JS#236734',
@@ -20,5 +23,7 @@ const Api_url = {
   signupURL2: 'https://prod-33.westeurope.logic.azure.com:443',
   profileURL: 'https://prod-15.westeurope.logic.azure.com:443/workflows/f59e53901f7a46559be64f3a4605091e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=7rKezGQLhIz7v96JpmKZ4zQ0BUUCLZMW0csfSUWM4JM',
 };
+
+console.tron.log("loginURL="+Api_url.functionURL);
 
 export default Api_url;

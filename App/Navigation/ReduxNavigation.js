@@ -1,6 +1,6 @@
 import React from 'react';
 import * as ReactNavigation from "react-navigation";
-import { BackHandler, Platform } from 'react-native';
+import { BackHandler, Platform, AsyncStorage } from 'react-native';
 import { addNavigationHelpers } from 'react-navigation';
 import { NavigationActions } from "react-navigation";
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
@@ -11,11 +11,15 @@ import {
   createNavigationReducer,
  } from 'react-navigation-redux-helpers'
 import AppNavigation from './AppNavigation';
+import Route from './Route';
+
+let token = '';
 
 class ReduxNavigation extends React.Component {
 
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+
   }
 
   componentWillUnmount () {
@@ -39,10 +43,10 @@ class ReduxNavigation extends React.Component {
     const { dispatch, nav} = this.props;    
     const addListener = createReduxBoundAddListener("root");
 
-    return <AppNavigation navigation={{
+    return <Route navigation={{
             dispatch: this.props.dispatch,
             state: this.props.nav,
-            addListener}}/>
+            addListener}} />
   }
 }
 

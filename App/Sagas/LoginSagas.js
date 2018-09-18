@@ -356,6 +356,7 @@ export function * LoginRequest(api,payload) {
 
     // do data conversion here if needed
     yield put(LoginActions.loginSuccess(userinfo));
+    
     NavigationService.navigate('TestPage');
 
   }   

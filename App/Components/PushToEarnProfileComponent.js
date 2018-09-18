@@ -142,10 +142,10 @@ class PushToEarnProfileComponent extends Component {
         {
             this.setState({lastNameInput: ''});
 
-            if(this.state.language === 'NEDERLANDS')
+            if(this.state.languageCode === 'nl')
                 this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
             else
-                if(this.state.language === 'ENGLISH')
+                if(this.state.languageCode === 'en')
                     this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
                 else
                     this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
@@ -160,10 +160,10 @@ class PushToEarnProfileComponent extends Component {
             else
             {
                 console.log("found digits");
-              if(this.state.language === 'NEDERLANDS')
+              if(this.state.languageCode === 'NEDERLANDS')
                   this.setState({ lastNameEmptyError: false, lastNameError: true, lastNameErrorText: LanguageSettings.dutch.LNameErrorText });
               else
-                  if(this.state.language === 'ENGLISH')
+                  if(this.state.languageCode === 'ENGLISH')
                       this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.english.LNameErrorText });
                   else
                       this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.french.LNameErrorText });
@@ -183,10 +183,10 @@ class PushToEarnProfileComponent extends Component {
             console.log("Language ="+this.state.language);
             this.setState({firstNameInput: ''});
 
-            if(this.state.language === 'NEDERLANDS')
+            if(this.state.languageCode === 'nl')
                 this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
             else
-                if(this.state.language === 'ENGLISH')
+                if(this.state.languageCode === 'en')
                     this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
                 else
                     this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
@@ -199,10 +199,10 @@ class PushToEarnProfileComponent extends Component {
             }
             else
             {
-              if(this.state.language === 'NEDERLANDS')
+              if(this.state.language === 'nl')
                   this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.dutch.FNameErrorText });
               else
-                  if(this.state.language === 'ENGLISH')
+                  if(this.state.language === 'en')
                       this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.english.FNameErrorText });
                   else
                       this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.french.FNameErrorText });
@@ -232,10 +232,10 @@ class PushToEarnProfileComponent extends Component {
         {
             this.setState({phoneNumberInput: ''});
 
-            if(this.state.language === 'NEDERLANDS')
+            if(this.state.languageCode === 'nl')
                 this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
             else
-                if(this.state.language === 'ENGLISH')
+                if(this.state.languageCode === 'en')
                     this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
                 else
                     this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
@@ -307,13 +307,17 @@ class PushToEarnProfileComponent extends Component {
         {
             let language = localStorage.getItem('language');
 
-            if(language === 'Dutch')
+            AsyncStorage.getItem('language').then((language) => {
+                this.setState({ language:language })
+              });
+
+            if(this.state.language === 'Dutch')
                 this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
             else
-                if(language === 'English')
+                if(this.state.language === 'English')
                 this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
             else
-                if(language === 'French')
+                if(this.state.language === 'French')
                 this.setState({ text: languageSettingsPFM.French,languageCode:'fr'});
 
             let authData = AuthComponent.authenticationData(this.state.languageCode);
@@ -400,14 +404,20 @@ class PushToEarnProfileComponent extends Component {
 
         let language = localStorage.getItem('language');
 
-        if(language === 'Dutch')
+        AsyncStorage.getItem('language').then((language) => {
+            this.setState({ language:language })
+          });
+
+        if(this.state.language === 'Dutch')
             this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
         else
-            if(language === 'English')
+            if(this.state.language === 'English')
             this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
         else
-            if(language === 'French')
+            if(this.state.language === 'French')
             this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});            
+
+        console.log("language="+this.state.language);
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
@@ -423,9 +433,11 @@ class PushToEarnProfileComponent extends Component {
 
         console.log("login access token="+ltoken);
         console.tron.log("login access token="+ltoken);
+
         setTimeout(() => {
             console.tron.log("async token="+this.state.aToken);
         },4000);
+
         console.tron.log("lastviewednotificationid="+this.props.LastViewedNotificationID);
 
         setTimeout(() => 

@@ -1095,7 +1095,6 @@ class PushToEarnSignIn extends Component {
     }
 
 
-
     func = (renderValidate,EmptyErrorText) => {
       this.setState({renderValidate,EmptyErrorText});
     }
