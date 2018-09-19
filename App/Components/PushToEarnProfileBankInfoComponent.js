@@ -88,18 +88,22 @@ class PushToEarnProfileBankInfoComponent extends Component {
  
     }
 
-    componentDidMount() {
-        let language = localStorage.getItem('language');
+    setLanguage = () => {
 
-        if(language === 'Dutch')
+        if(this.props.language === 'Dutch')
             this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
         else
-            if(language === 'English')
-            this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
+            if(this.props.language === 'English')
+                this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
         else
-            if(language === 'French')
-            this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
-       
+            if(this.props.language === 'French')
+                this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+
+   }
+
+    componentDidMount() {
+        let language = localStorage.getItem('language');
+        this.setLanguage();       
     }   
 
     renderNothing = () => {

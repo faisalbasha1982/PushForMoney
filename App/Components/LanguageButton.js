@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Dimensions } from 'react-native';
+import { Dimensions, AsyncStorage } from 'react-native';
 import { Button, Text, Icon } from 'native-base';
 import { colors } from '../Themes/Colors';
 import WelcomeScreen from '../Containers/WelcomeScreen';
@@ -55,13 +55,22 @@ class LanguageButton extends Component {
     console.log("selected language="+lang);
 
     if(lang === 'FRANÇAIS')
+    {
       localStorage.setItem("language",'French');
+      AsyncStorage.setItem('language', 'French');
+    }
     else
-    if(lang === 'NEDERLANDS')
-      localStorage.setItem("language",'Dutch');
+      if(lang === 'NEDERLANDS')
+      {
+        localStorage.setItem("language",'Dutch');
+        AsyncStorage.setItem('language', 'Dutch');
+      }
     else
-    if(lang === 'ENGLISH')
-      localStorage.setItem("language",'English');
+      if(lang === 'ENGLISH')
+      {
+        localStorage.setItem("language",'English');
+        AsyncStorage.setItem('language', 'English');
+      }
 
     if(app===0)
       this.props.navigation.navigate("FormOne",{language: lang,navigation: this.props.navigation});

@@ -4,9 +4,10 @@ import {
   TouchableOpacity,
   Dimensions,
   StyleSheet,
-  Image
+  Image,
+  AsyncStorage
 } from 'react-native';
-
+import * as NavigationService from '../Navigation/NavigationService';
 import { connect } from "react-redux";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TopHeader from '../Components/TopHeader';
@@ -31,7 +32,8 @@ import logoHeader from '../Images/logoheader.png';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import localStorage from 'react-native-sync-localstorage';
-
+import PushForJob from './PushForJob';
+ 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth  = Dimensions.get('window').width;
 
@@ -65,8 +67,10 @@ class TestPage extends Component {
         this.setState({ menu: mChange, nameParam: name, phoneParam: phoneString, emailParam: email });
     }
 
-    menuChange = (mChange) =>{
-        this.setState({ menu: mChange});
+    menuChange = (mChange,lang) =>{
+        console.log("inside menu change with langauge ="+lang);
+        this.setState({ menu: mChange, language: lang});
+        console.log("inside menu Change language set --->"+this.state.language);
     }
 
     doNothing = () => {
@@ -75,62 +79,79 @@ class TestPage extends Component {
 
     componentWillReceiveProps(nextProps) {
 
-        //console.log("in Form One screen language received="+nextProps.language);
-        // if (this.props.navigation.state.params.language !== nextProps.language) {
-        //     this.setState({ language: nextProps.language });
-        //     this.setText();
-        // }
+        if(this.props !== nextProps)
+        {
+            // this.getAsyncStorage();
+            if(this.props.language)
+            {
+                if(this.props.language === 'Dutch')
+                    this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl', language: 'Dutch'});
+                else
+                    if(this.props.language === 'English')
+                        this.setState({ text: languageSettingsPFM.English, languageCode:'en', language: 'English'});
+                    else
+                        if(this.props.language === 'French')
+                            this.setState({ text: languageSettingsPFM.French, languageCode:'fr', language: 'French'});
+          
+                setTimeout(()=> {
+                    this.getFriendList();        
+                },3000);
+                
+            }                  
+        }
+    }
 
-        // console.log("this.props.referral="+this.props.refferal);
-        // if(this.props.referral === null)
-        //     this.getFriendList();
+    changeScreen = () => {
 
-        // if(this.props.referral !== nextProps.referral)
-        // {
-        //     console.log("this.props.referral="+this.props.referral);
-        //     console.tron.log("this.props.referral="+this.props.referral);
-    
-        //     if(this.props.referral !== null)
-        //      {
-        //          this.setState({ menu: 8 });
-        //          console.log("menu="+this.state.menu);
-        //      }
-        //      else
-        //     {
-        //         this.setState({ menu: 2});
-        //         console.log("menu="+this.state.menu);
-        //     }
-        // }
-        // else
-        // {
-        //     this.setState({ menu: 2});
-        //     console.log("menu="+this.state.menu);
-        // }
+        this.props.navigation.navigate('PushForJob');
+
+        // return (
+        //     <PushForJob />
+        // )
+
+    }
+
+    getAsyncStorage = async () => {
+        await AsyncStorage.getItem('language').then((language) => {
+            this.setState({ language:language })
+          });
+    }
+
+    languageChange = (language) => {
+
+        //this.getAsyncStorage();
+
+        console.log("inside language change function ="+language);
+        this.setState({ language:language });
+
     }
 
     componentDidMount() {
 
-        //call all the api's relevant with inner screens
-        //console.log("this.props.referral="+this.props.referral);
-        //console.tron.log("this.props.referral="+this.props.referral);
+        // let language = localStorage.getItem('language');
+        // console.log('local storage language='+language);
 
-        let language = localStorage.getItem('language');
-        console.log('local storage language='+language);
+        //this.getAsyncStorage();
 
-        this.setState({ language: language});
-        
-        if(language === 'Dutch')
-            this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
-        else
-            if(language === 'English')
-            this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});
-        else
-            if(language === 'French')
-            this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
+        if(this.props.language)
+        {
+            if(this.props.language === 'Dutch')
+                this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl', language: 'Dutch'});
+            else
+                if(this.props.language === 'English')
+                    this.setState({ text: languageSettingsPFM.English, languageCode:'en', language: 'English'});
+            else
+                if(this.props.language === 'French')
+                    this.setState({ text: languageSettingsPFM.French, languageCode:'fr', language: 'French'});
 
-        setTimeout(()=> {
-            this.getFriendList();        
-        },3000);
+            console.log("language set in TestPage="+this.state.language);
+            console.log("language from push for job via navigaton ---->"+this.props.language);
+                      
+            setTimeout(()=> {
+                this.getFriendList();        
+            },3000);
+        }
+
     }
 
     getFriendList = () => {
@@ -170,21 +191,20 @@ class TestPage extends Component {
     addComponent = () => {
 
         console.log("adding component this.props.referral = "+ typeof(this.props.referral) + "object="+this.props.referral);
+        console.log("current language="+this.state.language);
 
         if(_.isEmpty(this.props.referral))        
             return (
-                <AddFriendComponent menu = { this.menuChange } />
+                <AddFriendComponent menu = { this.menuChange }  language={this.props.language} />
             );
         
     return (
-            <FriendsOverViewComponent menu = {this.menuChange} />
+            <FriendsOverViewComponent menu = {this.menuChange}  language={this.props.language} />
         );            
     }
 
 
     render() {
-
-        const { navigate } = this.props.navigation;
 
         console.log("test page this.props.referral="+typeof(this.props.referral));
         console.tron.log("this.props.referral="+this.props.referral);
@@ -277,30 +297,39 @@ class TestPage extends Component {
                     <View style={newStyle.pageElement}>
                             {
                                this.state.menu === 0?
-                                    <WelcomeComponent />:
+                                    <WelcomeComponent language={this.props.language}/>:
                                this.state.menu === 1?
-                                    <ProfileComponent menu = {this.menuChange} />:
+                                    <ProfileComponent menu = {this.menuChange} language={this.props.language} />:
                                this.state.menu === 2?
                                     this.addComponent():
                                this.state.menu === 3?
-                                    <MoneyComponent />:
+                                    <MoneyComponent language={this.props.language} />:
                                this.state.menu === 4?
-                                    <InformationComponent />:
+                                    <InformationComponent menu = {this.menuChange} language={this.props.language} />:
                                this.state.menu === 5?
-                                    <ProfileBankInfoComponent menu = {this.menuChange} />:
+                                    <ProfileBankInfoComponent menu = {this.menuChange}  language={this.props.language} />:
                                this.state.menu === 6?
-                                    <ProfileChangePasswordComponent menu = {this.menuChange} />:
+                                    <ProfileChangePasswordComponent menu = {this.menuChange}  language={this.props.language} />:
                                this.state.menu === 7?
-                                    <ProfileDetailsComponent menu = {this.menuChange} name={this.state.nameParam} phone={this.state.phoneParam} email = {this.state.emailParam} />:
+                                    <ProfileDetailsComponent 
+                                            menu = {this.menuChange} 
+                                            name=  {this.state.nameParam} 
+                                            phone= {this.state.phoneParam} 
+                                            email = {this.state.emailParam} 
+                                            language={this.state.language}
+                                    />:
                                this.state.menu === 8 && this.props.referral !== null?
-                                    <FriendsOverViewComponent />:
+                                    <FriendsOverViewComponent  language={this.props.language} />:
                                this.state.menu === 9?
-                                    <FriendsLastComponent menu = {this.menuChangeWithParameters}/>:
+                                    <FriendsLastComponent menu = {this.menuChangeWithParameters}  language={this.props.language} />:
                                this.state.menu === 10?
-                                    <LanguageComponent menu = {this.menuChange} />:    
+                                    <LanguageComponent menu = {this.menuChange}  language={this.props.language} />:    
                                this.state.menu === 11?
-                                    <PushToEarnOTPComponent menu = {this.menuChange} />:
+                                    <PushToEarnOTPComponent menu = {this.menuChange}  language={this.props.language} />:
+                               this.state.menu === 12?
+                                    this.changeScreen():
                                     this.doNothing()
+                                
                             }
                     </View>
 

@@ -12,6 +12,7 @@ import {
     Alert,
     Platform,    
     findNodeHandle,
+    AsyncStorage
 } from 'react-native';
 
 import { Container, Header, Content, Input, Item } from 'native-base';
@@ -54,22 +55,27 @@ class PushToEarnWelcomeComponent extends Component {
             buttonText: '',
             text:{}
         };    
+
+        this.setLanguage();
+    }
+
+    setLanguage = async () => {
+       
+          if(this.props.language === 'Dutch')
+              this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+          else
+              if(this.props.language === 'English')
+                  this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
+          else
+              if(this.props.language === 'French')
+                  this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+
     }
 
     componentDidMount()
     {
-        let language = localStorage.getItem('language');
-        console.log('local storage language='+language);
-
-        if(language === 'Dutch')
-        this.setState({ text: languageSettingsPFM.Dutch});
-       else
-            if(language === 'English')
-            this.setState({ text: languageSettingsPFM.English});
-        else
-            if(language === 'French')
-            this.setState({ text: languageSettingsPFM.French});            
-
+        console.log('welcome component language='+this.props.language);
+        this.setLanguage();
     }
 
     render() {

@@ -12,6 +12,7 @@ import {
     Alert,
     Platform,    
     findNodeHandle,
+    AsyncStorage,
 } from 'react-native';
 
 import { Container, Header, Content, Input, Item } from 'native-base';
@@ -78,18 +79,23 @@ class PushToEarnLanguageComponent extends Component {
 
     }
 
+    setLanguage = () => {
+
+        if(this.props.language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+        else
+            if(this.props.language === 'English')
+                this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
+        else
+            if(this.props.language === 'French')
+                this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+
+   }
+
     componentDidMount() {    
 
         let language = localStorage.getItem('language');
-
-        if(language === 'Dutch')
-            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
-        else
-            if(language === 'English')
-            this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
-        else
-            if(language === 'French')
-            this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});         
+        this.setLanguage();
         
     }
 
@@ -103,15 +109,26 @@ class PushToEarnLanguageComponent extends Component {
         console.log("language changing to --->"+language);
 
       if(language === 'FRANÇAIS')
+      {
         localStorage.setItem("language",'French');
+        AsyncStorage.setItem('language','French');
+        this.props.menu(1,'French');
+      }
       else
         if(language === 'NEDERLANDS')
+        {
             localStorage.setItem("language",'Dutch');
+            AsyncStorage.setItem('language','Dutch');
+            this.props.menu(1,'Dutch');
+        }
       else
         if(language === 'ENGLISH')
-            localStorage.setItem("language",'English');      
-          
-        this.props.menu(1);
+        {
+            localStorage.setItem("language",'English');
+            AsyncStorage.setItem('language','English');
+            this.props.menu(1,'English');
+        }
+
     }
       
 

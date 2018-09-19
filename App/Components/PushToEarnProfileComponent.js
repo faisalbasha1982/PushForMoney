@@ -294,35 +294,51 @@ class PushToEarnProfileComponent extends Component {
                     <Text style={newStyle.para}> Add your card details  <Text style={{ color: '#e73d50',fontFamily: 'WorkSans-Bold', fontWeight: '500', fontSize: 20  }} onPress={() => this.props.menu(5)}>here</Text> </Text>
             </View>
         );
-    }
-        
+    }        
 
     PhoneNumberPickerChanged = (country, callingCode, phoneNumber) => {
         this.setState({countryName: country.name, callingCode: callingCode, phoneNo:phoneNumber});
      }
 
+    setLanguage = () => {
+
+            if(this.props.language === 'Dutch')
+                this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+            else
+                if(this.props.language === 'English')
+                    this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
+            else
+                if(this.props.language === 'French')
+                    this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+
+    }
     componentWillReceiveProps(nextProps) {
 
         if(this.props !== nextProps)
         {
             let language = localStorage.getItem('language');
 
-            AsyncStorage.getItem('language').then((language) => {
-                this.setState({ language:language })
-              });
+            this.getAsyncStorage();
 
-            if(this.state.language === 'Dutch')
-                this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
-            else
-                if(this.state.language === 'English')
-                this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
-            else
-                if(this.state.language === 'French')
-                this.setState({ text: languageSettingsPFM.French,languageCode:'fr'});
+            this.setLanguage();
+
+            // setTimeout(() => {
+            //     if(this.state.language === 'Dutch')
+            //     this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+            // else
+            //     if(this.state.language === 'English')
+            //     this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
+            // else
+            //     if(this.state.language === 'French')
+            //     this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+            // },4000);
+    
+            console.log("text="+this.state.text);
+            console.log("text changeLanguage="+this.state.text);
 
             let authData = AuthComponent.authenticationData(this.state.languageCode);
             let encryptedData = AesComponent.aesCallback(authData);
-             ltoken = localStorage.getItem('token');
+            ltoken = localStorage.getItem('token');
             this.setState({isLoading: true});
 
             console.log("login access token="+ltoken);
@@ -340,6 +356,12 @@ class PushToEarnProfileComponent extends Component {
 
             },3000);
         }
+    }
+
+    getAsyncStorage = async () => {
+        await AsyncStorage.getItem('language').then((language) => {
+            this.setState({ language:language })
+          });
     }
 
     pushNotification = () => {
@@ -404,18 +426,20 @@ class PushToEarnProfileComponent extends Component {
 
         let language = localStorage.getItem('language');
 
-        AsyncStorage.getItem('language').then((language) => {
-            this.setState({ language:language })
-          });
+        this.getAsyncStorage();
 
-        if(this.state.language === 'Dutch')
-            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
-        else
-            if(this.state.language === 'English')
-            this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
-        else
-            if(this.state.language === 'French')
-            this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});            
+       this.setLanguage();
+
+        // setTimeout(() => {
+        //     if(this.state.language === 'Dutch')
+        //     this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+        // else
+        //     if(this.state.language === 'English')
+        //     this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
+        // else
+        //     if(this.state.language === 'French')
+        //     this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+        // },4000);
 
         console.log("language="+this.state.language);
 
@@ -603,6 +627,7 @@ class PushToEarnProfileComponent extends Component {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
         console.log("bankinfo="+this.props.bankInfo);
+        console.log("text="+this.state.text);
         return (
 
                 <View style= {newStyle.layoutBelow}>

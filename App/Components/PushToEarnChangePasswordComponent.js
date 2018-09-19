@@ -118,21 +118,29 @@ class PushToEarnChangePasswordComponent extends Component {
 
     componentWillReceiveProps(nextProps) {
 
+        if(this.props !== nextProps)
+            this.setLanguage();
     }
+
+    setLanguage = () => {
+
+        if(this.props.language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+        else
+            if(this.props.language === 'English')
+                this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
+        else
+            if(this.props.language === 'French')
+                this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+
+   }
 
     componentDidMount() {
 
         let language = localStorage.getItem('language');
         console.log('local storage language='+language);
 
-        if(language === 'Dutch')
-            this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
-        else
-            if(language === 'English')
-            this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});            
-        else
-            if(language === 'French')
-            this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
+        this.setLanguage();
 
     }
 

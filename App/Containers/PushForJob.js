@@ -30,6 +30,8 @@ import { Colors } from "../Themes";
 import { Images } from '../Themes';
 import { Button } from 'react-native-elements';
 import { isNullOrUndefined } from 'util';
+import TestPage from '../Containers/TestPage';
+
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth  = Dimensions.get('window').width;
 
@@ -68,16 +70,30 @@ class PushForJob extends Component {
         this.state = {
             hasToken:false,
             isLoaded: false,
+            language:''
         };
 
-       this.getToken();
     }
 
     getToken = async () => {
 
-        AsyncStorage.getItem('token').then((token) => {
+        console.log("inside push for job screen ---->"+ this.state.hasToken)
+        console.log("hasToken --->"+this.state.hasToken);
+
+     await AsyncStorage.getItem('token').then((token) => {
             this.setState({ hasToken: token !== null, isLoaded: true })
           });
+    }
+
+    getLanguage = async () => {
+
+       await AsyncStorage.getItem('language').then((language) => {
+            this.setState({ language:language })
+          });
+    
+        setTimeout(() => {
+            console.log("inside get Language in Push For Job language="+this.state.language);
+        },3000);
 
     }
 
@@ -95,9 +111,53 @@ class PushForJob extends Component {
                 }));
     }    
 
+    renderNothing = () => {
+
+        if(this.state.hasToken===true)
+           return(
+                <TestPage language = { this.state.language} />
+           )
+        else
+            return null;
+    }
+
+    changeScreen = async () => {
+
+        await AsyncStorage.getItem('language').then((language) => {
+            language === ''?this.setState({ hasToken: false }):
+            this.setState({ hasToken: true})
+        });
+
+        this.state.hasToken === false?
+            this.renderNothing()
+        :
+            this.props.navigation.navigate('TestPage',{language: this.state.language});
+
+        // setTimeout(() => {
+        //     this.props.navigation.navigate('TestPage',{language: this.state.language});
+        // },3000)
+
+    }
+
     componentWillReceiveProps(newProps)
     {
         // if(newProps != )
+
+        if(newProps !== this.props)
+            {
+                this.getToken();
+                this.getLanguage();
+                console.log("hasToken --->"+this.state.hasToken);
+            }
+    }
+
+    componentDidMount()
+    {
+        this.getToken();
+        this.getLanguage();
+
+        console.log("inside push for job screen ---->"+ this.state.hasToken)
+        console.log("hasToken --->"+this.state.hasToken);
     }
 
     callForm = () => {
@@ -124,6 +184,7 @@ class PushForJob extends Component {
     render()
     {
         let tokenAsync = '';
+        console.log("has token --->"+this.state.hasToken);
 
         return(
                 (this.state.hasToken === false)?
@@ -150,9 +211,9 @@ class PushForJob extends Component {
                     <View style={newStyle.logoBottom}>
                             <Image source={logoHeader} resizeMode="contain" style={{ width: viewPortWidth * 0.350, height: viewPortHeight * 0.04 }} />
                     </View>
-                </View>                
+                </View>                                
                 :
-                this.props.navigation.navigate('TestPage')
+                this.renderNothing()
         );
     }
 

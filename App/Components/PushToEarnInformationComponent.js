@@ -12,6 +12,7 @@ import {
     Alert,
     Platform,    
     findNodeHandle,
+    AsyncStorage
 } from 'react-native';
 
 import { Container, Header, Content, Input, Item } from 'native-base';
@@ -44,7 +45,6 @@ import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/NewHeaderImage.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
 
@@ -75,24 +75,30 @@ class PushToEarnInformationComponent extends Component {
 
     componentWillReceiveProps(nextProps) {
 
+        if(this.props !== nextProps)
+            this.setLanguage();
     }
+
+    setLanguage = () => {
+
+        if(this.props.language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+        else
+            if(this.props.language === 'English')
+                this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
+        else
+            if(this.props.language === 'French')
+                this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+
+   }
 
     componentDidMount() {
 
         let language = localStorage.getItem('language');
         console.log('local storage language='+language);
 
-        this.setState({ language: language});
-        
-        if(language === 'Dutch')
-            this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
-        else
-            if(language === 'English')
-            this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});
-        else
-            if(language === 'French')
-            this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
-
+        //this.setState({ language: language});
+        this.setLanguage();
     }
 
       handleEmail = () => {
@@ -119,6 +125,14 @@ class PushToEarnInformationComponent extends Component {
             { cancelable: true }
           )
         });
+      }
+
+      signOutAsync = async () => {
+
+        await AsyncStorage.removeItem('language');
+        await AsyncStorage.removeItem('token');
+
+        this.props.menu(12);
       }
 
     render() {
@@ -156,6 +170,22 @@ class PushToEarnInformationComponent extends Component {
                             <View style={newStyle.borderBottom}> </View>
 
                             <Text style={newStyle.firstName}>{this.state.text.faq}</Text>
+
+                            <View style={newStyle.borderBottom}> </View>
+
+                             <TouchableOpacity
+                                style={{
+                                    width:viewPortWidth*0.83,
+                                    height:40,
+                                    backgroundColor:'transparent'
+                                }}
+                                onPress = {()=> { 
+                                    this.signOutAsync();
+                                }}>
+                                  <Text style={newStyle.firstName}>{this.state.text.SignOut}</Text>                            
+                            </TouchableOpacity>
+
+                          
 
                             <View style={newStyle.borderBottom}> </View>
 

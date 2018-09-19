@@ -118,7 +118,7 @@ _body(item){
     );
 }
 
-renderList = (personObj) => {  
+renderList = (personObj) => {
 
   console.log("inside renderList personObj="+personObj);
   console.log("PersonObj.ReferredPersonName="+personObj.ReferredPersonName);
@@ -215,6 +215,19 @@ componentWillReceiveProps(newProps)
       }
 }
 
+setLanguage = () => {
+
+  if(this.props.language === 'Dutch')
+      this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+  else
+      if(this.props.language === 'English')
+          this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
+  else
+      if(this.props.language === 'French')
+          this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+          
+}
+
 componentDidMount()
 {
 
@@ -225,14 +238,7 @@ componentDidMount()
   let lang = localStorage.getItem('language');
   console.log('local storage language='+lang);
 
-  if(lang === 'Dutch')
-      this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
-  else
-      if(lang === 'English')
-          this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});
-  else
-      if(lang === 'French')
-          this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
+  this.setLanguage();
 
   if(this.props.changeMenuOneBack === true)
   {

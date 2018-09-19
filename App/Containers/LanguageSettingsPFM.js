@@ -3,7 +3,8 @@ const languageSettings = {
     English: {
 
     languageText: "ENGLISH",
-    SignIn: "SIGN IN",
+    SignIn: "Sign In",
+    SignOut: "Sign Out",
     SignWith: "or sign in with:",
     SButton: "LOGIN",
     Email: "Email address",
@@ -81,6 +82,7 @@ const languageSettings = {
 
     languageText: "NEDERLANDS",
     SignIn: "Log in",
+    SignOut: "Sign Out",
     SignWith: "of log in met:",
     SButton: "INLOGGEN",  
     Email: "Email adres", 
@@ -158,7 +160,8 @@ const languageSettings = {
     French: {
 
     languageText: "FRANÇAIS",
-    SignIn: "Se connecter",    
+    SignIn: "Se connecter",
+    SignOut: "Sign Out",
     SignWith: "ou connectez-vous avec:",    
     SButton: "LOGIN",    
     Email: "Adresse e-mail",    

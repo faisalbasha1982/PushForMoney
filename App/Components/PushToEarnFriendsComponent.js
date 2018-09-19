@@ -226,12 +226,29 @@ class PushToEarnFriendsComponent extends Component {
         // }
 
         if(this.props != nextProps)
+        {
             this.getFriendList();
+            this.setLanguage();
+        }
     }
+
+    setLanguage = () => {
+
+        if(this.props.language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+        else
+            if(this.props.language === 'English')
+                this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
+        else
+            if(this.props.language === 'French')
+                this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+
+   }
 
     componentDidMount() {
 
         this.getFriendList();
+        this.setLanguage();
         // console.log("language from props="+this.props.navigation.state.params.language);
         // console.log("default language="+this.state.language);
         // //cLanguage = this.props.navigation.state.params.language;
