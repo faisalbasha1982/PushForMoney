@@ -51,7 +51,7 @@ class PushToEarnWelcomeComponent extends Component {
         super(props);             
 
         this.state = {
-            language: 'NEDERLANDS',        
+            language: 'NEDERLANDS',
             buttonText: '',
             text:{}
         };    
@@ -72,9 +72,17 @@ class PushToEarnWelcomeComponent extends Component {
 
     }
 
+    componentWillReceiveProps(nextProps)
+    {
+        console.log("willReceiveProps welcome component language="+this.props.language);
+
+        if(this.props !== nextProps)
+            this.setLanguage();
+    }
+
     componentDidMount()
     {
-        console.log('welcome component language='+this.props.language);
+        console.log('DidMount welcome component language='+this.props.language);
         this.setLanguage();
     }
 
@@ -83,6 +91,7 @@ class PushToEarnWelcomeComponent extends Component {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
         console.log('text='+this.state.text.money);
+        console.log("welcome component language in render ="+this.props.language);
 
         return (
 

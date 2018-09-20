@@ -73,13 +73,24 @@ class PushToEarnLanguageComponent extends Component {
             languageCode:'',
             text:{},
         };    
+
+        this.setLanguage();
     }   
 
     componentWillReceiveProps(nextProps) {
 
+        console.log("inside LP received Props setting language for language page");
+
+        if(nextProps.language !== this.props.language)
+        {
+            this.setLanguage();
+        }
+
     }
 
     setLanguage = () => {
+
+        console.log("language passed to language component="+this.props.language);
 
         if(this.props.language === 'Dutch')
             this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
@@ -92,13 +103,19 @@ class PushToEarnLanguageComponent extends Component {
 
    }
 
+   componentWillMount() {
+       console.log("LP should be called before render");
+       console.log("LP language passed to LPC="+this.props.language);
+    //    this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+       this.setLanguage();
+   } 
+
     componentDidMount() {    
 
-        let language = localStorage.getItem('language');
+        console.log("inside LP did Mount setting language for language page");
         this.setLanguage();
         
     }
-
 
     renderNothing = () => {
 
@@ -106,7 +123,7 @@ class PushToEarnLanguageComponent extends Component {
 
     changeLanguage = (language) => {
 
-        console.log("language changing to --->"+language);
+        console.log(" inside LP language changing to --->"+language);
 
       if(language === 'FRANÇAIS')
       {
@@ -135,6 +152,7 @@ class PushToEarnLanguageComponent extends Component {
     render() {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
+        console.log("inside LP render language Component changing to --->"+this.state.text.languageText);
         return (
 
                 <View style= {newStyle.layoutBelow}>

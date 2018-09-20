@@ -73,6 +73,9 @@ class PushForJob extends Component {
             language:''
         };
 
+        this.getToken();
+        this.getLanguage();
+
     }
 
     getToken = async () => {
@@ -110,34 +113,7 @@ class PushForJob extends Component {
                     ]
                 }));
     }    
-
-    renderNothing = () => {
-
-        if(this.state.hasToken===true)
-           return(
-                <TestPage language = { this.state.language} />
-           )
-        else
-            return null;
-    }
-
-    changeScreen = async () => {
-
-        await AsyncStorage.getItem('language').then((language) => {
-            language === ''?this.setState({ hasToken: false }):
-            this.setState({ hasToken: true})
-        });
-
-        this.state.hasToken === false?
-            this.renderNothing()
-        :
-            this.props.navigation.navigate('TestPage',{language: this.state.language});
-
-        // setTimeout(() => {
-        //     this.props.navigation.navigate('TestPage',{language: this.state.language});
-        // },3000)
-
-    }
+   
 
     componentWillReceiveProps(newProps)
     {
@@ -213,7 +189,9 @@ class PushForJob extends Component {
                     </View>
                 </View>                                
                 :
-                this.renderNothing()
+                setTimeout(() => {
+                    this.props.navigation.navigate('TestPage',{language: this.state.language})
+                },1000)
         );
     }
 

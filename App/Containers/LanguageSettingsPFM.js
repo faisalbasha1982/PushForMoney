@@ -12,7 +12,7 @@ const languageSettings = {
     forgot: "Forgot Password?",
     bottomLine: "Don’t have an account? Sign up ",
     here:" here!",
-    SignUp: "SIGN UP",
+    SignUp: "Sign Up",
     forget: "Forgot password?",
     resetPassword: "RESET PASSWORD",
     otp: "Enter OTP",

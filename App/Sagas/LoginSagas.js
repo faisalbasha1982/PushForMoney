@@ -356,8 +356,10 @@ export function * LoginRequest(api,payload) {
 
     // do data conversion here if needed
     yield put(LoginActions.loginSuccess(userinfo));
-    
-    NavigationService.navigate('TestPage');
+
+    AsyncStorage.getItem('language').then((language) => {
+      NavigationService.navigate('TestPage',{language: language});
+    });
 
   }   
   else 

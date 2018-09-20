@@ -1262,11 +1262,24 @@ class PushToEarnSignIn extends Component {
                         onBlur = { () => this.validatePassword(this.state.passwordInput) }
                         onChangeText= { (passwordInput) => this.setState({passwordInput}) }/>
 
-                      <Text style={newStyle.forgotPassword}
-                            onPress= {() => this.props.navigation.navigate('PushToEarnForgetPass')}
-                      >
-                        {this.state.text.forgot}
-                     </Text>
+                  <View style={{
+                      flexDirection: 'row',
+                      justifyContent: 'flex-start',
+                      alignItems:'flex-start',
+                      width: viewPortWidth,
+                      height: 20,
+                      marginLeft: viewPortWidth * 0.15,
+                  }}>
+                        <TouchableOpacity
+                                style   = { newStyle.forgotPasswordStyle}
+                                onPress = { () => { this.props.navigation.navigate('PushToEarnForgetPass') }}>
+
+                            <Text style={newStyle.forgotPassword}
+                                    onPress= {() => this.props.navigation.navigate('PushToEarnForgetPass')}>
+                                {this.state.text.forgot}
+                            </Text>
+                            </TouchableOpacity>                  
+                  </View>
 
                     <View style={newStyle.endButtons}>
 
@@ -1367,6 +1380,26 @@ const newStyle = StyleSheet.create({
         alignItems: 'center',
     },
 
+    forgotPasswordStyle: {
+        flex:1,
+        backgroundColor: 'transparent',
+        width: viewPortWidth * 0.40,
+        height: viewPortHeight * 0.40,
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        width: 180,
+        height: 14,
+    },
+
+    forgotPassword:{
+        fontFamily: "WorkSans-Medium",
+        fontSize: 12,
+        fontWeight: "500",
+        fontStyle: "normal",
+        letterSpacing: 0.43,
+        color: "#E73D50",    
+    },
+
     keyboardScrollViewContainer: {
         backgroundColor: 'transparent',
         flex: 1,
@@ -1423,7 +1456,7 @@ const newStyle = StyleSheet.create({
         textAlign: 'left',
         marginBottom: 15,
         position: 'absolute',
-        left: 50,
+        left: 75,
         top: 0,
     },
 
@@ -1439,23 +1472,11 @@ const newStyle = StyleSheet.create({
         marginBottom: 15,
         marginTop: 10,
         position: 'absolute',
-        left: 50,
+        left: 75,
         top: 85,
     },
 
-    forgotPassword:{
-        width: 180,
-        height: 14,
-        fontFamily: "WorkSans-Medium",
-        fontSize: 12,
-        fontWeight: "500",
-        fontStyle: "normal",
-        letterSpacing: 0.43,
-        color: "#E73D50",
-        position: 'absolute',
-        left: 50,
-        top: 190,
-    },
+  
 
     phoneNumberStyle: {
         width: 190,

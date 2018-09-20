@@ -646,7 +646,7 @@ class PushToEarnProfileComponent extends Component {
                                       backgroundColor: 'transparent',}}>
                             <Text
                                 style= {newStyle.changeLanguage}
-                                onPress={() => this.props.menu(10)}>
+                                onPress={() => this.props.menu(10,this.state.language)}>
                                     {this.state.text.changeLanguage}
                             </Text>
                             {
