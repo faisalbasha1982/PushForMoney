@@ -446,8 +446,8 @@ class PushToEarnOverViewFriendsComponent extends Component {
                                     onPress={() => { this.props.menu(9) } }
                                     activeOpacity={0.5}
                                     style={{
-                                        width: 40,
-                                        height: 40,
+                                        width: 50,
+                                        height: 50,
                                         alignItems:'center',
                                         justifyContent:'center',
                                         backgroundColor: 'white',

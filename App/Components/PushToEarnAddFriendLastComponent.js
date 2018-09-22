@@ -69,11 +69,19 @@ class PushToEarnAddFriendLastComponent extends Component {
         super(props);             
 
         this.state = {
+
             language: 'NEDERLANDS',
             buttonText: '',
             text:{},
             languageCode: ''
-        };    
+
+        };
+    }
+
+    componentWillMount() {
+
+        this.setLanguage();
+
     }
 
 
@@ -90,13 +98,13 @@ class PushToEarnAddFriendLastComponent extends Component {
 
     setLanguage = () => {
         if(this.props.language === 'Dutch')
-            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl',language: 'Dutch' });
         else
             if(this.props.language === 'English')
-                this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
+                this.setState({ text: languageSettingsPFM.English, languageCode:'en', language: 'English' });
         else
             if(this.props.language === 'French')
-                this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+                this.setState({ text: languageSettingsPFM.French, languageCode:'fr', language: 'French' });
    }
 
     componentDidMount() {
@@ -205,7 +213,7 @@ class PushToEarnAddFriendLastComponent extends Component {
             // Replace this code
             console.log(contact);
 
-            this.props.menu(7,contact.name,contact.phone,contact.email);
+            this.props.menu(7,contact.name,contact.phone,contact.email,this.state.language);
 
         })
         .catch((error) => {

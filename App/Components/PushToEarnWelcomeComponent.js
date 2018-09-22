@@ -74,15 +74,20 @@ class PushToEarnWelcomeComponent extends Component {
 
     componentWillReceiveProps(nextProps)
     {
-        console.log("willReceiveProps welcome component language="+this.props.language);
+        console.log("willReceiveProps WP welcome component language="+this.props.language);
 
         if(this.props !== nextProps)
             this.setLanguage();
     }
 
+    componentWillMount()
+    {
+        console.log("willMount WP welcome component language="+this.props.language);
+    }
+
     componentDidMount()
     {
-        console.log('DidMount welcome component language='+this.props.language);
+        console.log('DidMount WP welcome component language='+this.props.language);
         this.setLanguage();
     }
 
@@ -91,7 +96,7 @@ class PushToEarnWelcomeComponent extends Component {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
         console.log('text='+this.state.text.money);
-        console.log("welcome component language in render ="+this.props.language);
+        console.log("welcome WP component language in render ="+this.props.language);
 
         return (
 

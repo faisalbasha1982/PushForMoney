@@ -61,11 +61,11 @@ class TestPage extends Component {
        return phone.replace(/(?!\w|\s)./g, '');
     }
 
-    menuChangeWithParameters = (mChange,name,phone,email) => {
+    menuChangeWithParameters = (mChange,name,phone,email,lang) => {
         //format phone
         let phoneString = this.formatPhone(phone);
         console.log("phone number="+phoneString);
-        this.setState({ menu: mChange, nameParam: name, phoneParam: phoneString, emailParam: email });
+        this.setState({ menu: mChange, nameParam: name, phoneParam: phoneString, emailParam: email, language: lang });
     }
 
     menuChange = (mChange,lang) =>{
@@ -288,7 +288,7 @@ class TestPage extends Component {
                     <View style={newStyle.pageElement}>
                             {
                                     this.state.menu === 0?
-                                            <WelcomeComponent  language={this.state.language}/>:
+                                            <WelcomeComponent  language={this.props.navigation.state.params.language}/>:
                                     this.state.menu === 1?
                                             <ProfileComponent menu = {this.menuChange} language={this.state.language} />:
                                     this.state.menu === 2?

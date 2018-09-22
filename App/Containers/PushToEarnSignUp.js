@@ -1044,9 +1044,9 @@ class PushToEarnSignUp extends Component {
                 enableOnAndroid={false}
                 contentContainerStyle={newStyle.container}
                 scrollEnabled={true}
-                scrollToEnd={true}
-                enableResetScrollToCoords={true}
-                enableAutomaticScroll={true}>
+                scrollToEnd={false}
+                enableResetScrollToCoords={false}
+                enableAutomaticScroll={false}>
             
                 <View style={newStyle.headerImage}>
                     <Image source={logoNew} resizeMode="contain" style={{ width: 225, height: 45 }} />
@@ -1187,7 +1187,7 @@ class PushToEarnSignUp extends Component {
                                 style={ [newStyle.nameInput, {color: this.state.usernameInputError === true? 'red': 'black'}] }
                                 placeholder=''
                                 autoCapitalize="none"
-                                autoFocus = {true}
+                                autoFocus = {false}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(usernameInput) => this.validateEmail(usernameInput)}/>
 
@@ -1196,7 +1196,7 @@ class PushToEarnSignUp extends Component {
                         style={ [newStyle.nameInputPassword,{ color: this.state.passwordInputError === true? 'red': 'black' }]}
                         placeholder=''
                         autoCapitalize="none"
-                        autoFocus = {true}
+                        autoFocus = {false}
                         underlineColorAndroid= 'transparent'
                         onChangeText= { (passwordInput) => this.validatePassword(passwordInput) }/>
 
@@ -1205,7 +1205,7 @@ class PushToEarnSignUp extends Component {
                         style={ [newStyle.confirmInputPassword,{ color: this.state.cpasswordInputError === true? 'red': 'black'}]}
                         placeholder=''
                         autoCapitalize="none"
-                        autoFocus = {true}
+                        autoFocus = {false}
                         underlineColorAndroid= 'transparent'
                         onChangeText= { (cpasswordInput) => this.validateConfirmPassword(cpasswordInput) }/>
 

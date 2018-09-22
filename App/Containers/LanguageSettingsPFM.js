@@ -171,7 +171,7 @@ const languageSettings = {
     here:"ici!",
     SignUp: "S'inscrire",    
     forget: "Mot de passe oublié",    
-    resetPassword: "RÉINITIALISER LE MOT DE PASSE",    
+    resetPassword: "RÉINITIALISER",    
     otp: "Entrer OTP",    
     otpMessage: "Nous vous envoyons un email avec un mot de passe unique(OTP).",    
     otpMessagecntd:"Veuillez entrer le code ci-dessous",

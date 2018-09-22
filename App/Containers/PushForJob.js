@@ -127,6 +127,13 @@ class PushForJob extends Component {
             }
     }
 
+    componentWillMount()
+    {
+        this.getToken();
+        this.getLanguage();
+
+    }
+
     componentDidMount()
     {
         this.getToken();

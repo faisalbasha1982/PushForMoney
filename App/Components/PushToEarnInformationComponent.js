@@ -14,6 +14,16 @@ import {
     findNodeHandle,
     AsyncStorage
 } from 'react-native';
+import {
+    BallIndicator,
+    BarIndicator,
+    DotIndicator,
+    PacmanIndicator,
+    PulseIndicator,
+    SkypeIndicator,
+    UIActivityIndicator,
+    WaveIndicator,
+  } from 'react-native-indicators';
 
 import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
@@ -69,7 +79,9 @@ class PushToEarnInformationComponent extends Component {
             firstName:'',
             name:'',
             buttonText: '',
-            text:{}
+            text:{},
+            isLoaded: false,
+            isSignedOut: false,
         };    
     }   
 
@@ -132,7 +144,13 @@ class PushToEarnInformationComponent extends Component {
         await AsyncStorage.removeItem('language');
         await AsyncStorage.removeItem('token');
 
+        this.setState({ isSignedOut: true});
+
         this.props.menu(12);
+      }
+
+      somethingElse = () => {
+
       }
 
     render() {
@@ -168,6 +186,13 @@ class PushToEarnInformationComponent extends Component {
                             <Text style={newStyle.firstName}>How does it work?</Text>
 
                             <View style={newStyle.borderBottom}> </View>
+
+                               {
+                                            this.state.isSignedOut===true?
+                                            <View style = {{position: 'absolute' , zIndex:3999, left: 30, top: 0, right: 0, bottom: 0}}>
+                                            <BallIndicator color='#e73d50' />
+                                            </View>:this.somethingElse()
+                                }
 
                             <Text style={newStyle.firstName}>{this.state.text.faq}</Text>
 

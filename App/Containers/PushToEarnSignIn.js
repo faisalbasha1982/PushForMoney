@@ -395,7 +395,6 @@ class PushToEarnSignIn extends Component {
                   "AuthenticationData": encryptedData,
                   "LoginData": this.state.encodedText,
                   "SignupMode": false,
-
               });
 
               let payloadNew = {
