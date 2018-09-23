@@ -12,6 +12,7 @@ import {
     Alert,
     Platform,    
     findNodeHandle,
+    AsyncStorage
 } from 'react-native';
 import {
     BallIndicator,
@@ -181,7 +182,8 @@ class PushToEarnMoneyComponent extends Component {
             changeMenuOneBack: false,
             childMenu: 1,
             showTotalText:true,
-            text:{}
+            text:{},
+            token:'',
         };    
     }
 
@@ -317,32 +319,63 @@ class PushToEarnMoneyComponent extends Component {
 
     componentWillReceiveProps(nextProps) {
 
+        console.log("MC setting the language="+this.state.language);
+
         if(this.props !== nextProps)
-            this.setLanguage();
+        {
+            this.getAsyncStorageToken();
+        }
     }
 
     setLanguage = () => {
 
-        if(this.props.language === 'Dutch')
+        console.log("MC setting the language="+this.state.language);
+
+        if(this.state.language === 'Dutch')
             this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
         else
-            if(this.props.language === 'English')
+            if(this.state.language === 'English')
                 this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
         else
-            if(this.props.language === 'French')
+            if(this.state.language === 'French')
                 this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
 
    }
 
     componentDidMount() {
 
+        console.log("MC setting the language="+this.state.language);
+
         let language = localStorage.getItem('language');
         console.log('local storage language='+language);
 
-        this.setLanguage();
+        this.getAsyncStorageToken();
+
         this.getPerson();
         
     }
+
+    componentWillMount() {
+
+        console.log("MC setting the language="+this.state.language);
+        this.getAsyncStorageToken();
+
+    }
+
+    getAsyncStorageToken = async () => {
+
+        await AsyncStorage.getItem('token').then((token) => {
+            this.setState({ token: token});
+        });
+
+        await AsyncStorage.getItem('language').then((language) => {
+            this.setState({ language: language});
+        });
+
+        this.setLanguage();
+
+    }
+    
 
     renderNothing = () => {
             
@@ -588,30 +621,30 @@ class PushToEarnMoneyComponent extends Component {
       
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
-        let ltoken = localStorage.getItem('token');
+
         this.setState({isLoading: true});
       
         let payload = {
           "AuthenticationData": encryptedData,
-          "LoginAccessToken": ltoken,
+          "LoginAccessToken": this.state.token,
           "Month" : this.state.currentMonth,
           "Year" : this.state.currentYear,
       };
       
-        (ltoken === null)? setTimeout(() => {
-          ltoken = localStorage.getItem('token');
+        (this.state.token === null)? setTimeout(() => {
+            this.getAsyncStorageToken();
         },2000)
         :
         setTimeout(() => {
           
           payload = {
             "AuthenticationData": encryptedData,
-            "LoginAccessToken": ltoken,
+            "LoginAccessToken": this.state.token,
             "Month" : this.getMonthNumber(this.state.currentMonth),
             "Year" : this.state.currentYear,
           };
       
-          console.log("ltoken="+ltoken);
+          console.log("ltoken="+this.state.token);
           this.props.getPerson(payload);
       
         },4000)
@@ -622,28 +655,28 @@ class PushToEarnMoneyComponent extends Component {
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
-        let ltoken = localStorage.getItem('token');
+        
         this.setState({isLoading: true});
 
         console.log("referralId="+this.props.referrals.MobileReferralID);
       
         let payload = {
           "AuthenticationData": encryptedData,
-          "LoginAccessToken": ltoken,
+          "LoginAccessToken": this.state.token,
           "ReferralId":this.props.referrals.MobileReferralID,
           "Month" : this.getMonthNumber(this.state.currentMonth),
           "Year" : this.state.currentYear,
         };
 
-        (ltoken === null)? setTimeout(() => {
-            ltoken = localStorage.getItem('token');
+        (this.state.token === null)? setTimeout(() => {
+             this.getAsyncStorageToken();
           },2000)
           :
           setTimeout(() => {
 
             payload = {
                 "AuthenticationData": encryptedData,
-                "LoginAccessToken": ltoken,
+                "LoginAccessToken": this.state.token,
                 "ReferralId":this.props.referrals.MobileReferralID,
                 "Month" : this.getMonthNumber(this.state.currentMonth),
                 "Year" : this.state.currentYear,
@@ -1281,7 +1314,7 @@ const mapStateToProps = state => {
         referrals: MoneySelectors.getPerson(state),
         TotalWorkedHours: MoneySelectors.getTotalWorkedHours(state),
         TotalEarnings: MoneySelectors.getTotalEarnings(state),
-        
+
     };
   };
   

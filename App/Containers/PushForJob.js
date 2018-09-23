@@ -129,8 +129,8 @@ class PushForJob extends Component {
 
     componentWillMount()
     {
-        this.getToken();
-        this.getLanguage();
+        //this.getToken();
+        //this.getLanguage();
 
     }
 
@@ -196,12 +196,9 @@ class PushForJob extends Component {
                     </View>
                 </View>                                
                 :
-                setTimeout(() => {
                     this.props.navigation.navigate('TestPage',{language: this.state.language})
-                },1000)
         );
     }
-
 }
 
 const newStyle = StyleSheet.create({
@@ -224,11 +221,11 @@ const newStyle = StyleSheet.create({
     },
 
     logoBottom: {
-                flex:1,                
+                flex:3,
                 alignItems: 'center',
                 justifyContent: 'center',
                 width:99.7,
-                height: 20,        
+                height: 20,
     },
 
     pushContainer: {

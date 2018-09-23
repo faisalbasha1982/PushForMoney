@@ -12,6 +12,7 @@ import {
     Alert,
     Platform,    
     findNodeHandle,
+    AsyncStorage
 } from 'react-native';
 
 import { Container, Header, Content, Input, Item } from 'native-base';
@@ -70,7 +71,7 @@ class PushToEarnAddFriendLastComponent extends Component {
 
         this.state = {
 
-            language: 'NEDERLANDS',
+            language: '',
             buttonText: '',
             text:{},
             languageCode: ''
@@ -80,141 +81,63 @@ class PushToEarnAddFriendLastComponent extends Component {
 
     componentWillMount() {
 
+        console.log("inside FLP componentWillMount.....");
+        this.getAsyncStorageToken();
+
+    }
+
+    getAsyncStorageToken = async () => {
+
+        await AsyncStorage.getItem('token').then((token) => {
+            this.setState({ token: token});
+        });
+
+        await AsyncStorage.getItem('language').then((language) => {
+            this.setState({ language: language});
+        });        
+
         this.setLanguage();
 
     }
 
-
     componentWillReceiveProps(nextProps) {
-        //console.log("in Form One screen language received="+nextProps.language);
-        // if (this.props.navigation.state.params.language !== nextProps.language) {
-        //     this.setState({ language: nextProps.language });
-        //     this.setText();
-        // }
+
+        console.log("inside LP componentWillReceiveProps....");
 
         if(this.props !== nextProps)
-            this.setLanguage();
+            this.getAsyncStorageToken();
     }
 
     setLanguage = () => {
-        if(this.props.language === 'Dutch')
-            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl',language: 'Dutch' });
+
+        console.log("inside FLP language="+this.state.language);
+
+        if(this.state.language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl' });
         else
-            if(this.props.language === 'English')
-                this.setState({ text: languageSettingsPFM.English, languageCode:'en', language: 'English' });
+            if(this.state.language === 'English')
+                this.setState({ text: languageSettingsPFM.English, languageCode:'en' });
         else
-            if(this.props.language === 'French')
-                this.setState({ text: languageSettingsPFM.French, languageCode:'fr', language: 'French' });
+            if(this.state.language === 'French')
+                this.setState({ text: languageSettingsPFM.French, languageCode:'fr' });
    }
 
     componentDidMount() {
-        // console.log("language from props="+this.props.navigation.state.params.language);
-        // console.log("default language="+this.state.language);
-        // //cLanguage = this.props.navigation.state.params.language;
-        // this.setState({ language: this.props.navigation.state.params.language });
-        // console.log("language="+this.state.language);
-        // this.setText();
-        // console.log("this.state.firstName="+this.state.firstName);
-        // console.log("this.state.buttonText="+this.state.buttonText);
 
-        let language = localStorage.getItem('language');
-        console.log('local storage language='+language);
+        // let language = localStorage.getItem('language');
+        // console.log('local storage language='+language);
 
-        this.setLanguage();
+        this.getAsyncStorageToken();
 
     }
 
-    // setText =  () => {
-
-    //     this.setState({language: this.props.navigation.state.params.language});
-    //     console.log("this.state.language="+this.state.language);
-
-    //     if (this.props.navigation.state.params.language === 'NEDERLANDS') {
-    //         console.log("setting in Nederlands");
-    //         this.setState({
-    //             firstName:  LanguageSettings.dutch.firstNameText,
-    //             name:       LanguageSettings.dutch.lastNameText,
-    //             phoneNumber: LanguageSettings.dutch.telephoneNumberText,
-    //             buttonText: LanguageSettings.dutch.buttonNextText
-    //         });
-    //     }
-    //     else
-    //         if (this.props.navigation.state.params.language === 'ENGLISH') {
-    //             console.log("setting in English");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.english.firstNameText,
-    //                 name: LanguageSettings.english.lastNameText,
-    //                 phoneNumber: LanguageSettings.english.telephoneNumberText,
-    //                 buttonText: LanguageSettings.english.buttonNextText
-    //             });
-    //         }
-    //         else
-    //           {
-    //             console.log("setting in French");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.french.firstNameText,
-    //                 name: LanguageSettings.french.lastNameText,
-    //                 phoneNumber: LanguageSettings.french.telephoneNumberText,
-    //                 buttonText: LanguageSettings.french.buttonNextText
-    //             });
-    //         }
-    
-       
-    // }
-
     telephoneBook = () => {       
-
-        // Contacts.requestAccessToContacts( (userCanAccessContacts) => {
-        //     if (userCanAccessContacts) {
-        //       console.log("User has access to Contacts!");
-        //     }
-        //     else {
-        //       console.log("User DOES NOT have access to Contacts!");
-        //     }
-        //   });
-          
-
-        // Contacts.getContacts( (error, contacts) =>  {
-        //     if (error) {
-        //       console.error(error);
-        //     }
-        //     else {
-        //       console.log(contacts);
-        //     }
-        //   });
-
-        // AddressBook.getContacts( (err, contacts) => {
-        //     if(err && err.type === 'permissionDenied'){
-        //       // x.x
-        //     }
-        //     else{
-        //       console.log(contacts)
-        //     }
-        //   })
-
-        // Contacts.getAll((err, contacts) => {
-        //     if (err) throw err;
-          
-        //     // contacts returned
-        //     console.log(contacts)
-        //   })
-
-        // simpleContacts.getContacts( (error, contacts) =>  {
-        //     if (error) {
-        //       console.error(error);
-        //     }
-        //     else {
-        //       console.log(contacts);
-        //     }
-        //   });
 
         ContactsWrapper.getContact()
         .then((contact) => {
             // Replace this code
             console.log(contact);
-
             this.props.menu(7,contact.name,contact.phone,contact.email,this.state.language);
-
         })
         .catch((error) => {
             console.log("ERROR CODE: ", error.code);
@@ -230,6 +153,7 @@ class PushToEarnAddFriendLastComponent extends Component {
     render() {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
+        console.log("inside render of FLP");
         return (
 
                 <View style= { newStyle.layoutBelow }>
@@ -454,7 +378,7 @@ const newStyle = StyleSheet.create({
         lineHeight: 34,
         letterSpacing: 0,
         textAlign: "center",
-        color: "rgb(231, 61, 80)"
+        color: "rgb(231, 61, 80)"        
     },
 
     topView: {

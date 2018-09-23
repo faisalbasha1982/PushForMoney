@@ -53,7 +53,8 @@ class TestPage extends Component {
             nameParam:'',
             phoneParam:'',
             emailParam:'',
-            languageChanged:false
+            languageChanged:false,
+            token:''
         };
     }
 
@@ -81,7 +82,14 @@ class TestPage extends Component {
         
     }
 
-    componentWillReceiveProps(nextProps) 
+    componentWillMount() {
+
+        console.log("TP component will mount");
+        this.getAsyncStorage();
+
+    }
+
+    componentWillReceiveProps(nextProps)
     {
         if(this.props !== nextProps)
         {
@@ -108,9 +116,15 @@ class TestPage extends Component {
     }
 
     getAsyncStorage = async () => {
+
         await AsyncStorage.getItem('language').then((language) => {
-            this.setState({ language:language })
+            this.setState({ language: language })
           });
+
+        await AsyncStorage.getItem('token').then((token) => {
+            this.setState({ token: token });
+        });
+
     }
 
     languageChange = (language) => {
@@ -154,15 +168,17 @@ class TestPage extends Component {
         let encryptedData = AesComponent.aesCallback(authData);
         let ltoken = localStorage.getItem('token');
 
+        this.getAsyncStorage();
+
         this.setState({isLoading: true,});
 
-        console.log("token from getFriendList ="+ltoken);
+        console.log("token from getFriendList ="+this.state.token);
       
-        if(ltoken !== null || ltoken !== undefined)
+        if(this.state.token !== null || this.state.token !== undefined)
         {
             let payload = {
                 "AuthenticationData": encryptedData,
-                "LoginAccessToken": ltoken,
+                "LoginAccessToken": this.state.token,
             };    
 
             this.props.friendRequest(payload); 

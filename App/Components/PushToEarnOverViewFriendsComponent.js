@@ -12,6 +12,7 @@ import {
     Alert,
     Platform,    
     findNodeHandle,
+    AsyncStorage
 } from 'react-native';
 
 import { Container, Header, Content, Input, Item } from 'native-base';
@@ -93,7 +94,8 @@ class PushToEarnOverViewFriendsComponent extends Component {
             lastNameEmptyError:false,
             phoneNumberEmptyError:false,
             screenHeight: 0,
-            text:{}
+            text:{},
+            token:''
         };    
     }
 
@@ -224,43 +226,53 @@ class PushToEarnOverViewFriendsComponent extends Component {
         this.setState({countryName: country.name, callingCode: callingCode, phoneNo:phoneNumber});
      }
 
+     componentWillMount() {
+
+        console.log("FO component Will Mount");
+        console.log("FO getting async storage token");
+
+        this.getAsyncStorageToken();
+
+        console.log("FO token from getFriendList ="+this.state.token);
+
+     }
+
     componentWillReceiveProps(nextProps) {
+        console.log("FO component Will Mount");
 
         if(nextProps != this.props)
-        {
-            this.setLanguage();
-            
+        {            
+            this.getAsyncStorageToken();
+
             setTimeout(()=> {
                 this.getFriendList();
             },3000);
         }
+
     }
 
     setLanguage = () => {
 
-        if(this.props.language === 'Dutch')
+        if(this.state.language === 'Dutch')
             this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
         else
-            if(this.props.language === 'English')
+            if(this.state.language === 'English')
                 this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
         else
-            if(this.props.language === 'French')
+            if(this.state.language === 'French')
                 this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
 
    }
 
     componentDidMount() {
 
-        //let language = localStorage.getItem('language');
-        //console.log('local storage language='+language);
+        console.log("FO inside friends overview component language="+this.state.language);
 
-        console.log("inside friends overview component language="+this.state.language);
+        this.getAsyncStorageToken();
 
-        this.setLanguage();
-   
             setTimeout(()=> {
-                this.getFriendList();        
-            },3000);            
+                this.getFriendList();
+            },3000);
     }
 
     renderNothing = () => {
@@ -296,6 +308,19 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
     }
 
+    getAsyncStorageToken = async () => {
+
+        await AsyncStorage.getItem('token').then((token) => {
+            this.setState({ token: token});
+        });
+
+        await AsyncStorage.getItem('language').then((language) => {
+            this.setState({ language: language});
+        });
+
+        this.setLanguage();
+    }
+
     getFriendList = () => {
 
         console.log("INSIDE FRIEND LIST API CALL");
@@ -305,23 +330,24 @@ class PushToEarnOverViewFriendsComponent extends Component {
         let encryptedData = AesComponent.aesCallback(authData);
         let ltoken = localStorage.getItem('token');
 
+        this.getAsyncStorageToken();
+
         this.setState({isLoading: true,});
 
-        console.log("token from getFriendList ="+ltoken);
-      
-        if(ltoken !== null || ltoken !== undefined)
+        console.log("FO token from getFriendList ="+this.state.token);
+
+        if(this.state.token !== null || this.state.token !== undefined)
         {
             let payload = {
                 "AuthenticationData": encryptedData,
-                "LoginAccessToken": ltoken,
-            };    
+                "LoginAccessToken": this.state.token,
+            };
 
             this.props.friendRequest(payload); 
-
         }
         else
         {
-            ltoken = localStorage.getItem('token');       
+            //ltoken = localStorage.getItem('token');
         }
         
         console.log("this.props.referral="+this.props.referral);
@@ -335,16 +361,17 @@ class PushToEarnOverViewFriendsComponent extends Component {
         Alert.alert("called archive Api");
         console.log("called archive Api");
 
-        console.log("language code="+this.state.languageCode);
+        console.log("FO language code="+this.state.languageCode);
+
+        this.getAsyncStorageToken();
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
-        ltoken = localStorage.getItem('token');
 
         let payload =
                 {
                     "AuthenticationData": encryptedData,
-                    "LoginAccessToken": ltoken,
+                    "LoginAccessToken": this.state.token,
                     "MobileReferralID" : personObj.MobileReferralID,
                 };
 
@@ -353,9 +380,9 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
         Alert.alert("archive Api="+payload.MobileReferralID);
 
-        (ltoken===null || ltoken===undefined)?
+        (this.state.token===null || this.state.token===undefined)?
         setTimeout(() => {
-            ltoken = localStorage.getItem('token');
+            this.getAsyncStorageToken();
         })
         :
         setTimeout(() => {
@@ -425,7 +452,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
     render() {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
-        console.log("inside friends overview component referral object="+this.props.referral);
+        console.log("FO inside friends overview component referral object="+this.props.referral);
 
         return (
 
@@ -446,8 +473,8 @@ class PushToEarnOverViewFriendsComponent extends Component {
                                     onPress={() => { this.props.menu(9) } }
                                     activeOpacity={0.5}
                                     style={{
-                                        width: 50,
-                                        height: 50,
+                                        width: 40,
+                                        height: 40,
                                         alignItems:'center',
                                         justifyContent:'center',
                                         backgroundColor: 'white',

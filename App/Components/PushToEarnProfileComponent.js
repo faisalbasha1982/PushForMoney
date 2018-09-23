@@ -300,13 +300,13 @@ class PushToEarnProfileComponent extends Component {
 
     setLanguage = () => {
 
-            if(this.props.language === 'Dutch')
+            if(this.state.language === 'Dutch')
                 this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
             else
-                if(this.props.language === 'English')
+                if(this.state.language === 'English')
                     this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
             else
-                if(this.props.language === 'French')
+                if(this.state.language === 'French')
                     this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
 
     }
@@ -318,7 +318,6 @@ class PushToEarnProfileComponent extends Component {
             let language = localStorage.getItem('language');
 
             this.getAsyncStorage();
-            this.setLanguage();
     
             console.log("text="+this.state.text);
             console.log("text changeLanguage="+this.state.text);
@@ -328,15 +327,15 @@ class PushToEarnProfileComponent extends Component {
             ltoken = localStorage.getItem('token');
             this.setState({isLoading: true});
 
-            console.log("login access token="+ltoken);
-            console.tron.log("login access token="+ltoken);
+            console.log("login access token="+this.state.aToken);
+            console.tron.log("login access token="+this.state.aToken);
 
             setTimeout(() => 
             {
 
                 let payload = {
                     "AuthenticationData": encryptedData,
-                    "LoginAccessToken": ltoken,
+                    "LoginAccessToken": this.state.aToken,
                 };
 
                 this.props.getProfile(payload);
@@ -346,15 +345,15 @@ class PushToEarnProfileComponent extends Component {
     }
 
     getAsyncStorage = async () => {
-        await AsyncStorage.getItem('language').then((language) => {
-            this.setState({ language:language })
-          });
-    }
-
-    getAsyncStorageToken = async () => {
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
+
+        await AsyncStorage.getItem('language').then((language) => {
+            this.setState({ language: language });
+        });
+
+        this.setLanguage();
 
         await AsyncStorage.getItem('token').then((token) => {
             this.setState({ aToken:token });
@@ -363,14 +362,14 @@ class PushToEarnProfileComponent extends Component {
             {
                 let payload = {
                     "AuthenticationData": encryptedData,
-                    "LoginAccessToken": token,
+                    "LoginAccessToken": this.state.aToken,
                 };
     
                 this.props.getProfile(payload);
     
                 let newPayload = {
                     "AuthenticationData": encryptedData,
-                    "LoginAccessToken": token,
+                    "LoginAccessToken": this.state.aToken,
                     "UpdateRequired" : 0,
                     "ReadAll" : 0,
                     "LastViewedNotificationID" : this.props.LastViewedNotificationID,
@@ -426,9 +425,10 @@ class PushToEarnProfileComponent extends Component {
     }
 
     componentWillMount() {
+        console.log("component Will Mount inside profile component");
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
-        this.getAsyncStorageToken();
+        this.getAsyncStorage();
     }
 
     
@@ -439,9 +439,7 @@ class PushToEarnProfileComponent extends Component {
     componentDidMount() {
 
         let language = localStorage.getItem('language');
-
         this.getAsyncStorage();
-        this.setLanguage();
 
         console.log("language="+this.state.language);
 
@@ -450,15 +448,10 @@ class PushToEarnProfileComponent extends Component {
         ltoken = localStorage.getItem('token');
 
         let asynToken = '';
-
-        let aToken = AsyncStorage.getItem('token').then((value) => {
-            console.tron.log("value="+value);
-            this.setState({ aToken: value });
-        });
         this.setState({isLoading: true});
 
-        console.log("PC login access token="+ltoken);
-        console.tron.log("PC login access token="+ltoken);
+        console.log("PC login access token="+this.state.aToken);
+        console.tron.log("PC login access token="+this.state.aToken);
 
         setTimeout(() => {
             console.tron.log("async token="+this.state.aToken);
@@ -470,14 +463,14 @@ class PushToEarnProfileComponent extends Component {
         {
             let payload = {
                 "AuthenticationData": encryptedData,
-                "LoginAccessToken": ltoken,
+                "LoginAccessToken": this.state.aToken,
             };
 
             this.props.getProfile(payload);
 
             let newPayload = {
                 "AuthenticationData": encryptedData,
-                "LoginAccessToken": ltoken,
+                "LoginAccessToken": this.state.aToken,
                 "UpdateRequired" : 0,
                 "ReadAll" : 0,
                 "LastViewedNotificationID" : this.props.LastViewedNotificationID,
@@ -569,12 +562,12 @@ class PushToEarnProfileComponent extends Component {
 
         this.setState({isLoading: true});
 
-        console.log("login access token="+ltoken);
-        console.tron.log("login access token="+ltoken);
+        console.log("login access token="+this.state.aToken);
+        console.tron.log("login access token="+this.state.aToken);
 
         let payload = {         
             "AuthenticationData": encryptedData,
-            "LoginAccessToken":ltoken,
+            "LoginAccessToken":this.state.aToken,
             "NewFirstName": name,
         };
 
@@ -588,12 +581,12 @@ class PushToEarnProfileComponent extends Component {
 
         this.setState({isLoading: true});
 
-        console.log("login access token="+ltoken);
-        console.tron.log("login access token="+ltoken);
+        console.log("login access token="+this.state.aToken);
+        console.tron.log("login access token="+this.state.aToken);
 
         let payload = {         
             "AuthenticationData": encryptedData,
-            "LoginAccessToken":ltoken,
+            "LoginAccessToken":this.state.aToken,
             "NewLastName": name,
         };
 
@@ -607,15 +600,15 @@ class PushToEarnProfileComponent extends Component {
 
         this.setState({isLoading: true});
 
-        console.log("login access token="+ltoken);
-        console.tron.log("login access token="+ltoken);
+        console.log("login access token="+this.state.aToken);
+        console.tron.log("login access token="+this.state.aToken);
 
         console.log("phoneNumber="+phoneNumber);
         Alert.alert("phoneNumber="+phoneNumber);
 
         let payload = {             
             "AuthenticationData": encryptedData,
-            "LoginAccessToken":ltoken,
+            "LoginAccessToken":this.state.aToken,
             "NewMobileNumber": phoneNumber,
         };
 

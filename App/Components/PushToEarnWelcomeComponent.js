@@ -59,15 +59,29 @@ class PushToEarnWelcomeComponent extends Component {
         this.setLanguage();
     }
 
+    getAsyncStorage = async () => {
+
+        await AsyncStorage.getItem('language').then((language) => {
+            this.setState({ language: language });
+        });
+
+        this.setLanguage();
+
+        await AsyncStorage.getItem('token').then((token) => {
+            this.setState({ aToken:token });
+        });
+        
+    }
+
     setLanguage = async () => {
        
-          if(this.props.language === 'Dutch')
+          if(this.state.language === 'Dutch')
               this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
           else
-              if(this.props.language === 'English')
+              if(this.state.language === 'English')
                   this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
           else
-              if(this.props.language === 'French')
+              if(this.state.language === 'French')
                   this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
 
     }
@@ -77,18 +91,19 @@ class PushToEarnWelcomeComponent extends Component {
         console.log("willReceiveProps WP welcome component language="+this.props.language);
 
         if(this.props !== nextProps)
-            this.setLanguage();
+            this.getAsyncStorage();
     }
 
     componentWillMount()
     {
         console.log("willMount WP welcome component language="+this.props.language);
+        this.getAsyncStorage();
     }
 
     componentDidMount()
     {
         console.log('DidMount WP welcome component language='+this.props.language);
-        this.setLanguage();
+        this.getAsyncStorage();
     }
 
     render() {
@@ -96,7 +111,7 @@ class PushToEarnWelcomeComponent extends Component {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
         console.log('text='+this.state.text.money);
-        console.log("welcome WP component language in render ="+this.props.language);
+        console.log("welcome WP component language in render ="+this.state.language);
 
         return (
 
