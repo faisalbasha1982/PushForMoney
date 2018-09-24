@@ -744,14 +744,12 @@ class FormTwo extends Component {
                                     <Text style={{marginTop: 5, fontFamily: 'WorkSans-Bold', justifyContent: 'center', alignItems: 'center', fontWeight: '500', fontSize: 20}}>{LanguageSettings.english.agreementText} {'\n'}<Text style={{ color: '#e73d50',fontFamily: 'WorkSans-Bold', fontWeight: '500', fontSize: 20  }} onPress={() => Linking.openURL('https://jobfixers.be/nl/privacy')}>{LanguageSettings.english.policyText}</Text></Text>
                                     :
                                     <Text style={{marginTop: 15, fontFamily: 'WorkSans-Bold', justifyContent: 'center', alignItems: 'center', fontWeight: '500', fontSize: 16}}>{LanguageSettings.french.agreementText} {'\n'}<Text style={{ color: '#e73d50',fontFamily: 'WorkSans-Bold', fontWeight: '500', fontSize: 20  }} onPress={() => Linking.openURL('https://jobfixers.be/nl/privacy')}>{LanguageSettings.french.policyText}</Text></Text>
-                                }
-                    
+                                }                    
                     </View>
-
                 </View>
 
                 <View style={newStyle.buttons}>
-                    <TouchableOpacity onPress={() => this.props.navigateBack(this.state.language) }
+                    <TouchableOpacity onPress={() =>this.props.navigation.navigate('FormOne') }
                         activeOpacity={0.5}
                         style={newStyle.iconStyle}>
                             <Icon

@@ -360,6 +360,20 @@ class PushToEarnMoneyComponent extends Component {
         console.log("MC setting the language="+this.state.language);
         this.getAsyncStorageToken();
 
+        var date, day, month, year;
+        var today = new Date();
+    
+        day = parseInt(today.getUTCDate())>=10?today.getUTCDate():('0'+today.getUTCDate().toString());
+        month = parseInt(today.getUTCMonth()+1)>=10?parseInt(today.getUTCMonth()+1):('0'+parseInt(today.getUTCMonth()+1));
+        year = today.getUTCFullYear().toString();
+
+        this.setDayYear(month,year);
+    }
+
+    setDayYear = (month, year) => {
+        
+        let cMonth = this.convertMonth(month);
+        this.setState({ currentMonth: cMonth, currentYear: year });
     }
 
     getAsyncStorageToken = async () => {
@@ -510,6 +524,38 @@ class PushToEarnMoneyComponent extends Component {
             return "12";        
     }
 
+    convertMonth = (month) => {
+
+        console.log("current month="+month);
+
+          if(month === "01")
+              return "JANUARY";
+          if(month == "02")
+              return "FEBRUARY";
+          if(month == "03")
+              return "MARCH";
+          if(month == "04")
+                return "APRIL";
+          if(month == "05")
+                return "MAY";
+          if(month == "06")
+                return "JUNE";
+          if(month == "07")
+                return "JULY";
+          if(month == "08")
+                return "AUGUST";
+          if(month == "09")
+                return "SEPTEMBER";
+          if(month == "10")
+                return "OCTOBER";
+          if(month == "11")
+                return "NOVEMBER";
+          if(month == "12")
+                return "DECEMBER";        
+        
+
+    }
+
     getMonth = () => {
 
         var month = this.state.months.one;
@@ -588,6 +634,7 @@ class PushToEarnMoneyComponent extends Component {
 
     getCurrentYearMonth = () => {
         //this.setState({ currentYearMonth: this.state.currentMonth + " "+ this.state.currentYear });
+    
         return this.state.currentMonth + " "+ this.state.currentYear;
     }
 

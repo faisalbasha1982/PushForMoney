@@ -46,6 +46,7 @@ import LanguageSettings from '../Containers/LanguageSettingsNew';
 import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import localStorage from 'react-native-sync-localstorage';
 import Mailer from 'react-native-mail';
+import * as NavigationService from '../Navigation/NavigationService';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -162,7 +163,12 @@ class PushToEarnInformationComponent extends Component {
 
         this.setState({ isSignedOut: true});
 
-        this.props.menu(12);
+        //this.props.menu(12);
+
+        // this.props.navigation.navigate('PushForJob');
+
+        NavigationService.navigate('PushForJob');
+
       }
 
       somethingElse = () => {
@@ -195,7 +201,6 @@ class PushToEarnInformationComponent extends Component {
                                 onPress = {()=> {this.handleEmail()}}>
                                 <Text style={newStyle.firstName}>{this.state.text.Support} </Text>
                             </TouchableOpacity>
-
 
                             <View style={newStyle.borderBottom}> </View>
                                     

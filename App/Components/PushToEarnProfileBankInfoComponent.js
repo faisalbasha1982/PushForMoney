@@ -12,6 +12,7 @@ import {
     Alert,
     Platform,    
     findNodeHandle,
+    AsyncStorage
 } from 'react-native';
 
 import { Container, Header, Content, Input, Item } from 'native-base';
@@ -80,37 +81,56 @@ class PushToEarnProfileBankInfoComponent extends Component {
             selectionThird: false,
             selectionFourth: false,
             buttonText: 'SAVE DATA',
-            text:{}
+            text:{},
+            aToken:'',
         };    
     }
 
     componentWillReceiveProps(nextProps) {
- 
+
+        if(this.props !== nextProps)
+            this.getAsyncStorage();
+    }
+
+    componentWillMount() {
+        this.getAsyncStorage();
     }
 
     setLanguage = () => {
 
-        if(this.props.language === 'Dutch')
+        if(this.state.language === 'Dutch')
             this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
         else
-            if(this.props.language === 'English')
+            if(this.state.language === 'English')
                 this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
         else
-            if(this.props.language === 'French')
+            if(this.state.language === 'French')
                 this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
 
    }
 
     componentDidMount() {
         let language = localStorage.getItem('language');
-        this.setLanguage();       
+        this.getAsyncStorage();
     }   
 
     renderNothing = () => {
 
     }
 
-    
+    getAsyncStorage = async () => {
+
+        await AsyncStorage.getItem('language').then((language) => {
+            this.setState({ language: language });
+        });
+
+        this.setLanguage();
+
+        await AsyncStorage.getItem('token').then((token) => {
+            this.setState({ aToken:token });
+        });
+        
+    }
 
     saveData = () => {
 
@@ -144,7 +164,7 @@ class PushToEarnProfileBankInfoComponent extends Component {
                     {
                         let payload = {
                             "AuthenticationData":encryptedData,
-                            "LoginAccessToken": ltoken,
+                            "LoginAccessToken": this.state.aToken,
                             "Bankname" : this.state.bankName,        
                             "IBAN" : this.state.ibanNumber,
                             "BIC_NO" : this.state.bicNumber,
@@ -413,7 +433,7 @@ const newStyle = StyleSheet.create({
     },
 
     topText: {
-        width: 321,
+        width: viewPortWidth * 0.90,
         height: 34,
         fontFamily: "WorkSans-Medium",
         fontSize: 21,
@@ -421,8 +441,10 @@ const newStyle = StyleSheet.create({
         fontStyle: "normal",
         lineHeight: 34,
         letterSpacing: 0,
-        textAlign: "center",
-        color: "rgb(231, 61, 80)"
+        textAlign: "left",
+        marginLeft:15,
+        color: "rgb(231, 61, 80)",
+        backgroundColor:'transparent'
     },
 
     topView: {

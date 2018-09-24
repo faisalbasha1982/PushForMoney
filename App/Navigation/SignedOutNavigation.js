@@ -8,6 +8,9 @@ import PushToEarnOTP from '../Containers/PushToEarnOTP';
 import PushToEarnRegisterProfile from '../Containers/PushToEarnRegisterProfile';
 import LanguageButton from '../Components/LanguageButton';
 import LanguageScreen from '../Containers/LanguageScreen';
+import FormOne from '../Containers/FormOne';
+import FormTwo from '../Containers/FormTwo';
+import FormTwoNew from '../Containers/FormTwoNew';
 
 // Manifest of possible screens
 const SignedOutNav = StackNavigator(

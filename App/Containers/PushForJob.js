@@ -23,6 +23,8 @@ import pushImage from '../Images/pushForA.png';
 import jobImage from '../Images/group2.png';
 import pushFor from '../Images/pushFor.png';
 import njobanimationImage from '../Images/newjobanimation.gif';
+import animation from '../Images/moneylogonew.gif';
+import jobanimationnew from '../Images/joblogonew.gif';
 import { NavigationActions } from "react-navigation";
 import { connect } from 'react-redux';
 import AppNavigation from '../Navigation/AppNavigation';
@@ -177,8 +179,8 @@ class PushForJob extends Component {
                         {/* <Image source={pushImage} resizeMode="contain" style={{ width: viewPortWidth * 0.812, height: viewPortHeight * 0.35, }} /> */}
                         <View style={newStyle.bottomContainer}>
                             <TouchableOpacity onPress={() => { this.callForm() }}>
-                                        <Image source={njobanimationImage} resizeMode="contain" style={{ width: viewPortWidth * 0.891, height: viewPortHeight * 0.891, marginLeft: 15, }} />
-                            </TouchableOpacity>         
+                                        <Image source={jobanimationnew} resizeMode="contain" style={{ width: viewPortWidth * 0.891, height: viewPortHeight * 0.891, marginLeft: 15, marginTop: 15, }} />
+                            </TouchableOpacity>
                         </View>
                     </View>
                     
@@ -186,9 +188,9 @@ class PushForJob extends Component {
                             <Image source={pushFor} resizeMode="contain" style={{ width: viewPortWidth * 0.750, height: viewPortHeight * 0.550 }} />
                     </View>
 
-                    <View style={newStyle.bottomContainer}>
+                    <View style={newStyle.newBottomContainer}>
                         <TouchableOpacity onPress={() => { this.callMoney() }}>
-                                    <Image source={njobanimationImage} resizeMode="contain" style={{ width: viewPortWidth * 0.891, height: viewPortHeight * 0.891, marginLeft: 15, }} />
+                                    <Image source={animation} resizeMode="contain" style={{ width: viewPortWidth * 0.891, height: viewPortHeight * 0.891, marginLeft: 15, }} />
                         </TouchableOpacity>         
                     </View>
                     <View style={newStyle.logoBottom}>
@@ -240,6 +242,14 @@ const newStyle = StyleSheet.create({
                 height: viewPortHeight * 0.85,                
                 alignItems: 'center',
                 justifyContent: 'center',
+    },
+
+    newBottomContainer:{
+        flex:14,
+        width: viewPortWidth,
+        height: viewPortHeight * 0.85,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 
     button: {

@@ -126,7 +126,7 @@ class PushToEarnProfileComponent extends Component {
             phoneNumberEmptyError:false,
             emailEmptyError:false,
             cardDetailsError:false,
-            mobileNotifications:'',
+            mobileNotifications:[],
             aToken:'',
             text:{}
         };    

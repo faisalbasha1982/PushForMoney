@@ -142,13 +142,13 @@ class ButtonNext extends Component {
           }):this.somethingElse() }
           activeOpacity={0.5}
           style={{
-            width: 330,
+            width: 250,
             height: 57,
             marginBottom: 17,
-            marginLeft: 8,
+            marginLeft: 0,
             borderRadius: 8,
             backgroundColor: '#E73D50',
-            marginTop: viewPortHeight / 30,            
+            marginTop: viewPortHeight / 60,
             justifyContent: 'center',
             alignItems: 'center'
         }}>

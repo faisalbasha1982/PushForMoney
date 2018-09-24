@@ -394,8 +394,43 @@ class FormOne extends Component {
                 </View>
 
                     <View style={newStyle.endButtons}>
+                    
+                    <View style={{ width: 57, height: 57, backgroundColor: 'transparent'}}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('NewScreen') }
+                        activeOpacity={0.5}
+                        style={newStyle.iconStyle}>
+                            <Icon
+                                containerStyle={newStyle.iconImageStyle}                               
+                                name='angle-left'
+                                type='font-awesome'
+                                color='#fff'
+                                size = {40}
+                                onPress={() => console.log('hello')} /> 
+                    </TouchableOpacity>
+                    </View>
 
-                    <TouchableOpacity onPress={() => this.props.navigateBack() }
+                    <View style={{width: 250, height: 57, backgroundColor: 'transparent'}}>
+                    <ButtonNext 
+                            objectParams=
+                                {{
+                                    btnText: this.state.buttonText, 
+                                    language: this.props.navigation.state.params.language,
+                                    firstName: this.state.firstNameInput,
+                                    lastName: this.state.lastNameInput,
+                                    phoneNumber: this.state.phoneNumberInput,
+                                    firstNameError: this.state.firstNameError,
+                                    lastNameError: this.state.lastNameError,
+                                    phoneNumberError: this.state.phoneNumberError,
+                                    firstNameEmpty: this.state.firstNameEmptyError,
+                                    lastNameEmpty: this.state.lastNameEmptyError,
+                                    phoneNumberEmpty: this.state.phoneNumberEmptyError
+                                }}
+                            func = {this.func}
+                            navigation = {this.props.navigation}
+                            />
+                    </View>
+
+                    {/* <TouchableOpacity onPress={() => this.props.navigateBack() }
                         activeOpacity={0.5}
                         style={newStyle.iconStyle}>
                             <Icon
@@ -422,7 +457,7 @@ class FormOne extends Component {
                                     lastNameEmpty: this.state.lastNameEmptyError,
                                     phoneNumberEmpty: this.state.phoneNumberEmptyError
                                 }}
-                            func = {this.func}/>
+                            func = {this.func}/> */}
                     </View>
 
                     {/* <ButtonNext 
@@ -611,12 +646,12 @@ const newStyle = StyleSheet.create({
     },
 
     endButtons: {
-        width: viewPortWidth,
+        width: viewPortWidth * 0.90,
         height: 50,
         flex: 4,
         flexDirection: 'row',
-        backgroundColor: 'white',
-        justifyContent: 'center',
+        backgroundColor: 'transparent',
+        justifyContent: 'space-between',
         alignItems: 'center',        
     },
 
