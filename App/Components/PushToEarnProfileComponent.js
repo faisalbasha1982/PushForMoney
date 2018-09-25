@@ -196,6 +196,7 @@ class PushToEarnProfileComponent extends Component {
             if(reg.exec(name))
             {
               this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: false, firstNameInput: name, firstNameErrorText:'' });
+              this.callUpdateName(name);
             }
             else
             {
@@ -556,6 +557,8 @@ class PushToEarnProfileComponent extends Component {
     }
 
     callUpdateName = (name) => {
+
+
      
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
@@ -563,7 +566,7 @@ class PushToEarnProfileComponent extends Component {
         this.setState({isLoading: true});
 
         console.log("login access token="+this.state.aToken);
-        console.tron.log("login access token="+this.state.aToken);
+        console.tron.log("update name login access token="+this.state.aToken);
 
         let payload = {         
             "AuthenticationData": encryptedData,

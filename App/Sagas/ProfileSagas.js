@@ -111,34 +111,21 @@ export function * ProfileRequestNew(api,action)
     }
 }
 
+function fetchUpdateFirstName(payload){
+    return fetchJson("https://prod-28.westeurope.logic.azure.com:443/workflows/8758d6d96f2145cbaaa86e5d032392dc/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=6pUlAjHE5FumdVSxpK_uevwWemeMwM9ODipl2oHvWZE",payload);
+}
+
 export function * firstNameUpdate(api,action) {
 
-    try
-    {
-        console.log("api="+api);
-
-        // make the call to the api
-        const response = yield call(api.updateName, action.payload);
-    
-        console.tron.log("response from api call ="+response);
-        console.log("repsonse from api call="+response);
-    
-        if (response.ok) {
-            console.tron.log("response data=",response.data);
-            const token = response.data.LoginAccessToken;
-            const userinfo = response.data.userinfo;
-        
-            console.tron.log("login access token=",token);
-
-            // do data conversion here if needed
-            yield put(ProfileActions.profileSuccess(userinfo));
-            NavigationService.navigate('PushToEarnMoney');
-        } else {
-            yield put(ProfileActions.profileFailure());
-        }
+    try{
+        console.log("profile request new:");
+        const responseJson = yield call(fetchUpdateFirstName,action.payload);
+        yield put(ProfileActions.profileSuccess());
+        Alert.alert("Successfully!  " + responseJson.Message);
     }
-    catch(error) {
-        console.tron.log("error="+error);
+    catch(error)
+    {
+        yield put(ProfileActions.profileFailure());
     }
    
 } 
