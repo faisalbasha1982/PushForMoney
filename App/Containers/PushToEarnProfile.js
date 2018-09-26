@@ -235,7 +235,7 @@ class PushToEarnProfile extends Component {
 
             let authData = AuthComponent.authenticationData("en");
             let encryptedData = AesComponent.aesCallback(authData);
-            let ltoken = localStorage.getItem('token');        
+            let ltoken = localStorage.getItem('token');
             this.setState({isLoading: true});
 
             console.log("login access token="+ltoken);
@@ -341,7 +341,7 @@ class PushToEarnProfile extends Component {
             <KeyboardAwareScrollView
                 behavior="padding"
                 enableOnAndroid={false}
-                contentContainerStyle={newStyle.container}
+                contentContainerStyle={newStyle.keyboardContainer}
                 scrollEnabled={true}
                 scrollToEnd={true}
                 enableResetScrollToCoords={true}
@@ -603,6 +603,16 @@ const newStyle = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
+    },
+
+    keyboardContainer: {
+        
+        flex: 1,
+        backgroundColor: 'white',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+
     },
 
     innerContainer: {

@@ -62,7 +62,7 @@ export function * RegisterRequestNew(api,payload) {
                console.tron.log("login access token=",token);
 
                //Save token in Async Storage
-            //    AsyncStorage.setItem('token',token);                
+            AsyncStorage.setItem('token',token);                
             localStorage.setItem('token', token);
 
           }
@@ -625,7 +625,8 @@ export function * OtpRequestResend(api,payload) {
         else      
             if (response.data.StatusCode === 200) {
 
-                console.tron.log("response data=",response.data);                const mobileOTP = response.data.mobileOTP;
+                console.tron.log("response data=",response.data);                
+                const mobileOTP = response.data.mobileOTP;
                 const statusCode = response.data.StatusCode;
                     
                 // output token to tron

@@ -1,6 +1,7 @@
 import immutablePersistenceTransform from '../Services/ImmutablePersistenceTransform'
 import { AsyncStorage } from 'react-native';
 import localStorage from 'react-native-sync-localstorage';
+import storage from 'redux-persist/lib/storage'
 
 
 // More info here:  https://shift.infinite.red/shipping-persistant-reducers-7341691232b1

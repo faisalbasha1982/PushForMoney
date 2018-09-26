@@ -11,7 +11,7 @@ const { Types, Creators } = createActions({
   loginSuccess: ['user'],  
   loginFailure: ['error'],
   notificationRequest: ['payload'],
-  notificationSuccess: ['MobileNotifications', 'lastViewedNotificationID'],
+  notificationSuccess: ['MobileNotifications', 'LastViewedNotificationID'],
   notificationFailure: ['error'],
   userRegistered: ['user'],
   logout: null
@@ -27,7 +27,7 @@ export const INITIAL_STATE = {
   fetching: false,
   error: '',
   payload: null,
-  lastViewedNotificationID: -1,
+  LastViewedNotificationID: -1,
   MobileNotifications:null,
 }
 
@@ -35,7 +35,7 @@ export const INITIAL_STATE = {
 
 export const LoginSelectors = {
   getUser: state => state['login'].user,
-  getLastViewedNotificationID: state => state['login'].lastViewedNotificationID,
+  getLastViewedNotificationID: state => state['login'].LastViewedNotificationID,
   getMobileNotifications: state => state['login'].MobileNotifications,
   getFetching: state => state['login'].fetching,
   getError: state => state['login'].error
@@ -79,8 +79,8 @@ export const nrequest = (state, { payload }) => {
   return { ...state, fetching: true, payload }
 }
 
-export const nsuccess = (state, {MobileNotifications,lastViewedNotificationID}) => {
-  return { ...state, MobileNotifications,lastViewedNotificationID, fetching: false, }
+export const nsuccess = (state, {MobileNotifications,LastViewedNotificationID}) => {
+  return { ...state, MobileNotifications,LastViewedNotificationID, fetching: false, }
 }
 
 export const nfailure = (state, {error}) => {

@@ -30,13 +30,13 @@ function fetchJson(url,payload) {
       });
   }
 
-  function fetchMoney(payload) {
+function fetchMoney(payload) {
       
     console.log("inside fetch money");
     console.tron.log("inside fetch money");
 
     return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnGetMonthlyEarningDetailsByReferrals?code=l42IaaJ2JenjE0PMUveBbR26ODcefkEC3Mt7BmfVWR3VHZIvukGPJA==',payload);
-  }
+}
   
 export function * getMoneyMonth(api,action)
 {

@@ -1,6 +1,6 @@
 import SignedInNav from './SignedInNavigation';
 import SignedOutNav from './SignedOutNavigation';
-import { SwitchNavigator } from 'react-navigation';
+import { createSwitchNavigator, createStackNavigator } from 'react-navigation';
 
 export const createRootNavigator = (signedIn = false) => {
     return SwitchNavigator

@@ -557,8 +557,6 @@ class PushToEarnProfileComponent extends Component {
     }
 
     callUpdateName = (name) => {
-
-
      
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
@@ -625,6 +623,16 @@ class PushToEarnProfileComponent extends Component {
         console.log("bankinfo="+this.props.bankInfo);
         console.log("text="+this.state.text);
         return (
+
+            <KeyboardAwareScrollView
+                behavior="padding"
+                enableOnAndroid={false}
+                contentContainerStyle={newStyle.container}
+                scrollEnabled={true}
+                scrollToEnd={true}
+                enableResetScrollToCoords={true}
+                enableAutomaticScroll={true}>
+
 
                 <View style= {newStyle.layoutBelow}>
                     <View style={newStyle.endButtons}>
@@ -1041,6 +1049,8 @@ class PushToEarnProfileComponent extends Component {
                     </View>
                 
                 </View>
+
+                </KeyboardAwareScrollView>
                  
         );
     }

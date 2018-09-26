@@ -106,7 +106,3 @@ const AppNavigation = createStackNavigator({
 })
 
 export default AppNavigation;
-
-export const createRootNavigator = (signedIn = false) => {
-
-}
