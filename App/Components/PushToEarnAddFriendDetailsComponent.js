@@ -12,6 +12,7 @@ import {
     Alert,
     Platform,    
     findNodeHandle,
+    AsyncStorage
 } from 'react-native';
 import {
     BallIndicator,
@@ -99,7 +100,8 @@ class PushToEarnAddFriendDetailsComponent extends Component {
             firstNameEmptyError:false,
             lastNameEmptyError:false,
             phoneNumberEmptyError:false,
-            text:{}
+            text:{},
+            countryCode: 'be',
         };    
     }
 
@@ -247,8 +249,13 @@ class PushToEarnAddFriendDetailsComponent extends Component {
     componentWillReceiveProps(nextProps) {
 
         if(this.props !== nextProps)
-            this.setLanguage();
+            this.getAsyncStorage();
 
+    }
+
+    componentWillMount() {
+        
+        this.getAsyncStorage();
     }
 
     setLanguage = () => {
@@ -264,60 +271,26 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                 
    }
 
-    componentDidMount() {
+   getAsyncStorage = async () => {
 
-        let language = localStorage.getItem('language');
-        console.log('local storage language='+language);
+        await AsyncStorage.getItem('language').then((language) => {
+            this.setState({ language: language });
+        });
 
         this.setLanguage();
 
-        // console.log("language from props="+this.props.navigation.state.params.language);
-        // console.log("default language="+this.state.language);
-        // //cLanguage = this.props.navigation.state.params.language;
-        // this.setState({ language: this.props.navigation.state.params.language });
-        // console.log("language="+this.state.language);
-        // this.setText();
-        // console.log("this.state.firstName="+this.state.firstName);
-        // console.log("this.state.buttonText="+this.state.buttonText);
+        await AsyncStorage.getItem('token').then((token) => {
+            this.setState({ aToken:token });
+        });
+
     }
 
-    // setText =  () => {
 
-    //     this.setState({language: this.props.navigation.state.params.language});
-    //     console.log("this.state.language="+this.state.language);
-
-    //     if (this.props.navigation.state.params.language === 'NEDERLANDS') {
-    //         console.log("setting in Nederlands");
-    //         this.setState({
-    //             firstName:  LanguageSettings.dutch.firstNameText,
-    //             name:       LanguageSettings.dutch.lastNameText,
-    //             phoneNumber: LanguageSettings.dutch.telephoneNumberText,
-    //             buttonText: LanguageSettings.dutch.buttonNextText
-    //         });
-    //     }
-    //     else
-    //         if (this.props.navigation.state.params.language === 'ENGLISH') {
-    //             console.log("setting in English");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.english.firstNameText,
-    //                 name: LanguageSettings.english.lastNameText,
-    //                 phoneNumber: LanguageSettings.english.telephoneNumberText,
-    //                 buttonText: LanguageSettings.english.buttonNextText
-    //             });
-    //         }
-    //         else
-    //           {
-    //             console.log("setting in French");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.french.firstNameText,
-    //                 name: LanguageSettings.french.lastNameText,
-    //                 phoneNumber: LanguageSettings.french.telephoneNumberText,
-    //                 buttonText: LanguageSettings.french.buttonNextText
-    //             });
-    //         }
-    
-       
-    // }
+    componentDidMount() {
+        let language = localStorage.getItem('language');
+        console.log('local storage language='+language);
+        this.getAsyncStorage();
+    }
 
     renderNothing = () => {
 
@@ -446,9 +419,30 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                     <View style={newStyle.endButtons}>     
 
                         <View style={newStyle.topView}>
-                            <Text style= {newStyle.topText}>           
-                                {this.state.text.addFriendNew}
-                            </Text>    
+                        <View style={{ marginLeft:0, width:40,justifyContent:'flex-start', alignItems:'flex-start' }}>
+                                    <TouchableOpacity
+                                            onPress={() => { this.props.menu(9); } }
+                                            activeOpacity={0.5}
+                                            style={{
+                                                width: 30,
+                                                height: 30, 
+                                                backgroundColor: 'transparent',
+                                                justifyContent: 'center',
+                                                alignItems: 'center'
+                                            }}> 
+                                            <Icon
+                                                containerStyle={newStyle.iconImageStyle}
+                                                name='arrow-circle-left'
+                                                type='font-awesome'
+                                                color='#E73D50'
+                                                size = {20} />
+                                    </TouchableOpacity>
+                                </View>
+                                <View>
+                                    <Text style= {newStyle.topText}>           
+                                        {this.state.text.addFriendNew}
+                                    </Text>    
+                                </View>
                         </View>
 
                          {/* <View style={newStyle.buttonView}>
@@ -464,20 +458,29 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                                         value={this.props.name}
                                         onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
 
-                        {
-                            this.state.isLoading===true?
-                            <View style = {{position: 'absolute' , zIndex:3999, left: 30, top: 0, right: 0, bottom: 0}}>
-                            <BarIndicator color='#e73d50' />
-                            </View>:this.somethingElse()
-                        }      
+                            {
+                                this.state.isLoading===true?
+                                <View style = {{position: 'absolute' , zIndex:3999, left: 30, top: 0, right: 0, bottom: 0}}>
+                                <BarIndicator color='#e73d50' />
+                                </View>:this.somethingElse()
+                            }
 
                             <Text style={newStyle.firstName}>{this.state.text.Phone}</Text>
-                            <TextInput
+                            <PhoneInput
+                                    opacity={1}
+                                    ref={(ref) => { this.phone = ref; }}
+                                    initialCountry={this.state.countryCode}
+                                    onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
+                                    style= {newStyle.nameInput}
+                                    onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }
+                                    value = {this.props.phone}
+                                />
+                            {/* <TextInput
                                 style={ newStyle.nameInput}
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
                                 value={this.props.phone}
-                                onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
+                                onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/> */}
 
                         </View>
 
@@ -657,7 +660,7 @@ const newStyle = StyleSheet.create({
     },
 
     topText: {
-        width: 321,
+        width: viewPortWidth * 0.70,
         height: 34,
         fontFamily: "WorkSans-Medium",
         fontSize: 21,
@@ -673,6 +676,7 @@ const newStyle = StyleSheet.create({
         width: 276,
         height: 68,
         flex:2,
+        flexDirection:'row',
         marginTop: 10,
         alignItems: 'center',
         justifyContent: 'center'

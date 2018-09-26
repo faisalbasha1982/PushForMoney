@@ -618,21 +618,19 @@ class PushToEarnProfileComponent extends Component {
     }
 
     render() {
+
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
         console.log("bankinfo="+this.props.bankInfo);
         console.log("text="+this.state.text);
+
         return (
 
             <KeyboardAwareScrollView
-                behavior="padding"
-                enableOnAndroid={false}
-                contentContainerStyle={newStyle.container}
-                scrollEnabled={true}
-                scrollToEnd={true}
-                enableResetScrollToCoords={true}
-                enableAutomaticScroll={true}>
-
+                    behavior = "padding"
+                    enableOnAndroid = { false }
+                    contentContainerStyle={ newStyle.keyboardContainer }
+                    scrollEnabled={true}>
 
                 <View style= {newStyle.layoutBelow}>
                     <View style={newStyle.endButtons}>
@@ -919,11 +917,13 @@ class PushToEarnProfileComponent extends Component {
                                     }}>
 
                                      <TouchableOpacity
-                                        onPress={() => {  this.seteditablePassword();  } }
+                                        onPress={() => {  this.seteditablePassword();
+                                                          this.props.menu(6);
+                                                }}
                                         activeOpacity={0.5}
                                         style={{
                                             width:35,
-                                            height:15,
+                                            height:25,
                                             justifyContent: 'center',
                                             alignItems: 'center',
                                             backgroundColor:'transparent'
@@ -1076,6 +1076,16 @@ const newStyle = StyleSheet.create({
         marginRight: 4,
         marginBottom:4,
 
+    },
+
+    keyboardContainer: {
+        flex: 1,
+        width: viewPortWidth * 0.85,
+        height: viewPortHeight * 0.80,
+        backgroundColor: 'steelblue',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
     },
 
     keyboardScrollViewContainer: {

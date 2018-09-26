@@ -477,7 +477,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
                                         height: 40,
                                         alignItems:'center',
                                         justifyContent:'center',
-                                        backgroundColor: 'white',
+                                        backgroundColor: 'transparent',
                                         marginRight: 0,
                                     }}>
                                 <Icon
@@ -486,7 +486,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
                                         type='font-awesome'
                                         color='#E73D50'
                                         size = {20}
-                                        onPress={ () => { } } />
+                                         />
                                 </TouchableOpacity>
                                 <Text style={{
                                         fontFamily: "WorkSans-Medium",

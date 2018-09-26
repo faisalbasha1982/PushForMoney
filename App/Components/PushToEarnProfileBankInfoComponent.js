@@ -219,7 +219,7 @@ class PushToEarnProfileBankInfoComponent extends Component {
                                         style={ newStyle.nameInput }
                                         placeholder=''
                                         underlineColorAndroid= 'transparent'
-                                        onChangeText={(bankName) => this.setState(bankName)}/>
+                                        onChangeText={(bankName) => this.setState({bankName})}/>
                                     
                             <Text style={newStyle.firstName}>{this.state.text.Iban}</Text>
                             <TextInput

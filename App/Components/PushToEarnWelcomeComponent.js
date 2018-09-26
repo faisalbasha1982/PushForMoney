@@ -53,10 +53,11 @@ class PushToEarnWelcomeComponent extends Component {
         this.state = {
             language: 'NEDERLANDS',
             buttonText: '',
-            text:{}
+            text:{},
+            languageCode:'',
         };    
 
-        this.setLanguage();
+        //this.setLanguage();
     }
 
     getAsyncStorage = async () => {

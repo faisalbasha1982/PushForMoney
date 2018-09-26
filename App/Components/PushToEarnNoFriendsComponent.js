@@ -12,6 +12,7 @@ import {
     Alert,
     Platform,    
     findNodeHandle,
+    AsyncStorage,
 } from 'react-native';
 
 import { Container, Header, Content, Input, Item } from 'native-base';
@@ -222,28 +223,51 @@ class PushToEarnNoFriendsComponent extends Component {
 
     componentWillReceiveProps(nextProps) {
 
+        if(nextProps !== this.props)
+            this.getAsyncStorage();
+
     }
 
     setLanguage = () => {
 
-        if(this.props.language === 'Dutch')
+        if(this.state.language === 'Dutch')
             this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
         else
-            if(this.props.language === 'English')
+            if(this.state.language === 'English')
                 this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
         else
-            if(this.props.language === 'French')
+            if(this.state.language === 'French')
                 this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
 
    }
+
+   getAsyncStorage = async () => {
+
+    await AsyncStorage.getItem('language').then((language) => {
+        this.setState({ language: language });
+    });
+
+    this.setLanguage();
+
+    await AsyncStorage.getItem('token').then((token) => {
+        this.setState({ aToken:token });
+    });
+    
+}
 
     componentDidMount() {
 
         let language = localStorage.getItem('language');
         console.log('local storage language='+language);
 
-        this.setLanguage();
+        this.getAsyncStorage();
    }    
+
+   componentWillMount() {
+
+        this.getAsyncStorage();
+
+   }
 
     renderNothing = () => {
 
@@ -329,25 +353,6 @@ class PushToEarnNoFriendsComponent extends Component {
                     </View>
 
                     <View style={newStyle.buttonView}>
-                            {/* <ButtonAddFriends
-                                objectParams=
-                                    {{
-                                        btnText: "VOEG EEN KANDIDAAT TOE", 
-                                        language: "ENGLISH",
-                                        firstName: this.state.firstNameInput,
-                                        lastName: this.state.lastNameInput,
-                                        phoneNumber: this.state.phoneNumberInput,
-                                        firstNameError: this.state.firstNameError,
-                                        lastNameError: this.state.lastNameError,
-                                        phoneNumberError: this.state.phoneNumberError,
-                                        firstNameEmpty: this.state.firstNameEmptyError,
-                                        lastNameEmpty: this.state.lastNameEmptyError,
-                                        phoneNumberEmpty: this.state.phoneNumberEmptyError
-                                    }}
-                            func = {this.func}
-                            navigation = { this.props.navigation}
-                            /> */}
-
                               <TouchableOpacity
                                     onPress={() => { this.props.menu(9)  } }
                                     activeOpacity={0.5}

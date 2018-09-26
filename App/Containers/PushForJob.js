@@ -88,6 +88,7 @@ class PushForJob extends Component {
      await AsyncStorage.getItem('token').then((token) => {
             this.setState({ hasToken: token !== null, isLoaded: true })
           });
+          
     }
 
     getLanguage = async () => {
@@ -133,6 +134,9 @@ class PushForJob extends Component {
     {
         //this.getToken();
         //this.getLanguage();
+
+        this.getToken();
+        this.getLanguage();
 
     }
 

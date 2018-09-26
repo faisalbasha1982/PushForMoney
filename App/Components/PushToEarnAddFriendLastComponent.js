@@ -88,21 +88,21 @@ class PushToEarnAddFriendLastComponent extends Component {
 
     getAsyncStorageToken = async () => {
 
-        await AsyncStorage.getItem('token').then((token) => {
-            this.setState({ token: token});
-        });
-
         await AsyncStorage.getItem('language').then((language) => {
             this.setState({ language: language});
         });        
 
         this.setLanguage();
 
+        await AsyncStorage.getItem('token').then((token) => {
+            this.setState({ token: token});
+        });
+
     }
 
     componentWillReceiveProps(nextProps) {
 
-        console.log("inside LP componentWillReceiveProps....");
+        console.log("inside FLP componentWillReceiveProps....");
 
         if(this.props !== nextProps)
             this.getAsyncStorageToken();
@@ -160,9 +160,30 @@ class PushToEarnAddFriendLastComponent extends Component {
                     <View style={newStyle.endButtons}>     
 
                         <View style={newStyle.topView}>
-                            <Text style= {newStyle.topText}>           
-                                    {this.state.text.addFriendsButton}
-                            </Text>    
+                        <View style={{ marginLeft:0, width:40,justifyContent:'flex-start', alignItems:'flex-start' }}>
+                                    <TouchableOpacity
+                                            onPress={() => { this.props.menu(2,'','','',this.state.language); } }
+                                            activeOpacity={0.5}
+                                            style={{
+                                                width: 30,
+                                                height: 30, 
+                                                backgroundColor: 'transparent',
+                                                justifyContent: 'center',
+                                                alignItems: 'center'
+                                            }}> 
+                                            <Icon
+                                                containerStyle={newStyle.iconImageStyle}
+                                                name='arrow-circle-left'
+                                                type='font-awesome'
+                                                color='#E73D50'
+                                                size = {20} />
+                                    </TouchableOpacity>
+                                </View>
+                            <View>
+                                <Text style= {newStyle.topText}>           
+                                        {this.state.text.addFriendsButton}
+                                </Text>
+                            </View>
                         </View>
 
                          <View style={newStyle.buttonView}>
@@ -198,7 +219,7 @@ class PushToEarnAddFriendLastComponent extends Component {
 
                         <View style={newStyle.buttonViewBottom}>
                                 <TouchableOpacity
-                                    onPress={() => {  } }
+                                    onPress={() => { this.props.menu(7,'','','',this.state.language); } }
                                     activeOpacity={0.5}
                                     style={{
                                         width: 290,
@@ -369,15 +390,15 @@ const newStyle = StyleSheet.create({
     },
 
     topText: {
-        width: 321,
+        width: (220 / viewPortWidth) * viewPortWidth,
         height: 34,
         fontFamily: "WorkSans-Medium",
-        fontSize: 21,
+        fontSize: 19,
         fontWeight: "600",
         fontStyle: "normal",
         lineHeight: 34,
         letterSpacing: 0,
-        textAlign: "center",
+        textAlign: "left",
         color: "rgb(231, 61, 80)"        
     },
 
@@ -385,9 +406,10 @@ const newStyle = StyleSheet.create({
         width: 276,
         height: viewPortHeight*.60,
         flex:3,
-        marginTop: 10,
-        alignItems: 'center',
-        justifyContent: 'flex-end',
+        flexDirection: 'row',
+        marginTop: 20,
+        alignItems: 'flex-end',
+        justifyContent: 'flex-start',
         backgroundColor:'transparent'
 
     },

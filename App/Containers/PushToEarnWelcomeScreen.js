@@ -250,7 +250,6 @@ class PushToEarnWelcomeScreen extends Component {
     componentDidMount() {
 
         let language = localStorage.getItem('language');
-        let token = await AsyncStorage.getItem('language');
         console.log('local storage language='+language);
 
         this.setState({ language: language});

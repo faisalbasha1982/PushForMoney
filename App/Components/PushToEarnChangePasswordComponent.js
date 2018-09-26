@@ -12,6 +12,7 @@ import {
     Alert,
     Platform,    
     findNodeHandle,
+    AsyncStorage
 } from 'react-native';
 import {
     BallIndicator,
@@ -115,32 +116,45 @@ class PushToEarnChangePasswordComponent extends Component {
 
     }
 
-
     componentWillReceiveProps(nextProps) {
 
         if(this.props !== nextProps)
-            this.setLanguage();
+            this.getAsyncStorage();
     }
 
     setLanguage = () => {
 
-        if(this.props.language === 'Dutch')
+        if(this.state.language === 'Dutch')
             this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
         else
-            if(this.props.language === 'English')
+            if(this.state.language === 'English')
                 this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
         else
-            if(this.props.language === 'French')
+            if(this.state.language === 'French')
                 this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
 
    }
 
-    componentDidMount() {
+   getAsyncStorage = async () => {
+
+        await AsyncStorage.getItem('language').then((language) => {
+            this.setState({ language: language });
+        });
+
+        this.setLanguage();
+
+        await AsyncStorage.getItem('token').then((token) => {
+            this.setState({ aToken:token });
+        });
+    
+    }
+
+   componentDidMount() {
 
         let language = localStorage.getItem('language');
         console.log('local storage language='+language);
 
-        this.setLanguage();
+        this.getAsyncStorage();
 
     }
 
@@ -150,13 +164,13 @@ class PushToEarnChangePasswordComponent extends Component {
 
 
     render() {
+
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
         console.log("text="+this.state.text.myProfile);
 
         return (
-                    <View style={newStyle.endButtons}>     
-
+                    <View style={newStyle.endButtons}>
                         <View style={newStyle.topView}>
                                 <View style={{ marginLeft:25, width:80,justifyContent:'flex-end', alignItems:'flex-end' }}>
                                     <TouchableOpacity
@@ -401,8 +415,10 @@ const newStyle = StyleSheet.create({
         fontStyle: "normal",
         lineHeight: 34,
         letterSpacing: 0,
-        textAlign: "center",
-        color: "rgb(231, 61, 80)"
+        textAlign: "left",
+        color: "rgb(231, 61, 80)",
+        marginLeft: 10,
+
     },
 
     topView: {

@@ -199,7 +199,7 @@ class TestPage extends Component {
         console.log("adding component this.props.referral = "+ typeof(this.props.referral) + "object="+this.props.referral);
         console.log("current language="+this.state.language);
 
-        if(_.isEmpty(this.props.referral))        
+        if(_.isEmpty(this.props.referral))
             return (
                 <AddFriendComponent menu = { this.menuChange }  language={this.state.language} />
             );
@@ -319,14 +319,14 @@ class TestPage extends Component {
                                             <ProfileChangePasswordComponent menu = {this.menuChange}  language={this.state.language} />:
                                     this.state.menu === 7?
                                             <ProfileDetailsComponent
-                                                menu = {this.menuChange} 
-                                                name=  {this.state.nameParam} 
-                                                phone= {this.state.phoneParam} 
+                                                menu  = {this.menuChange} 
+                                                name  = {this.state.nameParam} 
+                                                phone = {this.state.phoneParam} 
                                                 email = {this.state.emailParam} 
-                                                language={this.state.language}
+                                                language = {this.state.language}
                                         />:
                                     this.state.menu === 8 && this.props.referral !== null?
-                                            <FriendsOverViewComponent  language={this.state.language} />:
+                                            <FriendsOverViewComponent menu= {this.menuChange} language={this.state.language} />:
                                     this.state.menu === 9?
                                             <FriendsLastComponent menu = {this.menuChangeWithParameters}  language={this.state.language} />:
                                     this.state.menu === 10?
