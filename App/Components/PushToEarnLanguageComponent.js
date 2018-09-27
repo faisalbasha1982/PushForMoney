@@ -108,13 +108,13 @@ class PushToEarnLanguageComponent extends Component {
        console.log("LP language passed to LPC="+this.props.language);
     //    this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
        this.setLanguage();
-   } 
+   }
 
-    componentDidMount() {    
+    componentDidMount() {
 
         console.log("inside LP did Mount setting language for language page");
         this.setLanguage();
-        
+
     }
 
     renderNothing = () => {
@@ -203,9 +203,9 @@ class PushToEarnLanguageComponent extends Component {
                                             > {languageSettingsPFM.Dutch.languageText} </Text>
                                         </TouchableOpacity>
                             </View>
-                            <View style={{width: viewPortWidth*.80, height: 80, backgroundColor: 'transparent',flex:1,}} >
-                            <TouchableOpacity
-                                            onPress={() => { this.changeLanguage(languageSettingsPFM.English.languageText)  } }
+                            <View style={{width: viewPortWidth*.80, height: 80, backgroundColor: 'transparent',flex:1,}}>
+                                    <TouchableOpacity
+                                            onPress={() => { this.changeLanguage(languageSettingsPFM.English.languageText); }}
                                             activeOpacity={0.5}
                                             style={{
                                                 width: viewPortWidth*.80,
@@ -214,9 +214,9 @@ class PushToEarnLanguageComponent extends Component {
                                                 marginLeft: 0,
                                                 borderRadius: 8,
                                                 backgroundColor: '#E73D50',
-                                                marginTop: viewPortHeight / 20,
+                                                marginTop: viewPortHeight / 70,
                                                 justifyContent: 'center',
-                                                alignItems: 'flex-start'
+                                                alignItems: 'flex-start',
                                             }}>
                                             <Text
                                                 style={{
@@ -231,11 +231,11 @@ class PushToEarnLanguageComponent extends Component {
                                                     letterSpacing: 0.67,
                                                     textAlign: 'center'}}
                                             > {languageSettingsPFM.English.languageText} </Text>
-                                        </TouchableOpacity>
+                                    </TouchableOpacity>
                             </View>
-                            <View style={{width: viewPortWidth*.80, height: 80, backgroundColor: 'transparent',flex:2}} >
-                            <TouchableOpacity
-                                            onPress={() => { this.changeLanguage(languageSettingsPFM.French.languageText)  } }
+                            <View style={{width: viewPortWidth*.80, height: 80, backgroundColor: 'transparent',flex:1}} >
+                                    <TouchableOpacity
+                                            onPress={() => { this.changeLanguage(languageSettingsPFM.French.languageText);  } }
                                             activeOpacity={0.5}
                                             style={{
                                                 width: viewPortWidth*.80,
@@ -244,7 +244,7 @@ class PushToEarnLanguageComponent extends Component {
                                                 marginLeft: 0,
                                                 borderRadius: 8,
                                                 backgroundColor: '#E73D50',
-                                                marginTop: viewPortHeight / 10,
+                                                marginTop: viewPortHeight / 30,
                                                 justifyContent: 'center',
                                                 alignItems: 'center'
                                             }}>
@@ -399,7 +399,7 @@ const newStyle = StyleSheet.create({
     layoutBelow: {
         flex: 1,
         flexDirection: 'row',
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent'        
     },
 
     leftButtons:{
@@ -459,7 +459,7 @@ const newStyle = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: 'transparent',
     },
 
     inputContainer: {

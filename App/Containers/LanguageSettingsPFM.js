@@ -89,7 +89,7 @@ const languageSettings = {
     Password: "Wachtwoord",
     forgot: "Wachtwoord vergeten?",
     bottomLine: "Nog geen profiel? ",
-    here:"Hier! inschrijven",
+    here:"Hier inschrijven!",
     SignUp: "Inschrijven",
     forget: "Wachtwoord vergeten",
     resetPassword: "RESET WACHTWOORD",

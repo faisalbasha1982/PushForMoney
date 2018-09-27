@@ -1078,6 +1078,8 @@ class PushToEarnSignIn extends Component {
         :
         signup = '';
 
+        console.log("signup="+signup[0]+" signup2="+signup[1]);
+
         return (
 
             (platform === 'ios' && this.state.hasToken === false)?
@@ -1255,7 +1257,7 @@ class PushToEarnSignIn extends Component {
                                 marginLeft: 20,
                                 borderRadius: 8,
                                 backgroundColor: '#E73D50',
-                                marginTop: viewPortHeight / 30,            
+                                marginTop: viewPortHeight / 30,    
                                 justifyContent: 'center',
                                 alignItems: 'center'
                             }}>
@@ -1268,7 +1270,7 @@ class PushToEarnSignIn extends Component {
                                     fontWeight: '500',
                                     fontStyle: 'normal',
                                     color: '#ffffff',
-                                    marginTop: 0,                
+                                    marginTop: 0,
                                     letterSpacing: 0.67,
                                     textAlign: 'center'}}
                             > {this.state.text.SButton}</Text>

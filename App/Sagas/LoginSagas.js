@@ -327,17 +327,17 @@ export function * LoginRequest(api,payload) {
 
     if (response.ok && response.data.StatusCode === 200 ) {
 
-      Alert.alert(
-        ''+response.data.Message,
-        'Push To Earn Money Page',
-        [                      
-            {
-              text: 'OK', 
-              onPress: () => console.log('Ask me later Pressed')
-            },                      
-        ],
-        {cancelable: false}
-    );
+    //   Alert.alert(
+    //     ''+response.data.Message,
+    //     'Push To Earn Money Page',
+    //     [                      
+    //         {
+    //           text: 'OK', 
+    //           onPress: () => console.log('Ask me later Pressed')
+    //         },                      
+    //     ],
+    //     {cancelable: false}
+    // );
 
     console.tron.log("response data=",response.data);
     const token = response.data.LoginAccessToken;

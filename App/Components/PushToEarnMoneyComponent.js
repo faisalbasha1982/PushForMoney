@@ -171,7 +171,7 @@ class PushToEarnMoneyComponent extends Component {
            'AUGUST','SEPTEMBER','OCTOBER',
            'NOVEMBER','DECEMBER'
            ]],
-            selectedValue: ['JANUARY', 2013],
+            selectedValue:['SEPTEMBER', 2018],
             menu:1,
             triggerBackComponent:false,
             totalComponent:false,
@@ -368,12 +368,14 @@ class PushToEarnMoneyComponent extends Component {
         year = today.getUTCFullYear().toString();
 
         this.setDayYear(month,year);
+
+
     }
 
     setDayYear = (month, year) => {
         
         let cMonth = this.convertMonth(month);
-        this.setState({ currentMonth: cMonth, currentYear: year });
+        this.setState({ currentMonth: cMonth, currentYear: year, selectedValue:[cMonth,year] });
     }
 
     getAsyncStorageToken = async () => {
@@ -744,9 +746,13 @@ class PushToEarnMoneyComponent extends Component {
       
     showPicker = () => {
 
+        console.log("selectedValue="+this.state.selectedValue);
+        console.tron.log("selectedValue="+this.state.selectedValue);
+
         Picker.init({
             pickerData: this.state.pickerData,
-            selectedValue: this.state.selectedValue,
+            selectedValue: ['SEPTEMBER','2018'],
+            pickerTitleText: 'Cancel & Confirm',
             onPickerConfirm: data => {
                 let monthNumber = this.getMonthNumber(data[1]);
                 console.log("monthNumber="+monthNumber);
@@ -758,7 +764,7 @@ class PushToEarnMoneyComponent extends Component {
                 console.log(data);
             },
             onPickerSelect: data => {
-                console.log(data);
+                console.log("picker data:"+data);
             }   
         });
         

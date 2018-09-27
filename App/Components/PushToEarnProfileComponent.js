@@ -427,8 +427,6 @@ class PushToEarnProfileComponent extends Component {
 
     componentWillMount() {
         console.log("component Will Mount inside profile component");
-        let authData = AuthComponent.authenticationData(this.state.languageCode);
-        let encryptedData = AesComponent.aesCallback(authData);
         this.getAsyncStorage();
     }
 
@@ -851,10 +849,10 @@ class PushToEarnProfileComponent extends Component {
                                             initialCountry={this.state.countryCode}
                                             onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
                                             style= {newStyle.nameInput}
-                                            onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) } 
+                                            onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }
                                             value = {this.state.phoneNumberInput}
-                                            />                                   
-                                    </View> 
+                                            />
+                                    </View>
                                     :
                                     <View
                                         opacity={0.5}
