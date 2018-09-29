@@ -20,6 +20,7 @@ import {
     Alert,
     Platform,    
     findNodeHandle,
+    AsyncStorage,
 } from 'react-native';
 import {
   BallIndicator,
@@ -78,7 +79,8 @@ class CollapsibleView extends Component
     showAccordionComponent: true,
     language:'',
     languageCode:'',
-    text:{}
+    text:{},
+    token:'',
   }
 
 }
@@ -168,19 +170,15 @@ renderList = (personObj) => {
 
 getMoney = (MobileReferralID) => {
 
-  let language = localStorage.getItem('language');
-  console.log('local storage language='+language);
-
-  this.setState({ language: language});
   
-  if(language === 'Dutch')
-      this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
-  else
-      if(language === 'English')
-      this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});
-  else
-      if(language === 'French')
-      this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
+  // if(language === 'Dutch')
+  //     this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
+  // else
+  //     if(language === 'English')
+  //     this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});
+  // else
+  //     if(language === 'French')
+  //     this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
 
   let authData = AuthComponent.authenticationData(this.state.languageCode);
   let encryptedData = AesComponent.aesCallback(authData);
@@ -189,7 +187,7 @@ getMoney = (MobileReferralID) => {
 
   let payload = {
     "AuthenticationData": encryptedData,
-    "LoginAccessToken": ltoken,
+    "LoginAccessToken": this.state.token,
     "ReferralId": MobileReferralID,
     "Month" : this.props.month,
     "Year" : this.props.year,
@@ -217,15 +215,37 @@ componentWillReceiveProps(newProps)
 
 setLanguage = () => {
 
-  if(this.props.language === 'Dutch')
+  if(this.state.language === 'Dutch')
       this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
   else
-      if(this.props.language === 'English')
+      if(this.state.language === 'English')
           this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
   else
-      if(this.props.language === 'French')
+      if(this.state.language === 'French')
           this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
           
+}
+
+getAsyncStorageToken = async () => {
+
+  await AsyncStorage.getItem('language').then((language) => {
+    this.setState({ language: language});
+  });
+
+  
+  this.setLanguage();
+
+
+  await AsyncStorage.getItem('token').then((token) => {
+      this.setState({ token: token});
+  });
+
+}
+
+componentWillMount() {
+
+  this.getAsyncStorageToken();
+
 }
 
 componentDidMount()
@@ -238,7 +258,7 @@ componentDidMount()
   let lang = localStorage.getItem('language');
   console.log('local storage language='+lang);
 
-  this.setLanguage();
+  this.getAsyncStorageToken();
 
   if(this.props.changeMenuOneBack === true)
   {

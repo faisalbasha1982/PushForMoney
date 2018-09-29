@@ -105,6 +105,7 @@ class PushToEarnForgetPass extends Component
             lastNameEmptyError:false,
             phoneNumberEmptyError:false,
             text:{},
+            token:'',
         };    
     }
 

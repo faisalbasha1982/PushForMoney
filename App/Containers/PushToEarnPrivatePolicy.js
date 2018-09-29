@@ -286,7 +286,7 @@ class PushToEarnPrivatePolicy extends Component {
                 {
                             this.state.isLoading===true?
                             <View style = {{position: 'absolute' , zIndex:3999, left: 30, top: 0, right: 0, bottom: 0}}>
-                            <WaveIndicator color='#e73d50' />
+                            <BallIndicator color='#e73d50' />
                             </View>:this.somethingElse()
                   }            
             </KeyboardAwareScrollView>:

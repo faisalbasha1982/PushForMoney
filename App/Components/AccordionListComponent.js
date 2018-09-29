@@ -20,6 +20,7 @@ import {
     Alert,
     Platform,    
     findNodeHandle,
+    AsyncStorage
 } from 'react-native';
 import {
   BallIndicator,
@@ -52,7 +53,9 @@ class AccordionListComponent extends Component
     this.state={
     list:[],
     text:{},
-    fetching: true
+    fetching: true,
+    language:'',
+    token:''
   }
 
 }
@@ -130,10 +133,10 @@ somethingElse = () => {
 
 }
 
-componentWillReceiveProps(newProps)
+componentWillReceiveProps(nextProps)
 {
     if(this.props !== nextProps)
-        this.setLanguage();
+        this.getAsyncStorageToken();
 
     if(this.props.monthlyEarningDetailsByReferrals === null)
         this.createListArray();
@@ -141,15 +144,33 @@ componentWillReceiveProps(newProps)
 
 setLanguage = () => {
 
-    if(this.props.language === 'Dutch')
+    if(this.state.language === 'Dutch')
         this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
     else
-        if(this.props.language === 'English')
+        if(this.state.language === 'English')
             this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
     else
-        if(this.props.language === 'French')
+        if(this.state.language === 'French')
             this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
             
+  }
+
+  getAsyncStorageToken = async () => {
+
+    await AsyncStorage.getItem('language').then((language) => {
+        this.setState({ language: language});
+    });
+
+    this.setLanguage();
+
+    await AsyncStorage.getItem('token').then((token) => {
+        this.setState({ token: token});
+    });  
+  
+  }
+
+  componentWillMount() {
+      this.getAsyncStorageToken();
   }
 
 componentDidMount()
@@ -157,7 +178,7 @@ componentDidMount()
     let language = localStorage.getItem('language');
     console.log('local storage language='+language);
 
-   this.setLanguage();
+   this.getAsyncStorageToken();
 
     setTimeout(() => {
             this.createListArray();

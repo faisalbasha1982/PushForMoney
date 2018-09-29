@@ -805,8 +805,7 @@ class PushToEarnProfileComponent extends Component {
                                                 name='edit'
                                                 type='font-awesome'
                                                 color='#E73D50'
-                                                size = {15} />
-                                            
+                                                size = {15} />                                            
                                                 }
                                     </TouchableOpacity>
 

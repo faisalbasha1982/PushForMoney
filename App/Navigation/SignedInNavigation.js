@@ -39,7 +39,11 @@ const SignedInNav = StackNavigator({
     PushToEarnPrivatePolicy: { screen: PushToEarnPrivatePolicy },
     CollapsibleView: { screen: CollapsibleView },
     NewScreenMoney: { screen: NewScreenMoney },
-    TestPage: { screen: TestPage },
+    TestPage: { screen: TestPage,
+        navigationOptions: {
+            gesturesEnabled: false,
+          },
+     },
 }, {
     // Default config for all screens
     initialRouteName: "PushToEarnWelcomeScreen",

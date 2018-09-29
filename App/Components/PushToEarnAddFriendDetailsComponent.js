@@ -75,7 +75,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
     constructor(props)
     {
-        super(props);             
+        super(props);
 
         this.state = {
             language: 'NEDERLANDS',
@@ -101,6 +101,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
             lastNameEmptyError:false,
             phoneNumberEmptyError:false,
             text:{},
+            aToken:'',
             countryCode: 'be',
         };    
     }
@@ -260,13 +261,13 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
     setLanguage = () => {
 
-        if(this.props.language === 'Dutch')
+        if(this.state.language === 'Dutch')
             this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
         else
-            if(this.props.language === 'English')
+            if(this.state.language === 'English')
                 this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
         else
-            if(this.props.language === 'French')
+            if(this.state.language === 'French')
                 this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
                 
    }
@@ -285,6 +286,9 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
     }
 
+    componentWillMount() {
+        this.getAsyncStorage();
+    }
 
     componentDidMount() {
         let language = localStorage.getItem('language');
@@ -305,21 +309,21 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
         let payload = {
             "AuthenticationData": encryptedData,
-            "LoginAccessToken": ltoken,
+            "LoginAccessToken": this.state.aToken,
             "MobileUsersReferrals":  [
                             {"firstName":this.state.name.split(" ")[0], "lastName": this.state.name.split(" ")[1], "mobilePhone":this.state.phone, "email": this.state.email}
                             ],
         };
 
-        if(ltoken === null)
+        if(this.state.token === null)
             setTimeout(()=>{
-                ltoken = localStorage.getItem('token');
+               this.getAsyncStorage();
             },2000)
         else
             {
                 payload = {
                     "AuthenticationData": encryptedData,
-                    "LoginAccessToken": ltoken,
+                    "LoginAccessToken": this.state.aToken,
                     "MobileUsersReferrals":  [
                                     {"firstName":this.props.name.split(" ")[0], "lastName": this.props.name.split(" ")[1], "mobilePhone":this.props.phone, "email": this.props.email}
                                     ],
@@ -461,7 +465,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                             {
                                 this.state.isLoading===true?
                                 <View style = {{position: 'absolute' , zIndex:3999, left: 30, top: 0, right: 0, bottom: 0}}>
-                                <BarIndicator color='#e73d50' />
+                                <BallIndicator color='#e73d50' />
                                 </View>:this.somethingElse()
                             }
 

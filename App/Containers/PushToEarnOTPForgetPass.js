@@ -542,7 +542,7 @@ class PushToEarnOTPForgetPass extends Component {
                     {
                             this.state.isLoading===true?
                             <View style = {{position: 'absolute' , zIndex:3999, left: 10, top: 50, right: 0, bottom: 0}}>
-                            <BarIndicator color='#e73d50' />
+                            <BallIndicator color='#e73d50' />
                             </View>:this.somethingElse()
                     }                      
 

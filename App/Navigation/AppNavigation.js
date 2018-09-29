@@ -43,7 +43,11 @@ import TestPage from '../Containers/TestPage';
 const AppNavigation = createStackNavigator({
   AccordionListComponent: { screen: AccordionListComponent },
   LaunchScreen: { screen: LaunchScreen },
-  TestPage: { screen: TestPage },
+  TestPage: { screen: TestPage,
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+   },
   LanguageButton: { screen: LanguageButton},
   LanguageScreen: { screen: LanguageScreen },
   PushToEarnSignIn: { screen: PushToEarnSignIn },

@@ -274,6 +274,10 @@ class PushToEarnWelcomeScreen extends Component {
 
     };
 
+    getAsyncStorageToken = () => {
+        
+    }
+
     renderNothing = () => {
 
     }
