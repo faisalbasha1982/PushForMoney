@@ -190,7 +190,7 @@ class PushToEarnProfileBankInfoComponent extends Component {
                         <View style={newStyle.topView}>
                         <View style={{ marginLeft:25, width:80,justifyContent:'flex-end', alignItems:'flex-end' }}>
                                     <TouchableOpacity
-                                            onPress={() => { this.props.menu(1) } }
+                                            onPress={() => { this.props.menu(1); } }
                                             activeOpacity={0.5}
                                             style={{
                                                 width: 30,

@@ -95,79 +95,57 @@ class PushToEarnOTP extends Component {
             buttonText: 'START NOW!',
             ErrorText:'',
             EmptyErrorText:'',
-            text:{}
-        };    
+            text:{},
+            token:''
+        };
+    }
+
+    componentWillMount() {
+
+        this.getAsyncStorageToken();
+
+    }
+
+    setLanguage = () => {
+
+        if(this.state.language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+        else
+            if(this.state.language === 'English')
+                this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
+        else
+            if(this.state.language === 'French')
+                this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+
+   }
+
+     getAsyncStorageToken = async () => {
+
+        await AsyncStorage.getItem('token').then((token) => {
+            this.setState({ token: token});
+        });
+
+        await AsyncStorage.getItem('language').then((language) => {
+            this.setState({ language: language});
+        });
+
+        this.setLanguage();
     }
 
     componentWillReceiveProps(nextProps) {
-        // console.log("in Form One screen language received="+nextProps.language);
-        // if (this.props.navigation.state.params.language !== nextProps.language) {
-        //     this.setState({ language: nextProps.language });
-        //     this.setText();
-        // }
+
+        if(this.props !== nextProps)
+            this.getAsyncStorageToken();
+        
     }
+
+    
 
     componentDidMount() {
 
-        let language = localStorage.getItem('language');
-        console.log('local storage language='+language);
+        this.getAsyncStorageToken();
 
-        if(language === 'Dutch')
-            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
-        else
-        if(language === 'English')
-            this.setState({ text: languageSettingsPFM.English,languageCode:'en'});
-        else
-        if(language === 'French')
-            this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
-
-
-        // console.log("language from props="+this.props.navigation.state.params.language);
-        // console.log("default language="+this.state.language);
-        // this.setState({ language: this.props.navigation.state.params.language });
-        // console.log("language="+this.state.language);
-        // this.setText();
-        // console.log("this.state.firstName="+this.state.firstName);
-        // console.log("this.state.buttonText="+this.state.buttonText);
     }
-
-    // setText =  () => {
-
-    //     this.setState({language: this.props.navigation.state.params.language});
-    //     console.log("this.state.language="+this.state.language);
-
-    //     if (this.props.navigation.state.params.language === 'NEDERLANDS') {
-    //         console.log("setting in Nederlands");
-    //         this.setState({
-    //             firstName:  LanguageSettings.dutch.firstNameText,
-    //             name:       LanguageSettings.dutch.lastNameText,
-    //             phoneNumber: LanguageSettings.dutch.telephoneNumberText,
-    //             buttonText: LanguageSettings.dutch.buttonNextText
-    //         });
-    //     }
-    //     else
-    //         if (this.props.navigation.state.params.language === 'ENGLISH') {
-    //             console.log("setting in English");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.english.firstNameText,
-    //                 name: LanguageSettings.english.lastNameText,
-    //                 phoneNumber: LanguageSettings.english.telephoneNumberText,
-    //                 buttonText: LanguageSettings.english.buttonNextText
-    //             });
-    //         }
-    //         else
-    //           {
-    //             console.log("setting in French");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.french.firstNameText,
-    //                 name: LanguageSettings.french.lastNameText,
-    //                 phoneNumber: LanguageSettings.french.telephoneNumberText,
-    //                 buttonText: LanguageSettings.french.buttonNextText
-    //             });
-    //         }
-    
-       
-    // }
 
     validateOTPText1 = (text) => {
 
@@ -205,9 +183,6 @@ class PushToEarnOTP extends Component {
 
         this.setState({ isLoading: true});
 
-        let tokenLocalStorage = localStorage.getItem('token');
-        this.setState({loginAccessToken:tokenLocalStorage});
-
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         console.log("authdata=",authData);
 
@@ -216,7 +191,7 @@ class PushToEarnOTP extends Component {
 
         let payload = {
             "AuthenticationData": encryptedData,
-            "LoginAccessToken": tokenLocalStorage,
+            "LoginAccessToken": this.state.token,
             "SignupType": "S",
         };
 
@@ -251,18 +226,9 @@ class PushToEarnOTP extends Component {
              console.log("authCode=",authCode[1]);
             
              let otpText = this.state.firstInput + this.state.secondInput + this.state.thirdInput + this.state.fourthInput;
-
-            AsyncStorage.getItem('token').then((value) => {
-                this.setState({loginAccessToken: value});
-            }).done();
-
-            let tokenLocalStorage = localStorage.getItem('token');
-            this.setState({loginAccessToken:tokenLocalStorage});
-
-            console.log("token from local storage=",tokenLocalStorage);
     
              //"{'Lang': 'en', 'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-19 3:53:12' ,'R' : 'ssf3dfd'}",
-             let newpayload = "{" +"\"" + "AuthenticationData"+"\""+":"+ authCode[1]+"\""+","+"\""+"LoginAccessToken"+"\""+":"+"\""+tokenLocalStorage+"\""+","+"\""+"OTP"+"\""+":"+ "\""+otpText+"\""+","+"\""+"OTPType"+"\""+":"+"\""+ "S"+"\"" + "}";
+             let newpayload = "{" +"\"" + "AuthenticationData"+"\""+":"+ authCode[1]+"\""+","+"\""+"LoginAccessToken"+"\""+":"+"\""+this.state.token+"\""+","+"\""+"OTP"+"\""+":"+ "\""+otpText+"\""+","+"\""+"OTPType"+"\""+":"+"\""+ "S"+"\"" + "}";
     
              console.tron.log("payload="+newpayload);
     

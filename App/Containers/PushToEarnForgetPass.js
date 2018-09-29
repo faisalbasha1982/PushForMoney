@@ -109,6 +109,8 @@ class PushToEarnForgetPass extends Component
         };    
     }
 
+    
+
     componentWillReceiveProps(nextProps) {
     }
 

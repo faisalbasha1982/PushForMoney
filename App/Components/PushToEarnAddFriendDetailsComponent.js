@@ -12,7 +12,7 @@ import {
     Alert,
     Platform,    
     findNodeHandle,
-    AsyncStorage
+    AsyncStorage,
 } from 'react-native';
 import {
     BallIndicator,
@@ -103,6 +103,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
             text:{},
             aToken:'',
             countryCode: 'be',
+            email:'',
         };    
     }
 
@@ -150,7 +151,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
         let reg = /^[a-zA-Z\s]+$/;
 
-        console.log("validating First Name="+name);
+        console.log("FD validating First Name="+name);
 
         if(name === '')
         {
@@ -254,8 +255,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
     }
 
-    componentWillMount() {
-        
+    componentWillMount() {        
         this.getAsyncStorage();
     }
 
@@ -287,6 +287,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
     }
 
     componentWillMount() {
+        console.log("inside FD ="+this.state.firstNameInput);
         this.getAsyncStorage();
     }
 
@@ -300,22 +301,81 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
     }
 
-    saveReferrals = () => {
+    displayInputs = () => {
+        Alert.alert(" firstNameInput= "+this.state.firstNameInput);
+        console.log("this.state.firstNameInput="+this.state.firstNameInput);
+    }
+
+    saveReferralsFromEmpty = () => {
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
-        let ltoken = localStorage.getItem('token');
         this.setState({isLoading: true});
 
         let payload = {
             "AuthenticationData": encryptedData,
             "LoginAccessToken": this.state.aToken,
             "MobileUsersReferrals":  [
-                            {"firstName":this.state.name.split(" ")[0], "lastName": this.state.name.split(" ")[1], "mobilePhone":this.state.phone, "email": this.state.email}
+                            {"firstName":this.state.firstNameInput.split(" ")[0], "lastName": this.state.firstNameInput.split(" ")[1], "mobilePhone":this.state.phoneNumberInput, "email": this.state.email}
                             ],
         };
 
-        if(this.state.token === null)
+        this.props.saveReferrals(payload);
+
+        setTimeout(() => {
+            if(!_.isEmpty(this.props.MobileReferrals))
+                {
+                    this.props.MobileReferrals.map(personObj =>
+
+                        {
+                            if(personObj.ReferralAddStatus === true)
+                            {
+                                 this.props.menu(2);
+                                 this.setState({isLoading: false});
+                            }
+                            else
+                            {
+                                this.setState({isLoading: false});
+                                this.props.menu(9);
+                                //Alert.alert("Referrals not added");
+                            }
+                        }
+                    )
+                }
+            else    
+                console.log("mobileReferrals="+this.props.MobileReferrals); 
+        },4000);
+
+    }
+
+    saveReferrals = () => {
+
+        console.log("save referrals");
+
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
+        let encryptedData = AesComponent.aesCallback(authData);
+        let ltoken = localStorage.getItem('token');
+        this.setState({isLoading: true});
+
+        console.tron.log("save referrals first Name input ="+this.state.firstNameInput);
+        console.log("saveReferrals firstNameInput="+this.state.firstNameInput);
+
+        Alert.alert("firstNameInput --->  "+this.state.firstNameInput);
+
+        console.log("SR first Name ="+this.state.firstNameInput.split(" ")[0]);
+        console.log("SR last Name ="+this.state.firstNameInput.split(" ")[1]);
+        console.log("SR phone="+this.state.phoneNumberInput);
+        console.log("SR email="+this.state.email);
+
+        let payload = {
+            "AuthenticationData": encryptedData,
+            "LoginAccessToken": this.state.aToken,
+            "MobileUsersReferrals":  [
+                            {"firstName":this.state.firstNameInput.split(" ")[0], "lastName": this.state.firstNameInput.split(" ")[1], "mobilePhone":this.state.phoneNumberInput, "email": this.state.email}
+                            ],
+        };
+
+        if(this.state.aToken === null)
             setTimeout(()=>{
                this.getAsyncStorage();
             },2000)
@@ -418,6 +478,12 @@ class PushToEarnAddFriendDetailsComponent extends Component {
         console.log("platform --->",Platform.OS);
         return (
 
+            <KeyboardAwareScrollView
+                behavior = "padding"
+                enableOnAndroid = { false }
+                contentContainerStyle={ newStyle.keyboardContainer }
+                scrollEnabled={true}>
+
                 <View style= { newStyle.layoutBelow }>
 
                     <View style={newStyle.endButtons}>     
@@ -491,7 +557,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
                         <View style={newStyle.buttonViewBottom}>
                         <TouchableOpacity
-                                    onPress={() => { this.saveReferrals()  } }
+                                    onPress={() => { (this.props.name === '' && this.props.phone === '')? this.saveReferralsFromEmpty() : this.saveReferrals()  } }
                                     activeOpacity={0.5}
                                     style={{
                                         width: 280,
@@ -521,7 +587,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                         </View>
                     </View>
                 </View>
-
+            </KeyboardAwareScrollView>
         );
     }
 
@@ -532,6 +598,16 @@ const newStyle = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+
+    keyboardContainer: {
+        flex: 1,
+        width: viewPortWidth * 0.85,
+        height: viewPortHeight * 0.80,
+        backgroundColor: 'steelblue',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
