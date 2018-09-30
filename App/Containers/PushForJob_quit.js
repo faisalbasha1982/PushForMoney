@@ -61,44 +61,16 @@ const animationsNew = [
     ['tada','transparent']
 ];
 
-// Styles
-
-class PushForJob extends Component {
+class PushForJob_quit extends Component {
 
     constructor(props)
     {
       super(props);
 
         this.state = {
-            hasToken:false,
             isLoaded: false,
             language:''
         };
-
-
-    }
-
-    getToken = async () => {
-
-        console.log("inside push for job screen ---->"+ this.state.hasToken)
-        console.log("hasToken --->"+this.state.hasToken);
-
-     await AsyncStorage.getItem('token').then((token) => {
-            this.setState({ hasToken: token !== null, isLoaded: true })
-          });
-          
-    }
-
-    getLanguage = async () => {
-
-       await AsyncStorage.getItem('language').then((language) => {
-            this.setState({ language:language })
-          });
-    
-        setTimeout(() => {
-            console.log("inside get Language in Push For Job language="+this.state.language);
-        },3000);
-
     }
 
     getAsyncStorage = async () => {
@@ -144,12 +116,9 @@ class PushForJob extends Component {
 
     componentWillReceiveProps(newProps)
     {
-        // if(newProps != )
-
         if(newProps !== this.props)
             {
                 this.getAsyncStorage();
-                console.log("hasToken --->"+this.state.hasToken);
             }
     }
 
@@ -161,9 +130,6 @@ class PushForJob extends Component {
     componentDidMount()
     {
         this.getAsyncStorage();
-
-        console.log("inside push for job screen ---->"+ this.state.hasToken)
-        console.log("hasToken --->"+this.state.hasToken);
     }
 
     callForm = () => {
@@ -178,9 +144,8 @@ class PushForJob extends Component {
                     return (                        
                             <TouchableOpacity onPress={() => 
                                 { 
-                                //this.props.onButtonPress()
-                                this.reset();
-                                this.props.navigation.navigate('NewScreen');
+                                    this.reset();
+                                    this.props.navigation.navigate('NewScreen');
                             }}>
                                     <Image source={njobanimationImage} resizeMode="contain" style={{ width: viewPortWidth * 0.891, height: viewPortHeight * 0.891 }} />
                             </TouchableOpacity>
@@ -190,14 +155,10 @@ class PushForJob extends Component {
     render()
     {
         let tokenAsync = '';
-        console.log("has token --->"+this.state.hasToken);
 
         return(
-                (this.state.hasToken === false)?
                 <View style={newStyle.container}>
                     <View style={newStyle.topContainer}>
-                        {/* <Animatable.Text animation="zoomInUp" style={newStyle.pushStyle}>PUSH {'\n'} FOR {'\n'} A</Animatable.Text> */}
-                        {/* <Image source={pushImage} resizeMode="contain" style={{ width: viewPortWidth * 0.812, height: viewPortHeight * 0.35, }} /> */}
                         <View style={newStyle.bottomContainer}>
                             <TouchableOpacity onPress={() => { this.callForm() }}>
                                         <Image source={jobanimationnew} resizeMode="contain" style={{ width: viewPortWidth * 0.891, height: viewPortHeight * 0.891, marginLeft: 15, marginTop: 15, }} />
@@ -217,9 +178,7 @@ class PushForJob extends Component {
                     <View style={newStyle.logoBottom}>
                             <Image source={logoHeader} resizeMode="contain" style={{ width: viewPortWidth * 0.350, height: viewPortHeight * 0.04 }} />
                     </View>
-                </View>                                
-                :
-                    this.props.navigation.navigate('TestPage',{language: this.state.language})
+                </View>
         );
     }
 }
@@ -341,9 +300,8 @@ const mapStateToProps = state => {
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       onButtonPress: () => {dispatch(NavigationActions.navigate({routeName: 'NewScreen'}));},
-    //   onButtonPress: () => this.props.navigation.navigate('NewScreen'),
       navigateBack: () => dispatch(NavigationActions.back()),  
     };
   };
   
-  export default connect(mapStateToProps, mapDispatchToProps)(PushForJob);
+  export default connect(mapStateToProps, mapDispatchToProps)(PushForJob_quit);

@@ -171,6 +171,11 @@ class PushToEarnMoneyComponent extends Component {
            'AUGUST','SEPTEMBER','OCTOBER',
            'NOVEMBER','DECEMBER'
            ]],
+           newpickerData: [['JANUARY','FEBRUARY','MARCH',
+           'APRIL','MAY','JUNE','JULY',
+          'AUGUST','SEPTEMBER','OCTOBER',
+          'NOVEMBER','DECEMBER'
+          ],[2016,2017,2018,2019,2020]],
             selectedValue:['SEPTEMBER', 2018],
             menu:1,
             triggerBackComponent:false,
@@ -750,23 +755,25 @@ class PushToEarnMoneyComponent extends Component {
         console.tron.log("selectedValue="+this.state.selectedValue);
 
         Picker.init({
-            pickerData: this.state.pickerData,
-            selectedValue: ['SEPTEMBER','2018'],
+            pickerData: this.state.newpickerData,
+            selectedValue:this.state.selectedValue,
             pickerTitleText: 'Cancel & Confirm',
             onPickerConfirm: data => {
-                let monthNumber = this.getMonthNumber(data[1]);
+                let monthNumber = this.getMonthNumber(data[0]);
                 console.log("monthNumber="+monthNumber);
-                this.setState({currentMonth: data[1], currentYear: data[0]});
+                this.setState({currentMonth: data[0], currentYear: data[1]});
                 this.getPerson();
-                console.log(data);
+                console.log("ON Confirm Data="+data[1]);
             },
             onPickerCancel: data => {
                 console.log(data);
             },
             onPickerSelect: data => {
                 console.log("picker data:"+data);
-            }   
+            }
         });
+
+        Picker.select([this.state.currentMonth,this.state.currentYear]);
         
         Picker.show();
     }

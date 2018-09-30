@@ -81,6 +81,7 @@ class PushToEarnInformationComponent extends Component {
             name:'',
             buttonText: '',
             text:{},
+            token:'',
             isLoaded: false,
             isSignedOut: false,
         };    
@@ -118,6 +119,12 @@ class PushToEarnInformationComponent extends Component {
     });
 
     this.setLanguage();
+
+}
+
+componentWillMount() {
+
+    this.getAsyncStorageToken();
 
 }
 
@@ -164,10 +171,9 @@ class PushToEarnInformationComponent extends Component {
         this.setState({ isSignedOut: true});
 
         //this.props.menu(12);
-
         // this.props.navigation.navigate('PushForJob');
 
-        NavigationService.navigate('PushForJob');
+        NavigationService.navigate('PushForJob_quit');
 
       }
 

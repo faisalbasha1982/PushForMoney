@@ -11,6 +11,7 @@ import LanguageScreen from '../Containers/LanguageScreen';
 import FormOne from '../Containers/FormOne';
 import FormTwo from '../Containers/FormTwo';
 import FormTwoNew from '../Containers/FormTwoNew';
+import PushForJob_quit from '../Containers/PushForJob_quit';
 
 // Manifest of possible screens
 const SignedOutNav = StackNavigator(
@@ -59,6 +60,13 @@ const SignedOutNav = StackNavigator(
           gesturesEnabled: false,
         },
     },
+
+   PushForJob_quit: { screen: PushForJob_quit, 
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+  }
+
 
   },
 
