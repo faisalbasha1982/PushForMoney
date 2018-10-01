@@ -6,10 +6,12 @@ const { Types, Creators } = createActions({
   getProfile:["payload"],
   getProfileRequestNew: ["payload"],
   updateFirstName:["payload"],
+  updateFirstNameSuccess:["firstname"],
+  updateLastNameSuccess:["lastname"],
   changePassword:["payload"],
   changeMobile:["payload"],
-  verifyOtpMobile:["payload"],
-  profileSuccess: ['bankinfo'],
+  verifyOtpMobile:["payload"],  
+  profileSuccess: ['bankinfo','firstname','lastname','email','mobileno'],
   profileFailure: ['error'],
   userRegistered: ['bankinfo'],
   logout: null
@@ -22,6 +24,10 @@ export default Creators;
 
 export const INITIAL_STATE = {
   bankinfo: null,
+  firstname: null,
+  lastname: null,
+  email: null,
+  mobileno: null,
   user: null,
   fetching: false,
   error: '',
@@ -34,7 +40,11 @@ export const ProfileSelectors = {
   getBankInfo: state => state['profile'].bankinfo,
   getUser: state => state['profile'].user,
   getFetching: state => state['profile'].fetching,
-  getError: state => state['profile'].error
+  getError: state => state['profile'].error,
+  getMobileNo: state => state['profile'].mobileno,
+  getFirstName: state => state['profile'].firstname,
+  getLastName: state => state['profile'].lastname,
+  getEmail: state => state['profile'].email,
 };
 
 /* ------------- Reducers ------------- */
@@ -46,6 +56,14 @@ export const request = (state, { payload }) => {
 export const newrequest = (state, { payload }) => {
     return { ...state, fetching: true, payload }
   }
+
+export const updateSuccessFirstName = (state,{ firstname }) => {
+    return { ...state, firstname, fetching: true, }
+}
+
+export const updateSuccessLastName = (state,{ lastname }) => {
+  return { ...state, lastname, fetching: true, }
+}
 
 export const changePassword = (state, {payload}) => {
     return { ...state, fetching: true, payload }
@@ -59,8 +77,8 @@ export const verifyOtpMobileSuccess = (state, {payload}) => {
     return { ...state, fetching:true, payload }
 }
 
-export const success = (state, {bankinfo}) => {
-  return { ...state, bankinfo, fetching: false, }
+export const success = (state, {bankinfo,firstname,lastname,email,mobileno}) => {
+  return { ...state, bankinfo, firstname, lastname, email, mobileno, fetching: false, }
 }
 
 export const failure = (state, {error}) => {
@@ -86,6 +104,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_PROFILE]: request,
   [Types.GET_PROFILE_REQUEST_NEW]: request,
   [Types.UPDATE_FIRST_NAME]: newrequest,
+  [Types.UPDATE_FIRST_NAME_SUCCESS]: updateSuccessFirstName,
+  [Types.UPDATE_LAST_NAME_SUCCESS]: updateSuccessLastName,
   [Types.CHANGE_PASSWORD]: changePassword,
   [Types.CHANGE_MOBILE]: cMobile,
   [Types.VERIFY_OTP_MOBILE]: verifyOtpMobileSuccess,

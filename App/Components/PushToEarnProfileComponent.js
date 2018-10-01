@@ -564,7 +564,7 @@ class PushToEarnProfileComponent extends Component {
         console.log("login access token="+this.state.aToken);
         console.tron.log("update name login access token="+this.state.aToken);
 
-        let payload = {         
+        let payload = {
             "AuthenticationData": encryptedData,
             "LoginAccessToken":this.state.aToken,
             "NewFirstName": name,
@@ -613,6 +613,28 @@ class PushToEarnProfileComponent extends Component {
 
         this.props.changeMobile(payload);
         this.props.menu(11);
+    }
+
+    formatMobileNo = (mobileNo) => {
+
+        let newMobNo = "+";
+
+        if(mobileNo === null)
+            return null;
+
+        console.log("newMobNo="+newMobNo+ " mobileNo substring(0,3)="+mobileNo.substring(0,3));
+
+        if(mobileNo.substring(0,2)==="00")
+            newMobNo = newMobNo + mobileNo.substring(2);
+        else
+            if(mobileNo.substring(0,1)==="0")
+                newMobNo = newMobNo + mobileNo.substring(1);
+
+        console.log("newMobNo="+newMobNo);
+
+        return newMobNo;
+
+
     }
 
     render() {
@@ -720,8 +742,9 @@ class PushToEarnProfileComponent extends Component {
                                         editable={this.state.firstNameEditable}
                                         ref={(ref) => { this.FirstInput = ref; }}
                                         underlineColorAndroid= 'transparent'
+                                        value = {this.props.firstName}
                                         onBlur = { () => this.callUpdateName(this.state.firstNameInput)}
-                                        onChangeText={(firstNameInput) => this.validateFirstName(firstNameInput)}/>                                    
+                                        onChangeText={(firstNameInput) => this.validateFirstName(firstNameInput)}/>
                             </View>
 
                             <Text style={newStyle.firstName}>{this.state.text.lastName}</Text>
@@ -766,6 +789,7 @@ class PushToEarnProfileComponent extends Component {
                                         placeholder='last name'
                                         placeholderTextColor = {this.state.placeHolderColorLastName}
                                         editable={this.state.lastNameEditable}
+                                        value = {this.props.lastName}
                                         onBlur = { () => this.callUpdateLastName(this.state.lastNameInput)}
                                         underlineColorAndroid= 'transparent'
                                         onChangeText= { (lastNameInput) => this.validateLastName(lastNameInput) }/>
@@ -814,6 +838,7 @@ class PushToEarnProfileComponent extends Component {
                                     placeholder='Email Address'
                                     placeholderTextColor={this.state.placeHolderColorEmail}
                                     editable={this.state.emailEditable}
+                                    value = { this.props.email}
                                     underlineColorAndroid= 'transparent'
                                     onBlur = { () => this.callUpdateName(this.state.emailInput)}
                                     onChangeText= { (emailInput) => this.validateEmail(emailInput) }/>
@@ -870,7 +895,7 @@ class PushToEarnProfileComponent extends Component {
                                         ref='phone'
                                         initialCountry={this.state.countryCode}
                                         style= {newStyle.nameInputLite}
-                                        value = {this.state.phoneNumberInput} />
+                                        value = {this.formatMobileNo(this.props.mobileNo)} />
                                     </View>
                                 }                         
                                  <TouchableOpacity
@@ -980,13 +1005,13 @@ class PushToEarnProfileComponent extends Component {
                                     opacity={0.5}
                                     style={{
                                         width: viewPortWidth*0.83,
-                                        height: 5,
+                                        height: 25,
                                         margin:0,
                                         borderBottomColor: "#353535",
                                         borderBottomWidth: StyleSheet.hairlineWidth,
                                         backgroundColor: 'transparent',
                                         padding: 0,
-                                        flex:1,
+                                        flex:2,
                                     }}>
                                     <Text
                                         style={{
@@ -1390,6 +1415,10 @@ const mapStateToProps = state => {
         fetching: ProfileSelectors.getFetching(state),
         LastViewedNotificationID: LoginSelectors.getLastViewedNotificationID(state),
         mobileNotifications: LoginSelectors.getMobileNotifications(state),
+        firstName: ProfileSelectors.getFirstName(state),
+        lastName: ProfileSelectors.getLastName(state),
+        email: ProfileSelectors.getEmail(state),
+        mobileNo: ProfileSelectors.getMobileNo(state)
     };
   };
   

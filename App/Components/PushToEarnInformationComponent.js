@@ -168,11 +168,11 @@ componentWillMount() {
         await AsyncStorage.removeItem('language');
         await AsyncStorage.removeItem('token');
 
-        this.setState({ isSignedOut: true});
+        this.setState({ isSignedOut: false});
 
         //this.props.menu(12);
         // this.props.navigation.navigate('PushForJob');
-
+        this.props.menu(0);
         NavigationService.navigate('PushForJob_quit');
 
       }

@@ -87,6 +87,8 @@ class TestPage extends Component {
         console.log("TP component will mount");
         this.getAsyncStorage();
 
+        this.setState({ menu:0 });
+
     }
 
     componentWillReceiveProps(nextProps)

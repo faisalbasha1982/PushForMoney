@@ -103,7 +103,7 @@ export function * ProfileRequestNew(api,action)
     try{
             console.log("profile request new:");
             const responseJson = yield call(fetchProfile,action.payload);
-            yield put(ProfileActions.profileSuccess(responseJson.MobileUserBankDetails));
+            yield put(ProfileActions.profileSuccess(responseJson.MobileUserBankDetails,responseJson.FirstName,responseJson.LastName,responseJson.Email,responseJson.MobileNumber));
         }
     catch(error)
     {

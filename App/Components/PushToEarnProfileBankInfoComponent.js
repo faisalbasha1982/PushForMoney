@@ -185,6 +185,13 @@ class PushToEarnProfileBankInfoComponent extends Component {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
         return (
+
+            <KeyboardAwareScrollView
+                    behavior = "padding"
+                    enableOnAndroid = { false }
+                    contentContainerStyle={ newStyle.keyboardContainer }
+                    scrollEnabled={true}>
+
                     <View style={newStyle.endButtons}>     
 
                         <View style={newStyle.topView}>
@@ -270,6 +277,7 @@ class PushToEarnProfileBankInfoComponent extends Component {
                         </View>
 
                     </View>
+            </KeyboardAwareScrollView>
         );
     }
 
