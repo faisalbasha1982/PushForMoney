@@ -757,7 +757,7 @@ class PushToEarnMoneyComponent extends Component {
         Picker.init({
             pickerData: this.state.newpickerData,
             selectedValue:this.state.selectedValue,
-            pickerTitleText: 'Cancel & Confirm',
+            pickerTitleText: '',
             onPickerConfirm: data => {
                 let monthNumber = this.getMonthNumber(data[0]);
                 console.log("monthNumber="+monthNumber);

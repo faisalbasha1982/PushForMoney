@@ -605,34 +605,64 @@ class PushToEarnProfileComponent extends Component {
         console.log("phoneNumber="+phoneNumber);
         Alert.alert("phoneNumber="+phoneNumber);
 
-        let payload = {             
+        let payload = {
             "AuthenticationData": encryptedData,
             "LoginAccessToken":this.state.aToken,
             "NewMobileNumber": phoneNumber,
         };
 
         this.props.changeMobile(payload);
-        this.props.menu(11);
+
+        console.log(" CM this.props.statusCode="+this.props.statusCode);
+
+        setTimeout(() => {
+                { 
+                    (this.props.statusCode === 200)?
+                        this.props.menu(11)
+                     : 
+                     (this.props.statusCode === 409)?
+                        Alert.alert(" Duplicate Mobile Phone Number already exists"+ phoneNumber)
+                     :
+                     this.props.menu(11)
+                       
+                }
+        },3000);
     }
 
     formatMobileNo = (mobileNo) => {
 
-        let newMobNo = "+";
+        let newMobNo = "+32";
 
         if(mobileNo === null)
             return null;
 
-        console.log("newMobNo="+newMobNo+ " mobileNo substring(0,3)="+mobileNo.substring(0,3));
-
-        if(mobileNo.substring(0,2)==="00")
-            newMobNo = newMobNo + mobileNo.substring(2);
+        if(mobileNo !== null && mobileNo.substring(0,2)==="00")
+            if(mobileNo.substring(2,4)==="32")
+                newMobNo = newMobNo + mobileNo.substring(4);
+            else
+                newMobNo = newMobNo + mobileNo.substring(2);
         else
-            if(mobileNo.substring(0,1)==="0")
+            if(mobileNo !== null && mobileNo.substring(0,1)==="0")
                 newMobNo = newMobNo + mobileNo.substring(1);
 
         console.log("newMobNo="+newMobNo);
 
         return newMobNo;
+    }
+
+    nameElement = () => {
+
+        console.log("this.props.firstName="+this.props.firstName);
+
+        return (
+
+            // <Text style={{ color: '#353535', fontSize: 12, }}>
+            //  { this.props.firstName }
+            // </Text>
+
+            this.props.firstName
+
+        );
 
 
     }
@@ -734,17 +764,31 @@ class PushToEarnProfileComponent extends Component {
                                      
                                         }
                                         </TouchableOpacity>
-                                    
-                                     <TextInput
-                                        style={ newStyle.nameInputFirst }
-                                        placeholder='first name'
-                                        placeholderTextColor={this.state.placeHolderColor}
-                                        editable={this.state.firstNameEditable}
-                                        ref={(ref) => { this.FirstInput = ref; }}
-                                        underlineColorAndroid= 'transparent'
-                                        value = {this.props.firstName}
-                                        onBlur = { () => this.callUpdateName(this.state.firstNameInput)}
-                                        onChangeText={(firstNameInput) => this.validateFirstName(firstNameInput)}/>
+                                        {
+                                         (this.state.firstNameEditable===true)?
+                                            <TextInput
+                                                style={ newStyle.nameInputFirst }
+                                                placeholder='first name'
+                                                placeholderTextColor={ this.state.placeHolderColor }
+                                                editable={ this.state.firstNameEditable }
+                                                ref={(ref) => { this.FirstInput = ref; }}
+                                                underlineColorAndroid= 'transparent'
+                                                value = { this.props.firstName }
+                                                onBlur = { () => this.callUpdateName(this.state.firstNameInput)}
+                                                onChangeText={(firstNameInput) => this.validateFirstName(firstNameInput)} />
+                                       :
+                                           <TextInput
+                                                style={ newStyle.nameInputFirstOff }
+                                                placeholder='first name'
+                                                placeholderTextColor={this.state.placeHolderColor}
+                                                editable={this.state.firstNameEditable}
+                                                ref={(ref) => { this.FirstInput = ref; }}
+                                                underlineColorAndroid= 'transparent'
+                                                value = { this.props.firstName }
+                                                onBlur = { () => this.callUpdateName(this.state.firstNameInput)}
+                                                onChangeText={(firstNameInput) => this.validateFirstName(firstNameInput)} />
+                                        }
+
                             </View>
 
                             <Text style={newStyle.firstName}>{this.state.text.lastName}</Text>
@@ -783,18 +827,29 @@ class PushToEarnProfileComponent extends Component {
                                      
                                         }
                                  </TouchableOpacity>           
+                                 {
+                                    (this.state.lastNameEditable===true)?
 
-                                <TextInput
-                                        style={ newStyle.nameInput}
-                                        placeholder='last name'
-                                        placeholderTextColor = {this.state.placeHolderColorLastName}
-                                        editable={this.state.lastNameEditable}
-                                        value = {this.props.lastName}
-                                        onBlur = { () => this.callUpdateLastName(this.state.lastNameInput)}
-                                        underlineColorAndroid= 'transparent'
-                                        onChangeText= { (lastNameInput) => this.validateLastName(lastNameInput) }/>
-
-                              
+                                    <TextInput
+                                            style={ newStyle.nameInput}
+                                            placeholder='last name'
+                                            placeholderTextColor = {this.state.placeHolderColorLastName}
+                                            editable={this.state.lastNameEditable}
+                                            value = {this.props.lastName}
+                                            onBlur = { () => this.callUpdateLastName(this.state.lastNameInput)}
+                                            underlineColorAndroid= 'transparent'
+                                            onChangeText= { (lastNameInput) => this.validateLastName(lastNameInput) }/>
+                                    :
+                                    <TextInput
+                                            style={ newStyle.nameInputOff}
+                                            placeholder='last name'
+                                            placeholderTextColor = {this.state.placeHolderColorLastName}
+                                            editable={this.state.lastNameEditable}
+                                            value = {this.props.lastName}
+                                            onBlur = { () => this.callUpdateLastName(this.state.lastNameInput)}
+                                            underlineColorAndroid= 'transparent'
+                                            onChangeText= { (lastNameInput) => this.validateLastName(lastNameInput) }/> 
+                                 }
 
                             </View>
 
@@ -833,16 +888,28 @@ class PushToEarnProfileComponent extends Component {
                                                 }
                                     </TouchableOpacity>
 
-                                <TextInput
-                                    style={ newStyle.nameInputEmail }
-                                    placeholder='Email Address'
-                                    placeholderTextColor={this.state.placeHolderColorEmail}
-                                    editable={this.state.emailEditable}
-                                    value = { this.props.email}
-                                    underlineColorAndroid= 'transparent'
-                                    onBlur = { () => this.callUpdateName(this.state.emailInput)}
-                                    onChangeText= { (emailInput) => this.validateEmail(emailInput) }/>
-                               
+                                   {
+                                        (this.state.emailEditable === true)?
+                                            <TextInput
+                                                style={ newStyle.nameInputEmail }
+                                                placeholder='Email Address'
+                                                placeholderTextColor={this.state.placeHolderColorEmail}
+                                                editable={this.state.emailEditable}
+                                                value = { this.props.email}
+                                                underlineColorAndroid= 'transparent'
+                                                onBlur = { () => this.callUpdateName(this.state.emailInput)}
+                                                onChangeText= { (emailInput) => this.validateEmail(emailInput) }/>
+                                        :
+                                        <TextInput
+                                                style={ newStyle.nameInputEmailOff }
+                                                placeholder='Email Address'
+                                                placeholderTextColor={this.state.placeHolderColorEmail}
+                                                editable={this.state.emailEditable}
+                                                value = { this.props.email}
+                                                underlineColorAndroid= 'transparent'
+                                                onBlur = { () => this.callUpdateName(this.state.emailInput)}
+                                                onChangeText= { (emailInput) => this.validateEmail(emailInput) }/>
+                                   }
                             </View>
 
                             <Text style={newStyle.firstName}>{this.state.text.Phone}</Text>
@@ -874,7 +941,7 @@ class PushToEarnProfileComponent extends Component {
                                             onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
                                             style= {newStyle.nameInput}
                                             onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }
-                                            value = {this.state.phoneNumberInput}
+                                            value ={this.formatMobileNo(this.props.mobileNo)}
                                             />
                                     </View>
                                     :
@@ -931,43 +998,12 @@ class PushToEarnProfileComponent extends Component {
                             <Text style={newStyle.passwordStyle}>{this.state.text.Password}</Text>
 
                             <View style={{
-                                            flexDirection: 'column',
+                                            flexDirection: 'row',
                                             backgroundColor: 'transparent',
                                             justifyContent:'flex-start',
                                             alignItems:'flex-end',
                                             flex:8,
                                     }}>
-
-                                     <TouchableOpacity
-                                        onPress={() => {  this.seteditablePassword();
-                                                          this.props.menu(6);
-                                                }}
-                                        activeOpacity={0.5}
-                                        style={{
-                                            width:35,
-                                            height:25,
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                            backgroundColor:'transparent'
-                                        }}>
-                                     {
-                                         (this.state.passwordEditable===true)?
-                                         <Icon
-                                         containerStyle={newStyle.iconImageStyle}
-                                         name='pencil'
-                                         type='font-awesome'
-                                         color='#E73D50'
-                                         size = {15} />
-                                         :
-                                         <Icon
-                                         containerStyle={newStyle.iconImageStyle}
-                                         name='edit'
-                                         type='font-awesome'
-                                         color='#E73D50'
-                                         size = {15} />
-                                     
-                                        }
-                                 </TouchableOpacity>
 
                                {
                                 (this.state.passwordEditable===true)?
@@ -976,7 +1012,7 @@ class PushToEarnProfileComponent extends Component {
                                         activeOpacity={1}
                                         opacity={1}
                                         style={{
-                                            width: viewPortWidth*0.83,
+                                            width: viewPortWidth*0.65,
                                             height: 5,
                                             margin:0,
                                             borderBottomColor: "#353535",
@@ -995,24 +1031,26 @@ class PushToEarnProfileComponent extends Component {
                                                 alignItems: 'flex-start',
                                                 justifyContent: 'flex-start',
                                                 letterSpacing: 0.67,
-                                                textAlign: 'left'}}
+                                                textAlign: 'left',
+                                                backgroundColor:'transparent'
+                                            }}
                                         > Please Click Here To Enter Password......</Text>
                                     </TouchableOpacity>
                                     :
                                     <TouchableOpacity
-                                    onPress={() => {  } }
-                                    activeOpacity={0.5}
-                                    opacity={0.5}
-                                    style={{
-                                        width: viewPortWidth*0.83,
-                                        height: 25,
-                                        margin:0,
-                                        borderBottomColor: "#353535",
-                                        borderBottomWidth: StyleSheet.hairlineWidth,
-                                        backgroundColor: 'transparent',
-                                        padding: 0,
-                                        flex:2,
-                                    }}>
+                                            onPress={() => {  } }
+                                            activeOpacity={0.5}
+                                            opacity={0.5}
+                                            style={{
+                                                width: viewPortWidth*0.65,
+                                                height: 25,
+                                                margin:0,
+                                                borderBottomColor: "#353535",
+                                                borderBottomWidth: StyleSheet.hairlineWidth,
+                                                backgroundColor: 'transparent',
+                                                padding: 0,
+                                                flex:2,
+                                            }}>
                                     <Text
                                         style={{
                                             fontSize: 12,
@@ -1029,6 +1067,38 @@ class PushToEarnProfileComponent extends Component {
                                 </TouchableOpacity>
 
                             }
+
+                             <TouchableOpacity
+                                        onPress={() => {
+                                                    this.seteditablePassword();
+                                                    this.props.menu(6);
+                                                }}
+                                        activeOpacity={0.5}
+                                        style={{
+                                            width:35,
+                                            marginBottom:10,
+                                            height:20,
+                                            justifyContent: 'flex-start',
+                                            alignItems: 'center',
+                                            backgroundColor:'transparent'
+                                        }}>
+                                     {
+                                         (this.state.passwordEditable===true)?
+                                         <Icon
+                                                containerStyle={newStyle.iconImageStylePass}
+                                                name='pencil'
+                                                type='font-awesome'
+                                                color='#E73D50'
+                                                size = {15} />
+                                         :
+                                         <Icon
+                                                containerStyle={newStyle.iconImageStylePass}
+                                                name='edit'
+                                                type='font-awesome'
+                                                color='#E73D50'
+                                                size = {15} />                                     
+                                        }
+                                 </TouchableOpacity>
 
                             </View>
 
@@ -1186,6 +1256,21 @@ const newStyle = StyleSheet.create({
         padding: 0,
         paddingLeft:5,
         flex:8,
+        color: 'black'
+    },
+
+    nameInputFirstOff: {
+        width: viewPortWidth*.83,
+        height: 30,
+        margin:0,
+        borderBottomColor: "#353535",
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        backgroundColor: 'transparent',
+        marginBottom: 0,
+        padding: 0,
+        paddingLeft:5,
+        flex:8,
+        color: 'grey'
     },
 
     nameInputEmail:{
@@ -1199,6 +1284,21 @@ const newStyle = StyleSheet.create({
         padding: 0,
         paddingLeft:5,
         flex:8,
+        color:'black'
+    },
+
+    nameInputEmailOff:{
+        width: viewPortWidth*.83,
+        height: 30,
+        margin:0,
+        borderBottomColor: "#353535",
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        backgroundColor: 'transparent',
+        marginBottom: 0,
+        padding: 0,
+        paddingLeft:5,
+        flex:8,
+        color: 'grey'
     },
 
     nameInput: {
@@ -1212,6 +1312,21 @@ const newStyle = StyleSheet.create({
         padding: 0,
         paddingLeft:5,
         flex:8,
+        color: 'black'
+    },
+
+    nameInputOff: {
+        width: viewPortWidth*.83,
+        height: 30,
+        margin:0,
+        borderBottomColor: "#353535",
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        backgroundColor: 'transparent',
+        marginBottom: 0,
+        padding: 0,
+        paddingLeft:5,
+        flex:8,
+        color: 'grey'
     },
 
     nameInputLite:
@@ -1389,6 +1504,24 @@ const newStyle = StyleSheet.create({
         backgroundColor: 'powderblue'
     },
 
+    iconImageStylePass: {
+        width: 30,
+        height: 26,
+        fontFamily: "FontAwesome",
+        fontSize: 16,
+        fontWeight: "normal",
+        fontStyle: "normal",
+        letterSpacing: 0.67,
+        textAlign: "left",
+        color: "rgb(231, 61, 80)", 
+        marginTop: 0,
+        marginRight: 20,
+        backgroundColor: 'powderblue',
+        borderStyle: 'solid',
+        borderColor: 'black',
+        borderWidth: 1,
+    },
+
     iconStyle: {
         width: 30,
         height: 30,
@@ -1418,7 +1551,8 @@ const mapStateToProps = state => {
         firstName: ProfileSelectors.getFirstName(state),
         lastName: ProfileSelectors.getLastName(state),
         email: ProfileSelectors.getEmail(state),
-        mobileNo: ProfileSelectors.getMobileNo(state)
+        mobileNo: ProfileSelectors.getMobileNo(state),
+        statusCode: ProfileSelectors.getStatusCode(state)
     };
   };
   

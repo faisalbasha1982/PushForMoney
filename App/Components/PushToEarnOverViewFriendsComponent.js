@@ -392,6 +392,54 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
     }
 
+    renderListOne = (personObj) => {
+        return (
+            <View style={{ padding: 2, paddingTop: 3, paddingLeft:0, flexDirection: 'column',height: viewPortHeight*0.08, backgroundColor: 'white', }}>
+                    <View style={{ padding: 3,paddingLeft:0, paddingTop: 4, flex:1, height: viewPortHeight*0.31, flexDirection: 'row' , alignItems: 'flex-start', justifyContent: 'flex-start', backgroundColor: 'white'}}>
+                      <View style={{ flex:1, backgroundColor:'transparent', width:50,height:60, flexDirection: 'column' }}>
+                          <Text style={newStyle.nameStyles}>{ personObj.Name }</Text>
+                          {/* <Text style={newStyle.lastnameStyle}>{ personObj.Name.split(' ')[1] }</Text> */}
+                      </View>
+                      <View style={{ flex:2, backgroundColor:'transparent',flexDirection:'column',alignItems:'flex-end', justifyContent:'flex-end', marginTop:10, }}>
+                                        <View style={{width: 120, height: 10, backgroundColor: 'transparent', justifyContent:'flex-end', alignItems:'flex-end'}}>
+                                        {(personObj.ReferredPersonStatus === 'Finished' || personObj.ReferredPersonStatus === 'Afgewerkt' || personObj.ReferredPersonStatus === 'Fini')?
+                                        
+                                                <TouchableOpacity
+                                                    onPress={() => {  this.archiveApiCall(personObj) } }
+                                                    activeOpacity={0.5}
+                                                    style={{
+                                                        width: 20,
+                                                        height: 20,
+                                                        backgroundColor: 'transparent',
+                                                        justifyContent:'center',
+                                                        alignItems:'flex-end'
+                                                    }}>
+                                                        <Icon
+                                                            containerStyle={newStyle.iconImageArchive}
+                                                            name='times-circle'
+                                                            type='font-awesome'
+                                                            color='#E73D50'
+                                                            size = {14}
+                                                            onPress={ () => {         
+                                                                        console.log("called archive Api");
+                                                                        } } />
+                                                </TouchableOpacity>
+                                                :
+                                                this.renderNothing()
+                                            }
+                                        </View>
+                                        <View style={{width: 120, height: 15, backgroundColor: 'transparent'}}>
+                                                <Text style={newStyle.statusStyle}>{ personObj.ReferredPersonStatus}</Text>
+                                        </View>
+                      </View>
+
+                    </View>
+                     <View style={newStyle.borderBottom}></View>
+            </View>
+        );
+
+
+    }
 
     renderList = (personObj) => {
             return (            
@@ -502,17 +550,12 @@ class PushToEarnOverViewFriendsComponent extends Component {
                       
 
                                 <View style= {newStyle.inputContainer}>
-                                <ScrollView style={{ flex: 1, backgroundColor: 'transparent', height:viewPortHeight*0.90 }} contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', }} >
-
-                                    {                                       
-                                        this.props.referral.map(                                            
+                                <ScrollView style={{ flex: 1, backgroundColor: 'transparent', height:viewPortHeight*0.90 }} contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-start', }}>
+                                    {
+                                        this.props.referral.map(
                                             personObj => 
 
                                                 this.renderList(personObj)
-                                                // <Text style={newStyle.firstName}>{personObj.Name}</Text>
-                                                // {'\n'}
-                                                // <View style={newStyle.borderBottom}></View>
-                                            
                                         )
                                     }
                                 </ScrollView>

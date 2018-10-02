@@ -168,9 +168,9 @@ export function * changeMobile(api,action)
 
         // make the call to the api
         const response = yield call(fetchChangeMobile, action.payload);
-        Alert.alert(response.Message)
-        //yield put(ProfileActions.profileSuccess());
-        //NavigationService.navigate('PushToEarnMoneyOTP');
+        Alert.alert(response.Message);
+        yield put(ProfileActions.verifyOtpMobileSuccess(response.StatusCode));        
+        
     } 
     catch(error) {
         //yield put(ProfileActions.profileFailure());

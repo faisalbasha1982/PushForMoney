@@ -11,6 +11,7 @@ const { Types, Creators } = createActions({
   changePassword:["payload"],
   changeMobile:["payload"],
   verifyOtpMobile:["payload"],  
+  verifyOtpMobileSuccess:['StatusCode'],
   profileSuccess: ['bankinfo','firstname','lastname','email','mobileno'],
   profileFailure: ['error'],
   userRegistered: ['bankinfo'],
@@ -29,6 +30,7 @@ export const INITIAL_STATE = {
   email: null,
   mobileno: null,
   user: null,
+  StatusCode: null,
   fetching: false,
   error: '',
   payload: null
@@ -45,6 +47,7 @@ export const ProfileSelectors = {
   getFirstName: state => state['profile'].firstname,
   getLastName: state => state['profile'].lastname,
   getEmail: state => state['profile'].email,
+  getStatusCode: state => state['profile'].StatusCode
 };
 
 /* ------------- Reducers ------------- */
@@ -75,6 +78,10 @@ export const cMobile = (state, {payload}) => {
 
 export const verifyOtpMobileSuccess = (state, {payload}) => {
     return { ...state, fetching:true, payload }
+}
+
+export const verifyOtpMobileSuccessCall = (state, {StatusCode}) =>{
+    return { ...state, fetching:false, StatusCode }
 }
 
 export const success = (state, {bankinfo,firstname,lastname,email,mobileno}) => {
@@ -109,6 +116,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CHANGE_PASSWORD]: changePassword,
   [Types.CHANGE_MOBILE]: cMobile,
   [Types.VERIFY_OTP_MOBILE]: verifyOtpMobileSuccess,
+  [Types.VERIFY_OTP_MOBILE_SUCCESS]: verifyOtpMobileSuccessCall,
   [Types.PROFILE_SUCCESS]: success,
   [Types.PROFILE_FAILURE]: failure,
   [Types.USER_REGISTERED]: registered,

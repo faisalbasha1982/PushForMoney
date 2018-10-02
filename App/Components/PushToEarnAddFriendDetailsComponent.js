@@ -336,7 +336,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                             else
                             {
                                 this.setState({isLoading: false});
-                                this.props.menu(9);
+                                this.props.menu(2);
                                 //Alert.alert("Referrals not added");
                             }
                         }
@@ -350,22 +350,22 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
     saveReferrals = () => {
 
-        console.log("save referrals");
+        // console.log("save referrals");
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
         let ltoken = localStorage.getItem('token');
         this.setState({isLoading: true});
 
-        console.tron.log("save referrals first Name input ="+this.state.firstNameInput);
-        console.log("saveReferrals firstNameInput="+this.state.firstNameInput);
+        // console.tron.log("save referrals first Name input ="+this.state.firstNameInput);
+        // console.log("saveReferrals firstNameInput="+this.state.firstNameInput);
 
-        Alert.alert("firstNameInput --->  "+this.state.firstNameInput);
+        // Alert.alert("firstNameInput --->  "+this.state.firstNameInput);
 
-        console.log("SR first Name ="+this.state.firstNameInput.split(" ")[0]);
-        console.log("SR last Name ="+this.state.firstNameInput.split(" ")[1]);
-        console.log("SR phone="+this.state.phoneNumberInput);
-        console.log("SR email="+this.state.email);
+        // console.log("SR first Name ="+this.state.firstNameInput.split(" ")[0]);
+        // console.log("SR last Name ="+this.state.firstNameInput.split(" ")[1]);
+        // console.log("SR phone="+this.state.phoneNumberInput);
+        // console.log("SR email="+this.state.email);
 
         let payload = {
             "AuthenticationData": encryptedData,
@@ -405,7 +405,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                                     else
                                     {
                                         this.setState({isLoading: false});
-                                        this.props.menu(9);
+                                        this.props.menu(2);
                                         //Alert.alert("Referrals not added");
                                     }
                                 }
@@ -515,9 +515,6 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                                 </View>
                         </View>
 
-                         {/* <View style={newStyle.buttonView}>
-                        </View> */}
-
                         <View style= {newStyle.inputContainer}>
 
                             <Text style={newStyle.firstName}>{this.state.text.addFriendName} </Text>
@@ -545,12 +542,6 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                                     onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }
                                     value = {this.props.phone}
                                 />
-                            {/* <TextInput
-                                style={ newStyle.nameInput}
-                                placeholder=''
-                                underlineColorAndroid= 'transparent'
-                                value={this.props.phone}
-                                onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/> */}
 
                         </View>
 

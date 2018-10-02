@@ -27,6 +27,11 @@ import DeviceInfo from 'react-native-device-info'
 import * as Animatable from 'react-native-animatable';
 import { StyleSheet } from 'react-native';
 import localStorage from 'react-native-sync-localstorage';
+import { ProfileSelectors } from '../Redux/ProfileRedux';
+import { LoginSelectors } from '../Redux/LoginRedux';
+
+import * as AuthComponent from '../Components/AuthComponent';
+import * as AesComponent from '../Components/AesComponent';
 
 import LanguageSettings from '../Containers/LanguageSettingsNew';
 import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
@@ -99,6 +104,24 @@ class PushToEarnWelcomeComponent extends Component {
     {
         console.log("willMount WP welcome component language="+this.props.language);
         this.getAsyncStorage();
+
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
+        let encryptedData = AesComponent.aesCallback(authData);
+        this.setState({isLoading: true});
+
+        console.log("login access token="+this.state.aToken);
+        console.tron.log("login access token="+this.state.aToken);
+
+            setTimeout(() => 
+            {
+                let payload = {
+                    "AuthenticationData": encryptedData,
+                    "LoginAccessToken": this.state.aToken,
+                };
+
+                this.props.getProfile(payload);
+
+            },3000);
     }
 
     componentDidMount()
@@ -292,15 +315,24 @@ const newStyle = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
+        bankInfo: ProfileSelectors.getBankInfo(state),
+        fetching: ProfileSelectors.getFetching(state),
+        LastViewedNotificationID: LoginSelectors.getLastViewedNotificationID(state),
+        firstName: ProfileSelectors.getFirstName(state),
+        lastName: ProfileSelectors.getLastName(state),
+        email: ProfileSelectors.getEmail(state),
+        mobileNo: ProfileSelectors.getMobileNo(state),
+        statusCode: ProfileSelectors.getStatusCode(state)
     };
   };
   
   const mapDispatchToProps = dispatch => {
-    return {  
-      resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
-      navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
-      navigateBack: () => this.props.navigation.goBack(),
-      notificationRequest: (payload) => dispatch({ type: 'NOTIFICATION_REQUEST', payload})
+    return {
+        resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
+        navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
+        navigateBack: () => this.props.navigation.goBack(),
+        notificationRequest: (payload) => dispatch({ type: 'NOTIFICATION_REQUEST', payload}),
+        getProfile:(payload) => dispatch({ type: 'GET_PROFILE_REQUEST_NEW', payload }),
     };
   };
   
