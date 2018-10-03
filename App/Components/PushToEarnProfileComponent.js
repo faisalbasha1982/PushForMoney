@@ -173,6 +173,8 @@ class PushToEarnProfileComponent extends Component {
 
     validateFirstName = (name) => {
 
+
+
         let reg = /^[a-zA-Z\s]+$/;
 
         console.log("validating First Name="+name);
@@ -326,7 +328,7 @@ class PushToEarnProfileComponent extends Component {
             let authData = AuthComponent.authenticationData(this.state.languageCode);
             let encryptedData = AesComponent.aesCallback(authData);
             ltoken = localStorage.getItem('token');
-            this.setState({isLoading: true});
+            //this.setState({isLoading: true});
 
             console.log("login access token="+this.state.aToken);
             console.tron.log("login access token="+this.state.aToken);
@@ -340,8 +342,11 @@ class PushToEarnProfileComponent extends Component {
                 };
 
                 this.props.getProfile(payload);
+                this.setState({ isLoading: false });
 
             },3000);
+
+
         }
     }
 
@@ -428,6 +433,7 @@ class PushToEarnProfileComponent extends Component {
     componentWillMount() {
         console.log("component Will Mount inside profile component");
         this.getAsyncStorage();
+        this.setState({ isLoading: true});
     }
 
     
@@ -479,7 +485,7 @@ class PushToEarnProfileComponent extends Component {
 
             setTimeout(() => {
                 console.tron.log("mobilenotifications="+this.props.mobileNotifications);
-                this.setState({ mobileNotifications: this.props.mobileNotifications});
+                this.setState({ mobileNotifications: this.props.mobileNotifications, isLoading: false });
             }, 3000);
 
         },3000);    
@@ -571,6 +577,10 @@ class PushToEarnProfileComponent extends Component {
         };
 
         this.props.nameUpdate(payload);
+
+        setTimeout(() => {
+            this.setState({ isLoading: false});
+        },4000);
     }
 
     callUpdateLastName = (name) => {
@@ -633,19 +643,22 @@ class PushToEarnProfileComponent extends Component {
 
         let newMobNo = "+32";
 
-        if(mobileNo === null)
+        if(mobileNo === null || mobileNo === undefined)
             return null;
-
-        if(mobileNo !== null && mobileNo.substring(0,2)==="00")
-            if(mobileNo.substring(2,4)==="32")
-                newMobNo = newMobNo + mobileNo.substring(4);
-            else
-                newMobNo = newMobNo + mobileNo.substring(2);
         else
-            if(mobileNo !== null && mobileNo.substring(0,1)==="0")
-                newMobNo = newMobNo + mobileNo.substring(1);
+         {
+            if(mobileNo !== null && mobileNo.substring(0,2)==="00")
+                if(mobileNo.substring(2,4)==="32")
+                    newMobNo = newMobNo + mobileNo.substring(4);
+                else
+                    newMobNo = newMobNo + mobileNo.substring(2);
+            else
+                    if(mobileNo !== null && mobileNo.substring(0,1)==="0")
+                        newMobNo = newMobNo + mobileNo.substring(1);
 
-        console.log("newMobNo="+newMobNo);
+            console.log("newMobNo="+newMobNo);
+         }
+
 
         return newMobNo;
     }
@@ -747,35 +760,34 @@ class PushToEarnProfileComponent extends Component {
                                                 alignItems: 'center'
                                             }}>
                                         {
-                                         (this.state.firstNameEditable===true)?
+                                         (this.state.firstNameEditable === true)?
                                          <Icon
-                                         containerStyle={newStyle.iconImageStyle}
-                                         name='pencil'
-                                         type='font-awesome'
-                                         color='#E73D50'
-                                         size = {15} />
+                                                containerStyle={newStyle.iconImageStyle}
+                                                name='pencil'
+                                                type='font-awesome'
+                                                color='#E73D50'
+                                                size = {15} />
                                          :
                                          <Icon
-                                         containerStyle={newStyle.iconImageStyle}
-                                         name='edit'
-                                         type='font-awesome'
-                                         color='#E73D50'
-                                         size = {15} />
-                                     
+                                                containerStyle={newStyle.iconImageStyle}
+                                                name='edit'
+                                                type='font-awesome'
+                                                color='#E73D50'
+                                                size = {15} />
                                         }
                                         </TouchableOpacity>
                                         {
-                                         (this.state.firstNameEditable===true)?
-                                            <TextInput
-                                                style={ newStyle.nameInputFirst }
-                                                placeholder='first name'
-                                                placeholderTextColor={ this.state.placeHolderColor }
-                                                editable={ this.state.firstNameEditable }
-                                                ref={(ref) => { this.FirstInput = ref; }}
-                                                underlineColorAndroid= 'transparent'
-                                                value = { this.props.firstName }
-                                                onBlur = { () => this.callUpdateName(this.state.firstNameInput)}
-                                                onChangeText={(firstNameInput) => this.validateFirstName(firstNameInput)} />
+                                         (this.state.firstNameEditable === true)?
+                                                        <TextInput
+                                                            style={ newStyle.nameInputFirst }
+                                                            placeholder='first name'
+                                                            placeholderTextColor={ this.state.placeHolderColor }
+                                                            editable={ this.state.firstNameEditable }
+                                                            ref={(ref) => { this.FirstInput = ref; }}
+                                                            underlineColorAndroid= 'transparent'
+                                                            value = { this.props.firstName }
+                                                            onBlur = { () => this.callUpdateName(this.state.firstNameInput)}
+                                                            onChangeText={(firstNameInput) => this.validateFirstName(firstNameInput)} />
                                        :
                                            <TextInput
                                                 style={ newStyle.nameInputFirstOff }
@@ -790,6 +802,13 @@ class PushToEarnProfileComponent extends Component {
                                         }
 
                             </View>
+
+                               {
+                                    this.state.isLoading === true?
+                                    <View style = {{position: 'absolute' , zIndex:3999, left: 25, top: 0, right: 0, bottom: 0}}>
+                                    <BallIndicator color='#e73d50' />
+                                    </View>:this.somethingElse()
+                               }
 
                             <Text style={newStyle.firstName}>{this.state.text.lastName}</Text>
                             <View style={{

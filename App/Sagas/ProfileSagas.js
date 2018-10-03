@@ -98,8 +98,7 @@ function fetchJson(url,payload) {
   
 
 export function * ProfileRequestNew(api,action)
-{
-    
+{    
     try{
             console.log("profile request new:");
             const responseJson = yield call(fetchProfile,action.payload);
@@ -136,7 +135,7 @@ function fetchChangePassword(payload) {
     console.tron.log("inside fetch change Password");
 
     return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnChangePassword?code=lyD3B1naoL9SLo01LEz2Gxc8YOCnk66K1JY3XR6aNoP8M8PsrKKVTw==',payload);
-  }
+}
 
 export function * changePassword(api,action)
 {

@@ -45,6 +45,8 @@ import CryptoJS from 'crypto-js';
 import utf8 from 'utf8';
 import Api from './Api';
 import localStorage from 'react-native-sync-localstorage';
+import * as AuthComponent from '../Components/AuthComponent';
+import * as AesComponent from '../Components/AesComponent';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -310,7 +312,7 @@ class PushToEarnForgetPass extends Component
                      {
                             this.state.isLoading===true?
                             <View style = {{position: 'absolute' , zIndex:3999, left: 10, top: 55, right: 0, bottom: 0}}>
-                            <WaveIndicator color='#e73d50' />
+                            <BallIndicator color='#e73d50' />
                             </View>:this.somethingElse()
                       }
                             

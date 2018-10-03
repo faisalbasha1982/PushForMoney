@@ -24,9 +24,9 @@ export const INITIAL_STATE = {
 /* ------------- Selectors ------------- */
 
 export const CardDetailsSelectors = {
-  getUser: state => state['cardDetails'].user,
-  getFetching: state => state['cardDetails'].fetching,
-  getError: state => state['cardDetails'].error
+  getUser: state => state['carddetails'].user,
+  getFetching: state => state['carddetails'].fetching,
+  getError: state => state['carddetails'].error
 };
 
 /* ------------- Reducers ------------- */

@@ -48,7 +48,6 @@ import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 
-
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
 
@@ -56,7 +55,6 @@ import headerImage from '../Images/headerImage.png';
 import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/page1.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;

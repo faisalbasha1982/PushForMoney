@@ -51,11 +51,13 @@ export function * cardDetailsRequest(api,action)
   try{
         console.log("profile request new:");
           const responseJson = yield call(fetchCardDetails,action.payload);          
-          yield put(CardDetailsActions.CardDetailsSuccess(responseJson.MobileUserBankDetails));
+          yield put(CardDetailsActions.cardDetailsSuccess(responseJson.MobileUserBankDetails));
+          Alert.alert("SAVED CARD DETAILS!!");
       }
   catch(error)
   {
-      yield put(CardDetailsActions.CardDetailsFailure());
+      yield put(CardDetailsActions.cardDetailsFailure());
+      Alert.alert("NOT SAVED CARD DETAILS!!");
   }
 }
 

@@ -12,7 +12,7 @@ export const reducers = combineReducers({
   register: require('./RegisterRedux').reducer,
   login: require('./LoginRedux').reducer,
   profile: require('./ProfileRedux').reducer,
-  cardDetails: require("./CardDetailsRedux").reducer,
+  carddetails: require("./CardDetailsRedux").reducer,
   friend: require("./FriendRedux").reducer,
   money: require("./MoneyRedux").reducer,
 })
