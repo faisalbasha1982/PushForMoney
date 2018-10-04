@@ -44,8 +44,20 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
   const setHeaders = headers => api.setHeaders(headers);
   const register = body => api.post("/api/fnMobileUserLogin?code=zybwff3HRf2XC/mYhHJtcZOeG5vkCOJhJOsXKUgHNAYu8tiG9tH2kw==",body);
 
+  const registerStag = body => {
+
+    api.setBaseURL("https://famobileutilityapiinterfacestag.azurewebsites.net");
+    api.post("/api/fnMobileUserLogin?code=zybwff3HRf2XC/mYhHJtcZOeG5vkCOJhJOsXKUgHNAYu8tiG9tH2kw==",body);
+  }
+
   const mediaLogin = body => api.post("/api/fnMobileUserLogin?code=zybwff3HRf2XC/mYhHJtcZOeG5vkCOJhJOsXKUgHNAYu8tiG9tH2kw==",body);
-  
+
+  const mediaLoginStag = body => 
+  {
+    api.setBaseURL('https://famobileutilityapiinterfacestag.azurewebsites.net');
+    api.post("/api/fnMobileUserLogin?code=zybwff3HRf2XC/mYhHJtcZOeG5vkCOJhJOsXKUgHNAYu8tiG9tH2kw==",body);
+  }
+
   const registerNew = body => 
   {
     api.setBaseURL("https://prod-33.westeurope.logic.azure.com:443");
@@ -54,6 +66,12 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
   }; 
 
   const login = (payload) => api.post("/api/fnMobileUserLogin?code=zybwff3HRf2XC/mYhHJtcZOeG5vkCOJhJOsXKUgHNAYu8tiG9tH2kw==", payload);
+
+  const loginStag = (payload) => 
+  {
+    api.setBaseURL("https://famobileutilityapiinterfacestag.azurewebsites.net");
+    api.post("/api/fnMobileUserLogin?code=zybwff3HRf2XC/mYhHJtcZOeG5vkCOJhJOsXKUgHNAYu8tiG9tH2kw==", payload);
+  };
 
   const verifyOTP = (body) => 
   {
@@ -159,7 +177,10 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
     verifyOTP,
     verifyOTPFP,
     verifyOTPMobile,
-    verifyOTPResend
+    verifyOTPResend,
+    mediaLoginStag,
+    loginStag,
+    registerStag
   }
 }
 

@@ -170,6 +170,12 @@ class PushToEarnChangePasswordComponent extends Component {
         console.log("text="+this.state.text.myProfile);
 
         return (
+            <KeyboardAwareScrollView
+                    behavior = "padding"
+                    enableOnAndroid = { false }
+                    contentContainerStyle={ newStyle.keyboardContainer }
+                    scrollEnabled={true}>
+
                     <View style={newStyle.endButtons}>
                         <View style={newStyle.topView}>
                                 <View style={{ marginLeft:25, width:80,justifyContent:'flex-end', alignItems:'flex-end' }}>
@@ -265,7 +271,7 @@ class PushToEarnChangePasswordComponent extends Component {
                         </View>
 
                     </View>                 
-           
+           </KeyboardAwareScrollView>
         );
     }
 
@@ -276,6 +282,16 @@ const newStyle = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+
+    keyboardContainer: {
+        flex: 1,
+        width: viewPortWidth * 0.85,
+        height: viewPortHeight * 0.80,
+        backgroundColor: 'transparent',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',

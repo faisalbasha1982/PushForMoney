@@ -18,6 +18,7 @@ import DeviceInfo from 'react-native-device-info'
 import * as Animatable from 'react-native-animatable';
 import { StyleSheet } from 'react-native';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import logoHeader from '../Images/page1.png';
 import pushImage from '../Images/pushForA.png';
 import jobImage from '../Images/group2.png';
@@ -74,8 +75,6 @@ class PushForJob extends Component {
             isLoaded: false,
             language:''
         };
-
-
     }
 
     getToken = async () => {
@@ -83,7 +82,7 @@ class PushForJob extends Component {
         console.log("inside push for job screen ---->"+ this.state.hasToken)
         console.log("hasToken --->"+this.state.hasToken);
 
-     await AsyncStorage.getItem('token').then((token) => {
+        await AsyncStorage.getItem('token').then((token) => {
             this.setState({ hasToken: token !== null, isLoaded: true })
           });
           
@@ -103,13 +102,13 @@ class PushForJob extends Component {
 
     getAsyncStorage = async () => {
 
-        await AsyncStorage.getItem('token').then((token) => {
+         await AsyncStorage.getItem('token').then((token) => {
             this.setState({ hasToken: token !== null, isLoaded: true })
           });
 
-          await AsyncStorage.getItem('language').then((language) => {
+         await AsyncStorage.getItem('language').then((language) => {
             this.setState({ language:language })
-          });        
+          });
 
           this.setLanguage();
     }

@@ -325,46 +325,10 @@ export function* forgotPasswordRequest(api,payload) {
 function fetchOTPFP(payload)
 {
     console.log("calling fetchOTPFP with payload=",typeof(payload));
-    // let parameters = payload.split(",");
-
-    // console.log("parameters=",parameters);
-
-    // let authParam = parameters[0].split(":");
-    // let firstParam = authParam[1];
-
-    // console.log("first param=",firstParam);
-
-    // let idParam = parameters[1].split(":");
-    // let secondParam = idParam[1];
-
-    // console.log("second param=",secondParam);
-
-    // let otpParam = parameters[2].split(":");
-    // let thirdParam = otpParam[1];
-
-    // console.log("third param=",thirdParam);
-
-    // let newpasswordParam = parameters[3].split(":");
-    // let fourthParam = newpasswordParam[1];
-
-    // console.log("fourth param=",fourthParam);
-
-    // let confirmpasswordParam = parameters[4].split(":");
-    // let fifthParam = confirmpasswordParam[1].substring(0,confirmpasswordParam.length-1);
-
-    // console.log("fifth param=",fifthParam);
-
-    // let newPayload = {
-
-    //     AuthenticationData: firstParam,
-    //     MobileUserId : idParam,
-    //     OTP : thirdParam,
-    //     NewPassword : fourthParam,
-    //     ConfirmPassword : fifthParam,
-
-    // };
 
     const url = "https://prod-36.westeurope.logic.azure.com:443/workflows/64111a66520a4621a4f949f0d3a12413/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=EcEqv1IaEYCat3Jx3zeQ8HLQzUiuqK8QAzP0R8cJcPw";
+    //const url = "https://prod-12.westeurope.logic.azure.com:443/workflows/d2646d57cf7d447f960d7e46684db4cd/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ADncEusH2PpqjGoYT_L20L_Wxs9sUuVryh9Z5cJJsS4";
+
 
     console.log("newpayload=",payload);
 
@@ -434,6 +398,8 @@ function fetchOTP(payload)
     console.log("fourthParam=",fourthParam.substring(1,fourthParam.length-1));
 
     const url = "https://prod-49.westeurope.logic.azure.com:443/workflows/19bdce4bb7d740f586a5f86bf9014efa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LU6WJJr0yUTzSFLdH9TXCBdYPVh6x3SMGegOPX0OTfA";
+
+    // const url = "https://prod-21.westeurope.logic.azure.com:443/workflows/fc0efd237ccb46268c5353e97d791a7e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Z2LNFPTtuCNVTEq9jcpwaKsLGgOjYaQOuiwoJFZenbY";
 
     let newPayload = {
         AuthenticationData: firstParam.substring(1,firstParam.length-1),
@@ -548,6 +514,8 @@ export function * OtpRequest(api,payload) {
 function fetchOtpResend(payload)
 {
     const url = "https://prod-56.westeurope.logic.azure.com:443/workflows/9834ab95eb784c9b87f174acdd1f87b0/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LenubOpJgzckOgeOAbq12BS9_0JFjtGUYogtgKYRlRE";
+
+    // const url = "https://prod-27.westeurope.logic.azure.com:443/workflows/75cdda7a4d1e412f8b6fbb00f099cdbc/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=FY6KovQIbuksZrM6Eh00bISPC1oUTrSxFKKhCbyRwpY";
 
     fetch(url,{
         method: 'POST',

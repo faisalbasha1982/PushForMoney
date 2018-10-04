@@ -321,6 +321,13 @@ class PushToEarnOTPComponent extends Component {
         console.log("platform --->",Platform.OS);
         return (
 
+            <KeyboardAwareScrollView
+                    behavior = "padding"
+                    enableOnAndroid = { false }
+                    contentContainerStyle={ newStyle.keyboardContainer }
+                    scrollEnabled={true}>
+
+
             <View style={{
                 flex: 1,
                 flexDirection: 'column',
@@ -512,7 +519,7 @@ class PushToEarnOTPComponent extends Component {
                 </View>
                 
         </View>
-            
+    </KeyboardAwareScrollView>
             // <View style= {newStyle.layoutBelow}>
 
             //             <View style={newStyle.inputContainer}>

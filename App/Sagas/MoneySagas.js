@@ -36,6 +36,9 @@ function fetchMoney(payload) {
     console.tron.log("inside fetch money");
 
     return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnGetMonthlyEarningDetailsByReferrals?code=l42IaaJ2JenjE0PMUveBbR26ODcefkEC3Mt7BmfVWR3VHZIvukGPJA==',payload);
+
+    // return fetchJson('https://famobileutilityapiinterfacestag.azurewebsites.net/api/fnGetMonthlyEarningDetailsByReferrals?code=l42IaaJ2JenjE0PMUveBbR26ODcefkEC3Mt7BmfVWR3VHZIvukGPJA==',payload);
+
 }
   
 export function * getMoneyMonth(api,action)
@@ -56,6 +59,8 @@ function fetchPerson(payload) {
     console.tron.log("inside fetch profile");
 
     return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnGetMobileUserReferralsMonthlyEarning?code=IofAP/n6plRm21PIxHdHbDS6/NygvDjl9I/SbEJjWc7E2WfJQRqfvA==',payload);
+
+    // return fetchJson('https://famobileutilityapiinterfacestag.azurewebsites.net/api/fnGetMobileUserReferralsMonthlyEarning?code=IofAP/n6plRm21PIxHdHbDS6/NygvDjl9I/SbEJjWc7E2WfJQRqfvA==',payload);
 }
 
 export function * getPersonMonth(api,action)

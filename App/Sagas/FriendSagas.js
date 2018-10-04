@@ -67,7 +67,12 @@ function fetchJson(url,payload) {
     console.log("inside fetch friend");
     console.tron.log("inside fetch friend");
 
+    // development
     return fetchJson('https://prod-07.westeurope.logic.azure.com:443/workflows/0604ad5d855444be85a5137166c67d25/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Lh0jJoxB6xqbZCq_j9xMONuPuBOMOl_F_oZrwIEBckY',payload);
+
+    // staging
+    // return fetchJson('https://prod-31.westeurope.logic.azure.com:443/workflows/40dac089a8e04e9f9593c6a5d2c2f792/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=3fzTiTB9UtL85SYxL6nONm81gx5VvmmgDEVNcBMJffo',payload);
+
   }
   
 
@@ -87,7 +92,13 @@ export function * FriendRequest(api,action)
 function fetchArchive(payload)
 {
     console.log("archive request new:");
+
+    // dev
     return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnMobileReferralsUpdateArchiveStatus?code=rXOBL7dodL54/WdfdVv11/xuBVN2WH9afB/9ODmHuc4xCKscIMQs8Q==',payload);
+
+    // staging
+    // return fetchJson('https://famobileutilityapiinterfacestag.azurewebsites.net/api/fnMobileReferralsUpdateArchiveStatus?code=rXOBL7dodL54/WdfdVv11/xuBVN2WH9afB/9ODmHuc4xCKscIMQs8Q==',payload);
+
 }
 
 export function * archiveRequest(api,action)
@@ -105,7 +116,11 @@ export function * archiveRequest(api,action)
 function fetchReferral(payload)
 {
     console.log("in fetch Referrals ");
+
+    // dev
     return fetchJson('https://prod-10.westeurope.logic.azure.com:443/workflows/a23a19abad104ab1854363c6536802aa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=eLy-zN-st8ISnuzhGMyvqK7zKNKFqt0myhDf14achPw',payload);
+
+    // return fetchJson('https://prod-11.westeurope.logic.azure.com:443/workflows/26cd76a2f9624eb4b0edacd9a8bbeb58/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ujtBhMzB55RiT8g2X3lkG3eTuMDX5dpegXHaq6MXGrs',payload);
 }
 
 export function * saveReferrals(api,action)

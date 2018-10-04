@@ -32,6 +32,8 @@ function fetchFacebook(payload)
 {
   const url = "https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnMobileUserLogin?code=zybwff3HRf2XC/mYhHJtcZOeG5vkCOJhJOsXKUgHNAYu8tiG9tH2kw==";
 
+  // const url = "https://famobileutilityapiinterfacestag.azurewebsites.net/api/fnMobileUserLogin?code=zybwff3HRf2XC/mYhHJtcZOeG5vkCOJhJOsXKUgHNAYu8tiG9tH2kw==";
+
     console.log("newpayload=",payload);
 
     fetch(url,{
@@ -279,7 +281,10 @@ function fetchNotification(payload) {
   console.log("inside fetch notification");
   console.tron.log("inside fetch notification");
 
+  // return fetchJson('https://famobileutilityapiinterfacestag.azurewebsites.net/api/fnGetMobileNotificationWithUpdate?code=191modix7w8x/GF4bOY2PMAeOS8KmAr338nwwQqpVCYT4CKUfdP2Ig==',payload);
+
   return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnGetMobileNotificationWithUpdate?code=191modix7w8x/GF4bOY2PMAeOS8KmAr338nwwQqpVCYT4CKUfdP2Ig==',payload);
+
 }
 
 export function * notificationRequest(api,action) {
