@@ -10,325 +10,159 @@ import RegisterTypes from '../Redux/RegisterRedux';
 import * as NavigationService from '../Navigation/NavigationService';
 import localStorage from 'react-native-sync-localstorage';
 
-export function * RegisterRequestNew(api,payload) {
+/************************************* REGISTER PROFILE SECOND PAGE *************************** */
 
-    try{
-        // make the call to the api
-        console.log("incoming payload="+payload.payload);
+function fetchJsonNew(url,payload) {
 
-        const response = yield call(api.signUp2, payload.payload);
+    console.log("inside fetchJsonNew: with payload="+payload);
+    console.tron.log("inside fetch json New ="+payload);
+  
+    return  fetch(url,{
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: payload,
+    })
+    .then((response) => response.json())
+    .then( response => {
 
-        console.log("response type=",response.ok);
+        console.log("response code=="+response.StatusCode);
 
-        if(!response.ok)
+        let token = response.LoginAccessToken;
+        AsyncStorage.setItem('token',token);
+
+        console.tron.log("storing token="+token);
+
+        if(response.StatusCode === 200)
         {
-            console.tron.log("response status="+response.status);
-            console.tron.log("response status="+response.data.StatusCode);
-            console.tron.log("response status="+response.data.Message);
-            console.tron.log("response status="+response.data.ErrorDetails);
+            Alert.alert(
+                'Signed in successfully',
+                response.Message,
+                [
+                    { text: 'OK', onPress:() => console.log('user exists ask me later')}
+                ],
+                {
+                    cancelable: false
+                }
+            );
 
+
+            NavigationService.navigate('PushToEarnOTP',{payload: action.payload});
+
+        }
+        else
+        {
             Alert.alert(
                 'User already exists',
-                response.data.Message,
+                response.Message,
                 [
-                    { text: 'Please Login', onPress:() => console.log('user exists ask me later')}
+                    { text: 'Please Login', onPress:() => NavigationService.navigate('PushToEarnSignIn')}
                 ],
                 {
                     cancelable: false
                 }
             );
         }
-        else      
-        if (response.ok) {
-
-          console.tron.log("response data=",response.data);
-          const token = response.data.LoginAccessToken;
-          const userinfo = response.data.userinfo;
-          const statusCode = response.data.StatusCode;
-
-          Alert.alert(
-            'Signed in successfully',
-            response.data.Message,
-            [
-                { text: 'OK', onPress:() => console.log('user exists ask me later')}
-            ],
-            {
-                cancelable: false
-            }
-        );
-      
-          try {
-               // output token to tron
-               console.tron.log("login access token=",token);
-
-               //Save token in Async Storage
-            AsyncStorage.setItem('token',token);                
-            localStorage.setItem('token', token);
-
-          }
-          catch(error){
-            console.tron.log('error='+error);
-          }
-      
-
-          // do data conversion here if needed
-          //yield put(RegisterActions.registerSuccess(userinfo));      
-
-          //Navigate to OTP page
-          NavigationService.navigate('PushToEarnOTP',{payload: payload.payload});
-      
-        } else {
-          yield put(RegisterActions.registerFailure())
-        }
-      }
-      catch(error) {
-        console.tron.log("Error@login",error);
-        console.log("error="+error);
-      }
-}
-
-export function * makeRegisterRequest(api,action) {
-
-    console.log("called make Register Request payload="+action.payload+" username="+action.username+" password="+action.password);
-
-    //yield takeEvery('REGISTER_REQUEST', RegisterRequest, api,action.payload,action.username,action.password);
-
-    try{
-
-        // make the call to the api
-        const response = yield call(api.register, action.payload);
-      
-        console.tron.log("response from api call =",response);
-      
-        if (response.ok) {
-      
-          // const resp = path(['data', 'items'], response)[0];
-          console.tron.log("response data=",response.data);
-      
-          const token = response.data.LoginAccessToken;
-          const userinfo = response.data.userinfo;
-          const statusCode = response.data.StatusCode;
-      
-          try {
-               AsyncStorage.setItem('token',token);
-          }
-          catch(error)
-          {
-            console.tron.log('error='+error);
-          }
-      
-          console.tron.log("login access token=",token);
-          // do data conversion here if needed
-          yield put(RegisterActions.registerSuccess(userinfo));
-      
-          if( statusCode === 200)
-              NavigationService.navigate('PushToEarnRegisterProfile',{uname: action.username, pword: action.password, payload: action.payload});
-          else
-              Alert.alert(
-                  'User already exists',
-                  ''+response.data.Message,
-                  [
-                      { 
-                          text: 'Please Login', 
-                          onPress:() => console.log('user exists ask me later')
-                      }
-                  ],
-                  {
-                      cancelable: false
-                  }
-              )        
-      
-        } 
-        else 
-        {
-              yield put(RegisterActions.registerFailure())
-        }
-      }
-      catch(error) {
-        console.tron.log("Error@login",error);
-        console.log("error="+error);
-      }
+  
+        return response;
+    });
 
 }
 
-export function * RegisterRequest(api,payload,username,password) {
+export function * fetchRegisterRequestNew(payload) {
+ 
+     return fetchJsonNew(API_URL.staging.laMobileUserSignUp,payload);
+}
 
-    console.log("called Register Request="+payload+" username="+username+" password="+password);
-
-  try{
-
-  // make the call to the api
-  const response = yield call(api.register, payload.payload);
-
-  console.tron.log("response from api call =",response);
-
-  if (response.ok) {
-
-    // const resp = path(['data', 'items'], response)[0];
-    console.tron.log("response data=",response.data);
-
-    const token = response.data.LoginAccessToken;
-    const userinfo = response.data.userinfo;
-    const statusCode = response.data.StatusCode;
-
-    try {
-         AsyncStorage.setItem('token',token);
-    }
-    catch(error)
+export function * RegisterRequestNew(api,action)
+{
+    try
     {
-      console.tron.log('error='+error);
+        const response = yield call(fetchRegisterRequestNew, action.payload);
+        NavigationService.navigate('PushToEarnOTP',{payload: action.payload});
+
     }
+    catch(error) {
+        yield put(RegisterActions.registerFailure());
+    }
+}
 
-    console.tron.log("login access token=",token);
-    // do data conversion here if needed
-    yield put(RegisterActions.registerSuccess(userinfo));
+/************************************* REGISTER PROFILE FIRST PAGE *************************** */
 
-    if( response.data.StatusCode === 200)
-        NavigationService.navigate('PushToEarnRegisterProfile',{uname: username,pword: password});
-    else
-        Alert.alert(
-            'User already exists',
-            ''+response.data.Message,
-            [
-                { 
-                    text: 'Please Login', 
-                    onPress:() => console.log('user exists ask me later')
-                }
-            ],
+
+function fetchJson(url,payload,username,password) {
+
+    console.log("inside fetchJson: with payload="+payload);
+    console.tron.log("inside fetch json="+payload);
+  
+    return  fetch(url,{
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: payload,
+    })
+    .then((response) => response.json())
+      .then(response => {
+  
+            if(response.StatusCode === 200)
             {
-                cancelable: false
+                let token = response.LoginAccessToken;
+                AsyncStorage.setItem('token',token);
+                NavigationService.navigate('PushToEarnRegisterProfile',{uname: username, pword: password, payload: payload});
             }
-        )        
-
-  } 
-  else 
-  {
-        yield put(RegisterActions.registerFailure())
+            else
+                Alert.alert(
+                'User already exists',
+                ''+response.Message,
+                [
+                    { 
+                        text: 'Please Login', 
+                        onPress:() => console.log('user exists ask me later')
+                    }
+                ],
+                {
+                    cancelable: false
+                }
+            );     
+  
+        return response;
+      });
   }
-}
-catch(error) {
-  console.tron.log("Error@login",error);
-  console.log("error="+error);
-}
+
+export function * fetchRegisterRequest(payload,username,password) {
+ 
+    return fetchJson(`https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnMobileUserLogin?code=${API_URL.commonCode}`,payload,username,password);
+
 }
 
-export function* forgotPasswordOTPRequest(api,payload){
+export function * register(api,action) {
     try
     {
-        console.log("api="+api);
-        const response = yield call(fetchOTPFP, payload.payload);
-
-        console.tron.log("response="+response.ok);
-        console.log("response=",response);
-
-        if(!response.ok)
-        {
-            console.tron.log("response status="+response.status);
-            console.tron.log("response status="+response.data.StatusCode);
-            console.tron.log("response status="+response.data.Message);
-            console.tron.log("response status="+response.data.ErrorDetails);
-
-            Alert.alert(
-                'User already exists',
-                response.data.Message,
-                [
-                    { text: 'Please Login', onPress:() => console.log('user exists ask me later')}
-                ],
-                {
-                    cancelable: false
-                }
-            )        
-        }
-        else      
-            if (response.data.StatusCode === 200) {
-
-                console.tron.log("response data=",response.data);
-                const statusCode = response.data.StatusCode;
-                const message = response.data.Message;
-                    
-                // output token to tron
-                console.tron.log("response message=",message);
-
-                // do data conversion here if needed
-                yield put(RegisterActions.registerSuccess());      
-
-                //Navigate to OTP page
-                NavigationService.navigate('PushToEarnSignIn');
-        
-            } 
-            else {
-                yield put(RegisterActions.registerFailure())
-            }
-        
-        
-    }catch(error){
-        console.tron.log("Error@login",error);
+        // make the call to the api
+        const response = yield call(fetchRegisterRequest, action.payload,action.username,action.password);
+        yield put(RegisterActions.registerSuccess(response.userinfo));
+    } 
+    catch(error) {
+        yield put(RegisterActions.registerFailure())
     }
 }
 
+/************************************* REGISTER PROFILE FIRST PAGE ****************************/
 
-export function* forgotPasswordRequest(api,payload) {
-    try
-    {
-        console.log("api="+api);
-        const response = yield call(api.forgotPass, payload.payload);
-
-        console.tron.log("response="+response.ok);
-        console.log("response=",response);
-
-        if(!response.ok)
-        {
-            console.tron.log("response status="+response.status);
-            console.tron.log("response status="+response.data.StatusCode);
-            console.tron.log("response status="+response.data.Message);
-            console.tron.log("response status="+response.data.ErrorDetails);
-
-            Alert.alert(
-                'User already exists',
-                response.data.Message,
-                [
-                    { text: 'Please Login', onPress:() => console.log('user exists ask me later')}
-                ],
-                {
-                    cancelable: false
-                }
-            )        
-        }
-        else      
-            if (response.data.StatusCode === 200) {
-
-                console.tron.log("response data=",response.data);
-                const mobileUserId = response.data.MobileUserId;
-                const statusCode = response.data.StatusCode;
-                const message = response.data.Message;
-                    
-                // output token to tron
-                console.tron.log("MobileOTP response=",mobileUserId);
-
-                // do data conversion here if needed
-                yield put(RegisterActions.registerSuccess(mobileUserId));      
-
-                //Navigate to OTP page
-                NavigationService.navigate('PushToEarnOTPForgetPass',{mobileId: mobileUserId});
-        
-            } 
-            else {
-                yield put(RegisterActions.registerFailure())
-            }
-        
-        
-    }catch(error){
-        console.tron.log("Error@login",error);
-    }
-}
+/************************************* FORGOT PASSWORD OTP REQUEST ****************************/
 
 function fetchOTPFP(payload)
 {
     console.log("calling fetchOTPFP with payload=",typeof(payload));
 
-    const url = "https://prod-36.westeurope.logic.azure.com:443/workflows/64111a66520a4621a4f949f0d3a12413/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=EcEqv1IaEYCat3Jx3zeQ8HLQzUiuqK8QAzP0R8cJcPw";
-    //const url = "https://prod-12.westeurope.logic.azure.com:443/workflows/d2646d57cf7d447f960d7e46684db4cd/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ADncEusH2PpqjGoYT_L20L_Wxs9sUuVryh9Z5cJJsS4";
+    // const url = "https://prod-36.westeurope.logic.azure.com:443/workflows/64111a66520a4621a4f949f0d3a12413/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=EcEqv1IaEYCat3Jx3zeQ8HLQzUiuqK8QAzP0R8cJcPw";
+    // const url = "https://prod-12.westeurope.logic.azure.com:443/workflows/d2646d57cf7d447f960d7e46684db4cd/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ADncEusH2PpqjGoYT_L20L_Wxs9sUuVryh9Z5cJJsS4";
 
+    const url = API_URL.staging.laMobileSaveNewPassword;
 
     console.log("newpayload=",payload);
 
@@ -339,7 +173,8 @@ function fetchOTPFP(payload)
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload),
-    }).then((response) =>  response.json())
+    })
+      .then((response) =>  response.json())
       .then((responseJson) => {
           console.log("response=",responseJson.StatusCode);
 
@@ -358,23 +193,121 @@ function fetchOTPFP(payload)
 
             console.tron.log("response data=",responseJson.Message);
                 
-            // output token to tron
-
-            // do data conversion here if needed
-            //yield put(RegisterActions.registerSuccess(mobileOTP));
-
             //Navigate to OTP page
             NavigationService.navigate('PushToEarnSignIn');
     
-        } 
+        }
         else {
-            //yield put(RegisterActions.registerFailure())
+
+            console.tron.log("response status="+responseJson.StatusCode);
+            console.tron.log("response status="+responseJson.Message);
+            console.tron.log("response status="+responseJson.ErrorDetails);
+    
+
+                Alert.alert(
+                    'User already exists',
+                    responseJson.Message,
+                    [
+                        { text: 'Please Login', onPress:() => NavigationService.navigate('PushToEarnSignIn')}
+                    ],
+                    {
+                        cancelable: false
+                    }
+                )        
         }
       }
     )
       .catch((error) => console.error(error));
+}
+
+export function* forgotPasswordOTPRequest(api,payload){
+
+    try
+    {
+        const response = yield call(fetchOTPFP, payload.payload);
+        yield put(RegisterActions.registerSuccess());
+    }
+    catch(error)
+    {
+        yield put(RegisterActions.registerFailure());
+    }
+}
+/************************************* FORGOT PASSWORD OTP REQUEST ****************************/
+
+/************************************* FORGOT PASSWORD REQUEST *******************************/
+
+function fetchJsonForgotPasswordRequest(payload) {
+
+    const url = API_URL.staging.laMobileSendForgotPasswordOTP;
+
+    fetch(url,{
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+    }).then((response) =>  response.json())
+      .then((responseJson) => {
+
+          console.log("response=",responseJson.StatusCode);
+
+          if (responseJson.StatusCode === 200) 
+          {
+
+            Alert.alert(
+                'Successfull',
+                responseJson.Message,
+                [
+                    { text: 'OK', onPress:() => console.log('user exists ask me later')}
+                ],
+                {
+                    cancelable: false
+                }
+            );               
+ 
+            //Navigate to OTP page
+            NavigationService.navigate('PushToEarnOTPForgetPass',{mobileId: mobileUserId});
+        } 
+        else {
+
+            console.tron.log("response status="+responseJson.StatusCode);
+            console.tron.log("response status="+responseJson.Message);
+            console.tron.log("response status="+responseJson.ErrorDetails);
+
+            Alert.alert(
+                'User already exists',
+                responseJson.Message,
+                [
+                    { text: 'Please Login', onPress:() => NavigationService.navigate('PushToEarnSignIn')}
+                ],
+                {
+                    cancelable: false
+                }
+            )        
+        }
+      });
 
 }
+
+export function* forgotPasswordRequest(api,action) {
+
+    try {
+            let response = yield call(fetchJsonForgotPasswordRequest,action.payload);
+            let mobileUserId = response.MobileUserId;            
+            yield put(RegisterActions.registerSuccess(mobileUserId));      
+    }
+    catch(error)
+    {
+        yield put(RegisterActions.registerFailure());
+    }
+   
+}
+
+/************************************* FORGOT PASSWORD REQUEST ****************************/
+
+
+/************************************* Fetch OTP VERIFICATION ****************************/
 
 function fetchOTP(payload)
 {
@@ -397,9 +330,10 @@ function fetchOTP(payload)
     console.log("thirdParam=",thirdParam.substring(1,thirdParam.length-1));
     console.log("fourthParam=",fourthParam.substring(1,fourthParam.length-1));
 
-    const url = "https://prod-49.westeurope.logic.azure.com:443/workflows/19bdce4bb7d740f586a5f86bf9014efa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LU6WJJr0yUTzSFLdH9TXCBdYPVh6x3SMGegOPX0OTfA";
-
+    // const url = "https://prod-49.westeurope.logic.azure.com:443/workflows/19bdce4bb7d740f586a5f86bf9014efa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LU6WJJr0yUTzSFLdH9TXCBdYPVh6x3SMGegOPX0OTfA";
     // const url = "https://prod-21.westeurope.logic.azure.com:443/workflows/fc0efd237ccb46268c5353e97d791a7e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Z2LNFPTtuCNVTEq9jcpwaKsLGgOjYaQOuiwoJFZenbY";
+
+    const url = API_URL.staging.laMobileOtpVerification;
 
     let newPayload = {
         AuthenticationData: firstParam.substring(1,firstParam.length-1),
@@ -434,49 +368,23 @@ function fetchOTP(payload)
                 }
             );
 
-            console.tron.log("response data=",responseJson.Message);
+            console.tron.log("response data=",responseJson.data);
             const mobileOTP = responseJson.mobileOTP;
+            const statusCode = responseJson.StatusCode;            
                 
-            // output token to tron
-            console.tron.log("MobileOTP response=",mobileOTP);
-
-            // do data conversion here if needed
-            //yield put(RegisterActions.registerSuccess(mobileOTP));
-
             //Navigate to OTP page
             NavigationService.navigate('PushToEarnSignIn');
     
         } 
         else {
-            //yield put(RegisterActions.registerFailure())
-        }
-      }
-    )
-      .catch((error) => console.error(error));
-      
-}
 
-export function * OtpRequest(api,payload) {
-
-    try {
-        console.log("calling api from otp request saga ="+api);
-        console.log("incoming payload for otp request=",payload.payload);
-        const response = yield call(fetchOTP, payload.payload);
-
-        console.tron.log("response="+response.ok);
-        console.log("response=",response);
-        console.log("response Status=",response.status);
-
-        if(!response.ok)
-        {
-            console.tron.log("response status="+response.status);
-            console.tron.log("response status="+response.data.StatusCode);
-            console.tron.log("response status="+response.data.Message);
-            console.tron.log("response status="+response.data.ErrorDetails);
+            console.tron.log("response status="+responseJson.StatusCode);
+            console.tron.log("response status="+responseJson.Message);
+            console.tron.log("response status="+responseJson.ErrorDetails);
 
             Alert.alert(
                 'User already exists',
-                response.data.Message,
+                responseJson.Message,
                 [
                     { text: 'Please Login', onPress:() => console.log('user exists ask me later')}
                 ],
@@ -485,37 +393,35 @@ export function * OtpRequest(api,payload) {
                 }
             )        
         }
-        else      
-            if (response.data.StatusCode === 200) {
+      }
+    )
+      .catch((error) => console.error(error));
+      
+}
 
-                console.tron.log("response data=",response.data);
-                const mobileOTP = response.data.mobileOTP;
-                const statusCode = response.data.StatusCode;
-                    
-                // output token to tron
-                console.tron.log("MobileOTP response=",mobileOTP);
+/************************************* OTP REQUEST ****************************/
 
-                // do data conversion here if needed
-                yield put(RegisterActions.registerSuccess(userinfo));      
+export function * OtpRequest(api,action) {
 
-                //Navigate to OTP page
-                NavigationService.navigate('PushToEarnSignIn');
-        
-            } 
-            else {
-                yield put(RegisterActions.registerFailure())
-            }
+    try {
+
+        const response = yield call(fetchOTP, action.payload);
+        yield put(RegisterActions.registerSuccess());
+
     }catch(error)
     {
         console.tron.log("Error@login",error);
+        yield put(RegisterActions.registerFailure());
     }
 }
 
+/************************************* OTP RESEND *****************************/
 function fetchOtpResend(payload)
 {
-    const url = "https://prod-56.westeurope.logic.azure.com:443/workflows/9834ab95eb784c9b87f174acdd1f87b0/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LenubOpJgzckOgeOAbq12BS9_0JFjtGUYogtgKYRlRE";
-
+    // const url = "https://prod-56.westeurope.logic.azure.com:443/workflows/9834ab95eb784c9b87f174acdd1f87b0/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LenubOpJgzckOgeOAbq12BS9_0JFjtGUYogtgKYRlRE";
     // const url = "https://prod-27.westeurope.logic.azure.com:443/workflows/75cdda7a4d1e412f8b6fbb00f099cdbc/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=FY6KovQIbuksZrM6Eh00bISPC1oUTrSxFKKhCbyRwpY";
+
+    const url = API_URL.staging.laMobileUserResendSignupOTP;
 
     fetch(url,{
         method: 'POST',
@@ -526,9 +432,11 @@ function fetchOtpResend(payload)
         body: JSON.stringify(payload),
     }).then((response) =>  response.json())
       .then((responseJson) => {
+
           console.log("response=",responseJson.StatusCode);
 
-          if (responseJson.StatusCode === 200) {
+          if (responseJson.StatusCode === 200)
+          {
 
             Alert.alert(
                 'OTP Resent Successfull',
@@ -536,83 +444,60 @@ function fetchOtpResend(payload)
                 [
                     { text: 'OK', onPress:() => console.log('user exists ask me later')}
                 ],
-                {
+                { 
                     cancelable: false
                 }
             );
 
-            console.tron.log("response data=",responseJson.Message);
+            const mobileOTP = responseJson.mobileOTP;
+            const statusCode = responseJson.StatusCode;
                 
-            // output token to tron
-
-            // do data conversion here if needed
-            //yield put(RegisterActions.registerSuccess(mobileOTP));
-
             //Navigate to OTP page
             NavigationService.navigate('PushToEarnSignIn');
     
         } 
-        else {
-            //yield put(RegisterActions.registerFailure())
-        }
-      }
-    )
-      .catch((error) => console.error(error));
-
-}
-
-export function * OtpRequestResend(api,payload) {
-
-    try {
-        console.log("calling api from otp resend request saga ="+api);
-        console.log("incoming payload for otp resend request=",payload.payload);
-        const response = yield call(fetchOtpResend, payload.payload);
-
-        console.tron.log("response="+response.ok);
-        console.log("response=",response);
-        console.log("response Status=",response.status);
-
-        if(!response.ok)
+        else 
         {
-            console.tron.log("response status="+response.status);
-            console.tron.log("response status="+response.data.StatusCode);
-            console.tron.log("response status="+response.data.Message);
-            console.tron.log("response status="+response.data.ErrorDetails);
+
+            console.tron.log("response status="+responseJson.StatusCode);
+            console.tron.log("response status="+responseJson.Message);
+            console.tron.log("response status="+responseJson.ErrorDetails);
 
             Alert.alert(
                 'User already exists',
-                response.data.Message,
+                responseJson.Message,
                 [
-                    { text: 'Please Login', onPress:() => console.log('user exists ask me later')}
+                    { text: 'Please Login', onPress:() => NavigationService.navigate('PushToEarnSignIn')}
                 ],
                 {
                     cancelable: false
                 }
-            )        
+            );
         }
-        else      
-            if (response.data.StatusCode === 200) {
+      }
+    )
+      .catch((error) => console.error(error));
+}
 
-                console.tron.log("response data=",response.data);                
-                const mobileOTP = response.data.mobileOTP;
-                const statusCode = response.data.StatusCode;
-                    
-                // output token to tron
-                console.tron.log("statusCode =",statusCode);
+/************************************* OTP REQUEST RESEND ****************************/
 
-                // do data conversion here if needed
-                yield put(RegisterActions.registerSuccess());      
+export function * OtpRequestResend(api,payload) {
 
-                //Navigate to OTP page
-                NavigationService.navigate('PushToEarnSignIn');
+    try {
+
+            console.log("calling api from otp resend request saga ="+api);
+            console.log("incoming payload for otp resend request=",payload.payload);
+
+            const response = yield call(fetchOtpResend, payload.payload);
+
+            // do data conversion here if needed
+            yield put(RegisterActions.registerSuccess());      
         
-            } 
-            else {
-                yield put(RegisterActions.registerFailure())
-            }
-    }catch(error)
+        }
+    catch(error)
     {
         console.tron.log("Error@login",error);
+        yield put(RegisterActions.registerFailure())
     }
 
 

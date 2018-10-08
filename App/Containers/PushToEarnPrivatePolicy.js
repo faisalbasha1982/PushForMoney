@@ -12,6 +12,7 @@ import {
     Alert,
     Platform,    
     findNodeHandle,
+    AsyncStorage,
 } from 'react-native';
 import {
     BallIndicator,
@@ -159,18 +160,47 @@ class PushToEarnPrivatePolicy extends Component {
     componentWillReceiveProps(nextProps) {
     }
 
-    componentDidMount() {
+    getAsyncStorageToken = async () => {
 
-        let language = localStorage.getItem('language');
-        console.log('local storage language='+language);
+        await AsyncStorage.getItem('language').then((language) => {
+            this.setState({ language: language});
+        });
 
-        if(language === 'Dutch')
+        this.setLanguage();
+
+        await AsyncStorage.getItem('token').then((token) => {
+            this.setState({ token: token});
+        });
+
+    }
+
+    componentWillMount() {
+
+        this.getAsyncStorageToken();
+    }
+
+    setLanguage = () => {
+
+        if(this.state.language === 'Dutch')
             this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
         else
-        if(language === 'English')
+            if(this.state.language === 'English')
+                this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
+        else
+            if(this.state.language === 'French')
+                this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+
+    }
+
+    componentDidMount() {
+
+        if(this.state.language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+        else
+        if(this.state.language === 'English')
             this.setState({ text: languageSettingsPFM.English,languageCode:'en'});
         else
-        if(language === 'French')
+        if(this.state.language === 'French')
             this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
 
     }

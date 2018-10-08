@@ -3,11 +3,12 @@ const key = '!@M*;-kATy_vcUkLq/U))QD`XL5Sg`5D';
 const liClientId = '81td97f0ibm93v';
 const liState = 'DCEeFWf45A53sdfKef424';
 const liRedirectUri = 'https://www.example.com/auth/linkedin';
-const slot = 'prod';
+const slot = 'stag';
 
 const Api_url = {
+  slot: 'stag',
   functionURL:`https://faazureapiinterface${slot}.azurewebsites.net/api/fnMoblieLogin?code=${key}`,
-  LoginUrl: `https://faazureapiinterfacedev.azurewebsites.net/api/fnMoblieLogin?code=${key}`, 
+  LoginUrl: `https://faazureapiinterface${slot}.azurewebsites.net/api/fnMoblieLogin?code=${key}`,
   LoginUrlStag: `https://faazureapiinterfacestag.azurewebsites.net/api/fnMoblieLogin?code=${key}`,
   LinkedUrl: `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${liClientId}&redirect_uri=${liRedirectUri}&state=${liState}&scope=r_basicprofile`,
   AuthId: 'JS#236734',
@@ -16,11 +17,13 @@ const Api_url = {
   signUpURL1: 'https://prod-54.westeurope.logic.azure.com:443/workflows/fad35cb3bf804958806170aab090f5fd/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PIqV4C0NMg6yGjaBeaOMl8oLM8DK8v8NilOL-4azW7A',
   signUpURLA: 'http://prod-54.westeurope.logic.azure.com:443/workflows/fad35cb3bf804958806170aab090f5fd/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PIqV4C0NMg6yGjaBeaOMl8oLM8DK8v8NilOL-4azW7A',
   signUpURLE: 'https://famobileutilityapiinterfacedev.azurewebsites.net',
+  commonCode: '!@M*;-kATy_vcUkLq/U))QD`XL5Sg`5D',
   securityKey: 'VyhoMoGxi25xn/Tc',
   rsaKey: '0iFWNUIGY2Td+N3g/oIa1hUjHyZ2X9OcLhUtNlaa33nQuG8JKdfCAR5JGN2fa2RgOz018OU+HQTwPxKH9Lv0I6//B6JcClb6pr8wO6V6LYkWhnjADZc476TdqiD/jIPK3czKxbf2DWt2IXJqD+6aEEjRlH8u18bpXfSwXvtocsiuPKLwwfb0jMGsW2YuycoFKAYovuyXaAB4ra+ID6R2fH2CwGRlYxcGOsWEdhP7zFA0YwVwFLx96f/H43mz+AZisnwK/txXXQM4fcaLXXktZzSDwwanGbaYJe3o9SGACz607Q0v0mFMP8z9kyL3700TKyd35M5j2Qryk8OW3OVpLQ==',
   signUpLoginUrl: 'https://famobileutilityapiinterfacedev.azurewebsites.net',
-  signUpLoginUrlNew: 'https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnMobileUserLogin?code=DbWj0tGuU5tWOY8vrtJih/iut9pAUkesWOFTuxnoCL0mDNPbmL3bfA==',
-  otpURL: 'https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnOtpVerification?code=mZ7N5kRn1GS7jcRgB0CPAthEYoFf8jVdg7CtG9YhhNL1qj9FeRbePQ==',
+  signUpLoginUrlNew: `https://famobileutilityapiinterface${slot}.azurewebsites.net/api/fnMobileUserLogin?code=${key}`,
+  signUpLoginUrlNewStag: `https://famobileutilityapiinterfacestag.azurewebsites.net/api/fnMobileUserLogin?code=${key}`,
+  otpURL: 'https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnOtpVerification?code=mZ7N5kRn1GS7jcRgB0CPAthEYoFf8jVdg7CtG9YhhNL1qj9FeRbePQ==',  
   signupURL2: 'https://prod-33.westeurope.logic.azure.com:443',
   profileURL: 'https://prod-15.westeurope.logic.azure.com:443/workflows/f59e53901f7a46559be64f3a4605091e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=7rKezGQLhIz7v96JpmKZ4zQ0BUUCLZMW0csfSUWM4JM',
 
@@ -79,6 +82,6 @@ const Api_url = {
 
 };
 
-console.tron.log("loginURL="+Api_url.functionURL);
+// console.tron.log("loginURL="+Api_url.functionURL);
 
 export default Api_url;

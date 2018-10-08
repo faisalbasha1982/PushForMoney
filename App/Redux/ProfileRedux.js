@@ -10,7 +10,7 @@ const { Types, Creators } = createActions({
   updateLastNameSuccess:["lastname"],
   changePassword:["payload"],
   changeMobile:["payload"],
-  verifyOtpMobile:["payload"],  
+  verifyOtpMobile:["payload"],
   verifyOtpMobileSuccess:['StatusCode'],
   profileSuccess: ['bankinfo','firstname','lastname','email','mobileno'],
   profileFailure: ['error'],

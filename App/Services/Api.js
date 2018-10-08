@@ -42,20 +42,20 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
   // way at this level.
   //
   const setHeaders = headers => api.setHeaders(headers);
-  const register = body => api.post("/api/fnMobileUserLogin?code=zybwff3HRf2XC/mYhHJtcZOeG5vkCOJhJOsXKUgHNAYu8tiG9tH2kw==",body);
+
+  const register = body => api.post(`/api/fnMobileUserLogin?code=${API_URL.commonCode}`,body);
 
   const registerStag = body => {
-
     api.setBaseURL("https://famobileutilityapiinterfacestag.azurewebsites.net");
-    api.post("/api/fnMobileUserLogin?code=zybwff3HRf2XC/mYhHJtcZOeG5vkCOJhJOsXKUgHNAYu8tiG9tH2kw==",body);
+    api.post(`/api/fnMobileUserLogin?code=${API_URL.commonCode}`,body);
   }
 
-  const mediaLogin = body => api.post("/api/fnMobileUserLogin?code=zybwff3HRf2XC/mYhHJtcZOeG5vkCOJhJOsXKUgHNAYu8tiG9tH2kw==",body);
+  const mediaLogin = body => api.post(`/api/fnMobileUserLogin?code=${API_URL.commonCode}`,body);
 
   const mediaLoginStag = body => 
   {
     api.setBaseURL('https://famobileutilityapiinterfacestag.azurewebsites.net');
-    api.post("/api/fnMobileUserLogin?code=zybwff3HRf2XC/mYhHJtcZOeG5vkCOJhJOsXKUgHNAYu8tiG9tH2kw==",body);
+    api.post(`/api/fnMobileUserLogin?code=${API_URL.commonCode}`,body);
   }
 
   const registerNew = body => 
@@ -65,14 +65,14 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
     api.post("/workflows/323809c537374426ba02f3e2c3be43e8/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=IcTbqosnIfKjBYobByn5CbmrDhrghcZdiPkv58CJNSI",body);
   }; 
 
-  const login = (payload) => api.post("/api/fnMobileUserLogin?code=zybwff3HRf2XC/mYhHJtcZOeG5vkCOJhJOsXKUgHNAYu8tiG9tH2kw==", payload);
+  const login = (payload) => api.post(`/api/fnMobileUserLogin?code=${API_URL.commonCode}`, payload);
 
   const loginStag = (payload) => 
   {
     api.setBaseURL("https://famobileutilityapiinterfacestag.azurewebsites.net");
-    api.post("/api/fnMobileUserLogin?code=zybwff3HRf2XC/mYhHJtcZOeG5vkCOJhJOsXKUgHNAYu8tiG9tH2kw==", payload);
+    api.post(`/api/fnMobileUserLogin?code=${API_URL.commonCode}`, payload);
   };
-
+  
   const verifyOTP = (body) => 
   {
     api.setBaseURL("https://prod-49.westeurope.logic.azure.com:443");
@@ -81,49 +81,72 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
 
   const verifyOTPResend = (payload) => {
 
-    api.setBaseURL("https://prod-56.westeurope.logic.azure.com:443");
-    api.post("/workflows/9834ab95eb784c9b87f174acdd1f87b0/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LenubOpJgzckOgeOAbq12BS9_0JFjtGUYogtgKYRlRE");
+    api.setBaseURL('https://prod-56.westeurope.logic.azure.com:443');
+    api.post('/workflows/9834ab95eb784c9b87f174acdd1f87b0/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LenubOpJgzckOgeOAbq12BS9_0JFjtGUYogtgKYRlRE');
 
   };
 
   const verifyOTPFP = (body) => {
+
     api.setBaseURL("https://prod-36.westeurope.logic.azure.com:443");
     api.post("/workflows/64111a66520a4621a4f949f0d3a12413/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=EcEqv1IaEYCat3Jx3zeQ8HLQzUiuqK8QAzP0R8cJcPw",body);
+
   };
 
   const getProfile = (body) => {
+
     api.setBaseURL('https://prod-15.westeurope.logic.azure.com:443');
     api.post("/workflows/f59e53901f7a46559be64f3a4605091e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=7rKezGQLhIz7v96JpmKZ4zQ0BUUCLZMW0csfSUWM4JM",body);
+
   };
 
   const updateName = (body) => {
+
     api.setBaseURL('https://prod-28.westeurope.logic.azure.com:443');
     api.post("/workflows/8758d6d96f2145cbaaa86e5d032392dc/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=6pUlAjHE5FumdVSxpK_uevwWemeMwM9ODipl2oHvWZE",body);
+
   };
 
   const cardDetailsRequest = (body) => {
+
     api.setBaseURL('https://prod-48.westeurope.logic.azure.com:443');
     api.post("/workflows/603a11a2a15b407a8903f7a75b39f7f8/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=XzGng6yxY8XYiC5pTdC7rQphhH7Kr2tJgZ2pBZaZlAM",body);
+
   };
 
   const addReferrals = (body) => {
+    
     api.setBaseURL('https://prod-10.westeurope.logic.azure.com:443');
     api.post('/workflows/a23a19abad104ab1854363c6536802aa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=eLy-zN-st8ISnuzhGMyvqK7zKNKFqt0myhDf14achPw',body);
+
   };
 
   const changePassword = (body) => {
+    
     api.setBaseURL('https://famobileutilityapiinterfacedev.azurewebsites.net');
-    api.post('/api/fnChangePassword?code=lyD3B1naoL9SLo01LEz2Gxc8YOCnk66K1JY3XR6aNoP8M8PsrKKVTw==',body);    
+    api.post(`/api/fnChangePassword?code=${API_URL.commonCode}`,body);
+
   };
 
   const changeMobile = (body) => {
+    
     api.setBaseURL('https://famobileutilityapiinterfacedev.azurewebsites.net');
-    api.post('/api/fnMobileChangeMobileNumber?code=2mYXy92zbHwa2uO7H73ZCE1TS0/3vEIKcuBc/wucBeLywMCEgnJX0A==');
+    api.post(`/api/fnMobileChangeMobileNumber?code=${API_URL.commonCode}`,body);
+
+  };
+
+  const changeMobileStag = (body) => {
+    
+    api.setBaseURL('https://famobileutilityapiinterfacestag.azurewebsites.net');
+    api.post(`/api/fnMobileChangeMobileNumber?code=${API_URL.commonCode}`,body);
+
   };
   
   const verifyOTPMobile = (body) => {
+    
     api.setBaseURL('https://prod-49.westeurope.logic.azure.com:443');
     api.post('/workflows/19bdce4bb7d740f586a5f86bf9014efa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LU6WJJr0yUTzSFLdH9TXCBdYPVh6x3SMGegOPX0OTfA',body);
+
   };
 
   const getReferrals = (body) => {
@@ -134,7 +157,7 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
   
   const rsa = (body) => {
     api.setBaseURL('https://famobileutilityapiinterfacedev.azurewebsites.net');
-    api.post('/api/fnMobileRSADecrypt?code=9fbzZgqh85K4Je94JcDxqPGYIrYKNC4jKyaZaJz48ANuMmcdaX2zyw==',body);
+    api.post(`/api/fnMobileRSADecrypt?code=${API_URL.commonCode}`,body);
   }
 
   const apiCall = (url,payload) => api.post(url,payload);

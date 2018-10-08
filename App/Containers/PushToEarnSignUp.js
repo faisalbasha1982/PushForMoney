@@ -497,20 +497,53 @@ class PushToEarnSignUp extends Component {
 
     }
 
+    componentWillMount() {
+     
+        this.getAsyncStorage();
+ 
+    }
+
+    setLanguage = () => {
+
+        if(this.state.language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+        else
+            if(this.state.language === 'English')
+                this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
+        else
+            if(this.state.language === 'French')
+                this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+
+    }
+
+    getAsyncStorage = async () => {
+
+        await AsyncStorage.getItem('language').then((language) => {
+            this.setState({ language: language });
+        });
+
+        this.setLanguage();
+
+    }
+
     componentDidMount() {
 
         let language = localStorage.getItem('language');
         console.log('local storage language='+language);
 
+        AsyncStorage.getItem('language').then((language) => {
+            this.setState({ language: language });
+        });
+
         this.setState({ language: language});
         
-        if(language === 'Dutch')
+        if(this.state.language === 'Dutch')
             this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
         else
-            if(language === 'English')
+            if(this.state.language === 'English')
             this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});
         else
-            if(language === 'French')
+            if(this.state.language === 'French')
             this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
 
         LoginManager.logOut();
@@ -610,8 +643,8 @@ class PushToEarnSignUp extends Component {
         var date, day, month, year;
         var today = new Date();
     
-        day = parseInt(today.getUTCDate())>10?today.getUTCDate():('0'+today.getUTCDate().toString());
-        month = parseInt(today.getUTCMonth()+1)>10?parseInt(today.getUTCMonth()+1):('0'+parseInt(today.getUTCMonth()+1));
+        day = parseInt(today.getUTCDate())>=10?today.getUTCDate():('0'+today.getUTCDate().toString());
+        month = parseInt(today.getUTCMonth()+1)>=10?parseInt(today.getUTCMonth()+1):('0'+parseInt(today.getUTCMonth()+1));
         year = today.getUTCFullYear().toString();
     
         // let currentDate = year + '-' + month>10?month:('0'+month) + '-' + day>10?day:('0'+day);
@@ -799,13 +832,16 @@ class PushToEarnSignUp extends Component {
 
             let language = this.state.languageCode;
 
-            let cAuthenticationData = "{'Lang':"+" '"+language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";            
+            let authData = AuthComponent.authenticationData(this.state.languageCode);
+            let encryptedData = AesComponent.aesCallback(authData);   
+
+            let cAuthenticationData = "{'Lang':"+" '"+this.state.language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
             let loginInfo = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";
-      
+
             let authEncrypted = this.aes(cAuthenticationData);
             this.rsa(loginInfo);
 
-            this.setState({ cAuthenticationData: authEncrypted,});
+            this.setState({ cAuthenticationData: encryptedData,});
 
           }
     }
@@ -881,7 +917,7 @@ class PushToEarnSignUp extends Component {
                     Alert.alert(
                         'Password Length is less than 6 and no spaces',
                         'Password',
-                        [                      
+                        [     
                             {
                               text: 'OK', 
                               onPress: () => console.log('Ask me later Pressed')
@@ -917,11 +953,10 @@ class PushToEarnSignUp extends Component {
                         );
                     }            
                
-               let cAuthenticationData = "{'Lang':"+" '"+language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
-               let loginData = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";
-        
-               let authEncrypted = this.aes(cAuthenticationData);     
-               let loginDataEncrypted = this.rsa(loginData);
+            //    let cAuthenticationData = "{'Lang':"+" '"+this.state.languageCode+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
+            //    let loginData = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";        
+            //    let authEncrypted = this.aes(cAuthenticationData);
+            //    let loginDataEncrypted = this.rsa(loginData);
 
             setTimeout( () => {
                 if( this.state.encodedText !== ""  || this.state.cAuthenticationData !== "" )

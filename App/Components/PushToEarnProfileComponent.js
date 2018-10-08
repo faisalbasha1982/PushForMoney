@@ -173,8 +173,6 @@ class PushToEarnProfileComponent extends Component {
 
     validateFirstName = (name) => {
 
-
-
         let reg = /^[a-zA-Z\s]+$/;
 
         console.log("validating First Name="+name);
@@ -230,7 +228,6 @@ class PushToEarnProfileComponent extends Component {
         let regNew = /^(?=(.*\d){10})(?!(.*\d){13})[\d\(\)\s+-]{10,}$/;
         let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
         let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
-
 
         if(phone === '')
         {
@@ -317,38 +314,38 @@ class PushToEarnProfileComponent extends Component {
     
     componentWillReceiveProps(nextProps) {
 
-        if(this.props !== nextProps)
-        {
-            let language = localStorage.getItem('language');
+        // if(this.props !== nextProps)
+        // {
+        //     let language = localStorage.getItem('language');
 
-            this.getAsyncStorage();
+        //     this.getAsyncStorage();
     
-            console.log("text="+this.state.text);
-            console.log("text changeLanguage="+this.state.text);
+        //     console.log("text="+this.state.text);
+        //     console.log("text changeLanguage="+this.state.text);
 
-            let authData = AuthComponent.authenticationData(this.state.languageCode);
-            let encryptedData = AesComponent.aesCallback(authData);
-            ltoken = localStorage.getItem('token');
-            //this.setState({isLoading: true});
+        //     let authData = AuthComponent.authenticationData(this.state.languageCode);
+        //     let encryptedData = AesComponent.aesCallback(authData);
+        //     ltoken = localStorage.getItem('token');
+        //     //this.setState({isLoading: true});
 
-            console.log("login access token="+this.state.aToken);
-            console.tron.log("login access token="+this.state.aToken);
+        //     console.log("login access token="+this.state.aToken);
+        //     console.tron.log("login access token="+this.state.aToken);
 
-            setTimeout(() => 
-            {
+        //     setTimeout(() => 
+        //     {
 
-                let payload = {
-                    "AuthenticationData": encryptedData,
-                    "LoginAccessToken": this.state.aToken,
-                };
+        //         let payload = {
+        //             "AuthenticationData": encryptedData,
+        //             "LoginAccessToken": this.state.aToken,
+        //         };
 
-                this.props.getProfile(payload);
-                this.setState({ isLoading: false });
+        //         this.props.getProfile(payload);
+        //         this.setState({ isLoading: false });
 
-            },3000);
+        //     },3000);
 
 
-        }
+        // }
     }
 
     getAsyncStorage = async () => {
@@ -533,6 +530,7 @@ class PushToEarnProfileComponent extends Component {
     }
 
     seteditableEmail = () => {
+
         this.setState({emailEditable: !this.state.emailEditable,firstNameEditable: false, lastNameEditable:false, phoneEditable: false, passwordEditable: false,});
 
         (this.state.emailEditable === true)?

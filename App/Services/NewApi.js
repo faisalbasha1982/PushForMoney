@@ -47,28 +47,36 @@ const create = (baseURL = 'https://prod-33.westeurope.logic.azure.com:443') => {
 
   const registerNewStag = body => 
   {
+
     newapi.setBaseURL("https://prod-25.westeurope.logic.azure.com:443");
     newapi.post("/workflows/f45f93eda26a4544bd64e5a5921ba3f3/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=m41x8NW3TiDEPe233npvncLYdEpvIDJnQOk4dDK_ScQ");
+
   };
 
-  const forgotPass   =  body => newapi.post("/workflows/ba352440699a4f83afdd89ec8d2d98f0/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=mn8pocAEO81yHgwe6_R0cQT-LsiG1jMF4oW1gFW753E",body);
+  const forgotPass =  (body) => newapi.post("/workflows/ba352440699a4f83afdd89ec8d2d98f0/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=mn8pocAEO81yHgwe6_R0cQT-LsiG1jMF4oW1gFW753E",body);
 
   const forgotPassStag = body => 
   {
+
     newapi.setBaseURL("https://prod-49.westeurope.logic.azure.com:443");
     newapi.post("/workflows/f45f93eda26a4544bd64e5a5921ba3f3/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=m41x8NW3TiDEPe233npvncLYdEpvIDJnQOk4dDK_ScQ");
+
   }
-  
-  const signUp2 =   body => 
+
+  const signUp2 = (body) => 
   {
-    newapi.setBaseURL("https://prod-49.westeurope.logic.azure.com:443");
+
+    newapi.setBaseURL("https://prod-33.westeurope.logic.azure.com:443");
     newapi.post("/workflows/323809c537374426ba02f3e2c3be43e8/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=IcTbqosnIfKjBYobByn5CbmrDhrghcZdiPkv58CJNSI",body);
+
   }
 
   const verifyOTP = (body) => 
   {
+
     newapi.setBaseURL("https://prod-49.westeurope.logic.azure.com:443");
     newapi.post("/workflows/19bdce4bb7d740f586a5f86bf9014efa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LU6WJJr0yUTzSFLdH9TXCBdYPVh6x3SMGegOPX0OTfA", body);
+
   };
 
   // ------

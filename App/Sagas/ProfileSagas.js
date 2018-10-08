@@ -4,6 +4,7 @@ import { path } from 'ramda';
 import Api from '../Services/Api';
 import ProfileActions from '../Redux/ProfileRedux';
 import * as NavigationService from '../Navigation/NavigationService';
+import { API_URL } from '../Services/Api_url';
 
 // export function * getProfile(action)
 // {
@@ -93,9 +94,9 @@ function fetchJson(url,payload) {
     console.log("inside fetch profile");
     console.tron.log("inside fetch profile");
 
-    return fetchJson('https://prod-15.westeurope.logic.azure.com:443/workflows/f59e53901f7a46559be64f3a4605091e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=7rKezGQLhIz7v96JpmKZ4zQ0BUUCLZMW0csfSUWM4JM',payload);
-
     // return fetchJson('https://prod-17.westeurope.logic.azure.com:443/workflows/82682ea087a442f0a12c00f1b9c08e7d/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=MkoqJpsrFiWGnELB49KFyYbnTO5BCa4hntQA_83UJfo',payload);
+
+    return fetchJson(API_URL.staging.laMobileGetUserData);
   }
   
 
@@ -113,8 +114,9 @@ export function * ProfileRequestNew(api,action)
 }
 
 function fetchUpdateFirstName(payload){
-    return fetchJson("https://prod-28.westeurope.logic.azure.com:443/workflows/8758d6d96f2145cbaaa86e5d032392dc/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=6pUlAjHE5FumdVSxpK_uevwWemeMwM9ODipl2oHvWZE",payload);
+    // return fetchJson("https://prod-28.westeurope.logic.azure.com:443/workflows/8758d6d96f2145cbaaa86e5d032392dc/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=6pUlAjHE5FumdVSxpK_uevwWemeMwM9ODipl2oHvWZE",payload);
 
+    return fetchJson(API_URL.staging.laMobileUserUpdateFirstAndLastName);
     // return fetchJson("https://prod-08.westeurope.logic.azure.com:443/workflows/7c2e8eefb0424459b71d467870a7b76b/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=vvrQGf09fHfgbYFY0Mk3a27Shh0oXMTWfP9bFhxARbI",payload);
 }
 
@@ -138,9 +140,9 @@ function fetchChangePassword(payload) {
     console.log("inside fetch change Password");
     console.tron.log("inside fetch change Password");
 
-    return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnChangePassword?code=lyD3B1naoL9SLo01LEz2Gxc8YOCnk66K1JY3XR6aNoP8M8PsrKKVTw==',payload);
+    // return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnChangePassword?code=lyD3B1naoL9SLo01LEz2Gxc8YOCnk66K1JY3XR6aNoP8M8PsrKKVTw==',payload);
 
-    // return fetchJson('https://famobileutilityapiinterfacestag.azurewebsites.net/api/fnChangePassword?code=lyD3B1naoL9SLo01LEz2Gxc8YOCnk66K1JY3XR6aNoP8M8PsrKKVTw==',payload);
+    return fetchJson(`https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnChangePassword?code=${API_URL.commonCode}`,payload);
 }
 
 export function * changePassword(api,action)
@@ -161,9 +163,9 @@ export function * changePassword(api,action)
 function fetchChangeMobile(payload) {
     console.log("fetching json");
 
-    return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnMobileUserUpdateMobileNumber?code=7lRB5YONhRDarD0KWZ9Fke/YRDDbG6cJ9fQCiOcsZ4xDi0pX/abgqg==',payload);
+    // return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnMobileUserUpdateMobileNumber?code=7lRB5YONhRDarD0KWZ9Fke/YRDDbG6cJ9fQCiOcsZ4xDi0pX/abgqg==',payload);
 
-    // return fetchJson('https://famobileutilityapiinterfacestag.azurewebsites.net/api/fnMobileUserUpdateMobileNumber?code=7lRB5YONhRDarD0KWZ9Fke/YRDDbG6cJ9fQCiOcsZ4xDi0pX/abgqg==',payload);
+    return fetchJson(`https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnMobileUserUpdateMobileNumber?code=${API_URL.commonCode}`,payload);
 
 }
 
@@ -187,9 +189,10 @@ export function * changeMobile(api,action)
 
 function fetchOTPMobile(payload) {
 
-    return fetchJson('https://prod-49.westeurope.logic.azure.com:443/workflows/19bdce4bb7d740f586a5f86bf9014efa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LU6WJJr0yUTzSFLdH9TXCBdYPVh6x3SMGegOPX0OTfA',payload);
+    // return fetchJson('https://prod-49.westeurope.logic.azure.com:443/workflows/19bdce4bb7d740f586a5f86bf9014efa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LU6WJJr0yUTzSFLdH9TXCBdYPVh6x3SMGegOPX0OTfA',payload);
 
-    // return fetchJson('https://prod-21.westeurope.logic.azure.com:443/workflows/fc0efd237ccb46268c5353e97d791a7e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Z2LNFPTtuCNVTEq9jcpwaKsLGgOjYaQOuiwoJFZenbY',payload);
+    return fetchJson(API_URL.staging.laMobileOtpVerification);    
+    //return fetchJson('https://prod-21.westeurope.logic.azure.com:443/workflows/fc0efd237ccb46268c5353e97d791a7e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Z2LNFPTtuCNVTEq9jcpwaKsLGgOjYaQOuiwoJFZenbY',payload);
 
 }
 

@@ -69,7 +69,7 @@ class PushForJob_quit extends Component {
 
         this.state = {
             isLoaded: false,
-            language:''
+            language:'',
         };
     }
 
