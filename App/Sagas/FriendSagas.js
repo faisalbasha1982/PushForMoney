@@ -4,7 +4,7 @@ import { path } from 'ramda';
 import Api from '../Services/Api';
 import FriendActions from '../Redux/FriendRedux';
 import * as NavigationService from '../Navigation/NavigationService';
-import { API_URL } from '../Services/Api_url';
+import  API_URL  from '../Services/Api_url';
 
 // export function * FriendRequest(api,action) {
 //   try{
@@ -51,7 +51,10 @@ function fetchJson(url,payload) {
         },
         body: JSON.stringify(payload),
     })
+      .then((response) => response.json())
       .then(response => {
+
+        Alert.alert(response.Message);
 
         if (!response.ok) {
           const error = new Error(response.statusText);
@@ -59,7 +62,7 @@ function fetchJson(url,payload) {
           throw error;
         }
   
-        return response.json();
+        return response;
       });
   }
   
@@ -98,7 +101,7 @@ function fetchArchive(payload)
     // return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnMobileReferralsUpdateArchiveStatus?code=rXOBL7dodL54/WdfdVv11/xuBVN2WH9afB/9ODmHuc4xCKscIMQs8Q==',payload);
 
     // staging
-    return fetchJson('https://famobileutilityapiinterfacestag.azurewebsites.net/api/fnMobileReferralsUpdateArchiveStatus?code=rXOBL7dodL54/WdfdVv11/xuBVN2WH9afB/9ODmHuc4xCKscIMQs8Q==',payload);
+    return fetchJson(`https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnMobileReferralsUpdateArchiveStatus?code=${API_URL.commonCode}`,payload);
 
 }
 

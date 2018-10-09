@@ -4,7 +4,7 @@ import { path } from 'ramda';
 import Api from '../Services/Api';
 import CardDetailsActions from '../Redux/CardDetailsRedux';
 import * as NavigationService from '../Navigation/NavigationService';
-import { API_URL } from '../Services/Api_url';
+import  API_URL  from '../Services/Api_url';
 
 function fetchJson(url,payload) {
 
@@ -19,6 +19,7 @@ function fetchJson(url,payload) {
       },
       body: JSON.stringify(payload),
   })
+   .then((response) => response.json())
     .then(response => {
 
       if (!response.ok) {
@@ -33,7 +34,7 @@ function fetchJson(url,payload) {
         Alert.alert(response.Message);
       }
 
-      return response.json();
+      return response;
     });
 }
 

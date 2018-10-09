@@ -200,10 +200,10 @@ class PushToEarnProfileComponent extends Component {
             }
             else
             {
-              if(this.state.language === 'nl')
+              if(this.state.languageCode === 'nl')
                   this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.dutch.FNameErrorText });
               else
-                  if(this.state.language === 'en')
+                  if(this.state.languageCode === 'en')
                       this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.english.FNameErrorText });
                   else
                       this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.french.FNameErrorText });
@@ -364,12 +364,12 @@ class PushToEarnProfileComponent extends Component {
 
             setTimeout(() => 
             {
-                let payload = {
-                    "AuthenticationData": encryptedData,
-                    "LoginAccessToken": this.state.aToken,
-                };
+                // let payload = {
+                //     "AuthenticationData": encryptedData,
+                //     "LoginAccessToken": this.state.aToken,
+                // };
     
-                this.props.getProfile(payload);
+                // this.props.getProfile(payload);
     
                 let newPayload = {
                     "AuthenticationData": encryptedData,
@@ -391,8 +391,6 @@ class PushToEarnProfileComponent extends Component {
             setTimeout(() => {
                 AppState.addEventListener('change',this.handleAppStateChange);            
             },4000);
-
-
 
           });
 

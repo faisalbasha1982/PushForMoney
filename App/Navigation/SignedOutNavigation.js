@@ -1,6 +1,7 @@
 import { StackNavigator } from "react-navigation";
 import styles from "./Styles/NavigationStyles";
 import PushToEarnSignIn from '../Containers/PushToEarnSignIn';
+import PushToEarnSignIn2 from '../Containers/PushToEarnSignIn2';
 import PushToEarnSignUp from '../Containers/PushToEarnSignUp';
 import PushToEarnForgetPass from '../Containers/PushToEarnForgetPass';
 import PushToEarnOTPForgetPass from '../Containers/PushToEarnOTPForgetPass';
@@ -17,6 +18,7 @@ import PushForJob_quit from '../Containers/PushForJob_quit';
 const SignedOutNav = StackNavigator(
   {
     PushToEarnSignIn: { screen: PushToEarnSignIn },
+    PushToEarnSignIn2: { screen: PushToEarnSignIn2 },
     PushToEarnSignUp: { screen: PushToEarnSignUp },
     PushToEarnOTP: { screen: PushToEarnOTP },
     PushToEarnRegisterProfile:{ screen: PushToEarnRegisterProfile},

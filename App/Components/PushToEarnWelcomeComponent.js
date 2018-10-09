@@ -105,23 +105,23 @@ class PushToEarnWelcomeComponent extends Component {
         console.log("willMount WP welcome component language="+this.props.language);
         this.getAsyncStorage();
 
-        let authData = AuthComponent.authenticationData(this.state.languageCode);
-        let encryptedData = AesComponent.aesCallback(authData);
-        this.setState({isLoading: true});
+        // let authData = AuthComponent.authenticationData(this.state.languageCode);
+        // let encryptedData = AesComponent.aesCallback(authData);
+        // this.setState({isLoading: true});
 
-        console.log("login access token="+this.state.aToken);
-        console.tron.log("login access token="+this.state.aToken);
+        // console.log("login access token="+this.state.aToken);
+        // console.tron.log("login access token="+this.state.aToken);
 
-            setTimeout(() => 
-            {
-                let payload = {
-                    "AuthenticationData": encryptedData,
-                    "LoginAccessToken": this.state.aToken,
-                };
+        //     setTimeout(() => 
+        //     {
+        //         let payload = {
+        //             "AuthenticationData": encryptedData,
+        //             "LoginAccessToken": this.state.aToken,
+        //         };
 
-                this.props.getProfile(payload);
+        //         this.props.getProfile(payload);
 
-            },3000);
+        //     },3000);
     }
 
     componentDidMount()

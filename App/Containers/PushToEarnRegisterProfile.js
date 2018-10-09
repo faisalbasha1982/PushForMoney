@@ -12,6 +12,7 @@ import {
     Alert,
     Platform,    
     findNodeHandle,
+    AsyncStorage
 } from 'react-native';
 import {
     BallIndicator,
@@ -107,7 +108,8 @@ class PushToEarnRegisterProfile extends Component {
             firstNameEmptyError:false,
             lastNameEmptyError:false,
             phoneNumberEmptyError:false,
-            text:{}
+            text:{},
+            countryCode:'be'
         };    
     }
 
@@ -122,10 +124,10 @@ class PushToEarnRegisterProfile extends Component {
             //this.setState({ lastNameError: true, ErrorText: 'Last Name is Required' });
             this.setState({lastNameInput: ''});
 
-            if(this.state.language === 'NEDERLANDS')
+            if(this.state.language === 'Dutch')
                 this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
             else
-                if(this.state.language === 'ENGLISH')
+                if(this.state.language === 'English')
                     this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
                 else
                     this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
@@ -140,10 +142,10 @@ class PushToEarnRegisterProfile extends Component {
             else
             {
                 console.log("found digits");
-              if(this.state.language === 'NEDERLANDS')
+              if(this.state.language === 'Dutch')
                   this.setState({ lastNameEmptyError: false, lastNameError: true, lastNameErrorText: LanguageSettings.dutch.LNameErrorText });
               else
-                  if(this.state.language === 'ENGLISH')
+                  if(this.state.language === 'English')
                       this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.english.LNameErrorText });
                   else
                       this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.french.LNameErrorText });
@@ -163,10 +165,10 @@ class PushToEarnRegisterProfile extends Component {
             console.log("Language ="+this.state.language);
             this.setState({firstNameInput: ''});
             //this.setState({ firstNameError: true, ErrorText: 'First Name is Required' });
-            if(this.state.language === 'NEDERLANDS')
+            if(this.state.language === 'Dutch')
                 this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
             else
-                if(this.state.language === 'ENGLISH')
+                if(this.state.language === 'English')
                     this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
                 else
                     this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
@@ -179,10 +181,10 @@ class PushToEarnRegisterProfile extends Component {
             }
             else
             {
-              if(this.state.language === 'NEDERLANDS')
+              if(this.state.language === 'Dutch')
                   this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.dutch.FNameErrorText });
               else
-                  if(this.state.language === 'ENGLISH')
+                  if(this.state.language === 'English')
                       this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.english.FNameErrorText });
                   else
                       this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.french.FNameErrorText });
@@ -206,10 +208,10 @@ class PushToEarnRegisterProfile extends Component {
             //this.setState({ phoneNumberError: true, ErrorText: 'Phone Number is Required' });
             this.setState({phoneNumberInput: ''});
 
-            if(this.state.language === 'NEDERLANDS')
+            if(this.state.language === 'Dutch')
                 this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
             else
-                if(this.state.language === 'ENGLISH')
+                if(this.state.language === 'English')
                     this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
                 else
                     this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
@@ -226,10 +228,10 @@ class PushToEarnRegisterProfile extends Component {
             if (regNew.exec(phoneSub))
               this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
             else
-                if(this.state.language === 'NEDERLANDS')
+                if(this.state.language === 'Dutch')
                     this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.dutch.TelephoneNumberError });
                 else
-                    if(this.state.language === 'ENGLISH')
+                    if(this.state.language === 'English')
                         this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.english.TelephoneNumberError });
                     else
                         this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
@@ -272,15 +274,44 @@ class PushToEarnRegisterProfile extends Component {
         let language = localStorage.getItem('language');
         console.log('local storage language='+language);
 
-        if(language === 'Dutch')
+        if(this.state.language === 'Dutch')
             this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
         else
-        if(language === 'English')
+        if(this.state.language === 'English')
             this.setState({ text: languageSettingsPFM.English,languageCode:'en'});
         else
-        if(language === 'French')
+        if(this.state.language === 'French')
             this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
 
+    }
+
+    setLanguage = () => {
+
+        if(this.state.language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+        else
+            if(this.state.language === 'English')
+                this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
+        else
+            if(this.state.language === 'French')
+                this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+
+    }
+
+    getAsyncStorage = async () => {
+
+        await AsyncStorage.getItem('language').then((language) => {
+            this.setState({ language: language });
+        });
+
+        this.setLanguage();
+
+    }
+
+
+    componentWillMount() {
+        
+        this.getAsyncStorage();
     }
 
     setText =  () => {
@@ -292,7 +323,7 @@ class PushToEarnRegisterProfile extends Component {
         let email = payload.email;
         let id = payload.id;
 
-        if (this.state.language === 'NEDERLANDS') {
+        if (this.state.language === 'Dutch') {
             console.log("setting in Nederlands");
             this.setState({
                 firstNameInput: firstname,
@@ -301,7 +332,7 @@ class PushToEarnRegisterProfile extends Component {
             });
         }
         else
-            if (this.state.language === 'ENGLISH') {
+            if (this.state.language === 'English') {
                 console.log("setting in English");
                 this.setState({
                     firstNameInput: firstname,
@@ -436,6 +467,50 @@ class PushToEarnRegisterProfile extends Component {
 
     }
 
+    formatMobileNo = (mobileNo) => {
+
+        console.log("mobileNo="+mobileNo);
+
+        let newMobNo = "+32";
+
+        if(mobileNo === null || mobileNo === undefined)
+            return null;
+        else
+         {
+            if(mobileNo !== null && mobileNo.substring(0,2)==="00")
+                if(mobileNo.substring(2,4)==="32")
+                    newMobNo = newMobNo + mobileNo.substring(4);
+                else
+                    newMobNo = newMobNo + mobileNo.substring(2);
+            else
+                    if(mobileNo !== null && mobileNo.substring(0,1)==="0")
+                        newMobNo = newMobNo + mobileNo.substring(1);
+
+
+            if(newMobNo.includes(" ") === true)
+            {
+               console.log("includes space newMobNo="+newMobNo);
+               let array =  newMobNo.split(" ");
+               let finalMobNo = "";
+
+               forEach( e in array)
+               {
+                  finalMobNo = finalMobNo + e;
+               }
+
+               console.log("finalMobo="+finalMobNo);
+
+               if(finalMobNo !== null || finalMobNo !== undefined)
+                newMobNo = finalMobNo;
+            }
+
+
+            console.log("newMobNo="+newMobNo);
+         }
+
+
+        return newMobNo;
+    }   
 
     render() {
 
@@ -514,11 +589,14 @@ class PushToEarnRegisterProfile extends Component {
                         value = { username }/>
 
                     <Text style={newStyle.firstName}>{this.state.text.Phone}</Text>
-                    <TextInput
-                        style={ newStyle.nameInput}
-                        placeholder=''
-                        underlineColorAndroid= 'transparent'
-                        onChangeText= { (phonenumberInput) => this.setState({phonenumberInput}) }/>
+                    <PhoneInput
+                                            opacity={1}
+                                            ref={(ref) => { this.phone = ref; }}
+                                            initialCountry={this.state.countryCode}
+                                            onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
+                                            style= {newStyle.nameInput}
+                                            onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }
+                                        />
                     <Text style={newStyle.firstName}>{this.state.text.Password}</Text>
 
                     <TextInput

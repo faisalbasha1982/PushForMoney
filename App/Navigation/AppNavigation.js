@@ -1,7 +1,6 @@
 import { createStackNavigator,NavigationActions, SwitchNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 import React from 'react';
-
 import LaunchScreen from '../Containers/LaunchScreen';
 import LanguageScreen from '../Containers/LanguageScreen';
 import NewScreen from '../Containers/NewScreen';
@@ -14,6 +13,7 @@ import PushForJob from '../Containers/PushForJob';
 import styles from './Styles/NavigationStyles';
 import LanguageButton from '../Components/LanguageButton';
 import PushToEarnSignIn from '../Containers/PushToEarnSignIn';
+import PushToEarnSignIn2 from '../Containers/PushToEarnSignIn2';
 import PushToEarnSignUp from '../Containers/PushToEarnSignUp';
 import PushToEarnForgetPass from '../Containers/PushToEarnForgetPass';
 import PushToEarnOTPForgetPass from '../Containers/PushToEarnOTPForgetPass';
@@ -51,6 +51,7 @@ const AppNavigation = createStackNavigator({
   LanguageButton: { screen: LanguageButton},
   LanguageScreen: { screen: LanguageScreen },
   PushToEarnSignIn: { screen: PushToEarnSignIn },
+  PushToEarnSignIn2: { screen: PushToEarnSignIn2 },
   PushToEarnSignUp: { screen: PushToEarnSignUp },
   PushToEarnForgetPass: { screen: PushToEarnForgetPass },
   PushToEarnOTP: { screen: PushToEarnOTP },

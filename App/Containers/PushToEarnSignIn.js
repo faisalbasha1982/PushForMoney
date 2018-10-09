@@ -54,6 +54,7 @@ import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
+import InstagramLogin from 'react-native-instagram-login';
 
 // import { RSAKey } from 'react-native-rsa';
 import { Colors } from "../Themes";
@@ -294,6 +295,8 @@ class PushToEarnSignIn extends Component {
 
     }
 
+
+
     twitterLogin(userID,userName)
     {
         console.log("twitter login="+userName);
@@ -328,6 +331,24 @@ class PushToEarnSignIn extends Component {
           else
             console.log("loginData  or authentication Data is empty");
           },3000);
+    }
+
+    instagramSignIn = () => {
+
+        return(
+                <View>
+                <TouchableOpacity onPress={()=> this.refs.instagramLogin.show()}>
+                    <Text style={{color: 'white'}}>Login</Text>
+                </TouchableOpacity>
+                <InstagramLogin
+                        ref='instagramLogin'
+                        clientId='xxxxxxxxxx'
+                        scopes={['public_content', 'follower_list']}
+                        onLoginSuccess={(token) => this.setState({ token })}
+                        onLoginFailure={(data) => console.log(data)} />
+            </View>
+        );
+
     }
 
     twitterSignIn = () => {
@@ -1131,22 +1152,23 @@ class PushToEarnSignIn extends Component {
                         </View>
 
                         <View style= {{width: 70, height: 70,marginRight: 20, borderRadius: 70, backgroundColor: '#E73D50' }}>
-                                <TouchableOpacity onPress={() => this.linkedin() }
+                                <TouchableOpacity onPress={() => this.refs.instagramLogin.show() }
                                     activeOpacity={0.5}
                                     style={ newStyle.iconStyle }>
                                         <Icon
                                             containerStyle={newStyle.iconImageStyle}
-                                            name='linkedin'
+                                            name='instagram'
                                             type='font-awesome'
                                             color='#fff'
                                             size = {35}
                                             onPress={() => console.log('hello')} /> 
-                                            <LinkedInModal
-                                                        linkText=''
-                                                        clientID="81td97f0ibm93v"
-                                                        clientSecret="RotJQJQRBbBoWG7l"
-                                                        redirectUri="https://www.linkedin.com/developer/apps"
-                                                        onSuccess={token => console.log(token)} />
+                                            <InstagramLogin
+                                                        ref='instagramLogin'
+                                                        clientId='31953fccb0a14a4488e6845bdb225786'
+                                                        scopes={['public_content', 'follower_list']}
+                                                        onLoginSuccess={(token) => this.setState({ token })}
+                                                        onLoginFailure={(data) => console.log(data)} />
+
                                 </TouchableOpacity>
                         </View>
 
