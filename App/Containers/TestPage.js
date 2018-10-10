@@ -139,7 +139,7 @@ class TestPage extends Component {
     componentDidMount() {
 
         console.log("test page did mount language="+this.state.language);
-
+ 
         if(this.props.navigation.state.params.language)
         {
             if(this.props.navigation.state.params.language === 'Dutch')

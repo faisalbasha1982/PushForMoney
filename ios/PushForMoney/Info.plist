@@ -71,7 +71,13 @@
 	<key>NSContactsUsageDescription</key>
 	<string>ntwrk accesses Contacts in order to quickly add Relationships and allow them to reach out via ntwrk through email, text, phone, etc.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
+	<key>NSCameraUsageDescription</key>
+	<string>Access Camera to Capture Images</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Access Image From Library</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Access Photos From Facebook</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Barlow-Black.otf</string>

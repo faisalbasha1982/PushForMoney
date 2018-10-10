@@ -233,6 +233,10 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
         this.getAsyncStorageToken();
 
+        setTimeout(()=> {
+            this.getFriendList();
+        },3000);
+
         console.log("FO token from getFriendList ="+this.state.token);
 
      }

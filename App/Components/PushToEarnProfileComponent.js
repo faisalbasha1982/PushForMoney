@@ -15,6 +15,7 @@ import {
     AppState,
     PushNotificationIOS,
     findNodeHandle,
+    NativeModules
 } from 'react-native';
 import {
     BallIndicator,
@@ -47,27 +48,32 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import PhoneInput from 'react-native-phone-input';
 import { ProfileSelectors } from '../Redux/ProfileRedux';
 import { LoginSelectors } from '../Redux/LoginRedux';
-
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import localStorage from 'react-native-sync-localstorage';
-
 import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import PushNotif from '../Containers/PushNotif';
 import PushNotification from 'react-native-push-notification';
-
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
-
 import headerImage from '../Images/headerImage.png';
 import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/NewHeaderImage.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import ImagePicker from 'react-native-image-picker';
+import ImgToBase64 from 'react-native-image-base64';
+
+import  {
+    Aborter,BlobURL,BlockBlobURL,ContainerURL,
+    ServiceURL,StorageURL,SharedKeyCredential,
+    AnonymousCredential,TokenCredential
+  } from "@azure/storage-blob";
+
+import azure from 'azure-storage';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
 let ltoken = localStorage.getItem('token');
-
 
 const window = Dimensions.get('window');
 
@@ -75,6 +81,16 @@ export const IMAGE_HEIGHT = window.width / 2;
 export const IMAGE_HEIGHT_SMALL = window.width /7;
 
 let cLanguage = '';
+
+  // More info on all the options is below in the API Reference... just some common use cases shown here
+  const options = {
+    title: 'Select Avatar',
+    customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
+  };
 
 class PushToEarnProfileComponent extends Component {
 
@@ -348,7 +364,7 @@ class PushToEarnProfileComponent extends Component {
         // }
     }
 
-    getAsyncStorage = async () => {
+getAsyncStorage = async () => {
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
@@ -435,6 +451,79 @@ class PushToEarnProfileComponent extends Component {
     
     componentWillUnmount() {
         AppState.addEventListener('change',this.handleAppStateChange);
+    }
+  
+    displayBase64String = (base64String) => {
+
+        console.log("base64 string="+base64String);
+        console.tron.log("base64 string="+base64String);
+
+    }
+
+    imageCapture = ( ) => {
+
+    /**
+     * The first arg is the options object for customization (it can also be null or omitted for default options),
+     * The second arg is the callback which sends object: response (more info in the API Reference)
+     */
+
+        var blobService = azure.createBlobService();
+
+        blobService.createContainerIfNotExists('taskcontainer', {
+        publicAccessLevel: 'blob'
+        }, function(error, result, response) {
+        if (!error) {
+            // if result = true, container was created.
+            // if result = false, container already existed.                    
+        }
+        });
+
+        ImagePicker.showImagePicker(options, (response) => {
+            console.log('Response = ', response);
+        
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            } else {
+            const source = { uri: response.uri };
+        
+            // You can also display the image using data:
+            // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+            // ImgToBase64.getBase64String(response.uri+':image/jpeg;base64',)
+            //             .then(base64String => displayBase64String(base64String))
+            //             .catch(err => console.log(err));
+
+            NativeModules.RNImageToBase64.getBase64String(response.uri, (err, base64) => {
+
+                // Do something with the base64 string
+                console.log("base64="+base64);
+
+                var blobService = azure.createBlobService();
+
+                blobService.createBlockBlobFromLocalFile('mycontainer', 'taskblob', response.uri, function(error, result, response) {
+                if (!error) {
+                    // file uploaded
+
+                    console.log("file uploaded");
+                }
+                else
+                {
+                    console.log("file not uploaded");
+                }
+                });
+              
+
+              });
+
+            this.setState({
+                avatarSource: source,
+            });
+            }
+        });
     }
 
     componentDidMount() {
@@ -623,7 +712,7 @@ class PushToEarnProfileComponent extends Component {
         console.log(" CM this.props.statusCode="+this.props.statusCode);
 
         setTimeout(() => {
-                { 
+                {
                     (this.props.statusCode === 200)?
                         this.props.menu(11)
                      : 
@@ -805,7 +894,8 @@ class PushToEarnProfileComponent extends Component {
                                                         value = { this.props.firstName }
                                                         onBlur = { () => {
                                                             this.seteditableFirstName();
-                                                            this.callUpdateName(this.state.firstNameInput)} }
+                                                            this.callUpdateName(this.state.firstNameInput);
+                                                        }}
                                                         onChangeText={(firstNameInput) => this.validateFirstName(firstNameInput)} />
                                     //      (this.state.firstNameEditable === true)?
                                     //         <TextInput
@@ -1100,11 +1190,41 @@ class PushToEarnProfileComponent extends Component {
                                             flexDirection: 'row',
                                             backgroundColor: 'transparent',
                                             justifyContent:'flex-start',
-                                            alignItems:'flex-end',
+                                            alignItems:'center',
                                             flex:8,
                                     }}>
 
-                               {
+
+                                    <TouchableOpacity
+                                        onPress={() => { this.imageCapture() } }
+                                        activeOpacity={1}
+                                        opacity={1}
+                                        style={{
+                                            width: viewPortWidth*0.65,
+                                            height: 5,
+                                            margin:0,
+                                            borderBottomColor: "#353535",
+                                            borderBottomWidth: StyleSheet.hairlineWidth,
+                                            backgroundColor: 'transparent',
+                                            padding: 0,
+                                            flex:1,
+                                        }}>
+                                        <Text
+                                            style={{
+                                                fontSize: 12,
+                                                fontFamily: 'WorkSans-Medium',
+                                                fontWeight: '500',
+                                                fontStyle: 'normal',
+                                                color: '#353535',
+                                                alignItems: 'flex-start',
+                                                justifyContent: 'flex-start',
+                                                letterSpacing: 0.67,
+                                                textAlign: 'left',
+                                                backgroundColor:'transparent'
+                                            }}
+                                        > Please Click Here to Capture Image......</Text>
+                                    </TouchableOpacity>
+                               {/* {
                                 (this.state.passwordEditable===true)?
                                     <TouchableOpacity
                                         onPress={() => { this.props.menu(6) } }
@@ -1165,9 +1285,9 @@ class PushToEarnProfileComponent extends Component {
                                     > {this.state.buttonText.toUpperCase()}</Text>
                                 </TouchableOpacity>
 
-                            }
+                            } */}
 
-                             <TouchableOpacity
+                             {/* <TouchableOpacity
                                         onPress={() => {
                                                     this.seteditablePassword();
                                                     this.props.menu(6);
@@ -1197,7 +1317,7 @@ class PushToEarnProfileComponent extends Component {
                                                 color='#E73D50'
                                                 size = {15} />                                     
                                         }
-                                 </TouchableOpacity>
+                                 </TouchableOpacity> */}
 
                             </View>
 

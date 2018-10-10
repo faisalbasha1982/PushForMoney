@@ -879,7 +879,7 @@ class PushToEarnMoneyComponent extends Component {
 
                              <View style={{width: 310, height: 280, flex:6,justifyContent:'flex-start', alignItems:'flex-start', backgroundColor: 'transparent'}} >
                                  {
-                                        (_.isEmpty(this.props.referrals))?                                 
+                                        (_.isEmpty(this.props.referrals))?
                                             this.renderNothing()
                                         :
                                         <CollapsibleView 

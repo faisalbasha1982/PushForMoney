@@ -3,6 +3,9 @@ package com.pushformoney;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.github.xfumihiro.react_native_image_to_base64.ImageToBase64Package;
+import fr.snapp.imagebase64.RNImgToBase64Package;
+import com.imagepicker.ImagePickerPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.reactlibrary.mailcompose.RNMailComposePackage;
 import com.chirag.RNMail.RNMail;
@@ -40,6 +43,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ImageToBase64Package(),
+            new RNImgToBase64Package(),
+            new ImagePickerPackage(),
             new ReactNativePushNotificationPackage(),
             new RNMailComposePackage(),
             new RNMail(),
