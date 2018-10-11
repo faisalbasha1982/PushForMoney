@@ -62,14 +62,7 @@ import logoNew from '../Images/NewHeaderImage.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
 import ImgToBase64 from 'react-native-image-base64';
-
-import  {
-    Aborter,BlobURL,BlockBlobURL,ContainerURL,
-    ServiceURL,StorageURL,SharedKeyCredential,
-    AnonymousCredential,TokenCredential
-  } from "@azure/storage-blob";
-
-import azure from 'azure-storage';
+import call from 'react-native-phone-call';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -144,7 +137,8 @@ class PushToEarnProfileComponent extends Component {
             cardDetailsError:false,
             mobileNotifications:[],
             aToken:'',
-            text:{}
+            text:{},
+            isLoading:true
         };    
     }
 
@@ -445,7 +439,7 @@ getAsyncStorage = async () => {
     componentWillMount() {
         console.log("component Will Mount inside profile component");
         this.getAsyncStorage();
-        this.setState({ isLoading: true});
+        // this.setState({ isLoading: true});
     }
 
     
@@ -466,17 +460,6 @@ getAsyncStorage = async () => {
      * The first arg is the options object for customization (it can also be null or omitted for default options),
      * The second arg is the callback which sends object: response (more info in the API Reference)
      */
-
-        var blobService = azure.createBlobService();
-
-        blobService.createContainerIfNotExists('taskcontainer', {
-        publicAccessLevel: 'blob'
-        }, function(error, result, response) {
-        if (!error) {
-            // if result = true, container was created.
-            // if result = false, container already existed.                    
-        }
-        });
 
         ImagePicker.showImagePicker(options, (response) => {
             console.log('Response = ', response);
@@ -500,22 +483,7 @@ getAsyncStorage = async () => {
             NativeModules.RNImageToBase64.getBase64String(response.uri, (err, base64) => {
 
                 // Do something with the base64 string
-                console.log("base64="+base64);
-
-                var blobService = azure.createBlobService();
-
-                blobService.createBlockBlobFromLocalFile('mycontainer', 'taskblob', response.uri, function(error, result, response) {
-                if (!error) {
-                    // file uploaded
-
-                    console.log("file uploaded");
-                }
-                else
-                {
-                    console.log("file not uploaded");
-                }
-                });
-              
+                console.log("base64="+base64);              
 
               });
 
@@ -525,6 +493,13 @@ getAsyncStorage = async () => {
             }
         });
     }
+
+    componentDidUpdate(prevProps) {
+        // Typical usage (don't forget to compare props):
+        if (this.props.isLoading !== prevProps.isLoading) {
+            this.setState({ isLoading: false});
+        }
+      }
 
     componentDidMount() {
 
@@ -538,7 +513,7 @@ getAsyncStorage = async () => {
         ltoken = localStorage.getItem('token');
 
         let asynToken = '';
-        this.setState({isLoading: true});
+        // this.setState({ isLoading: true });
 
         console.log("PC login access token="+this.state.aToken);
         console.tron.log("PC login access token="+this.state.aToken);
@@ -570,7 +545,7 @@ getAsyncStorage = async () => {
 
             setTimeout(() => {
                 console.tron.log("mobilenotifications="+this.props.mobileNotifications);
-                this.setState({ mobileNotifications: this.props.mobileNotifications, isLoading: false });
+                this.setState({ mobileNotifications: this.props.mobileNotifications, isLoading: false,});
             }, 3000);
 
         },3000);    
@@ -897,6 +872,7 @@ getAsyncStorage = async () => {
                                                             this.callUpdateName(this.state.firstNameInput);
                                                         }}
                                                         onChangeText={(firstNameInput) => this.validateFirstName(firstNameInput)} />
+
                                     //      (this.state.firstNameEditable === true)?
                                     //         <TextInput
                                     //             style={ newStyle.nameInputFirst }

@@ -39,9 +39,8 @@ import  API_URL  from '../Services/Api_url';
 function fetchJson(url,payload) {
 
     console.log("inside fetchJson:");
-    console.tron.log("inside fetch json");
-
-    console.log("url="+url);
+    console.tron.log("inside fetch json with payload="+payload);
+    console.tron.log("url="+url);
 
     return  fetch(url,{
         method: 'POST',
@@ -69,22 +68,25 @@ function fetchJson(url,payload) {
   function fetchFriend(payload) {
       
     console.log("inside fetch friend");
-    console.tron.log("inside fetch friend");
+    console.tron.log("inside fetch friend with payload="+payload);
 
     // development
     // return fetchJson('https://prod-07.westeurope.logic.azure.com:443/workflows/0604ad5d855444be85a5137166c67d25/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Lh0jJoxB6xqbZCq_j9xMONuPuBOMOl_F_oZrwIEBckY',payload);
 
     // staging
-    return fetchJson(API_URL.staging.laMobileGetUserReferralsWithStatus);
+    return fetchJson(API_URL.staging.laMobileGetUserReferralsWithStatus,payload);
     // return fetchJson('https://prod-31.westeurope.logic.azure.com:443/workflows/40dac089a8e04e9f9593c6a5d2c2f792/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=3fzTiTB9UtL85SYxL6nONm81gx5VvmmgDEVNcBMJffo',payload);
 
 } 
 
 export function * FriendRequest(api,action)
-{    
+{
+    console.tron.log("friend request new:");
+    
     try{
-          console.log("friend request new:");
+          console.tron.log("friend request new:");
             const responseJson = yield call(fetchFriend,action.payload);
+          console.tron.log("friend request responseJson:"+responseJson);
             yield put(FriendActions.friendSuccess(responseJson.ReferralInfo));
         }
     catch(error)
@@ -123,9 +125,11 @@ function fetchReferral(payload)
 
     // dev
     // return fetchJson('https://prod-10.westeurope.logic.azure.com:443/workflows/a23a19abad104ab1854363c6536802aa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=eLy-zN-st8ISnuzhGMyvqK7zKNKFqt0myhDf14achPw',payload);
-
-    return fetchJson(API_URL.staging.laMobileReferralsAdd);
+    
+    // staging
     // return fetchJson('https://prod-11.westeurope.logic.azure.com:443/workflows/26cd76a2f9624eb4b0edacd9a8bbeb58/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ujtBhMzB55RiT8g2X3lkG3eTuMDX5dpegXHaq6MXGrs',payload);
+
+    return fetchJson(API_URL.staging.laMobileReferralsAdd,payload);
 }
 
 export function * saveReferrals(api,action)

@@ -278,7 +278,7 @@ renderNothing = () => {
                           fontWeight: '500',
                           fontStyle: 'normal',
                           letterSpacing: 0.67,
-                          textAlign: 'center',
+                          textAlign: 'right',
                           color: 'rgb(231, 61, 80)'
           }}>
               NO RECORDS TO SHOW!!!!

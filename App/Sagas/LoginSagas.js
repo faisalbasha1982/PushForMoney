@@ -265,21 +265,22 @@ function fetchJson(url,payload) {
       },
       body: JSON.stringify(payload),
   })
+    .then((response) => response.json())
     .then(response => {
 
       if (!response.ok) {
 
-        Alert.alert(response.Message);
+        //Alert.alert(response.Message);
         const error = new Error(response.statusText);
         error.response = response;
         throw error;
       }
       else
       {
-        Alert.alert(response.Message);
+        //Alert.alert(response.Message);
       }
 
-      return response.json();
+      return response;
     });
 }
 function fetchNotification(payload) {

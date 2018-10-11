@@ -357,16 +357,6 @@ class PushToEarnAddFriendDetailsComponent extends Component {
         let ltoken = localStorage.getItem('token');
         this.setState({isLoading: true});
 
-        // console.tron.log("save referrals first Name input ="+this.state.firstNameInput);
-        // console.log("saveReferrals firstNameInput="+this.state.firstNameInput);
-
-        // Alert.alert("firstNameInput --->  "+this.state.firstNameInput);
-
-        // console.log("SR first Name ="+this.state.firstNameInput.split(" ")[0]);
-        // console.log("SR last Name ="+this.state.firstNameInput.split(" ")[1]);
-        // console.log("SR phone="+this.state.phoneNumberInput);
-        // console.log("SR email="+this.state.email);
-
         let payload = {
             "AuthenticationData": encryptedData,
             "LoginAccessToken": this.state.aToken,

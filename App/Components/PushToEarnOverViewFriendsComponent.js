@@ -554,7 +554,11 @@ class PushToEarnOverViewFriendsComponent extends Component {
                       
 
                                 <View style= {newStyle.inputContainer}>
-                                <ScrollView style={{ flex: 1, backgroundColor: 'transparent', height:viewPortHeight*0.90 }} contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-start', }}>
+                                <ScrollView 
+                                        style={{ flex: 1, backgroundColor: 'transparent', height:viewPortHeight*0.90 }} 
+                                        contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-start', }}
+                                        onScroll = { () => { this.getFriendList(); } }
+                                >
                                     {
                                         this.props.referral.map(
                                             personObj => 

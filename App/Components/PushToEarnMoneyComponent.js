@@ -402,14 +402,14 @@ class PushToEarnMoneyComponent extends Component {
             
         return(
 
-            <View style={{flex:1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+            <View style={{flex:1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center',  backgroundColor: 'transparent'}}>
                 <Text style={{  fontFamily: 'WorkSans-Regular',
                                 fontSize: 25,
                                 fontWeight: '500',
                                 fontStyle: 'normal',
                                 letterSpacing: 0.67,
                                 textAlign: 'center',
-                                marginLeft:15,
+                                marginLeft:0,
                                 color: 'rgb(231, 61, 80)'
                 }}>
                     {this.state.text.nothing}
@@ -599,44 +599,81 @@ class PushToEarnMoneyComponent extends Component {
 
     getPrevYearMonth = () => {
 
-        let prevYearMonth = "";
+        let currentMonth = this.state.currentMonth;        
+        let currentMonthNumbers = this.getMonthNumber(this.state.currentMonth);
+        let currentYear = this.state.currentYear;
 
-        let currentyearmonth = this.state.currentYearMonth;
-        let currentYMA = currentyearmonth.split(" ");
+        if(currentMonthNumbers === "03")
+            currentMonth = "FEBRUARY";
+        if(currentMonthNumbers === "04")
+            currentMonth = "MARCH";
+        if(currentMonthNumbers === "05")
+            currentMonth = "APRIL";
+        if(currentMonthNumbers === "06")
+            currentMonth = "MAY";
+        if(currentMonthNumbers === "07")
+            currentMonth = "JUNE";
+        if(currentMonthNumbers === "08")
+            currentMonth = "JULY";
+        if(currentMonthNumbers === "09")
+            currentMonth = "AUGUST";
+        if(currentMonthNumbers === "10")
+            currentMonth = "SEPTEMBER";
+        if(currentMonthNumbers === "11")
+            currentMonth = "OCTOBER";
+        if(currentMonthNumbers === "12")
+            currentMonth = "NOVEMBER";
+        if(currentMonthNumbers === "01")
+            {
+                currentMonth = "DECEMBER";
+                currentYear = parseInt(this.state.currentYear,10) - 1;
+            }
+        if(currentMonthNumbers === "02")
+            currentMonth = "JANUARY";
 
-        let currentMonth = currentYMA[0];
-        let currentYear = currentYMA[1];
+        this.setState({ currentMonth: currentMonth , currentYear: currentYear });
 
-        let currentMonthNumber = this.getMonthNumber(currentMonth);
-
-        if(currentMonthNumber > 1)
-            prevYearMonth = getMonth(parseInt(currentMonth,10) - 1)+"  " + currentYear;
-
-        if(currentMonthNumber === 1)
-            prevYearMonth = getMonth(12) +"  "+ (parseInt(currentYear,10)-1);
-
-        this.setState({ currentYearMonth: prevYearMonth});
     }
    
     getNextYearMonth = () => {
 
-        let nextYearMonth = "";
+        let currentMonth = this.state.currentMonth;        
+        let currentMonthNumbers = this.getMonthNumber(this.state.currentMonth);
+        let currentYear = this.state.currentYear;
 
-        let currentyearmonth = this.state.currentYearMonth;
-        let currentYMA = currentyearmonth.split(" ");
+        if(currentMonthNumbers === "01")
+            currentMonth = "FEBRUARY";
+        if(currentMonthNumbers === "02")
+            currentMonth = "MARCH";
+        if(currentMonthNumbers === "03")
+            currentMonth = "APRIL";
+        if(currentMonthNumbers === "04")
+            currentMonth = "MAY";
+        if(currentMonthNumbers === "05")
+            currentMonth = "JUNE";
+        if(currentMonthNumbers === "06")
+            currentMonth = "JULY";
+        if(currentMonthNumbers === "07")
+            currentMonth = "AUGUST";
+        if(currentMonthNumbers === "08")
+            currentMonth = "SEPTEMBER";
+        if(currentMonthNumbers === "09")
+            currentMonth = "OCTOBER";
+        if(currentMonthNumbers === "10")
+            currentMonth = "NOVEMBER";
+        if(currentMonthNumbers === "11")
+            currentMonth = "DECEMBER";
+        if(currentMonthNumbers === "12")
+            {
+                currentMonth = "JANUARY";
+                currentYear = parseInt(this.state.currentYear,10) + 1;
+            }
 
-        let currentMonth = currentYMA[0];
-        let currentYear = currentYMA[1];
 
-        let currentMonthNumber = this.getMonthNumber(currentMonth);
 
-        if(currentMonthNumber < 12)
-            nextYearMonth = getMonth(parseInt(currentMonth,10) + 1)+"  " + currentYear;
+        this.setState({ currentMonth: currentMonth , currentYear: currentYear });
 
-        if(currentMonthNumber === 12)
-            nextYearMonth = getMonth(1) + "  " + (parseInt(currentYear,10)+1);
 
-        this.setState({ currentYearMonth: nextYearMonth});
     }
 
     getCurrentYearMonth = () => {
@@ -841,7 +878,7 @@ class PushToEarnMoneyComponent extends Component {
                              <View style={{width: 310, height: 50, flex:1, backgroundColor: 'transparent'}}>
                                     <View style={newStyle.monthlyBar}>
 
-                                        <TouchableOpacity onPress={ ( ) => {} }
+                                        <TouchableOpacity onPress={ ( ) => { this.getPrevYearMonth(); } }
                                             activeOpacity={0.5}
                                             style={newStyle.iconStyle}>
                                             <Icon
@@ -856,7 +893,7 @@ class PushToEarnMoneyComponent extends Component {
                                             <Text style={newStyle.monthlyText}> {this.getCurrentYearMonth() }</Text>
                                         </TouchableOpacity>
 
-                                        <TouchableOpacity onPress={ ( ) => {} }
+                                        <TouchableOpacity onPress={ ( ) => { this.getNextYearMonth(); } }
                                             activeOpacity={0.5}
                                             style={newStyle.iconStyle}>
                                             <Icon
@@ -877,7 +914,7 @@ class PushToEarnMoneyComponent extends Component {
                                     </View>:this.somethingElse()
                                 }      
 
-                             <View style={{width: 310, height: 280, flex:6,justifyContent:'flex-start', alignItems:'flex-start', backgroundColor: 'transparent'}} >
+                             <View style={{width: 310, height: 280, flex:6,justifyContent:'center', alignItems:'center', backgroundColor: 'transparent'}} >
                                  {
                                         (_.isEmpty(this.props.referrals))?
                                             this.renderNothing()

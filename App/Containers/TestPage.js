@@ -163,9 +163,6 @@ class TestPage extends Component {
 
     getFriendList = () => {
 
-        // console.log("INSIDE FRIEND LIST API CALL");
-        // console.log("language Code="+this.state.languageCode);
-
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
         let ltoken = localStorage.getItem('token');
@@ -181,19 +178,13 @@ class TestPage extends Component {
             let payload = {
                 "AuthenticationData": encryptedData,
                 "LoginAccessToken": this.state.token,
-            };    
-
+            };
             this.props.friendRequest(payload); 
-
         }
         else
         {
             ltoken = localStorage.getItem('token');       
         }
-        
-        // console.log("this.props.referral="+this.props.referral);
-        // console.tron.log("this.props.referral="+this.props.referral);
-
     }
 
     addComponent = () => {
