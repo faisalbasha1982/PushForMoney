@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-immediate-phone-call')
     compile project(':react-native-image-to-base64')
     compile project(':react-native-image-base64')
     compile project(':react-native-image-picker')

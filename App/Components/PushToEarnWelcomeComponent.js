@@ -60,6 +60,7 @@ class PushToEarnWelcomeComponent extends Component {
             buttonText: '',
             text:{},
             languageCode:'',
+            aToken:''
         };    
 
         //this.setLanguage();

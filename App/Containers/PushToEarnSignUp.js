@@ -1119,7 +1119,7 @@ class PushToEarnSignUp extends Component {
                             color: "rgb(231, 61, 80)",
                             textDecorationLine: 'underline',
                         }}
-                        onPress = { () => this.props.navigation.navigate('PushToEarnSignIn2') }>
+                        onPress = { () => this.props.navigation.navigate('PushToEarnSignIn') }>
                            {this.state.text.SignIn}
                         </Text>
                 </View>                

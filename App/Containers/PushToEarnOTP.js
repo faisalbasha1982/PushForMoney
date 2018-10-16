@@ -322,6 +322,8 @@ class PushToEarnOTP extends Component {
                                 maxLength={1}
                                 autoCapitalize="none"
                                 autoFocus = {true}
+                                blurOnSubmit={false}
+                                returnKeyType={"next"}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(firstInput) => this.validateOTPText1(firstInput)}/>
 
@@ -332,6 +334,8 @@ class PushToEarnOTP extends Component {
                                 maxLength={1}
                                 autoCapitalize="none"
                                 autoFocus = {true}
+                                blurOnSubmit={false}
+                                returnKeyType={"next"}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(secondInput) => this.validateOTPText2(secondInput)}/>            
 
@@ -341,6 +345,8 @@ class PushToEarnOTP extends Component {
                                 maxLength={1}
                                 autoCapitalize="none"
                                 autoFocus = {true}
+                                blurOnSubmit={false}
+                                returnKeyType={"next"}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(thirdInput) => this.validateOTPText3(thirdInput)}/>
                     <TextInput
@@ -349,10 +355,11 @@ class PushToEarnOTP extends Component {
                                 maxLength={1}
                                 autoCapitalize="none"
                                 autoFocus = {true}
+                                blurOnSubmit={false}
+                                returnKeyType={"next"}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(fourthInput) => this.validateOTPText4(fourthInput)}/>                                                    
                     </View>
-
                     
 
                     <View style= {{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -659,11 +666,11 @@ const newStyle = StyleSheet.create({
     },
 
     otpInput: {
-        width: 37,
+        width: 39,
         height: 50,
         borderRadius: 8,
         backgroundColor: '#f6f6f6',
-        padding: 10,
+        padding: 7,
         margin: 10
     },
 

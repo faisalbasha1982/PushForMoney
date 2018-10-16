@@ -76,7 +76,6 @@ let cLanguage = '';
 
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-
 class PushToEarnOTPForgetPass extends Component {
 
     static propTypes = {
@@ -393,17 +392,17 @@ class PushToEarnOTPForgetPass extends Component {
             {
                 console.log("password incorrect---->"+password);
 
-                Alert.alert(
-                    'Password is Incorrect',
-                    'Password needs to be atleast 6 characters and no spaces',
-                    [                      
-                        {
-                          text: 'OK', 
-                          onPress: () => console.log('Ask me later Pressed')
-                        },                      
-                    ],
-                    {cancelable: false}
-                );
+                // Alert.alert(
+                //     'Password is Incorrect',
+                //     'Password needs to be atleast 6 characters and no spaces',
+                //     [                      
+                //         {
+                //           text: 'OK', 
+                //           onPress: () => console.log('Ask me later Pressed')
+                //         },                      
+                //     ],
+                //     {cancelable: false}
+                // );
             }            
 
     }
@@ -467,6 +466,7 @@ class PushToEarnOTPForgetPass extends Component {
     render() {
         const platform = Platform.OS;
         const mobileUserId = this.props.navigation.state.params.mobileId;
+        console.log("mobileUserId="+mobileUserId);        
         console.log("platform --->",Platform.OS);
         return (
 
@@ -539,6 +539,7 @@ class PushToEarnOTPForgetPass extends Component {
                                 maxLength={1}
                                 autoCapitalize="none"
                                 blurOnSubmit={false}
+                                returnKeyType={"next"}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(firstInput) => this.validateOTPText1(firstInput)}/>
 
@@ -560,6 +561,7 @@ class PushToEarnOTPForgetPass extends Component {
                                 maxLength={1}
                                 autoCapitalize="none"
                                 blurOnSubmit={false}
+                                returnKeyType={"next"}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(secondInput) => this.validateOTPText2(secondInput)}/>
                     <TextInput
@@ -572,6 +574,7 @@ class PushToEarnOTPForgetPass extends Component {
                                 maxLength={1}
                                 autoCapitalize="none"
                                 blurOnSubmit={false}
+                                returnKeyType={"next"}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(thirdInput) => this.validateOTPText3(thirdInput)}/>
                     <TextInput
@@ -584,6 +587,7 @@ class PushToEarnOTPForgetPass extends Component {
                                 maxLength={1}
                                 autoCapitalize="none"
                                 blurOnSubmit={false}
+                                returnKeyType={"next"}
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(fourthInput) => this.validateOTPText4(fourthInput)}/>                                                    
                     </View>
@@ -720,8 +724,6 @@ class PushToEarnOTPForgetPass extends Component {
                          initialCountry='be'
                          style= {newStyle.nameInput}
                          onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) } />
-
-
              </View>
 
             <View style={newStyle.endButtons}>
@@ -875,11 +877,11 @@ const newStyle = StyleSheet.create({
     },
 
     otpInput: {
-        width: 37,
+        width: 39,
         height: 50,
         borderRadius: 8,
         backgroundColor: '#f6f6f6',
-        padding: 10,
+        padding: 7,
         margin: 10
     },
 

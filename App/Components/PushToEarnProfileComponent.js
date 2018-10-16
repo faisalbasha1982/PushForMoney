@@ -64,6 +64,18 @@ import ImagePicker from 'react-native-image-picker';
 import ImgToBase64 from 'react-native-image-base64';
 import call from 'react-native-phone-call';
 
+import {
+    Aborter,
+    BlobURL,
+    BlockBlobURL,
+    ContainerURL,
+    ServiceURL,
+    StorageURL,
+    SharedKeyCredential,
+    AnonymousCredential,
+    TokenCredential
+  }  from "./azure-storage.blob";
+
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
 let ltoken = localStorage.getItem('token');
@@ -138,7 +150,7 @@ class PushToEarnProfileComponent extends Component {
             mobileNotifications:[],
             aToken:'',
             text:{},
-            isLoading:true
+            isLoading:false
         };    
     }
 
@@ -221,7 +233,7 @@ class PushToEarnProfileComponent extends Component {
         }        
     }
 
-    validatePhone = (phone) => {
+    validatePhone = (phone) => {        
 
         let phoneSub = phone.substring(1);
         let firstTwo = phone.substring(1,3);
@@ -234,10 +246,14 @@ class PushToEarnProfileComponent extends Component {
         console.log("first two="+nextTwo);
         console.tron.log("phone length="+phoneSub.length);
 
+        console.log("formatted phone="+this.formatMobileNo(phone));
+
         let reg = /^[0-9]{12}$/;
         let regNew = /^(?=(.*\d){10})(?!(.*\d){13})[\d\(\)\s+-]{10,}$/;
         let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
         let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
+
+        this.setState({isLoading:true});
 
         if(phone === '')
         {
@@ -259,13 +275,15 @@ class PushToEarnProfileComponent extends Component {
                             || nextTwo === "47"  || nextTwo === "48"
                             || nextTwo === "49")
                         {
-                                this.setState({phoneNumberInput: phone});
+                            console.log("phone="+phone);
+
+                                this.setState({phoneNumberInput: this.formatMobileNo(phone)});
 
                                 // if (regNew.exec(phone))
                                 // {  
                                     this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
-                                    this.setState({isLoading:true});
-                                    this.changeMobile(phone);
+                                    this.setState({isLoading:false});
+                                    this.changeMobile(this.formatMobileNo(phone));
                                 //}
                                 // else
                                 //     if(this.state.languageCode === 'nl')
@@ -279,11 +297,20 @@ class PushToEarnProfileComponent extends Component {
                         }
                       else
                       {
-                        Alert.alert("Invalid Mobile Phone Number");
+                        //Alert.alert("Invalid phone number="+phone);
+                        if(lengthOfString >=12)
+                        {
+                            this.setState({phoneNumberInput: this.formatMobileNo(phone)});
+                            this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
+                            this.setState({isLoading:false});
+                            this.changeMobile(this.formatMobileNo(phone));    
+                        }
+    
                       }
                 }
                 else
                 {
+
                 }
         }
     }
@@ -324,38 +351,6 @@ class PushToEarnProfileComponent extends Component {
     
     componentWillReceiveProps(nextProps) {
 
-        // if(this.props !== nextProps)
-        // {
-        //     let language = localStorage.getItem('language');
-
-        //     this.getAsyncStorage();
-    
-        //     console.log("text="+this.state.text);
-        //     console.log("text changeLanguage="+this.state.text);
-
-        //     let authData = AuthComponent.authenticationData(this.state.languageCode);
-        //     let encryptedData = AesComponent.aesCallback(authData);
-        //     ltoken = localStorage.getItem('token');
-        //     //this.setState({isLoading: true});
-
-        //     console.log("login access token="+this.state.aToken);
-        //     console.tron.log("login access token="+this.state.aToken);
-
-        //     setTimeout(() => 
-        //     {
-
-        //         let payload = {
-        //             "AuthenticationData": encryptedData,
-        //             "LoginAccessToken": this.state.aToken,
-        //         };
-
-        //         this.props.getProfile(payload);
-        //         this.setState({ isLoading: false });
-
-        //     },3000);
-
-
-        // }
     }
 
 getAsyncStorage = async () => {
@@ -380,6 +375,8 @@ getAsyncStorage = async () => {
                 // };
     
                 // this.props.getProfile(payload);
+
+                console.log("async token from Storage="+this.state.aToken);
     
                 let newPayload = {
                     "AuthenticationData": encryptedData,
@@ -441,7 +438,6 @@ getAsyncStorage = async () => {
         this.getAsyncStorage();
         // this.setState({ isLoading: true});
     }
-
     
     componentWillUnmount() {
         AppState.addEventListener('change',this.handleAppStateChange);
@@ -673,8 +669,10 @@ getAsyncStorage = async () => {
         console.log("login access token="+this.state.aToken);
         console.tron.log("login access token="+this.state.aToken);
 
-        console.log("phoneNumber="+phoneNumber);
-        Alert.alert("phoneNumber="+phoneNumber);
+        console.log("actual phone number="+phoneNumber);
+
+        console.log("phoneNumber="+this.formatMobileNo(phoneNumber));
+        Alert.alert("phoneNumber="+this.formatMobileNo(phoneNumber));
 
         let payload = {
             "AuthenticationData": encryptedData,
@@ -683,7 +681,6 @@ getAsyncStorage = async () => {
         };
 
         this.props.changeMobile(payload);
-
         console.log(" CM this.props.statusCode="+this.props.statusCode);
 
         setTimeout(() => {
@@ -694,15 +691,44 @@ getAsyncStorage = async () => {
                      (this.props.statusCode === 409)?
                         Alert.alert(" Duplicate Mobile Phone Number already exists"+ phoneNumber)
                      :
+                     (this.props.statusCode === 403)?
+                        Alert.alert(" Mobile Number not valid"+ phoneNumber)
+                     :
                      this.props.menu(11)
                        
                 }
         },3000);
     }
 
+    removeSpaces = (input) => {
+       
+        if(input === null || input === undefined)
+            return;
+
+        let array = input.split(" ");
+
+        let finalString = '';
+
+        for(element in array)
+        {
+            console.log("element="+array[element]);
+
+            if(array[element] !== " ")
+                finalString = finalString + array[element];
+        }
+
+        console.log("finalString="+finalString);
+
+        return finalString;
+        
+    }
+
     formatMobileNo = (mobileNo) => {
 
         let newMobNo = "+32";
+        mobileNo = this.removeSpaces(mobileNo);
+        console.log("mobileNo w/out spaces ="+mobileNo);
+        console.log("mobileNo="+mobileNo);
 
         if(mobileNo === null || mobileNo === undefined)
             return null;
@@ -720,6 +746,8 @@ getAsyncStorage = async () => {
             console.log("newMobNo="+newMobNo);
          }
 
+        if(newMobNo === "+32")
+            newMobNo = mobileNo;
 
         return newMobNo;
     }
@@ -735,11 +763,13 @@ getAsyncStorage = async () => {
             // </Text>
 
             this.props.firstName
-
         );
-
-
     }
+
+    blobUploadRN = () => {
+
+        // https://csb8eaf22cfa520x43a2x877.blob.core.windows.net/newcontainer
+    }    
 
     render() {
 
@@ -857,6 +887,13 @@ getAsyncStorage = async () => {
                                                     }}
                                                 > {this.props.firstName} </Text>
 
+                                                 {
+                                                            this.props.firstName === null?
+                                                            <View style = {{position: 'absolute' , zIndex:3999, left: 20, top: 120, right: 0, bottom: 0}}>
+                                                            <BallIndicator color='#e73d50' />
+                                                            </View>:this.somethingElse()
+                                                 }
+
                                             </TouchableOpacity>
                                             :
                                             <TextInput
@@ -917,8 +954,7 @@ getAsyncStorage = async () => {
 
                                        <TouchableOpacity
                                         onPress={() => {  this.seteditableLasttName(); 
-                                                          
-                                        } }
+                                        }}
                                         activeOpacity={0.5}
                                         style={{
                                             width:35,
@@ -1091,7 +1127,8 @@ getAsyncStorage = async () => {
                                             marginTop:5,
                                             flex:8,
                                             backgroundColor:'transparent'
-                                        }}>
+                                        }}
+                                    >
                                         <PhoneInput
                                             opacity={1}
                                             ref={(ref) => { this.phone = ref; }}
@@ -1172,7 +1209,7 @@ getAsyncStorage = async () => {
 
 
                                     <TouchableOpacity
-                                        onPress={() => { this.imageCapture() } }
+                                        onPress={() => { this.blobUpload() } }
                                         activeOpacity={1}
                                         opacity={1}
                                         style={{
@@ -1263,7 +1300,7 @@ getAsyncStorage = async () => {
 
                             } */}
 
-                             {/* <TouchableOpacity
+                             <TouchableOpacity
                                         onPress={() => {
                                                     this.seteditablePassword();
                                                     this.props.menu(6);
@@ -1293,7 +1330,7 @@ getAsyncStorage = async () => {
                                                 color='#E73D50'
                                                 size = {15} />                                     
                                         }
-                                 </TouchableOpacity> */}
+                                 </TouchableOpacity>
 
                             </View>
 

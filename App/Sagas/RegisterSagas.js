@@ -265,10 +265,12 @@ function fetchJsonForgotPasswordRequest(payload) {
                     cancelable: false
                 }
             );               
- 
+
+            console.log("response mobileUserId="+responseJson.MobileUserId);
+
             //Navigate to OTP page
-            NavigationService.navigate('PushToEarnOTPForgetPass',{mobileId: mobileUserId});
-        } 
+            NavigationService.navigate('PushToEarnOTPForgetPass',{mobileId: responseJson.MobileUserId});
+        }
         else {
 
             console.tron.log("response status="+responseJson.StatusCode);
@@ -294,8 +296,7 @@ export function* forgotPasswordRequest(api,action) {
 
     try {
             let response = yield call(fetchJsonForgotPasswordRequest,action.payload);
-            let mobileUserId = response.MobileUserId;            
-            yield put(RegisterActions.registerSuccess(mobileUserId));      
+            yield put(RegisterActions.registerSuccess());
     }
     catch(error)
     {

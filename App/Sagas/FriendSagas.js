@@ -38,8 +38,8 @@ import  API_URL  from '../Services/Api_url';
 
 function fetchJson(url,payload) {
 
-    console.log("inside fetchJson:");
-    console.tron.log("inside fetch json with payload="+payload);
+    console.log("inside fetchJson from save referrals:");
+    console.tron.log("inside fetch json with payload save referrals="+payload);
     console.tron.log("url="+url);
 
     return  fetch(url,{
@@ -51,17 +51,9 @@ function fetchJson(url,payload) {
         body: JSON.stringify(payload),
     })
       .then((response) => response.json())
-      .then(response => {
-
-        Alert.alert(response.Message);
-
-        if (!response.ok) {
-          const error = new Error(response.statusText);
-          error.response = response;
-          throw error;
-        }
-  
-        return response;
+      .then(responseJson => {
+          
+        return responseJson;
       });
   }
   
@@ -125,20 +117,24 @@ function fetchReferral(payload)
 
     // dev
     // return fetchJson('https://prod-10.westeurope.logic.azure.com:443/workflows/a23a19abad104ab1854363c6536802aa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=eLy-zN-st8ISnuzhGMyvqK7zKNKFqt0myhDf14achPw',payload);
-    
+
     // staging
     // return fetchJson('https://prod-11.westeurope.logic.azure.com:443/workflows/26cd76a2f9624eb4b0edacd9a8bbeb58/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ujtBhMzB55RiT8g2X3lkG3eTuMDX5dpegXHaq6MXGrs',payload);
 
-    return fetchJson(API_URL.staging.laMobileReferralsAdd,payload);
+    return fetchJson('https://prod-11.westeurope.logic.azure.com:443/workflows/26cd76a2f9624eb4b0edacd9a8bbeb58/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ujtBhMzB55RiT8g2X3lkG3eTuMDX5dpegXHaq6MXGrs',payload);
 }
 
 export function * saveReferrals(api,action)
 {
-
     try{
         const responseJson = yield call(fetchReferral,action.payload);
-        yield put(FriendActions.saveSuccess(responseJson.MobileReferrals));
-        Alert.alert(responseJson.Message);
+
+         if(responseJson.StatusCode === 200)
+         {
+            yield put(FriendActions.saveSuccess(responseJson.MobileReferrals));
+            Alert.alert(responseJson.Message);
+         }
+
     }
     catch(error)
     {

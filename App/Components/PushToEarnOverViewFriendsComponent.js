@@ -48,6 +48,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import localStorage from 'react-native-sync-localstorage';
+import RNImmediatePhoneCall from 'react-native-immediate-phone-call';
+import call from 'react-native-phone-call';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -340,28 +342,26 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
         console.log("FO token from getFriendList ="+this.state.token);
 
-        if(this.state.token !== null || this.state.token !== undefined)
-        {
-            let payload = {
-                "AuthenticationData": encryptedData,
-                "LoginAccessToken": this.state.token,
-            };
+        setTimeout(() => {
 
-            this.props.friendRequest(payload); 
-        }
-        else
-        {
-            //ltoken = localStorage.getItem('token');
-        }
+            if(this.state.token !== null || this.state.token !== undefined)
+            {
+                let payload = {
+                    "AuthenticationData": encryptedData,
+                    "LoginAccessToken": this.state.token,
+                };
+    
+                this.props.friendRequest(payload); 
+            }
+
+        },3000);
         
         console.log("this.props.referral="+this.props.referral);
         console.tron.log("this.props.referral="+this.props.referral);
 
     }
 
-
     archiveApiCall = (personObj) => {
-
         Alert.alert("called archive Api");
         console.log("called archive Api");
 
@@ -393,56 +393,103 @@ class PushToEarnOverViewFriendsComponent extends Component {
             Alert.alert("calling Api for archive");
             this.props.archiveApi(payload);
         },3000)
-
     }
 
-    renderListOne = (personObj) => {
-        return (
-            <View style={{ padding: 2, paddingTop: 3, paddingLeft:0, flexDirection: 'column',height: viewPortHeight*0.08, backgroundColor: 'white', }}>
-                    <View style={{ padding: 3,paddingLeft:0, paddingTop: 4, flex:1, height: viewPortHeight*0.31, flexDirection: 'row' , alignItems: 'flex-start', justifyContent: 'flex-start', backgroundColor: 'white'}}>
-                      <View style={{ flex:1, backgroundColor:'transparent', width:50,height:60, flexDirection: 'column' }}>
-                          <Text style={newStyle.nameStyles}>{ personObj.Name }</Text>
-                          {/* <Text style={newStyle.lastnameStyle}>{ personObj.Name.split(' ')[1] }</Text> */}
-                      </View>
-                      <View style={{ flex:2, backgroundColor:'transparent',flexDirection:'column',alignItems:'flex-end', justifyContent:'flex-end', marginTop:10, }}>
-                                        <View style={{width: 120, height: 10, backgroundColor: 'transparent', justifyContent:'flex-end', alignItems:'flex-end'}}>
-                                        {(personObj.ReferredPersonStatus === 'Finished' || personObj.ReferredPersonStatus === 'Afgewerkt' || personObj.ReferredPersonStatus === 'Fini')?
-                                        
-                                                <TouchableOpacity
-                                                    onPress={() => {  this.archiveApiCall(personObj) } }
-                                                    activeOpacity={0.5}
-                                                    style={{
-                                                        width: 20,
-                                                        height: 20,
-                                                        backgroundColor: 'transparent',
-                                                        justifyContent:'center',
-                                                        alignItems:'flex-end'
-                                                    }}>
-                                                        <Icon
-                                                            containerStyle={newStyle.iconImageArchive}
-                                                            name='times-circle'
-                                                            type='font-awesome'
-                                                            color='#E73D50'
-                                                            size = {14}
-                                                            onPress={ () => {         
-                                                                        console.log("called archive Api");
-                                                                        } } />
-                                                </TouchableOpacity>
-                                                :
-                                                this.renderNothing()
-                                            }
-                                        </View>
-                                        <View style={{width: 120, height: 15, backgroundColor: 'transparent'}}>
-                                                <Text style={newStyle.statusStyle}>{ personObj.ReferredPersonStatus}</Text>
-                                        </View>
-                      </View>
+    // renderListOne = (personObj) => {
+    //     return (
+    //         <View style={{ padding: 2, paddingTop: 3, paddingLeft:0, flexDirection: 'column',height: viewPortHeight*0.08, backgroundColor: 'white', }}>
+    //                 <View style={{ padding: 3,paddingLeft:0, paddingTop: 4, flex:1, height: viewPortHeight*0.31, flexDirection: 'row' , alignItems: 'flex-start', justifyContent: 'flex-start', backgroundColor: 'white'}}>
+    //                   <View style={{ flex:1, backgroundColor:'transparent', width:50,height:60, flexDirection: 'column' }}>
+    //                       <Text style={newStyle.nameStyles}>{ personObj.Name }</Text>
+    //                       {/* <Text style={newStyle.lastnameStyle}>{ personObj.Name.split(' ')[1] }</Text> */}
+    //                   </View>
+    //                   <View style={{ flex:2, backgroundColor:'transparent',flexDirection:'column',alignItems:'flex-end', justifyContent:'flex-end', marginTop:10, }}>
+    //                                     <View style={{width: 120, height: 10, backgroundColor: 'transparent', justifyContent:'flex-end', alignItems:'flex-end'}}>
+    //                                     {(personObj.ReferredPersonStatus === 'Finished' || personObj.ReferredPersonStatus === 'Afgewerkt' || personObj.ReferredPersonStatus === 'Fini')?
+    //                                             <TouchableOpacity
+    //                                                 onPress={() => {  this.archiveApiCall(personObj) } }
+    //                                                 activeOpacity={0.5}
+    //                                                 style={{
+    //                                                     width: 20,
+    //                                                     height: 20,
+    //                                                     backgroundColor: 'transparent',
+    //                                                     justifyContent:'center',
+    //                                                     alignItems:'flex-end'
+    //                                                 }}>
+    //                                                     <Icon
+    //                                                         containerStyle={newStyle.iconImageArchive}
+    //                                                         name='times-circle'
+    //                                                         type='font-awesome'
+    //                                                         color='#E73D50'
+    //                                                         size = {14}
+    //                                                         onPress={ () => {         
+    //                                                                     console.log("called archive Api");
+    //                                                                     } } />
+    //                                             </TouchableOpacity>
+    //                                             :
+    //                                             this.renderNothing()
+    //                                         }
+    //                                     </View>
+    //                                     <View style={{width: 120, height: 15, backgroundColor: 'transparent'}}>
+    //                                             <Text style={newStyle.statusStyle}>{ personObj.ReferredPersonStatus}</Text>
+    //                                     </View>
+    //                   </View>
+    //                 </View>
+    //                  <View style={newStyle.borderBottom}></View>
+    //         </View>
+    //     );
+    // }
 
-                    </View>
-                     <View style={newStyle.borderBottom}></View>
-            </View>
-        );
+    removeSpaces = (input) => {
+       
+        if(input === null || input === undefined)
+            return;
 
+        let array = input.split(" ");
 
+        let finalString = '';
+
+        for(element in array)
+        {
+            console.log("element="+array[element]);
+
+            if(array[element] !== " ")
+                finalString = finalString + array[element];
+        }
+
+        console.log("finalString="+finalString);
+
+        return finalString;
+        
+    }
+
+    formatMobileNo = (mobileNo) => {
+
+        console.log("mobileNo="+mobileNo);
+        let newMobNo = "+32";
+        mobileNo = this.removeSpaces(mobileNo);
+        console.log("mobileNo w/out spaces ="+mobileNo);
+
+        if(mobileNo === null || mobileNo === undefined)
+            return null;
+        else
+         {
+            if(mobileNo !== null && mobileNo.substring(0,2)==="00")
+                if(mobileNo.substring(2,4)==="32")
+                    newMobNo = newMobNo + mobileNo.substring(4);
+                else
+                    newMobNo = newMobNo + mobileNo.substring(2);
+            else
+                    if(mobileNo !== null && mobileNo.substring(0,1)==="0")
+                        newMobNo = newMobNo + mobileNo.substring(1);
+
+            console.log("newMobNo="+newMobNo);
+         }
+
+        if(newMobNo === "+32")
+            newMobNo = "+" + mobileNo;
+
+        return newMobNo;
     }
 
     renderList = (personObj) => {
@@ -451,7 +498,11 @@ class PushToEarnOverViewFriendsComponent extends Component {
                         <View style={{ padding: 3,paddingLeft:0, paddingTop: 4, flex:1, height: viewPortHeight*0.31, flexDirection: 'row' , alignItems: 'flex-start', justifyContent: 'flex-start', backgroundColor: 'white'}}>
                           <View style={{ flex:1, backgroundColor:'transparent', width:50,height:60, flexDirection: 'column' }}>
                               <Text style={newStyle.nameStyles}>{ personObj.Name }</Text>
-                              {/* <Text style={newStyle.lastnameStyle}>{ personObj.Name.split(' ')[1] }</Text> */}
+                              <TouchableOpacity
+                                onPress = { () => { RNImmediatePhoneCall.immediatePhoneCall(this.formatMobileNo(personObj.MobilePhone));
+                              }}>
+                              <Text style={newStyle.nnameStyles}>{ this.formatMobileNo(personObj.MobilePhone) }</Text>
+                              </TouchableOpacity>
                           </View>
                           <View style={{ flex:2, backgroundColor:'transparent',flexDirection:'column',alignItems:'flex-end', justifyContent:'flex-end', marginTop:10, }}>
                                  
@@ -653,7 +704,7 @@ const newStyle = StyleSheet.create({
         width: viewPortWidth*.80,
         height: 1,
         borderBottomWidth: StyleSheet.hairlineWidth,
-        marginBottom: 5,
+        marginBottom:1,
         borderStyle: "solid",
         borderWidth: 1,
         borderColor: 'rgb(231, 61, 80)',
@@ -876,6 +927,21 @@ const newStyle = StyleSheet.create({
         alignItems:'center'
     },
 
+    nnameStyles:{
+        width: viewPortWidth,
+        height: 15,
+        fontFamily: "WorkSans-Regular",
+        fontSize: 15,
+        fontWeight: "normal",
+        fontStyle: "normal",
+        letterSpacing: 0.46,
+        color: "rgb(53, 53, 53)",
+        textAlign: "left",
+        backgroundColor:'transparent',
+        alignItems:'flex-start',
+        marginBottom:35,
+    },
+
     lastnameStyle:{
         width: 120,
         height: 25,
@@ -890,7 +956,7 @@ const newStyle = StyleSheet.create({
 
     statusStyle: {
         width: 120,
-        height: 13,
+        height: 20,
         flex:1,
         paddingLeft: 0,
         fontFamily: "WorkSans-Regular",
@@ -899,16 +965,17 @@ const newStyle = StyleSheet.create({
         fontStyle: "normal",
         letterSpacing: 0.39,
         color: "rgb(155, 155, 155)",
-        backgroundColor: 'transparent',
+        backgroundColor: 'powderblue',
         textAlign:'right',
-        alignItems:'flex-end'
+        alignItems:'flex-end',
     }
 
 });
 
 const mapStateToProps = state => {
     return {
-        referral: FriendSelectors.getReferral(state)
+        referral: FriendSelectors.getReferral(state),
+        fetching: FriendSelectors.getFetching(state),
     };
   };
   

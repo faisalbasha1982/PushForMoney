@@ -526,17 +526,17 @@ class PushToEarnSignIn extends Component {
             {
                 console.log("password incorrect---->"+password);
 
-                Alert.alert(
-                    'Password is Incorrect',
-                    'Password needs to be atleast 6 characters and no spaces',
-                    [                      
-                        {
-                          text: 'OK', 
-                          onPress: () => console.log('Ask me later Pressed')
-                        },                      
-                    ],
-                    {cancelable: false}
-                );
+                // Alert.alert(
+                //     'Password is Incorrect',
+                //     'Password needs to be atleast 6 characters and no spaces',
+                //     [                      
+                //         {
+                //           text: 'OK', 
+                //           onPress: () => console.log('Ask me later Pressed')
+                //         },                      
+                //     ],
+                //     {cancelable: false}
+                // );
             }            
 
     }
@@ -554,17 +554,17 @@ class PushToEarnSignIn extends Component {
             // this.setState({ usernameInput: '', usernameEmptyError: false, EmptyErrorText: '' });
             //    return false;
 
-               Alert.alert(
-                'Email is Incorrect',
-                'Please fill in the Email in proper format',
-                [                      
-                    {
-                      text: 'OK', 
-                      onPress: () => console.log('Ask me later Pressed')
-                    },                      
-                ],
-                {cancelable: false}
-            );
+            //    Alert.alert(
+            //     'Email is Incorrect',
+            //     'Please fill in the Email in proper format',
+            //     [                      
+            //         {
+            //           text: 'OK', 
+            //           onPress: () => console.log('Ask me later Pressed')
+            //         },                      
+            //     ],
+            //     {cancelable: false}
+            // );
         }
         else 
         {
@@ -1279,7 +1279,7 @@ class PushToEarnSignIn extends Component {
                                 marginLeft: 20,
                                 borderRadius: 8,
                                 backgroundColor: '#E73D50',
-                                marginTop: viewPortHeight / 30,    
+                                marginTop: viewPortHeight / 30,
                                 justifyContent: 'center',
                                 alignItems: 'center'
                             }}>

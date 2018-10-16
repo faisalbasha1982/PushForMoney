@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -62,6 +63,7 @@
 		527CFF0884204DD1B4104057 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4421430360D44FB839D13B0 /* libRNVectorIcons.a */; };
 		57403A0F34D4470D8016B2CB /* BarlowCondensed-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 873ED2AA71184674AE6179A9 /* BarlowCondensed-Light.otf */; };
 		57CB4D00B80B4A1F803E4FA7 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 822AAB88918047E7BB1B0BBA /* libRNImagePicker.a */; };
+		5B25A4E2208C40FEB59E428D /* libRNImmediatePhoneCall.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A92A8D6B0F241D283EC0D1D /* libRNImmediatePhoneCall.a */; };
 		5D45F40C5EDC44EE958E58F5 /* WorkSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F8E223C226A744D5AF666321 /* WorkSans-Medium.ttf */; };
 		5DD8AEDD25C44CD3B4CBF9FA /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F2F3219A0EA844BEB6B3B473 /* Octicons.ttf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
@@ -442,6 +444,13 @@
 			remoteGlobalIDString = 1441618E1BD0A79300FA4F59;
 			remoteInfo = RCTContacts;
 		};
+		7B29FC61217482D8005837B5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2FCC6BC06EAD45F18E5DFB69 /* RNImmediatePhoneCall.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 15209BEF1D250F63000D0F44;
+			remoteInfo = RNImmediatePhoneCall;
+		};
 		7B4153772134209000CE3B86 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7EDD6D523F6C4ACEBDC9F096 /* RCTBEEPickerManager.xcodeproj */;
@@ -620,11 +629,13 @@
 		22298C92F6814529964BF035 /* barlowsemicondensed-extrabold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "barlowsemicondensed-extrabold.otf"; path = "../assets/fonts/barlowsemicondensed-extrabold.otf"; sourceTree = "<group>"; };
 		283518C440B44579AEDC4E30 /* BarlowCondensed-ExtraLight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowCondensed-ExtraLight.otf"; path = "../assets/fonts/BarlowCondensed-ExtraLight.otf"; sourceTree = "<group>"; };
 		29797C7ADBB946D7B657BBC7 /* libRNMail.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNMail.a; sourceTree = "<group>"; };
+		2A92A8D6B0F241D283EC0D1D /* libRNImmediatePhoneCall.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImmediatePhoneCall.a; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* PushForMoney-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PushForMoney-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* PushForMoney-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PushForMoney-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D6BA4B94BEB47379592236D /* Barlow-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Black.otf"; path = "../assets/fonts/Barlow-Black.otf"; sourceTree = "<group>"; };
 		2F89F4281C67483AAC529342 /* BarlowCondensed-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowCondensed-Thin.otf"; path = "../assets/fonts/BarlowCondensed-Thin.otf"; sourceTree = "<group>"; };
+		2FCC6BC06EAD45F18E5DFB69 /* RNImmediatePhoneCall.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImmediatePhoneCall.xcodeproj; path = "../node_modules/react-native-immediate-phone-call/ios/RNImmediatePhoneCall.xcodeproj"; sourceTree = "<group>"; };
 		32D357EC80B2431984192150 /* RNImageToBase64.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImageToBase64.xcodeproj; path = "../node_modules/react-native-image-to-base64/ios/RNImageToBase64.xcodeproj"; sourceTree = "<group>"; };
 		3352F58FF13C4E74B796AEC5 /* libRNRSA.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNRSA.a; sourceTree = "<group>"; };
 		339D4658E05B4DDEA7198CBC /* BarlowSemiCondensed-BlackItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowSemiCondensed-BlackItalic.otf"; path = "../assets/fonts/BarlowSemiCondensed-BlackItalic.otf"; sourceTree = "<group>"; };
@@ -816,6 +827,7 @@
 				57CB4D00B80B4A1F803E4FA7 /* libRNImagePicker.a in Frameworks */,
 				9BFF6A3E1C97428BBEA7BDEB /* libRNImgToBase64.a in Frameworks */,
 				E56390C0D94747EA82324F63 /* libRNImageToBase64.a in Frameworks */,
+				5B25A4E2208C40FEB59E428D /* libRNImmediatePhoneCall.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1108,6 +1120,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		7B29FC5E217482D8005837B5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7B29FC62217482D8005837B5 /* libRNImmediatePhoneCall.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		7B4153692134208800CE3B86 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1163,6 +1183,7 @@
 				822AAB88918047E7BB1B0BBA /* libRNImagePicker.a */,
 				134AE21C8FF84E82ADC8206A /* libRNImgToBase64.a */,
 				D603110A536949DD99BCD12B /* libRNImageToBase64.a */,
+				2A92A8D6B0F241D283EC0D1D /* libRNImmediatePhoneCall.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1291,6 +1312,7 @@
 				ECFEA758D8F74C3894C7C9F2 /* RNImagePicker.xcodeproj */,
 				155450CFB7E5425F9729D0DD /* RNImgToBase64.xcodeproj */,
 				32D357EC80B2431984192150 /* RNImageToBase64.xcodeproj */,
+				2FCC6BC06EAD45F18E5DFB69 /* RNImmediatePhoneCall.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1568,6 +1590,10 @@
 				{
 					ProductGroup = 7BFDE659216DE3B400BF71E9 /* Products */;
 					ProjectRef = 155450CFB7E5425F9729D0DD /* RNImgToBase64.xcodeproj */;
+				},
+				{
+					ProductGroup = 7B29FC5E217482D8005837B5 /* Products */;
+					ProjectRef = 2FCC6BC06EAD45F18E5DFB69 /* RNImmediatePhoneCall.xcodeproj */;
 				},
 				{
 					ProductGroup = 7BCC6948214D24BE00CCFD64 /* Products */;
@@ -1865,6 +1891,13 @@
 			fileType = archive.ar;
 			path = libRCTContacts.a;
 			remoteRef = 7B28561A213276C500EE1E87 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7B29FC62217482D8005837B5 /* libRNImmediatePhoneCall.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNImmediatePhoneCall.a;
+			remoteRef = 7B29FC61217482D8005837B5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		7B4153782134209000CE3B86 /* libRCTBEEPickerManager.a */ = {
@@ -2264,6 +2297,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2308,6 +2342,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2471,6 +2506,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2522,6 +2558,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2582,6 +2619,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2632,6 +2670,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
