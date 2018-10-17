@@ -41,7 +41,7 @@ const languageSettings = {
     Iban: "IBAN number:",
     Bic: "BIC number:",
     bankbutton: "SAVE",
-    friends: "Candidates",
+    friends: "Candidate",
     status: {
         wc: 'Waiting Contract',
         ar: 'Archived',
@@ -57,7 +57,7 @@ const languageSettings = {
     addFriendNew: "Add candidate",
     addFriendPhoneButton: "SEARCH PHONE CONTACT",
     addFriendName: "First + last name", 
-    friend: "Candidate",
+    friend: "Candidates",
     agree:"I Agree",
     disagree: "I Disagree",
     Name: "Name",

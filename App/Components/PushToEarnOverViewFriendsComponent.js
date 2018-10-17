@@ -492,6 +492,36 @@ class PushToEarnOverViewFriendsComponent extends Component {
         return newMobNo;
     }
 
+    newFormatMobileNo = (mobileNo) => {
+
+        console.log("mobileNo="+mobileNo);
+        let newMobNo = "+32";
+        mobileNo = this.removeSpaces(mobileNo);
+        console.log("mobileNo w/out spaces ="+mobileNo);
+
+        if(mobileNo === null || mobileNo === undefined)
+            return null;
+        else
+         {
+            if(mobileNo !== null && mobileNo.substring(0,2)==="00")
+                if(mobileNo.substring(2,4)==="32")
+                    newMobNo = newMobNo + mobileNo.substring(4);
+                else
+                    newMobNo = newMobNo + mobileNo.substring(2);
+            else
+                    if(mobileNo !== null && mobileNo.substring(0,1)==="0")
+                        newMobNo = newMobNo + mobileNo.substring(1);
+
+            console.log("newMobNo="+newMobNo);
+         }
+
+        if(newMobNo === "+32")
+            newMobNo = mobileNo;
+
+        return newMobNo;
+
+    }
+
     renderList = (personObj) => {
             return (            
                 <View style={{ padding: 2, paddingTop: 3, paddingLeft:0, flexDirection: 'column',height: viewPortHeight*0.08, backgroundColor: 'white', }}>
@@ -499,8 +529,16 @@ class PushToEarnOverViewFriendsComponent extends Component {
                           <View style={{ flex:1, backgroundColor:'transparent', width:50,height:60, flexDirection: 'column' }}>
                               <Text style={newStyle.nameStyles}>{ personObj.Name }</Text>
                               <TouchableOpacity
+                                style={{ flex:1, flexDirection:'row',  }}
                                 onPress = { () => { RNImmediatePhoneCall.immediatePhoneCall(this.formatMobileNo(personObj.MobilePhone));
                               }}>
+                                <Icon
+                                        containerStyle={newStyle.iconImageStyleNew}
+                                        name='phone-square'
+                                        type='font-awesome'
+                                        color='#E73D50'
+                                        size = {16}
+                                         />
                               <Text style={newStyle.nnameStyles}>{ this.formatMobileNo(personObj.MobilePhone) }</Text>
                               </TouchableOpacity>
                           </View>
@@ -533,7 +571,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
                                                     this.renderNothing()
                                                 }
                                             </View>
-                                            <View style={{width: 120, height: 15, backgroundColor: 'transparent'}}>
+                                            <View style={{width: 120, height: 15, backgroundColor: 'transparent', marginTop: 25, alignItems: 'flex-end',justifyContent: 'flex-end'}}>
                                                     <Text style={newStyle.statusStyle}>{ personObj.ReferredPersonStatus}</Text>
                                             </View>
 
@@ -916,7 +954,7 @@ const newStyle = StyleSheet.create({
     nameStyles:{
         width: viewPortWidth,
         height: 25,
-        fontFamily: "WorkSans-Regular",
+        fontFamily: "WorkSans-Bold",
         fontSize: 15,
         fontWeight: "normal",
         fontStyle: "normal",
@@ -928,18 +966,20 @@ const newStyle = StyleSheet.create({
     },
 
     nnameStyles:{
-        width: viewPortWidth,
+        width: viewPortWidth * 0.40,
         height: 15,
         fontFamily: "WorkSans-Regular",
-        fontSize: 15,
+        fontSize: 13,
         fontWeight: "normal",
         fontStyle: "normal",
         letterSpacing: 0.46,
         color: "rgb(53, 53, 53)",
+        color: '#E73D50',
         textAlign: "left",
         backgroundColor:'transparent',
         alignItems:'flex-start',
         marginBottom:35,
+        paddingLeft:7,
     },
 
     lastnameStyle:{
@@ -956,7 +996,7 @@ const newStyle = StyleSheet.create({
 
     statusStyle: {
         width: 120,
-        height: 20,
+        height: 15,
         flex:1,
         paddingLeft: 0,
         fontFamily: "WorkSans-Regular",
@@ -965,9 +1005,10 @@ const newStyle = StyleSheet.create({
         fontStyle: "normal",
         letterSpacing: 0.39,
         color: "rgb(155, 155, 155)",
-        backgroundColor: 'powderblue',
+        backgroundColor: 'transparent',
         textAlign:'right',
         alignItems:'flex-end',
+        marginTop:2,
     }
 
 });

@@ -63,18 +63,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
 import ImgToBase64 from 'react-native-image-base64';
 import call from 'react-native-phone-call';
-
-import {
-    Aborter,
-    BlobURL,
-    BlockBlobURL,
-    ContainerURL,
-    ServiceURL,
-    StorageURL,
-    SharedKeyCredential,
-    AnonymousCredential,
-    TokenCredential
-  }  from "./azure-storage.blob";
+// import RNFetchBlob from 'react-native-fetch-blob';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -233,7 +222,7 @@ class PushToEarnProfileComponent extends Component {
         }        
     }
 
-    validatePhone = (phone) => {        
+    validatePhone = (phone) => {
 
         let phoneSub = phone.substring(1);
         let firstTwo = phone.substring(1,3);
@@ -768,6 +757,27 @@ getAsyncStorage = async () => {
 
     blobUploadRN = () => {
 
+        RNFetchBlob.fetch('POST', 'https://fnmobileapptria8d18.blob.core.windows.net/azure-webjobs-hosts', {
+        Authorization : `Bearer sp=rcwd&st=2018-10-17T07:16:44Z&se=2018-10-17T15:16:44Z&spr=https&sv=2017-11-09&sig=aFqvr3CYpgBMSZ7bAa57lHZFlA7QkT73HjaYsb6Qqy0%3D&sr=b`,
+        '': JSON.stringify({
+        path : '/img-from-react-native.png',
+        mode : 'add',
+        autorename : true,
+        mute : false
+        }),
+        'Content-Type' : 'application/octet-stream',
+        // here's the body you're going to send, should be a BASE64 encoded string
+        // (you can use "base64"(refer to the library 'mathiasbynens/base64') APIs to make one).
+        // The data will be converted to "byte array"(say, blob) before request sent.  
+        }, base64ImageString)
+        .then((res) => {
+            console.log(res.text())
+        })
+        .catch((err) => {
+            // error handling ..
+        });
+
+
         // https://csb8eaf22cfa520x43a2x877.blob.core.windows.net/newcontainer
     }    
 
@@ -1209,7 +1219,7 @@ getAsyncStorage = async () => {
 
 
                                     <TouchableOpacity
-                                        onPress={() => { this.blobUpload() } }
+                                        onPress={() => { this.imageCapture();  } }
                                         activeOpacity={1}
                                         opacity={1}
                                         style={{

@@ -118,13 +118,14 @@ class PushToEarnSignIn2 extends Component {
             cAuthenticationData:'',
             loginD:'',
             text:{},
-            countryCode: 'be'
+            countryCode: 'be',
+            phoneNumberInput:'',
         };
     }
 
     onGoogleButtonClick = async () => {
 
-        console.warn('google button clicked'); 
+        console.warn('google button clicked');
         // eslint-disable-line
 
         await GoogleSignin.configure({
@@ -892,16 +893,14 @@ class PushToEarnSignIn2 extends Component {
         return currentDate+' '+fullTime;
       }
 
-    validateEncrypt = (password) => {
+    validateEncrypt = (phoneNumberInput) => {
 
         console.log("validate Encrypt");
-        if(this.state.usernameInput === '')
+        if(phoneNumberInput === '')
             {
-                if(this.state.usernameInput === '')
-                {   
                     Alert.alert(
-                        'Username is Empty',
-                        'Fill in Username',
+                        'Phone Number is Empty',
+                        'Fill in Phone Number',
                         [
                             {
                               text: 'OK', 
@@ -910,8 +909,6 @@ class PushToEarnSignIn2 extends Component {
                         ],
                         {cancelable: false}
                     );
-                }
-
             }
           else
           {
@@ -921,7 +918,7 @@ class PushToEarnSignIn2 extends Component {
             let cAuthenticationData = "{'Lang':"+" '"+language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
             console.log("AuthenticationData:",cAuthenticationData);
 
-            let loginInfo = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";
+            let loginInfo = "{'M':"+"'"+this.state.phoneNumberInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";
       
             let authEncrypted = this.aes(cAuthenticationData);
             this.rsa(loginInfo);
@@ -961,73 +958,40 @@ class PushToEarnSignIn2 extends Component {
 
         let language = this.state.languageCode;
 
-        if(this.state.usernameInput === '' || this.state.passwordInput === '' || this.state.passwordInput.length < 6)
+        if(this.state.phoneNumberInput === '')
             {
-                if(this.state.usernameInput === '')
-                {   
-                    Alert.alert(
-                        'Username is Empty',
-                        'Fill in Username',
-                        [                      
-                            {
-                              text: 'OK', 
-                              onPress: () => console.log('Ask me later Pressed')
-                            },                      
-                        ],
-                        {cancelable: false}
-                    );
-                }
-
-                if(this.state.passwordInput === '')
-                {
-                    Alert.alert(
-                        'Password is Empty',
-                        'Fill in Password',
-                        [                      
-                            {
-                              text: 'OK', 
-                              onPress: () => console.log('Ask me later Pressed')
-                            },                      
-                        ],
-                        {cancelable: false}
-                    );
-                }
-
-                if(this.state.passwordInput.length < 6 || !password.includes(" ") )
-                {
-                    Alert.alert(
-                        'Password Length is less than 6 and no spaces',
-                        'Password',
-                        [                      
-                            {
-                              text: 'OK', 
-                              onPress: () => console.log('Ask me later Pressed')
-                            },                      
-                        ],
-                        {cancelable: false}
-                    );    
-                }
+                Alert.alert(
+                    'Phone Number is Empty',
+                    'Fill in Phone Number',
+                    [                      
+                        {
+                          text: 'OK', 
+                          onPress: () => console.log('Ask me later Pressed')
+                        },                      
+                    ],
+                    {cancelable: false}
+                );
 
             }
         else
            {
 
-            console.log('password sent='+this.state.passwordInput);
+            console.log('password sent='+this.state.phoneNumberInput);
 
             this.setState({isLoading: true});
 
-                if(this.state.passwordInput.length >= 6 && !this.state.passwordInput.includes(" "))
+                if(this.state.phoneNumberInput.length <= 13 && !this.state.phoneNumberInput.includes(" "))
                 {
                     //this.setState({ passwordEmptyError: false, passwordInput: password, EmptyErrorText: '' });
-                    this.validateEncrypt(this.state.passwordInput);
+                    this.validateEncrypt(this.state.phoneNumberInput);
                 }
                 else
                     {
-                        console.log("password incorrect---->"+this.state.passwordInput);
+                        console.log("phone Number incorrect---->"+this.state.phoneNumberInput);
 
                         Alert.alert(
-                            'Password is Incorrect',
-                            'Password needs to be atleast 6 characters and no spaces',
+                            'Phone Number is Incorrect',
+                            'Phone Number needs to be atleast 11 characters and no spaces',
                             [                      
                                 {
                                 text: 'OK', 
@@ -1058,6 +1022,139 @@ class PushToEarnSignIn2 extends Component {
 
     }
 
+    formatMobileNo = (mobileNo) => {
+
+        let newMobNo = "+32";
+        mobileNo = this.removeSpaces(mobileNo);
+        console.log("mobileNo w/out spaces ="+mobileNo);
+        console.log("mobileNo="+mobileNo);
+
+        if(mobileNo === null || mobileNo === undefined)
+            return null;
+        else
+         {
+            if(mobileNo !== null && mobileNo.substring(0,2)==="00")
+                if(mobileNo.substring(2,4)==="32")
+                    newMobNo = newMobNo + mobileNo.substring(4);
+                else
+                    newMobNo = newMobNo + mobileNo.substring(2);
+            else
+                    if(mobileNo !== null && mobileNo.substring(0,1)==="0")
+                        newMobNo = newMobNo + mobileNo.substring(1);
+
+            console.log("newMobNo="+newMobNo);
+         }
+
+        if(newMobNo === "+32")
+            newMobNo = mobileNo;
+
+        return newMobNo;
+    }
+
+    validatePhone = (phone) => {
+
+        let phoneSub = phone.substring(1);
+        let firstTwo = phone.substring(1,3);
+        let nextTwo = phone.substring(3,5);
+        let lengthOfString = phoneSub.length;
+
+        console.log("phone validation="+phone);
+        console.log("phone length="+lengthOfString);
+        console.log("first two="+firstTwo);
+        console.log("first two="+nextTwo);
+        console.tron.log("phone length="+phoneSub.length);
+
+        console.log("formatted phone="+this.formatMobileNo(phone));
+
+        let reg = /^[0-9]{12}$/;
+        let regNew = /^(?=(.*\d){10})(?!(.*\d){13})[\d\(\)\s+-]{10,}$/;
+        let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
+        let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
+
+        this.setState({isLoading:true});
+
+        if(phone === '')
+        {
+            this.setState({phoneNumberInput: ''});
+
+            if(this.state.languageCode === 'nl')
+                this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
+            else
+                if(this.state.languageCode === 'en')
+                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
+                else
+                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
+        }
+        else
+        {
+                if(lengthOfString >= 11)
+                {
+                        if(nextTwo === "45" || nextTwo === "46"
+                            || nextTwo === "47"  || nextTwo === "48"
+                            || nextTwo === "49")
+                        {
+                            console.log("phone="+phone);
+
+                                this.setState({phoneNumberInput: this.formatMobileNo(phone)});
+
+                                // if (regNew.exec(phone))
+                                // {  
+                                    this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
+                                    this.setState({isLoading:false});
+                                    //this.changeMobile(this.formatMobileNo(phone));
+                                //}
+                                // else
+                                //     if(this.state.languageCode === 'nl')
+                                //         this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.dutch.TelephoneNumberError });
+                                //     else
+                                //         if(this.state.languageCode === 'en')
+                                //             this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.english.TelephoneNumberError });
+                                //         else
+                                //             this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
+            
+                        }
+                      else
+                      {
+                        //Alert.alert("Invalid phone number="+phone);
+                        if(lengthOfString >=12)
+                        {
+                            this.setState({phoneNumberInput: this.formatMobileNo(phone)});
+                            this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
+                            this.setState({isLoading:false});
+                            // this.changeMobile(this.formatMobileNo(phone));    
+                        }
+    
+                      }
+                }
+                else
+                {
+
+                }
+        }
+    }
+
+    removeSpaces = (input) => {
+       
+        if(input === null || input === undefined)
+            return;
+
+        let array = input.split(" ");
+
+        let finalString = '';
+
+        for(element in array)
+        {
+            console.log("element="+array[element]);
+
+            if(array[element] !== " ")
+                finalString = finalString + array[element];
+        }
+
+        console.log("finalString="+finalString);
+
+        return finalString;
+        
+    }
 
     func = (renderValidate,EmptyErrorText) => {
       this.setState({renderValidate,EmptyErrorText});
@@ -1221,7 +1318,7 @@ class PushToEarnSignIn2 extends Component {
                         initialCountry={this.state.countryCode}
                         onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
                         style= {newStyle.nameInput}
-                        onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }                        
+                        onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }
                     />
 
                     <View style={newStyle.endButtons}>

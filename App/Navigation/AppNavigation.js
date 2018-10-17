@@ -38,6 +38,8 @@ import CollapsibleView from '../Components/CollapsibleView';
 import NewScreenMoney from  '../Containers/NewScreenMoney';
 import TestPage from '../Containers/TestPage';
 import PushForJob_quit from '../Containers/PushForJob_quit';
+import PushToEarnNew from '../Components/PushToEarnNew';
+
 // Manifest of possible screens
 
 const AppNavigation = createStackNavigator({
@@ -71,6 +73,7 @@ const AppNavigation = createStackNavigator({
   PushToEarnMoney: { screen: PushToEarnMoney },
   pushToEarnMoneyList: { screen: pushToEarnMoneyList },
   NewScreenMoney: { screen: NewScreenMoney },
+  PushToEarnNew: { screen: PushToEarnNew },
   CollapsibleView: { screen: CollapsibleView },
   PushToEarnPrivatePolicy: { screen: PushToEarnPrivatePolicy },
   NewScreen: { screen: NewScreen,

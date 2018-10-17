@@ -9,6 +9,7 @@ import PushToEarnAddFriend from '../Containers/PushToEarnAddFriend';
 import PushToEarnAddFriendsButtons from '../Containers/PushToEarnAddFriendsButtons';
 import PushToEarnProfile from '../Containers/PushToEarnProfile';
 import PushToEarnFriendsOverview from '../Containers/PushToEarnFriendsOverview';
+import PushToEarnUploadFileComponent from '../Components/PushToEarnUploadFileComponent';
 import PushToEarnInformation from '../Containers/PushToEarnInformation';
 import PushToEarnMoney from '../Containers/PushToEarnMoney';
 import PushToEarnLanguageComponent from '../Components/PushToEarnLanguageComponent';
@@ -32,6 +33,7 @@ const SignedInNav = StackNavigator({
     PushToEarnFriendsOverview: { screen: PushToEarnFriendsOverview },
     PushToEarnInformation: { screen: PushToEarnInformation },
     PushToEarnMoney: { screen: PushToEarnMoney },
+    PushToEarnUploadFileComponent: { screen: PushToEarnUploadFileComponent },
     PushToEarnLanguageComponent: { screen: PushToEarnLanguageComponent },
     AccordionListComponent: { screen: AccordionListComponent },
     PushToEarnMoneyComponent: { screen: PushToEarnMoneyComponent },

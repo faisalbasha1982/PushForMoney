@@ -75,7 +75,7 @@ class LanguageButton extends Component {
     if(app===0)
       this.props.navigation.navigate("FormOne",{language: lang,navigation: this.props.navigation});
     if(app===1)
-      this.props.navigation.navigate("PushToEarnSignIn",{language: lang,navigation: this.props.navigation});
+      this.props.navigation.navigate("PushToEarnSignIn2",{language: lang,navigation: this.props.navigation});
   }
 
   render() {
