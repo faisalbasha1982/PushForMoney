@@ -192,6 +192,32 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
     }
 
+    validateBelgiumPhoneNumber = (phone) => {
+
+        phone = this.removeSpaces(phone);
+
+        console.tron.log("formatted phone text="+phone);
+
+        let countryCode = "+32";
+        let firstFour = phone.substring(0,4);
+        let rest = phone.substring(4);
+        let firstTwo = phone.substring(0,2);
+        let restTwo = phone.substring(2);
+
+        if(phone.substring(0,1) !== "+" && phone.substring(0,1) !== "0" && phone.length ===11)
+            this.setState({ phoneNumberInput: "+" + phone});
+        else
+            if(firstFour === "0032" && phone.length === 9)
+                this.setState({ phoneNumberInput: countryCode + rest});
+            else
+                if(firstTwo === "04" && restTwo.length === 8)
+                    this.setState({ phoneNumberInput: countryCode + restTwo});
+                else
+                  if(phone.substring(0,3) === "+32" && phone.length === 12)
+                    this.setState({ phoneNumberInput: phone });
+
+    }
+
     validatePhone = (phone) => {
 
         console.log("phone="+phone);
@@ -389,12 +415,14 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                                 {
                                     if(personObj.ReferralAddStatus === true)
                                     {
+                                        console.tron.log("referral status="+true);
                                          this.props.menu(2);
-                                         this.setState({isLoading: false});
+                                         this.setState({isLoading: this.props.fetching});
                                     }
                                     else
                                     {
-                                        this.setState({isLoading: false});
+                                        console.tron.log("referral status="+false);
+                                        this.setState({isLoading: this.props.fetching});
                                         this.props.menu(2);
                                         //Alert.alert("Referrals not added");
                                     }
@@ -529,7 +557,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                                     initialCountry={this.state.countryCode}
                                     onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
                                     style= {newStyle.nameInput}
-                                    onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }
+                                    onChangePhoneNumber = { (phoneNumberInput) => this.validateBelgiumPhoneNumber(phoneNumberInput) }
                                     value = {this.props.phone}
                                 />
 
@@ -807,6 +835,7 @@ const newStyle = StyleSheet.create({
 const mapStateToProps = state => {
     return {
         MobileReferrals: FriendSelectors.getMobileReferral(state),
+        fetching: FriendSelectors.getFetching(state)
     };
   };
   

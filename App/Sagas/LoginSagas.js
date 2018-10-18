@@ -361,7 +361,7 @@ export function * LoginRequest(api,action) {
     console.log("url="+API_URL.newSignUpLoginUrlNewStag);
 
     // make the call to the api
-    const response = yield call(fetchLogin, action.payload, API_URL.newSignUpLoginUrlNewStag);
+    const response = yield call(fetchLogin, action.payload, API_URL.signUpLoginUrlNewStag);
 
     if(response.StatusCode === 200)
     {
