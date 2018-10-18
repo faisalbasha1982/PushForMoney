@@ -591,6 +591,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
       };
 
     render() {
+        
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
         console.log("FO inside friends overview component referral object="+this.props.referral);

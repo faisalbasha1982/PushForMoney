@@ -192,6 +192,55 @@ class PushToEarnRegisterProfile extends Component {
         }        
     }
 
+    removeSpaces = (input) => {
+       
+        if(input === null || input === undefined)
+            return;
+
+        let array = input.split(" ");
+
+        let finalString = '';
+
+        for(element in array)
+        {
+            console.log("element="+array[element]);
+
+            if(array[element] !== " ")
+                finalString = finalString + array[element];
+        }
+
+        console.log("finalString="+finalString);
+
+        return finalString;
+        
+    }
+
+    validateBelgiumPhoneNumber = (phone) => {
+
+        phone = this.removeSpaces(phone);
+
+        console.tron.log("formatted phone text="+phone);
+
+        let countryCode = "+32";
+        let firstFour = phone.substring(0,4);
+        let rest = phone.substring(4);
+        let firstTwo = phone.substring(0,2);
+        let restTwo = phone.substring(2);
+
+        if(phone.substring(0,1) !== "+" && phone.substring(0,1) !== "0" && phone.length ===11)
+            this.setState({ phoneNumberInput: "+" + phone});
+        else
+            if(firstFour === "0032" && phone.length === 9)
+                this.setState({ phoneNumberInput: countryCode + rest});
+            else
+                if(firstTwo === "04" && restTwo.length === 8)
+                    this.setState({ phoneNumberInput: countryCode + restTwo});
+                else
+                  if(phone.substring(0,3) === "+32" && phone.length === 12)
+                    this.setState({ phoneNumberInput: phone });
+
+    }
+
     validatePhone = (phone) => {
 
         console.log("phone="+phone);
@@ -226,7 +275,11 @@ class PushToEarnRegisterProfile extends Component {
             this.phoneText = this.state.country;
     
             if (regNew.exec(phoneSub))
-              this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
+            {
+                //this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: this.validateBelgiumPhoneNumber(phone), phoneNumberErrorText: '' });
+                console.log("vaidated phone text="+this.state.phoneNumberInput);
+                console.tron.log("vaidated phone text="+this.state.phoneNumberInput);
+            }
             else
                 if(this.state.language === 'Dutch')
                     this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.dutch.TelephoneNumberError });
@@ -235,13 +288,7 @@ class PushToEarnRegisterProfile extends Component {
                         this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.english.TelephoneNumberError });
                     else
                         this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
-        }
-    
-        // if (homePhone.exec(phone))
-        //   this.setState({ phoneError: false, phone: phone });
-        // else
-        //   this.setState({ phoneError: true });
-    
+        }    
     }
 
     PhoneNumberPickerChanged = (country, callingCode, phoneNumber) => {
@@ -442,11 +489,12 @@ class PushToEarnRegisterProfile extends Component {
 
         this.setState({ isLoading: true});
 
-        let signUpData = "\"SignUpData\":" +"\""+this.aes("{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.state.phonenumberInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}") +"\"";
+        let signUpData = "\"SignUpData\":" +"\""+this.aes("{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.state.phoneNumberInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}") +"\"";
 
-        console.log("signUpData=",signUpData);
+        console.tron.log("signupData="+"{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.state.phoneNumberInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
+        console.log("signUpData=","{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.state.phoneNumberInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
 
-        console.log("encrypted signup data="+this.aes("{ 'FName' : "+this.state.firstNameInput+", 'LName' : "+this.state.lastNameInput+", 'Mob':"+this.state.phonenumberInput+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}"));
+        console.log("encrypted signup data="+this.aes("{ 'FName' : "+this.state.firstNameInput+", 'LName' : "+this.state.lastNameInput+", 'Mob':"+this.state.phoneNumberInput+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}"));
         console.log("payload passed to private policy=",payload);
 
         let newPayload = payload.substring(1,payload.length-1);
@@ -458,6 +506,7 @@ class PushToEarnRegisterProfile extends Component {
         let finalPayload = "{" + payloadArray[0] + "," + payloadArray[1] + "," + signUpData + "}";
 
         console.log("finalPayload = "+finalPayload);
+        console.tron.log("final payload send to register request="+finalPayload);
 
         this.props.navigation.navigate('PushToEarnPrivatePolicy',{payload: finalPayload});
 
@@ -595,7 +644,7 @@ class PushToEarnRegisterProfile extends Component {
                                             initialCountry={this.state.countryCode}
                                             onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
                                             style= {newStyle.nameInput}
-                                            onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }
+                                            onChangePhoneNumber = { (phoneNumberInput) => this.validateBelgiumPhoneNumber(phoneNumberInput) }
                                         />
                     <Text style={newStyle.firstName}>{this.state.text.Password}</Text>
 

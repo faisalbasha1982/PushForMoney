@@ -365,13 +365,27 @@ export function * LoginRequest(api,action) {
 
     if(response.StatusCode === 200)
     {
-      // do data conversion here if needed
-      yield put(LoginActions.loginSuccess(response.userinfo));
-  
-      AsyncStorage.getItem('language').then((language) => {
-        NavigationService.navigate('TestPage',{language: language});
-      });
-  
+        if(response.userinfo.MobileUserId === 0)
+          {
+
+            // do data conversion here if needed
+            yield put(LoginActions.loginFailure(response.userinfo));
+
+            // AsyncStorage.getItem('language').then((language) => {
+              NavigationService.navigate('PushToEarnOTP');
+            // });
+
+          }
+         else
+         {
+            // do data conversion here if needed
+            yield put(LoginActions.loginSuccess(response.userinfo));
+        
+            AsyncStorage.getItem('language').then((language) => {
+                    NavigationService.navigate('TestPage',{language: language});      
+            });
+
+         }  
     }
     
   }

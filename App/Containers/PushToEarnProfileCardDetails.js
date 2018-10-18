@@ -331,9 +331,7 @@ class PushToEarnProfileCardDetails extends Component {
                                 }} />
                     </View>
             );
-        
-
-        
+                
         return;
 
     }

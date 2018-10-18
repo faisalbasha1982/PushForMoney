@@ -49,7 +49,7 @@ function fetchJsonNew(url,payload) {
             );
 
 
-            NavigationService.navigate('PushToEarnOTP',{payload: action.payload});
+            NavigationService.navigate('PushToEarnOTP');
 
         }
         else
@@ -147,7 +147,7 @@ export function * register(api,action) {
         yield put(RegisterActions.registerSuccess(response.userinfo));
     } 
     catch(error) {
-        yield put(RegisterActions.registerFailure())
+        yield put(RegisterActions.registerFailure());
     }
 }
 

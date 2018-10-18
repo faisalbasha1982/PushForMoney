@@ -203,7 +203,7 @@ class PushToEarnOTP extends Component {
         
     }
 
-    callOTP = async (payload) =>  {
+    callOTP = async () =>  {
 
         console.tron.log("calling OTP....");
 
@@ -219,31 +219,25 @@ class PushToEarnOTP extends Component {
         }
         else
          {
-             console.log("received payload for OTP screen=",payload);
+            console.log("received payload for OTP screen=",payload);            
+            let otpText = this.state.firstInput + this.state.secondInput + this.state.thirdInput + this.state.fourthInput;
 
-             let arrayData = payload.split(",");
-             let AuthenticationData = arrayData[0].substring(2,arrayData[0].length-1);
+            let authData = AuthComponent.authenticationData(this.state.languageCode);
+            console.log("authdata=",authData);
+    
+            let encryptedData = AesComponent.aesCallback(authData);
+            console.log("encrypted data=",encryptedData);
 
-             console.log("AuthenticationData=",AuthenticationData);
-
-             let authCode = AuthenticationData.split(":");
-             console.log("authCode=",authCode[1]);
-            
-             let otpText = this.state.firstInput + this.state.secondInput + this.state.thirdInput + this.state.fourthInput;
-    
-             //"{'Lang': 'en', 'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-19 3:53:12' ,'R' : 'ssf3dfd'}",
-             let newpayload = "{" +"\"" + "AuthenticationData"+"\""+":"+ authCode[1]+"\""+","+"\""+"LoginAccessToken"+"\""+":"+"\""+this.state.token+"\""+","+"\""+"OTP"+"\""+":"+ "\""+otpText+"\""+","+"\""+"OTPType"+"\""+":"+"\""+ "S"+"\"" + "}";
-    
-             console.tron.log("payload="+newpayload);
-    
-             this.props.verifyOTP(newpayload);
+            let newpayload = "{" +"\"" + "AuthenticationData"+"\""+":"+ encryptedData +"\""+","+"\""+"LoginAccessToken"+"\""+":"+"\""+this.state.token+"\""+","+"\""+"OTP"+"\""+":"+ "\""+otpText+"\""+","+"\""+"OTPType"+"\""+":"+"\""+ "S"+"\"" + "}";
+            console.tron.log("payload="+newpayload);
+            this.props.verifyOTP(newpayload);
 
          }
     }
 
     render() {
         const platform = Platform.OS;
-        const payload  = this.props.navigation.state.params.payload;
+        // const payload  = this.props.navigation.state.params.payload;
 
         console.log("platform --->",Platform.OS);
         return (
@@ -403,7 +397,7 @@ class PushToEarnOTP extends Component {
                     <View style={newStyle.endButtons}>
 
                       <TouchableOpacity
-                            onPress={() => { this.callOTP(payload) } }
+                            onPress={() => { this.callOTP() } }
                             activeOpacity={0.5}
                             style={{
                                 width: 330,

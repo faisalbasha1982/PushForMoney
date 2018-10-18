@@ -17,15 +17,48 @@ import PushForJob_quit from '../Containers/PushForJob_quit';
 // Manifest of possible screens
 const SignedOutNav = StackNavigator(
   {
-    PushToEarnSignIn: { screen: PushToEarnSignIn },
-    PushToEarnSignIn2: { screen: PushToEarnSignIn2 },
-    PushToEarnSignUp: { screen: PushToEarnSignUp },
-    PushToEarnOTP: { screen: PushToEarnOTP },
-    PushToEarnRegisterProfile:{ screen: PushToEarnRegisterProfile},
+    PushToEarnSignIn: { screen: PushToEarnSignIn,
+      navigationOptions: {
+        gesturesEnabled: false,
+      },
+    },
+    PushToEarnSignIn2: { screen: PushToEarnSignIn2,
+      navigationOptions: {
+        gesturesEnabled: false,
+      },
+    },
+    PushToEarnSignUp: { screen: PushToEarnSignUp,
+      navigationOptions: {
+        gesturesEnabled: false,
+      },
+    },
+    PushToEarnOTP: { screen: PushToEarnOTP,
+      navigationOptions: {
+        gesturesEnabled: false,
+      },
+    },
+    PushToEarnRegisterProfile:{ screen: PushToEarnRegisterProfile,
+    
+      navigationOptions: {
+        gesturesEnabled: false,
+      },
+    },
     PushToEarnOTPForgetPass: { screen: PushToEarnOTPForgetPass },
-    PushToEarnForgetPass: { screen: PushToEarnForgetPass },
-    LanguageButton: { screen: LanguageButton},
-    LanguageScreen: { screen: LanguageScreen }, 
+    PushToEarnForgetPass: { screen: PushToEarnForgetPass,
+      navigationOptions: {
+        gesturesEnabled: false,
+      },
+    },
+    LanguageButton: { screen: LanguageButton,
+      navigationOptions: {
+        gesturesEnabled: false,
+      },
+    },
+    LanguageScreen: { screen: LanguageScreen,
+      navigationOptions: {
+        gesturesEnabled: false,
+      },
+    }, 
     NewScreen: { 
         screen: NewScreen,
           navigationOptions: {

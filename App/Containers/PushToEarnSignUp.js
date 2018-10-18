@@ -834,10 +834,12 @@ class PushToEarnSignUp extends Component {
             let language = this.state.languageCode;
 
             let authData = AuthComponent.authenticationData(this.state.languageCode);
-            let encryptedData = AesComponent.aesCallback(authData);   
+            let encryptedData = AesComponent.aesCallback(authData);
 
             let cAuthenticationData = "{'Lang':"+" '"+this.state.language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
             let loginInfo = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";
+            
+            console.tron.log("login data="+loginInfo);
 
             let authEncrypted = this.aes(cAuthenticationData);
             this.rsa(loginInfo);
@@ -941,17 +943,17 @@ class PushToEarnSignUp extends Component {
                 }
                 else
                     {
-                        Alert.alert(
-                            'Password is Incorrect',
-                            'Password needs to be atleast 6 characters and no spaces',
-                            [                      
-                                {
-                                text: 'OK', 
-                                onPress: () => console.log('Ask me later Pressed')
-                                },                      
-                            ],
-                            {cancelable: false}
-                        );
+                        // Alert.alert(
+                        //     'Password is Incorrect',
+                        //     'Password needs to be atleast 6 characters and no spaces',
+                        //     [                      
+                        //         {
+                        //         text: 'OK', 
+                        //         onPress: () => console.log('Ask me later Pressed')
+                        //         },                      
+                        //     ],
+                        //     {cancelable: false}
+                        // );
                     }            
                
             //    let cAuthenticationData = "{'Lang':"+" '"+this.state.languageCode+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
@@ -1596,7 +1598,7 @@ const mapStateToProps = state => {
   const mapDispatchToProps = dispatch => {
     return {
     
-    registerAction: ( payload,username,password ) => dispatch(RegisterActions.makeRegisterRequest(payload, username, password)),
+    registerAction: ( payload,username,password ) => dispatch({type: 'MAKE_REGISTER_REQUEST',payload, username, password}),
     signUpFaceBook: (payload,payloadNew) => dispatch({type: 'FACEBOOK_DATA', payload, payloadNew}),
     twitterlogin: (payload,userName) => dispatch({ type:'TWITTER_REQUEST',payload,userName}),
     googleLogin: (payload) => dispatch({ type: 'GOOGLE_REQUEST',payload}),
