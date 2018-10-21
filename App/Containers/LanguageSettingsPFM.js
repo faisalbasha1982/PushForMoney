@@ -31,7 +31,7 @@ const languageSettings = {
     lastName: "Last name",  
     Phone: "Phone number",
     ready: "I’M READY!",
-    money: "PUSH TO EARN MONEY!",
+    Money: "PUSH TO EARN MONEY!",
     workButton: "HOW DOES IT WORK?",
     myProfile: "My profile",
     cardDetails: "Bank account",
@@ -76,6 +76,24 @@ const languageSettings = {
     Information: "Information",
     Support: "Support",
     faq: "FAQ",
+
+    months: {
+
+        one: "JANUARY",
+        two: "FEBRUARAY",
+        three: "MARCH",
+        four: "APRIL",
+        five: "MAY",
+        six: "JUNE",
+        seven: "JULY", 
+        eight: "AUGUST",
+        nine: "SEPTEMBER",
+        ten: "OCTOBER",
+        eleven: "NOVEMBER",
+        twelve: "DECEMBER"
+
+    },
+
     },
     
     Dutch: {
@@ -156,7 +174,23 @@ const languageSettings = {
     Information: "Informatie",
     Support: "Support",
     faq: "FAQ",
-    
+
+    months: {
+
+       one: 'JANUARI',
+       two: 'FEBRUARI',
+       three: 'MAART',
+       four: 'APRIL',
+       five: 'MEI',
+       six: 'JUNI',
+       seven: 'JULI',
+       eight: 'AUGUSTUS',
+       nine: 'SEPTEMBER',
+       ten: 'OKTOBER',
+       eleven: 'NOVEMBER',
+       twelve: 'DECEMBER'
+
+    },
     },
     
     French: {
@@ -237,6 +271,22 @@ const languageSettings = {
     Information: "Information",
     Support: "Support",
     faq: "QFP",
+
+    months: {
+
+        one:'JANVIER',
+        two:'février',
+        three:'MARS',
+        four:'AVRIL',
+        five:'MAI',
+        six:'JUIN',
+        seven:'JUILLET',
+        eight:'AOUT',
+        nine:'SEPTEMBRE',
+        ten:'OCTOBRE',
+        eleven:'NOVEMBRE',
+        twelve:'décembre'
+    }
     
     }
     

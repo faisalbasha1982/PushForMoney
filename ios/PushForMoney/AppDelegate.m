@@ -26,15 +26,15 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   NSURL *jsCodeLocation;
-
+  
   //jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
   
-  #ifdef DEBUG
-    jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-  #else
-    jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-  #endif
-
+#ifdef DEBUG
+  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+#else
+  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+#endif
+  
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"PushForMoney"
                                                initialProperties:nil
@@ -50,15 +50,15 @@
   NSDictionary *plistDict = [NSDictionary dictionaryWithContentsOfFile:filePath];
   [GIDSignIn sharedInstance].clientID = [plistDict objectForKey:@"1041950784543-pkmc6rhf0e6av81q1j8qhspb10oqa7dn.apps.googleusercontent.com"];
   [GIDSignIn sharedInstance].delegate = self;
-
-
+  
+  
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   
-
+  
   return YES;
 }
 
@@ -72,13 +72,13 @@
                                                              annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
                   ] ||
   
-                  [RNGoogleSignin application:application openURL:url
-                            sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
-                            annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
+  [RNGoogleSignin application:application openURL:url
+            sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+                   annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
   
   // Add any custom logic here.
   return handled  || [[Twitter sharedInstance] application:options[UIApplicationOpenURLOptionsSourceApplicationKey] openURL:url options:options];
-;
+  ;
 }
 
 // Required to register for notifications

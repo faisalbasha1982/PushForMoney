@@ -176,6 +176,34 @@ class PushToEarnMoneyComponent extends Component {
           'AUGUST','SEPTEMBER','OCTOBER',
           'NOVEMBER','DECEMBER'
           ],[2016,2017,2018,2019,2020]],
+          newpickerDataFrench:[[
+            'JANVIER',
+            'février',
+            'MARS',
+            'AVRIL',
+            'MAI',
+            'JUIN',
+            'JUILLET',
+            'AOUT',
+            'SEPTEMBRE',
+            'OCTOBRE',
+            'NOVEMBRE',
+            'décembre'
+          ]],
+          newpickerDataDutch:[[
+            'JANUARI',
+            'FEBRUARI',
+            'MAART',
+            'APRIL',
+            'MEI',
+            'JUNI',
+            'JULI',
+            'AUGUSTUS',
+            'SEPTEMBER',
+            'OKTOBER',
+            'NOVEMBER',
+            'DECEMBER'
+          ]],
             selectedValue:['SEPTEMBER', 2018],
             menu:1,
             triggerBackComponent:false,
@@ -505,29 +533,29 @@ class PushToEarnMoneyComponent extends Component {
 
     getMonthNumber = (month) => {
 
-        if(month == "JANUARY")
+        if(month === "JANUARY" || month === "JANUARI" || month === "JANVIER")
             return "01";
-        if(month == "FEBRUARY")
+        if(month === "FEBRUARY" || month === "FEBRUARI" || month === "février")
             return "02";
-        if(month == "MARCH")
+        if(month === "MARCH" || month === "MAART" || month === "MARS")
             return "03";
-        if(month == "APRIL")
+        if(month === "APRIL" || month === "AVRIL" || month === "APRIL")
             return "04";
-        if(month == "MAY")
+        if(month === "MAY" || month === "MAI" || month === "MEI")
             return "05";
-        if(month == "JUNE")
+        if(month === "JUNE" || month === "JUIN" || month === "JUNI")
             return "06";
-        if(month == "JULY")
+        if(month === "JULY" || month === "JUILLET" || month === "JULI")
             return "07";
-        if(month == "AUGUST")
+        if(month === "AUGUST" || month === "AOUT" || month === "AUGUSTUS")
             return "08";
-        if(month == "SEPTEMBER")
+        if(month === "SEPTEMBER" || month === "SEPTEMBRE" || month === "SEPTEMBER")
             return "09";
-        if(month == "OCTOBER")
+        if(month === "OCTOBER" || month === "OCTOBRE" || month === "OKTOBER")
             return "10";
-        if(month == "NOVEMBER")
+        if(month === "NOVEMBER" || month === "NOVEMBRE" || month === "NOVEMBER")
             return "11";
-        if(month == "DECEMBER")
+        if(month === "DECEMBER" || month === "décembre" || month === "DECEMBER")
             return "12";        
     }
 
@@ -536,28 +564,28 @@ class PushToEarnMoneyComponent extends Component {
         console.log("current month="+month);
 
           if(month === "01")
-              return "JANUARY";
-          if(month == "02")
-              return "FEBRUARY";
-          if(month == "03")
-              return "MARCH";
-          if(month == "04")
-                return "APRIL";
-          if(month == "05")
-                return "MAY";
-          if(month == "06")
-                return "JUNE";
-          if(month == "07")
-                return "JULY";
-          if(month == "08")
-                return "AUGUST";
-          if(month == "09")
-                return "SEPTEMBER";
-          if(month == "10")
-                return "OCTOBER";
-          if(month == "11")
-                return "NOVEMBER";
-          if(month == "12")
+              return this.state.text.months.one;
+          if(month === "02")
+              return this.state.text.months.two;
+          if(month === "03")
+              return this.state.text.months.three;
+          if(month === "04")
+              return this.state.text.months.four;
+          if(month === "05")
+              return this.state.text.months.five;
+          if(month === "06")
+              return this.state.text.months.six;
+          if(month === "07")
+              return this.state.text.months.seven;
+          if(month === "08")
+              return this.state.text.months.eight;
+          if(month === "09")
+              return this.state.text.months.nine;
+          if(month === "10")
+              return this.state.text.months.ten;
+          if(month === "11")
+          return this.state.text.months.twelve;
+          if(month === "12")
                 return "DECEMBER";        
         
 
@@ -565,32 +593,32 @@ class PushToEarnMoneyComponent extends Component {
 
     getMonth = () => {
 
-        var month = this.state.months.one;
+        var month = this.state.text.months.one;
 
         if(this.state.currentMonthlyIndex === 1)
-            month = this.state.months.one;
+            month = this.state.text.months.one;
         if(this.state.currentMonthlyIndex === 2)
-            month = this.state.months.two;
+            month = this.state.text.months.two;
         if(this.state.currentMonthlyIndex === 3)
-            month = this.state.months.three;
+            month = this.state.text.months.three;
         if(this.state.currentMonthlyIndex === 4)
-            month = this.state.months.four;
+            month = this.state.text.months.four;
         if(this.state.currentMonthlyIndex === 5)
-            month = this.state.months.five;
+            month = this.state.text.months.five;
         if(this.state.currentMonthlyIndex === 6)
-            month = this.state.months.six;
+            month = this.state.text.months.six;
         if(this.state.currentMonthlyIndex === 7)
-            month = this.state.months.seven;
+            month = this.state.text.months.seven;
         if(this.state.currentMonthlyIndex === 8)
-            month = this.state.months.eight;
+            month = this.state.text.months.eight;
         if(this.state.currentMonthlyIndex === 9)   
-            month = this.state.months.nine;
+            month = this.state.text.months.nine;
         if(this.state.currentMonthlyIndex === 10)
-            month = this.state.months.ten;
+            month = this.state.text.months.ten;
         if(this.state.currentMonthlyIndex === 11)
-            month = this.state.months.eleven;
+            month = this.state.text.months.eleven;
         if(this.state.currentMonthlyIndex === 12)
-            month = this.state.months.twelve;
+            month = this.state.text.months.twelve;
 
         //console.log("current month="+this.state.currentMonthlyIndex);
          
@@ -604,32 +632,32 @@ class PushToEarnMoneyComponent extends Component {
         let currentYear = this.state.currentYear;
 
         if(currentMonthNumbers === "03")
-            currentMonth = "FEBRUARY";
+            currentMonth = this.state.text.months.two;
         if(currentMonthNumbers === "04")
-            currentMonth = "MARCH";
+            currentMonth = this.state.text.months.three;
         if(currentMonthNumbers === "05")
-            currentMonth = "APRIL";
+            currentMonth = this.state.text.months.four;
         if(currentMonthNumbers === "06")
-            currentMonth = "MAY";
+            currentMonth = this.state.text.months.may;
         if(currentMonthNumbers === "07")
-            currentMonth = "JUNE";
+            currentMonth = this.state.text.months.six;
         if(currentMonthNumbers === "08")
-            currentMonth = "JULY";
+            currentMonth = this.state.text.months.seven;
         if(currentMonthNumbers === "09")
-            currentMonth = "AUGUST";
+            currentMonth = this.state.text.months.eight;
         if(currentMonthNumbers === "10")
-            currentMonth = "SEPTEMBER";
+            currentMonth = this.state.text.months.nine;
         if(currentMonthNumbers === "11")
-            currentMonth = "OCTOBER";
+            currentMonth = this.state.text.months.ten;
         if(currentMonthNumbers === "12")
-            currentMonth = "NOVEMBER";
+            currentMonth = this.state.text.months.eleven;
         if(currentMonthNumbers === "01")
             {
-                currentMonth = "DECEMBER";
+                currentMonth = this.state.text.months.twelve;;
                 currentYear = parseInt(this.state.currentYear,10) - 1;
             }
         if(currentMonthNumbers === "02")
-            currentMonth = "JANUARY";
+            currentMonth = this.state.text.months.one;;
 
         this.setState({ currentMonth: currentMonth , currentYear: currentYear });
 
@@ -642,30 +670,30 @@ class PushToEarnMoneyComponent extends Component {
         let currentYear = this.state.currentYear;
 
         if(currentMonthNumbers === "01")
-            currentMonth = "FEBRUARY";
+            currentMonth = this.state.text.months.two;
         if(currentMonthNumbers === "02")
-            currentMonth = "MARCH";
+            currentMonth = this.state.text.months.three;
         if(currentMonthNumbers === "03")
-            currentMonth = "APRIL";
+            currentMonth = this.state.text.months.four;
         if(currentMonthNumbers === "04")
-            currentMonth = "MAY";
+            currentMonth = this.state.text.months.five;
         if(currentMonthNumbers === "05")
-            currentMonth = "JUNE";
+            currentMonth = this.state.text.months.six;
         if(currentMonthNumbers === "06")
-            currentMonth = "JULY";
+            currentMonth = this.state.text.months.seven;
         if(currentMonthNumbers === "07")
-            currentMonth = "AUGUST";
+            currentMonth = this.state.text.months.eight;
         if(currentMonthNumbers === "08")
-            currentMonth = "SEPTEMBER";
+            currentMonth = this.state.text.months.nine;
         if(currentMonthNumbers === "09")
-            currentMonth = "OCTOBER";
+            currentMonth = this.state.text.months.ten;
         if(currentMonthNumbers === "10")
-            currentMonth = "NOVEMBER";
+            currentMonth = this.state.text.months.eleven;
         if(currentMonthNumbers === "11")
-            currentMonth = "DECEMBER";
+            currentMonth = this.state.text.months.twelve;
         if(currentMonthNumbers === "12")
             {
-                currentMonth = "JANUARY";
+                currentMonth = this.state.text.months.one;;
                 currentYear = parseInt(this.state.currentYear,10) + 1;
             }
 

@@ -794,29 +794,19 @@ getAsyncStorage = async () => {
                     behavior = "padding"
                     enableOnAndroid = { false }
                     contentContainerStyle={ newStyle.keyboardContainer }
-                    scrollEnabled={true}>
-
+                    scrollEnabled={true}>                    
                 <View style= {newStyle.layoutBelow}>
                     <View style={newStyle.endButtons}>
-
                         <View style={newStyle.topView}>                        
-
                             <View style={{width: 80, height: 50, backgroundColor: 'transparent'}}>
-                                <Text style= {newStyle.topText}>
-                                        {this.state.text.myProfile}
-                                </Text>
+                                <Text style={newStyle.topText}>{this.state.text.myProfile}</Text>
                             </View>
                         <View style={{width: 100, height: 30, 
                                       justifyContent:'flex-end',
                                       alignItems:'flex-end',
                                       backgroundColor: 'transparent',}}>
-                            <Text
-                                style= {newStyle.changeLanguage}
-                                onPress={() => this.props.menu(10,this.state.language)}>
-                                    {this.state.text.changeLanguage}
-                            </Text>
-                            {
-                                this.state.text.changeLanguage==='Taal Wijzigen'?
+                            <Text style={newStyle.changeLanguage} onPress={() => this.props.menu(10,this.state.language)}>{this.state.text.changeLanguage}</Text>
+                            { this.state.text.changeLanguage==='Taal Wijzigen'?
                                     <View style={{
                                         height:1,
                                         width: 65,
@@ -836,12 +826,10 @@ getAsyncStorage = async () => {
                                 }}></View>    
                             }
                         </View>
- 
                         </View>
 
                         <View style= {newStyle.inputContainer}>
                             <Text style={newStyle.firstName}>{this.state.text.firstName}</Text>
-
                                  <View style={{
                                             flexDirection: 'column',
                                             backgroundColor: 'transparent',
@@ -849,8 +837,6 @@ getAsyncStorage = async () => {
                                             alignItems:'flex-end',
                                             flex:9,
                                     }}>
-                                        {/* <Text style={newStyle.firstName}>{this.state.text.firstName}</Text> */}
-
                                      <TouchableOpacity
                                             onPress={() => {  this.seteditableFirstName();  } }
                                             activeOpacity={0.5}
@@ -860,8 +846,7 @@ getAsyncStorage = async () => {
                                                 justifyContent: 'flex-start',
                                                 alignItems: 'center'
                                             }}>
-                                        {
-                                         (this.state.firstNameEditable === true)?
+                                        {(this.state.firstNameEditable === true)?
                                          <Icon
                                                 containerStyle={newStyle.iconImageStyle}
                                                 name='pencil'
@@ -877,14 +862,11 @@ getAsyncStorage = async () => {
                                                 size = {15} />
                                         }
                                         </TouchableOpacity>
-                                        {
-                                            (this.state.firstNameEditable === false)?
+                                        {(this.state.firstNameEditable === false)?
                                             <TouchableOpacity
                                                 style={{ width: viewPortWidth * 0.82, height: 20, backgroundColor: 'transparent', borderBottomColor: "#353535", borderBottomWidth: StyleSheet.hairlineWidth, }}
-                                                onPress={ () => this.seteditableFirstName() }
-                                                >
-                                                <Text
-                                                    style={{
+                                                onPress={ () => this.seteditableFirstName() }>
+                                                <Text style={{
                                                         width: viewPortWidth*.83,
                                                         height: 10,
                                                         margin:0,
@@ -893,17 +875,13 @@ getAsyncStorage = async () => {
                                                         padding: 0,
                                                         paddingLeft:5,
                                                         flex:8,
-                                                        color: 'grey'
-                                                    }}
-                                                > {this.props.firstName} </Text>
-
-                                                 {
+                                                        color: 'grey'}}> {this.props.firstName}</Text>
+                                                        {
                                                             this.props.firstName === null?
                                                             <View style = {{position: 'absolute' , zIndex:3999, left: 20, top: 120, right: 0, bottom: 0}}>
                                                             <BallIndicator color='#e73d50' />
                                                             </View>:this.somethingElse()
-                                                 }
-
+                                                         }
                                             </TouchableOpacity>
                                             :
                                             <TextInput
@@ -920,34 +898,9 @@ getAsyncStorage = async () => {
                                                         }}
                                                         onChangeText={(firstNameInput) => this.validateFirstName(firstNameInput)} />
 
-                                    //      (this.state.firstNameEditable === true)?
-                                    //         <TextInput
-                                    //             style={ newStyle.nameInputFirst }
-                                    //             placeholder='first name'
-                                    //             placeholderTextColor={ this.state.placeHolderColor }
-                                    //             editable={ this.state.firstNameEditable }
-                                    //             ref={(ref) => { this.FirstInput = ref; }}
-                                    //             underlineColorAndroid= 'transparent'
-                                    //             value = { this.props.firstName }
-                                    //             onBlur = { () => this.callUpdateName(this.state.firstNameInput)}
-                                    //             onChangeText={(firstNameInput) => this.validateFirstName(firstNameInput)} />
-                                    //    :
-                                    //        <TextInput
-                                    //             style={ newStyle.nameInputFirstOff }
-                                    //             placeholder='first name'
-                                    //             placeholderTextColor={this.state.placeHolderColor}
-                                    //             editable={this.state.firstNameEditable}
-                                    //             ref={(ref) => { this.FirstInput = ref; }}
-                                    //             underlineColorAndroid= 'transparent'
-                                    //             value = { this.props.firstName }
-                                    //             onBlur = { () => this.callUpdateName(this.state.firstNameInput)}
-                                    //             onChangeText={(firstNameInput) => this.validateFirstName(firstNameInput)} />
                                         }
-
                             </View>
-
-                               {
-                                    this.state.isLoading === true?
+                               {this.state.isLoading === true?
                                     <View style = {{position: 'absolute' , zIndex:3999, left: 25, top: 0, right: 0, bottom: 0}}>
                                     <BallIndicator color='#e73d50' />
                                     </View>:this.somethingElse()
@@ -972,8 +925,7 @@ getAsyncStorage = async () => {
                                             justifyContent: 'center',
                                             alignItems: 'center'
                                         }}>
-                                     {
-                                         (this.state.lastNameEditable===true)?
+                                     {(this.state.lastNameEditable===true)?
                                          <Icon
                                          containerStyle={newStyle.iconImageStyle}
                                          name='pencil'
@@ -986,16 +938,13 @@ getAsyncStorage = async () => {
                                          name='edit'
                                          type='font-awesome'
                                          color='#E73D50'
-                                         size = {15} />
-                                     
+                                         size = {15} />                                     
                                         }
                                  </TouchableOpacity>           
-                                 {
-                                    (this.state.lastNameEditable===false)?
+                                 {(this.state.lastNameEditable===false)?
                                     <TouchableOpacity
                                         style={{ width: viewPortWidth * 0.82, height: 20, backgroundColor: 'transparent', borderBottomColor: "#353535", borderBottomWidth: StyleSheet.hairlineWidth, }}
-                                        onPress={ () => this.seteditableLasttName() }
-                                        >
+                                        onPress={ () => this.seteditableLasttName() }>
                                         <Text
                                             style={{
                                                 width: viewPortWidth*.83,
@@ -1007,31 +956,18 @@ getAsyncStorage = async () => {
                                                 paddingLeft:5,
                                                 flex:8,
                                                 color: 'grey'
-                                            }}
-                                        > {this.props.lastName} </Text>
-
-                                    </TouchableOpacity>
-                                  
+                                            }}>{this.props.lastName}</Text>
+                                    </TouchableOpacity>                                  
                                     :
                                     <TextInput
-                                    style={ newStyle.nameInput}
-                                    placeholder='last name'
-                                    placeholderTextColor = {this.state.placeHolderColorLastName}
-                                    editable={this.state.lastNameEditable}
-                                    value = {this.props.lastName}
-                                    onBlur = { () => this.callUpdateLastName(this.state.lastNameInput)}
-                                    underlineColorAndroid= 'transparent'
-                                    onChangeText= { (lastNameInput) => this.validateLastName(lastNameInput) }/>
-
-                                    // <TextInput
-                                    //         style={ newStyle.nameInputOff}
-                                    //         placeholder='last name'
-                                    //         placeholderTextColor = {this.state.placeHolderColorLastName}
-                                    //         editable={this.state.lastNameEditable}
-                                    //         value = {this.props.lastName}
-                                    //         onBlur = { () => this.callUpdateLastName(this.state.lastNameInput)}
-                                    //         underlineColorAndroid= 'transparent'
-                                    //         onChangeText= { (lastNameInput) => this.validateLastName(lastNameInput) }/> 
+                                        style={ newStyle.nameInput}
+                                        placeholder='last name'
+                                        placeholderTextColor = {this.state.placeHolderColorLastName}
+                                        editable={this.state.lastNameEditable}
+                                        value = {this.props.lastName}
+                                        onBlur = { () => this.callUpdateLastName(this.state.lastNameInput)}
+                                        underlineColorAndroid= 'transparent'
+                                        onChangeText= { (lastNameInput) => this.validateLastName(lastNameInput) }/>
                                  }
 
                             </View>
@@ -1053,8 +989,7 @@ getAsyncStorage = async () => {
                                                     justifyContent: 'center',
                                                     alignItems: 'center'
                                                 }}>
-                                            {
-                                                (this.state.emailEditable===true)?
+                                            {(this.state.emailEditable===true)?
                                                 <Icon
                                                 containerStyle={newStyle.iconImageStyle}
                                                 name='pencil'
@@ -1071,12 +1006,10 @@ getAsyncStorage = async () => {
                                                 }
                                     </TouchableOpacity>
 
-                                   {
-                                        (this.state.emailEditable === false)?
+                                   {(this.state.emailEditable === false)?
                                             <TouchableOpacity
                                             style={{ width: viewPortWidth * 0.82, height: 20, backgroundColor: 'transparent', borderBottomColor: "#353535", borderBottomWidth: StyleSheet.hairlineWidth, }}
-                                            onPress={ () => this.seteditableEmail() }
-                                            >
+                                            onPress={ () => this.seteditableEmail() }>
                                                 <Text
                                                     style={{
                                                         width: viewPortWidth*.83,
@@ -1088,8 +1021,7 @@ getAsyncStorage = async () => {
                                                         paddingLeft:5,
                                                         flex:8,
                                                         color: 'grey'
-                                                    }}
-                                                > {this.props.email} </Text>
+                                                    }}> {this.props.email} </Text>
 
                                     </TouchableOpacity>                                  
                                     :      
@@ -1102,31 +1034,12 @@ getAsyncStorage = async () => {
                                                 underlineColorAndroid= 'transparent'
                                                 onBlur = { () => this.callUpdateName(this.state.emailInput)}
                                                 onChangeText= { (emailInput) => this.validateEmail(emailInput) }/>
-                                        // :
-                                        // <TextInput
-                                        //         style={ newStyle.nameInputEmailOff }
-                                        //         placeholder='Email Address'
-                                        //         placeholderTextColor={this.state.placeHolderColorEmail}
-                                        //         editable={this.state.emailEditable}
-                                        //         value = { this.props.email}
-                                        //         underlineColorAndroid= 'transparent'
-                                        //         onBlur = { () => this.callUpdateName(this.state.emailInput)}
-                                        //         onChangeText= { (emailInput) => this.validateEmail(emailInput) }/>
                                    }
                             </View>
 
                             <Text style={newStyle.firstName}>{this.state.text.Phone}</Text>
-                            <View style={newStyle.innerContainer}>
-                                            
-                                {/* {
-                                            this.props.fetching===true?
-                                            <View style = {{position: 'absolute' , zIndex:3999, left: 30, top: 0, right: 0, bottom: 0}}>
-                                            <BallIndicator color='#e73d50' />
-                                            </View>:this.somethingElse()
-                                } */}
-
-                                {
-                                    (this.state.phoneEditable===true)?
+                            <View style={newStyle.innerContainer}>                                            
+                                {(this.state.phoneEditable===true)?
                                     <View
                                         opacity={1}
                                         style={{
@@ -1137,8 +1050,7 @@ getAsyncStorage = async () => {
                                             marginTop:5,
                                             flex:8,
                                             backgroundColor:'transparent'
-                                        }}
-                                    >
+                                        }}>
                                         <PhoneInput
                                             opacity={1}
                                             ref={(ref) => { this.phone = ref; }}
@@ -1164,8 +1076,7 @@ getAsyncStorage = async () => {
                                             color: 'grey',
                                             backgroundColor:'transparent'
                                         }}
-                                        onPress = {() => { this.seteditablePhone(); }}
-                                        >
+                                        onPress = {() => { this.seteditablePhone(); }}>
                                         <PhoneInput
                                             opacity={0.5}
                                             disabled={true}
@@ -1186,8 +1097,7 @@ getAsyncStorage = async () => {
                                             alignItems: 'flex-start',
                                             backgroundColor:'transparent'
                                         }}>
-                                     {
-                                         (this.state.phoneEditable===true)?
+                                     {(this.state.phoneEditable===true)?
                                          <Icon
                                          containerStyle={newStyle.iconImageStyle}
                                          name='pencil'
@@ -1206,7 +1116,6 @@ getAsyncStorage = async () => {
                                  </TouchableOpacity>
                             </View>
                                 
-
                             <Text style={newStyle.passwordStyle}>{this.state.text.Password}</Text>
 
                             <View style={{
@@ -1216,8 +1125,6 @@ getAsyncStorage = async () => {
                                             alignItems:'center',
                                             flex:8,
                                     }}>
-
-
                                     <TouchableOpacity
                                         onPress={() => { this.imageCapture();  } }
                                         activeOpacity={1}
@@ -1232,8 +1139,7 @@ getAsyncStorage = async () => {
                                             padding: 0,
                                             flex:1,
                                         }}>
-                                        <Text
-                                            style={{
+                                        <Text style={{
                                                 fontSize: 12,
                                                 fontFamily: 'WorkSans-Medium',
                                                 fontWeight: '500',
@@ -1324,8 +1230,7 @@ getAsyncStorage = async () => {
                                             alignItems: 'flex-start',
                                             backgroundColor:'transparent'
                                         }}>
-                                     {
-                                         (this.state.passwordEditable===true)?
+                                     {(this.state.passwordEditable===true)?
                                          <Icon
                                                 containerStyle={newStyle.iconImageStylePass}
                                                 name='pencil'
@@ -1341,7 +1246,6 @@ getAsyncStorage = async () => {
                                                 size = {15} />                                     
                                         }
                                  </TouchableOpacity>
-
                             </View>
 
                             <PushNotif />
@@ -1377,15 +1281,10 @@ getAsyncStorage = async () => {
                                       this.renderNothing()
                                 }
                             </View>
-
                         </View>
-
-                    </View>
-                
+                    </View>                
                 </View>
-
-                </KeyboardAwareScrollView>
-                 
+                </KeyboardAwareScrollView>                 
         );
     }
 

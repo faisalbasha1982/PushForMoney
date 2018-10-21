@@ -33,6 +33,8 @@ import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import localStorage from 'react-native-sync-localstorage';
 import PushForJob from './PushForJob';
+import _ from 'lodash';
+
  
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth  = Dimensions.get('window').width;
