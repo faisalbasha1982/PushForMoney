@@ -61,7 +61,7 @@ import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/NewHeaderImage.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
-import ImgToBase64 from 'react-native-image-base64';
+// import ImgToBase64 from 'react-native-image-base64';
 import call from 'react-native-phone-call';
 // import RNFetchBlob from 'react-native-fetch-blob';
 
@@ -736,7 +736,12 @@ getAsyncStorage = async () => {
          }
 
         if(newMobNo === "+32")
-            newMobNo = mobileNo;
+          {
+              if(mobileNo.substring(0,1)!=="+")
+                newMobNo = "+" + mobileNo;
+              else
+                newMobNo = mobileNo;
+          }
 
         return newMobNo;
     }
@@ -755,31 +760,31 @@ getAsyncStorage = async () => {
         );
     }
 
-    blobUploadRN = () => {
+    // blobUploadRN = () => {
 
-        RNFetchBlob.fetch('POST', 'https://fnmobileapptria8d18.blob.core.windows.net/azure-webjobs-hosts', {
-        Authorization : `Bearer sp=rcwd&st=2018-10-17T07:16:44Z&se=2018-10-17T15:16:44Z&spr=https&sv=2017-11-09&sig=aFqvr3CYpgBMSZ7bAa57lHZFlA7QkT73HjaYsb6Qqy0%3D&sr=b`,
-        '': JSON.stringify({
-        path : '/img-from-react-native.png',
-        mode : 'add',
-        autorename : true,
-        mute : false
-        }),
-        'Content-Type' : 'application/octet-stream',
-        // here's the body you're going to send, should be a BASE64 encoded string
-        // (you can use "base64"(refer to the library 'mathiasbynens/base64') APIs to make one).
-        // The data will be converted to "byte array"(say, blob) before request sent.  
-        }, base64ImageString)
-        .then((res) => {
-            console.log(res.text())
-        })
-        .catch((err) => {
-            // error handling ..
-        });
+    //     RNFetchBlob.fetch('POST', 'https://fnmobileapptria8d18.blob.core.windows.net/azure-webjobs-hosts', {
+    //     Authorization : `Bearer sp=rcwd&st=2018-10-17T07:16:44Z&se=2018-10-17T15:16:44Z&spr=https&sv=2017-11-09&sig=aFqvr3CYpgBMSZ7bAa57lHZFlA7QkT73HjaYsb6Qqy0%3D&sr=b`,
+    //     '': JSON.stringify({
+    //     path : '/img-from-react-native.png',
+    //     mode : 'add',
+    //     autorename : true,
+    //     mute : false
+    //     }),
+    //     'Content-Type' : 'application/octet-stream',
+    //     // here's the body you're going to send, should be a BASE64 encoded string
+    //     // (you can use "base64"(refer to the library 'mathiasbynens/base64') APIs to make one).
+    //     // The data will be converted to "byte array"(say, blob) before request sent.  
+    //     }, base64ImageString)
+    //     .then((res) => {
+    //         console.log(res.text())
+    //     })
+    //     .catch((err) => {
+    //         // error handling ..
+    //     });
 
 
-        // https://csb8eaf22cfa520x43a2x877.blob.core.windows.net/newcontainer
-    }    
+    //     // https://csb8eaf22cfa520x43a2x877.blob.core.windows.net/newcontainer
+    // }    
 
     render() {
 
@@ -1250,32 +1255,32 @@ getAsyncStorage = async () => {
 
                             <PushNotif />
 
-                            <View style={{flex: 25, }}>
-                                <Text style={newStyle.firstName}>{this.state.text.cardDetails}</Text> {'\n'}
+                            <View style={{flex: 25}}>
+                                <Text style={newStyle.firstName}>{this.state.text.cardDetails}</Text>
                                 {
                                      this.props.bankInfo === null || this.props.bankInfo === undefined || this.props.bankInfo.MobileUserBankDetailId === 0?
-                                     <Text style={newStyle.para}> {this.state.text.add}  <Text style={{ color: '#e73d50',fontFamily: 'WorkSans-Bold', fontWeight: '500', fontSize: 20  }} onPress={() => this.props.menu(5)}>here</Text> </Text>
+                                     <Text style={newStyle.para}>{this.state.text.add}<Text style={{ color: '#e73d50',fontFamily: 'WorkSans-Bold', fontWeight: '500', fontSize: 20  }} onPress={() => this.props.menu(5)}>here</Text></Text>
                                      :
-                                      this.props.bankInfo.MobileUserBankDetailId !== 0?
+                                      (this.props.bankInfo.MobileUserBankDetailId !== 0)?
                                      <View style={{ flex:1,  }}>
                                             <Text style={{  fontSize: 10,   
                                         fontFamily: 'WorkSans-Regular',
                                         fontWeight: '500',
                                         marginLeft:5,
                                         fontStyle: 'normal',
-                                        color: '#000000', }}> {this.state.text.Bic}: { this.props.bankInfo.BIC_NO } </Text> {'\n'}
+                                        color: '#000000', }}> {this.state.text.Bic}: { this.props.bankInfo.BIC_NO } </Text>
                                             <Text style={{  fontSize: 10,
                                         fontFamily: 'WorkSans-Regular',
                                         fontWeight: '500',
                                         marginLeft:5,
                                         fontStyle: 'normal',
-                                        color: '#000000', }} > {this.state.text.BankName}: { this.props.bankInfo.IBAN } </Text> {'\n'}
+                                        color: '#000000', }} > {this.state.text.BankName}: { this.props.bankInfo.IBAN } </Text>
                                             <Text style={{  fontSize: 10,   
                                         fontFamily: 'WorkSans-Regular',
                                         fontWeight: '500',
                                         marginLeft:5,
                                         fontStyle: 'normal',
-                                        color: '#000000', }}> {this.state.text.Iban}: {  this.props.bankInfo.Bankname }  </Text> {'\n'}
+                                        color: '#000000', }}> {this.state.text.Iban}: {  this.props.bankInfo.Bankname }  </Text>
                                       </View>
                                       : 
                                       this.renderNothing()

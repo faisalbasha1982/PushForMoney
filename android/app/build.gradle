@@ -120,6 +120,10 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
+        debug {}
+        innerTest {
+            matchingFallbacks = ['debug', 'release']
+        }
     }
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
@@ -137,21 +141,17 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-linkedin-login')
     compile project(':rn-fetch-blob')
     compile project(':react-native-vector-icons')
     compile project(':react-native-twitter-signin')
     compile project(':react-native-splash-screen')
     compile project(':react-native-simple-contacts')
-    compile project(':react-native-rsa-util')
     compile project(':react-native-rsa-native')
     compile project(':react-native-push-notification')
     compile project(':react-native-picker')
     compile project(':react-native-mail')
     compile project(':react-native-immediate-phone-call')
-    compile project(':react-native-image-to-base64')
     compile project(':react-native-image-picker')
-    compile project(':react-native-image-base64')
     compile project(':react-native-google-signin')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-fbsdk')
@@ -159,6 +159,23 @@ dependencies {
     compile project(':react-native-contacts-wrapper')
     compile project(':react-native-contacts')
     compile project(':react-native-config')
+    implementation project(':react-native-linkedin-login')
+    implementation project(':react-native-vector-icons')
+    implementation project(':react-native-twitter-signin')
+    implementation project(':react-native-splash-screen')
+    implementation project(':react-native-simple-contacts')
+    implementation project(':react-native-rsa-native')
+    implementation project(':react-native-push-notification')
+    implementation project(':react-native-picker')
+    implementation project(':react-native-mail')
+    implementation project(':react-native-immediate-phone-call')
+    implementation project(':react-native-image-picker')
+    implementation project(':react-native-google-signin')
+    implementation project(':react-native-fbsdk')
+    implementation project(':react-native-device-info')
+    implementation project(':react-native-contacts-wrapper')
+    implementation project(':react-native-contacts')
+    implementation project(':react-native-config')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules

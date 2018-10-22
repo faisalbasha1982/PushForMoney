@@ -62,7 +62,6 @@ import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/page1.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AccessToken, LoginManager, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
-import LinkedInModal from 'react-native-linkedin';
 import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 
 const viewPortHeight = Dimensions.get('window').height;
@@ -972,7 +971,7 @@ class PushToEarnSignUp extends Component {
                       "SignupMode": true
                
                     });
-    
+
                     this.props.registerAction(payload, this.state.usernameInput,this.state.passwordInput);
                     
                     this.setState({isLoading: false});
@@ -1067,6 +1066,112 @@ class PushToEarnSignUp extends Component {
       linkedIn = () => {
 
       }
+
+      removeSpaces = (input) => {
+       
+        if(input === null || input === undefined)
+            return;
+
+        let array = input.split(" ");
+
+        let finalString = '';
+
+        for(element in array)
+        {
+            console.log("element="+array[element]);
+
+            if(array[element] !== " ")
+                finalString = finalString + array[element];
+        }
+
+        console.log("finalString="+finalString);
+
+        return finalString;
+        
+    }
+
+    formatMobileNo = (mobileNo) => {
+
+        let newMobNo = "+32";
+        mobileNo = this.removeSpaces(mobileNo);
+        console.log("mobileNo w/out spaces ="+mobileNo);
+        console.log("mobileNo="+mobileNo);
+
+        if(mobileNo === null || mobileNo === undefined)
+            return null;
+        else
+         {
+            if(mobileNo !== null && mobileNo.substring(0,2)==="00")
+                if(mobileNo.substring(2,4)==="32")
+                    newMobNo = newMobNo + mobileNo.substring(4);
+                else
+                    newMobNo = newMobNo + mobileNo.substring(2);
+            else
+                    if(mobileNo !== null && mobileNo.substring(0,1)==="0")
+                        newMobNo = newMobNo + mobileNo.substring(1);
+
+            console.log("newMobNo="+newMobNo);
+         }
+
+        if(newMobNo === "+32")
+          {
+              if(mobileNo.substring(0,1)!=="+")
+                newMobNo = "+" + mobileNo;
+              else
+                newMobNo = mobileNo;
+          }
+
+        return newMobNo;
+    }
+
+    removeSpaces = (input) => {
+       
+        if(input === null || input === undefined)
+            return;
+
+        let array = input.split(" ");
+
+        let finalString = '';
+
+        for(element in array)
+        {
+            console.log("element="+array[element]);
+
+            if(array[element] !== " ")
+                finalString = finalString + array[element];
+        }
+
+        console.log("finalString="+finalString);
+
+        return finalString;
+        
+    }
+
+    validateBelgiumPhoneNumber = (phone) => {
+
+        phone = this.removeSpaces(phone);
+
+        console.tron.log("formatted phone text="+phone);
+
+        let countryCode = "+32";
+        let firstFour = phone.substring(0,4);
+        let rest = phone.substring(4);
+        let firstTwo = phone.substring(0,2);
+        let restTwo = phone.substring(2);
+
+        if(phone.substring(0,1) !== "+" && phone.substring(0,1) !== "0" && phone.length ===11)
+            this.setState({ phoneNumberInput: "+" + phone});
+        else
+            if(firstFour === "0032" && phone.length === 9)
+                this.setState({ phoneNumberInput: countryCode + rest});
+            else
+                if(firstTwo === "04" && restTwo.length === 8)
+                    this.setState({ phoneNumberInput: countryCode + restTwo});
+                else
+                  if(phone.substring(0,3) === "+32" && phone.length === 12)
+                    this.setState({ phoneNumberInput: phone });
+
+    }
 
     render() {
         const platform = Platform.OS;
@@ -1327,7 +1432,7 @@ class PushToEarnSignUp extends Component {
                          ref='phone'
                          initialCountry='be'
                          style= {newStyle.nameInput}
-                         onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) } />
+                         onChangePhoneNumber = { (phoneNumberInput) => this.validateBelgiumPhoneNumber(phoneNumberInput) } />
              </View>
 
             <View style={newStyle.endButtons}>

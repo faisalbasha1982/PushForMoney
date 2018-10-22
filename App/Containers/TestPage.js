@@ -91,6 +91,10 @@ class TestPage extends Component {
 
         this.setState({ menu:0 });
 
+        setTimeout(()=> {
+            this.getFriendList();        
+        },3000);                
+
     }
 
     componentWillReceiveProps(nextProps)
@@ -108,10 +112,12 @@ class TestPage extends Component {
                         if(this.props.navigation.state.params.language === 'French')
                             this.setState({ text: languageSettingsPFM.French, languageCode:'fr', language: 'French'});
           
-                setTimeout(()=> {
-                    this.getFriendList();        
-                },3000);                
             }
+
+            setTimeout(()=> {
+                this.getFriendList();        
+            },3000);                
+
         }
     }
 
@@ -190,6 +196,10 @@ class TestPage extends Component {
     }
 
     addComponent = () => {
+
+        // setTimeout(()=> {
+        //     this.getFriendList();
+        // },3000);
 
         console.log("adding component this.props.referral = "+ typeof(this.props.referral) + "object="+this.props.referral);
         console.log("current language="+this.state.language);

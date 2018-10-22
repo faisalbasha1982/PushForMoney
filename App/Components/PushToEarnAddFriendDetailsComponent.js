@@ -410,8 +410,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                 setTimeout(() => {
                     if(!_.isEmpty(this.props.MobileReferrals))
                         {
-                            this.props.MobileReferrals.map(personObj =>
-    
+                            this.props.MobileReferrals.map(personObj =>    
                                 {
                                     if(personObj.ReferralAddStatus === true)
                                     {
@@ -491,6 +490,63 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
     }
 
+    removeSpaces = (input) => {
+       
+        if(input === null || input === undefined)
+            return;
+
+        let array = input.split(" ");
+
+        let finalString = '';
+
+        for(element in array)
+        {
+            console.log("element="+array[element]);
+
+            if(array[element] !== " ")
+                finalString = finalString + array[element];
+        }
+
+        console.log("finalString="+finalString);
+
+        return finalString;
+        
+    }
+
+    formatMobileNo = (mobileNo) => {
+
+        let newMobNo = "+32";
+        mobileNo = this.removeSpaces(mobileNo);
+        console.log("mobileNo w/out spaces ="+mobileNo);
+        console.log("mobileNo="+mobileNo);
+
+        if(mobileNo === null || mobileNo === undefined)
+            return null;
+        else
+         {
+            if(mobileNo !== null && mobileNo.substring(0,2)==="00")
+                if(mobileNo.substring(2,4)==="32")
+                    newMobNo = newMobNo + mobileNo.substring(4);
+                else
+                    newMobNo = newMobNo + mobileNo.substring(2);
+            else
+                    if(mobileNo !== null && mobileNo.substring(0,1)==="0")
+                        newMobNo = newMobNo + mobileNo.substring(1);
+
+            console.log("newMobNo="+newMobNo);
+         }
+
+        if(newMobNo === "+32")
+          {
+              if(mobileNo.substring(0,1)!=="+")
+                newMobNo = "+" + mobileNo;
+              else
+                newMobNo = mobileNo;
+          }
+
+        return newMobNo;
+    }
+
     render() {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
@@ -540,8 +596,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                                         style={ newStyle.nameInput }
                                         placeholder=''
                                         underlineColorAndroid= 'transparent'
-                                        value={this.props.name}
-                                        onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
+                                        onChangeText={(firstNameInput) => this.setState({firstNameInput})}/>
 
                             {
                                 this.state.isLoading===true?

@@ -31,11 +31,11 @@ const languageSettings = {
     lastName: "Last name",  
     Phone: "Phone number",
     ready: "I’M READY!",
-    Money: "PUSH TO EARN MONEY!",
+    money: "PUSH TO EARN MONEY!",
     workButton: "HOW DOES IT WORK?",
     myProfile: "My profile",
     cardDetails: "Bank account",
-    add: "Add your bank account details here",
+    add: "Add your bank account details ",
     editProfile: "Edit profile",
     BankName: "Bank name:",
     Iban: "IBAN number:",
@@ -76,23 +76,18 @@ const languageSettings = {
     Information: "Information",
     Support: "Support",
     faq: "FAQ",
-
-    months: {
-
-        one: "JANUARY",
-        two: "FEBRUARAY",
-        three: "MARCH",
-        four: "APRIL",
-        five: "MAY",
-        six: "JUNE",
-        seven: "JULY", 
-        eight: "AUGUST",
-        nine: "SEPTEMBER",
-        ten: "OCTOBER",
-        eleven: "NOVEMBER",
-        twelve: "DECEMBER"
-
-    },
+    one: "JANUARY",
+    two: "FEBRUARAY",
+    three: "MARCH",
+    four: "APRIL",
+    five: "MAY",
+    six: "JUNE",
+    seven: "JULY", 
+    eight: "AUGUST",
+    nine: "SEPTEMBER",
+    ten: "OCTOBER",
+    eleven: "NOVEMBER",
+    twelve: "DECEMBER"
 
     },
     
@@ -133,7 +128,7 @@ const languageSettings = {
     workButton: "HOE WERKT HET?",
     myProfile: "Mijn profiel",
     cardDetails: "Bankgegevens",
-    add: "Voeg je bankgegevens hier toe",
+    add: "Voeg je bankgegevens toe ",
     editProfile: "Taal wijzigen",
     BankName: "Naam bank",
     Iban: "IBAN nummer",
@@ -174,23 +169,19 @@ const languageSettings = {
     Information: "Informatie",
     Support: "Support",
     faq: "FAQ",
+    one: 'JANUARI',
+    two: 'FEBRUARI',
+    three: 'MAART',
+    four: 'APRIL',
+    five: 'MEI',
+    six: 'JUNI',
+    seven: 'JULI',
+    eight: 'AUGUSTUS',
+    nine: 'SEPTEMBER',
+    ten: 'OKTOBER',
+    eleven: 'NOVEMBER',
+    twelve: 'DECEMBER'
 
-    months: {
-
-       one: 'JANUARI',
-       two: 'FEBRUARI',
-       three: 'MAART',
-       four: 'APRIL',
-       five: 'MEI',
-       six: 'JUNI',
-       seven: 'JULI',
-       eight: 'AUGUSTUS',
-       nine: 'SEPTEMBER',
-       ten: 'OKTOBER',
-       eleven: 'NOVEMBER',
-       twelve: 'DECEMBER'
-
-    },
     },
     
     French: {
@@ -230,8 +221,8 @@ const languageSettings = {
     workButton: "COMMENT",    
     myProfile: "Mon profil",
     cardDetails: "Coordonnées bancaires",    
-    add: "Ajoutez vos coordonnées bancaires ici",
-    editProfile: "Changer profil",    
+    add: "Ajoutez vos coordonnées bancaires ",
+    editProfile: "Changer profil",
     BankName: "Nom de la banque",
     Iban: "Numéro IBAN",
     Bic: "Numéro BIC",
@@ -271,22 +262,18 @@ const languageSettings = {
     Information: "Information",
     Support: "Support",
     faq: "QFP",
-
-    months: {
-
-        one:'JANVIER',
-        two:'février',
-        three:'MARS',
-        four:'AVRIL',
-        five:'MAI',
-        six:'JUIN',
-        seven:'JUILLET',
-        eight:'AOUT',
-        nine:'SEPTEMBRE',
-        ten:'OCTOBRE',
-        eleven:'NOVEMBRE',
-        twelve:'décembre'
-    }
+    one:'JANVIER',
+    two:'février',
+    three:'MARS',
+    four:'AVRIL',
+    five:'MAI',
+    six:'JUIN',
+    seven:'JUILLET',
+    eight:'AOUT',
+    nine:'SEPTEMBRE',
+    ten:'OCTOBRE',
+    eleven:'NOVEMBRE',
+    twelve:'décembre'
     
     }
     

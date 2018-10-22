@@ -157,7 +157,7 @@ class PushToEarnMoneyComponent extends Component {
                         twelve : 'DECEMBER',
                     },                
             currentYear:2016,
-            currentMonth:'MARCH',
+            currentMonth:'CURRENT MONTH',
             currentMonthlyIndex: 3,
             currentYearMonth:'JUNE 2016',
             yearData:[2016,2017,2018,2019,2020],
@@ -166,10 +166,11 @@ class PushToEarnMoneyComponent extends Component {
                         'AUGUST','SEPTEMBER','OCTOBER',
                         'NOVEMBER','DECEMBER'
                         ],
-            pickerData: [[2016,2017,2018,2019,2020],['JANUARY','FEBRUARY','MARCH',
-            'APRIL','MAY','JUNE','JULY',
-           'AUGUST','SEPTEMBER','OCTOBER',
-           'NOVEMBER','DECEMBER'
+            pickerData: [[2016,2017,2018,2019,2020],[
+                'JANUARY','FEBRUARY','MARCH',
+                'APRIL','MAY','JUNE','JULY',
+                'AUGUST','SEPTEMBER','OCTOBER',
+                'NOVEMBER','DECEMBER'
            ]],
            newpickerData: [['JANUARY','FEBRUARY','MARCH',
            'APRIL','MAY','JUNE','JULY',
@@ -189,7 +190,7 @@ class PushToEarnMoneyComponent extends Component {
             'OCTOBRE',
             'NOVEMBRE',
             'décembre'
-          ]],
+          ],[2016,2017,2018,2019,2020]],
           newpickerDataDutch:[[
             'JANUARI',
             'FEBRUARI',
@@ -203,8 +204,10 @@ class PushToEarnMoneyComponent extends Component {
             'OKTOBER',
             'NOVEMBER',
             'DECEMBER'
-          ]],
+          ],[2016,2017,2018,2019,2020]],
             selectedValue:['SEPTEMBER', 2018],
+            selectedValueFrench:['SEPTEMBRE', 2018],
+            selectedValueDutch:['SEPTEMBER',2018],
             menu:1,
             triggerBackComponent:false,
             totalComponent:false,
@@ -371,7 +374,7 @@ class PushToEarnMoneyComponent extends Component {
                 this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
         else
             if(this.state.language === 'French')
-                this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+                this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});      
 
    }
 
@@ -400,25 +403,30 @@ class PushToEarnMoneyComponent extends Component {
         month = parseInt(today.getUTCMonth()+1)>=10?parseInt(today.getUTCMonth()+1):('0'+parseInt(today.getUTCMonth()+1));
         year = today.getUTCFullYear().toString();
 
-        this.setDayYear(month,year);
-
+        setTimeout(() => {
+            this.setDayYear(month,year);
+        },1000);
 
     }
 
     setDayYear = (month, year) => {
         
         let cMonth = this.convertMonth(month);
+        console.log("cMonth="+cMonth);
         this.setState({ currentMonth: cMonth, currentYear: year, selectedValue:[cMonth,year] });
+        console.log("setDayYear selectedValue="+this.state.selectedValue);
     }
 
     getAsyncStorageToken = async () => {
 
-        await AsyncStorage.getItem('token').then((token) => {
-            this.setState({ token: token});
-        });
+        console.tron.log("language="+this.state.language);
 
         await AsyncStorage.getItem('language').then((language) => {
             this.setState({ language: language});
+        });
+
+        await AsyncStorage.getItem('token').then((token) => {
+            this.setState({ token: token});
         });
 
         this.setLanguage();
@@ -561,64 +569,125 @@ class PushToEarnMoneyComponent extends Component {
 
     convertMonth = (month) => {
 
-        console.log("current month="+month);
+        console.log("convert month="+typeof(month)+ " language="+this.state.language);        
 
-          if(month === "01")
-              return this.state.text.months.one;
-          if(month === "02")
-              return this.state.text.months.two;
-          if(month === "03")
-              return this.state.text.months.three;
-          if(month === "04")
-              return this.state.text.months.four;
-          if(month === "05")
-              return this.state.text.months.five;
-          if(month === "06")
-              return this.state.text.months.six;
-          if(month === "07")
-              return this.state.text.months.seven;
-          if(month === "08")
-              return this.state.text.months.eight;
-          if(month === "09")
-              return this.state.text.months.nine;
-          if(month === "10")
-              return this.state.text.months.ten;
-          if(month === "11")
-          return this.state.text.months.twelve;
-          if(month === "12")
-                return "DECEMBER";        
-        
+        if(this.state.language === "English")
+        {
+
+            if(month === 1)
+                return "JANUARY";
+            if(month === 2)
+                return "FEBRUARY";
+            if(month === 3)
+                return "MARCH";
+            if(month === 4)
+                return "APRIL";
+            if(month === 5)
+                return "MAY";
+            if(month === 6)
+                return "JUNE";
+            if(month === 7)
+                return "JULY";
+            if(month === 8)
+                return "AUGUST";
+            if(month === 9)
+                return "SEPTEMBER";
+            if(month === 10)
+                return "OCTOBER";
+            if(month === 11)
+                return "NOVEMBER";
+            if(month === 12)
+                return "DECEMBER";
+
+        }
+        else
+            if(this.state.language === "French")
+            {
+                if(month === 1)
+                    return "JANVIER";
+                if(month === 2)
+                    return "février";
+                if(month === 3)
+                    return "MARS";
+                if(month === 4)
+                    return "AVRIL";
+                if(month === 5)
+                    return "MAI";
+                if(month === 6)
+                    return "JUIN";
+                if(month === 7)
+                    return "JUILLET";
+                if(month === 8)
+                    return "AOUT";
+                if(month === 9)
+                    return "SEPTEMBRE";
+                if(month === 10)
+                    return "OCTOBRE";
+                if(month === 11)
+                    return "NOVEMBRE";
+                if(month === 12)
+                    return "décembre";        
+            }
+        else
+            if(this.state.language === "Dutch")
+            {
+             
+                if(month === 1)
+                    return "JANUARI";
+                if(month === 2)
+                    return "FEBRUARI";
+                if(month === 3)
+                    return "MAART";
+                if(month === 4)
+                    return "APRIL";
+                if(month === 5)
+                    return "MEI";
+                if(month === 6)
+                    return "JUNI";
+                if(month === 7)
+                    return "JULI";
+                if(month === 8)
+                    return "AUGUSTUS";
+                if(month === 9)
+                    return "SEPTEMBER";
+                if(month === 10)
+                    return "OKTOBER";
+                if(month === 11)
+                    return "NOVEMBER";
+                if(month === 12)
+                    return "DECEMBER";
+            }       
 
     }
 
     getMonth = () => {
 
-        var month = this.state.text.months.one;
+        var month = this.state.text.one;
 
         if(this.state.currentMonthlyIndex === 1)
-            month = this.state.text.months.one;
+            month = this.state.text.one;
         if(this.state.currentMonthlyIndex === 2)
-            month = this.state.text.months.two;
+            month = this.state.text.two;
         if(this.state.currentMonthlyIndex === 3)
-            month = this.state.text.months.three;
+            month = this.state.text.three;
         if(this.state.currentMonthlyIndex === 4)
-            month = this.state.text.months.four;
+            month = this.state.text.four;
         if(this.state.currentMonthlyIndex === 5)
-            month = this.state.text.months.five;
+            month = this.state.text.five;
         if(this.state.currentMonthlyIndex === 6)
-            month = this.state.text.months.six;
+            month = this.state.text.six;
         if(this.state.currentMonthlyIndex === 7)
-            month = this.state.text.months.seven;
+            month = this.state.text.seven;
         if(this.state.currentMonthlyIndex === 8)
-            month = this.state.text.months.eight;
+            month = this.state.text.eight;
         if(this.state.currentMonthlyIndex === 9)   
-            month = this.state.text.months.nine;
+            month = this.state.text.nine;
         if(this.state.currentMonthlyIndex === 10)
-            month = this.state.text.months.ten;
+            month = this.state.text.ten;
         if(this.state.currentMonthlyIndex === 11)
-            month = this.state.text.months.eleven;
+            month = this.state.text.eleven;
         if(this.state.currentMonthlyIndex === 12)
-            month = this.state.text.months.twelve;
+            month = this.state.text.twelve;
 
         //console.log("current month="+this.state.currentMonthlyIndex);
          
@@ -632,34 +701,34 @@ class PushToEarnMoneyComponent extends Component {
         let currentYear = this.state.currentYear;
 
         if(currentMonthNumbers === "03")
-            currentMonth = this.state.text.months.two;
+            currentMonth = this.state.text.two;
         if(currentMonthNumbers === "04")
-            currentMonth = this.state.text.months.three;
+            currentMonth = this.state.text.three;
         if(currentMonthNumbers === "05")
-            currentMonth = this.state.text.months.four;
+            currentMonth = this.state.text.four;
         if(currentMonthNumbers === "06")
-            currentMonth = this.state.text.months.may;
+            currentMonth = this.state.text.may;
         if(currentMonthNumbers === "07")
-            currentMonth = this.state.text.months.six;
+            currentMonth = this.state.text.six;
         if(currentMonthNumbers === "08")
-            currentMonth = this.state.text.months.seven;
+            currentMonth = this.state.text.seven;
         if(currentMonthNumbers === "09")
-            currentMonth = this.state.text.months.eight;
+            currentMonth = this.state.text.eight;
         if(currentMonthNumbers === "10")
-            currentMonth = this.state.text.months.nine;
+            currentMonth = this.state.text.nine;
         if(currentMonthNumbers === "11")
-            currentMonth = this.state.text.months.ten;
+            currentMonth = this.state.text.ten;
         if(currentMonthNumbers === "12")
-            currentMonth = this.state.text.months.eleven;
+            currentMonth = this.state.text.eleven;
         if(currentMonthNumbers === "01")
             {
-                currentMonth = this.state.text.months.twelve;;
+                currentMonth = this.state.text.twelve;;
                 currentYear = parseInt(this.state.currentYear,10) - 1;
             }
         if(currentMonthNumbers === "02")
-            currentMonth = this.state.text.months.one;;
+            currentMonth = this.state.text.one;;
 
-        this.setState({ currentMonth: currentMonth , currentYear: currentYear });
+        this.setState({ currentMonth: currentMonth , currentYear: currentYear, selectedValue:[ currentMonth, currentYear] });
 
     }
    
@@ -670,43 +739,43 @@ class PushToEarnMoneyComponent extends Component {
         let currentYear = this.state.currentYear;
 
         if(currentMonthNumbers === "01")
-            currentMonth = this.state.text.months.two;
+            currentMonth = this.state.text.two;
         if(currentMonthNumbers === "02")
-            currentMonth = this.state.text.months.three;
+            currentMonth = this.state.text.three;
         if(currentMonthNumbers === "03")
-            currentMonth = this.state.text.months.four;
+            currentMonth = this.state.text.four;
         if(currentMonthNumbers === "04")
-            currentMonth = this.state.text.months.five;
+            currentMonth = this.state.text.five;
         if(currentMonthNumbers === "05")
-            currentMonth = this.state.text.months.six;
+            currentMonth = this.state.text.six;
         if(currentMonthNumbers === "06")
-            currentMonth = this.state.text.months.seven;
+            currentMonth = this.state.text.seven;
         if(currentMonthNumbers === "07")
-            currentMonth = this.state.text.months.eight;
+            currentMonth = this.state.text.eight;
         if(currentMonthNumbers === "08")
-            currentMonth = this.state.text.months.nine;
+            currentMonth = this.state.text.nine;
         if(currentMonthNumbers === "09")
-            currentMonth = this.state.text.months.ten;
+            currentMonth = this.state.text.ten;
         if(currentMonthNumbers === "10")
-            currentMonth = this.state.text.months.eleven;
+            currentMonth = this.state.text.eleven;
         if(currentMonthNumbers === "11")
-            currentMonth = this.state.text.months.twelve;
+            currentMonth = this.state.text.twelve;
         if(currentMonthNumbers === "12")
             {
-                currentMonth = this.state.text.months.one;;
+                currentMonth = this.state.text.one;;
                 currentYear = parseInt(this.state.currentYear,10) + 1;
             }
 
 
 
-        this.setState({ currentMonth: currentMonth , currentYear: currentYear });
+        this.setState({ currentMonth: currentMonth , currentYear: currentYear,selectedValue:[ currentMonth, currentYear] });
 
 
     }
 
     getCurrentYearMonth = () => {
         //this.setState({ currentYearMonth: this.state.currentMonth + " "+ this.state.currentYear });
-    
+        console.log("currentMonth="+this.state.currentMonth);
         return this.state.currentMonth + " "+ this.state.currentYear;
     }
 
@@ -816,12 +885,16 @@ class PushToEarnMoneyComponent extends Component {
       
     showPicker = () => {
 
-        console.log("selectedValue="+this.state.selectedValue);
+        console.log("showPicker selectedValue="+this.state.selectedValue);
         console.tron.log("selectedValue="+this.state.selectedValue);
 
         Picker.init({
-            pickerData: this.state.newpickerData,
-            selectedValue:this.state.selectedValue,
+            pickerData: (this.state.language === 'English')?this.state.newpickerData
+                        :
+                        (this.state.language === 'Dutch')?this.state.newpickerDataDutch
+                        :
+                        this.state.newpickerDataFrench,
+            selectedValue: this.state.selectedValue,
             pickerBg: [135,135,135,1],
             pickerTitleText: '',
             pickerConfirmBtnText: (this.state.languageCode !== 'en')?this.state.text.confirm: 'Confirm',
@@ -841,7 +914,7 @@ class PushToEarnMoneyComponent extends Component {
             }
         });
 
-        Picker.select([this.state.currentMonth,this.state.currentYear]);
+        Picker.select(this.state.selectedValue);
         
         Picker.show();
     }
@@ -880,6 +953,8 @@ class PushToEarnMoneyComponent extends Component {
         console.log("menu in money component="+this.state.menu);
         console.log("money component show accordionlist="+this.state.showAccordionList);
         console.log("money component show perons list="+this.state.showPersonList);
+        console.log("this.state.language="+this.state.languageCode);
+        console.log("this.state.text.months="+this.state.text);
         return (
 
                 <View style= { newStyle.layoutBelow }>

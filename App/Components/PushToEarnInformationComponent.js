@@ -183,21 +183,15 @@ componentWillMount() {
 
     render() {
         const platform = Platform.OS;
-        console.log("platform --->",Platform.OS);
+        // console.log("platform --->",Platform.OS);
         return (
 
-                <View style= { newStyle.layoutBelow }>                 
-
-                    <View style={newStyle.endButtons}>     
-
+                <View style= { newStyle.layoutBelow }>
+                    <View style={newStyle.endButtons}>
                         <View style={newStyle.topView}>
-                            <Text style= {newStyle.topText}>           
-                                    {this.state.text.Information} 
-                            </Text>    
+                            <Text style= {newStyle.topText}>{this.state.text.Information}</Text>
                         </View>
-
                         <View style= {newStyle.inputContainer}>
-
                             <TouchableOpacity
                                 style={{
                                     width:viewPortWidth*0.83,
@@ -205,14 +199,11 @@ componentWillMount() {
                                     backgroundColor:'transparent'
                                 }}
                                 onPress = {()=> {this.handleEmail()}}>
-                                <Text style={newStyle.firstName}>{this.state.text.Support} </Text>
+                                <Text style={newStyle.firstName}>{this.state.text.Support}</Text>
                             </TouchableOpacity>
-
-                            <View style={newStyle.borderBottom}> </View>
-                                    
+                            <View style={newStyle.borderBottom}></View>                                    
                             <Text style={newStyle.firstName}>How does it work?</Text>
-
-                            <View style={newStyle.borderBottom}> </View>
+                            <View style={newStyle.borderBottom}></View>
 
                                {
                                             this.state.isSignedOut===true?
@@ -222,9 +213,7 @@ componentWillMount() {
                                 }
 
                             <Text style={newStyle.firstName}>{this.state.text.faq}</Text>
-
-                            <View style={newStyle.borderBottom}> </View>
-
+                            <View style={newStyle.borderBottom}></View>
                              <TouchableOpacity
                                 style={{
                                     width:viewPortWidth*0.83,
@@ -234,23 +223,13 @@ componentWillMount() {
                                 onPress = {()=> { 
                                     this.signOutAsync();
                                 }}>
-                                  <Text style={newStyle.firstName}>{this.state.text.SignOut}</Text>                            
+                                  <Text style={newStyle.firstName}>{this.state.text.SignOut}</Text>
                             </TouchableOpacity>
-
-                          
-
-                            <View style={newStyle.borderBottom}> </View>
-
+                            <View style={newStyle.borderBottom}></View>
                         </View>
-
-
-                        <View style={newStyle.buttonView}>
-                                
-                        </View>
-
+                        <View style={newStyle.buttonView}></View>
                     </View>
-                </View>         
-
+                </View>
         );
     }
 

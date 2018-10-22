@@ -48,7 +48,6 @@ import Api from './Api';
 import ApiKey from '../Services/Api_url';
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 import {RSA, RSAKeychain } from 'react-native-rsa-native';
-import ReactNativeRSAUtil from 'react-native-rsa-util';
 import localStorage from 'react-native-sync-localstorage';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
@@ -65,7 +64,7 @@ import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/page1.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AccessToken, LoginManager, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
-import LinkedInModal from 'react-native-linkedin';
+// import LinkedInModal from 'react-native-linkedin';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -510,10 +509,6 @@ class PushToEarnSignIn extends Component {
         );
       };
 
-      linkedin = () => {
-           
-
-      }
 
     validatePassword = (password) => {
 

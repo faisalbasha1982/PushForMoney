@@ -487,7 +487,12 @@ class PushToEarnOverViewFriendsComponent extends Component {
          }
 
         if(newMobNo === "+32")
-            newMobNo = "+" + mobileNo;
+          {
+                if(mobileNo.substring(0,1)!=="+")
+                  newMobNo = "+" + mobileNo;
+                else
+                  newMobNo = mobileNo;
+          }
 
         return newMobNo;
     }

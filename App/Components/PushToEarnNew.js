@@ -61,7 +61,7 @@ import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/NewHeaderImage.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
-import ImgToBase64 from 'react-native-image-base64';
+// import ImgToBase64 from 'react-native-image-base64';
 import call from 'react-native-phone-call';
 // import RNFetchBlob from 'react-native-fetch-blob';
 
