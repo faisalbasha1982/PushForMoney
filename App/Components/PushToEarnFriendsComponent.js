@@ -315,7 +315,7 @@ class PushToEarnFriendsComponent extends Component {
 
         this.props.friendRequest(payload);
 
-        console.tron.log("referral=",this.props.referral);
+        // console.tron.log("referral=",this.props.referral);
 
         // this.props.referral.map(
             

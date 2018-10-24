@@ -38,9 +38,9 @@ import  API_URL  from '../Services/Api_url';
 
 function fetchJson(url,payload) {
 
-    console.log("inside fetchJson from save referrals:");
-    console.tron.log("inside fetch json with payload save referrals="+payload);
-    console.tron.log("url="+url);
+    // console.log("inside fetchJson from save referrals:");
+    // console.tron.log("inside fetch json with payload save referrals="+payload);
+    // console.tron.log("url="+url);
 
     return  fetch(url,{
         method: 'POST',
@@ -59,8 +59,8 @@ function fetchJson(url,payload) {
   
   function fetchFriend(payload) {
       
-    console.log("inside fetch friend");
-    console.tron.log("inside fetch friend with payload="+payload);
+    // console.log("inside fetch friend");
+    // console.tron.log("inside fetch friend with payload="+payload);
 
     // development
     // return fetchJson('https://prod-07.westeurope.logic.azure.com:443/workflows/0604ad5d855444be85a5137166c67d25/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Lh0jJoxB6xqbZCq_j9xMONuPuBOMOl_F_oZrwIEBckY',payload);
@@ -76,9 +76,9 @@ export function * FriendRequest(api,action)
     console.tron.log("friend request new:");
     
     try{
-          console.tron.log("friend request new:");
+        //   console.tron.log("friend request new:");
             const responseJson = yield call(fetchFriend,action.payload);
-          console.tron.log("friend request responseJson:"+responseJson);
+        //   console.tron.log("friend request responseJson:"+responseJson);
             yield put(FriendActions.friendSuccess(responseJson.ReferralInfo));
         }
     catch(error)
@@ -89,7 +89,7 @@ export function * FriendRequest(api,action)
 
 function fetchArchive(payload)
 {
-    console.log("archive request new:");
+    // console.log("archive request new:");
 
     // dev
     // return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnMobileReferralsUpdateArchiveStatus?code=rXOBL7dodL54/WdfdVv11/xuBVN2WH9afB/9ODmHuc4xCKscIMQs8Q==',payload);
@@ -113,7 +113,7 @@ export function * archiveRequest(api,action)
 
 function fetchReferral(payload)
 {
-    console.log("in fetch Referrals ");
+    // console.log("in fetch Referrals ");
 
     // dev
     // return fetchJson('https://prod-10.westeurope.logic.azure.com:443/workflows/a23a19abad104ab1854363c6536802aa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=eLy-zN-st8ISnuzhGMyvqK7zKNKFqt0myhDf14achPw',payload);

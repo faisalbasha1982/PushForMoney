@@ -72,11 +72,11 @@ const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 class PushToEarnRegisterProfile extends Component {
 
-    static propTypes = {
-        language: PropTypes.string.isRequired,
-        uname: PropTypes.string.isRequired,
-        pword: PropTypes.string.isRequired,
-    }
+    // static propTypes = {
+    //     language: PropTypes.string.isRequired,
+    //     uname: PropTypes.string.isRequired,
+    //     pword: PropTypes.string.isRequired,
+    // }
 
     constructor(props)
     {
@@ -219,7 +219,7 @@ class PushToEarnRegisterProfile extends Component {
 
         phone = this.removeSpaces(phone);
 
-        console.tron.log("formatted phone text="+phone);
+        // console.tron.log("formatted phone text="+phone);
 
         let countryCode = "+32";
         let firstFour = phone.substring(0,4);
@@ -491,7 +491,7 @@ class PushToEarnRegisterProfile extends Component {
 
         let signUpData = "\"SignUpData\":" +"\""+this.aes("{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.state.phoneNumberInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}") +"\"";
 
-        console.tron.log("signupData="+"{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.state.phoneNumberInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
+        // console.tron.log("signupData="+"{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.state.phoneNumberInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
         console.log("signUpData=","{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.state.phoneNumberInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
 
         console.log("encrypted signup data="+this.aes("{ 'FName' : "+this.state.firstNameInput+", 'LName' : "+this.state.lastNameInput+", 'Mob':"+this.state.phoneNumberInput+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}"));
@@ -506,7 +506,7 @@ class PushToEarnRegisterProfile extends Component {
         let finalPayload = "{" + payloadArray[0] + "," + payloadArray[1] + "," + signUpData + "}";
 
         console.log("finalPayload = "+finalPayload);
-        console.tron.log("final payload send to register request="+finalPayload);
+        // console.tron.log("final payload send to register request="+finalPayload);
 
         this.props.navigation.navigate('PushToEarnPrivatePolicy',{payload: finalPayload});
 
@@ -569,7 +569,7 @@ class PushToEarnRegisterProfile extends Component {
         let payload  = this.props.navigation.state.params.payload;
 
         console.log("username received in register profile="+this.props.navigation.state.params.uname);
-        console.tron.log("username received in register profile="+this.props.navigation.state.params.uname);
+        // console.tron.log("username received in register profile="+this.props.navigation.state.params.uname);
         console.log("platform --->",Platform.OS);
         console.log("lastname="+this.state.text.lastName);
 

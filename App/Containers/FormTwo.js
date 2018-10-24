@@ -1178,9 +1178,9 @@ const newStyle = StyleSheet.create({
 
 });
 
-FormTwo.propTypes = {
-    language: PropTypes.string.isRequired
-}
+// FormTwo.propTypes = {
+//     language: PropTypes.string.isRequired
+// }
 
 const mapStateToProps = state => {
     return {

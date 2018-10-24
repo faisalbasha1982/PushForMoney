@@ -21,3 +21,13 @@ if (Config.useReactotron) {
   // on every file.  This is just DEV mode, so no big deal.
   console.tron = Reactotron
 }
+else {
+  // a mock version should you decide to leave console.tron in your codebase
+  console.tron = {
+    log: () => false,
+    warn: () => false,
+    error: () => false,
+    display: () => false,
+    image: () => false
+  }
+}

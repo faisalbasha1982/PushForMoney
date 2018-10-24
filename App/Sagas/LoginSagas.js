@@ -14,11 +14,11 @@ export function * rsaRequest(api,payload) {
 
     const response = yield call(api.rsa, payload.payload);
 
-    console.tron.log("response from api call =",response);
+    // console.tron.log("response from api call =",response);
 
     if (response.ok ) {
-      console.tron.log("response="+response.data.StatusCode);
-      console.tron.log("data="+response.data.Message);
+      // console.tron.log("response="+response.data.StatusCode);
+      // console.tron.log("data="+response.data.Message);
     }
 
 
@@ -34,7 +34,7 @@ function fetchFacebook(payload)
 
   const url = `https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnMobileUserLogin?code=${API_URL.commonCode}`;
 
-    console.log("newpayload=",payload);
+    // console.log("newpayload=",payload);
 
     fetch(url,{
         method: 'POST',
@@ -45,7 +45,8 @@ function fetchFacebook(payload)
         body: JSON.stringify(payload),
     }).then((response) =>  response.json())
       .then((responseJson) => {
-          console.log("response=",responseJson.StatusCode);
+
+          // console.log("response=",responseJson.StatusCode);
 
           if (responseJson.StatusCode === 200) {
 
@@ -60,7 +61,7 @@ function fetchFacebook(payload)
                 }
             );
 
-            console.tron.log("response data=",responseJson.Message);
+            // console.tron.log("response data=",responseJson.Message);
                 
             // output token to tron
 
@@ -86,9 +87,9 @@ export function * googleRequest(api,payload)
   try {
     const response = yield call(api.mediaLogin, payload.payload);
     
-    console.tron.log("response from api call =",response);
-    console.tron.log("response ok=",response.ok);
-    console.tron.log("response StatusCode=",response.data.StatusCode);
+    // console.tron.log("response from api call =",response);
+    // console.tron.log("response ok=",response.ok);
+    // console.tron.log("response StatusCode=",response.data.StatusCode);
 
     if (response.ok && response.data.StatusCode === 200)
     {
@@ -129,7 +130,7 @@ export function * googleRequest(api,payload)
       }
   }
 catch(error){
-console.log("error="+error);
+//console.log("error="+error);
 }
 
 }
@@ -138,16 +139,16 @@ export function * twitterRequest(api,payload,userName)
 {
 
   Alert.alert("twitter request api call to server.....");
-  console.log("twitter request api call to server..... with userName="+typeof(userName));  
+  // console.log("twitter request api call to server..... with userName="+typeof(userName));  
 
   try {
           const response = yield call(api.mediaLogin, payload.payload);
           
-          console.tron.log("response from api call =",response);
-          console.tron.log("response ok=",response.ok);
-          console.tron.log("response StatusCode=",response.data.StatusCode);
-          console.tron.log("response username=",userName);
-          console.log("username=",userName);
+          // console.tron.log("response from api call =",response);
+          // console.tron.log("response ok=",response.ok);
+          // console.tron.log("response StatusCode=",response.data.StatusCode);
+          // console.tron.log("response username=",userName);
+          // console.log("username=",userName);
 
           if (response.ok && response.data.StatusCode === 200)
           {
@@ -170,7 +171,7 @@ export function * twitterRequest(api,payload,userName)
           {
             yield put(LoginActions.loginFailure());    
 
-            console.log("going to pass userName="+userName);
+            // console.log("going to pass userName="+userName);
 
             NavigationService.navigate('PushToEarnRegisterProfile',{uname: userName,pword:'', payload: payload.payload});
 
@@ -190,7 +191,7 @@ export function * twitterRequest(api,payload,userName)
             }
         }
   catch(error){
-      console.log("error="+error);
+      // console.log("error="+error);
   }
   
 }
@@ -202,9 +203,9 @@ export function * facebookRequest(api,payload,payloadNew) {
   try{
         const response = yield call(api.mediaLoginStag,payload.payload);
         
-        console.tron.log("response from api call =",response);
-        console.tron.log("response ok=",response.ok);
-        console.tron.log("response StatusCode=",response.data.StatusCode);
+        // console.tron.log("response from api call =",response);
+        // console.tron.log("response ok=",response.ok);
+        // console.tron.log("response StatusCode=",response.data.StatusCode);
 
         if (response.ok && response.data.StatusCode === 200 ) 
         {
@@ -246,7 +247,7 @@ export function * facebookRequest(api,payload,payloadNew) {
   }
   catch(error)
   {
-    console.log(error);
+    //console.log(error);
   }
 
 }
@@ -254,8 +255,8 @@ export function * facebookRequest(api,payload,payloadNew) {
 
 function fetchJson(url,payload) {
 
-  console.log("inside fetchJson:");
-  console.tron.log("inside fetch json");
+  // console.log("inside fetchJson:");
+  // console.tron.log("inside fetch json");
 
   return  fetch(url,{
       method: 'POST',
@@ -285,8 +286,8 @@ function fetchJson(url,payload) {
 }
 function fetchNotification(payload) {
     
-  console.log("inside fetch notification");
-  console.tron.log("inside fetch notification");
+  // console.log("inside fetch notification");
+  // console.tron.log("inside fetch notification");
 
   return fetchJson(`https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnGetMobileNotificationWithUpdate?code=${API_URL.commonCode}`,payload);
 
@@ -297,7 +298,7 @@ function fetchNotification(payload) {
 export function * notificationRequest(api,action) {
 
   try{
-      console.log("notification new:");
+      // console.log("notification new:");
       const responseJson = yield call(fetchNotification,action.payload);
       //yield put(MoneyActions.moneyEarningsSuccess(responseJson.monthlyEarningDetailsByReferrals,responseJson.ReferredPersonName,responseJson.TotalWorkedHours,responseJson.TotalEarnings));
       yield put(LoginActions.notificationSuccess(responseJson.MobileNotifications,responseJson.LastViewedNotificationID));
@@ -311,8 +312,8 @@ export function * notificationRequest(api,action) {
 
 function fetchJsonNew(url,payload) {
 
-  console.log("login fetch json:");
-  console.tron.log("login fetch json");  
+  // console.log("login fetch json:");
+  // console.tron.log("login fetch json");  
 
   return  fetch(url,{
       method: 'POST',
@@ -327,7 +328,7 @@ function fetchJsonNew(url,payload) {
 
       if (response.StatusCode === 200) {
 
-        console.tron.log("response="+response.StatusCode);
+        // console.tron.log("response="+response.StatusCode);
         AsyncStorage.setItem('token',response.LoginAccessToken);
   
       }
@@ -346,19 +347,19 @@ function fetchJsonNew(url,payload) {
 
 function fetchLogin(payload,url) {
 
-  console.tron.log("inside fetch Login function");
-  console.log("url login="+url);
+  // console.tron.log("inside fetch Login function");
+  // console.log("url login="+url);
 
   return fetchJsonNew(url,payload);
 }
 
 export function * LoginRequest(api,action) {
 
-  console.tron.log("inside login request");
+  // console.tron.log("inside login request");
   
   try{
 
-    console.log("url="+API_URL.newSignUpLoginUrlNewStag);
+    // console.log("url="+API_URL.newSignUpLoginUrlNewStag);
 
     // make the call to the api
     const response = yield call(fetchLogin, action.payload, API_URL.signUpLoginUrlNewStag);
@@ -391,8 +392,8 @@ export function * LoginRequest(api,action) {
   }
   catch(error) 
   {
-    console.tron.log("Error@login",error);
-    console.log("error="+error);
+    // console.tron.log("Error@login",error);
+    // console.log("error="+error);
     yield put(LoginActions.loginFailure());    
   }
 

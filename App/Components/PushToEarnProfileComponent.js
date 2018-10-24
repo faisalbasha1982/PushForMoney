@@ -233,7 +233,7 @@ class PushToEarnProfileComponent extends Component {
         console.log("phone length="+lengthOfString);
         console.log("first two="+firstTwo);
         console.log("first two="+nextTwo);
-        console.tron.log("phone length="+phoneSub.length);
+        // console.tron.log("phone length="+phoneSub.length);
 
         console.log("formatted phone="+this.formatMobileNo(phone));
 
@@ -378,7 +378,7 @@ getAsyncStorage = async () => {
                 this.props.notificationRequest(newPayload);
     
                 setTimeout(() => {
-                    console.tron.log("mobilenotifications="+this.props.mobileNotifications);
+                    // console.tron.log("mobilenotifications="+this.props.mobileNotifications);
                     this.setState({ mobileNotifications: this.props.mobileNotifications});
                 }, 3000);
     
@@ -435,7 +435,7 @@ getAsyncStorage = async () => {
     displayBase64String = (base64String) => {
 
         console.log("base64 string="+base64String);
-        console.tron.log("base64 string="+base64String);
+        // console.tron.log("base64 string="+base64String);
 
     }
 
@@ -501,13 +501,13 @@ getAsyncStorage = async () => {
         // this.setState({ isLoading: true });
 
         console.log("PC login access token="+this.state.aToken);
-        console.tron.log("PC login access token="+this.state.aToken);
+        // console.tron.log("PC login access token="+this.state.aToken);
 
-        setTimeout(() => {
-            console.tron.log("async token="+this.state.aToken);
-        },4000);
+        // setTimeout(() => {
+        //     console.tron.log("async token="+this.state.aToken);
+        // },4000);
 
-        console.tron.log("lastviewednotificationid="+this.props.LastViewedNotificationID);
+        // console.tron.log("lastviewednotificationid="+this.props.LastViewedNotificationID);
 
         setTimeout(() => 
         {
@@ -529,7 +529,7 @@ getAsyncStorage = async () => {
             this.props.notificationRequest(newPayload);
 
             setTimeout(() => {
-                console.tron.log("mobilenotifications="+this.props.mobileNotifications);
+                // console.tron.log("mobilenotifications="+this.props.mobileNotifications);
                 this.setState({ mobileNotifications: this.props.mobileNotifications, isLoading: false,});
             }, 3000);
 
@@ -614,7 +614,7 @@ getAsyncStorage = async () => {
         this.setState({isLoading: true});
 
         console.log("login access token="+this.state.aToken);
-        console.tron.log("update name login access token="+this.state.aToken);
+        // console.tron.log("update name login access token="+this.state.aToken);
 
         let payload = {
             "AuthenticationData": encryptedData,
@@ -637,7 +637,7 @@ getAsyncStorage = async () => {
         this.setState({isLoading: true});
 
         console.log("login access token="+this.state.aToken);
-        console.tron.log("login access token="+this.state.aToken);
+        // console.tron.log("login access token="+this.state.aToken);
 
         let payload = {         
             "AuthenticationData": encryptedData,
@@ -656,7 +656,7 @@ getAsyncStorage = async () => {
         this.setState({isLoading: true});
 
         console.log("login access token="+this.state.aToken);
-        console.tron.log("login access token="+this.state.aToken);
+        // console.tron.log("login access token="+this.state.aToken);
 
         console.log("actual phone number="+phoneNumber);
 
@@ -1130,7 +1130,7 @@ getAsyncStorage = async () => {
                                             alignItems:'center',
                                             flex:8,
                                     }}>
-                                    <TouchableOpacity
+                                    {/* <TouchableOpacity
                                         onPress={() => { this.imageCapture();  } }
                                         activeOpacity={1}
                                         opacity={1}
@@ -1157,8 +1157,8 @@ getAsyncStorage = async () => {
                                                 backgroundColor:'transparent'
                                             }}
                                         > Please Click Here to Capture Image......</Text>
-                                    </TouchableOpacity>
-                               {/* {
+                                    </TouchableOpacity> */}
+                               {
                                 (this.state.passwordEditable===true)?
                                     <TouchableOpacity
                                         onPress={() => { this.props.menu(6) } }
@@ -1219,7 +1219,7 @@ getAsyncStorage = async () => {
                                     > {this.state.buttonText.toUpperCase()}</Text>
                                 </TouchableOpacity>
 
-                            } */}
+                            }
 
                              <TouchableOpacity
                                         onPress={() => {

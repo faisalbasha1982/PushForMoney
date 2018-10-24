@@ -87,9 +87,9 @@ const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 class PushToEarnSignIn2 extends Component {
 
-    static propTypes = {
-        language: PropTypes.string.isRequired
-    }
+    // static propTypes = {
+    //     language: PropTypes.string.isRequired
+    // }
 
     constructor(props)
     {
@@ -1055,7 +1055,7 @@ class PushToEarnSignIn2 extends Component {
         console.log("phone length="+lengthOfString);
         console.log("first two="+firstTwo);
         console.log("first two="+nextTwo);
-        console.tron.log("phone length="+phoneSub.length);
+        // console.tron.log("phone length="+phoneSub.length);
 
         console.log("formatted phone="+this.formatMobileNo(phone));
 

@@ -290,7 +290,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
         let nreferral = this.props.referral;
 
         console.log("referral object="+nreferral);
-        console.tron.log("referral object="+nreferral);
+        // console.tron.log("referral object="+nreferral);
 
         nreferral.map(( users  ) => {
 
@@ -357,7 +357,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
         },3000);
         
         console.log("this.props.referral="+this.props.referral);
-        console.tron.log("this.props.referral="+this.props.referral);
+        // console.tron.log("this.props.referral="+this.props.referral);
 
     }
 
@@ -609,7 +609,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
                         <View style={newStyle.topView}>
                             <Text style= {newStyle.topText}>           
-                                    {this.state.text.friend}
+                                    {this.state.text.friends}
                             </Text>    
                             {/* <Text style= {{  width: 120, height: 20, backgroundColor: 'steelblue'}}>           
                                     New Kandidaten 
@@ -643,7 +643,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
                                         lineHeight: 34,
                                         letterSpacing: 0,
                                         textAlign: "left",
-                                        color: "rgb(231, 61, 80)" }}>{this.state.text.friends}</Text>
+                                        color: "rgb(231, 61, 80)" }}>{this.state.text.friend}</Text>
                             </View> 
                         </View>
                       

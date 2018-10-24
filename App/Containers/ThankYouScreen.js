@@ -295,9 +295,9 @@ const newStyle = StyleSheet.create({
 
 });
 
-ThankYouScreen.propTypes = {
-    language: PropTypes.string.isRequired
-}
+// ThankYouScreen.propTypes = {
+//     language: PropTypes.string.isRequired
+// }
 
 const mapStateToProps = state => {
     return {

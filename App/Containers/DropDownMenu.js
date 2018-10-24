@@ -223,18 +223,18 @@ class DropdownMenu extends Component {
 
 }
 
-DropdownMenu.propTypes = {
-  bgColor: PropTypes.string,
-  tintColor: PropTypes.string,
-  activityTintColor: PropTypes.string,
-  arrowImg: PropTypes.number,
-  checkImage: PropTypes.number,
-  data: PropTypes.array,
-  bannerAction: PropTypes.func,
-  optionTextStyle: PropTypes.object,
-  titleStyle: PropTypes.object,
-  maxHeight: PropTypes.number
-}
+// DropdownMenu.propTypes = {
+//   bgColor: PropTypes.string,
+//   tintColor: PropTypes.string,
+//   activityTintColor: PropTypes.string,
+//   arrowImg: PropTypes.number,
+//   checkImage: PropTypes.number,
+//   data: PropTypes.array,
+//   bannerAction: PropTypes.func,
+//   optionTextStyle: PropTypes.object,
+//   titleStyle: PropTypes.object,
+//   maxHeight: PropTypes.number
+// }
 
 const styles = StyleSheet.create({
 

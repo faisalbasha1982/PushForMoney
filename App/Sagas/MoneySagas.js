@@ -8,8 +8,8 @@ import  API_URL  from '../Services/Api_url';
 
 function fetchJson(url,payload) {
 
-    console.log("inside fetchJson:");
-    console.tron.log("inside fetch json");
+    // console.log("inside fetchJson:");
+    // console.tron.log("inside fetch json");
 
     return  fetch(url,{
         method: 'POST',
@@ -34,8 +34,8 @@ function fetchJson(url,payload) {
 
 function fetchMoney(payload) {
       
-    console.log("inside fetch money");
-    console.tron.log("inside fetch money");
+    // console.log("inside fetch money");
+    // console.tron.log("inside fetch money");
 
     // return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnGetMonthlyEarningDetailsByReferrals?code=l42IaaJ2JenjE0PMUveBbR26ODcefkEC3Mt7BmfVWR3VHZIvukGPJA==',payload);
 
@@ -46,7 +46,7 @@ function fetchMoney(payload) {
 export function * getMoneyMonth(api,action)
 {
     try{
-            console.log("profile request new:");
+            // console.log("profile request new:");
             const responseJson = yield call(fetchMoney,action.payload);
             yield put(MoneyActions.moneyEarningsSuccess(responseJson.monthlyEarningDetailsByReferrals,responseJson.ReferredPersonName,responseJson.TotalWorkedHours,responseJson.TotalEarnings));
         }
@@ -57,8 +57,8 @@ export function * getMoneyMonth(api,action)
 }
 
 function fetchPerson(payload) {
-    console.log("inside fetch profile");
-    console.tron.log("inside fetch profile");
+    // console.log("inside fetch profile");
+    // console.tron.log("inside fetch profile");
 
     // return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnGetMobileUserReferralsMonthlyEarning?code=IofAP/n6plRm21PIxHdHbDS6/NygvDjl9I/SbEJjWc7E2WfJQRqfvA==',payload);
 
@@ -69,7 +69,7 @@ export function * getPersonMonth(api,action)
 {
     try {
 
-        console.log("profile request new:");
+        // console.log("profile request new:");
         const responseJson = yield call(fetchPerson,action.payload);
         yield put(MoneyActions.moneySuccess(responseJson.monthlyEarningGroupbyReferrals,responseJson.TotalWorkedHours,responseJson.TotalEarnings));
 

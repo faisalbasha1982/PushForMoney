@@ -196,7 +196,9 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
         phone = this.removeSpaces(phone);
 
-        console.tron.log("formatted phone text="+phone);
+        // console.tron.log("formatted phone text="+phone);
+
+        console.log("phone number="+phone);
 
         let countryCode = "+32";
         let firstFour = phone.substring(0,4);
@@ -215,6 +217,8 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                 else
                   if(phone.substring(0,3) === "+32" && phone.length === 12)
                     this.setState({ phoneNumberInput: phone });
+
+
 
     }
 
@@ -338,19 +342,23 @@ class PushToEarnAddFriendDetailsComponent extends Component {
         let encryptedData = AesComponent.aesCallback(authData);
         this.setState({isLoading: true});
 
+        console.log("authData from save refferals Empty="+encryptedData);
+
         let payload = {
             "AuthenticationData": encryptedData,
             "LoginAccessToken": this.state.aToken,
             "MobileUsersReferrals":  [
-                            {"firstName":this.state.firstNameInput.split(" ")[0], "lastName": this.state.firstNameInput.split(" ")[1], "mobilePhone":this.state.phoneNumberInput, "email": this.state.email}
+                            {"firstName":this.state.firstNameInput.split(" ")[0], "lastName": this.state.firstNameInput.split(" ")[1], "mobilePhone":this.formatMobileNo(this.state.phoneNumberInput), "email": this.state.email}
                             ],
         };
 
         this.props.saveReferrals(payload);
+        this.props.menu(2);
 
         setTimeout(() => {
             if(!_.isEmpty(this.props.MobileReferrals))
                 {
+                    console.log("mobileReferrals="+this.props.MobileReferrals);
                     this.props.MobileReferrals.map(personObj =>
 
                         {
@@ -370,24 +378,24 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                 }
             else    
                 console.log("mobileReferrals="+this.props.MobileReferrals); 
-        },4000);
+        },2000);
 
     }
 
     saveReferrals = () => {
-
-        // console.log("save referrals");
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
         let ltoken = localStorage.getItem('token');
         this.setState({isLoading: true});
 
+        console.log("authData from save refferals ="+encryptedData);
+
         let payload = {
             "AuthenticationData": encryptedData,
             "LoginAccessToken": this.state.aToken,
             "MobileUsersReferrals":  [
-                            {"firstName":this.state.firstNameInput.split(" ")[0], "lastName": this.state.firstNameInput.split(" ")[1], "mobilePhone":this.state.phoneNumberInput, "email": this.state.email}
+                            {"firstName":this.state.firstNameInput.split(" ")[0], "lastName": this.state.firstNameInput.split(" ")[1], "mobilePhone":this.formatMobileNo(this.state.phoneNumberInput), "email": this.state.email}
                             ],
         };
 
@@ -401,11 +409,12 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                     "AuthenticationData": encryptedData,
                     "LoginAccessToken": this.state.aToken,
                     "MobileUsersReferrals":  [
-                                    {"firstName":this.props.name.split(" ")[0], "lastName": this.props.name.split(" ")[1], "mobilePhone":this.props.phone, "email": this.props.email}
+                                    {"firstName":this.props.name.split(" ")[0], "lastName": this.props.name.split(" ")[1], "mobilePhone":this.formatMobileNo(this.props.phone), "email": this.props.email}
                                     ],
                 };
 
                 this.props.saveReferrals(payload);
+                this.props.menu(2);
 
                 setTimeout(() => {
                     if(!_.isEmpty(this.props.MobileReferrals))
@@ -414,13 +423,13 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                                 {
                                     if(personObj.ReferralAddStatus === true)
                                     {
-                                        console.tron.log("referral status="+true);
+                                        // console.tron.log("referral status="+true);
                                          this.props.menu(2);
                                          this.setState({isLoading: this.props.fetching});
                                     }
                                     else
                                     {
-                                        console.tron.log("referral status="+false);
+                                        // console.tron.log("referral status="+false);
                                         this.setState({isLoading: this.props.fetching});
                                         this.props.menu(2);
                                         //Alert.alert("Referrals not added");
@@ -430,7 +439,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                         }
                     else    
                         console.log("mobileReferrals="+this.props.MobileReferrals); 
-                },4000);
+                },2000);
             }
     }
 
@@ -513,6 +522,30 @@ class PushToEarnAddFriendDetailsComponent extends Component {
         
     }
 
+    formatNew = (mobileNo) => {
+
+        let firstFour = mobileNo.substring(0,4);
+        let restofFour = mobileNo.substring(4);
+        let first = mobileNo.substring(0,1);
+        let firstTwo = mobileNo.substring(0,2);
+
+        let newMobileNo = "+";
+
+        if(firstFour === "0032")
+            newMobileNo = newMobileNo +"32"+ restofFour;
+        else
+            if(first === "0" && first.length === 10)
+                newMobileNo = newMobileNo + "32"+ mobileNo.substring(1);
+            else
+                if(firstTwo === "32" && mobileNo.length === 11)
+                    newMobileNo = newMobileNo + mobileNo;
+                else
+                    if(first !== "+" &&  first!== "0" && mobileNo.length >=11)
+                        newMobileNo = "+" + mobileNo;
+
+        return newMobileNo;
+    }
+
     formatMobileNo = (mobileNo) => {
 
         let newMobNo = "+32";
@@ -556,7 +589,8 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                 behavior = "padding"
                 enableOnAndroid = { false }
                 contentContainerStyle={ newStyle.keyboardContainer }
-                scrollEnabled={true}>
+                scrollEnabled={true}
+                >
 
                 <View style= { newStyle.layoutBelow }>
 
@@ -592,11 +626,22 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                         <View style= {newStyle.inputContainer}>
 
                             <Text style={newStyle.firstName}>{this.state.text.addFriendName} </Text>
+                            {
+                            (this.props.name ==='')?
                             <TextInput
                                         style={ newStyle.nameInput }
                                         placeholder=''
                                         underlineColorAndroid= 'transparent'
                                         onChangeText={(firstNameInput) => this.setState({firstNameInput})}/>
+                            :
+                            <TextInput
+                                        style={ newStyle.nameInput }
+                                        placeholder=''
+                                        underlineColorAndroid= 'transparent'
+                                        value = { this.props.name }
+                                        onChangeText={(firstNameInput) => this.setState({firstNameInput})}/>
+
+                            }
 
                             {
                                 this.state.isLoading===true?
@@ -606,6 +651,9 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                             }
 
                             <Text style={newStyle.firstName}>{this.state.text.Phone}</Text>
+                            {
+                            (this.props.phone ==='')?
+
                             <PhoneInput
                                     opacity={1}
                                     ref={(ref) => { this.phone = ref; }}
@@ -613,11 +661,19 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                                     onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
                                     style= {newStyle.nameInput}
                                     onChangePhoneNumber = { (phoneNumberInput) => this.validateBelgiumPhoneNumber(phoneNumberInput) }
-                                    value = {this.props.phone}
-                                />
-
+                                />                            
+                            :
+                            <PhoneInput
+                                    opacity={1}
+                                    ref={(ref) => { this.phone = ref; }}
+                                    initialCountry={this.state.countryCode}
+                                    onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
+                                    style= {newStyle.nameInput}
+                                    onChangePhoneNumber = { (phoneNumberInput) => this.validateBelgiumPhoneNumber(phoneNumberInput) }
+                                    value = {this.formatMobileNo(this.props.phone)}
+                                />                                
+                            }
                         </View>
-
 
                         <View style={newStyle.buttonViewBottom}>
                         <TouchableOpacity

@@ -258,6 +258,6 @@ const newStyle = StyleSheet.create({
 });
 
 
-WelcomeScreen.propTypes = {
-    language: PropTypes.string.isRequired,
-}
+// WelcomeScreen.propTypes = {
+//     language: PropTypes.string.isRequired,
+// }

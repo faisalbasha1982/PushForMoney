@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "687540885958",
+    "firebase_url": "https://jobfixers-12e74.firebaseio.com",
+    "project_id": "jobfixers-12e74",
+    "storage_bucket": "jobfixers-12e74.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:687540885958:android:db6365fe8c5d54a5",
+        "android_client_info": {
+          "package_name": "com.pushformoney"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "687540885958-4ileooddimo9e86g3pnj3sv8sn83t9hi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCq3shQZ-mDK9V-te2K_R-7MMbcdhhj0Gk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

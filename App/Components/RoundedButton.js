@@ -18,12 +18,12 @@ ExamplesRegistry.addComponentExample('Rounded Button', () =>
 )
 
 export default class RoundedButton extends Component {
-  static propTypes = {
-    onPress: PropTypes.func,
-    text: PropTypes.string,
-    children: PropTypes.string,
-    navigator: PropTypes.object
-  }
+  // static propTypes = {
+  //   onPress: PropTypes.func,
+  //   text: PropTypes.string,
+  //   children: PropTypes.string,
+  //   navigator: PropTypes.object
+  // }
 
   getText () {
     const buttonText = this.props.text || this.props.children || ''

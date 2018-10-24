@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -80,6 +79,9 @@
 		74AEC53A84554AFC963F259D /* barlowsemicondensed-extralightitalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3E4EACBBC073449CB671AE5D /* barlowsemicondensed-extralightitalic.otf */; };
 		760341BF9C7D4A11BDE6AD1A /* BarlowCondensed-ExtraBoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 781289FF72A34C97991C83BB /* BarlowCondensed-ExtraBoldItalic.otf */; };
 		76E558A17C9C4AACA3DBAA20 /* Barlow-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F68E6E6ED72248B49171D0DA /* Barlow-SemiBold.otf */; };
+		7B135DF3217F03FE00B57750 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 00E356F11AD99517003FC87E /* Info.plist */; };
+		7B135E6E217F072C00B57750 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB61A68108700A75B9A /* Info.plist */; };
+		7B135F4A217F3C1100B57750 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
 		7B359B4E217C92A0009AA8FA /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B359B22217C920A009AA8FA /* libRCTPushNotification.a */; };
 		7B359B52217C941B009AA8FA /* page1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B359B4F217C941B009AA8FA /* page1@3x.png */; };
 		7B359B53217C941B009AA8FA /* page1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B359B50217C941B009AA8FA /* page1@2x.png */; };
@@ -1400,6 +1402,7 @@
 					};
 					2D02E48F1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 6G288D5Q87;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
 					};
@@ -1966,6 +1969,7 @@
 				27B0A526B96446B8960C68DF /* Barlow-BoldItalic.otf in Resources */,
 				507596581E104127BC678423 /* Barlow-ExtraBoldItalic.otf in Resources */,
 				7C1AC1742C464FF8BCD78063 /* Barlow-ExtraLight.otf in Resources */,
+				7B135E6E217F072C00B57750 /* Info.plist in Resources */,
 				BF1989C188A646EA817D7C60 /* Barlow-ExtraLightItalic.otf in Resources */,
 				21E5D9A0774946EDB551C61D /* Barlow-Italic.otf in Resources */,
 				7E4CA103201B43AFAA862264 /* Barlow-Light.otf in Resources */,
@@ -2020,6 +2024,7 @@
 				EB1E90E59B064ABABF3A2F13 /* WorkSans-Bold.ttf in Resources */,
 				5EBAF25866A44502BCF745B3 /* WorkSans-ExtraBold.ttf in Resources */,
 				6EEE490A229F42FFA96DC407 /* WorkSans-ExtraLight.ttf in Resources */,
+				7B135F4A217F3C1100B57750 /* main.jsbundle in Resources */,
 				F2CD8A98E01846979D3DAE94 /* WorkSans-Light.ttf in Resources */,
 				B5515E65A6334AC3BF6FA7A7 /* WorkSans-Medium.ttf in Resources */,
 				8811049D77684E598BE58800 /* WorkSans-Regular.ttf in Resources */,
@@ -2032,6 +2037,7 @@
 				B6F6DF072E7B4AB2BD617A4C /* FontAwesome.ttf in Resources */,
 				7B710B8F217C75360085F539 /* GoogleSignIn.bundle in Resources */,
 				7B359B52217C941B009AA8FA /* page1@3x.png in Resources */,
+				7B135DF3217F03FE00B57750 /* Info.plist in Resources */,
 				A41D177B60CB42D48947E299 /* Foundation.ttf in Resources */,
 				497C4AE3179E4C54B13C71A9 /* Ionicons.ttf in Resources */,
 				14F88EB10D6E444E85250B9A /* MaterialCommunityIcons.ttf in Resources */,
@@ -2251,6 +2257,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 6G288D5Q87;
+				ENABLE_TESTABILITY = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../../Documents/FacebookSDK\"",
 					"\"$(SRCROOT)/../../../../Documents/GoogleSDK\"",
@@ -2286,8 +2293,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jobfixers.subscriptionApp;
 				PRODUCT_NAME = PushForMoney;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -2299,6 +2307,7 @@
 				CODE_SIGN_ENTITLEMENTS = PushForMoney/PushForMoney.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6G288D5Q87;
+				ENABLE_TESTABILITY = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../../Documents/FacebookSDK\"",
 					"\"$(SRCROOT)/../../../../Documents/GoogleSDK\"",
@@ -2334,8 +2343,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jobfixers.subscriptionApp;
 				PRODUCT_NAME = PushForMoney;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -2447,6 +2457,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 6G288D5Q87;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
@@ -2496,6 +2507,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 6G288D5Q87;
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

@@ -66,8 +66,8 @@ import  API_URL  from '../Services/Api_url';
 
 function fetchJson(url,payload) {
 
-    console.log("inside fetchJson:");
-    console.tron.log("inside fetch json");
+    // console.log("inside fetchJson:");
+    // console.tron.log("inside fetch json");
   
     return  fetch(url,{
         method: 'POST',
@@ -100,8 +100,8 @@ function fetchJson(url,payload) {
   
   function fetchProfile(payload) {
       
-    console.log("inside fetch profile");
-    console.tron.log("inside fetch profile url="+API_URL.staging.laMobileGetUserData);
+    // console.log("inside fetch profile");
+    // console.tron.log("inside fetch profile url="+API_URL.staging.laMobileGetUserData);
 
     // return fetchJson('https://prod-17.westeurope.logic.azure.com:443/workflows/82682ea087a442f0a12c00f1b9c08e7d/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=MkoqJpsrFiWGnELB49KFyYbnTO5BCa4hntQA_83UJfo',payload);
 
@@ -112,8 +112,8 @@ function fetchJson(url,payload) {
 export function * ProfileRequestNew(api,action)
 {
     try{
-            console.log("profile request new:");
-            console.tron.log("profile request new");
+            // console.log("profile request new:");
+            // console.tron.log("profile request new");
             const responseJson = yield call(fetchProfile,action.payload);
 
              if(responseJson.StatusCode === 200)
@@ -135,7 +135,7 @@ function fetchUpdateFirstName(payload){
 export function * firstNameUpdate(api,action) {
 
     try{
-        console.log("profile request new:");
+        // console.log("profile request new:");
         const responseJson = yield call(fetchUpdateFirstName,action.payload);
         yield put(ProfileActions.profileSuccess());
         Alert.alert("Successfully!  " + responseJson.Message);
@@ -149,8 +149,8 @@ export function * firstNameUpdate(api,action) {
 
 function fetchChangePassword(payload) {
       
-    console.log("inside fetch change Password");
-    console.tron.log("inside fetch change Password");
+    // console.log("inside fetch change Password");
+    // console.tron.log("inside fetch change Password");
 
     // return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnChangePassword?code=lyD3B1naoL9SLo01LEz2Gxc8YOCnk66K1JY3XR6aNoP8M8PsrKKVTw==',payload);
 
@@ -161,7 +161,7 @@ export function * changePassword(api,action)
 {
     try
     {
-        console.log("change password api="+api);
+        // console.log("change password api="+api);
         // make the call to the api
         const response = yield call(fetchChangePassword, action.payload);
         Alert.alert(response.Message);
@@ -173,7 +173,7 @@ export function * changePassword(api,action)
 }
 
 function fetchChangeMobile(payload) {
-    console.log("fetching json");
+    // console.log("fetching json");
 
     // return fetchJson('https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnMobileUserUpdateMobileNumber?code=7lRB5YONhRDarD0KWZ9Fke/YRDDbG6cJ9fQCiOcsZ4xDi0pX/abgqg==',payload);
 
@@ -185,7 +185,7 @@ export function * changeMobile(api,action)
 {
     try
     {
-        console.log("change mobile api="+api);
+        // console.log("change mobile api="+api);
 
         // make the call to the api
         const response = yield call(fetchChangeMobile, action.payload);
@@ -212,7 +212,7 @@ export function * verifyMobileOtpRequest(api,action)
 {
     try
     {
-        console.log("change password api="+api);
+        // console.log("change password api="+api);
         // make the call to the api
         const response = yield call(fetchOTPMobile, action.payload);
         Alert.alert(response.Message);

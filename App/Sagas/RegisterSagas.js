@@ -14,8 +14,8 @@ import localStorage from 'react-native-sync-localstorage';
 
 function fetchJsonNew(url,payload) {
 
-    console.log("inside fetchJsonNew: with payload="+payload);
-    console.tron.log("inside fetch json New ="+payload);
+    // console.log("inside fetchJsonNew: with payload="+payload);
+    // console.tron.log("inside fetch json New ="+payload);
   
     return  fetch(url,{
         method: 'POST',
@@ -28,12 +28,12 @@ function fetchJsonNew(url,payload) {
     .then((response) => response.json())
     .then( response => {
 
-        console.log("response code=="+response.StatusCode);
+        // console.log("response code=="+response.StatusCode);
 
         let token = response.LoginAccessToken;
         AsyncStorage.setItem('token',token);
 
-        console.tron.log("storing token="+token);
+        // console.tron.log("storing token="+token);
 
         if(response.StatusCode === 200)
         {
@@ -94,8 +94,8 @@ export function * RegisterRequestNew(api,action)
 
 function fetchJson(url,payload,username,password) {
 
-    console.log("inside fetchJson: with payload="+payload);
-    console.tron.log("inside fetch json="+payload);
+    // console.log("inside fetchJson: with payload="+payload);
+    // console.tron.log("inside fetch json="+payload);
   
     return  fetch(url,{
         method: 'POST',
@@ -157,14 +157,14 @@ export function * register(api,action) {
 
 function fetchOTPFP(payload)
 {
-    console.log("calling fetchOTPFP with payload=",typeof(payload));
+    // console.log("calling fetchOTPFP with payload=",typeof(payload));
 
     // const url = "https://prod-36.westeurope.logic.azure.com:443/workflows/64111a66520a4621a4f949f0d3a12413/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=EcEqv1IaEYCat3Jx3zeQ8HLQzUiuqK8QAzP0R8cJcPw";
     // const url = "https://prod-12.westeurope.logic.azure.com:443/workflows/d2646d57cf7d447f960d7e46684db4cd/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ADncEusH2PpqjGoYT_L20L_Wxs9sUuVryh9Z5cJJsS4";
 
     const url = API_URL.staging.laMobileSaveNewPassword;
 
-    console.log("newpayload=",payload);
+    // console.log("newpayload=",payload);
 
     fetch(url,{
         method: 'POST',
@@ -176,7 +176,8 @@ function fetchOTPFP(payload)
     })
       .then((response) =>  response.json())
       .then((responseJson) => {
-          console.log("response=",responseJson.StatusCode);
+
+        //   console.log("response=",responseJson.StatusCode);
 
           if (responseJson.StatusCode === 200) {
 
@@ -191,7 +192,7 @@ function fetchOTPFP(payload)
                 }
             );
 
-            console.tron.log("response data=",responseJson.Message);
+            // console.tron.log("response data=",responseJson.Message);
                 
             //Navigate to OTP page
             NavigationService.navigate('PushToEarnSignIn');
@@ -199,9 +200,9 @@ function fetchOTPFP(payload)
         }
         else {
 
-            console.tron.log("response status="+responseJson.StatusCode);
-            console.tron.log("response status="+responseJson.Message);
-            console.tron.log("response status="+responseJson.ErrorDetails);
+            // console.tron.log("response status="+responseJson.StatusCode);
+            // console.tron.log("response status="+responseJson.Message);
+            // console.tron.log("response status="+responseJson.ErrorDetails);
     
 
                 Alert.alert(
@@ -250,7 +251,7 @@ function fetchJsonForgotPasswordRequest(payload) {
     }).then((response) =>  response.json())
       .then((responseJson) => {
 
-          console.log("response=",responseJson.StatusCode);
+        //   console.log("response=",responseJson.StatusCode);
 
           if (responseJson.StatusCode === 200) 
           {
@@ -266,7 +267,7 @@ function fetchJsonForgotPasswordRequest(payload) {
                 }
             );               
 
-            console.log("response mobileUserId="+responseJson.MobileUserId);
+            // console.log("response mobileUserId="+responseJson.MobileUserId);
 
             //Navigate to OTP page
             NavigationService.navigate('PushToEarnOTPForgetPass',{mobileId: responseJson.MobileUserId});
@@ -326,10 +327,10 @@ function fetchOTP(payload)
     let otpTypeParam = parameters[3].split(":");
     let fourthParam = otpTypeParam[1].substring(0,otpTypeParam[1].length-1);
 
-    console.log("firstParam=",firstParam.substring(1,firstParam.length-1));
-    console.log("secondParam=",secondParam.substring(1,secondParam.length-1));
-    console.log("thirdParam=",thirdParam.substring(1,thirdParam.length-1));
-    console.log("fourthParam=",fourthParam.substring(1,fourthParam.length-1));
+    // console.log("firstParam=",firstParam.substring(1,firstParam.length-1));
+    // console.log("secondParam=",secondParam.substring(1,secondParam.length-1));
+    // console.log("thirdParam=",thirdParam.substring(1,thirdParam.length-1));
+    // console.log("fourthParam=",fourthParam.substring(1,fourthParam.length-1));
 
     // const url = "https://prod-49.westeurope.logic.azure.com:443/workflows/19bdce4bb7d740f586a5f86bf9014efa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LU6WJJr0yUTzSFLdH9TXCBdYPVh6x3SMGegOPX0OTfA";
     // const url = "https://prod-21.westeurope.logic.azure.com:443/workflows/fc0efd237ccb46268c5353e97d791a7e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Z2LNFPTtuCNVTEq9jcpwaKsLGgOjYaQOuiwoJFZenbY";
@@ -343,7 +344,7 @@ function fetchOTP(payload)
         OTPType: fourthParam.substring(1,fourthParam.length-1)
     };
 
-    console.log("newpayload=",newPayload);
+    // console.log("newpayload=",newPayload);
 
     fetch(url,{
         method: 'POST',
@@ -354,7 +355,8 @@ function fetchOTP(payload)
         body: JSON.stringify(newPayload),
     }).then((response) =>  response.json())
       .then((responseJson) => {
-          console.log("response=",responseJson.StatusCode);
+
+        //   console.log("response=",responseJson.StatusCode);
 
           if (responseJson.StatusCode === 200) {
 
@@ -369,7 +371,7 @@ function fetchOTP(payload)
                 }
             );
 
-            console.tron.log("response data=",responseJson.data);
+            // console.tron.log("response data=",responseJson.data);
             const mobileOTP = responseJson.mobileOTP;
             const statusCode = responseJson.StatusCode;            
                 
@@ -379,9 +381,9 @@ function fetchOTP(payload)
         } 
         else {
 
-            console.tron.log("response status="+responseJson.StatusCode);
-            console.tron.log("response status="+responseJson.Message);
-            console.tron.log("response status="+responseJson.ErrorDetails);
+            // console.tron.log("response status="+responseJson.StatusCode);
+            // console.tron.log("response status="+responseJson.Message);
+            // console.tron.log("response status="+responseJson.ErrorDetails);
 
             Alert.alert(
                 'User already exists',
@@ -434,7 +436,7 @@ function fetchOtpResend(payload)
     }).then((response) =>  response.json())
       .then((responseJson) => {
 
-          console.log("response=",responseJson.StatusCode);
+        //   console.log("response=",responseJson.StatusCode);
 
           if (responseJson.StatusCode === 200)
           {
@@ -460,9 +462,9 @@ function fetchOtpResend(payload)
         else 
         {
 
-            console.tron.log("response status="+responseJson.StatusCode);
-            console.tron.log("response status="+responseJson.Message);
-            console.tron.log("response status="+responseJson.ErrorDetails);
+            // console.tron.log("response status="+responseJson.StatusCode);
+            // console.tron.log("response status="+responseJson.Message);
+            // console.tron.log("response status="+responseJson.ErrorDetails);
 
             Alert.alert(
                 'User already exists',
@@ -486,8 +488,8 @@ export function * OtpRequestResend(api,payload) {
 
     try {
 
-            console.log("calling api from otp resend request saga ="+api);
-            console.log("incoming payload for otp resend request=",payload.payload);
+            // console.log("calling api from otp resend request saga ="+api);
+            // console.log("incoming payload for otp resend request=",payload.payload);
 
             const response = yield call(fetchOtpResend, payload.payload);
 
@@ -497,7 +499,7 @@ export function * OtpRequestResend(api,payload) {
         }
     catch(error)
     {
-        console.tron.log("Error@login",error);
+        // console.tron.log("Error@login",error);
         yield put(RegisterActions.registerFailure())
     }
 

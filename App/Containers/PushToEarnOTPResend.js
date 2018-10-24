@@ -58,9 +58,9 @@ let cLanguage = '';
 
 class PushToEarnOTPResend extends Component {
 
-    static propTypes = {
-        language: PropTypes.string.isRequired
-    }
+    // static propTypes = {
+    //     language: PropTypes.string.isRequired
+    // }
 
     constructor(props)
     {

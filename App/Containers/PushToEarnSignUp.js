@@ -88,9 +88,9 @@ const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 class PushToEarnSignUp extends Component {
 
-    static propTypes = {
-        language: PropTypes.string.isRequired
-    }
+    // static propTypes = {
+    //     language: PropTypes.string.isRequired
+    // }
 
     constructor(props)
     {
@@ -838,7 +838,7 @@ class PushToEarnSignUp extends Component {
             let cAuthenticationData = "{'Lang':"+" '"+this.state.language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
             let loginInfo = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";
             
-            console.tron.log("login data="+loginInfo);
+            // console.tron.log("login data="+loginInfo);
 
             let authEncrypted = this.aes(cAuthenticationData);
             this.rsa(loginInfo);
@@ -1151,7 +1151,7 @@ class PushToEarnSignUp extends Component {
 
         phone = this.removeSpaces(phone);
 
-        console.tron.log("formatted phone text="+phone);
+        // console.tron.log("formatted phone text="+phone);
 
         let countryCode = "+32";
         let firstFour = phone.substring(0,4);

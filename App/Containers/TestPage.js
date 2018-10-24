@@ -201,7 +201,7 @@ class TestPage extends Component {
         //     this.getFriendList();
         // },3000);
 
-        console.log("adding component this.props.referral = "+ typeof(this.props.referral) + "object="+this.props.referral);
+        console.log("adding component this.props.referral = "+ this.props.referral);
         console.log("current language="+this.state.language);
 
         if(_.isEmpty(this.props.referral))

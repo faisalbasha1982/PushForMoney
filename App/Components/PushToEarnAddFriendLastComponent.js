@@ -131,7 +131,7 @@ class PushToEarnAddFriendLastComponent extends Component {
 
     }
 
-    telephoneBook = () => {       
+    telephoneBook = () => {
 
         ContactsWrapper.getContact()
         .then((contact) => {
@@ -151,9 +151,11 @@ class PushToEarnAddFriendLastComponent extends Component {
     }
 
     render() {
+
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
         console.log("inside render of FLP");
+
         return (
 
                 <View style= { newStyle.layoutBelow }>
