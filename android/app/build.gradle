@@ -95,10 +95,12 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    buildToolsVersion '28.0.3'
 
     dexOptions {
         preDexLibraries = false
+        incremental true
+        javaMaxHeapSize "4g" // 2g should be also OK
     }
 
     defaultConfig {
@@ -126,7 +128,11 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
-        debug {}
+        debug {
+           minifyEnabled true
+            useProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
         innerTest {
             matchingFallbacks = ['debug', 'release']
         }
@@ -147,25 +153,6 @@ android {
 }
 
 dependencies {
-    compile project(':rn-fetch-blob')
-    compile project(':react-native-vector-icons')
-    compile project(':react-native-twitter-signin')
-    compile project(':react-native-splash-screen')
-    compile project(':react-native-simple-contacts')
-    compile project(':react-native-rsa-native')
-    compile project(':react-native-push-notification')
-    compile project(':react-native-picker')
-    compile project(':react-native-mail')
-    compile project(':react-native-immediate-phone-call')
-    compile project(':react-native-image-picker')
-    compile project(':react-native-google-signin')
-    compile project(':react-native-fetch-blob')
-    compile project(':react-native-fbsdk')
-    compile project(':react-native-device-info')
-    compile project(':react-native-contacts-wrapper')
-    compile project(':react-native-contacts')
-    compile project(':react-native-config')
-    implementation project(':rn-fetch-blob')
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-twitter-signin')
     implementation project(':react-native-splash-screen')
@@ -179,18 +166,19 @@ dependencies {
     implementation (project(':react-native-google-signin')) {
         exclude group: "com.google.android.gms"
     }
-    implementation project(':react-native-fetch-blob')
     implementation project(':react-native-device-info')
     implementation project(':react-native-contacts-wrapper')
     implementation project(':react-native-contacts')
     implementation project(':react-native-config')
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+    //noinspection GradleCompatible
+    implementation "com.android.support:appcompat-v7:27.0.3"
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation 'com.facebook.android:facebook-android-sdk:4.37.0'
     implementation project(':react-native-fbsdk')
     implementation 'com.google.android.gms:play-services-location:15.0.1'
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation "com.google.android.gms:play-services-auth:11.2.0"
     implementation 'com.google.firebase:firebase-messaging:17.3.2'
     implementation 'com.google.firebase:firebase-core:16.0.3'
     implementation 'com.android.support:multidex:1.0.1'
