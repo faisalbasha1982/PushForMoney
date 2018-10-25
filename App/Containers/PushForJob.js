@@ -34,6 +34,7 @@ import { Images } from '../Themes';
 import { Button } from 'react-native-elements';
 import { isNullOrUndefined } from 'util';
 import TestPage from '../Containers/TestPage';
+import SplashScreen from 'react-native-splash-screen';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth  = Dimensions.get('window').width;
@@ -163,6 +164,7 @@ class PushForJob extends Component {
 
         console.log("inside push for job screen ---->"+ this.state.hasToken)
         console.log("hasToken --->"+this.state.hasToken);
+        SplashScreen.hide();
     }
 
     callForm = () => {

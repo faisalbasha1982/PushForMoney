@@ -1088,11 +1088,7 @@ class PushToEarnSignIn extends Component {
         let signupone = '';
         let signuptwo = '';
 
-        this.state.text.here !== undefined &&
-        this.state.text.here !== null ?
-        signup = this.state.text.here.split(" ")
-        :
-        signup = '';
+        (this.state.text.here !== undefined && this.state.text.here !== null)?signup = this.state.text.here.split(" "):signup = '';
 
         console.log("signup="+signup[0]+" signup2="+signup[1]);
 
