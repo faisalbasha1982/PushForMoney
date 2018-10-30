@@ -156,8 +156,8 @@ class PushToEarnMoneyComponent extends Component {
                         eleven : 'NOVEMBER',
                         twelve : 'DECEMBER',
                     },                
-            currentYear:2016,
-            currentMonth:'CURRENT MONTH',
+            currentYear:2018,
+            currentMonth:'',
             currentMonthlyIndex: 3,
             currentYearMonth:'JUNE 2016',
             yearData:[2016,2017,2018,2019,2020],
@@ -419,7 +419,7 @@ class PushToEarnMoneyComponent extends Component {
 
     getAsyncStorageToken = async () => {
 
-        console.tron.log("language="+this.state.language);
+        // console.tron.log("language="+this.state.language);
 
         await AsyncStorage.getItem('language').then((language) => {
             this.setState({ language: language});
@@ -886,7 +886,7 @@ class PushToEarnMoneyComponent extends Component {
     showPicker = () => {
 
         console.log("showPicker selectedValue="+this.state.selectedValue);
-        console.tron.log("selectedValue="+this.state.selectedValue);
+        // console.tron.log("selectedValue="+this.state.selectedValue);
 
         Picker.init({
             pickerData: (this.state.language === 'English')?this.state.newpickerData
@@ -949,7 +949,7 @@ class PushToEarnMoneyComponent extends Component {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
         console.log("referrals="+typeof(this.props.referrals));
-        console.tron.log("referrals="+this.props.referrals);
+        // console.tron.log("referrals="+this.props.referrals);
         console.log("menu in money component="+this.state.menu);
         console.log("money component show accordionlist="+this.state.showAccordionList);
         console.log("money component show perons list="+this.state.showPersonList);

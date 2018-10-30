@@ -6,6 +6,7 @@ import PushToEarnSignUp from '../Containers/PushToEarnSignUp';
 import PushToEarnForgetPass from '../Containers/PushToEarnForgetPass';
 import PushToEarnOTPForgetPass from '../Containers/PushToEarnOTPForgetPass';
 import PushToEarnOTP from '../Containers/PushToEarnOTP';
+import PushToEarnOTPLogin from '../Containers/PushToEarnOTPLogin';
 import PushToEarnRegisterProfile from '../Containers/PushToEarnRegisterProfile';
 import LanguageButton from '../Components/LanguageButton';
 import LanguageScreen from '../Containers/LanguageScreen';
@@ -100,8 +101,13 @@ const SignedOutNav = StackNavigator(
     navigationOptions: {
       gesturesEnabled: false,
     },
-  }
+  },
 
+  PushToEarnOTPLogin: { screen: PushToEarnOTPLogin,
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+  },
 
   },
 

@@ -159,7 +159,7 @@ class PushToEarnAddFriendLastComponent extends Component {
         return (
 
                 <View style= { newStyle.layoutBelow }>
-                    <View style={newStyle.endButtons}>     
+                    <View style={newStyle.endButtons}>
 
                         <View style={newStyle.topView}>
                         <View style={{ marginLeft:0, width:40,justifyContent:'flex-start', alignItems:'flex-start' }}>

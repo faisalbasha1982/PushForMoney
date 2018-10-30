@@ -53,8 +53,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
 let ltoken = localStorage.getItem('token');
-
-
 const window = Dimensions.get('window');
 
 export const IMAGE_HEIGHT = window.width / 2;

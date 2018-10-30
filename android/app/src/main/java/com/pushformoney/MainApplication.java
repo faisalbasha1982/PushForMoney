@@ -3,6 +3,7 @@ package com.pushformoney;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.goldenowl.twittersignin.TwitterSigninPackage;
 import ca.bigdata.voice.contacts.BDVSimpleContactsPackage;
@@ -33,7 +34,6 @@ import java.util.Arrays;
 import java.util.List;
 import android.content.Context;
 
-
 public class MainApplication extends MultiDexApplication implements ReactApplication {
 
   private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
@@ -59,6 +59,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
             new RNImmediatePhoneCallPackage(),
             new ImagePickerPackage(),
             new RNGoogleSigninPackage(),
+            new RNFetchBlobPackage(),
             new RNDeviceInfo(),
             new ContactsWrapperPackage(),
             new ReactNativeContacts(),

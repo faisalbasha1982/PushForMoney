@@ -35,6 +35,7 @@ import ButtonLogin from '../Components/ButtonLogin';
 import TimerCountdown from 'react-native-timer-countdown';
 import CountDown from 'react-native-countdown-component';
 import localStorage from 'react-native-sync-localstorage';
+import OtpInputs from 'react-native-otp-inputs'
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -43,7 +44,8 @@ import headerImage from '../Images/headerImage.png';
 import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/page1.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import * as AuthComponent from '../Components/AuthComponent';
+import * as AesComponent from '../Components/AesComponent';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -79,6 +81,9 @@ class PushToEarnOTPLogin extends Component {
             buttonText: 'START NOW!',
             ErrorText:'',
             EmptyErrorText:'',
+            token:'',
+            text:'',
+            otpText:''
         };    
     }
 
@@ -88,6 +93,41 @@ class PushToEarnOTPLogin extends Component {
         //     this.setState({ language: nextProps.language });
         //     this.setText();
         // }
+
+    }
+
+    componentWillMount() {
+
+        this.getAsyncStorage();
+    }
+
+    setLanguage = () => {
+
+        if(this.state.language === 'Dutch')
+            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+        else
+            if(this.state.language === 'English')
+                this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
+        else
+            if(this.state.language === 'French')
+                this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+
+    }
+
+    getAsyncStorage = async () => {
+
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
+        let encryptedData = AesComponent.aesCallback(authData);
+
+        await AsyncStorage.getItem('language').then((language) => {
+            this.setState({ language: language });
+        });
+
+        this.setLanguage();
+
+        await AsyncStorage.getItem('token').then((token) => {
+            this.setState({ token: token });
+        });
     }
 
     componentDidMount() {
@@ -98,6 +138,13 @@ class PushToEarnOTPLogin extends Component {
         // this.setText();
         // console.log("this.state.firstName="+this.state.firstName);
         // console.log("this.state.buttonText="+this.state.buttonText);
+
+        this.getAsyncStorage();
+
+        let token = this.props.navigation.state.params.accessToken;
+
+        this.setState({ token: token});
+
     }
 
     // setText =  () => {
@@ -170,39 +217,57 @@ class PushToEarnOTPLogin extends Component {
             this.setState({ fourthInput: text });
     }
 
-        
 
-    callOTP = (payload) => {
+    setOtp = (otp) => {
+
+        if(otp.length === 4)
+          this.setState({ otpText: otp });
+
+    }
+
+    callOTP = () => {
 
         console.tron.log("calling OTP....");
 
-        let otpString = this.state.firstInput + this.state.secondInput + this.state.thirdInput + this.state.fourthInput;
+        // let otpString = this.state.firstInput + this.state.secondInput + this.state.thirdInput + this.state.fourthInput;
 
-        if(this.state.firstInput === '' || this.state.secondInput === '' || this.state.thirdInput === '' || this.state.fourthInput === '')
+        // if(this.state.firstInput === '' || this.state.secondInput === '' || this.state.thirdInput === '' || this.state.fourthInput === '')
+        // {
+        //     //Alert Box to fill in otp text
+        // }
+        if(this.state.otpText === '')
         {
-            //Alert Box to fill in otp text
+
         }
         else
          {                 
-             let authData = payload.split(":");
-             let encryptedData = this.aes(authData[1]);
+            let authData = AuthComponent.authenticationData(this.state.languageCode);
+            let encryptedData = AesComponent.aesCallback(authData);
+  
+            //  let authData = payload.split(":");
+            //  let encryptedData = this.aes(authData[1]);
 
+            let token = this.props.navigation.state.params.accessToken;
+            this.setState({ token: token});
+
+            console.tron.log("otpstring="+this.state.otpText);
+    
              let newPayload = {
 
                  "AuthenticationData": encryptedData,
-                 "OTP": otpString,
-                 "OTPType" : "S",
-                 
+                 "LoginAccessToken": this.state.token,             
+                 "OTP": this.state.otpText,
+                 "OTPType" : "L",
+
              };
 
-             this.props.verifyOTP(newpayload);
+             this.props.verifyOTP(newPayload);
 
          }
     }
 
     render() {
         const platform = Platform.OS;
-        const payload  = this.props.navigation.state.params.payload;;
 
         console.log("platform --->",Platform.OS);
         return (
@@ -266,8 +331,15 @@ class PushToEarnOTPLogin extends Component {
                 <View style={newStyle.inputContainer}>
 
                     <View style={newStyle.numberBox}>
-               
-                    <TextInput
+                        <OtpInputs 
+                                handleChange={code => {this.setOtp(code)}}
+                                numberOfInputs={4}
+                                inputContainerStyles = {newStyle.otpInput}
+                                clearTextOnFocus = {true}
+                                keyboardType={'numeric'}
+                                />
+
+                    {/* <TextInput
                                 style={ newStyle.otpInput }
                                 placeholder=''
                                 maxLength={1}
@@ -303,24 +375,13 @@ class PushToEarnOTPLogin extends Component {
                                 returnKeyType={"next"}
                                 autoCapitalize="none"
                                 underlineColorAndroid= 'transparent'
-                                onChangeText={(fourthInput) => this.validateOTPText4(fourthInput)}/>                                                    
-                    </View>
-
-                    <View style= {{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                
-                                <CountDown
-                                    until={600}
-                                    onFinish={ () => alert('finished')}
-                                    onPress={ () => alert('hello')}
-                                    size={20}
-                                    timeToShow={ ['M','S'] }
-                                    />
+                                onChangeText={(fourthInput) => this.validateOTPText4(fourthInput)}/>                                                     */}
                     </View>
                             
                     <View style={newStyle.endButtons}>
 
                       <TouchableOpacity
-                            onPress={() => { this.callOTP(payload) } }
+                            onPress={() => { this.callOTP() } }
                             activeOpacity={0.5}
                             style={{
                                 width: 330,
@@ -523,7 +584,7 @@ const newStyle = StyleSheet.create({
 
     numberBox: {
         flex: Platform.OS === 'ios'?2:1,
-        backgroundColor: 'transparent',
+        backgroundColor: 'powderblue',
         justifyContent: 'center',
         alignItems: 'flex-start',
         flexDirection: 'row'        
@@ -593,7 +654,8 @@ const newStyle = StyleSheet.create({
         borderRadius: 8,
         backgroundColor: '#f6f6f6',
         padding: 7,
-        margin: 10
+        margin: 10,
+        color: '#000000'
     },
 
     buttons: {
@@ -659,10 +721,12 @@ const mapStateToProps = state => {
   
   const mapDispatchToProps = dispatch => {
     return {  
+
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
-      verifyOTP: (payload) => dispatch({ type: 'VERIFY_OTP', payload }),
+      verifyOTP: (payload) => dispatch({ type: 'VERIFY_OTP_LOGIN', payload }),
+
     };
   };
   

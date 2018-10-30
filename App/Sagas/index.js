@@ -22,7 +22,7 @@ import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
 import { LoginRequest,rsaRequest, facebookRequest, 
          twitterRequest, googleRequest,
-         notificationRequest
+         notificationRequest,otpLoginRequest
         } from './LoginSagas'
 import { RegisterRequest, RegisterRequestNew, OtpRequest,
          forgotPasswordRequest, forgotPasswordOTPRequest,
@@ -74,6 +74,9 @@ export default function * root () {
 
     //Register saga for verfiy OTP
     takeLatest(RegisterTypes.VERIFY_OTP, OtpRequest ,apiSignUp2),
+
+    // Login Saga for verify OTP
+    takeLatest(LoginTypes.VERIFY_OTP_LOGIN,otpLoginRequest,apiSignUp2),
 
     //Register saga for verfiy OTP
     takeLatest(RegisterTypes.VERIFY_OTP_FP, forgotPasswordOTPRequest ,api),

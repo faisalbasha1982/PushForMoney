@@ -239,7 +239,7 @@ class PushToEarnProfile extends Component {
             this.setState({isLoading: true});
 
             console.log("login access token="+ltoken);
-            console.tron.log("login access token="+ltoken);
+            // console.tron.log("login access token="+ltoken);
 
             setTimeout(() => 
             {    
@@ -277,7 +277,7 @@ class PushToEarnProfile extends Component {
         this.setState({isLoading: true});
 
         console.log("login access token="+ltoken);
-        console.tron.log("login access token="+ltoken);
+        // console.tron.log("login access token="+ltoken);
 
         setTimeout(() => 
         {

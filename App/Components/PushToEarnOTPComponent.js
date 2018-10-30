@@ -110,7 +110,7 @@ class PushToEarnOTPComponent extends Component {
         let phoneSub = phone.substring(1);
 
         console.log("phone="+phoneSub);
-        console.tron.log("phone="+phone);
+        // console.tron.log("phone="+phone);
 
         let reg = /^[0-9]{12}$/;
         let regNew = /^(?=(.*\d){10})(?!(.*\d){13})[\d\(\)\s+-]{10,}$/;
@@ -160,7 +160,7 @@ class PushToEarnOTPComponent extends Component {
         this.setState({isLoading: true});
 
         console.log("login access token="+ltoken);
-        console.tron.log("login access token="+ltoken);
+        // console.tron.log("login access token="+ltoken);
 
         let payload = {             
             "AuthenticationData": encryptedData,
@@ -267,7 +267,7 @@ class PushToEarnOTPComponent extends Component {
 
         this.setState({isLoading:true});
 
-        console.tron.log("calling OTP....");
+        // console.tron.log("calling OTP....");
         let otpString = this.state.firstInput + this.state.secondInput + this.state.thirdInput + this.state.fourthInput;
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
@@ -281,7 +281,7 @@ class PushToEarnOTPComponent extends Component {
                 "OTPType" : "M",
             };
 
-            console.tron.log("payload="+payload);
+            // console.tron.log("payload="+payload);
             this.props.verifyOTPChangeMobile(payload);
 
             setTimeout(() => {

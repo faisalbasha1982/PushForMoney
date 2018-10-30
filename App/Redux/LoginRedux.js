@@ -8,8 +8,9 @@ const { Types, Creators } = createActions({
   twitterRequest:["payload"],
   googleRequest:["payload"],
   rsaRequest:["payload"],
-  loginSuccess: ['user'],  
+  loginSuccess: ['user'],
   loginFailure: ['error'],
+  verifyOtpLogin: ['payload','OTP','OTPType'],
   notificationRequest: ['payload'],
   notificationSuccess: ['MobileNotifications', 'LastViewedNotificationID'],
   notificationFailure: ['error'],
@@ -43,6 +44,7 @@ export const LoginSelectors = {
 
 /* ------------- Reducers ------------- */
 
+//request
 export const request = (state, { payload }) => {
   return { ...state, fetching: true, payload }
 }
@@ -51,42 +53,57 @@ export const rsarequest = (state, {payload}) => {
   return { ...state, fetching: true, payload }
 }
 
+//facebook
 export const facebookdata = (state, {payload}) => {
   return { ...state, fetching: true, payload }
 }
 
+//google
 export const googledata = (state, {payload}) => {
   return { ...state, fetching: true, payload }
 }
 
+//twitter
 export const twitterdata = (state, {payload}) => {
   return { ...state, fetching: true, payload }
 }
 
+// success
 export const success = (state, {user}) => {
   return { ...state, user, fetching: false, }
 }
 
+// failure
 export const failure = (state, {error}) => {
   return { ...state, fetching: false, error}
 }
 
+// register user
 export const registered = (state, {user}) => {
   return { ...state, user, fetching: false }
 }
 
+// request
 export const nrequest = (state, { payload }) => {
   return { ...state, fetching: true, payload }
 }
 
+// request OTP verification
+export const otp = (state, {payload}) => {
+  return {...state, fetching: true, payload }
+};
+
+// success
 export const nsuccess = (state, {MobileNotifications,LastViewedNotificationID}) => {
   return { ...state, MobileNotifications,LastViewedNotificationID, fetching: false, }
 }
 
+//failure 
 export const nfailure = (state, {error}) => {
   return { ...state, error, fetching: false, }
 }
 
+//logout
 export const logout = (state) => {
   return { ...INITIAL_STATE}
 }
@@ -109,6 +126,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.NOTIFICATION_REQUEST]: nrequest,
   [Types.NOTIFICATION_SUCCESS]: nsuccess,
   [Types.NOTIFICATION_FAILURE]: nfailure,
+  [Types.VERIFY_OTP_LOGIN]: otp,
   [Types.LOGOUT]: logout,
   [ReduxSauceTypes.DEFAULT]: defaultHandler
 });

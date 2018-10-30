@@ -358,19 +358,12 @@ getAsyncStorage = async () => {
 
             setTimeout(() => 
             {
-                // let payload = {
-                //     "AuthenticationData": encryptedData,
-                //     "LoginAccessToken": this.state.aToken,
-                // };
-    
-                // this.props.getProfile(payload);
-
                 console.log("async token from Storage="+this.state.aToken);
     
                 let newPayload = {
                     "AuthenticationData": encryptedData,
                     "LoginAccessToken": this.state.aToken,
-                    "UpdateRequired" : 0,
+                    "UpdateRequired" : 1,
                     "ReadAll" : 0,
                     "LastViewedNotificationID" : this.props.LastViewedNotificationID,
                 };

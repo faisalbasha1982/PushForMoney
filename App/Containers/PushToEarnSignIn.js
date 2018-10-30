@@ -1078,6 +1078,7 @@ class PushToEarnSignIn extends Component {
     }
 
     render() {
+
         const platform = Platform.OS;
         console.log("language sent="+this.props.navigation.state.params.language);
         console.log("platform --->",Platform.OS);
@@ -1094,7 +1095,7 @@ class PushToEarnSignIn extends Component {
 
         return (
 
-            (platform === 'ios' && this.state.hasToken === false)?
+            ( (platform === 'ios'|| platform === 'android')  && this.state.hasToken === false)?
             <KeyboardAwareScrollView
                 behavior="padding"
                 enableOnAndroid={false}

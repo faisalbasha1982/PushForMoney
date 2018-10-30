@@ -5,6 +5,8 @@ import {
   Dimensions,
   StyleSheet,
   Image,
+  AppState,
+  PushNotificationIOS,
   AsyncStorage
 } from 'react-native';
 import * as NavigationService from '../Navigation/NavigationService';
@@ -28,9 +30,12 @@ import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import LanguageComponent from '../Components/PushToEarnLanguageComponent';
 import headerImage from '../Images/headerImage.png';
 import logoHeader from '../Images/logoheader.png';
-
+import PushNotif from '../Containers/PushNotif';
+import PushNotification from 'react-native-push-notification';
+import { LoginSelectors } from '../Redux/LoginRedux';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
+
 import localStorage from 'react-native-sync-localstorage';
 import PushForJob from './PushForJob';
 import _ from 'lodash';
@@ -127,14 +132,84 @@ class TestPage extends Component {
 
     getAsyncStorage = async () => {
 
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
+        let encryptedData = AesComponent.aesCallback(authData);
+
         await AsyncStorage.getItem('language').then((language) => {
             this.setState({ language: language })
           });
 
         await AsyncStorage.getItem('token').then((token) => {
             this.setState({ token: token });
+
+            setTimeout(() => 
+            {
+
+                console.log("async token from Storage="+this.state.aToken);
+    
+                let newPayload = {
+                    "AuthenticationData": encryptedData,
+                    "LoginAccessToken": this.state.token,
+                    "UpdateRequired" : 1,
+                    "ReadAll" : 0,
+                    "LastViewedNotificationID" : this.props.LastViewedNotificationID,
+                };
+    
+                this.props.notificationRequest(newPayload);
+    
+                setTimeout(() => {
+                    // console.tron.log("mobilenotifications="+this.props.mobileNotifications);
+                    this.setState({ mobileNotifications: this.props.mobileNotifications});
+                }, 3000);
+    
+            },3000);    
+    
+            setTimeout(() => {
+                AppState.addEventListener('change',this.handleAppStateChange);            
+            },4000);
+
+
         });
 
+    }
+
+    renderNothing = () => {
+
+    }
+
+    componentWillUnmount() {
+        AppState.addEventListener('change',this.handleAppStateChange);
+    }
+
+
+    pushNotification = () => {
+
+        let date = new Date(Date.now() + (20 * 1000));
+        console.log("push notifications");
+
+        (this.state.mobileNotifications !== null && this.state.mobileNotifications !== undefined)?
+        this.state.mobileNotifications.map(notificationObject => 
+                PushNotification.localNotificationSchedule({
+                    message: notificationObject.Message,
+                    date
+                }))
+       :
+       this.renderNothing();
+
+    }
+
+    handleAppStateChange = (appState) =>
+    {
+        if(appState === 'background')
+        {
+
+          console.log("inside handleAppStateChange");
+
+          setTimeout(() => {
+            this.pushNotification();
+          },3000);
+
+        }
     }
 
     languageChange = (language) => {
@@ -483,7 +558,10 @@ leftButtons: {
 
 const mapStateToProps = state => {
     return {
-        referral: FriendSelectors.getReferral(state)
+        referral: FriendSelectors.getReferral(state),
+        LastViewedNotificationID: LoginSelectors.getLastViewedNotificationID(state),
+        mobileNotifications: LoginSelectors.getMobileNotifications(state)
+
     };
   };
   
@@ -493,6 +571,7 @@ const mapStateToProps = state => {
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
       friendRequest: (payload) => dispatch({type: 'GET_FRIEND_REQUEST',payload}),
+      notificationRequest: (payload) => dispatch({ type: 'NOTIFICATION_REQUEST', payload})
     };
   };
   

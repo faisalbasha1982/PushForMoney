@@ -5,9 +5,10 @@ import Api from '../Services/Api';
 import LoginActions from '../Redux/LoginRedux';
 import * as NavigationService from '../Navigation/NavigationService';
 import localStorage from 'react-native-sync-localstorage';
-import * as AuthComponent from '../Components/AuthComponent';
 import { NavigationActions } from 'react-navigation';
 import API_URL from '../Services/Api_url';
+import * as AuthComponent from '../Components/AuthComponent';
+import * as AesComponent from '../Components/AesComponent';
 
 export function * rsaRequest(api,payload) {
   try{
@@ -20,7 +21,6 @@ export function * rsaRequest(api,payload) {
       // console.tron.log("response="+response.data.StatusCode);
       // console.tron.log("data="+response.data.Message);
     }
-
 
   }catch(error)
   {
@@ -255,9 +255,6 @@ export function * facebookRequest(api,payload,payloadNew) {
 
 function fetchJson(url,payload) {
 
-  // console.log("inside fetchJson:");
-  // console.tron.log("inside fetch json");
-
   return  fetch(url,{
       method: 'POST',
       headers: {
@@ -268,26 +265,14 @@ function fetchJson(url,payload) {
   })
     .then((response) => response.json())
     .then(response => {
-
-      if (!response.ok) {
-
-        //Alert.alert(response.Message);
-        const error = new Error(response.statusText);
-        error.response = response;
-        throw error;
-      }
-      else
-      {
-        //Alert.alert(response.Message);
-      }
-
       return response;
     });
 }
+
 function fetchNotification(payload) {
-    
-  // console.log("inside fetch notification");
-  // console.tron.log("inside fetch notification");
+
+  //console.log(`url = https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnGetMobileNotificationwithUpdate?code=${API.commonCode}`);
+  //console.tron.log('url='+`https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnGetMobileNotificationwithUpdate?code=${API.commonCode}`);
 
   return fetchJson(`https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnGetMobileNotificationWithUpdate?code=${API_URL.commonCode}`,payload);
 
@@ -302,6 +287,7 @@ export function * notificationRequest(api,action) {
       const responseJson = yield call(fetchNotification,action.payload);
       //yield put(MoneyActions.moneyEarningsSuccess(responseJson.monthlyEarningDetailsByReferrals,responseJson.ReferredPersonName,responseJson.TotalWorkedHours,responseJson.TotalEarnings));
       yield put(LoginActions.notificationSuccess(responseJson.MobileNotifications,responseJson.LastViewedNotificationID));
+
   }
   catch(error)
   {
@@ -326,11 +312,9 @@ function fetchJsonNew(url,payload) {
     .then((response) => response.json())
     .then(response => {
 
-      if (response.StatusCode === 200) {
-
-        // console.tron.log("response="+response.StatusCode);
+      if (response.StatusCode === 200) 
+      {
         AsyncStorage.setItem('token',response.LoginAccessToken);
-  
       }
       else
       {
@@ -344,6 +328,40 @@ function fetchJsonNew(url,payload) {
     });
 }
 
+function fetchJsonNewOTP(url,payload) {
+
+  return  fetch(url,{
+      method: 'POST',
+      headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+  })    
+    .then((response) => response.json())
+    .then(response => {
+
+      if (response.StatusCode === 200) {
+        Alert.alert("OTP sent Successfully to Your Mobile Number");
+
+      }
+      else
+      {
+        const error = new Error(response.statusText);
+        error.response = response;
+        throw error;
+
+      }
+
+      return response;
+    });
+}
+
+function fetchLoginOTP(payload) {
+
+  return fetchJsonNewOTP(API_URL.mobileUserLoginOTP,payload); // fnMobileUserLoginOtp
+
+}
 
 function fetchLogin(payload,url) {
 
@@ -353,27 +371,28 @@ function fetchLogin(payload,url) {
   return fetchJsonNew(url,payload);
 }
 
-export function * LoginRequest(api,action) {
-
-  // console.tron.log("inside login request");
+export function * LoginRequest(api,action,loginType) {
   
-  try{
-
-    // console.log("url="+API_URL.newSignUpLoginUrlNewStag);
+  try
+  {
 
     // make the call to the api
-    const response = yield call(fetchLogin, action.payload, API_URL.signUpLoginUrlNewStag);
+    const response = yield call(fetchLogin, action.payload, API_URL.mobileSignUpLoginUrlNewStag,loginType);
 
     if(response.StatusCode === 200)
-    {
+    {      
+      console.tron.log("response="+response.StatusCode);
+      console.tron.log("response="+response.userinfo.MobileUserId);
+
         if(response.userinfo.MobileUserId === 0)
           {
+
+            console.tron.log("response="+response.StatusCode);
 
             // do data conversion here if needed
             yield put(LoginActions.loginFailure(response.userinfo));
 
             // AsyncStorage.getItem('language').then((language) => {
-              NavigationService.navigate('PushToEarnOTP');
             // });
 
           }
@@ -381,10 +400,41 @@ export function * LoginRequest(api,action) {
          {
             // do data conversion here if needed
             yield put(LoginActions.loginSuccess(response.userinfo));
-        
+            AsyncStorage.setItem('token',response.LoginAccessToken);
+
+            let languageCode = '';
+
             AsyncStorage.getItem('language').then((language) => {
-                    NavigationService.navigate('TestPage',{language: language});      
+
+              language === 'English'?languageCode = 'en'
+              : 
+              language === 'French'?languageCode  = 'fr'
+              :
+              languageCode = 'nl';
+
             });
+
+            let authData = AuthComponent.authenticationData(languageCode);
+            let encryptedData = AesComponent.aesCallback(authData);
+    
+            let npayload = {
+    
+              "AuthenticationData": encryptedData,
+              "LoginAccessToken": response.LoginAccessToken,
+              "NewMobileNumber":response.userinfo.Mobile,
+    
+            };
+
+            // Navigate to PushToEarnOTPLogin
+            NavigationService.navigate('PushToEarnOTPLogin',{accessToken: response.LoginAccessToken});
+
+            yield call(fetchLoginOTP, npayload);
+
+            // AsyncStorage.getItem('language').then((language) => {
+            //         //NavigationService.navigate('TestPage',{language: language});      
+            //         NavigationService.navigate('PushToEarnOTPLogin');
+
+            // });
 
          }  
     }
@@ -397,5 +447,99 @@ export function * LoginRequest(api,action) {
     yield put(LoginActions.loginFailure());    
   }
 
+}
+
+/************************************* Fetch OTP VERIFICATION ****************************/
+
+function fetchOTP(payload)
+{
+    // const url = "https://prod-49.westeurope.logic.azure.com:443/workflows/19bdce4bb7d740f586a5f86bf9014efa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LU6WJJr0yUTzSFLdH9TXCBdYPVh6x3SMGegOPX0OTfA";
+    // const url = "https://prod-21.westeurope.logic.azure.com:443/workflows/fc0efd237ccb46268c5353e97d791a7e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Z2LNFPTtuCNVTEq9jcpwaKsLGgOjYaQOuiwoJFZenbY";
+
+    let languageCode = '';
+
+    AsyncStorage.getItem('language').then((language) => {
+
+      language === 'English'?languageCode = 'en'
+      : language === 'French'?
+      languageCode  = 'fr'
+      :
+      languageCode = 'nl'
+
+    });
+
+    let authData = AuthComponent.authenticationData(languageCode);
+    let encryptedData = AesComponent.aesCallback(authData);
+
+    const url = API_URL.staging.laMobileOtpVerification;
+
+    AsyncStorage.getItem('token').then((token) => 
+    {
+
+      fetch(url,{
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      }).then((response) =>  response.json())
+        .then((responseJson) => {
+
+          if (responseJson.StatusCode === 200) {
+
+            Alert.alert(
+                'Sign up Successfull',
+                responseJson.Message,
+                [
+                    { text: 'OK', onPress:() => console.log('user exists ask me later')}
+                ],
+                {
+                    cancelable: false
+                }
+            );
+
+            const mobileOTP = responseJson.mobileOTP;
+            const statusCode = responseJson.StatusCode;      
+                
+            AsyncStorage.getItem('language').then((language) => {
+              //Navigate to OTP page
+              NavigationService.navigate('TestPage',{language:language});
+            });
+        } 
+        else {
+
+            Alert.alert(
+                'User Does not Exist',
+                responseJson.Message,
+                [
+                    { text: 'Please Register', onPress:() => {NavigationService.navigate('PushToEarnSignUp')} }
+                ],
+                {
+                    cancelable: false
+                }
+            )        
+        }
+      }
+    )
+      .catch((error) => console.error(error));
+  
+    });      
+}
+
+/************************************* OTP REQUEST ****************************/
+
+export function * otpLoginRequest(api,action) {
+
+  try {
+
+      const response = yield call(fetchOTP, action.payload);
+      yield put(LoginActions.loginSuccess());
+
+  }catch(error)
+  {
+      console.tron.log("Error@login",error);
+      yield put(LoginActions.loginFailure());
+  }
 }
 

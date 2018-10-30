@@ -205,7 +205,7 @@ class PushToEarnOTP extends Component {
 
     callOTP = async () =>  {
 
-        console.tron.log("calling OTP....");
+        //console.tron.log("calling OTP....");
 
         await AsyncStorage.getItem('token').then((token) => {
             this.setState({ token: token});

@@ -173,7 +173,7 @@ class PushToEarnOTPResend extends Component {
 
     callOTP = (payload) => {
 
-        console.tron.log("calling OTP....");
+        // console.tron.log("calling OTP....");
 
         if(this.state.firstInput === '' || this.state.secondInput === '' || this.state.thirdInput === '' || this.state.fourthInput === '')
         {
@@ -205,7 +205,7 @@ class PushToEarnOTPResend extends Component {
              //"{'Lang': 'en', 'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-07-19 3:53:12' ,'R' : 'ssf3dfd'}",
              let newpayload = "{" +"\"" + "AuthenticationData"+"\""+":"+ authCode[1]+"\""+","+"\""+"LoginAccessToken"+"\""+":"+"\""+tokenLocalStorage+"\""+","+"\""+"OTP"+"\""+":"+ "\""+otpText+"\""+","+"\""+"OTPType"+"\""+":"+"\""+ "S"+"\"" + "}";
     
-             console.tron.log("payload="+newpayload);
+            //  console.tron.log("payload="+newpayload);
     
              this.props.verifyOTP(newpayload);
 

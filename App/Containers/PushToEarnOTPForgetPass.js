@@ -421,7 +421,7 @@ class PushToEarnOTPForgetPass extends Component {
         if(this.state.passwordInput === this.state.confirmpasswordInput)
         {
 
-            console.tron.log("calling OTP....");
+            //console.tron.log("calling OTP....");
             let otpString = this.state.firstInput + this.state.secondInput + this.state.thirdInput + this.state.fourthInput;
 
             let authData = AuthComponent.authenticationData(this.state.languageCode);
@@ -439,7 +439,7 @@ class PushToEarnOTPForgetPass extends Component {
 
             };
                 
-            console.tron.log("payload="+payload);
+            //console.tron.log("payload="+payload);
             this.props.verifyOTPForgetPassword(payload);
 
         }

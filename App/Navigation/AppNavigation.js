@@ -29,6 +29,7 @@ import PushToEarnProfile from '../Containers/PushToEarnProfile';
 import PushToEarnFriendsOverview from '../Containers/PushToEarnFriendsOverview';
 import PushToEarnInformation from '../Containers/PushToEarnInformation';
 import PushToEarnMoney from '../Containers/PushToEarnMoney';
+import PushToEarnOTPLogin from '../Containers/PushToEarnOTPLogin';
 import PushToEarnLanguageComponent from '../Components/PushToEarnLanguageComponent';
 import AccordionListComponent from '../Components/AccordionListComponent';
 import PushToEarnMoneyComponent from '../Components/PushToEarnMoneyComponent';
@@ -126,6 +127,11 @@ const AppNavigation = createStackNavigator({
     },
   },
   PushToEarnProfile: { screen: PushToEarnProfile,
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+  },
+  PushToEarnOTPLogin: { screen: PushToEarnOTPLogin,
     navigationOptions: {
       gesturesEnabled: false,
     },

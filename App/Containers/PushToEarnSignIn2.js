@@ -1154,6 +1154,7 @@ class PushToEarnSignIn2 extends Component {
     }
 
     render() {
+
         const platform = Platform.OS;
         console.log("language sent="+this.props.navigation.state.params.language);
         console.log("platform --->",Platform.OS);
@@ -1392,9 +1393,6 @@ class PushToEarnSignIn2 extends Component {
                     </Text>
                 </View>
                     </View>
-
-
-
                 </View>
  
             </KeyboardAwareScrollView>
