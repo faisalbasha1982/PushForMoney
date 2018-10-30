@@ -428,7 +428,7 @@ export function * LoginRequest(api,action,loginType) {
             // Navigate to PushToEarnOTPLogin
             NavigationService.navigate('PushToEarnOTPLogin',{accessToken: response.LoginAccessToken});
 
-            yield call(fetchLoginOTP, npayload);
+            //yield call(fetchLoginOTP, npayload);
 
             // AsyncStorage.getItem('language').then((language) => {
             //         //NavigationService.navigate('TestPage',{language: language});      

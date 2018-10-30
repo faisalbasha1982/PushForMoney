@@ -584,7 +584,7 @@ const newStyle = StyleSheet.create({
 
     numberBox: {
         flex: Platform.OS === 'ios'?2:1,
-        backgroundColor: 'powderblue',
+        backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'flex-start',
         flexDirection: 'row'        
@@ -653,8 +653,10 @@ const newStyle = StyleSheet.create({
         height: 50,
         borderRadius: 8,
         backgroundColor: '#f6f6f6',
-        padding: 7,
+        padding: 0,
         margin: 10,
+        paddingLeft:0,
+        paddingRight:0,
         color: '#000000'
     },
 
