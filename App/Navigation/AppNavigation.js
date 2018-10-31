@@ -15,6 +15,8 @@ import LanguageButton from '../Components/LanguageButton';
 import PushToEarnSignIn from '../Containers/PushToEarnSignIn';
 import PushToEarnSignIn2 from '../Containers/PushToEarnSignIn2';
 import PushToEarnSignUp from '../Containers/PushToEarnSignUp';
+import PushToEarnSignUp2 from '../Containers/PushToEarnSignUp2';
+import PushToEarnOTPRegister from '../Containers/PushToEarnOTPRegister';
 import PushToEarnForgetPass from '../Containers/PushToEarnForgetPass';
 import PushToEarnOTPForgetPass from '../Containers/PushToEarnOTPForgetPass';
 import PushToEarnOTP from '../Containers/PushToEarnOTP';
@@ -76,6 +78,13 @@ const AppNavigation = createStackNavigator({
       gesturesEnabled: false,
     },
   },
+
+  PushToEarnSignUp2: { screen: PushToEarnSignUp2,
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+  },
+
   PushToEarnForgetPass: { screen: PushToEarnForgetPass,
     navigationOptions: {
       gesturesEnabled: false,
@@ -162,6 +171,11 @@ const AppNavigation = createStackNavigator({
     },
   },
   pushToEarnMoneyList: { screen: pushToEarnMoneyList,
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+  },
+  PushToEarnOTPRegister: { screen: PushToEarnOTPRegister,
     navigationOptions: {
       gesturesEnabled: false,
     },

@@ -89,6 +89,8 @@ export function * RegisterRequestNew(api,action)
     }
 }
 
+/************************************* END OF REGISTER PROFILE SECOND PAGE *************************** */
+
 /************************************* REGISTER PROFILE FIRST PAGE *************************** */
 
 
@@ -151,7 +153,74 @@ export function * register(api,action) {
     }
 }
 
-/************************************* REGISTER PROFILE FIRST PAGE ****************************/
+/************************************* END OF REGISTER PROFILE FIRST PAGE ****************************/
+
+/************************************* MOBILE REGISTER PROFILE FIRST PAGE **********************************/
+
+function fetchJsonmobileregister(url,payload) {
+  
+    return  fetch(url,{
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+    })
+    .then((response) => response.json())
+      .then(response => {
+  
+            if(response.StatusCode === 200)
+            {
+                let token = response.LoginAccessToken;
+                AsyncStorage.setItem('token',token);
+                //NavigationService.navigate('PushToEarnRegisterProfile',{uname: '', pword: '', payload: payload});
+
+                console.tron.log("StatusCode="+response.StatusCode);
+
+                // Navigate to PushToEarnOTPLogin
+                NavigationService.navigate('PushToEarnOTPRegister',{accessToken: response.LoginAccessToken});
+            }
+            else
+                Alert.alert(
+                'User already exists',
+                ''+response.Message,
+                [
+                    { 
+                        text: 'Please Login', 
+                        onPress:() => { NavigationService.navigate('PushToEarnSignIn2') }
+                    }
+                ],
+                {
+                    cancelable: false
+                }
+            );     
+  
+        return response;
+      });
+  }
+
+export function * fetchRegisterMobileNumber(payload) {
+ 
+    return fetchJsonmobileregister(`https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnMobileUserLoginByMobile?code=${API_URL.commonCode}`,payload);
+
+}
+
+export function * mobileregister(api,action) {
+    try
+    {
+        // make the call to the api
+        const response = yield call(fetchRegisterMobileNumber, action.payload);
+        yield put(RegisterActions.registerSuccess(response.userinfo));
+    } 
+    catch(error) {
+        yield put(RegisterActions.registerFailure());
+    }
+}
+
+/************************************* END OF MOBILE REGISTER PROFILE FIRST PAGE **********************************/
+
+
 
 /************************************* FORGOT PASSWORD OTP REQUEST ****************************/
 

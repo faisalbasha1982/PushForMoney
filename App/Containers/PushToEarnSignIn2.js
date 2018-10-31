@@ -1373,7 +1373,7 @@ class PushToEarnSignIn2 extends Component {
                             textAlign: "center",
                             color: "#E73D50"
                             }}
-                        onPress = { () => this.props.navigation.navigate('PushToEarnSignUp')}
+                        onPress = { () => this.props.navigation.navigate('PushToEarnSignUp2')}
                         >{signup[0]+""}</Text>
                         <Text
                         style={{
@@ -1388,7 +1388,7 @@ class PushToEarnSignIn2 extends Component {
                             textAlign: "center",
                             color: "#E73D50"
                             }}
-                        onPress = { () => this.props.navigation.navigate('PushToEarnSignUp')}
+                        onPress = { () => this.props.navigation.navigate('PushToEarnSignUp2')}
                         >{" "+signup[1]}</Text>
                     </Text>
                 </View>

@@ -3,10 +3,12 @@ import styles from "./Styles/NavigationStyles";
 import PushToEarnSignIn from '../Containers/PushToEarnSignIn';
 import PushToEarnSignIn2 from '../Containers/PushToEarnSignIn2';
 import PushToEarnSignUp from '../Containers/PushToEarnSignUp';
+import PushToEarnSignUp2 from '../Containers/PushToEarnSignUp2';
 import PushToEarnForgetPass from '../Containers/PushToEarnForgetPass';
 import PushToEarnOTPForgetPass from '../Containers/PushToEarnOTPForgetPass';
 import PushToEarnOTP from '../Containers/PushToEarnOTP';
 import PushToEarnOTPLogin from '../Containers/PushToEarnOTPLogin';
+import PushToEarnOTPRegister from '../Containers/PushToEarnOTPRegister';
 import PushToEarnRegisterProfile from '../Containers/PushToEarnRegisterProfile';
 import LanguageButton from '../Components/LanguageButton';
 import LanguageScreen from '../Containers/LanguageScreen';
@@ -33,6 +35,11 @@ const SignedOutNav = StackNavigator(
         gesturesEnabled: false,
       },
     },
+    PushToEarnSignUp2: { screen: PushToEarnSignUp2,
+      navigationOptions: {
+        gesturesEnabled: false,
+      },
+    },
     PushToEarnOTP: { screen: PushToEarnOTP,
       navigationOptions: {
         gesturesEnabled: false,
@@ -46,6 +53,11 @@ const SignedOutNav = StackNavigator(
     },
     PushToEarnOTPForgetPass: { screen: PushToEarnOTPForgetPass },
     PushToEarnForgetPass: { screen: PushToEarnForgetPass,
+      navigationOptions: {
+        gesturesEnabled: false,
+      },
+    },
+    PushToEarnOTPRegister : { screen: PushToEarnOTPRegister,
       navigationOptions: {
         gesturesEnabled: false,
       },

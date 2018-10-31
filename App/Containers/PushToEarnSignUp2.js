@@ -40,7 +40,7 @@ import * as Animatable from 'react-native-animatable';
 import { StyleSheet } from 'react-native';
 import CompanyBanner from '../Components/CompanyBanner';
 import Validation from '../Components/ButtonValidation';
-import LanguageSettings from '../Containers/LanguageSettingsNew';
+import LanguageSettings from './LanguageSettingsNew';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
 import ButtonLogin from '../Components/ButtonLogin';
@@ -62,7 +62,7 @@ import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/page1.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AccessToken, LoginManager, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
-import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
+import languageSettingsPFM from './LanguageSettingsPFM';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -86,7 +86,7 @@ const Constants = {
 let cLanguage = '';
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-class PushToEarnSignUp extends Component {
+class PushToEarnSignUp2 extends Component {
 
     // static propTypes = {
     //     language: PropTypes.string.isRequired
@@ -114,7 +114,9 @@ class PushToEarnSignUp extends Component {
             usernameEmptyError:false,
             passwordEmptyError:false,
             cpasswordEmptyError: false,
-            text: {}
+            text: {},
+            countryCode: 'be',
+            phoneNumberInput:''
         };    
     }
 
@@ -809,13 +811,11 @@ class PushToEarnSignUp extends Component {
     validateEncrypt = (password) => {
 
         console.log("validate Encrypt");
-        if(this.state.usernameInput === '')
+        if(this.state.phoneNumberInput === '')
             {
-                if(this.state.usernameInput === '')
-                {   
                     Alert.alert(
-                        'Username is Empty',
-                        'Fill in Username',
+                        'PhoneNumber is Empty',
+                        'Fill in PhoneNumber',
                         [
                             {
                               text: 'OK', 
@@ -824,8 +824,6 @@ class PushToEarnSignUp extends Component {
                         ],
                         {cancelable: false}
                     );
-                }
-
             }
           else
           {
@@ -835,12 +833,9 @@ class PushToEarnSignUp extends Component {
             let authData = AuthComponent.authenticationData(this.state.languageCode);
             let encryptedData = AesComponent.aesCallback(authData);
 
-            let cAuthenticationData = "{'Lang':"+" '"+this.state.language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
-            let loginInfo = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";
-            
-            // console.tron.log("login data="+loginInfo);
+            //let cAuthenticationData = "{'Lang':"+" '"+this.state.language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";            
+            let loginInfo = "{'M':"+"'"+this.state.phoneNumberInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";
 
-            let authEncrypted = this.aes(cAuthenticationData);
             this.rsa(loginInfo);
 
             this.setState({ cAuthenticationData: encryptedData,});
@@ -852,93 +847,28 @@ class PushToEarnSignUp extends Component {
 
         let language = this.state.languageCode;
 
-        if(this.state.usernameInput === '' || this.state.cpasswordInput === '' || this.state.cpasswordInput.length < 6 ||  this.state.passwordInput === '' || this.state.passwordInput.length < 6)
+            if(this.state.phoneNumberInput === '')
             {
-                if(this.state.usernameInput === '')
-                {   
-                    Alert.alert(
-                        'Username is Empty',
-                        'Fill in Username',
-                        [                      
-                            {
-                              text: 'OK', 
-                              onPress: () => console.log('Ask me later Pressed')
-                            },                      
-                        ],
-                        {cancelable: false}
-                    );
-                }
-
-                if(this.state.passwordInput === '')
-                {
-                    Alert.alert(
-                        'Password is Empty',
-                        'Fill in Password',
-                        [                      
-                            {
-                              text: 'OK', 
-                              onPress: () => console.log('Ask me later Pressed')
-                            },                      
-                        ],
-                        {cancelable: false}
-                    );
-                }
-
-                if(this.state.passwordInput.length < 6 || !this.state.passwordInput.includes(" ") )
-                {
-                    Alert.alert(
-                        'Password Length is less than 6 and no spaces',
-                        'Password',
-                        [                      
-                            {
-                              text: 'OK', 
-                              onPress: () => console.log('Ask me later Pressed')
-                            },                      
-                        ],
-                        {cancelable: false}
-                    );    
-                }
-
-                if(this.state.cpasswordInput === '')
-                {
-                    Alert.alert(
-                        'Password is Empty',
-                        'Fill in Password',
-                        [                      
-                            {
-                              text: 'OK', 
-                              onPress: () => console.log('Ask me later Pressed')
-                            },                      
-                        ],
-                        {cancelable: false}
-                    );
-                }
-
-                if(this.state.cpasswordInput.length < 6 || !this.state.cpasswordInput.includes(" ") )
-                {
-                    Alert.alert(
-                        'Password Length is less than 6 and no spaces',
-                        'Password',
-                        [     
-                            {
-                              text: 'OK', 
-                              onPress: () => console.log('Ask me later Pressed')
-                            },                      
-                        ],
-                        {cancelable: false}
-                    );    
-                }
-
+                Alert.alert(
+                            'Phone Number Input is Empty',
+                            'Fill in Phone Number',
+                            [
+                                {
+                                    text: 'OK',
+                                    onPress: () => console.log('Ask me later Pressed')
+                                },
+                            ],
+                            {cancelable: false}
+                        );
             }
         else
            {
 
             this.setState({isLoading: true});
 
-                if(this.state.passwordInput.length >= 6 && !this.state.passwordInput.includes(" ") &&
-                   this.state.cpasswordInput.length >= 6 && !this.state.cpasswordInput.includes(" "))
+                if(this.state.phoneNumberInput !== '')
                 {
-                    this.validateEncrypt(this.state.cpasswordInput);
+                    this.validateEncrypt(this.state.phoneNumberInput);
                 }
                 else
                     {
@@ -960,19 +890,24 @@ class PushToEarnSignUp extends Component {
             //    let authEncrypted = this.aes(cAuthenticationData);
             //    let loginDataEncrypted = this.rsa(loginData);
 
+            let authData = AuthComponent.authenticationData(this.state.languageCode);
+            let encryptedData = AesComponent.aesCallback(authData);
+
             setTimeout( () => {
-                if( this.state.encodedText !== ""  || this.state.cAuthenticationData !== "" )
+                if( this.state.encodedText !== "")
                 {
   
-                  let payload = JSON.stringify({
+                  let payload = {
                      
-                      "AuthenticationData": this.state.cAuthenticationData,
+                      "AuthenticationData": encryptedData,
                       "LoginData": this.state.encodedText,
                       "SignupMode": true
                
-                    });
+                  };
 
-                    this.props.registerAction(payload, this.state.usernameInput,this.state.passwordInput);
+                    console.tron.log("payload="+payload);
+
+                    this.props.registerAction(payload);
                     
                     this.setState({isLoading: false});
                 }
@@ -982,32 +917,6 @@ class PushToEarnSignUp extends Component {
 
         }
 
-    }
-
-    validateConfirmPassword = (confirmPassword) => {
-
-        if(confirmPassword.length >= 6 && !confirmPassword.includes(" "))
-        {
-            this.setState({ cpasswordInputError: false, cpasswordInput: confirmPassword, EmptyErrorText: '' });
-        }
-        else
-            {
-
-                this.setState({ cpasswordInputError: true, cpasswordInput: confirmPassword, EmptyErrorText: '' });            
-            }            
-    }
-
-    validatePassword = (password) => {
-
-        if(password.length >= 6 && !password.includes(" "))
-        {
-            this.setState({ passwordInputError: false, passwordInput: password, EmptyErrorText: '' });
-        }
-        else
-            {
-                this.setState({ passwordInputError: true, passwordInput: password, EmptyErrorText: '' });
-
-            }            
     }
 
 
@@ -1147,11 +1056,19 @@ class PushToEarnSignUp extends Component {
         
     }
 
+    validateUAEPhoneNumber = (phone) => {
+
+        phone = this.removeSpaces(phone);
+        console.tron.log("formatted phone text="+phone);
+        this.setState({phoneNumberInput: phone});
+
+    }
+
     validateBelgiumPhoneNumber = (phone) => {
 
         phone = this.removeSpaces(phone);
 
-        // console.tron.log("formatted phone text="+phone);
+        console.tron.log("formatted phone text="+phone);
 
         let countryCode = "+32";
         let firstFour = phone.substring(0,4);
@@ -1159,7 +1076,7 @@ class PushToEarnSignUp extends Component {
         let firstTwo = phone.substring(0,2);
         let restTwo = phone.substring(2);
 
-        if(phone.substring(0,1) !== "+" && phone.substring(0,1) !== "0" && phone.length ===11)
+        if(phone.substring(0,1) !== "+" && phone.substring(0,1) !== "0" && phone.length === 11)
             this.setState({ phoneNumberInput: "+" + phone});
         else
             if(firstFour === "0032" && phone.length === 9)
@@ -1174,6 +1091,7 @@ class PushToEarnSignUp extends Component {
     }
 
     render() {
+
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
         console.log('language='+this.state.language);
@@ -1181,7 +1099,7 @@ class PushToEarnSignUp extends Component {
 
         return (
 
-            (platform === 'ios')?
+            // (platform === 'ios' || platform === 'android')?
             <KeyboardAwareScrollView
                 behavior="padding"
                 enableOnAndroid={false}
@@ -1207,7 +1125,8 @@ class PushToEarnSignUp extends Component {
                             lineHeight: 34,
                             letterSpacing: 0,
                             textAlign: "center",
-                            color: "#E73D50" 
+                            paddingLeft:10,
+                            color: "#E73D50"
                         }}>
                         {this.state.text.SignUp}
                     </Text>
@@ -1319,7 +1238,7 @@ class PushToEarnSignUp extends Component {
                         textAlign: "center",
                         color: "#353535"
                         }}>
-                    {this.state.text.SignWith}
+                    {this.state.text.SignUpWith}
                     </Text>
                 </View>
 
@@ -1333,33 +1252,16 @@ class PushToEarnSignUp extends Component {
                   }
 
                 <View style={newStyle.inputContainer}>
-               
-                    <Text style={newStyle.firstName}>{this.state.text.Email}</Text>
-                    <TextInput
-                                style={ [newStyle.nameInput, {color: this.state.usernameInputError === true? 'red': 'black'}] }
-                                placeholder=''
-                                autoCapitalize="none"
-                                autoFocus = {false}
-                                underlineColorAndroid= 'transparent'
-                                onChangeText={(usernameInput) => this.validateEmail(usernameInput)}/>
 
-                    <Text style={newStyle.password}>{this.state.text.Password}</Text>
-                    <TextInput
-                        style={ [newStyle.nameInputPassword,{ color: this.state.passwordInputError === true? 'red': 'black' }]}
-                        placeholder=''
-                        autoCapitalize="none"
-                        autoFocus = {false}
-                        underlineColorAndroid= 'transparent'
-                        onChangeText= { (passwordInput) => this.validatePassword(passwordInput) }/>
-
-                    <Text style={newStyle.cpassword}>{this.state.text.confirmPassword}</Text>
-                    <TextInput
-                        style={ [newStyle.confirmInputPassword,{ color: this.state.cpasswordInputError === true? 'red': 'black'}]}
-                        placeholder=''
-                        autoCapitalize="none"
-                        autoFocus = {false}
-                        underlineColorAndroid= 'transparent'
-                        onChangeText= { (cpasswordInput) => this.validateConfirmPassword(cpasswordInput) }/>
+                    <Text style={newStyle.firstName}>{this.state.text.Phone}</Text>
+                    <PhoneInput
+                        opacity={1}
+                        ref={(ref) => { this.phone = ref; }}
+                        initialCountry={this.state.countryCode}
+                        onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
+                        style= {newStyle.nameInput}
+                        onChangePhoneNumber = { (phoneNumberInput) => this.validateUAEPhoneNumber(phoneNumberInput) }
+                    />
 
                     <View style={newStyle.endButtons}>
 
@@ -1395,83 +1297,8 @@ class PushToEarnSignUp extends Component {
 
                 </View>
  
-            </KeyboardAwareScrollView>:
-            <ScrollView>
-            <KeyboardAvoidingView
-               style = {newStyle.container}
-               behavior = "padding"
-               enabled>
-             {/* <View style={newStyle.container}> */}
-            
-             <View style={newStyle.headerImage}>
-                 <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
-                 {
-                   (this.state.renderValidate === true)?this.renderValidation():this.renderNothing()
-                 }
-             </View>
+            </KeyboardAwareScrollView>
 
-             <View style={newStyle.inputContainer}>
-            
-                 <Text style={newStyle.firstName}>{this.state.firstName}</Text>
-                 <TextInput
-                             style={ newStyle.nameInput }
-                             placeholder=''
-                             underlineColorAndroid= 'transparent'
-                             onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
-                         
-
-                 <Text style={newStyle.firstName}>{this.state.name}</Text>
-                 <TextInput
-                     style={ newStyle.nameInput}
-                     placeholder=''
-                     underlineColorAndroid= 'transparent'
-                     onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
-
-                 <Text style={newStyle.phoneNumberStyle}>{this.state.phoneNumber}</Text>
-                 <PhoneInput 
-                         ref='phone'
-                         initialCountry='be'
-                         style= {newStyle.nameInput}
-                         onChangePhoneNumber = { (phoneNumberInput) => this.validateBelgiumPhoneNumber(phoneNumberInput) } />
-             </View>
-
-            <View style={newStyle.endButtons}>
-
-                <TouchableOpacity onPress={() => this.props.navigation.goBack() }
-                    activeOpacity={0.5}
-                    style={newStyle.iconStyle}>
-                        <Icon
-                            containerStyle={newStyle.iconImageStyle}                               
-                            name='angle-left'
-                            type='font-awesome'
-                            color='#fff'
-                            size = {40}
-                            onPress={() => console.log('hello')} /> 
-                </TouchableOpacity>
-
-                <ButtonNext 
-                            objectParams=
-                                {{
-                                    btnText: this.state.buttonText, 
-                                    language: this.state.language,
-                                    firstName: this.state.firstNameInput,
-                                    lastName: this.state.lastNameInput,
-                                    phoneNumber: this.state.phoneNumberInput,
-                                    firstNameError: this.state.firstNameError,
-                                    lastNameError: this.state.lastNameError,
-                                    phoneNumberError: this.state.phoneNumberError,
-                                    firstNameEmpty: this.state.firstNameEmptyError,
-                                    lastNameEmpty: this.state.lastNameEmptyError,
-                                    phoneNumberEmpty: this.state.phoneNumberEmptyError
-                                }}
-                            func = {this.func}
-                            navigation = { this.props.navigation}
-                />
-
-            </View>
-         {/* </View> */}
-         </KeyboardAvoidingView>
-         </ScrollView>
 
         );
     }
@@ -1545,7 +1372,39 @@ const newStyle = StyleSheet.create({
         marginBottom: 15,
         position: 'absolute',
         left: 50,
-        top: 0,
+        top:0,
+    },
+
+    phoneText: {
+        width: 250,
+        height: 19,
+        fontFamily: 'WorkSans-Regular',
+        fontSize: 16,
+        fontWeight: '500',
+        fontStyle: 'normal',
+        letterSpacing: 0.67,
+        textAlign: 'left',
+        marginBottom: 15,
+        marginTop: 10,
+        position: 'absolute',
+        left: 50,
+        top: 85,
+    },
+
+    emailText: {
+        width: 290,
+        height: 19,
+        fontFamily: 'WorkSans-Regular',
+        fontSize: 16,
+        fontWeight: '500',
+        fontStyle: 'normal',
+        letterSpacing: 0.67,
+        textAlign: 'left',
+        marginBottom: 15,
+        marginTop: 10,
+        position: 'absolute',
+        left: 50,
+        top: 180,
     },
 
     password:{
@@ -1614,10 +1473,12 @@ const newStyle = StyleSheet.create({
         backgroundColor: '#f6f6f6',
         marginBottom: 15,
         padding: 10,
-        marginTop: 0,
+        marginTop: 0,        
     },
 
-    nameInputPassword: {
+
+
+    nameInputPhone: {
         width: 334,
         height: 57,
         borderRadius: 8,
@@ -1627,7 +1488,7 @@ const newStyle = StyleSheet.create({
         marginTop: 25,
     },
 
-    confirmInputPassword: {
+    nameInputEmail: {
         width: 334,
         height: 57,
         borderRadius: 8,
@@ -1703,15 +1564,15 @@ const mapStateToProps = state => {
   const mapDispatchToProps = dispatch => {
     return {
     
-    registerAction: ( payload,username,password ) => dispatch({type: 'MAKE_REGISTER_REQUEST',payload, username, password}),
-    signUpFaceBook: (payload,payloadNew) => dispatch({type: 'FACEBOOK_DATA', payload, payloadNew}),
-    twitterlogin: (payload,userName) => dispatch({ type:'TWITTER_REQUEST',payload,userName}),
-    googleLogin: (payload) => dispatch({ type: 'GOOGLE_REQUEST',payload}),
-    resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
-    navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
-    navigateBack: () => this.props.navigation.goBack(),
+        registerAction: ( payload ) => dispatch({type: 'MOBILE_REGISTER_REQUEST',payload}),
+        signUpFaceBook: (payload,payloadNew) => dispatch({type: 'FACEBOOK_DATA', payload, payloadNew}),
+        twitterlogin: (payload,userName) => dispatch({ type:'TWITTER_REQUEST',payload,userName}),
+        googleLogin: (payload) => dispatch({ type: 'GOOGLE_REQUEST',payload}),
+        resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
+        navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
+        navigateBack: () => this.props.navigation.goBack(),
 
     };
   };
   
-  export default connect(mapStateToProps, mapDispatchToProps)(PushToEarnSignUp);
+  export default connect(mapStateToProps, mapDispatchToProps)(PushToEarnSignUp2);

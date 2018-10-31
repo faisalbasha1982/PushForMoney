@@ -26,7 +26,9 @@ import { LoginRequest,rsaRequest, facebookRequest,
         } from './LoginSagas'
 import { RegisterRequest, RegisterRequestNew, OtpRequest,
          forgotPasswordRequest, forgotPasswordOTPRequest,
-         makeRegisterRequest, OtpRequestResend, register } 
+         makeRegisterRequest, OtpRequestResend, register,
+         mobileregister
+        } 
 from './RegisterSagas'
 import { firstNameUpdate,changePassword, changeMobile, verifyMobileOtpRequest, ProfileRequestNew } from './ProfileSagas'
 import { cardDetailsRequest } from './CardDetailsSagas'
@@ -68,6 +70,9 @@ export default function * root () {
 
     // Register sagas
     takeLatest(RegisterTypes.MAKE_REGISTER_REQUEST, register, api),
+
+    // SignUp sagas Mobile
+    takeLatest(RegisterTypes.MOBILE_REGISTER_REQUEST,mobileregister,api),
 
     // Register sagas
     takeLatest(RegisterTypes.REGISTER_REQUEST_NEW, RegisterRequestNew,apiSignUp2),
