@@ -4,7 +4,7 @@ import { createReducer, createActions, Types as ReduxSauceTypes } from "reduxsau
 
 const { Types, Creators } = createActions({
   makeRegisterRequest: ["payload",'username','password'],
-  mobileRegisterRequest: ["payload"],
+  mobileRegisterRequest: ["payload",'phone'],
   registerRequest: ["payload"],
   registerRequestNew: ["payload"],
   registerSuccess: ['user'],
@@ -27,6 +27,7 @@ export const INITIAL_STATE = {
   user: null,
   username: null,
   password: null,
+  phone: null,
 };
 
 /* ------------- Selectors ------------- */
@@ -34,7 +35,8 @@ export const INITIAL_STATE = {
 export const RegisterSelectors = {
   getUser: state => state["register"].user,
   getFetching: state => state["register"].fetching,
-  getError: state => state["register"].error
+  getError: state => state["register"].error,
+  getPhone: state => state["register"].phone  
 };
 
 /* ------------- Reducers ------------- */
@@ -49,8 +51,9 @@ export const makerequest = (state, action) => {
   return {...state, fetching: true, payload, username, password }
 }
 
-export const mobilerequest = (state, payload) => {
-  return { ...state, fetching: true, payload, }
+export const mobilerequest = (state, action) => {
+   const { payload, phone} = action 
+  return { ...state, fetching: true, payload, phone }
 }
 
 // new request the data from an api

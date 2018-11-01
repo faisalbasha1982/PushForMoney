@@ -157,7 +157,7 @@ export function * register(api,action) {
 
 /************************************* MOBILE REGISTER PROFILE FIRST PAGE **********************************/
 
-function fetchJsonmobileregister(url,payload) {
+function fetchJsonmobileregister(url,payload,phone) {
   
     return  fetch(url,{
         method: 'POST',
@@ -174,12 +174,11 @@ function fetchJsonmobileregister(url,payload) {
             {
                 let token = response.LoginAccessToken;
                 AsyncStorage.setItem('token',token);
-                //NavigationService.navigate('PushToEarnRegisterProfile',{uname: '', pword: '', payload: payload});
 
                 console.tron.log("StatusCode="+response.StatusCode);
 
                 // Navigate to PushToEarnOTPLogin
-                NavigationService.navigate('PushToEarnOTPRegister',{accessToken: response.LoginAccessToken});
+                NavigationService.navigate('PushToEarnOTPRegister',{accessToken: response.LoginAccessToken, phone: phone });
             }
             else
                 Alert.alert(
@@ -200,9 +199,9 @@ function fetchJsonmobileregister(url,payload) {
       });
   }
 
-export function * fetchRegisterMobileNumber(payload) {
+export function * fetchRegisterMobileNumber(payload, phone) {
  
-    return fetchJsonmobileregister(`https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnMobileUserLoginByMobile?code=${API_URL.commonCode}`,payload);
+    return fetchJsonmobileregister(`https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnMobileUserLoginByMobile?code=${API_URL.commonCode}`,payload, phone);
 
 }
 
@@ -210,7 +209,7 @@ export function * mobileregister(api,action) {
     try
     {
         // make the call to the api
-        const response = yield call(fetchRegisterMobileNumber, action.payload);
+        const response = yield call(fetchRegisterMobileNumber, action.payload, action.phone);
         yield put(RegisterActions.registerSuccess(response.userinfo));
     } 
     catch(error) {
@@ -267,12 +266,7 @@ function fetchOTPFP(payload)
             NavigationService.navigate('PushToEarnSignIn');
     
         }
-        else {
-
-            // console.tron.log("response status="+responseJson.StatusCode);
-            // console.tron.log("response status="+responseJson.Message);
-            // console.tron.log("response status="+responseJson.ErrorDetails);
-    
+        else {    
 
                 Alert.alert(
                     'User already exists',
@@ -382,38 +376,11 @@ export function* forgotPasswordRequest(api,action) {
 
 function fetchOTP(payload)
 {
-    let parameters = payload.split(",");
-
-    let authParam = parameters[0].split(":");
-    let firstParam = authParam[1];
-
-    let tokenParam = parameters[1].split(":");
-    let secondParam = tokenParam[1];
-
-    let otpParam = parameters[2].split(":");
-    let thirdParam = otpParam[1];
-
-    let otpTypeParam = parameters[3].split(":");
-    let fourthParam = otpTypeParam[1].substring(0,otpTypeParam[1].length-1);
-
-    // console.log("firstParam=",firstParam.substring(1,firstParam.length-1));
-    // console.log("secondParam=",secondParam.substring(1,secondParam.length-1));
-    // console.log("thirdParam=",thirdParam.substring(1,thirdParam.length-1));
-    // console.log("fourthParam=",fourthParam.substring(1,fourthParam.length-1));
-
+ 
     // const url = "https://prod-49.westeurope.logic.azure.com:443/workflows/19bdce4bb7d740f586a5f86bf9014efa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LU6WJJr0yUTzSFLdH9TXCBdYPVh6x3SMGegOPX0OTfA";
     // const url = "https://prod-21.westeurope.logic.azure.com:443/workflows/fc0efd237ccb46268c5353e97d791a7e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Z2LNFPTtuCNVTEq9jcpwaKsLGgOjYaQOuiwoJFZenbY";
 
     const url = API_URL.staging.laMobileOtpVerification;
-
-    let newPayload = {
-        AuthenticationData: firstParam.substring(1,firstParam.length-1),
-        LoginAccessToken: secondParam.substring(1,secondParam.length-1),
-        OTP: thirdParam.substring(1,thirdParam.length-1),
-        OTPType: fourthParam.substring(1,fourthParam.length-1)
-    };
-
-    // console.log("newpayload=",newPayload);
 
     fetch(url,{
         method: 'POST',
@@ -421,11 +388,9 @@ function fetchOTP(payload)
             Accept: 'application/json',
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newPayload),
+        body: JSON.stringify(payload),
     }).then((response) =>  response.json())
       .then((responseJson) => {
-
-        //   console.log("response=",responseJson.StatusCode);
 
           if (responseJson.StatusCode === 200) {
 
@@ -440,25 +405,22 @@ function fetchOTP(payload)
                 }
             );
 
-            // console.tron.log("response data=",responseJson.data);
             const mobileOTP = responseJson.mobileOTP;
-            const statusCode = responseJson.StatusCode;            
-                
-            //Navigate to OTP page
-            NavigationService.navigate('PushToEarnSignIn');
+            const statusCode = responseJson.StatusCode;
+
+            //Navigate to profile page
+            NavigationService.navigate('PushToEarnRegisterProfile',{uname: '', pword: '', payload: payload});
     
         } 
         else {
-
-            // console.tron.log("response status="+responseJson.StatusCode);
-            // console.tron.log("response status="+responseJson.Message);
-            // console.tron.log("response status="+responseJson.ErrorDetails);
 
             Alert.alert(
                 'User already exists',
                 responseJson.Message,
                 [
-                    { text: 'Please Login', onPress:() => console.log('user exists ask me later')}
+                    { text: 'Please Login', onPress:() => {
+                          NavigationService.navigate('PushToEarnSignIn2');
+                    } }
                 ],
                 {
                     cancelable: false
@@ -468,7 +430,7 @@ function fetchOTP(payload)
       }
     )
       .catch((error) => console.error(error));
-      
+
 }
 
 /************************************* OTP REQUEST ****************************/

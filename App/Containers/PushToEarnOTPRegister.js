@@ -229,25 +229,17 @@ class PushToEarnOTPRegister extends Component {
 
         console.tron.log("calling OTP....");
 
-        // let otpString = this.state.firstInput + this.state.secondInput + this.state.thirdInput + this.state.fourthInput;
-
-        // if(this.state.firstInput === '' || this.state.secondInput === '' || this.state.thirdInput === '' || this.state.fourthInput === '')
-        // {
-        //     //Alert Box to fill in otp text
-        // }
         if(this.state.otpText === '')
         {
-
+            Alert.alert("Please Enter Otp Text");
         }
         else
          {                 
             let authData = AuthComponent.authenticationData(this.state.languageCode);
             let encryptedData = AesComponent.aesCallback(authData);
   
-            //  let authData = payload.split(":");
-            //  let encryptedData = this.aes(authData[1]);
-
             let token = this.props.navigation.state.params.accessToken;
+            let phone = this.props.navigation.state.params.phone;
             this.setState({ token: token});
 
             console.tron.log("otpstring="+this.state.otpText);
@@ -255,7 +247,7 @@ class PushToEarnOTPRegister extends Component {
              let newPayload = {
 
                  "AuthenticationData": encryptedData,
-                 "LoginAccessToken": this.state.token,             
+                 "LoginAccessToken": this.state.token,
                  "OTP": this.state.otpText,
                  "OTPType" : "L",
 
@@ -495,8 +487,6 @@ class PushToEarnOTPRegister extends Component {
                          initialCountry='be'
                          style= {newStyle.nameInput}
                          onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) } />
-
-
              </View>
 
             <View style={newStyle.endButtons}>
@@ -722,12 +712,12 @@ const mapStateToProps = state => {
   };
   
   const mapDispatchToProps = dispatch => {
-    return {  
+    return {
 
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
-      verifyOTP: (payload) => dispatch({ type: 'VERIFY_OTP_LOGIN', payload }),
+      verifyOTP: (payload) => dispatch({ type: 'VERIFY_OTP', payload }),
 
     };
   };

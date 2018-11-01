@@ -489,23 +489,27 @@ class PushToEarnRegisterProfile extends Component {
 
         this.setState({ isLoading: true});
 
-        let signUpData = "\"SignUpData\":" +"\""+this.aes("{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.state.phoneNumberInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}") +"\"";
+        let signUpData = "\"SignUpData\":" +"\""+this.aes("{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.props.phone+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}") +"\"";
 
         // console.tron.log("signupData="+"{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.state.phoneNumberInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
-        console.log("signUpData=","{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.state.phoneNumberInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
+        console.log("signUpData=","{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.props.phone+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
 
-        console.log("encrypted signup data="+this.aes("{ 'FName' : "+this.state.firstNameInput+", 'LName' : "+this.state.lastNameInput+", 'Mob':"+this.state.phoneNumberInput+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}"));
+        console.log("encrypted signup data="+this.aes("{ 'FName' : "+this.state.firstNameInput+", 'LName' : "+this.state.lastNameInput+", 'Mob':"+this.props.phone+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}"));
         console.log("payload passed to private policy=",payload);
+        console.tron.log("payload="+payload.Authe);
 
         let newPayload = payload.substring(1,payload.length-1);
         console.log("newpayload="+newPayload);
+        console.tron.log("newpayload="+newPayload);
 
         let payloadArray = newPayload.split(",");
         console.log("payloadArray="+payloadArray[0]);
+        console.tron.log("payloadArray="+payloadArray[0]);
 
         let finalPayload = "{" + payloadArray[0] + "," + payloadArray[1] + "," + signUpData + "}";
 
         console.log("finalPayload = "+finalPayload);
+        console.tron.log("finalPayload="+finalPayload);
         // console.tron.log("final payload send to register request="+finalPayload);
 
         this.props.navigation.navigate('PushToEarnPrivatePolicy',{payload: finalPayload});
@@ -567,6 +571,7 @@ class PushToEarnRegisterProfile extends Component {
         const username = this.props.navigation.state.params.uname;
         const password = this.props.navigation.state.params.pword;
         let payload  = this.props.navigation.state.params.payload;
+        console.log("payload type="+typeof(payload));        
 
         console.log("username received in register profile="+this.props.navigation.state.params.uname);
         // console.tron.log("username received in register profile="+this.props.navigation.state.params.uname);
@@ -840,6 +845,7 @@ const mapStateToProps = state => {
     return {
         fetchingRegister: RegisterSelectors.getFetching(state),
         getUser: RegisterSelectors.getUser(state),
+        phone: RegisterSelectors.getPhone(state),
     };
   };
   
