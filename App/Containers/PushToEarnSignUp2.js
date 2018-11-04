@@ -905,7 +905,9 @@ class PushToEarnSignUp2 extends Component {
                
                   };
 
+                
                     console.tron.log("payload="+payload);
+                    console.tron.log("phone number Input="+this.state.phoneNumberInput);
 
                     this.props.registerAction(payload,this.state.phoneNumberInput);
                     
@@ -1564,7 +1566,10 @@ const mapStateToProps = state => {
   const mapDispatchToProps = dispatch => {
     return {
     
-        registerAction: ( payload, mobileNumber ) => dispatch({type: 'MOBILE_REGISTER_REQUEST',payload,mobileNumber}),
+        registerAction: ( payload, mobileNumber ) => {
+            console.tron.log("mobileNumber="+mobileNumber);
+            dispatch({type: 'MOBILE_REGISTER_REQUEST',payload,mobileNumber})
+        },
         signUpFaceBook: (payload,payloadNew) => dispatch({type: 'FACEBOOK_DATA', payload, payloadNew}),
         twitterlogin: (payload,userName) => dispatch({ type:'TWITTER_REQUEST',payload,userName}),
         googleLogin: (payload) => dispatch({ type: 'GOOGLE_REQUEST',payload}),

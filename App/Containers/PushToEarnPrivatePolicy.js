@@ -147,13 +147,15 @@ class PushToEarnPrivatePolicy extends Component {
         //  };
 
         let finalPayload = {
+
             "AuthenticationData": authString.substring(1,authString.length-1),
             "LoginData":loginString.substring(1,loginString.length-1),
             "SignUpData": signupString.substring(1,signupString.length-1)
+
         };
 
         console.log("payload to pass=",finalPayload);
-            
+
         this.props.registerAction(payload);
     }
 

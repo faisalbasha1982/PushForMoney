@@ -72,7 +72,7 @@ export default function * root () {
     takeLatest(RegisterTypes.MAKE_REGISTER_REQUEST, register, api),
 
     // SignUp sagas Mobile
-    takeLatest(RegisterTypes.MOBILE_REGISTER_REQUEST,mobileregister,api),
+    takeLatest(RegisterTypes.MOBILE_REGISTER_REQUEST,mobileregister),
 
     // Register sagas
     takeLatest(RegisterTypes.REGISTER_REQUEST_NEW, RegisterRequestNew,apiSignUp2),

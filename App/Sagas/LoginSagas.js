@@ -416,13 +416,13 @@ export function * LoginRequest(api,action,loginType) {
 
             let authData = AuthComponent.authenticationData(languageCode);
             let encryptedData = AesComponent.aesCallback(authData);
-    
+
             let npayload = {
-    
+
               "AuthenticationData": encryptedData,
               "LoginAccessToken": response.LoginAccessToken,
               "NewMobileNumber":response.userinfo.Mobile,
-    
+
             };
 
             // Navigate to PushToEarnOTPLogin

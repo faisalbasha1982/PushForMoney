@@ -5,7 +5,7 @@ import FixtureAPI from '../Services/FixtureApi'
 import DebugConfig from '../Config/DebugConfig'
 import API from '../Services/Api';
 import API_URL from '../Services/Api_url';
-import RegisterActions from '../Redux/RegisterRedux';
+import RegisterActions, { RegisterSelectors } from '../Redux/RegisterRedux';
 import RegisterTypes from '../Redux/RegisterRedux';
 import * as NavigationService from '../Navigation/NavigationService';
 import localStorage from 'react-native-sync-localstorage';
@@ -176,7 +176,7 @@ function fetchJsonmobileregister(url,payload,phone) {
                 AsyncStorage.setItem('token',token);
 
                 console.tron.log("StatusCode="+response.StatusCode);
-
+                console.tron.log("phone="+phone);
                 // Navigate to PushToEarnOTPLogin
                 NavigationService.navigate('PushToEarnOTPRegister',{accessToken: response.LoginAccessToken, phone: phone });
             }
@@ -205,12 +205,16 @@ export function * fetchRegisterMobileNumber(payload, phone) {
 
 }
 
-export function * mobileregister(api,action) {
+export function * mobileregister(action) {
     try
     {
         // make the call to the api
-        const response = yield call(fetchRegisterMobileNumber, action.payload, action.phone);
-        yield put(RegisterActions.registerSuccess(response.userinfo));
+        console.tron.log("action.phone="+action.mobileNumber);
+        const response = yield call(fetchRegisterMobileNumber, action.payload, action.mobileNumber);
+        console.tron.log("action.payload="+action.payload);
+        yield put(RegisterActions.mobilerequestSuccess(action.mobileNumber));
+        //yield put(RegisterActions.registerSuccess(response.userinfo));
+
     } 
     catch(error) {
         yield put(RegisterActions.registerFailure());
@@ -374,7 +378,7 @@ export function* forgotPasswordRequest(api,action) {
 
 /************************************* Fetch OTP VERIFICATION ****************************/
 
-function fetchOTP(payload)
+function fetchOTP(payload,phone)
 {
  
     // const url = "https://prod-49.westeurope.logic.azure.com:443/workflows/19bdce4bb7d740f586a5f86bf9014efa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LU6WJJr0yUTzSFLdH9TXCBdYPVh6x3SMGegOPX0OTfA";
@@ -408,8 +412,10 @@ function fetchOTP(payload)
             const mobileOTP = responseJson.mobileOTP;
             const statusCode = responseJson.StatusCode;
 
+            console.tron.log("phone in otp request="+phone);
+
             //Navigate to profile page
-            NavigationService.navigate('PushToEarnRegisterProfile',{uname: '', pword: '', payload: payload});
+            NavigationService.navigate('PushToEarnRegisterProfile',{uname: '', pword: '', payload: payload, phone: phone});
     
         } 
         else {
@@ -439,7 +445,8 @@ export function * OtpRequest(api,action) {
 
     try {
 
-        const response = yield call(fetchOTP, action.payload);
+        console.tron.log("phone in otp request="+action.phone);
+        const response = yield call(fetchOTP, action.payload,action.phone);
         yield put(RegisterActions.registerSuccess());
 
     }catch(error)

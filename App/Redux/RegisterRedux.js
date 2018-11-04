@@ -4,12 +4,13 @@ import { createReducer, createActions, Types as ReduxSauceTypes } from "reduxsau
 
 const { Types, Creators } = createActions({
   makeRegisterRequest: ["payload",'username','password'],
-  mobileRegisterRequest: ["payload",'phone'],
+  mobileRegisterRequest: ["payload","phone"],
+  mobileRegisterRequestSuccess: ["phone"],
   registerRequest: ["payload"],
   registerRequestNew: ["payload"],
   registerSuccess: ['user'],
   registerFailure: null,
-  verifyOtp: ["payload"],
+  verifyOtp: ["payload","phone"],
   verifyOtpFp: ["payload"],
   verifyOtpResend: ["payload"],
   forgetPassword: ["payload"],
@@ -36,7 +37,7 @@ export const RegisterSelectors = {
   getUser: state => state["register"].user,
   getFetching: state => state["register"].fetching,
   getError: state => state["register"].error,
-  getPhone: state => state["register"].phone  
+  getPhone: state => state["register"].phone
 };
 
 /* ------------- Reducers ------------- */
@@ -52,8 +53,11 @@ export const makerequest = (state, action) => {
 }
 
 export const mobilerequest = (state, action) => {
-   const { payload, phone} = action 
-  return { ...state, fetching: true, payload, phone }
+  return { ...state, fetching: true, }
+}
+
+export const mobilerequestSuccess = (state, { phone }) => {
+  return { ...state, fetching: true, phone, }
 }
 
 // new request the data from an api
@@ -63,7 +67,7 @@ export const newrequest = (state, { payload }) => {
 
 // successful api lookup
 export const success = (state, {user}) => {
-  return { ...state,  fetching: false,};
+  return { ...state, user,  fetching: false,};
 };
 
 // Something went wrong somewhere.
@@ -72,8 +76,8 @@ export const failure = state => {
 };
  
 // request OTP verification
-export const otp = (state, {payload}) => {
-  return {...state, fetching: true, payload }
+export const otp = (state, action) => {
+  return {...state, fetching: true, }
 };
 
 export const otpResend = (state, {payload}) => {
@@ -99,6 +103,7 @@ export const defaultHandler = (state) => {
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.MAKE_REGISTER_REQUEST]: makerequest,
   [Types.MOBILE_REGISTER_REQUEST]: mobilerequest,
+  [Types.MOBILE_REGISTER_REQUEST_SUCCESS]: mobilerequestSuccess,
   [Types.REGISTER_REQUEST]: request,
   [Types.REGISTER_REQUEST_NEW]: newrequest,
   [Types.REGISTER_SUCCESS]: success,

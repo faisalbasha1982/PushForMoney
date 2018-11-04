@@ -234,15 +234,17 @@ class PushToEarnOTPRegister extends Component {
             Alert.alert("Please Enter Otp Text");
         }
         else
-         {                 
+         {
             let authData = AuthComponent.authenticationData(this.state.languageCode);
             let encryptedData = AesComponent.aesCallback(authData);
   
             let token = this.props.navigation.state.params.accessToken;
             let phone = this.props.navigation.state.params.phone;
+
             this.setState({ token: token});
 
             console.tron.log("otpstring="+this.state.otpText);
+            console.tron.log("phone="+phone);
     
              let newPayload = {
 
@@ -253,7 +255,7 @@ class PushToEarnOTPRegister extends Component {
 
              };
 
-             this.props.verifyOTP(newPayload);
+             this.props.verifyOTP(newPayload,phone);
 
          }
     }
@@ -717,7 +719,7 @@ const mapStateToProps = state => {
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
-      verifyOTP: (payload) => dispatch({ type: 'VERIFY_OTP', payload }),
+      verifyOTP: (payload,phone) => dispatch({ type: 'VERIFY_OTP', payload, phone }),
 
     };
   };

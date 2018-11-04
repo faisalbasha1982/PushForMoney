@@ -489,14 +489,14 @@ class PushToEarnRegisterProfile extends Component {
 
         this.setState({ isLoading: true});
 
-        let signUpData = "\"SignUpData\":" +"\""+this.aes("{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.props.phone+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}") +"\"";
+        let signUpData = "\"SignUpData\":" +"\""+this.aes("{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.props.navigation.state.params.phone+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}") +"\"";
 
         // console.tron.log("signupData="+"{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.state.phoneNumberInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
-        console.log("signUpData=","{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.props.phone+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
-
-        console.log("encrypted signup data="+this.aes("{ 'FName' : "+this.state.firstNameInput+", 'LName' : "+this.state.lastNameInput+", 'Mob':"+this.props.phone+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}"));
+        console.log("signUpData=","{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.props.navigation.state.params.phone+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
+        console.log("encrypted signup data="+this.aes("{ 'FName' : "+this.state.firstNameInput+", 'LName' : "+this.state.lastNameInput+", 'Mob':"+this.props.navigation.state.params.phone+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}"));
         console.log("payload passed to private policy=",payload);
-        console.tron.log("payload="+payload.Authe);
+        console.tron.log("payload="+payload.AuthenticationData);
+        console.tron.log("payload="+payload.loginData);        
 
         let newPayload = payload.substring(1,payload.length-1);
         console.log("newpayload="+newPayload);
@@ -571,12 +571,13 @@ class PushToEarnRegisterProfile extends Component {
         const username = this.props.navigation.state.params.uname;
         const password = this.props.navigation.state.params.pword;
         let payload  = this.props.navigation.state.params.payload;
-        console.log("payload type="+typeof(payload));        
-
+        let phone = this.props.navigation.state.params.phone;
+        console.log("payload type="+typeof(payload));
         console.log("username received in register profile="+this.props.navigation.state.params.uname);
         // console.tron.log("username received in register profile="+this.props.navigation.state.params.uname);
         console.log("platform --->",Platform.OS);
         console.log("lastname="+this.state.text.lastName);
+        console.tron.log("phone in register profile="+phone);
 
         return (
 
@@ -649,6 +650,7 @@ class PushToEarnRegisterProfile extends Component {
                                             initialCountry={this.state.countryCode}
                                             onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
                                             style= {newStyle.nameInput}
+                                            value = { phone }
                                             onChangePhoneNumber = { (phoneNumberInput) => this.validateBelgiumPhoneNumber(phoneNumberInput) }
                                         />
                     <Text style={newStyle.firstName}>{this.state.text.Password}</Text>
@@ -690,8 +692,6 @@ class PushToEarnRegisterProfile extends Component {
                                     textAlign: 'center'}}
                             > {this.state.buttonText.toUpperCase()}</Text>
                         </TouchableOpacity>
-                   
- 
             </KeyboardAwareScrollView>
 
         );
@@ -845,7 +845,7 @@ const mapStateToProps = state => {
     return {
         fetchingRegister: RegisterSelectors.getFetching(state),
         getUser: RegisterSelectors.getUser(state),
-        phone: RegisterSelectors.getPhone(state),
+        mobilePhone: RegisterSelectors.getPhone(state),
     };
   };
   
