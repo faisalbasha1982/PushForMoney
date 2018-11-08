@@ -116,7 +116,8 @@ class PushToEarnSignUp2 extends Component {
             cpasswordEmptyError: false,
             text: {},
             countryCode: 'be',
-            phoneNumberInput:''
+            phoneNumberInput:'',
+            phone:''
         };    
     }
 
@@ -520,8 +521,11 @@ class PushToEarnSignUp2 extends Component {
 
     getAsyncStorage = async () => {
 
+        console.log("phone="+this.props.navigation.state.params.phone);
+        console.tron.log("phone="+this.props.navigation.state.params.phone);
+
         await AsyncStorage.getItem('language').then((language) => {
-            this.setState({ language: language });
+            this.setState({ language: language, phone: this.props.navigation.state.params.phone });
         });
 
         this.setLanguage();
@@ -529,6 +533,11 @@ class PushToEarnSignUp2 extends Component {
     }
 
     componentDidMount() {
+
+
+        console.log("phone="+this.props.navigation.state.params.phone);
+        console.tron.log("phone="+this.props.navigation.state.params.phone);
+
 
         let language = localStorage.getItem('language');
         console.log('local storage language='+language);
@@ -1127,7 +1136,8 @@ class PushToEarnSignUp2 extends Component {
                             lineHeight: 34,
                             letterSpacing: 0,
                             textAlign: "center",
-                            paddingLeft:10,
+                            paddingLeft:15,
+                            marginRight: 15,
                             color: "#E73D50"
                         }}>
                         {this.state.text.SignUp}
@@ -1256,15 +1266,28 @@ class PushToEarnSignUp2 extends Component {
                 <View style={newStyle.inputContainer}>
 
                     <Text style={newStyle.firstName}>{this.state.text.Phone}</Text>
-                    <PhoneInput
+                    {
+                        (this.state.phone === '')?
+                        <PhoneInput
+                            opacity={1}
+                            ref={(ref) => { this.phone = ref; }}
+                            initialCountry={this.state.countryCode}
+                            onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
+                            style= {newStyle.nameInput}                        
+                            onChangePhoneNumber = { (phoneNumberInput) => this.validateUAEPhoneNumber(phoneNumberInput) }
+                        />
+                        :
+                        <PhoneInput
                         opacity={1}
                         ref={(ref) => { this.phone = ref; }}
                         initialCountry={this.state.countryCode}
                         onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
-                        style= {newStyle.nameInput}
+                        style= {newStyle.nameInput} 
+                        value = { this.state.phone }                       
                         onChangePhoneNumber = { (phoneNumberInput) => this.validateUAEPhoneNumber(phoneNumberInput) }
                     />
 
+                    }
                     <View style={newStyle.endButtons}>
 
                      <TouchableOpacity

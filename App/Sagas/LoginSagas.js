@@ -296,7 +296,7 @@ export function * notificationRequest(api,action) {
 
 }
 
-function fetchJsonNew(url,payload) {
+function fetchJsonNew(url,payload,phoneNumber) {
 
   // console.log("login fetch json:");
   // console.tron.log("login fetch json");  
@@ -314,14 +314,7 @@ function fetchJsonNew(url,payload) {
 
       if (response.StatusCode === 200) 
       {
-        AsyncStorage.setItem('token',response.LoginAccessToken);
-      }
-      else
-      {
-        const error = new Error(response.statusText);
-        error.response = response;
-        throw error;
-
+        AsyncStorage.setItem('token',response.LoginAccessToken);        
       }
 
       return response;
@@ -371,18 +364,23 @@ function fetchLogin(payload,url) {
   return fetchJsonNew(url,payload);
 }
 
-export function * LoginRequest(api,action,loginType) {
+export function * LoginRequest(api,action) {
   
   try
   {
 
     // make the call to the api
-    const response = yield call(fetchLogin, action.payload, API_URL.mobileSignUpLoginUrlNewStag,loginType);
+    const response = yield call(fetchLogin, action.payload, API_URL.mobileSignUpLoginUrlNewStag);
+    console.tron.log("action.phone="+action.phoneNumber);
+    let phoneNumber = action.phoneNumber;
+    let payload = action.payload;
 
     if(response.StatusCode === 200)
     {      
       console.tron.log("response="+response.StatusCode);
       console.tron.log("response="+response.userinfo.MobileUserId);
+
+      let phone = action.phoneNumber;
 
         if(response.userinfo.MobileUserId === 0)
           {
@@ -391,9 +389,7 @@ export function * LoginRequest(api,action,loginType) {
 
             // do data conversion here if needed
             yield put(LoginActions.loginFailure(response.userinfo));
-
-            // AsyncStorage.getItem('language').then((language) => {
-            // });
+            NavigationService.navigate('PushToEarnSignUp2',{ phone: action.phoneNumber});
 
           }
          else
@@ -437,14 +433,31 @@ export function * LoginRequest(api,action,loginType) {
             // });
 
          }  
+    }    
+    else
+    {
+
+      if(response.StatusCode === 201)
+      {
+           Alert.alert("Please Confirm your Mobile Number");
+           NavigationService.navigate('PushToEarnRegisterProfile',{uname:'', pword:'', payload: payload, phone: phoneNumber, pPayload:''});
+           console.tron.log("201 Error");           
+      }
+      else
+      {
+        Alert.alert("Please Sign Up , as your phone number does not exist in our database");
+        NavigationService.navigate('PushToEarnSignUp2', { phone: action.phoneNumber});
+      }
+
     }
-    
   }
   catch(error) 
   {
     // console.tron.log("Error@login",error);
     // console.log("error="+error);
     yield put(LoginActions.loginFailure());    
+    NavigationService.navigate('PushToEarnSignUp2', {phone: action.phoneNumber});
+
   }
 
 }

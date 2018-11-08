@@ -240,6 +240,7 @@ class PushToEarnOTPRegister extends Component {
   
             let token = this.props.navigation.state.params.accessToken;
             let phone = this.props.navigation.state.params.phone;
+            let pPayload = this.props.navigation.state.params.payload;
 
             this.setState({ token: token});
 
@@ -251,11 +252,11 @@ class PushToEarnOTPRegister extends Component {
                  "AuthenticationData": encryptedData,
                  "LoginAccessToken": this.state.token,
                  "OTP": this.state.otpText,
-                 "OTPType" : "L",
+                 "OTPType" : "R",
 
              };
 
-             this.props.verifyOTP(newPayload,phone);
+             this.props.verifyOTP(newPayload,phone,pPayload);
 
          }
     }
@@ -719,7 +720,7 @@ const mapStateToProps = state => {
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
-      verifyOTP: (payload,phone) => dispatch({ type: 'VERIFY_OTP', payload, phone }),
+      verifyOTP: (payload,phone,pPayload) => dispatch({ type: 'VERIFY_OTP', payload, phone, pPayload }),
 
     };
   };

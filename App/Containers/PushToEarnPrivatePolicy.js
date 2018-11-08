@@ -62,6 +62,8 @@ const window = Dimensions.get('window');
 
 export const IMAGE_HEIGHT = window.width / 2;
 export const IMAGE_HEIGHT_SMALL = window.width /7;
+import * as AuthComponent from '../Components/AuthComponent';
+import * as AesComponent from '../Components/AesComponent';
 
 // Styles
 
@@ -113,27 +115,27 @@ class PushToEarnPrivatePolicy extends Component {
 
         console.log("payload sent to private policy page=",payload);
 
-        let newPayload = payload.substring(1,payload.length-1);
+        // let newPayload = payload.substring(1,payload.length-1);
 
-        console.log("newpayload=",newPayload);
+        // console.log("newpayload=",newPayload);
 
-        let arraypayload = newPayload.split(",");
+        // let arraypayload = newPayload.split(",");
 
-        console.log("arraypayload 0 ="+arraypayload[0]);
-        console.log("arraypayload 1 ="+arraypayload[1]);
-        console.log("arraypayload 2 ="+arraypayload[2]);
+        // console.log("arraypayload 0 ="+arraypayload[0]);
+        // console.log("arraypayload 1 ="+arraypayload[1]);
+        // console.log("arraypayload 2 ="+arraypayload[2]);
 
-        const authCode   = arraypayload[0].split(":");
-        const loginCode  = arraypayload[1].split(":");
-        const signupCode = arraypayload[2].split(":");
+        // const authCode   = arraypayload[0].split(":");
+        // const loginCode  = arraypayload[1].split(":");
+        // const signupCode = arraypayload[2].split(":");
 
-        let authString = authCode[1];
-        let loginString = loginCode[1];
-        let signupString = signupCode[1];
+        // let authString = authCode[1];
+        // let loginString = loginCode[1];
+        // let signupString = signupCode[1];
 
-        console.log("authCode 2   =",authCode[1]);
-        console.log("loginCode 2  =",loginCode[1]);
-        console.log("signupCode 2 =",signupCode[1]);
+        // console.log("authCode 2   =",authCode[1]);
+        // console.log("loginCode 2  =",loginCode[1]);
+        // console.log("signupCode 2 =",signupCode[1]);
 
         // NavigationService.navigate('PushToEarnOTP');
 
@@ -146,11 +148,17 @@ class PushToEarnPrivatePolicy extends Component {
 
         //  };
 
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
+        let encryptedData = AesComponent.aesCallback(authData);
+
+        console.tron.log("loginData:="+payload.LoginData);
+        console.tron.log("SignUpData="+payload.SignupData);
+
         let finalPayload = {
 
-            "AuthenticationData": authString.substring(1,authString.length-1),
-            "LoginData":loginString.substring(1,loginString.length-1),
-            "SignUpData": signupString.substring(1,signupString.length-1)
+            "AuthenticationData": encryptedData,
+            "LoginData": payload.LoginData,
+            "SignUpData": payload.SignupData
 
         };
 

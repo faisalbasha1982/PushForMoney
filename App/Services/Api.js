@@ -55,7 +55,7 @@ const create = (baseURL = API_URL.signUpLoginUrl) => {
   const mediaLoginStag = body => 
   {
     api.setBaseURL('https://famobileutilityapiinterfacestag.azurewebsites.net');
-    api.post(`/api/fnMobileUserLogin?code=${API_URL.commonCode}`,body);
+    api.post(`/api/fnMobileUserLoginByMobile?code=${API_URL.commonCode}`,body);
   }
 
   const registerNew = body => 

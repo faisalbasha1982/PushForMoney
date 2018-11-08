@@ -902,7 +902,7 @@ class PushToEarnMoneyComponent extends Component {
             onPickerConfirm: data => {
                 let monthNumber = this.getMonthNumber(data[0]);
                 console.log("monthNumber="+monthNumber);
-                this.setState({currentMonth: data[0], currentYear: data[1]});
+                this.setState({currentMonth: data[0], currentYear: data[1], selectedValue: [data[0],data[1]]});                
                 this.getPerson();
                 console.log("ON Confirm Data="+data[1]);
             },

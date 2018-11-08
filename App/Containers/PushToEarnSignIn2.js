@@ -311,13 +311,13 @@ class PushToEarnSignIn2 extends Component {
           if( this.state.encodedText !== "")
           {
 
-            let payload = JSON.stringify({
+            let payload = {
 
                 "AuthenticationData": encryptedData,
                 "LoginData": this.state.encodedText,
                 "SignupMode": false,
 
-            });
+            };
 
             let payloadNew = JSON.stringify({
                   "userName": userName,
@@ -938,7 +938,7 @@ class PushToEarnSignIn2 extends Component {
                   "LoginData": this.state.encodedText
               });
 
-                this.props.loginAction(payload);
+                this.props.loginAction(payload, this.state.phoneNumberInput);
                 this.setState({isLoading: false});
             }
             else
@@ -1004,7 +1004,7 @@ class PushToEarnSignIn2 extends Component {
                       "LoginData": this.state.encodedText
                   });
     
-                    this.props.loginAction(payload);
+                    this.props.loginAction(payload,this.state.phoneNumberInput);
                     this.setState({isLoading: false});
                 }
                 else
@@ -1032,7 +1032,7 @@ class PushToEarnSignIn2 extends Component {
                 else
                     newMobNo = newMobNo + mobileNo.substring(2);
             else
-                    if(mobileNo !== null && mobileNo.substring(0,1)==="0")
+                if(mobileNo !== null && mobileNo.substring(0,1)==="0")
                         newMobNo = newMobNo + mobileNo.substring(1);
 
             console.log("newMobNo="+newMobNo);
@@ -1064,7 +1064,7 @@ class PushToEarnSignIn2 extends Component {
         let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
         let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
 
-        this.setState({isLoading:true});
+        // this.setState({isLoading:true});
 
         if(phone === '')
         {
@@ -1373,7 +1373,7 @@ class PushToEarnSignIn2 extends Component {
                             textAlign: "center",
                             color: "#E73D50"
                             }}
-                        onPress = { () => this.props.navigation.navigate('PushToEarnSignUp2')}
+                        onPress = { () => this.props.navigation.navigate('PushToEarnSignUp2', {phone: ''})}
                         >{signup[0]+""}</Text>
                         <Text
                         style={{
@@ -1388,7 +1388,7 @@ class PushToEarnSignIn2 extends Component {
                             textAlign: "center",
                             color: "#E73D50"
                             }}
-                        onPress = { () => this.props.navigation.navigate('PushToEarnSignUp2')}
+                        onPress = { () => this.props.navigation.navigate('PushToEarnSignUp2',{phone: ''})}
                         >{" "+signup[1]}</Text>
                     </Text>
                 </View>
@@ -1631,7 +1631,7 @@ const mapStateToProps = state => {
   const mapDispatchToProps = dispatch => {
     return {
 
-      loginAction: ( payload ) => dispatch({ type: 'LOGIN_REQUEST', payload }),
+      loginAction: ( payload , phoneNumber ) => dispatch({ type: 'LOGIN_REQUEST', payload, phoneNumber }),
       signUpFaceBook: (payload,payloadNew) => dispatch({type: 'FACEBOOK_DATA', payload, payloadNew}),
       loginFaceBook: ( payload, payloadNew ) => dispatch({ type: 'FACEBOOK_DATA', payload, payloadNew}),
       twitterlogin: (payload,userName) => dispatch({ type:'TWITTER_REQUEST',payload,userName}),

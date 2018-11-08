@@ -28,12 +28,8 @@ function fetchJsonNew(url,payload) {
     .then((response) => response.json())
     .then( response => {
 
-        // console.log("response code=="+response.StatusCode);
-
         let token = response.LoginAccessToken;
         AsyncStorage.setItem('token',token);
-
-        // console.tron.log("storing token="+token);
 
         if(response.StatusCode === 200)
         {
@@ -46,10 +42,11 @@ function fetchJsonNew(url,payload) {
                 {
                     cancelable: false
                 }
-            );
+            )
 
-
-            NavigationService.navigate('PushToEarnOTP');
+            //NavigationService.navigate('PushToEarnSignIn2');
+                
+            NavigationService.navigate('PushToEarnOTPRegister',{accessToken: response.LoginAccessToken, phone: '', payload: '' });
 
         }
         else
@@ -58,7 +55,7 @@ function fetchJsonNew(url,payload) {
                 'User already exists',
                 response.Message,
                 [
-                    { text: 'Please Login', onPress:() => NavigationService.navigate('PushToEarnSignIn')}
+                    { text: 'Please Login', onPress:() => NavigationService.navigate('PushToEarnSignIn2')}
                 ],
                 {
                     cancelable: false
@@ -81,7 +78,7 @@ export function * RegisterRequestNew(api,action)
     try
     {
         const response = yield call(fetchRegisterRequestNew, action.payload);
-        NavigationService.navigate('PushToEarnOTP',{payload: action.payload});
+        //NavigationService.navigate('PushToEarnOTP',{payload: action.payload});
 
     }
     catch(error) {
@@ -170,15 +167,20 @@ function fetchJsonmobileregister(url,payload,phone) {
     .then((response) => response.json())
       .then(response => {
   
-            if(response.StatusCode === 200)
+        console.tron.log("StatusCode="+response.StatusCode);
+
+            if(response.StatusCode === 201)
             {
                 let token = response.LoginAccessToken;
                 AsyncStorage.setItem('token',token);
 
                 console.tron.log("StatusCode="+response.StatusCode);
                 console.tron.log("phone="+phone);
-                // Navigate to PushToEarnOTPLogin
-                NavigationService.navigate('PushToEarnOTPRegister',{accessToken: response.LoginAccessToken, phone: phone });
+                
+                // Navigate to PushToEarnRegisterProfile
+                NavigationService.navigate('PushToEarnRegisterProfile',{uname: '', pword: '', payload: payload, phone: phone, pPayload: ''});
+                
+                //NavigationService.navigate('PushToEarnOTPRegister',{accessToken: response.LoginAccessToken, phone: phone, payload: payload });
             }
             else
                 Alert.alert(
@@ -267,7 +269,7 @@ function fetchOTPFP(payload)
             // console.tron.log("response data=",responseJson.Message);
                 
             //Navigate to OTP page
-            NavigationService.navigate('PushToEarnSignIn');
+            NavigationService.navigate('PushToEarnSignIn2');
     
         }
         else {    
@@ -378,7 +380,7 @@ export function* forgotPasswordRequest(api,action) {
 
 /************************************* Fetch OTP VERIFICATION ****************************/
 
-function fetchOTP(payload,phone)
+function fetchOTP(payload,phone,pPayload)
 {
  
     // const url = "https://prod-49.westeurope.logic.azure.com:443/workflows/19bdce4bb7d740f586a5f86bf9014efa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LU6WJJr0yUTzSFLdH9TXCBdYPVh6x3SMGegOPX0OTfA";
@@ -415,8 +417,11 @@ function fetchOTP(payload,phone)
             console.tron.log("phone in otp request="+phone);
 
             //Navigate to profile page
-            NavigationService.navigate('PushToEarnRegisterProfile',{uname: '', pword: '', payload: payload, phone: phone});
-    
+            //NavigationService.navigate('PushToEarnRegisterProfile',{uname: '', pword: '', payload: payload, phone: phone, pPayload: pPayload});
+            AsyncStorage.getItem('language').then((language) => {
+                //Navigate to OTP page
+                NavigationService.navigate('TestPage',{language:language});
+              });    
         } 
         else {
 
@@ -444,9 +449,9 @@ function fetchOTP(payload,phone)
 export function * OtpRequest(api,action) {
 
     try {
-
+        
         console.tron.log("phone in otp request="+action.phone);
-        const response = yield call(fetchOTP, action.payload,action.phone);
+        const response = yield call(fetchOTP, action.payload,action.phone,action.pPayload);
         yield put(RegisterActions.registerSuccess());
 
     }catch(error)
@@ -494,7 +499,7 @@ function fetchOtpResend(payload)
             const statusCode = responseJson.StatusCode;
                 
             //Navigate to OTP page
-            NavigationService.navigate('PushToEarnSignIn');
+            NavigationService.navigate('PushToEarnSignIn2');
     
         } 
         else 

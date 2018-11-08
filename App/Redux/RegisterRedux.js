@@ -22,7 +22,7 @@ export default Creators;
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = {
-  fetching: null,
+  fetching: false,
   payload: null,
   error: null,
   user: null,
