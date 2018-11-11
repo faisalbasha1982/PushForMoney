@@ -298,8 +298,7 @@ export function * notificationRequest(api,action) {
 
 function fetchJsonNew(url,payload,phoneNumber) {
 
-  // console.log("login fetch json:");
-  // console.tron.log("login fetch json");  
+ Alert.alert("in fetch json url="+url);
 
   return  fetch(url,{
       method: 'POST',
@@ -335,8 +334,7 @@ function fetchJsonNewOTP(url,payload) {
     .then(response => {
 
       if (response.StatusCode === 200) {
-        Alert.alert("OTP sent Successfully to Your Mobile Number");
-
+          Alert.alert("OTP sent Successfully to Your Mobile Number");
       }
       else
       {
@@ -351,26 +349,20 @@ function fetchJsonNewOTP(url,payload) {
 }
 
 function fetchLoginOTP(payload) {
-
   return fetchJsonNewOTP(API_URL.mobileUserLoginOTP,payload); // fnMobileUserLoginOtp
-
 }
 
 function fetchLogin(payload,url) {
-
-  // console.tron.log("inside fetch Login function");
-  // console.log("url login="+url);
-
+  console.tron.log("payload="+url);
   return fetchJsonNew(url,payload);
 }
 
-export function * LoginRequest(api,action) {
-  
+export function * LoginRequest(api,action) {  
   try
   {
 
     // make the call to the api
-    const response = yield call(fetchLogin, action.payload, API_URL.mobileSignUpLoginUrlNewStag);
+    const response = yield call(fetchLogin, action.payload, `https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnMobileUserLoginByMobile?code=${API_URL.commonCode}`);
     console.tron.log("action.phone="+action.phoneNumber);
     let phoneNumber = action.phoneNumber;
     let payload = action.payload;
@@ -484,7 +476,7 @@ function fetchOTP(payload)
     let authData = AuthComponent.authenticationData(languageCode);
     let encryptedData = AesComponent.aesCallback(authData);
 
-    const url = API_URL.staging.laMobileOtpVerification;
+    const url = API_URL.production.laMobileOtpVerification;
 
     AsyncStorage.getItem('token').then((token) => 
     {
@@ -526,7 +518,7 @@ function fetchOTP(payload)
                 'User Does not Exist',
                 responseJson.Message,
                 [
-                    { text: 'Please Register', onPress:() => {NavigationService.navigate('PushToEarnSignUp')} }
+                    { text: 'Please Register', onPress:() => {NavigationService.navigate('PushToEarnSignUp2', { phone: ''})} }
                 ],
                 {
                     cancelable: false

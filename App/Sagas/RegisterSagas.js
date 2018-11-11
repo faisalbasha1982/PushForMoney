@@ -70,7 +70,7 @@ function fetchJsonNew(url,payload) {
 
 export function * fetchRegisterRequestNew(payload) {
  
-     return fetchJsonNew(API_URL.staging.laMobileUserSignUp,payload);
+     return fetchJsonNew(API_URL.production.laMobileUserSignUp,payload);
 }
 
 export function * RegisterRequestNew(api,action)
@@ -236,7 +236,7 @@ function fetchOTPFP(payload)
     // const url = "https://prod-36.westeurope.logic.azure.com:443/workflows/64111a66520a4621a4f949f0d3a12413/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=EcEqv1IaEYCat3Jx3zeQ8HLQzUiuqK8QAzP0R8cJcPw";
     // const url = "https://prod-12.westeurope.logic.azure.com:443/workflows/d2646d57cf7d447f960d7e46684db4cd/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ADncEusH2PpqjGoYT_L20L_Wxs9sUuVryh9Z5cJJsS4";
 
-    const url = API_URL.staging.laMobileSaveNewPassword;
+    const url = API_URL.prduction.laMobileSaveNewPassword;
 
     // console.log("newpayload=",payload);
 
@@ -308,7 +308,7 @@ export function* forgotPasswordOTPRequest(api,payload){
 
 function fetchJsonForgotPasswordRequest(payload) {
 
-    const url = API_URL.staging.laMobileSendForgotPasswordOTP;
+    const url = API_URL.production.laMobileSendForgotPasswordOTP;
 
     fetch(url,{
         method: 'POST',
@@ -386,7 +386,7 @@ function fetchOTP(payload,phone,pPayload)
     // const url = "https://prod-49.westeurope.logic.azure.com:443/workflows/19bdce4bb7d740f586a5f86bf9014efa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LU6WJJr0yUTzSFLdH9TXCBdYPVh6x3SMGegOPX0OTfA";
     // const url = "https://prod-21.westeurope.logic.azure.com:443/workflows/fc0efd237ccb46268c5353e97d791a7e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Z2LNFPTtuCNVTEq9jcpwaKsLGgOjYaQOuiwoJFZenbY";
 
-    const url = API_URL.staging.laMobileOtpVerification;
+    const url = API_URL.production.laMobileOtpVerification;
 
     fetch(url,{
         method: 'POST',
@@ -467,7 +467,7 @@ function fetchOtpResend(payload)
     // const url = "https://prod-56.westeurope.logic.azure.com:443/workflows/9834ab95eb784c9b87f174acdd1f87b0/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LenubOpJgzckOgeOAbq12BS9_0JFjtGUYogtgKYRlRE";
     // const url = "https://prod-27.westeurope.logic.azure.com:443/workflows/75cdda7a4d1e412f8b6fbb00f099cdbc/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=FY6KovQIbuksZrM6Eh00bISPC1oUTrSxFKKhCbyRwpY";
 
-    const url = API_URL.staging.laMobileUserResendSignupOTP;
+    const url = API_URL.production.laMobileUserResendSignupOTP;
 
     fetch(url,{
         method: 'POST',

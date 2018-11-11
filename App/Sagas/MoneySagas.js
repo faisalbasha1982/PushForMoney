@@ -11,21 +11,22 @@ function fetchJson(url,payload) {
     // console.log("inside fetchJson:");
     // console.tron.log("inside fetch json");    
 
-    Alert.alert("fetch Json="+payload);
+    // Alert.alert("fetch Json="+payload +" url="+url);
 
-    return  fetch(url,{
+    return fetch(url,{
         method: 'POST',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
         },
-        body: payload,
+        body: JSON.stringify(payload),
     })
       .then((response) => response.json())
       .then(response => {
         
-        Alert("respons="+response.StatusCode);
+        Alert.alert("respons="+response.StatusCode);
         return response;
+
       });
   }
 
@@ -54,7 +55,7 @@ export function * getMoneyMonth(api,action)
 }
 
 function fetchsomething(url,payload) {
-    Alert.alert("url inside fetch something="+typeof(payload));
+    // Alert.alert("url inside fetch something="+typeof(payload));
     return fetch(url,{
         method: 'POST',
         headers: {
@@ -66,7 +67,7 @@ function fetchsomething(url,payload) {
       .then((response) => response.json())
       .then(response => {
         
-        Alert.alert("response="+response);
+        // Alert.alert("response="+response);
         return response;
 
       });
@@ -91,7 +92,7 @@ export function * getPersonMonth(api,action)
     try {
 
         console.tron.log("Money Request:"+action.payload.Month);
-        Alert.alert("action.payload="+action.payload);
+        // Alert.alert("action.payload="+action.payload);
          const responseJson = yield call(fetchPerson,action.payload);
          console.tron.log("responseJson="+responseJson.StatusCode);
          yield put(MoneyActions.moneySuccess(responseJson.monthlyEarningGroupbyReferrals,responseJson.TotalWorkedHours,responseJson.TotalEarnings));

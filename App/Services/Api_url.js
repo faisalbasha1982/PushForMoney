@@ -6,7 +6,7 @@ const liRedirectUri = 'https://www.example.com/auth/linkedin';
 const slot = 'stag';
 
 const Api_url = {
-  slot: 'stag',
+  slot: 'prod',
   functionURL:`https://faazureapiinterface${slot}.azurewebsites.net/api/fnMoblieLogin?code=${key}`,
   LoginUrl: `https://faazureapiinterface${slot}.azurewebsites.net/api/fnMoblieLogin?code=${key}`,
   LoginUrlStag: `https://faazureapiinterfacestag.azurewebsites.net/api/fnMoblieLogin?code=${key}`,
@@ -22,7 +22,7 @@ const Api_url = {
   rsaKey: '0iFWNUIGY2Td+N3g/oIa1hUjHyZ2X9OcLhUtNlaa33nQuG8JKdfCAR5JGN2fa2RgOz018OU+HQTwPxKH9Lv0I6//B6JcClb6pr8wO6V6LYkWhnjADZc476TdqiD/jIPK3czKxbf2DWt2IXJqD+6aEEjRlH8u18bpXfSwXvtocsiuPKLwwfb0jMGsW2YuycoFKAYovuyXaAB4ra+ID6R2fH2CwGRlYxcGOsWEdhP7zFA0YwVwFLx96f/H43mz+AZisnwK/txXXQM4fcaLXXktZzSDwwanGbaYJe3o9SGACz607Q0v0mFMP8z9kyL3700TKyd35M5j2Qryk8OW3OVpLQ==',
   signUpLoginUrl: 'https://famobileutilityapiinterfacedev.azurewebsites.net',
   signUpLoginUrlNew: `https://famobileutilityapiinterface${slot}.azurewebsites.net/api/fnMobileUserLogin?code=${key}`,
-  signUpLoginUrlNewStag: `https://famobileutilityapiinterfacestag.azurewebsites.net/api/fnMobileUserLogin?code=${key}`,
+  signUpLoginUrlNewStag: `https://famobileutilityapiinterface${slot}.azurewebsites.net/api/fnMobileUserLogin?code=${key}`,
   mobileSignUpLoginUrlNewStag: `https://famobileutilityapiinterface${slot}.azurewebsites.net/api/fnMobileUserLoginByMobile?code=${key}`,
   mobileUserLoginOTP:`https://famobileutilityapiinterface${slot}.azurewebsites.net/api/fnMobileUserLoginOtp?code=${key}`,
   otpURL: 'https://famobileutilityapiinterfacedev.azurewebsites.net/api/fnOtpVerification?code=mZ7N5kRn1GS7jcRgB0CPAthEYoFf8jVdg7CtG9YhhNL1qj9FeRbePQ==',  
