@@ -6,7 +6,7 @@ const liRedirectUri = 'https://www.example.com/auth/linkedin';
 const slot = 'stag';
 
 const Api_url = {
-  slot: 'prod',
+  slot: 'stag',
   functionURL:`https://faazureapiinterface${slot}.azurewebsites.net/api/fnMoblieLogin?code=${key}`,
   LoginUrl: `https://faazureapiinterface${slot}.azurewebsites.net/api/fnMoblieLogin?code=${key}`,
   LoginUrlStag: `https://faazureapiinterfacestag.azurewebsites.net/api/fnMoblieLogin?code=${key}`,

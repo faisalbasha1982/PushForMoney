@@ -15,11 +15,8 @@ export function * rsaRequest(api,payload) {
 
     const response = yield call(api.rsa, payload.payload);
 
-    // console.tron.log("response from api call =",response);
 
     if (response.ok ) {
-      // console.tron.log("response="+response.data.StatusCode);
-      // console.tron.log("data="+response.data.Message);
     }
 
   }catch(error)
@@ -35,7 +32,7 @@ function fetchFacebook(payload)
   const url = `https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnMobileUserLogin?code=${API_URL.commonCode}`;
 
     // console.log("newpayload=",payload);
-
+ 
     fetch(url,{
         method: 'POST',
         headers: {
@@ -298,8 +295,6 @@ export function * notificationRequest(api,action) {
 
 function fetchJsonNew(url,payload,phoneNumber) {
 
- Alert.alert("in fetch json url="+url);
-
   return  fetch(url,{
       method: 'POST',
       headers: {
@@ -363,7 +358,6 @@ export function * LoginRequest(api,action) {
 
     // make the call to the api
     const response = yield call(fetchLogin, action.payload, `https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnMobileUserLoginByMobile?code=${API_URL.commonCode}`);
-    console.tron.log("action.phone="+action.phoneNumber);
     let phoneNumber = action.phoneNumber;
     let payload = action.payload;
 
@@ -476,7 +470,7 @@ function fetchOTP(payload)
     let authData = AuthComponent.authenticationData(languageCode);
     let encryptedData = AesComponent.aesCallback(authData);
 
-    const url = API_URL.production.laMobileOtpVerification;
+    const url = API_URL.staging.laMobileOtpVerification;
 
     AsyncStorage.getItem('token').then((token) => 
     {

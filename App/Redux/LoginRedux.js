@@ -28,7 +28,7 @@ export const INITIAL_STATE = {
   fetching: false,
   error: '',
   payload: null,
-  LastViewedNotificationID: -1,
+  LastViewedNotificationID: 0,
   MobileNotifications:null,
 }
 

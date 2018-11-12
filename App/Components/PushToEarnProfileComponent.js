@@ -356,30 +356,30 @@ getAsyncStorage = async () => {
         await AsyncStorage.getItem('token').then((token) => {
             this.setState({ aToken:token });
 
-            setTimeout(() => 
-            {
-                console.log("async token from Storage="+this.state.aToken);
+            // setTimeout(() => 
+            // {
+            //     console.log("async token from Storage="+this.state.aToken);
     
-                let newPayload = {
-                    "AuthenticationData": encryptedData,
-                    "LoginAccessToken": this.state.aToken,
-                    "UpdateRequired" : 1,
-                    "ReadAll" : 0,
-                    "LastViewedNotificationID" : this.props.LastViewedNotificationID,
-                };
+            //     let newPayload = {
+            //         "AuthenticationData": encryptedData,
+            //         "LoginAccessToken": this.state.aToken,
+            //         "UpdateRequired" : 1,
+            //         "ReadAll" : 0,
+            //         "LastViewedNotificationID" : this.props.LastViewedNotificationID,
+            //     };
     
-                this.props.notificationRequest(newPayload);
+            //     this.props.notificationRequest(newPayload);
     
-                setTimeout(() => {
-                    // console.tron.log("mobilenotifications="+this.props.mobileNotifications);
-                    this.setState({ mobileNotifications: this.props.mobileNotifications});
-                }, 3000);
+            //     setTimeout(() => {
+            //         // console.tron.log("mobilenotifications="+this.props.mobileNotifications);
+            //         this.setState({ mobileNotifications: this.props.mobileNotifications});
+            //     }, 3000);
     
-            },3000);    
+            // },3000);    
     
-            setTimeout(() => {
-                AppState.addEventListener('change',this.handleAppStateChange);            
-            },4000);
+            // setTimeout(() => {
+            //     AppState.addEventListener('change',this.handleAppStateChange);            
+            // },4000);
 
           });
 
@@ -632,7 +632,7 @@ getAsyncStorage = async () => {
         console.log("login access token="+this.state.aToken);
         // console.tron.log("login access token="+this.state.aToken);
 
-        let payload = {         
+        let payload = {
             "AuthenticationData": encryptedData,
             "LoginAccessToken":this.state.aToken,
             "NewLastName": name,
@@ -1246,7 +1246,7 @@ getAsyncStorage = async () => {
                                  </TouchableOpacity>
                             </View>
 
-                            <PushNotif />
+                            {/* <PushNotif /> */}
 
                             <View style={{flex: 25}}>
                                 <Text style={newStyle.firstName}>{this.state.text.cardDetails}</Text>
@@ -1704,7 +1704,7 @@ const mapStateToProps = state => {
       getProfile:(payload) => dispatch({ type: 'GET_PROFILE_REQUEST_NEW', payload }),
       nameUpdate: (payload) => dispatch({ type: 'UPDATE_FIRST_NAME', payload }),
       changeMobile: (payload) => dispatch({ type: 'CHANGE_MOBILE', payload }),
-      notificationRequest: (payload) => dispatch({ type: 'NOTIFICATION_REQUEST', payload})
+       notificationRequest: (payload) => dispatch({ type: 'NOTIFICATION_REQUEST', payload})
     };
   };
   

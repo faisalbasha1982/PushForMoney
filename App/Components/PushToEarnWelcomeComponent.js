@@ -12,7 +12,9 @@ import {
     Alert,
     Platform,    
     findNodeHandle,
-    AsyncStorage
+    AsyncStorage,
+    AppState,
+    PushNotificationIOS,
 } from 'react-native';
 
 import { Container, Header, Content, Input, Item } from 'native-base';
@@ -29,6 +31,8 @@ import { StyleSheet } from 'react-native';
 import localStorage from 'react-native-sync-localstorage';
 import { ProfileSelectors } from '../Redux/ProfileRedux';
 import { LoginSelectors } from '../Redux/LoginRedux';
+import PushNotif from '../Containers/PushNotif';
+import PushNotification from 'react-native-push-notification';
 
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
@@ -101,6 +105,46 @@ class PushToEarnWelcomeComponent extends Component {
             this.getAsyncStorage();
     }
 
+    componentWillUnmount() {
+        AppState.addEventListener('change',this.handleAppStateChange);
+    }
+
+    renderNothing = () => {
+
+    }
+
+
+    pushNotification = () => {
+
+        let date = new Date(Date.now() + (20 * 1000));
+        console.log("push notifications");
+
+        (this.state.mobileNotifications !== null && this.state.mobileNotifications !== undefined)?
+        this.state.mobileNotifications.map(notificationObject => 
+                PushNotification.localNotificationSchedule({
+                    message: notificationObject.Message,
+                    date
+                }))
+       :
+       this.renderNothing();
+
+    }
+
+    handleAppStateChange = (appState) =>
+    {
+        if(appState === 'background')
+        {
+
+          console.log("inside handleAppStateChange");
+
+          setTimeout(() => {
+            this.pushNotification();
+          },3000);
+
+        }
+    }
+
+
     componentWillMount()
     {
         console.log("willMount WP welcome component language="+this.props.language);
@@ -123,12 +167,42 @@ class PushToEarnWelcomeComponent extends Component {
         //         this.props.getProfile(payload);
 
         //     },3000);
+        
     }
 
     componentDidMount()
     {
         console.log('DidMount WP welcome component language='+this.props.language);
         this.getAsyncStorage();
+
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
+        let encryptedData = AesComponent.aesCallback(authData);
+
+        setTimeout(() =>
+        {
+
+            console.log("async token from Storage="+this.state.aToken);
+
+            let newPayload = {
+                "AuthenticationData": encryptedData,
+                "LoginAccessToken": this.state.aToken,
+                "UpdateRequired" : 1,
+                "ReadAll" : 0,
+                "LastViewedNotificationID" : this.props.LastViewedNotificationID,
+            };
+
+            this.props.notificationRequest(newPayload);
+
+            setTimeout(() => {
+                // console.tron.log("mobilenotifications="+this.props.mobileNotifications);
+                this.setState({ mobileNotifications: this.props.mobileNotifications});
+            }, 3000);
+
+        },3000);    
+
+        setTimeout(() => {
+            AppState.addEventListener('change',this.handleAppStateChange);            
+        },4000);
     }
 
     render() {
@@ -154,6 +228,8 @@ class PushToEarnWelcomeComponent extends Component {
                                 Sollicitudin turpis.
                         </Text>
                     </View>
+
+                    <PushNotif />
 
                     <View style={newStyle.buttonView}>
 
@@ -323,7 +399,10 @@ const mapStateToProps = state => {
         lastName: ProfileSelectors.getLastName(state),
         email: ProfileSelectors.getEmail(state),
         mobileNo: ProfileSelectors.getMobileNo(state),
-        statusCode: ProfileSelectors.getStatusCode(state)
+        statusCode: ProfileSelectors.getStatusCode(state),
+        LastViewedNotificationID: LoginSelectors.getLastViewedNotificationID(state),
+        mobileNotifications: LoginSelectors.getMobileNotifications(state)
+
     };
   };
   

@@ -123,6 +123,28 @@ class TestPage extends Component {
                 this.getFriendList();        
             },3000);                
 
+            // setTimeout(() => 
+            // {
+
+            //     console.log("async token from Storage="+this.state.aToken);
+    
+            //     let newPayload = {
+            //         "AuthenticationData": encryptedData,
+            //         "LoginAccessToken": this.state.token,
+            //         "UpdateRequired" : 1,
+            //         "ReadAll" : 0,
+            //         "LastViewedNotificationID" : this.props.LastViewedNotificationID,
+            //     };
+    
+            //     this.props.notificationRequest(newPayload);
+    
+            //     setTimeout(() => {
+            //         // console.tron.log("mobilenotifications="+this.props.mobileNotifications);
+            //         this.setState({ mobileNotifications: this.props.mobileNotifications});
+            //     }, 900000);
+    
+            // },900000);    
+
         }
     }
 
@@ -132,8 +154,6 @@ class TestPage extends Component {
 
     getAsyncStorage = async () => {
 
-        let authData = AuthComponent.authenticationData(this.state.languageCode);
-        let encryptedData = AesComponent.aesCallback(authData);
 
         await AsyncStorage.getItem('language').then((language) => {
             this.setState({ language: language })
@@ -141,33 +161,6 @@ class TestPage extends Component {
 
         await AsyncStorage.getItem('token').then((token) => {
             this.setState({ token: token });
-
-            setTimeout(() => 
-            {
-
-                console.log("async token from Storage="+this.state.aToken);
-    
-                let newPayload = {
-                    "AuthenticationData": encryptedData,
-                    "LoginAccessToken": this.state.token,
-                    "UpdateRequired" : 1,
-                    "ReadAll" : 0,
-                    "LastViewedNotificationID" : this.props.LastViewedNotificationID,
-                };
-    
-                this.props.notificationRequest(newPayload);
-    
-                setTimeout(() => {
-                    // console.tron.log("mobilenotifications="+this.props.mobileNotifications);
-                    this.setState({ mobileNotifications: this.props.mobileNotifications});
-                }, 3000);
-    
-            },3000);    
-    
-            setTimeout(() => {
-                AppState.addEventListener('change',this.handleAppStateChange);            
-            },4000);
-
 
         });
 
@@ -178,7 +171,7 @@ class TestPage extends Component {
     }
 
     componentWillUnmount() {
-        AppState.addEventListener('change',this.handleAppStateChange);
+        //AppState.addEventListener('change',this.handleAppStateChange);
     }
 
 
@@ -240,6 +233,35 @@ class TestPage extends Component {
             setTimeout(()=> {
                 this.getFriendList();        
             },3000);
+
+            // let authData = AuthComponent.authenticationData(this.state.languageCode);
+            // let encryptedData = AesComponent.aesCallback(authData);    
+
+            // setTimeout(() => 
+            // {
+
+            //     console.log("async token from Storage="+this.state.aToken);
+    
+            //     let newPayload = {
+            //         "AuthenticationData": encryptedData,
+            //         "LoginAccessToken": this.state.token,
+            //         "UpdateRequired" : 1,
+            //         "ReadAll" : 0,
+            //         "LastViewedNotificationID" : this.props.LastViewedNotificationID,
+            //     };
+    
+            //     this.props.notificationRequest(newPayload);
+    
+            //     setTimeout(() => {
+            //         // console.tron.log("mobilenotifications="+this.props.mobileNotifications);
+            //         this.setState({ mobileNotifications: this.props.mobileNotifications});
+            //     }, 3000);
+    
+            // },3000);    
+    
+            // setTimeout(() => {
+            //     AppState.addEventListener('change',this.handleAppStateChange);            
+            // },4000);
         }
 
     }
@@ -380,6 +402,8 @@ class TestPage extends Component {
                                     </TouchableOpacity>
                             </View>             
                     </View>
+
+                    {/* <PushNotif /> */}
 
                     <View style={newStyle.pageElement}>
                             {

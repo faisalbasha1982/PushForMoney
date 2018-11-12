@@ -1478,7 +1478,7 @@ const newStyle = StyleSheet.create({
     },
 
     firstName: {
-        width: 159,
+        width: 182,
         height: 19,
         fontFamily: 'WorkSans-Regular',
         fontSize: 16,
