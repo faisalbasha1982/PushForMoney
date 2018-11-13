@@ -359,6 +359,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
             if(!_.isEmpty(this.props.MobileReferrals))
                 {
                     console.log("mobileReferrals="+this.props.MobileReferrals);
+                    console.tron.log("mobileReferrals="+this.props.MobileReferrals);
                     this.props.MobileReferrals.map(personObj =>
 
                         {

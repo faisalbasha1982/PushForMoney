@@ -66,6 +66,7 @@ import AccordionListComponent from './AccordionListComponent';
 import BackComponent from './BackComponent';
 import _ from 'lodash';
 
+const { Provider, Consumer } = React.createContext();
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
 
@@ -77,20 +78,6 @@ export const IMAGE_HEIGHT_SMALL = window.width /7;
 // Styles
 
 let cLanguage = '';
-
-const SECTIONS = [
-    {
-        title: 'First',
-        content: 'Correction - Contract -1'
-    },
-    {
-        title: 'Second',
-        content: 'Correction - Contract -1'
-    },
-    {
-        title: 'Third',
-        content: 'Correction - Contract -1'
-    }];
 
 let pickerData = [
         [1,2,3,4],
@@ -107,55 +94,13 @@ class PushToEarnMoneyComponent extends Component {
         this.state = {
             language: 'NEDERLANDS',
             languageCode: '',
-            firstName:'',
-            name:'',
-            phoneNumber:'',
             validation: false,
             renderValidate: false,
-            firstNameInput:'',
-            lastNameInput:'',
-            phoneNumberInput:'',
             buttonText: '',
-            firstNameError:true,
-            firstNameErrorText:'',
-            lastNameError:false,
-            lastNameErrorText:'',
-            phoneNumberError:true,
-            phoneNumberErrorText:'',
             ErrorText:'',
             EmptyErrorText:'',
-            firstNameEmptyError:false,
-            lastNameEmptyError:false,
-            phoneNumberEmptyError:false,
             isDateTimePickerVisible: false,
             isLoading:false,
-            sections: [
-                {
-                    title: 'First',
-                    content: 'Correction - Contract -1'
-                },
-                {
-                    title: 'Second',
-                    content: 'Correction - Contract -1'
-                },
-                {
-                    title: 'Third',
-                    content: 'Correction - Contract -1'
-                }],
-            months: {
-                        one : 'JANUARY',
-                        two : 'FEBRUARY',
-                        three : 'MARCH',
-                        four : 'APRIL',
-                        five : 'MAY',
-                        six : 'JUNE',
-                        seven : 'JULY',
-                        eight : 'AUGUST',
-                        nine : 'SEPTEMBER',
-                        ten : 'OCTOBER',
-                        eleven : 'NOVEMBER',
-                        twelve : 'DECEMBER',
-                    },                
             currentYear:2018,
             currentMonth:'',
             currentMonthlyIndex: 3,
@@ -217,141 +162,12 @@ class PushToEarnMoneyComponent extends Component {
             showAccordionList: false,
             changeMenuOneBack: false,
             childMenu: 1,
+            showCalendR:true,
             showTotalText:true,
             text:{},
             token:'',
         };    
     }
-
-    validationLastName = (name) => {
-
-        let reg = /^[a-zA-Z\s]+$/;
-
-        console.log("last name="+name);
-
-        if(name === '')
-        {
-            //this.setState({ lastNameError: true, ErrorText: 'Last Name is Required' });
-            this.setState({lastNameInput: ''});
-
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
-        else
-        {
-
-            if(reg.exec(name))
-            {
-              this.setState({ lastNameEmptyError: false, EmptyErrorText: '',lastNameError: false, lastNameInput: name,lastNameErrorText:'' });
-            }
-            else
-            {
-                console.log("found digits");
-              if(this.state.language === 'NEDERLANDS')
-                  this.setState({ lastNameEmptyError: false, lastNameError: true, lastNameErrorText: LanguageSettings.dutch.LNameErrorText });
-              else
-                  if(this.state.language === 'ENGLISH')
-                      this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.english.LNameErrorText });
-                  else
-                      this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.french.LNameErrorText });
-            }    
-        }    
-    } 
-
-    validationFirstName = (name) => {
-
-        let reg = /^[a-zA-Z\s]+$/;
-
-        console.log("validating First Name="+name);
-
-        if(name === '')
-        {
-            console.log("First name is empty="+name);
-            console.log("Language ="+this.state.language);
-            this.setState({firstNameInput: ''});
-            //this.setState({ firstNameError: true, ErrorText: 'First Name is Required' });
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
-        else
-        {
-            if(reg.exec(name))
-            {
-              this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: false, firstNameInput: name, firstNameErrorText:'' });
-            }
-            else
-            {
-              if(this.state.language === 'NEDERLANDS')
-                  this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.dutch.FNameErrorText });
-              else
-                  if(this.state.language === 'ENGLISH')
-                      this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.english.FNameErrorText });
-                  else
-                      this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.french.FNameErrorText });
-            }
-        }        
-    }
-
-    validatePhone = (phone) => {
-
-        console.log("phone="+phone);
-
-        let phoneSub = phone.substring(1);
-
-        console.log("phone="+phoneSub);
-
-        let reg = /^[0-9]{12}$/;
-        let regNew = /^(?=(.*\d){10})(?!(.*\d){13})[\d\(\)\s+-]{10,}$/;
-
-        if(phone === '')
-        {
-            //this.setState({ phoneNumberError: true, ErrorText: 'Phone Number is Required' });
-            this.setState({phoneNumberInput: ''});
-
-            if(this.state.language === 'NEDERLANDS')
-                this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
-            else
-                if(this.state.language === 'ENGLISH')
-                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
-                else
-                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
-        }
-        else
-        {
-            // home phone number belgium
-            let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
-            // mobile phone number belgium
-            let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
-    
-            this.phoneText = this.state.country;
-    
-            if (regNew.exec(phoneSub))
-              this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
-            else
-                if(this.state.language === 'NEDERLANDS')
-                    this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.dutch.TelephoneNumberError });
-                else
-                    if(this.state.language === 'ENGLISH')
-                        this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.english.TelephoneNumberError });
-                    else
-                        this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
-        }
-    
-    }
-
-    PhoneNumberPickerChanged = (country, callingCode, phoneNumber) => {
-        this.setState({countryName: country.name, callingCode: callingCode, phoneNo:phoneNumber});
-     }
 
     componentWillReceiveProps(nextProps) {
 
@@ -432,6 +248,7 @@ class PushToEarnMoneyComponent extends Component {
         this.setLanguage();
 
     }
+    
     
 
     renderNothing = () => {
@@ -839,7 +656,7 @@ class PushToEarnMoneyComponent extends Component {
       
       }
 
-      getMoney = () => {        
+      getMoney = () => {
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
@@ -935,6 +752,7 @@ class PushToEarnMoneyComponent extends Component {
     tbBackComponent = () => {
         this.setState({ triggerBackComponent: !this.state.triggerBackComponent, changeMenuOneBack: true, childMenu:1 });
         this.toggleTotalText();
+
     }
 
     sendToChildCollapsible = () => {
@@ -943,6 +761,10 @@ class PushToEarnMoneyComponent extends Component {
 
     toggleTotalText = () => {
         this.setState({ showTotalText: !this.state.showTotalText });
+    }
+
+    toggleCalender = () => {
+        this.setState({ showCalendR: !this.state.showCalendR });
     }
 
     render() {
@@ -957,6 +779,13 @@ class PushToEarnMoneyComponent extends Component {
         console.log("this.state.text.months="+this.state.text);
         return (
 
+        // <Provider value = {{
+        //         state: this.state,
+        //         toggleCalender: () => { this.setState({ showCalendR: !this.state.showCalendR })}
+        //     }}>
+
+        //     {this.props.children}
+
                 <View style= { newStyle.layoutBelow }>
                     <View style={newStyle.endButtons}>
                         <View style= {newStyle.topView}>
@@ -970,6 +799,7 @@ class PushToEarnMoneyComponent extends Component {
                             <BackComponent
                                 name={this.state.currentName}
                                 back={this.tbBackComponent}
+                                toggleCalender = { this.toggleCalender }
                                 backText = {this.state.text.backOverview}
                             />
                             :
@@ -977,52 +807,56 @@ class PushToEarnMoneyComponent extends Component {
                         }
 
                         <View style= {newStyle.inputContainer}>
+                            
+                            {
+                              this.state.showCalendR === true?
+                                <View style={{width: 310, height: 50, flex:1, backgroundColor: 'transparent'}}>
+                                        <View style={newStyle.monthlyBar}>
 
-                             <View style={{width: 310, height: 50, flex:1, backgroundColor: 'transparent'}}>
-                                    <View style={newStyle.monthlyBar}>
+                                            <TouchableOpacity onPress={ ( ) => { this.getPrevYearMonth(); } }
+                                                activeOpacity={0.5}
+                                                style={newStyle.iconStyle}>
+                                                <Icon
+                                                    containerStyle={newStyle.iconImageStyle}
+                                                    name='angle-left'
+                                                    type='font-awesome'
+                                                    color='rgb(155, 155, 155)'
+                                                    size = {18} /> 
+                                            </TouchableOpacity>
 
-                                        <TouchableOpacity onPress={ ( ) => { this.getPrevYearMonth(); } }
-                                            activeOpacity={0.5}
-                                            style={newStyle.iconStyle}>
-                                            <Icon
-                                                containerStyle={newStyle.iconImageStyle}
-                                                name='angle-left'
-                                                type='font-awesome'
-                                                color='rgb(155, 155, 155)'
-                                                size = {18} /> 
+                                            <TouchableOpacity onPress={ () => this.showPicker()}>
+                                                <Text style={newStyle.monthlyText}> {this.getCurrentYearMonth() }</Text>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity onPress={ ( ) => { this.getNextYearMonth(); } }
+                                                activeOpacity={0.5}
+                                                style={newStyle.iconStyle}>
+                                                <Icon
+                                                    containerStyle={newStyle.iconImageStyle}
+                                                    name='angle-right'
+                                                    type='font-awesome'
+                                                    color='rgb(155, 155, 155)'
+                                                    size = {18}  /> 
                                         </TouchableOpacity>
-
-                                        <TouchableOpacity onPress={ () => this.showPicker()}>
-                                            <Text style={newStyle.monthlyText}> {this.getCurrentYearMonth() }</Text>
-                                        </TouchableOpacity>
-
-                                        <TouchableOpacity onPress={ ( ) => { this.getNextYearMonth(); } }
-                                            activeOpacity={0.5}
-                                            style={newStyle.iconStyle}>
-                                            <Icon
-                                                containerStyle={newStyle.iconImageStyle}
-                                                name='angle-right'
-                                                type='font-awesome'
-                                                color='rgb(155, 155, 155)'
-                                                size = {18}  /> 
-                                    </TouchableOpacity>
-
-                                    </View>
-                             </View>
+                                        </View>
+                                </View>
+                               :
+                               this.renderEmpty()
+                            }
 
                                 {
                                     this.props.fetching===true?
                                     <View style = {{position: 'absolute' , zIndex:3999, left: 20, top: 0, right: 0, bottom: 0}}>
                                     <BallIndicator color='#e73d50' />
                                     </View>:this.somethingElse()
-                                }      
+                                }
 
                              <View style={{width: 310, height: 280, flex:6,justifyContent:'center', alignItems:'center', backgroundColor: 'transparent'}} >
                                  {
                                         (_.isEmpty(this.props.referrals))?
                                             this.renderNothing()
                                         :
-                                        <CollapsibleView 
+                                        <CollapsibleView
                                                     childMenu = {!this.state.showAccordionList}
                                                     accordionList = { this.state.showAccordionList}
                                                     month={this.getMonthNumber(this.state.currentMonth)}
@@ -1030,17 +864,19 @@ class PushToEarnMoneyComponent extends Component {
                                                     referrals = {this.props.referrals}
                                                     changeMenuOneBack = {this.state.changeMenuOneBack}
                                                     menu ={this.state.childMenu}
+                                                    calenderToggle = { this.toggleCalender}
                                                     totalText = {this.toggleTotalText}
                                                     isLoading = {this.turnOffLoading}                            
                                                     back={this.triggerBack} />
                                  }
                              </View>
-                            {
+                            {/* {
                                 (this.state.showTotalText === true)?
                                      <View style={newStyle.borderBottomNew}></View>
                                 :
                                 this.renderEmpty()
-                            }
+                            } */}
+                             <View style={newStyle.borderBottomNew}></View>
                          {
                             (this.state.showTotalText === true)?
                                         // <View style={{ flex:1,   backgroundColor:'red' }}>
@@ -1048,7 +884,7 @@ class PushToEarnMoneyComponent extends Component {
                                         // </View>
                                         <View style={newStyle.totalText}>
                                                     <Text style={newStyle.firstName}>{this.state.text.TotalNext}</Text>
-                                                    <Text style={newStyle.earningsText}>€{this.props.TotalEarnings}</Text>
+                                                    <Text style={newStyle.earningsText}>€{this.props.TotalEarningsPersons}</Text>
                                         </View>
                                         //  <View style={newStyle.totalHoursText}>
                                         //             <Text style={newStyle.firstNameTotalHours}>{this.state.text.Total}</Text>
@@ -1061,6 +897,7 @@ class PushToEarnMoneyComponent extends Component {
                         </View>
                     </View>
                 </View>
+            // </Provider>
         );
     }
 
@@ -1517,7 +1354,8 @@ const mapStateToProps = state => {
         referrals: MoneySelectors.getPerson(state),
         TotalWorkedHours: MoneySelectors.getTotalWorkedHours(state),
         TotalEarnings: MoneySelectors.getTotalEarnings(state),
-
+        TotalWorkedHoursPersons: MoneySelectors.getTotalWorkedHoursPersons(state),
+        TotalEarningsPersons: MoneySelectors.getTotalEarningsPersons(state)
     };
   };
   

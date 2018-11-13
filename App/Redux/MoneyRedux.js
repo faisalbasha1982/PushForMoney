@@ -4,7 +4,7 @@ import { createReducer, createActions, Types as ReduxSauceTypes } from 'reduxsau
 const { Types, Creators } = createActions({
   getMoneyMonth: ["payload"],
   getPersonMonth:["payload"],
-  moneySuccess: ['referrals','TotalWorkedHours','TotalEarnings'],
+  moneySuccess: ['referrals','TotalWorkedHoursPersons','TotalEarningsPersons'],
   moneyFailure: ['error'],
   moneyEarningsSuccess: ['monthlyEarningDetailsByReferrals','ReferredPersonName','TotalWorkedHours','TotalEarnings'],
   moneyEarningsFailure: ['error'],
@@ -22,6 +22,8 @@ export const INITIAL_STATE = {
   fetching: false,
   error: '',
   payload: null,
+  TotalWorkedHoursPersons:null,
+  TotalEarningsPersons: null,
   TotalWorkedHours: null,
   TotalEarnings: null,
   monthlyEarningDetailsByReferrals:null,
@@ -34,6 +36,8 @@ export const MoneySelectors = {
   getPerson: state => state['money'].referrals,
   getTotalWorkedHours: state => state['money'].TotalWorkedHours,
   getTotalEarnings: state => state['money'].TotalEarnings,
+  getTotalWorkedHoursPersons: state => state['money'].TotalWorkedHoursPersons,
+  getTotalEarningsPersons: state => state['money'].TotalEarningsPersons,
   getMonthlyReferrals: state => state['money'].monthlyEarningDetailsByReferrals,
   getReferredPersonName: state => state['money'].ReferredPersonName,
   getFetching: state => state['money'].fetching,
@@ -46,8 +50,8 @@ export const request = (state, { payload }) => {
   return { ...state, fetching: true, payload }
 }
 
-export const success = (state, {referrals,TotalWorkedHours,TotalEarnings}) => {
-  return { ...state, referrals,TotalWorkedHours,TotalEarnings, fetching: false, }
+export const success = (state, {referrals,TotalWorkedHoursPersons,TotalEarningsPersons}) => {
+  return { ...state, referrals,TotalWorkedHoursPersons,TotalEarningsPersons, fetching: false, }
 }
 
 export const failure = (state, {error}) => {

@@ -259,7 +259,7 @@ render() {
   console.log("inside accordion list component");
     return (
         <ScrollView>
-         <View style= {{ flex: 1,flexDirection: 'column',backgroundColor: 'transparent', marginTop: 15, justifyContent: 'flex-start', alignItems:'flex-start', }}>
+         <View style= {{ height: viewPortHeight*0.55,flex: 1,flexDirection: 'column',backgroundColor: 'transparent', marginTop: 15, justifyContent: 'flex-start', alignItems:'flex-start', }}>
 
             {/* <View style = {newStyle.nameAndback}>
                 <Text style={{
@@ -312,15 +312,18 @@ render() {
                 body={this._body}
             />
 
-            <View style={newStyle.borderBottomNew}></View>
-            <View style={{ justifyContent:'flex-start',alignItems:'flex-start',flex:8, marginTop:10, backgroundColor:'transparent' }}>
-                    <View style={newStyle.totalText}>
+            <View style={{ justifyContent:'flex-end',alignItems:'flex-end',flex:8, marginTop:10, backgroundColor:'transparent' }}>
+                    {/* <View style={newStyle.totalText}>
                                 <Text style={newStyle.firstName}>{this.state.text.TotalNext}</Text>
                                 <Text style={newStyle.earningsText}>€{this.props.TotalEarnings}</Text>
-                    </View>
-                    <View style={newStyle.totalHoursText}>
-                                <Text style={newStyle.firstNameTotalHours}>{this.state.text.Total}</Text>
-                                <Text style={newStyle.hoursText}>{this.props.TotalWorkedHours}</Text>
+                    </View> */}
+                    <View style={newStyle.totalLineDisplay}>
+                        <View style={{flex: 4,}}></View>
+                        <View style={newStyle.borderBottomNew}></View>
+                        <View style={newStyle.totalHoursText}>
+                                        <Text style={newStyle.firstNameTotalHours}>{this.state.text.Total}</Text>
+                                        <Text style={newStyle.hoursText}>{this.props.TotalWorkedHours}</Text>
+                        </View>
                     </View>
             </View>
           </View>
@@ -417,6 +420,7 @@ earningsText: {
     color: "rgb(231, 61, 80)",
     backgroundColor: 'transparent'
   },
+
   firstName: {
     width: 180,
     height: 19,
@@ -430,6 +434,7 @@ earningsText: {
     backgroundColor:'transparent',
     marginLeft:28,
 },
+
   firstNameTotalHours:{
     width: 180,
     height: 19,
@@ -455,17 +460,26 @@ totalText: {
     backgroundColor:'transparent'
 },
 
+totalLineDisplay: {
+    justifyContent: 'flex-end',
+    flexDirection:'column',
+    alignItems: 'flex-end',
+    flex: 5,
+    backgroundColor:'transparent'
+},
+
 totalHoursText:{
-    width: viewPortWidth*0.80,
-    height: 20,
-    flex: 14,
-    marginTop: 0,
-    marginBottom: 20,
-    marginLeft:5,
+    width: viewPortWidth*0.82,
+    height: 5,
+    flex: 1,
+    marginTop: 10,
+    marginBottom: 5,
+    marginLeft:0,
+    marginRight:0,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: 'transparent'
+    alignItems: 'flex-end',
+    backgroundColor: 'transparent',
 },
 
 hoursText:{
@@ -476,19 +490,31 @@ hoursText:{
     fontWeight: '500',
     fontStyle: 'normal',
     letterSpacing: 0.67,
-    textAlign: 'right',
+    textAlign: 'center',
     color: "rgb(231, 61, 80)",
-    marginBottom: 15,
+    marginBottom: 12,
     backgroundColor: 'transparent'
 },
 
-  borderBottomNew: {
+borderBottomNew: {
     width: 310,
     height: 1,
-    borderBottomColor: "rgb(231, 61, 80)",
     borderBottomWidth: StyleSheet.hairlineWidth,
-    flex:2,
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: 'rgb(231, 61, 80)',
+    borderBottomColor: "rgb(231, 61, 80)",
+    marginBottom:5,
+    marginTop:5,
 },
+
+//   borderBottomNew: {
+//     width: 310,
+//     height: 1,
+//     borderBottomColor: "rgb(231, 61, 80)",
+//     borderBottomWidth: StyleSheet.hairlineWidth,
+//     flex:2,
+// },
 
 fontStyle: {
   fontFamily: "WorkSans-Medium",

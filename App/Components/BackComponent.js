@@ -21,39 +21,28 @@ export default class BackComponent extends Component
 
             <View style = {newStyle.nameAndback}>
                 <View style={{
-                     justifyContent:'flex-start',
-                     alignItems:'flex-start'
-                }}>
-                    <Text style={{
-                                fontFamily: "WorkSans-Regular",
-                                fontSize: 13,
-                                fontWeight: "500",
-                                fontStyle: "normal",
-                                letterSpacing: 0.54,
-                                textAlign: "left",
-                                color: "rgb(231, 61, 80)"
-                }}>{ this.props.name } </Text>
+                        justifyContent:'flex-start',
+                        alignItems:'flex-start',
+                        position: 'absolute',
+                        top: -26,
+                        left:-20,
 
-                </View>
+                        // marginLeft:viewPortWidth*0.37
 
-                <View style={{
-                    justifyContent:'flex-end',
-                    alignItems:'flex-end',
-                    marginLeft:viewPortWidth*0.37
-
-                }}>
+                    }}>
                     <TouchableOpacity onPress={ ( ) => { 
                                                       this.props.back();
+                                                      this.props.toggleCalender();
                                                     }}
                                                 activeOpacity={0.5}
                                                 style={newStyle.backButton}>
                                                 <Icon
                                                     containerStyle={newStyle.iconImageStyle}
-                                                    name='angle-left'
+                                                    name='arrow-circle-left'
                                                     type='font-awesome'
-                                                    color='rgb(155, 155, 155)'
+                                                    color='rgb(231, 61, 80)'
                                                     size = {18} /> 
-                                                <Text style= {{
+                                                {/* <Text style= {{
                                                     width: 185,
                                                     height: 15,
                                                     marginLeft:10,
@@ -67,9 +56,28 @@ export default class BackComponent extends Component
                                                     backgroundColor: 'transparent'
                                                 }}>
                                                     {this.props.backText}
-                                                </Text>
+                                                </Text> */}
                                             </TouchableOpacity>
                 </View>
+
+            <View style={{
+                     justifyContent:'center',
+                     alignItems:'center',
+                     backgroundColor: 'transparent',
+                     paddingTop: 7,
+                }}>
+                    <Text style={{
+                                fontFamily: "WorkSans-Regular",
+                                fontSize: 15,
+                                fontWeight: "500",
+                                fontStyle: "normal",
+                                letterSpacing: 0.54,
+                                textAlign: "left",
+                                color: "rgb(231, 61, 80)"
+                }}>{ this.props.name } </Text>
+                <View style={newStyle.borderBottomNew}></View>
+            </View>
+
 
         </View>
         );
@@ -88,6 +96,14 @@ const newStyle = StyleSheet.create({
       alignItems:'flex-start',
       backgroundColor:'transparent',
   },
+
+  borderBottomNew: {
+    width: 310,
+    height: 1,
+    borderBottomColor: "rgb(231, 61, 80)",
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    flex:2,
+},
   
   backButton: {
   
@@ -106,7 +122,7 @@ const newStyle = StyleSheet.create({
     fontWeight: "normal",
     fontStyle: "normal",
     letterSpacing: 0.67,
-    textAlign: 'right',
+    textAlign: 'left',
     color: "rgb(231, 61, 80)", 
     marginRight:10,
   },  

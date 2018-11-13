@@ -133,20 +133,25 @@ renderList = (personObj) => {
   return (
 
     <TouchableOpacity
-          onPress={ ( ) => { 
+          onPress={ ( ) => {
             this.getMoney(personObj.MobileReferralID);
             this.setState({menu: 2,showAccordionComponent:true,});
             this.setState({currentPersonName: personObj.ReferredPersonName, showAccordionComponent: true});
             this.props.back(personObj.ReferredPersonName,2);
             this.props.totalText();
+            this.props.calenderToggle();
           }}
           activeOpacity={0.5}
           style={ newStyle.buttonStyle }>
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
               <Text style={newStyle.nameStyle}>{ personObj.ReferredPersonName }</Text>
-              {(personObj.PaidStatus === "0")?<Text style={newStyle.statusStyle}>{this.state.text.payed}</Text>
-              :<Text style={newStyle.statusStyle}> {this.state.text.pending} </Text>}
+              {(personObj.PaidStatus === "0")?<Text style={newStyle.statusStyle}>{this.state.text.pending}</Text>
+              :
+               (personObj.PaidStatus === "2")?
+               <Text style={newStyle.statusStyle}> {this.state.text.partial} </Text>
+               :
+              <Text style={newStyle.statusStyle}> {this.state.text.payed} </Text>}
               <Text style={newStyle.fontStyle}>€{ personObj.Amount }</Text>
         </View>
 
@@ -295,6 +300,10 @@ backMenu = (cMenu) => {
   this.setState({ menu: cMenu});
 }
 
+toggleCalendar = () => {
+
+} 
+
 render() {
 
     // console.log("referrals="+this.props.navigation.state.params.referrals);
@@ -327,12 +336,12 @@ render() {
         <ScrollView>
           <View style={{ flex:1, backgroundColor: 'transparent', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', overflow: "hidden" }}>
 
-             {/* {
+             {
                 this.props.fetching===true?
                 <View style = {{position: 'absolute' , zIndex:3999, left: 20, top: 0, right: 0, bottom: 0}}>
                 <BallIndicator color='#e73d50' />
                 </View>:this.somethingElse()
-              } */}
+              }
                    {
                     (this.props.menu===1 && this.props.childMenu === true)?
                     referralsNew !== null && referralsNew.map(
@@ -343,7 +352,7 @@ render() {
                     <AccordionListComponent
                         name={this.state.currentPersonName}
                         back={this.backMenu}
-                        menu={this.changeMenu}
+                        menu={this.changeMenu}                        
                         monthlyEarningDetailsByReferrals={this.props.monthlyEarningDetailsByReferrals}
                         TotalEarnings = {this.props.TotalEarnings}
                         TotalWorkedHours = { this.props.TotalWorkedHours}
@@ -372,7 +381,7 @@ const newStyle = StyleSheet.create({
   nameStyle: {
     padding: 5,
     margin: 5,
-    width: 111,
+    width: 180,
     height: 23,
     fontFamily: "WorkSans-Medium",
     fontSize: 13,
