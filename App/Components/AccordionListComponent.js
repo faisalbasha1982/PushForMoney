@@ -1,5 +1,5 @@
 import {AccordionList} from "accordion-collapse-react-native";
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
 import { Thumbnail, List, ListItem, Separator } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -45,7 +45,7 @@ import { MoneySelectors } from "../Redux/MoneyRedux";
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth  = Dimensions.get('window').width;
 
-class AccordionListComponent extends Component
+class AccordionListComponent extends PureComponent
 {
   constructor(props)
   {

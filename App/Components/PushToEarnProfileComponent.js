@@ -187,6 +187,7 @@ class PushToEarnProfileComponent extends Component {
         let reg = /^[a-zA-Z\s]+$/;
 
         console.log("validating First Name="+name);
+        console.tron.log("validating the first name");
 
         if(name === '')
         {
@@ -207,7 +208,6 @@ class PushToEarnProfileComponent extends Component {
             if(reg.exec(name))
             {
               this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: false, firstNameInput: name, firstNameErrorText:'' });
-              this.callUpdateName(name);
             }
             else
             {
@@ -479,6 +479,24 @@ getAsyncStorage = async () => {
         }
       }
 
+    callProfile = () =>  {
+
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
+        let encryptedData = AesComponent.aesCallback(authData);
+
+        setTimeout(() => 
+        {
+
+            let payload = {
+                "AuthenticationData": encryptedData,
+                "LoginAccessToken": this.state.aToken,
+            };
+
+            this.props.getProfile(payload);
+
+        },1000);        
+    }
+
     componentDidMount() {
 
         let language = localStorage.getItem('language');
@@ -491,16 +509,7 @@ getAsyncStorage = async () => {
         ltoken = localStorage.getItem('token');
 
         let asynToken = '';
-        // this.setState({ isLoading: true });
-
         console.log("PC login access token="+this.state.aToken);
-        // console.tron.log("PC login access token="+this.state.aToken);
-
-        // setTimeout(() => {
-        //     console.tron.log("async token="+this.state.aToken);
-        // },4000);
-
-        // console.tron.log("lastviewednotificationid="+this.props.LastViewedNotificationID);
 
         setTimeout(() => 
         {
@@ -524,9 +533,9 @@ getAsyncStorage = async () => {
             setTimeout(() => {
                 // console.tron.log("mobilenotifications="+this.props.mobileNotifications);
                 this.setState({ mobileNotifications: this.props.mobileNotifications, isLoading: false,});
-            }, 3000);
+            }, 2000);
 
-        },3000);    
+        },100);    
 
         setTimeout(() => {
             AppState.addEventListener('change',this.handleAppStateChange);            
@@ -639,6 +648,10 @@ getAsyncStorage = async () => {
         };
 
         this.props.nameUpdate(payload);
+
+        setTimeout(() => {
+            this.setState({ isLoading: false});
+        },4000);
     }
 
     changeMobile = (phoneNumber) => {
@@ -753,32 +766,6 @@ getAsyncStorage = async () => {
         );
     }
 
-    // blobUploadRN = () => {
-
-    //     RNFetchBlob.fetch('POST', 'https://fnmobileapptria8d18.blob.core.windows.net/azure-webjobs-hosts', {
-    //     Authorization : `Bearer sp=rcwd&st=2018-10-17T07:16:44Z&se=2018-10-17T15:16:44Z&spr=https&sv=2017-11-09&sig=aFqvr3CYpgBMSZ7bAa57lHZFlA7QkT73HjaYsb6Qqy0%3D&sr=b`,
-    //     '': JSON.stringify({
-    //     path : '/img-from-react-native.png',
-    //     mode : 'add',
-    //     autorename : true,
-    //     mute : false
-    //     }),
-    //     'Content-Type' : 'application/octet-stream',
-    //     // here's the body you're going to send, should be a BASE64 encoded string
-    //     // (you can use "base64"(refer to the library 'mathiasbynens/base64') APIs to make one).
-    //     // The data will be converted to "byte array"(say, blob) before request sent.  
-    //     }, base64ImageString)
-    //     .then((res) => {
-    //         console.log(res.text())
-    //     })
-    //     .catch((err) => {
-    //         // error handling ..
-    //     });
-
-
-    //     // https://csb8eaf22cfa520x43a2x877.blob.core.windows.net/newcontainer
-    // }    
-
     render() {
 
         const platform = Platform.OS;
@@ -888,11 +875,15 @@ getAsyncStorage = async () => {
                                                         placeholderTextColor={ this.state.placeHolderColor }
                                                         editable={ this.state.firstNameEditable }
                                                         ref={(ref) => { this.FirstInput = ref; }}
-                                                        underlineColorAndroid= 'transparent'
-                                                        value = { this.props.firstName }
+                                                        underlineColorAndroid= 'transparent'                                                        
                                                         onBlur = { () => {
                                                             this.seteditableFirstName();
                                                             this.callUpdateName(this.state.firstNameInput);
+                                                        }}
+                                                        onEndEditing = { () => {
+                                                            this.callUpdateName(this.state.firstNameInput);
+                                                            this.seteditableFirstName();
+                                                            this.callProfile();
                                                         }}
                                                         onChangeText={(firstNameInput) => this.validateFirstName(firstNameInput)} />
 
@@ -962,9 +953,17 @@ getAsyncStorage = async () => {
                                         placeholder='last name'
                                         placeholderTextColor = {this.state.placeHolderColorLastName}
                                         editable={this.state.lastNameEditable}
-                                        value = {this.props.lastName}
                                         onBlur = { () => this.callUpdateLastName(this.state.lastNameInput)}
                                         underlineColorAndroid= 'transparent'
+                                        onBlur = { () => {
+                                            this.seteditableLasttName();
+                                            this.callUpdateLastName(this.state.lastNameInput);
+                                        }}
+                                        onEndEditing = { () => {
+                                            this.callUpdateLastName(this.state.lastNameInput);
+                                            this.seteditableLasttName();
+                                            this.callProfile();
+                                        }}
                                         onChangeText= { (lastNameInput) => this.validateLastName(lastNameInput) }/>
                                  }
 
@@ -1028,9 +1027,16 @@ getAsyncStorage = async () => {
                                                 placeholder='Email Address'
                                                 placeholderTextColor={this.state.placeHolderColorEmail}
                                                 editable={this.state.emailEditable}
-                                                value = { this.props.email}
                                                 underlineColorAndroid= 'transparent'
-                                                onBlur = { () => this.callUpdateName(this.state.emailInput)}
+                                                onBlur = { () => {
+                                                    this.seteditableLasttName();
+                                                    this.callUpdateName(this.state.emailInput);
+                                                }}
+                                                onEndEditing = { () => {
+                                                    this.callUpdateLastName(this.state.emailInput);
+                                                    this.seteditableLasttName();
+                                                    this.callProfile();
+                                                }}
                                                 onChangeText= { (emailInput) => this.validateEmail(emailInput) }/>
                                    }
                             </View>
@@ -1114,7 +1120,7 @@ getAsyncStorage = async () => {
                                  </TouchableOpacity>
                             </View>
                                 
-                            <Text style={newStyle.passwordStyle}>{this.state.text.Password}</Text>
+                            {/* <Text style={newStyle.passwordStyle}>{this.state.text.Password}</Text>
 
                             <View style={{
                                             flexDirection: 'row',
@@ -1122,7 +1128,7 @@ getAsyncStorage = async () => {
                                             justifyContent:'flex-start',
                                             alignItems:'center',
                                             flex:8,
-                                    }}>
+                                    }}> */}
                                     {/* <TouchableOpacity
                                         onPress={() => { this.imageCapture();  } }
                                         activeOpacity={1}
@@ -1152,69 +1158,69 @@ getAsyncStorage = async () => {
                                         > Please Click Here to Capture Image......</Text>
                                     </TouchableOpacity> */}
                                {
-                                (this.state.passwordEditable===true)?
-                                    <TouchableOpacity
-                                        onPress={() => { this.props.menu(6) } }
-                                        activeOpacity={1}
-                                        opacity={1}
-                                        style={{
-                                            width: viewPortWidth*0.65,
-                                            height: 5,
-                                            margin:0,
-                                            borderBottomColor: "#353535",
-                                            borderBottomWidth: StyleSheet.hairlineWidth,
-                                            backgroundColor: 'transparent',
-                                            padding: 0,
-                                            flex:1,
-                                        }}>
-                                        <Text
-                                            style={{
-                                                fontSize: 12,
-                                                fontFamily: 'WorkSans-Medium',
-                                                fontWeight: '500',
-                                                fontStyle: 'normal',
-                                                color: '#353535',
-                                                alignItems: 'flex-start',
-                                                justifyContent: 'flex-start',
-                                                letterSpacing: 0.67,
-                                                textAlign: 'left',
-                                                backgroundColor:'transparent'
-                                            }}
-                                        > Please Click Here To Enter Password......</Text>
-                                    </TouchableOpacity>
-                                    :
-                                    <TouchableOpacity
-                                            onPress={() => {  this.props.menu(6) } }
-                                            activeOpacity={0.5}
-                                            opacity={0.5}
-                                            style={{
-                                                width: viewPortWidth*0.65,
-                                                height: 25,
-                                                margin:0,
-                                                borderBottomColor: "#353535",
-                                                borderBottomWidth: StyleSheet.hairlineWidth,
-                                                backgroundColor: 'transparent',
-                                                padding: 0,
-                                                flex:2,
-                                            }}>
-                                    <Text
-                                        style={{
-                                            fontSize: 12,
-                                            fontFamily: 'WorkSans-Regular',
-                                            fontWeight: '500',
-                                            fontStyle: 'normal',
-                                            color: '#000000',
-                                            marginTop: 0,
-                                            alignItems: 'flex-start',
-                                            justifyContent: 'flex-start',
-                                            letterSpacing: 0.67,
-                                            textAlign: 'left'}}
-                                    > {this.state.buttonText.toUpperCase()}</Text>
-                                </TouchableOpacity>
+                                // (this.state.passwordEditable===true)?
+                                //     <TouchableOpacity
+                                //         onPress={() => { this.props.menu(6) } }
+                                //         activeOpacity={1}
+                                //         opacity={1}
+                                //         style={{
+                                //             width: viewPortWidth*0.65,
+                                //             height: 5,
+                                //             margin:0,
+                                //             borderBottomColor: "#353535",
+                                //             borderBottomWidth: StyleSheet.hairlineWidth,
+                                //             backgroundColor: 'transparent',
+                                //             padding: 0,
+                                //             flex:1,
+                                //         }}>
+                                //         <Text
+                                //             style={{
+                                //                 fontSize: 12,
+                                //                 fontFamily: 'WorkSans-Medium',
+                                //                 fontWeight: '500',
+                                //                 fontStyle: 'normal',
+                                //                 color: '#353535',
+                                //                 alignItems: 'flex-start',
+                                //                 justifyContent: 'flex-start',
+                                //                 letterSpacing: 0.67,
+                                //                 textAlign: 'left',
+                                //                 backgroundColor:'transparent'
+                                //             }}
+                                //         > Please Click Here To Enter Password......</Text>
+                                //     </TouchableOpacity>
+                                //     :
+                                //     <TouchableOpacity
+                                //             onPress={() => {  this.props.menu(6) } }
+                                //             activeOpacity={0.5}
+                                //             opacity={0.5}
+                                //             style={{
+                                //                 width: viewPortWidth*0.65,
+                                //                 height: 25,
+                                //                 margin:0,
+                                //                 borderBottomColor: "#353535",
+                                //                 borderBottomWidth: StyleSheet.hairlineWidth,
+                                //                 backgroundColor: 'transparent',
+                                //                 padding: 0,
+                                //                 flex:2,
+                                //             }}>
+                                //     <Text
+                                //         style={{
+                                //             fontSize: 12,
+                                //             fontFamily: 'WorkSans-Regular',
+                                //             fontWeight: '500',
+                                //             fontStyle: 'normal',
+                                //             color: '#000000',
+                                //             marginTop: 0,
+                                //             alignItems: 'flex-start',
+                                //             justifyContent: 'flex-start',
+                                //             letterSpacing: 0.67,
+                                //             textAlign: 'left'}}
+                                //     > {this.state.buttonText.toUpperCase()}</Text>
+                                // </TouchableOpacity>
 
                             }
 
-                             <TouchableOpacity
+                             {/* <TouchableOpacity
                                         onPress={() => {
                                                     this.seteditablePassword();
                                                     this.props.menu(6);
@@ -1243,8 +1249,8 @@ getAsyncStorage = async () => {
                                                 color='#E73D50'
                                                 size = {15} />                                     
                                         }
-                                 </TouchableOpacity>
-                            </View>
+                                 </TouchableOpacity> */}
+                            {/* </View> */}
 
                             {/* <PushNotif /> */}
 
@@ -1256,19 +1262,19 @@ getAsyncStorage = async () => {
                                      :
                                       (this.props.bankInfo.MobileUserBankDetailId !== 0)?
                                      <View style={{ flex:1,  }}>
-                                            <Text style={{  fontSize: 10,   
+                                            <Text style={{  fontSize: 14,   
                                         fontFamily: 'WorkSans-Regular',
                                         fontWeight: '500',
                                         marginLeft:5,
                                         fontStyle: 'normal',
                                         color: '#000000', }}> {this.state.text.Bic}: { this.props.bankInfo.BIC_NO } </Text>
-                                            <Text style={{  fontSize: 10,
+                                            <Text style={{  fontSize: 14,
                                         fontFamily: 'WorkSans-Regular',
                                         fontWeight: '500',
                                         marginLeft:5,
                                         fontStyle: 'normal',
                                         color: '#000000', }} > {this.state.text.BankName}: { this.props.bankInfo.IBAN } </Text>
-                                            <Text style={{  fontSize: 10,   
+                                            <Text style={{  fontSize: 14,   
                                         fontFamily: 'WorkSans-Regular',
                                         fontWeight: '500',
                                         marginLeft:5,

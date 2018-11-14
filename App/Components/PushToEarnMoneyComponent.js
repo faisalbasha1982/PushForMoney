@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
     ScrollView,
     Text,
@@ -85,7 +85,7 @@ let pickerData = [
     ];
 let selectedValue = ['JANUARY', 2013];
 
-class PushToEarnMoneyComponent extends Component {
+class PushToEarnMoneyComponent extends PureComponent {
 
     constructor(props)
     {
@@ -1349,7 +1349,6 @@ const newStyle = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-
         fetching: MoneySelectors.getFetching(state),
         referrals: MoneySelectors.getPerson(state),
         TotalWorkedHours: MoneySelectors.getTotalWorkedHours(state),

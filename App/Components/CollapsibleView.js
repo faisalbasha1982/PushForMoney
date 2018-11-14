@@ -36,6 +36,8 @@ import { Container, Header, Content, Input, Item } from 'native-base';
 import PropTypes from "prop-types";
 import { NavigationActions } from "react-navigation";
 import AccordionListComponent from './AccordionListComponent';
+import AccordionNewListComponent from './AccordionNewListComponent';
+import AccordionCollapsible from './AccordionCollapsible';
 
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
@@ -349,14 +351,16 @@ render() {
                           this.renderList(personObj))
                     :
                     (this.props.menu === 2)?
-                    <AccordionListComponent
-                        name={this.state.currentPersonName}
-                        back={this.backMenu}
-                        menu={this.changeMenu}                        
-                        monthlyEarningDetailsByReferrals={this.props.monthlyEarningDetailsByReferrals}
-                        TotalEarnings = {this.props.TotalEarnings}
-                        TotalWorkedHours = { this.props.TotalWorkedHours}
-                    />
+                    // <AccordionNewListComponent />
+                    <AccordionCollapsible />
+                    // <AccordionListComponent
+                    //     name={this.state.currentPersonName}
+                    //     back={this.backMenu}
+                    //     menu={this.changeMenu}                        
+                    //     monthlyEarningDetailsByReferrals={this.props.monthlyEarningDetailsByReferrals}
+                    //     TotalEarnings = {this.props.TotalEarnings}
+                    //     TotalWorkedHours = { this.props.TotalWorkedHours}
+                    // />
                     :
                     this.renderNothing()
                   }
