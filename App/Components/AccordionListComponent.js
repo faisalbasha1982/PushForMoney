@@ -110,8 +110,17 @@ _head(item){
     );
 }
 
-renderNothing = () => {
+formatTime = () => {
 
+
+}
+
+renderNothing = (time) => {
+
+    if(time.length === 3)
+       {
+           
+       }
 }
 
 _body(item){
@@ -135,8 +144,12 @@ somethingElse = () => {
 
 componentWillReceiveProps(nextProps)
 {
-    if(this.props !== nextProps)
+    if(this.props.monthlyEarningDetailsByReferrals !== nextProps.monthlyEarningDetailsByReferrals)
+    {
         this.getAsyncStorageToken();
+
+        this.createListArray();
+    }
 
     if(this.props.monthlyEarningDetailsByReferrals === null)
         this.createListArray();
@@ -182,7 +195,7 @@ componentDidMount()
 
     setTimeout(() => {
             this.createListArray();
-        },4000);
+        },500);
 }
 
 createListArray = () => {
@@ -203,6 +216,7 @@ createListArray = () => {
     let counter = 0;
 
     console.log("monthlyEarningDetailsByReferrals="+this.props.monthlyEarningDetailsByReferrals);
+    console.tron.log("monthlyEarningDetailsByReferrals="+this.props.monthlyEarningDetailsByReferrals);
 
     if(this.props.monthlyEarningDetailsByReferrals !== null)
      {
@@ -220,7 +234,7 @@ createListArray = () => {
                 list[counter] = {
                 "title": personObject.StartDate.split("T")[0] + "  -  "+ personObject.EndDate.split("T")[0],
                 "workedHours": personObject.WorkedHours
-            }        
+            }
             counter = counter + 1;
         });
 
@@ -562,7 +576,11 @@ iconStyle: {
 
 const mapStateToProps = state => {
   return {
-
+    fetching: MoneySelectors.getFetching(state),
+    TotalWorkedHours: MoneySelectors.getTotalWorkedHours(state),
+    TotalEarnings: MoneySelectors.getTotalEarnings(state),
+    monthlyEarningDetailsByReferrals: MoneySelectors.getMonthlyReferrals(state),
+    ReferredPersonName: MoneySelectors.getReferredPersonName(state),
   };
 };
 

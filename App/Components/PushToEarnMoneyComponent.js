@@ -652,7 +652,7 @@ class PushToEarnMoneyComponent extends PureComponent {
           console.log("ltoken="+this.state.token);
           this.props.getPerson(payload);
       
-        },4000)
+        },600)
       
       }
 
@@ -664,6 +664,7 @@ class PushToEarnMoneyComponent extends PureComponent {
         this.setState({isLoading: true});
 
         console.log("referralId="+this.props.referrals.MobileReferralID);
+        console.tron.log("referralId="+this.props.referrals.MobileReferralID);
       
         let payload = {
           "AuthenticationData": encryptedData,

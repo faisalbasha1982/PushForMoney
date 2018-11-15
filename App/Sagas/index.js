@@ -30,7 +30,8 @@ import { RegisterRequest, RegisterRequestNew, OtpRequest,
          mobileregister
         } 
 from './RegisterSagas'
-import { firstNameUpdate,changePassword, changeMobile, verifyMobileOtpRequest, ProfileRequestNew } from './ProfileSagas'
+import { firstNameUpdate,changePassword, changeMobile, verifyMobileOtpRequest, ProfileRequestNew ,
+        emailUpdate } from './ProfileSagas'
 import { cardDetailsRequest } from './CardDetailsSagas'
 import { FriendRequest, archiveRequest, saveReferrals } from './FriendSagas'
 import { getMoneyMonth, getPersonMonth } from './MoneySagas';
@@ -103,6 +104,9 @@ export default function * root () {
 
     //Profile Saga Name update
     takeLatest(ProfileTypes.UPDATE_FIRST_NAME,firstNameUpdate,api),
+
+    //Profile Saga Email update
+    takeLatest(ProfileTypes.UPATE_EMAIL,emailUpdate,api),
 
     //Card Details Saga
     takeLatest(CardDetailsTypes.CARD_DETAILS_REQUEST,cardDetailsRequest,api),

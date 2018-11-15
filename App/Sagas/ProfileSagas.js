@@ -65,9 +65,6 @@ import  API_URL  from '../Services/Api_url';
 // }
 
 function fetchJson(url,payload) {
-
-    // console.log("inside fetchJson:");
-    // console.tron.log("inside fetch json");
   
     return  fetch(url,{
         method: 'POST',
@@ -78,22 +75,8 @@ function fetchJson(url,payload) {
         body: JSON.stringify(payload),
     })
       .then((response) => response.json())
-      .then(response => {
-  
-        //Alert.alert(response.Message);
+      .then(response => {    
 
-        // if (!response.ok) {
-  
-        //   Alert.alert(response.Message);
-        //   const error = new Error(response.statusText);
-        //   error.response = response;
-        //   throw error;
-        // }
-        // else
-        // {
-        //   Alert.alert(response.Message);
-        // }
-  
         return response;
       });
   }
@@ -106,7 +89,7 @@ function fetchJson(url,payload) {
     // return fetchJson('https://prod-17.westeurope.logic.azure.com:443/workflows/82682ea087a442f0a12c00f1b9c08e7d/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=MkoqJpsrFiWGnELB49KFyYbnTO5BCa4hntQA_83UJfo',payload);
 
     return fetchJson(API_URL.staging.laMobileGetUserData,payload);
-  }
+}
   
 
 export function * ProfileRequestNew(api,action)
@@ -145,7 +128,24 @@ export function * firstNameUpdate(api,action) {
         yield put(ProfileActions.profileFailure());
     }
    
-} 
+}
+
+function fetchEmailUpdate(payload) {
+    return fetchJson('https://famobileutilityapiinterfacestag.azurewebsites.net/api/fnMobileUserUpdateEmail?code=!@M*;-kATy_vcUkLq/U))QD`XL5Sg`5D',payload);
+}
+
+export function * emailUpdate(api,action) {
+    try{
+        // console.log("profile request new:");
+        const responseJson = yield call(fetchEmailUpdate,action.payload);
+        yield put(ProfileActions.profileSuccess());
+        Alert.alert("Successfully!  " + responseJson.Message);
+    }
+    catch(error)
+    {
+        yield put(ProfileActions.profileFailure());
+    } 
+}
 
 function fetchChangePassword(payload) {
       
@@ -198,6 +198,8 @@ export function * changeMobile(api,action)
         Alert.alert("Phone Number Incorrect");
     }
 }
+
+
 
 function fetchOTPMobile(payload) {
 

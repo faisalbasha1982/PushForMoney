@@ -37,7 +37,7 @@ import PropTypes from "prop-types";
 import { NavigationActions } from "react-navigation";
 import AccordionListComponent from './AccordionListComponent';
 import AccordionNewListComponent from './AccordionNewListComponent';
-import AccordionCollapsible from './AccordionCollapsible';
+import AccordionListCollapsible from './AccordionListCollapsible';
 
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
@@ -177,19 +177,10 @@ renderList = (personObj) => {
 
 getMoney = (MobileReferralID) => {
 
+  console.tron.log("MobileRefferalID is="+MobileReferralID);
   
-  // if(language === 'Dutch')
-  //     this.setState({ text: languageSettingsPFM.Dutch, languageCode: 'nl'});
-  // else
-  //     if(language === 'English')
-  //     this.setState({ text: languageSettingsPFM.English, languageCode: 'en'});
-  // else
-  //     if(language === 'French')
-  //     this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
-
   let authData = AuthComponent.authenticationData(this.state.languageCode);
   let encryptedData = AesComponent.aesCallback(authData);
-  let ltoken = localStorage.getItem('token');
   this.setState({isLoading: true});
 
   let payload = {
@@ -352,15 +343,15 @@ render() {
                     :
                     (this.props.menu === 2)?
                     // <AccordionNewListComponent />
-                    <AccordionCollapsible />
-                    // <AccordionListComponent
-                    //     name={this.state.currentPersonName}
-                    //     back={this.backMenu}
-                    //     menu={this.changeMenu}                        
-                    //     monthlyEarningDetailsByReferrals={this.props.monthlyEarningDetailsByReferrals}
-                    //     TotalEarnings = {this.props.TotalEarnings}
-                    //     TotalWorkedHours = { this.props.TotalWorkedHours}
-                    // />
+                    // <AccordionListCollapsible />
+                    <AccordionListComponent
+                        name={this.state.currentPersonName}
+                        back={this.backMenu}
+                        menu={this.changeMenu}              
+                        // monthlyEarningDetailsByReferrals={this.props.monthlyEarningDetailsByReferrals}
+                        // TotalEarnings = {this.props.TotalEarnings}
+                        // TotalWorkedHours = { this.props.TotalWorkedHours}
+                    />
                     :
                     this.renderNothing()
                   }

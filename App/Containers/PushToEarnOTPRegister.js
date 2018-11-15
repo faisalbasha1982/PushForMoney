@@ -71,6 +71,7 @@ class PushToEarnOTPRegister extends Component {
 
         this.state = {
             language: 'NEDERLANDS',
+            languageCode:'',
             validation: false,
             renderValidate: false,
             firstInput:'',

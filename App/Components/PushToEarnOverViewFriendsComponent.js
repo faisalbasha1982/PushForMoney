@@ -362,6 +362,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
     }
 
     archiveApiCall = (personObj) => {
+
         Alert.alert("called archive Api");
         console.log("called archive Api");
 
@@ -649,11 +650,20 @@ class PushToEarnOverViewFriendsComponent extends Component {
                       
 
                                 <View style= {newStyle.inputContainer}>
+
+                                   {
+                                        this.props.fetching ===true?
+                                        <View style = {{position: 'absolute' , zIndex:3999, left: 30, top: 0, right: 0, bottom: 0}}>
+                                        <BallIndicator color='#e73d50' />
+                                        </View>:this.somethingElse()
+                                   }
+
                                 <ScrollView 
                                         style={{ flex: 1, backgroundColor: 'transparent', height:viewPortHeight*0.90 }} 
                                         contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-start', }}
-                                        onScroll = { () => { this.getFriendList(); } }
-                                >
+                                        onScroll = { () => { this.getFriendList();
+                                        
+                                        } }>
                                     {
                                         this.props.referral.map(
                                             personObj => 

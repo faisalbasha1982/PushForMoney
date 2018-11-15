@@ -306,6 +306,7 @@ class PushToEarnProfileComponent extends Component {
 
     validateEmail = (email) => {
 
+        this.setState({ emailInput: email});
     }
 
     renderNothing = () => {
@@ -494,7 +495,7 @@ getAsyncStorage = async () => {
 
             this.props.getProfile(payload);
 
-        },1000);        
+        },500);        
     }
 
     componentDidMount() {
@@ -606,6 +607,29 @@ getAsyncStorage = async () => {
         this.setState({placeHolderColorLastName:'lightgray' })
         :
         this.setState({placeHolderColorLastName:'grey'});
+    }
+
+    callUpdateEmail = (email) => {
+
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
+        let encryptedData = AesComponent.aesCallback(authData);
+
+        this.setState({isLoading: true});
+
+        let payload = {
+            "AuthenticationData": encryptedData,
+            "LoginAccessToken":this.state.aToken,
+            "NewEmail": email,
+        };
+
+        Alert.alert("inside update email:");
+
+        this.props.emailUpdate(payload);
+
+        setTimeout(() => {
+            this.setState({ isLoading: false});
+        },4000);
+
     }
 
     callUpdateName = (name) => {
@@ -1029,15 +1053,15 @@ getAsyncStorage = async () => {
                                                 editable={this.state.emailEditable}
                                                 underlineColorAndroid= 'transparent'
                                                 onBlur = { () => {
-                                                    this.seteditableLasttName();
-                                                    this.callUpdateName(this.state.emailInput);
-                                                }}
-                                                onEndEditing = { () => {
-                                                    this.callUpdateLastName(this.state.emailInput);
-                                                    this.seteditableLasttName();
+                                                    this.seteditableEmail();
+                                                    this.callUpdateEmail(this.state.emailInput);
                                                     this.callProfile();
                                                 }}
-                                                onChangeText= { (emailInput) => this.validateEmail(emailInput) }/>
+                                                onEndEditing = { () => {
+                                                    this.seteditableEmail();
+                                                    this.callProfile();
+                                                }}
+                                                onChangeText= { (emailInput) => this.setState({emailInput}) }/>
                                    }
                             </View>
 
@@ -1709,8 +1733,9 @@ const mapStateToProps = state => {
       navigateBack: () => this.props.navigation.goBack(),
       getProfile:(payload) => dispatch({ type: 'GET_PROFILE_REQUEST_NEW', payload }),
       nameUpdate: (payload) => dispatch({ type: 'UPDATE_FIRST_NAME', payload }),
-      changeMobile: (payload) => dispatch({ type: 'CHANGE_MOBILE', payload }),
-       notificationRequest: (payload) => dispatch({ type: 'NOTIFICATION_REQUEST', payload})
+      emailUpdate: (payload) => dispatch({ type: 'UPDATE_EMAIL', payload}),
+      changeMobile: (payload) => dispatch({ type: 'CHANGE_MOBILE', payload }),      
+      notificationRequest: (payload) => dispatch({ type: 'NOTIFICATION_REQUEST', payload})
     };
   };
   

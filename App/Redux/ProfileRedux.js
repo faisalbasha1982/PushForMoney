@@ -8,6 +8,8 @@ const { Types, Creators } = createActions({
   updateFirstName:["payload"],
   updateFirstNameSuccess:["firstname"],
   updateLastNameSuccess:["lastname"],
+  updateEmail:['payload'],
+  updateEmailSuccess:['email'],
   changePassword:["payload"],
   changeMobile:["payload"],
   verifyOtpMobile:["payload"],
@@ -68,6 +70,10 @@ export const updateSuccessLastName = (state,{ lastname }) => {
   return { ...state, lastname, fetching: true, }
 }
 
+export const updateEmailSuccess = (state, { email }) => {
+  return { ...state, email, fetching: true, } 
+}
+
 export const changePassword = (state, {payload}) => {
     return { ...state, fetching: true, payload }
 }
@@ -113,6 +119,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.UPDATE_FIRST_NAME]: newrequest,
   [Types.UPDATE_FIRST_NAME_SUCCESS]: updateSuccessFirstName,
   [Types.UPDATE_LAST_NAME_SUCCESS]: updateSuccessLastName,
+  [Types.UPDATE_EMAIL]: request,
+  [Types.UPDATE_EMAIL_SUCCESS]: updateEmail,
   [Types.CHANGE_PASSWORD]: changePassword,
   [Types.CHANGE_MOBILE]: cMobile,
   [Types.VERIFY_OTP_MOBILE]: verifyOtpMobileSuccess,
