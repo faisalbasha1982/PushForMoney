@@ -14,7 +14,16 @@ import {
     findNodeHandle,
     AsyncStorage
 } from 'react-native';
-
+import {
+    BallIndicator,
+    BarIndicator,
+    DotIndicator,
+    PacmanIndicator,
+    PulseIndicator,
+    SkypeIndicator,
+    UIActivityIndicator,
+    WaveIndicator,
+  } from 'react-native-indicators';
 import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -50,6 +59,7 @@ import * as AesComponent from '../Components/AesComponent';
 import localStorage from 'react-native-sync-localstorage';
 import RNImmediatePhoneCall from 'react-native-immediate-phone-call';
 import call from 'react-native-phone-call';
+// import ScrollView, { ScrollViewChild } from 'react-native-directed-scrollview';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -65,7 +75,7 @@ let authData = AuthComponent.authenticationData("en");
 let encryptedData = AesComponent.aesCallback(authData);
 let ltoken = localStorage.getItem('token');
 
-class PushToEarnOverViewFriendsComponent extends Component {
+class PushToEarnOverViewFriendsComponent extends Component {    
 
     constructor(props)
     {
@@ -97,7 +107,8 @@ class PushToEarnOverViewFriendsComponent extends Component {
             phoneNumberEmptyError:false,
             screenHeight: 0,
             text:{},
-            token:''
+            token:'',
+            isLoading:''
         };    
     }
 
@@ -327,7 +338,42 @@ class PushToEarnOverViewFriendsComponent extends Component {
         this.setLanguage();
     }
 
-    getFriendList = () => {
+    scrollGetFriendList = async () => {
+
+        console.log("INSIDE FRIEND LIST API CALL");
+        console.log("language Code="+this.state.languageCode);
+        console.log("FO token from getFriendList ="+this.state.token);
+
+        try{
+             this.setState({isLoading: true,});
+
+            setTimeout(() => {
+
+                if(this.state.token !== null || this.state.token !== undefined)
+                {
+                    let payload = {
+                        "AuthenticationData": encryptedData,
+                        "LoginAccessToken": this.state.token,
+                    };
+        
+                    this.props.friendRequest(payload); 
+    
+                }
+            },600);            
+
+            this.setState({isLoading: true,});
+
+            console.log("this.props.referral="+this.props.referral);
+            // console.tron.log("this.props.referral="+this.props.referral);
+    
+        }
+        catch(error)
+        {
+            console.tron.log("error with api getFriendList");
+        }
+    }
+
+    getFriendList = async () => {
 
         console.log("INSIDE FRIEND LIST API CALL");
         console.log("language Code="+this.state.languageCode);
@@ -338,26 +384,35 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
         this.getAsyncStorageToken();
 
-        this.setState({isLoading: true,});
-
         console.log("FO token from getFriendList ="+this.state.token);
 
-        setTimeout(() => {
+        try{
+             this.setState({isLoading: true,});
 
-            if(this.state.token !== null || this.state.token !== undefined)
-            {
-                let payload = {
-                    "AuthenticationData": encryptedData,
-                    "LoginAccessToken": this.state.token,
-                };
-    
-                this.props.friendRequest(payload); 
-            }
+            setTimeout(() => {
 
-        },3000);
+                if(this.state.token !== null || this.state.token !== undefined)
+                {
+                    let payload = {
+                        "AuthenticationData": encryptedData,
+                        "LoginAccessToken": this.state.token,
+                    };
         
-        console.log("this.props.referral="+this.props.referral);
-        // console.tron.log("this.props.referral="+this.props.referral);
+                    this.props.friendRequest(payload); 
+    
+                }
+                this.setState({isLoading: false,});
+            },600);            
+
+            console.log("this.props.referral="+this.props.referral);
+            // console.tron.log("this.props.referral="+this.props.referral);
+    
+        }
+        catch(error)
+        {
+            console.tron.log("error with api getFriendList");
+        }
+
 
     }
 
@@ -498,6 +553,11 @@ class PushToEarnOverViewFriendsComponent extends Component {
         return newMobNo;
     }
 
+    somethingElse = () => {
+
+    }
+
+
     newFormatMobileNo = (mobileNo) => {
 
         console.log("mobileNo="+mobileNo);
@@ -596,9 +656,11 @@ class PushToEarnOverViewFriendsComponent extends Component {
         this.setState({ screenHeight: contentHeight });
       };
 
+
     render() {
         
         const platform = Platform.OS;
+        const scrollEnabled = this.state.screenHeight > viewPortHeight;
         console.log("platform --->",Platform.OS);
         console.log("FO inside friends overview component referral object="+this.props.referral);
 
@@ -651,19 +713,45 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
                                 <View style= {newStyle.inputContainer}>
 
-                                   {
-                                        this.props.fetching ===true?
+                                   {/* {
+                                        this.state.isLoading ===true?
                                         <View style = {{position: 'absolute' , zIndex:3999, left: 30, top: 0, right: 0, bottom: 0}}>
                                         <BallIndicator color='#e73d50' />
                                         </View>:this.somethingElse()
-                                   }
+                                   } */}
 
-                                <ScrollView 
-                                        style={{ flex: 1, backgroundColor: 'transparent', height:viewPortHeight*0.90 }} 
-                                        contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-start', }}
-                                        onScroll = { () => { this.getFriendList();
-                                        
-                                        } }>
+                                    {/* <ScrollView
+                                        bounces={true}
+                                        bouncesZoom={true}
+                                        maximumZoomScale={2.0}
+                                        minimumZoomScale={0.5}
+                                        showsHorizontalScrollIndicator={false}
+                                        showsVerticalScrollIndicator={true}
+                                        contentContainerStyle={newStyle.contentContainer}
+                                        style={newStyle.container}>
+
+                                        <ScrollViewChild scrollDirection={'vertical'}>
+                                           <Text>vertically scrolling content here...</Text> 
+                                           <Text>vertically scrolling content here...</Text> 
+                                           <Text>vertically scrolling content here...</Text> 
+                                           <Text>vertically scrolling content here...</Text> 
+                                           <Text>vertically scrolling content here...</Text> 
+                                           <Text>vertically scrolling content here...</Text> 
+                                           <Text>vertically scrolling content here...</Text> 
+                                           <Text>vertically scrolling content here...</Text> 
+                                           <Text>vertically scrolling content here...</Text> 
+                                           <Text>vertically scrolling content here...</Text> 
+                                           <Text>vertically scrolling content here...</Text> 
+                                           <Text>vertically scrolling content here...</Text> 
+
+                                        </ScrollViewChild>
+                                    </ScrollView> */}
+                                
+                                <ScrollView
+                                        style={{ flex: 1, backgroundColor: 'transparent', height:viewPortHeight*0.90, }} 
+                                        contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-start',  }}
+                                        onScroll = { () => { this.getFriendList() } }
+                                        >
                                     {
                                         this.props.referral.map(
                                             personObj => 
@@ -696,6 +784,11 @@ const newStyle = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
+
+      contentContainer: {
+        height: 1000,
+        width: 1000,
+      },
 
     keyboardScrollViewContainer: {
         backgroundColor: 'transparent',

@@ -96,6 +96,14 @@ _head(item){
          <TouchableOpacity onPress={ ( ) => {} }
          activeOpacity={0.5}
          style={newStyle.iconStyle}> 
+
+          <Icon
+             containerStyle={newStyle.iconImageStyle}
+             name=''
+             type='font-awesome'
+             color='#E73D50'
+             size = {15}
+             onPress={() => console.log('hello')} /> 
         </TouchableOpacity>
 
          }
@@ -112,15 +120,16 @@ _head(item){
 
 formatTime = () => {
 
+    if(time.length === 3)
+    {
+        
+    }
 
 }
 
 renderNothing = (time) => {
 
-    if(time.length === 3)
-       {
-           
-       }
+
 }
 
 _body(item){
@@ -223,16 +232,19 @@ createListArray = () => {
         this.props.monthlyEarningDetailsByReferrals.map( personObject => {
 
             if(personObject.monthlyEarningDetailsByReferralsByContracts !== null)
+              {
+                  console.tron.log("date="+this.reverse(personObject.StartDate.split("T")[0]));
                 list[counter] = {
-                        "title": personObject.StartDate.split("T")[0] + " -  "+ personObject.EndDate.split("T")[0],
-                        "body" :  "Correction - Adjustment Contract",
-                        "time" : "Time: "+ personObject.monthlyEarningDetailsByReferralsByContracts.Time,
-                        "newTime" : "New Time: " + personObject.monthlyEarningDetailsByReferralsByContracts.NewTime,
-                        "workedHours": personObject.WorkedHours
+                    "title": this.reverse(personObject.StartDate.split("T")[0]) + "  -  "+ this.reverse(personObject.EndDate.split("T")[0]),
+                    "body" :  "Correction - Adjustment Contract",
+                    "time" : "Time: "+ personObject.monthlyEarningDetailsByReferralsByContracts.Time,
+                    "newTime" : "New Time: " + personObject.monthlyEarningDetailsByReferralsByContracts.NewTime,
+                    "workedHours": personObject.WorkedHours
                 };
+              }
             else
                 list[counter] = {
-                "title": personObject.StartDate.split("T")[0] + "  -  "+ personObject.EndDate.split("T")[0],
+                "title": this.reverse(personObject.StartDate.split("T")[0]) + "  -  "+ this.reverse(personObject.EndDate.split("T")[0]),
                 "workedHours": personObject.WorkedHours
             }
             counter = counter + 1;
@@ -246,6 +258,15 @@ createListArray = () => {
         }   
      }     
 
+}
+
+reverse = (s) => {
+
+    var result = s.split("-");
+
+    var o = result[2] + "-" + result[1] + "-" + result[0];
+
+    return o;
 }
 
 render() {

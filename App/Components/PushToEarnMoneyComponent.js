@@ -652,7 +652,7 @@ class PushToEarnMoneyComponent extends PureComponent {
           console.log("ltoken="+this.state.token);
           this.props.getPerson(payload);
       
-        },600)
+        },650)
       
       }
 
@@ -753,7 +753,6 @@ class PushToEarnMoneyComponent extends PureComponent {
     tbBackComponent = () => {
         this.setState({ triggerBackComponent: !this.state.triggerBackComponent, changeMenuOneBack: true, childMenu:1 });
         this.toggleTotalText();
-
     }
 
     sendToChildCollapsible = () => {
@@ -770,6 +769,7 @@ class PushToEarnMoneyComponent extends PureComponent {
 
     render() {
         const platform = Platform.OS;
+        let totalEarningsString = (this.props.TotalEarningsPersons +'').split(".")[1]+'';
         console.log("platform --->",Platform.OS);
         console.log("referrals="+typeof(this.props.referrals));
         // console.tron.log("referrals="+this.props.referrals);
@@ -778,6 +778,8 @@ class PushToEarnMoneyComponent extends PureComponent {
         console.log("money component show perons list="+this.state.showPersonList);
         console.log("this.state.language="+this.state.languageCode);
         console.log("this.state.text.months="+this.state.text);
+        console.tron.log("object or string="+typeof(this.props.TotalEarningsPersons))
+        console.tron.log("converted="+totalEarningsString.length);
         return (
 
         // <Provider value = {{
@@ -885,7 +887,12 @@ class PushToEarnMoneyComponent extends PureComponent {
                                         // </View>
                                         <View style={newStyle.totalText}>
                                                     <Text style={newStyle.firstName}>{this.state.text.TotalNext}</Text>
-                                                    <Text style={newStyle.earningsText}>€{this.props.TotalEarningsPersons}</Text>
+                                                    <Text style={newStyle.earningsText}>€
+                                                    {
+                                                        (this.props.TotalEarningsPersons !== null && totalEarningsString.length === 1)?
+                                                         (this.props.TotalEarningsPersons+ '0') : this.props.TotalEarningsPersons
+                                                    }
+                                                    </Text>
                                         </View>
                                         //  <View style={newStyle.totalHoursText}>
                                         //             <Text style={newStyle.firstNameTotalHours}>{this.state.text.Total}</Text>

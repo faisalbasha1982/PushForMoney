@@ -47,6 +47,7 @@ import localStorage from 'react-native-sync-localstorage';
 import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
+import OtpInputs from 'react-native-otp-inputs'
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -99,7 +100,8 @@ class PushToEarnOTPComponent extends Component {
             ErrorText:'',
             EmptyErrorText:'',
             text:{},
-            token:''
+            token:'',
+            otpText:''
         };    
     }
 
@@ -277,7 +279,7 @@ class PushToEarnOTPComponent extends Component {
         let payload = {
                 "AuthenticationData":encryptedData,
                 "LoginAccessToken":this.state.token,
-                "OTP": otpString,
+                "OTP": this.state.otpText,
                 "OTPType" : "M",
             };
 
@@ -314,6 +316,13 @@ class PushToEarnOTPComponent extends Component {
 
     func = (renderValidate,EmptyErrorText) => {
       this.setState({renderValidate,EmptyErrorText});
+    }
+
+    setOtp = (otp) => {
+
+        if(otp.length === 4)
+          this.setState({ otpText: otp });
+
     }
 
     render() {
@@ -367,14 +376,22 @@ class PushToEarnOTPComponent extends Component {
                                     {this.state.text.otpMessagecntd}
                                 </Text>
                 </View>
-                <View style={{
+                {/* <View style={{
                             width: viewPortWidth*0.80, 
                             height: 80, 
                             backgroundColor: 'transparent',
                             flexDirection:'row', 
                             justifyContent:'center', 
-                            alignItems:'center'}}>                            
-                                <TextInput
+                            alignItems:'center'}}>                    */}
+                <View style= {newStyle.numberBox}>
+                              <OtpInputs 
+                                handleChange={code => {this.setOtp(code)}}
+                                numberOfInputs={4}
+                                inputContainerStyles = {newStyle.otpInput}
+                                clearTextOnFocus = {true}
+                                keyboardType={'numeric'}
+                                />
+                                {/* <TextInput
                                         style={ newStyle.otpInput }
                                         placeholder=''
                                         returnKeyType= {"next"}
@@ -385,7 +402,7 @@ class PushToEarnOTPComponent extends Component {
                                         blurOnSubmit={false}
                                         returnKeyType={"next"}
                                         underlineColorAndroid= 'transparent'
-                                        onChangeText={(firstInput) => this.validateOTPText1(firstInput)}/>
+                                        onChangeText={(firstInput) => this.validateOTPText1(firstInput)}/> */}
 
                             {
                                     this.state.isLoading===true?
@@ -395,7 +412,7 @@ class PushToEarnOTPComponent extends Component {
                             }                      
 
 
-                            <TextInput
+                            {/* <TextInput
                                         style={ newStyle.otpInput }
                                         placeholder=''
                                         ref='secondInput'
@@ -433,7 +450,7 @@ class PushToEarnOTPComponent extends Component {
                                         blurOnSubmit={false}
                                         returnKeyType={"next"}
                                         underlineColorAndroid= 'transparent'
-                                        onChangeText={(fourthInput) => this.validateOTPText4(fourthInput)}/>                                                    
+                                        onChangeText={(fourthInput) => this.validateOTPText4(fourthInput)}/>                                                     */}
                 </View>
 
                 <View style={{
@@ -795,12 +812,20 @@ const newStyle = StyleSheet.create({
         padding: 10,
     },
 
+    numberBox: {
+        flex: Platform.OS === 'ios'?2:1,
+        backgroundColor: 'transparent',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        flexDirection: 'row'        
+    },
+
     otpInput: {
         width: 39,
         height: 50,
         borderRadius: 8,
         backgroundColor: '#f6f6f6',
-        padding: 7,
+        padding: 0,
         margin: 10
     },
 

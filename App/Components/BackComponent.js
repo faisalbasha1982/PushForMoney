@@ -41,7 +41,7 @@ export default class BackComponent extends Component
                                                     name='arrow-circle-left'
                                                     type='font-awesome'
                                                     color='rgb(231, 61, 80)'
-                                                    size = {18} /> 
+                                                    size = {25} /> 
                                                 {/* <Text style= {{
                                                     width: 185,
                                                     height: 15,

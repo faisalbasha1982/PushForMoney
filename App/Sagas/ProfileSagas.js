@@ -75,7 +75,7 @@ function fetchJson(url,payload) {
         body: JSON.stringify(payload),
     })
       .then((response) => response.json())
-      .then(response => {    
+      .then(response => {
 
         return response;
       });
@@ -134,17 +134,18 @@ function fetchEmailUpdate(payload) {
     return fetchJson('https://famobileutilityapiinterfacestag.azurewebsites.net/api/fnMobileUserUpdateEmail?code=!@M*;-kATy_vcUkLq/U))QD`XL5Sg`5D',payload);
 }
 
-export function * emailUpdate(api,action) {
+export function * emailUpdate(api,action)
+{
     try{
-        // console.log("profile request new:");
         const responseJson = yield call(fetchEmailUpdate,action.payload);
         yield put(ProfileActions.profileSuccess());
         Alert.alert("Successfully!  " + responseJson.Message);
     }
     catch(error)
     {
-        yield put(ProfileActions.profileFailure());
-    } 
+        Alert.alert("Error:  " + responseJson.Message);
+        // yield put(ProfileActions.profileFailure());
+    }
 }
 
 function fetchChangePassword(payload) {

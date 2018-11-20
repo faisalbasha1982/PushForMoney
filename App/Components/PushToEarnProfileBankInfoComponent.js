@@ -82,6 +82,7 @@ class PushToEarnProfileBankInfoComponent extends Component {
             buttonText: 'SAVE DATA',
             text:{},
             aToken:'',
+            isLoading:''
         };    
     }
 
@@ -93,6 +94,24 @@ class PushToEarnProfileBankInfoComponent extends Component {
 
     componentWillMount() {
         this.getAsyncStorage();
+    }
+
+    callProfile = () =>  {
+
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
+        let encryptedData = AesComponent.aesCallback(authData);
+
+        setTimeout(() => 
+        {
+
+            let payload = {
+                "AuthenticationData": encryptedData,
+                "LoginAccessToken": this.state.aToken,
+            };
+
+            this.props.getProfile(payload);
+
+        },500);        
     }
 
     setLanguage = () => {
@@ -171,6 +190,7 @@ class PushToEarnProfileBankInfoComponent extends Component {
                         };
                 
                         this.props.cardDetails(payload);
+                        this.callProfile();
                         this.props.menu(1);
                     }
 
@@ -226,6 +246,12 @@ class PushToEarnProfileBankInfoComponent extends Component {
                                         placeholder=''
                                         underlineColorAndroid= 'transparent'
                                         onChangeText={(bankName) => this.setState({bankName})}/>
+
+                              {/* {this.state.isLoading === true?
+                                    <View style = {{position: 'absolute' , zIndex:3999, left: 25, top: 0, right: 0, bottom: 0}}>
+                                    <BallIndicator color='#e73d50' />
+                                    </View>:this.somethingElse()
+                               }             */}
                                     
                             <Text style={newStyle.firstName}>{this.state.text.Iban}</Text>
                             <TextInput
@@ -246,7 +272,9 @@ class PushToEarnProfileBankInfoComponent extends Component {
 
                         <View style={newStyle.buttonView}>
                         <TouchableOpacity
-                            onPress={() => { this.saveData() } }
+                            onPress={() => { this.saveData(); 
+                                              this.callProfile();
+                            } }
                             activeOpacity={0.5}
                             style={{
                                 width: 280,
@@ -533,6 +561,7 @@ const mapStateToProps = state => {
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
       cardDetails: ( payload ) => dispatch({ type: 'CARD_DETAILS_REQUEST', payload }),
+      getProfile:(payload) => dispatch({ type: 'GET_PROFILE_REQUEST_NEW', payload }),
     };
   };
   

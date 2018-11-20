@@ -477,6 +477,7 @@ getAsyncStorage = async () => {
         // Typical usage (don't forget to compare props):
         if (this.props.isLoading !== prevProps.isLoading) {
             this.setState({ isLoading: false});
+            //this.callProfile();
         }
       }
 
@@ -485,7 +486,7 @@ getAsyncStorage = async () => {
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
 
-        setTimeout(() => 
+        setTimeout(() =>
         {
 
             let payload = {
@@ -495,7 +496,7 @@ getAsyncStorage = async () => {
 
             this.props.getProfile(payload);
 
-        },500);        
+        },650);        
     }
 
     componentDidMount() {
@@ -512,7 +513,9 @@ getAsyncStorage = async () => {
         let asynToken = '';
         console.log("PC login access token="+this.state.aToken);
 
-        setTimeout(() => 
+        console.tron.log("first name="+this.props.firstName);
+
+        setTimeout(() =>
         {
             let payload = {
                 "AuthenticationData": encryptedData,
@@ -558,7 +561,7 @@ getAsyncStorage = async () => {
 
     }
 
-    seteditablePassword = () => {        
+    seteditablePassword = () => {
 
         this.setState({passwordEditable: !this.state.passwordEditable,firstNameEditable: false, lastNameEditable:false, emailEditable: false, phoneEditable: false,});
 
@@ -633,7 +636,7 @@ getAsyncStorage = async () => {
     }
 
     callUpdateName = (name) => {
-     
+
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
 
@@ -902,10 +905,12 @@ getAsyncStorage = async () => {
                                                         underlineColorAndroid= 'transparent'                                                        
                                                         onBlur = { () => {
                                                             this.seteditableFirstName();
+                                                            console.tron.log("called on Blur");
                                                             this.callUpdateName(this.state.firstNameInput);
                                                         }}
                                                         onEndEditing = { () => {
                                                             this.callUpdateName(this.state.firstNameInput);
+                                                            console.tron.log("called on End Editing");
                                                             this.seteditableFirstName();
                                                             this.callProfile();
                                                         }}
@@ -929,7 +934,8 @@ getAsyncStorage = async () => {
                                     }}>
 
                                        <TouchableOpacity
-                                        onPress={() => {  this.seteditableLasttName(); 
+                                        onPress={() => {  
+                                            this.seteditableLasttName();
                                         }}
                                         activeOpacity={0.5}
                                         style={{
@@ -977,16 +983,16 @@ getAsyncStorage = async () => {
                                         placeholder='last name'
                                         placeholderTextColor = {this.state.placeHolderColorLastName}
                                         editable={this.state.lastNameEditable}
-                                        onBlur = { () => this.callUpdateLastName(this.state.lastNameInput)}
                                         underlineColorAndroid= 'transparent'
                                         onBlur = { () => {
-                                            this.seteditableLasttName();
                                             this.callUpdateLastName(this.state.lastNameInput);
+                                            this.callProfile();
+                                            this.seteditableLasttName();
                                         }}
                                         onEndEditing = { () => {
                                             this.callUpdateLastName(this.state.lastNameInput);
-                                            this.seteditableLasttName();
                                             this.callProfile();
+                                            this.seteditableLasttName();
                                         }}
                                         onChangeText= { (lastNameInput) => this.validateLastName(lastNameInput) }/>
                                  }
@@ -1053,20 +1059,21 @@ getAsyncStorage = async () => {
                                                 editable={this.state.emailEditable}
                                                 underlineColorAndroid= 'transparent'
                                                 onBlur = { () => {
-                                                    this.seteditableEmail();
                                                     this.callUpdateEmail(this.state.emailInput);
                                                     this.callProfile();
+                                                    this.seteditableEmail();
                                                 }}
                                                 onEndEditing = { () => {
-                                                    this.seteditableEmail();
+                                                    this.callUpdateEmail(this.state.emailInput);
                                                     this.callProfile();
+                                                    this.seteditableEmail();
                                                 }}
                                                 onChangeText= { (emailInput) => this.setState({emailInput}) }/>
                                    }
                             </View>
 
                             <Text style={newStyle.firstName}>{this.state.text.Phone}</Text>
-                            <View style={newStyle.innerContainer}>                                            
+                            <View style={newStyle.innerContainer}>
                                 {(this.state.phoneEditable===true)?
                                     <View
                                         opacity={1}
@@ -1727,14 +1734,17 @@ const mapStateToProps = state => {
   };
   
   const mapDispatchToProps = dispatch => {
-    return {  
+    return {
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
       getProfile:(payload) => dispatch({ type: 'GET_PROFILE_REQUEST_NEW', payload }),
       nameUpdate: (payload) => dispatch({ type: 'UPDATE_FIRST_NAME', payload }),
-      emailUpdate: (payload) => dispatch({ type: 'UPDATE_EMAIL', payload}),
-      changeMobile: (payload) => dispatch({ type: 'CHANGE_MOBILE', payload }),      
+      emailUpdate: (payload) => {
+          console.tron.log("update email prop has been called");
+          dispatch({ type: 'UPDATE_EMAIL', payload})
+        },
+      changeMobile: (payload) => dispatch({ type: 'CHANGE_MOBILE', payload }),
       notificationRequest: (payload) => dispatch({ type: 'NOTIFICATION_REQUEST', payload})
     };
   };

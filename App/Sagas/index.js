@@ -11,7 +11,7 @@ import { StartupTypes } from '../Redux/StartupRedux'
 import { GithubTypes } from '../Redux/GithubRedux'
 import { LoginTypes } from '../Redux/LoginRedux'
 import { RegisterTypes } from '../Redux/RegisterRedux'
-import { ProfileTypes, verifyOtpMobileSuccessCall } from '../Redux/ProfileRedux'
+import { ProfileTypes } from '../Redux/ProfileRedux'
 import { FriendTypes } from '../Redux/FriendRedux'
 import { CardDetailsTypes } from '../Redux/CardDetailsRedux'
 import { MoneyTypes } from '../Redux/MoneyRedux'
@@ -19,19 +19,24 @@ import { MoneyTypes } from '../Redux/MoneyRedux'
 /* ------------- Sagas ------------- */
 
 import { startup } from './StartupSagas'
+
 import { getUserAvatar } from './GithubSagas'
+
 import { LoginRequest,rsaRequest, facebookRequest, 
          twitterRequest, googleRequest,
          notificationRequest,otpLoginRequest
         } from './LoginSagas'
+
 import { RegisterRequest, RegisterRequestNew, OtpRequest,
          forgotPasswordRequest, forgotPasswordOTPRequest,
          makeRegisterRequest, OtpRequestResend, register,
          mobileregister
         } 
 from './RegisterSagas'
-import { firstNameUpdate,changePassword, changeMobile, verifyMobileOtpRequest, ProfileRequestNew ,
-        emailUpdate } from './ProfileSagas'
+
+import { firstNameUpdate,changePassword, changeMobile, 
+        verifyMobileOtpRequest,ProfileRequestNew, emailUpdate } from './ProfileSagas'
+
 import { cardDetailsRequest } from './CardDetailsSagas'
 import { FriendRequest, archiveRequest, saveReferrals } from './FriendSagas'
 import { getMoneyMonth, getPersonMonth } from './MoneySagas';
@@ -106,7 +111,7 @@ export default function * root () {
     takeLatest(ProfileTypes.UPDATE_FIRST_NAME,firstNameUpdate,api),
 
     //Profile Saga Email update
-    takeLatest(ProfileTypes.UPATE_EMAIL,emailUpdate,api),
+    takeLatest(ProfileTypes.UPDATE_EMAIL,emailUpdate,api),
 
     //Card Details Saga
     takeLatest(CardDetailsTypes.CARD_DETAILS_REQUEST,cardDetailsRequest,api),

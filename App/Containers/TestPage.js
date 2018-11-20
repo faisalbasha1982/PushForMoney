@@ -89,6 +89,24 @@ class TestPage extends Component {
         
     }
 
+    callProfile = () =>  {
+
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
+        let encryptedData = AesComponent.aesCallback(authData);
+
+        setTimeout(() => 
+        {
+
+            let payload = {
+                "AuthenticationData": encryptedData,
+                "LoginAccessToken": this.state.aToken,
+            };
+
+            this.props.getProfile(payload);
+
+        },650);        
+    }
+
     componentWillMount() {
 
         console.log("TP component will mount");
@@ -98,7 +116,9 @@ class TestPage extends Component {
 
         setTimeout(()=> {
             this.getFriendList();        
-        },3000);                
+        },600);
+
+        this.callProfile();
 
     }
 
@@ -120,8 +140,8 @@ class TestPage extends Component {
             }
 
             setTimeout(()=> {
-                this.getFriendList();        
-            },3000);                
+                this.getFriendList();
+            },600);
 
             // setTimeout(() => 
             // {
@@ -154,13 +174,27 @@ class TestPage extends Component {
 
     getAsyncStorage = async () => {
 
-
         await AsyncStorage.getItem('language').then((language) => {
             this.setState({ language: language })
           });
 
         await AsyncStorage.getItem('token').then((token) => {
             this.setState({ token: token });
+
+            let authData = AuthComponent.authenticationData(this.state.languageCode);
+            let encryptedData = AesComponent.aesCallback(authData);
+    
+            setTimeout(() => 
+            {
+    
+                let payload = {
+                    "AuthenticationData": encryptedData,
+                    "LoginAccessToken": token,
+                };
+    
+                this.props.getProfile(payload);
+    
+            },650);        
 
         });
 
@@ -200,7 +234,7 @@ class TestPage extends Component {
 
           setTimeout(() => {
             this.pushNotification();
-          },3000);
+          },650);
 
         }
     }
@@ -231,8 +265,10 @@ class TestPage extends Component {
             console.log("language from push for job via navigaton ---->"+this.props.language);
                       
             setTimeout(()=> {
-                this.getFriendList();        
-            },3000);
+                this.getFriendList();
+            },600);
+
+            this.callProfile();
 
             // let authData = AuthComponent.authenticationData(this.state.languageCode);
             // let encryptedData = AesComponent.aesCallback(authData);    
@@ -329,8 +365,7 @@ class TestPage extends Component {
 
                     {/* (this.state.selectionFirst === true)?newStyle.leftButtonSelected: */}
 
-                    <View style={ newStyle.bottomLayout }>
-                    
+                    <View style={ newStyle.bottomLayout }>                    
                     <View style={ newStyle.leftButtons}>
                             <View
                                 style={ (this.state.selectionFirst === true)?newStyle.leftButtonSelected: newStyle.leftButton}
@@ -595,7 +630,8 @@ const mapStateToProps = state => {
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
       friendRequest: (payload) => dispatch({type: 'GET_FRIEND_REQUEST',payload}),
-      notificationRequest: (payload) => dispatch({ type: 'NOTIFICATION_REQUEST', payload})
+      notificationRequest: (payload) => dispatch({ type: 'NOTIFICATION_REQUEST', payload}),
+      getProfile:(payload) => dispatch({ type: 'GET_PROFILE_REQUEST_NEW', payload }),
     };
   };
   

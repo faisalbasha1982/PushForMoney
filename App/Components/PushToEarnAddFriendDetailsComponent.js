@@ -379,7 +379,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                 }
             else    
                 console.log("mobileReferrals="+this.props.MobileReferrals); 
-        },2000);
+        },100);
 
     }
 

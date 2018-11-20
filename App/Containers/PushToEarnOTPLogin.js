@@ -338,44 +338,6 @@ class PushToEarnOTPLogin extends Component {
                                 clearTextOnFocus = {true}
                                 keyboardType={'numeric'}
                                 />
-
-                    {/* <TextInput
-                                style={ newStyle.otpInput }
-                                placeholder=''
-                                maxLength={1}
-                                autoCapitalize="none"
-                                blurOnSubmit={false}
-                                returnKeyType={"next"}
-                                underlineColorAndroid= 'transparent'
-                                onChangeText={(firstInput) => this.validateOTPText1(firstInput)}/>
-
-                    <TextInput
-                                style={ newStyle.otpInput }
-                                placeholder=''
-                                maxLength={1}
-                                blurOnSubmit={false}
-                                returnKeyType={"next"}
-                                autoCapitalize="none"
-                                underlineColorAndroid= 'transparent'
-                                onChangeText={(secondInput) => this.validateOTPText2(secondInput)}/>
-                    <TextInput
-                                style={ newStyle.otpInput }
-                                placeholder=''
-                                maxLength={1}
-                                blurOnSubmit={false}
-                                returnKeyType={"next"}
-                                autoCapitalize="none"
-                                underlineColorAndroid= 'transparent'
-                                onChangeText={(thirdInput) => this.validateOTPText3(thirdInput)}/>
-                    <TextInput
-                                style={ newStyle.otpInput }
-                                placeholder=''
-                                maxLength={1}
-                                blurOnSubmit={false}
-                                returnKeyType={"next"}
-                                autoCapitalize="none"
-                                underlineColorAndroid= 'transparent'
-                                onChangeText={(fourthInput) => this.validateOTPText4(fourthInput)}/>                                                     */}
                     </View>
                             
                     <View style={newStyle.endButtons}>

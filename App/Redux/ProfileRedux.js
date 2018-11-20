@@ -70,7 +70,7 @@ export const updateSuccessLastName = (state,{ lastname }) => {
   return { ...state, lastname, fetching: true, }
 }
 
-export const updateEmailSuccess = (state, { email }) => {
+export const updateSuccessEmail = (state, { email }) => {
   return { ...state, email, fetching: true, } 
 }
 
@@ -120,7 +120,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.UPDATE_FIRST_NAME_SUCCESS]: updateSuccessFirstName,
   [Types.UPDATE_LAST_NAME_SUCCESS]: updateSuccessLastName,
   [Types.UPDATE_EMAIL]: request,
-  [Types.UPDATE_EMAIL_SUCCESS]: updateEmail,
+  [Types.UPDATE_EMAIL_SUCCESS]: updateSuccessEmail,
   [Types.CHANGE_PASSWORD]: changePassword,
   [Types.CHANGE_MOBILE]: cMobile,
   [Types.VERIFY_OTP_MOBILE]: verifyOtpMobileSuccess,
