@@ -181,6 +181,19 @@ componentWillMount() {
 
       }
 
+      PushForJob = async () => {
+          
+        console.tron.log("push for job");
+
+        await AsyncStorage.getItem('language').then((language) => {
+            NavigationService.navigate('FormOne',{language: language, navigation: this.props.navigation});
+        });
+    
+
+        // this.props.navigation.navigate("FormOne",{language: this.state.language,navigation: this.props.navigation})
+
+      }
+
     render() {
         const platform = Platform.OS;
         // console.log("platform --->",Platform.OS);
@@ -192,6 +205,16 @@ componentWillMount() {
                             <Text style= {newStyle.topText}>{this.state.text.Information}</Text>
                         </View>
                         <View style= {newStyle.inputContainer}>
+                        <TouchableOpacity
+                                style={{
+                                    width:viewPortWidth*0.83,
+                                    height:40,
+                                    backgroundColor:'transparent'
+                                }}
+                                onPress = {()=> {this.PushForJob()}}>
+                                <Text style={newStyle.firstName}>{this.state.text.PushForJob}</Text>
+                            </TouchableOpacity>
+                            <View style={newStyle.borderBottom}></View>                                    
                             <TouchableOpacity
                                 style={{
                                     width:viewPortWidth*0.83,

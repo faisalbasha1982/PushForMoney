@@ -224,6 +224,9 @@ class PushToEarnProfileComponent extends Component {
 
     validatePhone = (phone) => {
 
+        console.tron.log("phone through input="+phone);
+        console.tron.log("phone in store="+this.props.mobileNo);        
+
         let phoneSub = phone.substring(1);
         let firstTwo = phone.substring(1,3);
         let nextTwo = phone.substring(3,5);
@@ -242,7 +245,7 @@ class PushToEarnProfileComponent extends Component {
         let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
         let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
 
-        this.setState({isLoading:true});
+        this.setState({isLoading:false});
 
         if(phone === '')
         {
@@ -268,21 +271,19 @@ class PushToEarnProfileComponent extends Component {
 
                                 this.setState({phoneNumberInput: this.formatMobileNo(phone)});
 
-                                // if (regNew.exec(phone))
-                                // {  
                                     this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
-                                    this.setState({isLoading:false});
-                                    this.changeMobile(this.formatMobileNo(phone));
-                                //}
-                                // else
-                                //     if(this.state.languageCode === 'nl')
-                                //         this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.dutch.TelephoneNumberError });
-                                //     else
-                                //         if(this.state.languageCode === 'en')
-                                //             this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.english.TelephoneNumberError });
-                                //         else
-                                //             this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
-            
+
+                                    if(phone !== this.props.mobileNo)
+                                    {
+                                        this.setState({isLoading:false});
+                                        this.changeMobile(this.formatMobileNo(phone));
+                                    }            
+                                    else
+                                    if(phone === this.props.mobileNo)
+                                        {
+                                            this.setState({isLoading:false});
+                                            Alert.alert("This Mobile No is already assigned to you");
+                                        }
                         }
                       else
                       {
@@ -291,8 +292,20 @@ class PushToEarnProfileComponent extends Component {
                         {
                             this.setState({phoneNumberInput: this.formatMobileNo(phone)});
                             this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
-                            this.setState({isLoading:false});
-                            this.changeMobile(this.formatMobileNo(phone));    
+
+                            if(phone !== this.props.mobileNo )
+                            {
+                                this.setState({isLoading:false});
+                                this.changeMobile(this.formatMobileNo(phone));    
+                            }
+                            else
+                            if(phone === this.props.mobileNo)
+                            {
+                                this.setState({isLoading:false});
+                                Alert.alert("This Mobile No is already assigned to you");
+                            }
+
+
                         }
     
                       }
@@ -719,7 +732,7 @@ getAsyncStorage = async () => {
                      this.props.menu(11)
                        
                 }
-        },3000);
+        },750);
     }
 
     removeSpaces = (input) => {

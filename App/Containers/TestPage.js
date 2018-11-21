@@ -61,7 +61,10 @@ class TestPage extends Component {
             phoneParam:'',
             emailParam:'',
             languageChanged:false,
-            token:''
+            token:'',
+            currentMonth:'',
+            currentYear:'',
+            selectedValue:[]
         };
     }
 
@@ -114,11 +117,21 @@ class TestPage extends Component {
 
         this.setState({ menu:0 });
 
+        let date, day, month, year;
+        let today = new Date();
+    
+        day = parseInt(today.getUTCDate())>=10?today.getUTCDate():('0'+today.getUTCDate().toString());
+        month = parseInt(today.getUTCMonth()+1)>=10?parseInt(today.getUTCMonth()+1):('0'+parseInt(today.getUTCMonth()+1));
+        year = today.getUTCFullYear().toString();
+
         setTimeout(()=> {
             this.getFriendList();        
+            this.setDayYear(month,year);
         },600);
 
         this.callProfile();
+
+
 
     }
 
@@ -199,6 +212,110 @@ class TestPage extends Component {
         });
 
     }
+
+    convertMonth = (month) => {
+
+        console.log("convert month="+typeof(month)+ " language="+this.state.language);        
+
+        if(this.state.language === "English")
+        {
+
+            if(month === 1)
+                return "JANUARY";
+            if(month === 2)
+                return "FEBRUARY";
+            if(month === 3)
+                return "MARCH";
+            if(month === 4)
+                return "APRIL";
+            if(month === 5)
+                return "MAY";
+            if(month === 6)
+                return "JUNE";
+            if(month === 7)
+                return "JULY";
+            if(month === 8)
+                return "AUGUST";
+            if(month === 9)
+                return "SEPTEMBER";
+            if(month === 10)
+                return "OCTOBER";
+            if(month === 11)
+                return "NOVEMBER";
+            if(month === 12)
+                return "DECEMBER";
+
+        }
+        else
+            if(this.state.language === "French")
+            {
+                if(month === 1)
+                    return "JANVIER";
+                if(month === 2)
+                    return "février";
+                if(month === 3)
+                    return "MARS";
+                if(month === 4)
+                    return "AVRIL";
+                if(month === 5)
+                    return "MAI";
+                if(month === 6)
+                    return "JUIN";
+                if(month === 7)
+                    return "JUILLET";
+                if(month === 8)
+                    return "AOUT";
+                if(month === 9)
+                    return "SEPTEMBRE";
+                if(month === 10)
+                    return "OCTOBRE";
+                if(month === 11)
+                    return "NOVEMBRE";
+                if(month === 12)
+                    return "décembre";        
+            }
+        else
+            if(this.state.language === "Dutch")
+            {
+             
+                if(month === 1)
+                    return "JANUARI";
+                if(month === 2)
+                    return "FEBRUARI";
+                if(month === 3)
+                    return "MAART";
+                if(month === 4)
+                    return "APRIL";
+                if(month === 5)
+                    return "MEI";
+                if(month === 6)
+                    return "JUNI";
+                if(month === 7)
+                    return "JULI";
+                if(month === 8)
+                    return "AUGUSTUS";
+                if(month === 9)
+                    return "SEPTEMBER";
+                if(month === 10)
+                    return "OKTOBER";
+                if(month === 11)
+                    return "NOVEMBER";
+                if(month === 12)
+                    return "DECEMBER";
+            }       
+
+    }
+
+    setDayYear = (month, year) => {
+
+        console.tron.log("Received month="+month);
+        
+        let cMonth = this.convertMonth(month);
+        console.log("cMonth="+cMonth);
+        this.setState({ currentMonth: cMonth, currentYear: year, selectedValue:[cMonth,year] });
+        console.log("setDayYear selectedValue="+this.state.selectedValue);
+    }
+
 
     renderNothing = () => {
 
@@ -449,7 +566,7 @@ class TestPage extends Component {
                                     this.state.menu === 2?
                                             this.addComponent():
                                     this.state.menu === 3?
-                                            <MoneyComponent language={this.state.language} />:
+                                            <MoneyComponent language={this.state.language} month={this.state.currentMonth} year={this.state.currentYear} />:
                                     this.state.menu === 4?
                                             <InformationComponent menu = {this.menuChange} language={this.state.language} />:
                                     this.state.menu === 5?

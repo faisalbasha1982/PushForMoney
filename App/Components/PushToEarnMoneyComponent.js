@@ -212,25 +212,30 @@ class PushToEarnMoneyComponent extends PureComponent {
         console.log("MC setting the language="+this.state.language);
         this.getAsyncStorageToken();
 
-        var date, day, month, year;
-        var today = new Date();
+        // var date, day, month, year;
+        // var today = new Date();
     
-        day = parseInt(today.getUTCDate())>=10?today.getUTCDate():('0'+today.getUTCDate().toString());
-        month = parseInt(today.getUTCMonth()+1)>=10?parseInt(today.getUTCMonth()+1):('0'+parseInt(today.getUTCMonth()+1));
-        year = today.getUTCFullYear().toString();
+        // day = parseInt(today.getUTCDate())>=10?today.getUTCDate():('0'+today.getUTCDate().toString());
+        // month = parseInt(today.getUTCMonth()+1)>=10?parseInt(today.getUTCMonth()+1):('0'+parseInt(today.getUTCMonth()+1));
+        // year = today.getUTCFullYear().toString();
 
-        setTimeout(() => {
-            this.setDayYear(month,year);
-        },1000);
+        // setTimeout(() => {
+        //     this.setDayYear(month,year);
+        // },600);
+
+        this.setState({ currentMonth: this.props.month, currentYear: this.props.year, selectedValue: [this.props.month, this.props.year]});
 
     }
 
     setDayYear = (month, year) => {
+
+        console.tron.log("Received month="+month);
         
         let cMonth = this.convertMonth(month);
         console.log("cMonth="+cMonth);
         this.setState({ currentMonth: cMonth, currentYear: year, selectedValue:[cMonth,year] });
         console.log("setDayYear selectedValue="+this.state.selectedValue);
+
     }
 
     getAsyncStorageToken = async () => {
@@ -513,9 +518,12 @@ class PushToEarnMoneyComponent extends PureComponent {
 
     getPrevYearMonth = () => {
 
-        let currentMonth = this.state.currentMonth;        
+        let currentMonth = this.state.currentMonth;
         let currentMonthNumbers = this.getMonthNumber(this.state.currentMonth);
         let currentYear = this.state.currentYear;
+
+        console.tron.log("currentMonth="+currentMonth);
+        console.tron.log("currentMonthNumbers="+currentMonthNumbers);
 
         if(currentMonthNumbers === "03")
             currentMonth = this.state.text.two;
@@ -524,7 +532,7 @@ class PushToEarnMoneyComponent extends PureComponent {
         if(currentMonthNumbers === "05")
             currentMonth = this.state.text.four;
         if(currentMonthNumbers === "06")
-            currentMonth = this.state.text.may;
+            currentMonth = this.state.text.five;
         if(currentMonthNumbers === "07")
             currentMonth = this.state.text.six;
         if(currentMonthNumbers === "08")
@@ -543,11 +551,18 @@ class PushToEarnMoneyComponent extends PureComponent {
                 currentYear = parseInt(this.state.currentYear,10) - 1;
             }
         if(currentMonthNumbers === "02")
-            currentMonth = this.state.text.one;;
+            currentMonth = this.state.text.one;
 
         this.setState({ currentMonth: currentMonth , currentYear: currentYear, selectedValue:[ currentMonth, currentYear] });
+        this.renderData();
+    }
+
+    renderData = () => {
+
+        this.getPerson();
 
     }
+    
    
     getNextYearMonth = () => {
 
@@ -583,10 +598,9 @@ class PushToEarnMoneyComponent extends PureComponent {
                 currentYear = parseInt(this.state.currentYear,10) + 1;
             }
 
-
-
         this.setState({ currentMonth: currentMonth , currentYear: currentYear,selectedValue:[ currentMonth, currentYear] });
 
+        this.renderData();
 
     }
 
@@ -652,7 +666,7 @@ class PushToEarnMoneyComponent extends PureComponent {
           console.log("ltoken="+this.state.token);
           this.props.getPerson(payload);
       
-        },650)
+        },650);
       
       }
 
@@ -765,7 +779,7 @@ class PushToEarnMoneyComponent extends PureComponent {
 
     toggleCalender = () => {
         this.setState({ showCalendR: !this.state.showCalendR });
-    }
+    }    
 
     render() {
         const platform = Platform.OS;

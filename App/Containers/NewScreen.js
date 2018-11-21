@@ -34,7 +34,36 @@ const viewPortWidth  = Dimensions.get('window').width;
 
 // Styles
 
-export default class NewScreen extends Component {    
+export default class NewScreen extends Component {
+
+    constructor(props)
+    {
+        super(props);
+
+        this.state = {
+            language:''
+        }
+
+    }
+
+
+    componentWillMount() {
+        this.getAsyncStorage();
+    }
+
+    getAsyncStorage = async () => {
+
+        await AsyncStorage.getItem('language').then((language) => {
+            this.setState({ language: language })
+          });
+
+    }
+
+    componentDidMount() {
+
+
+    }
+
 
     render()
     {
@@ -44,6 +73,8 @@ export default class NewScreen extends Component {
         console.log("height="+viewPortWidth);
 
         return(
+
+                (this.state.language === '')?
                 <View style={newStyle.container}>
                     <View style={newStyle.headerImageStyle}>
                       <Image source={headerImage} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
@@ -63,6 +94,8 @@ export default class NewScreen extends Component {
                       <LanguageButton language={LanguageSettings.english.languageText} navigation={this.props.navigation} app={0}/>
                 </View>
               </View>
+              :
+              this.props.navigation.navigate("FormOne",{language: this.state.language,navigation: this.props.navigation})
         );
     }
 

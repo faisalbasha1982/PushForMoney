@@ -39,7 +39,6 @@ import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/logojobfixersNew.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
 
@@ -246,7 +245,7 @@ class FormOne extends Component {
         this.setState({language: this.props.navigation.state.params.language});
         console.log("this.state.language="+this.state.language);
 
-        if (this.props.navigation.state.params.language === 'NEDERLANDS') {
+        if (this.props.navigation.state.params.language === 'Dutch') {
             console.log("setting in Nederlands");
             this.setState({
                 firstName:  LanguageSettings.dutch.firstNameText,
@@ -256,7 +255,7 @@ class FormOne extends Component {
             });
         }
         else
-            if (this.props.navigation.state.params.language === 'ENGLISH') {
+            if (this.props.navigation.state.params.language === 'English') {
                 console.log("setting in English");
                 this.setState({
                     firstName:  LanguageSettings.english.firstNameText,
@@ -496,7 +495,6 @@ class FormOne extends Component {
                              underlineColorAndroid= 'transparent'
                              onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
                          
-
                  <Text style={newStyle.firstName}>{this.state.name}</Text>
                  <TextInput
                      style={ newStyle.nameInput}
@@ -511,7 +509,7 @@ class FormOne extends Component {
                      placeholder=''
                      underlineColorAndroid= 'transparent'
                      onChangeText= { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }/>                 */}
-                 <PhoneInput 
+                 <PhoneInput
                          ref='phone'
                          initialCountry='be'
                          style= {newStyle.nameInput}
@@ -690,7 +688,7 @@ const mapStateToProps = state => {
     return {  
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
-      navigateBack: () => dispatch(NavigationActions.navigate({routeName: 'NewScreen'})),
+      navigateBack: () => dispatch(NavigationActions.navigate({routeName: 'PushForJob'})),
     };
   };
   

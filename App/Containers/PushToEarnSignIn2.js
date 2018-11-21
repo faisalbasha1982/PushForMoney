@@ -1009,7 +1009,7 @@ class PushToEarnSignIn2 extends Component {
                 }
                 else
                   console.log("loginData  or authentication Data is empty");
-            },6000);
+            },700);
 
         }
 
