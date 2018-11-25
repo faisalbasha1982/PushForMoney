@@ -236,9 +236,9 @@ createListArray = () => {
                   console.tron.log("date="+this.reverse(personObject.StartDate.split("T")[0]));
                 list[counter] = {
                     "title": this.reverse(personObject.StartDate.split("T")[0]) + "  -  "+ this.reverse(personObject.EndDate.split("T")[0]),
-                    "body" :  "Correction - Adjustment Contract",
-                    "time" : "Time: "+ personObject.monthlyEarningDetailsByReferralsByContracts.Time,
-                    "newTime" : "New Time: " + personObject.monthlyEarningDetailsByReferralsByContracts.NewTime,
+                    "body" :  this.state.text.Correction + " - "+ this.state.text.AdjustmentContract, //"Correction - Adjustment Contract",
+                    "time" : this.state.text.Time + ": "+ personObject.monthlyEarningDetailsByReferralsByContracts.Time,
+                    "newTime" : this.state.text.NewTime+": " + personObject.monthlyEarningDetailsByReferralsByContracts.NewTime,
                     "workedHours": personObject.WorkedHours
                 };
               }
@@ -525,9 +525,10 @@ hoursText:{
     fontWeight: '500',
     fontStyle: 'normal',
     letterSpacing: 0.67,
-    textAlign: 'center',
+    textAlign: 'right',
     color: "rgb(231, 61, 80)",
     marginBottom: 12,
+    paddingRight:8,
     backgroundColor: 'transparent'
 },
 

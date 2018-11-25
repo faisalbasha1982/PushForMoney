@@ -1101,10 +1101,11 @@ getAsyncStorage = async () => {
                                         }}>
                                         <PhoneInput
                                             opacity={1}
+                                            focusNeeded = { false }
                                             ref={(ref) => { this.phone = ref; }}
                                             initialCountry={this.state.countryCode}
                                             onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
-                                            style= {newStyle.nameInput}
+                                            style= {newStyle.phoneInput}
                                             onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }
                                             value ={this.formatMobileNo(this.props.mobileNo)}
                                         />
@@ -1494,6 +1495,21 @@ const newStyle = StyleSheet.create({
         width: viewPortWidth*.83,
         height: 30,
         margin:0,
+        borderBottomColor: "#353535",
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        backgroundColor: 'transparent',
+        marginBottom: 0,
+        padding: 0,
+        paddingLeft:5,
+        flex:8,
+        color: 'black'
+    },
+
+    phoneInput:{
+        width: viewPortWidth*.83,
+        height: 30,
+        margin:0,
+        borderColor:'transparent',
         borderBottomColor: "#353535",
         borderBottomWidth: StyleSheet.hairlineWidth,
         backgroundColor: 'transparent',

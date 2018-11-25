@@ -114,7 +114,11 @@ class PushToEarnRegisterProfile extends Component {
             lastNameEmptyError:false,
             phoneNumberEmptyError:false,
             text:{},
-            countryCode:'be'
+            countryCode:'be',
+            isFocusedFirst:false,
+            isFocusedSecond:false,
+            isFocusedThird:false,
+            isFocusedFourth:false,
         };    
     }
 
@@ -677,7 +681,7 @@ class PushToEarnRegisterProfile extends Component {
         else
         {
                 if(typeof(payload) === 'object')
-                    loginData = payload.loginData;
+                    loginData = payload.LoginData;
         }
 
         console.tron.log("Login Data="+loginData);
@@ -757,6 +761,38 @@ class PushToEarnRegisterProfile extends Component {
         return newMobNo;
     }   
 
+    focusFirstOff = () => {
+        this.setState({ isFocusedFirst: false, });
+    }
+
+    focusFirst = () => {
+        this.setState({ isFocusedFirst: true, isFocusedSecond:false, isFocusedThird:false, isFocusedFourth:false });
+    }
+
+    focusSecond = () => {
+        this.setState({ isFocusedFirst: false, isFocusedSecond:true, isFocusedThird:false, isFocusedFourth:false });
+    }
+
+    focusSecondOff = () => {
+        this.setState({ isFocusedSecond: false,  });
+    }
+
+    focusThird = () => {
+        this.setState({ isFocusedFirst: false, isFocusedSecond:false, isFocusedThird:true, isFocusedFourth:false });
+    }
+
+    focusThirdOff = () => {
+        this.setState({  isFocusedThird:false, });
+    }
+
+    focusFourth = () => {
+        this.setState({ isFocusedFirst: false, isFocusedSecond:false, isFocusedThird:false, isFocusedFourth:true });
+    }
+
+    focusFourthOff = () => {
+        this.setState({  isFocusedFourth:false, });
+    }
+
     render() {
 
         const platform = Platform.OS;
@@ -771,6 +807,8 @@ class PushToEarnRegisterProfile extends Component {
         console.log("platform --->",Platform.OS);
         console.log("lastname="+this.state.text.lastName);
         console.tron.log("phone in register profile="+phone);
+        console.tron.log("payload loginData ="+payload.LoginData);
+        console.tron.log("payload="+payload.LoginData);
 
         return (
 
@@ -798,7 +836,7 @@ class PushToEarnRegisterProfile extends Component {
                         fontStyle: "normal",
                         lineHeight: 34,
                         letterSpacing: 0,
-                        textAlign: "left",
+                        textAlign: "center",
                         color: "#E73D50" 
                         }}>
                     {this.state.text.profile}
@@ -809,14 +847,18 @@ class PushToEarnRegisterProfile extends Component {
                
                     <Text style={newStyle.firstName}>{this.state.text.firstName}</Text>
                     <TextInput
-                                style={ newStyle.nameInput }
+                                style={ [newStyle.nameInput, { borderColor:this.state.isFocusedFirst===true?'#e73d50':'transparent', borderStyle:'solid', borderWidth:1 }] }
+                                onFocus = { () => this.focusFirst() }
+                                onBlur = { () => this.focusFirstOff()}                    
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
                             
                     <Text style={newStyle.firstName}>{this.state.text.lastName}</Text>
                     <TextInput
-                        style={ newStyle.nameInput}
+                        style={ [newStyle.nameInput, { borderColor:this.state.isFocusedSecond===true?'#e73d50':'transparent', borderStyle:'solid', borderWidth:1 }] }
+                        onFocus = { () => this.focusSecond() }
+                        onBlur = { () => this.focusSecondOff()}                    
                         placeholder=''
                         underlineColorAndroid= 'transparent'
                         onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
@@ -830,7 +872,9 @@ class PushToEarnRegisterProfile extends Component {
 
                     <Text style={newStyle.firstName}>{this.state.text.Email}</Text>
                     <TextInput
-                        style={ newStyle.nameInput}
+                        style={ [newStyle.nameInput, { borderColor:this.state.isFocusedThird===true?'#e73d50':'transparent', borderStyle:'solid', borderWidth:1 }] }
+                        onFocus = { () => this.focusThird() }
+                        onBlur = { () => this.focusThirdOff()}                    
                         placeholder=''
                         editable = {true}
                         underlineColorAndroid= 'transparent'
@@ -884,7 +928,7 @@ class PushToEarnRegisterProfile extends Component {
                                     marginTop: 0,                
                                     letterSpacing: 0.67,
                                     textAlign: 'center'}}
-                            > {this.state.buttonText.toUpperCase()}</Text>
+                            > {this.state.text.ready}</Text>
                         </TouchableOpacity>
             </KeyboardAwareScrollView>
 

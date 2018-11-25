@@ -76,6 +76,10 @@ const languageSettings = {
     TotalNext: "Total Earned",
     payed: "Payed",
     partial: "Partial",
+    AdjustmentContract: 'Adjustment Contract',
+    Correction: 'Correction',
+    Time:'Time',
+    NewTime: 'New Time',
     Information: "Information",
     Support: "Support",
     faq: "FAQ",
@@ -90,8 +94,11 @@ const languageSettings = {
     nine: "SEPTEMBER",
     ten: "OCTOBER",
     eleven: "NOVEMBER",
-    twelve: "DECEMBER"
+    twelve: "DECEMBER",
 
+    //Redux Translations
+    completeProfile: 'Please Complete your Mobile Number',
+    signUpText: 'Please Sign Up , as your phone number does not exist in our database'
     },
     
     Dutch: {
@@ -171,7 +178,11 @@ const languageSettings = {
     Total: "Total gewerkte uren",
     TotalNext: "Totaal verdiend",
     payed: "betaald",
-    partial: "Partial",
+    partial: "partieel",
+    AdjustmentContract: 'Aanpassings Contract',
+    Correction: 'Correctie',
+    Time:'Tijd',
+    NewTime: 'Nieuwe tijd',
     Information: "Informatie",
     Support: "Support",
     faq: "FAQ",
@@ -186,8 +197,11 @@ const languageSettings = {
     nine: 'SEPTEMBER',
     ten: 'OKTOBER',
     eleven: 'NOVEMBER',
-    twelve: 'DECEMBER'
+    twelve: 'DECEMBER',
 
+    //Redux Translations
+    completeProfile:'Voltooi alstublieft uw profiel',
+    signUpText: 'Meld je aan, want je telefoonnummer bestaat niet in onze database'
     },
     
     French: {
@@ -267,7 +281,11 @@ const languageSettings = {
     Total: "Nombre total d'heures travaillées",
     TotalNext: "Totalement gagné",
     payed: "Payé",
-    partial: "Partial",
+    partial: "Partiel",
+    AdjustmentContract: "Contrat d'ajustement",
+    Correction: 'Correction',
+    Time:'Temps',
+    NewTime: 'Nouveau temps',
     Information: "Information",
     Support: "Support",
     faq: "QFP",
@@ -282,8 +300,12 @@ const languageSettings = {
     nine:'SEPTEMBRE',
     ten:'OCTOBRE',
     eleven:'NOVEMBRE',
-    twelve:'décembre'
-    
+    twelve:'décembre',
+
+    //Redux Translations
+    completeProfile:'Veuillez compléter votre profil',
+    signUpText: "Veuillez vous inscrire, car votre numéro de téléphone n'existe pas dans notre base de données."
+
     }
     
     }

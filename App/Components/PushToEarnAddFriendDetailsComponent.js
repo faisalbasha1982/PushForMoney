@@ -97,6 +97,8 @@ class PushToEarnAddFriendDetailsComponent extends Component {
             phoneNumberErrorText:'',
             ErrorText:'',
             EmptyErrorText:'',
+            isFocusedFirst:false,
+            isFocusedSecond:false,
             firstNameEmptyError:false,
             lastNameEmptyError:false,
             phoneNumberEmptyError:false,
@@ -581,6 +583,20 @@ class PushToEarnAddFriendDetailsComponent extends Component {
         return newMobNo;
     }
 
+    focusFirstOff = () => {
+        this.setState({ isFocusedFirst: false, isFocusedSecond:true, });
+    }
+
+    focusFirst = () => {
+
+        this.setState({ isFocusedFirst: true, isFocusedSecond:false, });
+
+    }
+
+    focusSecond = () => {
+        this.setState({ isFocusedSecond:true, isFocusedFirst: false });
+    }
+
     render() {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
@@ -590,11 +606,9 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                 behavior = "padding"
                 enableOnAndroid = { false }
                 contentContainerStyle={ newStyle.keyboardContainer }
-                scrollEnabled={true}
-                >
+                scrollEnabled={true}>
 
                 <View style= { newStyle.layoutBelow }>
-
                     <View style={newStyle.endButtons}>     
 
                         <View style={newStyle.topView}>
@@ -630,8 +644,10 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                             {
                             (this.props.name ==='')?
                             <TextInput
-                                        style={ newStyle.nameInput }
+                                        style={ [newStyle.nameInput, { borderColor:this.state.isFocusedFirst===true?'#e73d50':'transparent', borderStyle:'solid', borderWidth:1 }] }
                                         placeholder=''
+                                        onFocus = { () => this.focusFirst() }
+                                        onBlur = { () => this.focusFirstOff()}
                                         underlineColorAndroid= 'transparent'
                                         onChangeText={(firstNameInput) => this.setState({firstNameInput})}/>
                             :
@@ -654,15 +670,15 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                             <Text style={newStyle.firstName}>{this.state.text.Phone}</Text>
                             {
                             (this.props.phone ==='')?
-
                             <PhoneInput
                                     opacity={1}
-                                    ref={(ref) => { this.phone = ref; }}
+                                    ref={(ref) => { this.phone = ref;  }}
                                     initialCountry={this.state.countryCode}
+                                    focus
                                     onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
-                                    style= {newStyle.nameInput}
+                                    style= {[newStyle.nameInput,{ borderColor:this.state.isFocusedSecond===true?'#e73d50':'transparent', borderStyle:'solid', borderWidth:1 }]}
                                     onChangePhoneNumber = { (phoneNumberInput) => this.validateBelgiumPhoneNumber(phoneNumberInput) }
-                                />                            
+                                />
                             :
                             <PhoneInput
                                     opacity={1}
@@ -758,7 +774,7 @@ const newStyle = StyleSheet.create({
     },
 
     firstName: {
-        width: 180,
+        width: 200,
         height: 19,
         fontFamily: 'WorkSans-Regular',
         fontSize: 16,

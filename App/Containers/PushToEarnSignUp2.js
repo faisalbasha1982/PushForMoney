@@ -538,7 +538,6 @@ class PushToEarnSignUp2 extends Component {
         console.log("phone="+this.props.navigation.state.params.phone);
         console.tron.log("phone="+this.props.navigation.state.params.phone);
 
-
         let language = localStorage.getItem('language');
         console.log('local storage language='+language);
 
@@ -694,13 +693,15 @@ class PushToEarnSignUp2 extends Component {
         return currentDate+' '+fullTime;
       }
 
-      updateText = (encodedMessage) => {         
+      updateText = (encodedMessage) => {
 
         this.setState({encodedText: encodedMessage, loginD: encodedMessage});
 
      }
 
     getLoginEncData = () => {
+
+        console.tron.log("encodedText="+this.state.encodedText);
 
         return this.state.encodedText;
 
@@ -819,7 +820,7 @@ class PushToEarnSignUp2 extends Component {
 
     validateEncrypt = (password) => {
 
-        console.log("validate Encrypt");
+        console.tron.log("validate Encrypt");
         if(this.state.phoneNumberInput === '')
             {
                     Alert.alert(
@@ -847,87 +848,152 @@ class PushToEarnSignUp2 extends Component {
 
             this.rsa(loginInfo);
 
+            console.tron.log("loginData:"+loginInfo);
+
             this.setState({ cAuthenticationData: encryptedData,});
+
+            console.tron.log("encrypted Data:"+this.state.cAuthenticationData);
 
           }
     }
 
-      signUp = async () => {
+      signUp =  () => {
 
         let language = this.state.languageCode;
 
-            if(this.state.phoneNumberInput === '')
-            {
-                Alert.alert(
-                            'Phone Number Input is Empty',
-                            'Fill in Phone Number',
-                            [
-                                {
-                                    text: 'OK',
-                                    onPress: () => console.log('Ask me later Pressed')
-                                },
-                            ],
-                            {cancelable: false}
-                        );
-            }
-        else
-           {
+        if(this.state.phone !== null)
+        {
+            this.setState({isLoading: true, });
 
-            this.setState({isLoading: true});
+                this.validateBelgiumPhoneNumber(this.state.phone);
 
-                if(this.state.phoneNumberInput !== '')
-                {
-                    this.validateEncrypt(this.state.phoneNumberInput);
-                }
-                else
+                setTimeout(() => {
+
+                    if(this.state.phoneNumberInput !== '')
                     {
-                        // Alert.alert(
-                        //     'Password is Incorrect',
-                        //     'Password needs to be atleast 6 characters and no spaces',
-                        //     [                      
-                        //         {
-                        //         text: 'OK', 
-                        //         onPress: () => console.log('Ask me later Pressed')
-                        //         },                      
-                        //     ],
-                        //     {cancelable: false}
-                        // );
+                        console.tron.log("phone number Input==="+this.state.phoneNumberInput);
+                            this.validateEncrypt(this.state.phoneNumberInput);
+                    }
+                    else
+                    {
+                            // Alert.alert(
+                            //     'Password is Incorrect',
+                            //     'Password needs to be atleast 6 characters and no spaces',
+                            //     [                      
+                            //         {
+                            //         text: 'OK', 
+                            //         onPress: () => console.log('Ask me later Pressed')
+                            //         },                      
+                            //     ],
+                            //     {cancelable: false}
+                            // );
                     }            
-               
-            //    let cAuthenticationData = "{'Lang':"+" '"+this.state.languageCode+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
-            //    let loginData = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";        
-            //    let authEncrypted = this.aes(cAuthenticationData);
-            //    let loginDataEncrypted = this.rsa(loginData);
-
-            let authData = AuthComponent.authenticationData(this.state.languageCode);
-            let encryptedData = AesComponent.aesCallback(authData);
-
-            setTimeout( () => {
-                if( this.state.encodedText !== "")
-                {
-  
-                  let payload = {
-                     
-                      "AuthenticationData": encryptedData,
-                      "LoginData": this.state.encodedText,
-                      "SignupMode": true
-               
-                  };
-
-                
-                    console.tron.log("payload="+payload);
-                    console.tron.log("phone number Input="+this.state.phoneNumberInput);
-
-                    this.props.registerAction(payload,this.state.phoneNumberInput);
-                    
-                    this.setState({isLoading: false});
-                }
-                else
-                  console.log("loginData  or authentication Data is empty");
-            },6000);
+                   
+                //    let cAuthenticationData = "{'Lang':"+" '"+this.state.languageCode+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
+                //    let loginData = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";        
+                //    let authEncrypted = this.aes(cAuthenticationData);
+                //    let loginDataEncrypted = this.rsa(loginData);
+    
+                        let authData = AuthComponent.authenticationData(this.state.languageCode);
+                        let encryptedData = AesComponent.aesCallback(authData);
+    
+                        setTimeout( () => {
+                            if( this.state.encodedText !== "")
+                            {
+            
+                            let payload = {
+                                
+                                "AuthenticationData": encryptedData,
+                                "LoginData": this.state.encodedText,
+                                "SignupMode": true
+                        
+                            };
+                            
+                                console.tron.log("payload="+payload);
+                                console.tron.log("phone number Input="+this.state.phoneNumberInput);
+    
+                                this.props.registerAction(payload,this.state.phoneNumberInput);
+                                
+                                this.setState({isLoading: false});
+                            }
+                            else
+                            console.log("loginData  or authentication Data is empty");
+                        },1200);
+                },700);
 
         }
+        else
+            if(this.state.phoneNumberInput === '')
+                {
+                    Alert.alert(
+                                'Phone Number Input is Empty',
+                                'Fill in Phone Number',
+                                [
+                                    {
+                                        text: 'OK',
+                                        onPress: () => console.log('Ask me later Pressed')
+                                    },
+                                ],
+                                {cancelable: false}
+                            );
+                }
+            else
+            {
 
+                this.setState({isLoading: true});
+
+                    if(this.state.phoneNumberInput !== '')
+                    {
+                        this.validateEncrypt(this.state.phoneNumberInput);
+                    }
+                    else
+                        {
+                            // Alert.alert(
+                            //     'Password is Incorrect',
+                            //     'Password needs to be atleast 6 characters and no spaces',
+                            //     [                      
+                            //         {
+                            //         text: 'OK', 
+                            //         onPress: () => console.log('Ask me later Pressed')
+                            //         },                      
+                            //     ],
+                            //     {cancelable: false}
+                            // );
+                        }            
+                
+                //    let cAuthenticationData = "{'Lang':"+" '"+this.state.languageCode+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
+                //    let loginData = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";        
+                //    let authEncrypted = this.aes(cAuthenticationData);
+                //    let loginDataEncrypted = this.rsa(loginData);
+
+                let authData = AuthComponent.authenticationData(this.state.languageCode);
+                let encryptedData = AesComponent.aesCallback(authData);
+
+                setTimeout( () => {
+                    if( this.state.encodedText !== "")
+                    {
+    
+                    let payload = {
+                        
+                        "AuthenticationData": encryptedData,
+                        "LoginData": this.state.encodedText,
+                        "SignupMode": true
+                
+                    };
+
+                    
+                        console.tron.log("payload="+payload);
+                        console.tron.log("phone number Input="+this.state.phoneNumberInput);
+
+                        this.props.registerAction(payload,this.state.phoneNumberInput);
+                        
+                        this.setState({isLoading: false});
+                    }
+                    else
+                    console.log("loginData  or authentication Data is empty");
+                },2000);
+
+            }
     }
 
 
@@ -1124,10 +1190,10 @@ class PushToEarnSignUp2 extends Component {
                     <Image source={logoNew} resizeMode="contain" style={{ width: 225, height: 45 }} />
                 </View>
 
-                <View style= {{ flex:1, flexDirection: 'row', }}>
+                <View style= {{ flex:1, flexDirection: 'row', paddingLeft:10, }}>
                         <Text 
                             style={{
-                            width: 334,
+                            width: 330,
                             height: 34,
                             fontFamily: "WorkSans-Medium",
                             fontSize: 21,
@@ -1136,9 +1202,10 @@ class PushToEarnSignUp2 extends Component {
                             lineHeight: 34,
                             letterSpacing: 0,
                             textAlign: "center",
-                            paddingLeft:15,
-                            marginRight: 15,
-                            color: "#E73D50"
+                            paddingLeft:25,
+                            marginRight: 5,
+                            color: "#E73D50",
+                            backgroundColor:'transparent'
                         }}>
                         {this.state.text.SignUp}
                     </Text>
@@ -1274,7 +1341,7 @@ class PushToEarnSignUp2 extends Component {
                             initialCountry={this.state.countryCode}
                             onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
                             style= {newStyle.nameInput}                        
-                            onChangePhoneNumber = { (phoneNumberInput) => this.validateUAEPhoneNumber(phoneNumberInput) }
+                            onChangePhoneNumber = { (phoneNumberInput) => this.validateBelgiumPhoneNumber(phoneNumberInput) }
                         />
                         :
                         <PhoneInput
@@ -1284,7 +1351,7 @@ class PushToEarnSignUp2 extends Component {
                         onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
                         style= {newStyle.nameInput} 
                         value = { this.state.phone }                       
-                        onChangePhoneNumber = { (phoneNumberInput) => this.validateUAEPhoneNumber(phoneNumberInput) }
+                        onChangePhoneNumber = { (phoneNumberInput) => this.validateBelgiumPhoneNumber(phoneNumberInput) }
                     />
 
                     }

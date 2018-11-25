@@ -556,6 +556,9 @@ class PushToEarnSignIn2 extends Component {
         //     this.setText();
         // }
 
+        if(nextProps !== this.props)
+            this.setState({ isLoading:false});
+
     }
 
     componentDidMount() {
@@ -576,6 +579,8 @@ class PushToEarnSignIn2 extends Component {
         else
             if(this.props.navigation.state.params.language === 'FRANÇAIS')
             this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});            
+
+        this.setState({ isLoading:false});
     
         // setTimeout(() => {
         //     ltoken = localStorage.getItem('token');
@@ -943,13 +948,15 @@ class PushToEarnSignIn2 extends Component {
             }
             else
               console.log("loginData  or authentication Data is empty");
-        },6000);
+        },700);
 
     }
 
     callLogin = async () => {
 
         let language = this.state.languageCode;
+
+        console.tron.log("login="+this.state.phoneNumberInput);
 
         if(this.state.phoneNumberInput === '')
             {
@@ -1005,11 +1012,14 @@ class PushToEarnSignIn2 extends Component {
                   });
     
                     this.props.loginAction(payload,this.state.phoneNumberInput);
-                    this.setState({isLoading: false});
                 }
                 else
                   console.log("loginData  or authentication Data is empty");
             },700);
+
+            // setTimeout( () => {
+            //     this.setState({isLoading: false});
+            // },500);
 
         }
 

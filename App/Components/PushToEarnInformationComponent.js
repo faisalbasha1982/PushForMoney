@@ -205,7 +205,7 @@ componentWillMount() {
                             <Text style= {newStyle.topText}>{this.state.text.Information}</Text>
                         </View>
                         <View style= {newStyle.inputContainer}>
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                                 style={{
                                     width:viewPortWidth*0.83,
                                     height:40,
@@ -214,7 +214,7 @@ componentWillMount() {
                                 onPress = {()=> {this.PushForJob()}}>
                                 <Text style={newStyle.firstName}>{this.state.text.PushForJob}</Text>
                             </TouchableOpacity>
-                            <View style={newStyle.borderBottom}></View>                                    
+                            <View style={newStyle.borderBottom}></View>                                     */}
                             <TouchableOpacity
                                 style={{
                                     width:viewPortWidth*0.83,

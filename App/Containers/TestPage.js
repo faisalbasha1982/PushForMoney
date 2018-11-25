@@ -476,7 +476,7 @@ class TestPage extends Component {
 
                     <View style={newStyle.topHeader}> 
                         <View style={newStyle.headerImage}>
-                                <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .36,}} />
+                                <Image source={logoNew} resizeMode="stretch" style={{ width: viewPortWidth, height: viewPortHeight * .36,}} />
                         </View>
                     </View>
 
@@ -560,7 +560,7 @@ class TestPage extends Component {
                     <View style={newStyle.pageElement}>
                             {
                                     this.state.menu === 0?
-                                            <WelcomeComponent  language={this.props.navigation.state.params.language}/>:
+                                            <WelcomeComponent menu = {this.menuChange} language={this.props.navigation.state.params.language}/>:
                                     this.state.menu === 1?
                                             <ProfileComponent menu = {this.menuChange} language={this.state.language} />:
                                     this.state.menu === 2?
@@ -590,7 +590,11 @@ class TestPage extends Component {
                                     this.state.menu === 11?
                                             <PushToEarnOTPComponent menu = {this.menuChange}  language={this.state.language} />:
                                     this.state.menu === 12?
-                                            this.changeScreen():
+                                            this.changeScreen()
+                                            :
+                                    this.state.menu === 13?
+                                            <AddFriendComponent menu = {this.menuChange }  language={this.state.language} />
+                                            :
                                             this.doNothing()
                                 
                             }
@@ -620,7 +624,7 @@ container: {
 topHeader: {
 
             flex: 3,
-            backgroundColor: 'powderblue',
+            backgroundColor: 'transparent',
             justifyContent: 'flex-start',
             alignItems: 'flex-start'
 

@@ -36,6 +36,7 @@ import TimerCountdown from 'react-native-timer-countdown';
 import CountDown from 'react-native-countdown-component';
 import localStorage from 'react-native-sync-localstorage';
 import OtpInputs from 'react-native-otp-inputs'
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -103,11 +104,20 @@ class PushToEarnOTPLogin extends Component {
 
     setLanguage = () => {
 
+        console.tron.log("language="+this.state.language);
+
         if(this.state.language === 'Dutch')
+        {
+            console.tron.log("language settings="+languageSettingsPFM.Dutch);
             this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+            console.tron.log("text="+this.state.text.otp);
+        }
         else
             if(this.state.language === 'English')
+            {
+                console.tron.log("language settings="+languageSettingsPFM.English);
                 this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
+            }
         else
             if(this.state.language === 'French')
                 this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
@@ -123,7 +133,9 @@ class PushToEarnOTPLogin extends Component {
             this.setState({ language: language });
         });
 
-        this.setLanguage();
+        setTimeout(() => {
+            this.setLanguage();
+        },200);
 
         await AsyncStorage.getItem('token').then((token) => {
             this.setState({ token: token });
@@ -144,6 +156,8 @@ class PushToEarnOTPLogin extends Component {
         let token = this.props.navigation.state.params.accessToken;
 
         this.setState({ token: token});
+
+        this.setLanguage();
 
     }
 
@@ -268,6 +282,7 @@ class PushToEarnOTPLogin extends Component {
 
     render() {
         const platform = Platform.OS;
+        console.tron.log("text="+this.state.text.otpMessage);
 
         console.log("platform --->",Platform.OS);
         return (
@@ -300,7 +315,7 @@ class PushToEarnOTPLogin extends Component {
                             textAlign: 'center',
                             color: "#E73D50"                        
                         }}>
-                    Enter OTP
+                    {this.state.text.otp}
                     </Text>
                 </View>                
 
@@ -323,8 +338,12 @@ class PushToEarnOTPLogin extends Component {
                            textAlign: "center",
                            color: "#000000"
                      }}>
-                         We send you an email with One Time                          {'\n'}
-                         Password.Please enter the code below.                         
+                     {
+                         this.state.text.otpMessage 
+                     } {'\n'}
+                     {
+                         this.state.text.otpMessagecntd
+                     }
                     </Text>
                 </View>
 

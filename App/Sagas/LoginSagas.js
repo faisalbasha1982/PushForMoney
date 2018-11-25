@@ -9,6 +9,7 @@ import { NavigationActions } from 'react-navigation';
 import API_URL from '../Services/Api_url';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
+import LanguageSettingsPFM from '../Containers/LanguageSettingsPFM';
 
 export function * rsaRequest(api,payload) {
   try{
@@ -408,7 +409,7 @@ export function * LoginRequest(api,action) {
             };
 
             // Navigate to PushToEarnOTPLogin
-            NavigationService.navigate('PushToEarnOTPLogin',{accessToken: response.LoginAccessToken});
+            NavigationService.navigate('PushToEarnOTPLogin',{accessToken: response.LoginAccessToken,});
 
             //yield call(fetchLoginOTP, npayload);
 
@@ -425,13 +426,35 @@ export function * LoginRequest(api,action) {
 
       if(response.StatusCode === 201)
       {
-           Alert.alert("Please Confirm your Mobile Number");
+        AsyncStorage.getItem('language').then((language) => {
+
+           if(language === 'English')
+             Alert.alert(LanguageSettingsPFM.English.completeProfile);
+           else
+             if(language === 'Dutch')
+               Alert.alert(LanguageSettingsPFM.Dutch.completeProfile);
+             else
+               Alert.alert(LanguageSettingsPFM.French.completeProfile);
+
+        });
+
            NavigationService.navigate('PushToEarnRegisterProfile',{uname:'', pword:'', payload: payload, phone: phoneNumber, pPayload:''});
-           console.tron.log("201 Error");           
+           console.tron.log("201 Error");
       }
       else
       {
-        Alert.alert("Please Sign Up , as your phone number does not exist in our database");
+        AsyncStorage.getItem('language').then((language) => {
+
+        if(language === 'English')
+          Alert.alert(LanguageSettingsPFM.English.signUpText);
+        else
+         if(language === 'Dutch')
+          Alert.alert(LanguageSettingsPFM.Dutch.signUpText);
+         else
+           Alert.alert(LanguageSettingsPFM.French.signUpText);
+           
+        });
+
         NavigationService.navigate('PushToEarnSignUp2', { phone: action.phoneNumber});
       }
 
@@ -441,7 +464,7 @@ export function * LoginRequest(api,action) {
   {
     // console.tron.log("Error@login",error);
     // console.log("error="+error);
-    yield put(LoginActions.loginFailure());    
+    yield put(LoginActions.loginFailure());
     NavigationService.navigate('PushToEarnSignUp2', {phone: action.phoneNumber});
 
   }
@@ -487,16 +510,16 @@ function fetchOTP(payload)
 
           if (responseJson.StatusCode === 200) {
 
-            Alert.alert(
-                'Sign up Successfull',
-                responseJson.Message,
-                [
-                    { text: 'OK', onPress:() => console.log('user exists ask me later')}
-                ],
-                {
-                    cancelable: false
-                }
-            );
+            // Alert.alert(
+            //     ''+responseJson.Message,
+            //     responseJson.Message,
+            //     [
+            //         { text: 'OK', onPress:() => console.log('user exists ask me later')}
+            //     ],
+            //     {
+            //         cancelable: false
+            //     }
+            // );
 
             const mobileOTP = responseJson.mobileOTP;
             const statusCode = responseJson.StatusCode;      

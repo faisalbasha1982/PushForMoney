@@ -146,9 +146,9 @@ renderList = (personObj) => {
           activeOpacity={0.5}
           style={ newStyle.buttonStyle }>
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
               <Text style={newStyle.nameStyle}>{ personObj.ReferredPersonName }</Text>
-              {(personObj.PaidStatus === "0")?<Text style={newStyle.statusStyle}>{this.state.text.pending}</Text>
+              {(personObj.PaidStatus === "0")?<Text style={newStyle.statusStylePending}>{this.state.text.pending}</Text>
               :
                (personObj.PaidStatus === "2")?
                <Text style={newStyle.statusStyle}> {this.state.text.partial} </Text>
@@ -376,10 +376,10 @@ const newStyle = StyleSheet.create({
   nameStyle: {
     padding: 5,
     margin: 5,
-    width: 180,
+    width: 170,
     height: 23,
     fontFamily: "WorkSans-Medium",
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: "normal",
     fontStyle: "normal",
     letterSpacing: 0.46,
@@ -400,8 +400,25 @@ statusStyle: {
     letterSpacing: 0.39,
     color: "rgb(155, 155, 155)",
     backgroundColor: 'transparent',
-    textAlign:'center',
+    textAlign:'right',
     alignItems:'flex-end'
+},
+
+statusStylePending: {
+  paddingLeft: 0,
+  marginTop: 28,
+  width: 250,
+  height: 15,
+  flex:8,
+  fontFamily: "WorkSans-Regular",
+  fontSize: 11,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  letterSpacing: 0.39,
+  color: "rgb(155, 155, 155)",
+  backgroundColor: 'transparent',
+  textAlign:'right',
+  alignItems:'flex-start'
 },
 
 buttonStyle: {
@@ -453,6 +470,7 @@ fontStyle: {
   color: "rgb(231, 61, 80)",
   marginLeft: 15,
   marginTop:28,
+  backgroundColor:'transparent'
 },
 
 layoutBelow: {

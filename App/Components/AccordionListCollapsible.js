@@ -11,8 +11,7 @@ import * as Animatable from 'react-native-animatable';
 import Collapsible from 'react-native-collapsible';
 import Accordion from 'react-native-collapsible/Accordion';
 
-const BACON_IPSUM =
-  'Bacon ipsum dolor amet chuck turducken landjaeger tongue spare ribs. Picanha beef prosciutto meatball turkey shoulder shank salami cupim doner jowl pork belly cow. Chicken shankle rump swine tail frankfurter meatloaf ground round flank ham hock tongue shank andouille boudin brisket. ';
+const BACON_IPSUM ='Bacon ipsum dolor amet chuck turducken landjaeger tongue spare ribs. Picanha beef prosciutto meatball turkey shoulder shank salami cupim doner jowl pork belly cow. Chicken shankle rump swine tail frankfurter meatloaf ground round flank ham hock tongue shank andouille boudin brisket. ';
 
 const CONTENT = [
   {
@@ -59,6 +58,59 @@ export default class AccordionListCollapsible extends Component {
     content:[]
   };
 
+  componentWillReceiveProps(nextProps)
+{
+    if(this.props !== nextProps)
+        this.getAsyncStorageToken();
+
+    if(this.props.monthlyEarningDetailsByReferrals === null)
+        this.createListArray();
+}
+
+setLanguage = () => {
+
+    if(this.state.language === 'Dutch')
+        this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+    else
+        if(this.state.language === 'English')
+            this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
+    else
+        if(this.state.language === 'French')
+            this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+            
+  }
+
+  getAsyncStorageToken = async () => {
+
+    await AsyncStorage.getItem('language').then((language) => {
+        this.setState({ language: language});
+    });
+
+    this.setLanguage();
+
+    await AsyncStorage.getItem('token').then((token) => {
+        this.setState({ token: token});
+    });  
+  
+  }
+
+  componentWillMount() {
+      this.getAsyncStorageToken();
+  }
+
+componentDidMount()
+{    
+    let language = localStorage.getItem('language');
+    console.log('local storage language='+language);
+
+   this.getAsyncStorageToken();
+
+    setTimeout(() => {
+            this.createListArray();
+        },4000);
+}
+
+
   toggleExpanded = () => {
     this.setState({ collapsed: !this.state.collapsed });
   };
@@ -102,8 +154,6 @@ export default class AccordionListCollapsible extends Component {
     return (
       <View style={styles.container}>
         <ScrollView contentContainerStyle={{ paddingTop: 30 }}>
-
-
           <TouchableOpacity onPress={this.toggleExpanded}>
             <View style={styles.header}>
               <Text style={styles.headerText}>Single Collapsible</Text>

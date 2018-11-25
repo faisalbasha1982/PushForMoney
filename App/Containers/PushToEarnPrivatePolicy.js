@@ -113,7 +113,7 @@ class PushToEarnPrivatePolicy extends Component {
 
         this.setState({ isLoading: true});
 
-        console.log("payload sent to private policy page=",payload);
+        console.tron.log("payload sent to private policy page=",payload);
 
         // let newPayload = payload.substring(1,payload.length-1);
 
@@ -224,6 +224,7 @@ class PushToEarnPrivatePolicy extends Component {
         const payload  = this.props.navigation.state.params.payload;
 
         console.log("platform --->",Platform.OS);
+        console.tron.log("payload="+payload.LoginData);
         return (
 
             (platform === 'ios')?

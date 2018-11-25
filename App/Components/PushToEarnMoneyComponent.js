@@ -1159,14 +1159,14 @@ const newStyle = StyleSheet.create({
         fontWeight: "normal",
         fontStyle: "normal",
         letterSpacing: 0.67,
-        marginLeft:15,
+        marginLeft:22,
         textAlign: 'right',
         color: "rgb(231, 61, 80)",
         backgroundColor: 'transparent'
       },
 
     totalText: {
-        width: viewPortWidth*0.80,
+        width: viewPortWidth*0.83,
         height: 10,
         flex: 1,
         marginTop: 0,

@@ -60,7 +60,7 @@ export const request = (state, { payload }) => {
 
 export const newrequest = (state, { payload }) => {
     return { ...state, fetching: true, payload }
-  }
+}
 
 export const updateSuccessFirstName = (state,{ firstname }) => {
     return { ...state, firstname, fetching: true, }
@@ -71,7 +71,7 @@ export const updateSuccessLastName = (state,{ lastname }) => {
 }
 
 export const updateSuccessEmail = (state, { email }) => {
-  return { ...state, email, fetching: true, } 
+  return { ...state, email, fetching: true, }
 }
 
 export const changePassword = (state, {payload}) => {
