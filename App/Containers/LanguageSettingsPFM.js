@@ -55,9 +55,9 @@ const languageSettings = {
         pg: 'Push To Earn Money Page'
     },
     addFriends: "You don’t have any candidates yet. Add a friend and earn money while you sleep!",
-    addFriendsButton: "ADD CANDIDATE",
+    addFriendsButton: "Add Candidate",
     addFriendNew: "Add candidate",
-    addFriendPhoneButton: "SEARCH PHONE CONTACT",
+    addFriendPhoneButton: "Search Phone Contact",
     addFriendName: "First + last name", 
     friend: "Candidate",
     agree:"I Agree",
@@ -95,7 +95,7 @@ const languageSettings = {
     ten: "OCTOBER",
     eleven: "NOVEMBER",
     twelve: "DECEMBER",
-
+    resend: "Re-send",
     //Redux Translations
     completeProfile: 'Please Complete your Mobile Number',
     signUpText: 'Please Sign Up , as your phone number does not exist in our database'
@@ -198,6 +198,7 @@ const languageSettings = {
     ten: 'OKTOBER',
     eleven: 'NOVEMBER',
     twelve: 'DECEMBER',
+    resend: "opnieuw versturen",
 
     //Redux Translations
     completeProfile:'Voltooi alstublieft uw profiel',
@@ -301,6 +302,7 @@ const languageSettings = {
     ten:'OCTOBRE',
     eleven:'NOVEMBRE',
     twelve:'décembre',
+    resend:"renvoyer",
 
     //Redux Translations
     completeProfile:'Veuillez compléter votre profil',

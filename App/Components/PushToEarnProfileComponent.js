@@ -556,7 +556,7 @@ getAsyncStorage = async () => {
 
         setTimeout(() => {
             AppState.addEventListener('change',this.handleAppStateChange);            
-        },4000);
+        },600000 ); // 10 minutes
     }
 
 
@@ -668,7 +668,7 @@ getAsyncStorage = async () => {
 
         setTimeout(() => {
             this.setState({ isLoading: false});
-        },4000);
+        },650);
     }
 
     callUpdateLastName = (name) => {
@@ -691,7 +691,7 @@ getAsyncStorage = async () => {
 
         setTimeout(() => {
             this.setState({ isLoading: false});
-        },4000);
+        },650);
     }
 
     changeMobile = (phoneNumber) => {
@@ -707,7 +707,7 @@ getAsyncStorage = async () => {
         console.log("actual phone number="+phoneNumber);
 
         console.log("phoneNumber="+this.formatMobileNo(phoneNumber));
-        Alert.alert("phoneNumber="+this.formatMobileNo(phoneNumber));
+        //Alert.alert("phoneNumber="+this.formatMobileNo(phoneNumber));
 
         let payload = {
             "AuthenticationData": encryptedData,
@@ -911,7 +911,7 @@ getAsyncStorage = async () => {
                                             :
                                             <TextInput
                                                         style={ newStyle.nameInputFirst }
-                                                        placeholder='first name'
+                                                        placeholder={ this.props.firstName  }
                                                         placeholderTextColor={ this.state.placeHolderColor }
                                                         editable={ this.state.firstNameEditable }
                                                         ref={(ref) => { this.FirstInput = ref; }}
@@ -993,9 +993,9 @@ getAsyncStorage = async () => {
                                     :
                                     <TextInput
                                         style={ newStyle.nameInput}
-                                        placeholder='last name'
-                                        placeholderTextColor = {this.state.placeHolderColorLastName}
-                                        editable={this.state.lastNameEditable}
+                                        placeholder={ this.props.lastName }
+                                        placeholderTextColor = { this.state.placeHolderColorLastName }
+                                        editable={ this.state.lastNameEditable }
                                         underlineColorAndroid= 'transparent'
                                         onBlur = { () => {
                                             this.callUpdateLastName(this.state.lastNameInput);

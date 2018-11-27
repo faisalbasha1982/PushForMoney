@@ -194,20 +194,272 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
     }
 
+    isDigit = (digit) =>  {
+
+        if(digit >='1' && digit <='9')
+          return true;
+
+        return false;
+    }
+
+    // Algorithm for Validating Belgium Phone Number
+   /*
+    * Get Phone Input and assign variable -> PhoneVariable
+    * PhoneVariable -> PhoneVariable.strip(special characters and white spaces)
+    * FinalString -> ‘’ (Empty)
+    * 
+    *  If the Phone Number is neither a valid Mobile Number nor a Landline Number
+	*	 Alert “Phone Number is not a Valid Belgium Phone Number”
+    * Else
+	*	 if PhoneVariable.FirstTwo === “00”
+	*		PhoneVariable.FirstTwo = “+”
+	*      Else
+    * 	     If PhoneVariable.First === “0” && PhoneVariable.Second is !== “0”
+	*			PhoneVariable.First = “+32”
+	* 		Else
+	* 			If PhoneVariable.FirstFour === “0032”
+	*				PhoneVariable.FirstFour = “+32”
+	*	 		Else 
+	*				if PhoneVariable.FirstFive === “00320”
+	*					PhoneVariable.FirstFive = “+32”
+	*				Else
+	*					if PhoneVariable.FirstThree === “+320” || PhoneVariable.FirstThree === “320”
+	*						 PhoneVariable.FirstThree = “+32”  # Remove the Character “0”
+    *  FinalString = PhoneVariable
+    *     return FinalString     
+    */
+
+    formatPhoneNumber = (phone) => {
+
+        if(phone.length !== 8 || phone.length !== 9)
+                    return;
+
+        console.tron.log("phone="+phone);
+        Alert.alert("phone="+phone);
+
+        //+32471920477
+        let phoneString = phone.substring(3);
+
+        if(phoneString.length === 9)
+            phoneString = phoneString.substring(0,3) + " " + phoneString.substring(3,5) + " " + phoneString.substring(5,7) + " " + phoneString.substring(7);
+        if(phoneString.length === 8)
+            phoneString = phoneString.substring(0,1) + " " + phoneString.substring(1,4) + " " + phoneString.substring(4,6) +" "+ phoneString.substring(6);
+     
+        phoneString = "+32" + phoneString;
+
+        return phoneString;
+    }
+
+    validateBGPhoneNumber = (phone) => {
+
+         // 00 => +
+        // 0 and digit after => +32 digit
+        // 0032 => +32
+        // 00320 => +32
+        // +320 => +32
+        // 320 => +32
+
+        // Alert.alert("phone="+phone);
+        console.tron.log("phone="+phone);
+        
+        phone = this.removeSpaces(phone);
+
+        let first = phone.substring(0,1);
+        let second = phone.substring(1,2);
+        let firstTwo = phone.substring(0,2);
+        let restTwo = phone.substring(2);
+        let firstThree  = phone.substring(0,3);
+        let firstFour = phone.substring(0,4);
+        let firstFive = phone.substring(0,5);
+
+        let finalString = '+32';
+
+        let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
+        let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
+
+        if(mPhone.exec(phone) || homePhone.exec(phone))
+        {
+           console.tron.log("Valid Phone Number");
+           this.setState({ phoneNumberInput: phone});
+        }
+        else
+        {
+            console.tron.log("InValid Phone Number="+phone);
+
+            if( phone.substring(0,3) === "+00")
+            {
+                if(phone.length >3)
+                    phone = "+" + phone.substring(3);
+                else
+                    phone = "+" ;
+
+                console.tron.log("firstThree="+firstThree+" phone="+phone);                
+                this.setState({ phoneNumberInput: phone});
+            }
+
+            if(phone === "+0")
+            {
+               console.tron.log("first & second ="+first+ " second="+second);
+                phone = "+"
+                this.setState({ phoneNumberInput: phone});
+            }
+
+
+            if(phone.substring(0,2) === "+0" && phone.length > 2 && phone.substring(2,3) !== '0')
+             {
+                console.tron.log("first & second ="+first+ " second="+second);
+                 phone = "+32" + phone.substring(2);
+                 this.setState({ phoneNumberInput: phone});
+             }
+
+            if(phone.substring(0,2) === "32")
+            {
+                console.tron.log("firsttwo ="+phone.substring(0,2));
+                phone = "+" + phone.substring(2);
+                this.setState({ phoneNumberInput: phone});
+            }
+
+            if( phone.substring(0,2) === "00")
+            {
+                if(phone.length >2)
+                    phone = "+" + phone.substring(2);
+                else
+                    phone = "+" ;
+                
+              console.tron.log("first two ="+phone.substring(0,2));
+
+              first = phone.substring(0,1);
+              second = phone.substring(1,2);
+              firstTwo = phone.substring(0,2);
+              restTwo = phone.substring(2);
+              firstThree  = phone.substring(0,3);
+              firstFour = phone.substring(0,4);
+              firstFive = phone.substring(0,5);
+
+              this.setState({ phoneNumberInput: phone});
+
+            }
+
+            if(phone.substring(0,1) === "0" && this.isDigit(second))
+            {
+                phone = "+32" + phone.substring(1);
+
+                first = phone.substring(0,1);
+                second = phone.substring(1,2);
+                firstTwo = phone.substring(0,2);
+                restTwo = phone.substring(2);
+                firstThree  = phone.substring(0,3);
+                firstFour = phone.substring(0,4);
+                firstFive = phone.substring(0,5);  
+
+                this.setState({ phoneNumberInput: phone});
+
+            }
+            
+            if(phone.substring(0,3) === "320")
+            {
+                console.tron.log("first Three"+phone.substring(0,3));
+
+                phone = "+32" + phone.substring(3);
+
+                first = phone.substring(0,1);
+                second = phone.substring(1,2);
+                firstTwo = phone.substring(0,2);
+                restTwo = phone.substring(2);
+                firstThree  = phone.substring(0,3);
+                firstFour = phone.substring(0,4);
+                firstFive = phone.substring(0,5); 
+
+                this.setState({ phoneNumberInput: phone});
+
+            }
+
+            if(phone.substring(0,4) === "+320")
+            {
+                console.tron.log("first Three"+phone.substring(0,4));
+
+                phone = "+32" + phone.substring(4);
+
+                first = phone.substring(0,1);
+                second = phone.substring(1,2);
+                firstTwo = phone.substring(0,2);
+                restTwo = phone.substring(2);
+                firstThree  = phone.substring(0,3);
+                firstFour = phone.substring(0,4);
+                firstFive = phone.substring(0,5);  
+
+                this.setState({ phoneNumberInput: phone});
+
+            }
+
+        }
+    }
+
     validateBelgiumPhoneNumber = (phone) => {
 
+        console.tron.log("validation="+phone);
         phone = this.removeSpaces(phone);
+
+        console.tron.log("phone after stripping space"+phone);
 
         // console.tron.log("formatted phone text="+phone);
 
-        console.log("phone number="+phone);
+        // 00 -> +
+        // 0 and digit after -> +32 digit
+        // 0032 -> +32
+        // 00320 -> +32
+        // +320 => +32
+        // 320 => +32
+
+        console.tron.log("on change phone number="+phone);
 
         let countryCode = "+32";
-        let firstFour = phone.substring(0,4);
-        let rest = phone.substring(4);
+        let first = phone.substring(0,1);
+        let second = phone.substring(1,2);
+
         let firstTwo = phone.substring(0,2);
+        let restofTwo = phone.substring(2);
+        let firstThree = phone.substring(0,4);
+        let firstFour = phone.substring(0,4);
+        let firstFive = phone.substring(0,5);
+        let rest = phone.substring(4);
+
         let restTwo = phone.substring(2);
 
+        let finalString = '';
+
+        // if(firstTwo === "+32")
+        // {
+
+
+        // }
+
+        // if(firstTwo === "00")
+        //       finalString = "+"
+        // else
+        //    if(first === "0" && this.isDigit(second) )
+        //             finalString = finalString + "32"+ phone.substring(1,2);
+        //     else
+        //        if(firstFive === '00320')
+        //             finalString = finalString + "+32";
+        //         else
+        //           if(firstThree === "+320")
+        //               finalString = finalString + "+32";
+
+        let reg = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
+        let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
+        let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
+
+        if(mPhone.exec(phone))
+        {
+            console.tron.log("valid phone number")
+        }
+        else
+        {
+            console.tron.log("inValid phone number")
+        }
+
+                    
         if(phone.substring(0,1) !== "+" && phone.substring(0,1) !== "0" && phone.length ===11)
             this.setState({ phoneNumberInput: "+" + phone});
         else
@@ -220,7 +472,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                   if(phone.substring(0,3) === "+32" && phone.length === 12)
                     this.setState({ phoneNumberInput: phone });
 
-
+        
 
     }
 
@@ -334,7 +586,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
     }
 
     displayInputs = () => {
-        Alert.alert(" firstNameInput= "+this.state.firstNameInput);
+        //Alert.alert(" firstNameInput= "+this.state.firstNameInput);
         console.log("this.state.firstNameInput="+this.state.firstNameInput);
     }
 
@@ -345,6 +597,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
         this.setState({isLoading: true});
 
         console.log("authData from save refferals Empty="+encryptedData);
+        console.tron.log("Save referrals Empty phone number Input="+this.state.phoneNumberInput);
 
         let payload = {
             "AuthenticationData": encryptedData,
@@ -392,7 +645,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
         let ltoken = localStorage.getItem('token');
         this.setState({isLoading: true});
 
-        console.log("authData from save refferals ="+encryptedData);
+        console.tron.log("Save referrals called");
 
         let payload = {
             "AuthenticationData": encryptedData,
@@ -408,13 +661,17 @@ class PushToEarnAddFriendDetailsComponent extends Component {
             },2000)
         else
             {
+                console.tron.log("Save referrals phone number Input="+this.state.phoneNumberInput);
+
                 payload = {
                     "AuthenticationData": encryptedData,
                     "LoginAccessToken": this.state.aToken,
                     "MobileUsersReferrals":  [
-                                    {"firstName":this.props.name.split(" ")[0], "lastName": this.props.name.split(" ")[1], "mobilePhone":this.formatMobileNo(this.props.phone), "email": this.props.email}
+                                    {"firstName":this.state.firstNameInput===''?this.props.name.split(" ")[0]:this.state.firstNameInput.split(" ")[0], "lastName": this.state.firstNameInput===''?this.props.name.split(" ")[1]:this.state.firstNameInput.split(" ")[1], "mobilePhone":(this.state.phoneNumberInput==='')?this.formatMobileNo(this.props.phone):this.formatMobileNo(this.state.phoneNumberInput), "email": this.state.email===''?this.props.email:this.state.email}
                                     ],
                 };
+
+                console.tron.log("payload mobileuserreferrals phone number="+payload.MobileUsersReferrals);
 
                 this.props.saveReferrals(payload);
                 this.props.menu(2);
@@ -503,25 +760,11 @@ class PushToEarnAddFriendDetailsComponent extends Component {
     }
 
     removeSpaces = (input) => {
-       
-        if(input === null || input === undefined)
-            return;
 
-        let array = input.split(" ");
+        console.tron.log("input received="+input);
+        console.tron.log("split="+input.replace(/\s/g, ''));
 
-        let finalString = '';
-
-        for(element in array)
-        {
-            console.log("element="+array[element]);
-
-            if(array[element] !== " ")
-                finalString = finalString + array[element];
-        }
-
-        console.log("finalString="+finalString);
-
-        return finalString;
+        return input.replace(/\s/g, '');
         
     }
 
@@ -553,8 +796,8 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
         let newMobNo = "+32";
         mobileNo = this.removeSpaces(mobileNo);
-        console.log("mobileNo w/out spaces ="+mobileNo);
-        console.log("mobileNo="+mobileNo);
+        console.tron.log("mobileNo w/out spaces ="+mobileNo);
+        console.tron.log("mobileNo="+mobileNo);
 
         if(mobileNo === null || mobileNo === undefined)
             return null;
@@ -612,7 +855,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                     <View style={newStyle.endButtons}>     
 
                         <View style={newStyle.topView}>
-                        <View style={{ marginLeft:0, width:40,justifyContent:'flex-start', alignItems:'flex-start' }}>
+                        <View style={{  width:40,paddingTop:10,justifyContent:'flex-end', alignItems:'flex-start', backgroundColor: 'transparent' }}>
                                     <TouchableOpacity
                                             onPress={() => { this.props.menu(9); } }
                                             activeOpacity={0.5}
@@ -620,8 +863,8 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                                                 width: 30,
                                                 height: 30, 
                                                 backgroundColor: 'transparent',
-                                                justifyContent: 'center',
-                                                alignItems: 'center'
+                                                justifyContent: 'flex-start',
+                                                alignItems: 'flex-start'
                                             }}> 
                                             <Icon
                                                 containerStyle={newStyle.iconImageStyle}
@@ -652,8 +895,10 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                                         onChangeText={(firstNameInput) => this.setState({firstNameInput})}/>
                             :
                             <TextInput
-                                        style={ newStyle.nameInput }
+                                        style={ [newStyle.nameInput, { borderColor:this.state.isFocusedFirst===true?'#e73d50':'transparent', borderStyle:'solid', borderWidth:1 }] }
                                         placeholder=''
+                                        onFocus = { () => this.focusFirst() }
+                                        onBlur = { () => this.focusFirstOff()}
                                         underlineColorAndroid= 'transparent'
                                         value = { this.props.name }
                                         onChangeText={(firstNameInput) => this.setState({firstNameInput})}/>
@@ -677,7 +922,8 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                                     focus
                                     onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
                                     style= {[newStyle.nameInput,{ borderColor:this.state.isFocusedSecond===true?'#e73d50':'transparent', borderStyle:'solid', borderWidth:1 }]}
-                                    onChangePhoneNumber = { (phoneNumberInput) => this.validateBelgiumPhoneNumber(phoneNumberInput) }
+                                    onChangePhoneNumber = { (phoneNumberInput) => this.validateBGPhoneNumber(phoneNumberInput) }
+                                    value = { this.state.phoneNumberInput }
                                 />
                             :
                             <PhoneInput
@@ -686,8 +932,8 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                                     initialCountry={this.state.countryCode}
                                     onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
                                     style= {newStyle.nameInput}
-                                    onChangePhoneNumber = { (phoneNumberInput) => this.validateBelgiumPhoneNumber(phoneNumberInput) }
-                                    value = {this.formatMobileNo(this.props.phone)}
+                                    onChangePhoneNumber = { (phoneNumberInput) => this.validateBGPhoneNumber(phoneNumberInput) }
+                                    value = {(this.state.phoneNumberInput==='')?this.formatMobileNo(this.props.phone): this.state.phoneNumberInput}
                                 />                                
                             }
                         </View>
@@ -877,7 +1123,7 @@ const newStyle = StyleSheet.create({
     },
 
     topText: {
-        width: viewPortWidth * 0.70,
+        width: (220 / viewPortWidth) * viewPortWidth,
         height: 34,
         fontFamily: "WorkSans-Medium",
         fontSize: 21,
@@ -895,8 +1141,8 @@ const newStyle = StyleSheet.create({
         flex:2,
         flexDirection:'row',
         marginTop: 10,
-        alignItems: 'center',
-        justifyContent: 'center'
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start'
     },
 
     paraView: {
@@ -935,7 +1181,7 @@ const newStyle = StyleSheet.create({
         fontWeight: "normal",
         fontStyle: "normal",
         letterSpacing: 0.67,
-        textAlign: "center",
+        textAlign: "left",
         color: "rgb(231, 61, 80)", 
         marginTop: 30,
     },

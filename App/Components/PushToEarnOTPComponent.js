@@ -161,7 +161,7 @@ class PushToEarnOTPComponent extends Component {
 
         this.setState({isLoading: true});
 
-        console.log("login access token="+ltoken);
+        console.tron.log("login access token="+ltoken);
         // console.tron.log("login access token="+ltoken);
 
         let payload = {             
@@ -476,7 +476,7 @@ class PushToEarnOTPComponent extends Component {
                                     <Text
                                         style={{
                                             fontSize: 17,
-                                            width: 120,
+                                            width: 200,
                                             height: 20,
                                             fontFamily: 'WorkSans-Regular',
                                             fontWeight: '500',
@@ -484,7 +484,7 @@ class PushToEarnOTPComponent extends Component {
                                             color:'#E73D50',
                                             marginTop: 0,
                                             letterSpacing: 0.67,
-                                            textAlign: 'center'}}> Re-send.....
+                                            textAlign: 'center'}}> {this.state.text.resend}.....
                                     </Text>
                         </TouchableOpacity>
                 </View>

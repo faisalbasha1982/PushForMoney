@@ -36,7 +36,6 @@ import PushNotification from 'react-native-push-notification';
 import PushToEarnAddFriendDetails from '../Components/PushToEarnAddFriendDetailsComponent';
 import AddFriendComponent from '../Components/PushToEarnNoFriendsComponent';
 
-
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import * as NavigationService from '../Navigation/NavigationService';
@@ -273,7 +272,9 @@ class PushToEarnWelcomeComponent extends Component {
                                     > {this.state.text.workButton} </Text>
                                 </TouchableOpacity>
                       <TouchableOpacity
-                                    onPress={() => { this.props.menu(7,'','','',this.state.language); } }
+                                    onPress={() => { 
+                                        this.props.menu(9);
+                                     } }
                                     activeOpacity={0.5}
                                     style={{
                                         width: 280,

@@ -111,7 +111,7 @@ class PushToEarnProfileBankInfoComponent extends Component {
 
             this.props.getProfile(payload);
 
-        },500);        
+        },100);        
     }
 
     setLanguage = () => {

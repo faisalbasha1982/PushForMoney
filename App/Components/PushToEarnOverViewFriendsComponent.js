@@ -375,8 +375,8 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
     getFriendList = async () => {
 
-        console.log("INSIDE FRIEND LIST API CALL");
-        console.log("language Code="+this.state.languageCode);
+        console.tron.log("INSIDE FRIEND LIST API CALL");
+        console.tron.log("language Code="+this.state.languageCode);
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
@@ -398,11 +398,11 @@ class PushToEarnOverViewFriendsComponent extends Component {
                         "LoginAccessToken": this.state.token,
                     };
         
-                    this.props.friendRequest(payload); 
+                    this.props.friendRequest(payload);
     
                 }
                 this.setState({isLoading: false,});
-            },600);            
+            },600);
 
             console.log("this.props.referral="+this.props.referral);
             // console.tron.log("this.props.referral="+this.props.referral);
@@ -497,27 +497,36 @@ class PushToEarnOverViewFriendsComponent extends Component {
     // }
 
     removeSpaces = (input) => {
-       
-        if(input === null || input === undefined)
-            return;
 
-        let array = input.split(" ");
+        console.tron.log("input received="+input);
+        console.tron.log("split="+input.replace(/\s/g, ''));
 
-        let finalString = '';
-
-        for(element in array)
-        {
-            console.log("element="+array[element]);
-
-            if(array[element] !== " ")
-                finalString = finalString + array[element];
-        }
-
-        console.log("finalString="+finalString);
-
-        return finalString;
+        return input.replace(/\s/g, '');
         
     }
+
+    // removeSpaces = (input) => {
+       
+    //     if(input === null || input === undefined)
+    //         return;
+
+    //     let array = input.split(" ");
+
+    //     let finalString = '';
+
+    //     for(element in array)
+    //     {
+    //         console.log("element="+array[element]);
+
+    //         if(array[element] !== " ")
+    //             finalString = finalString + array[element];
+    //     }
+
+    //     console.log("finalString="+finalString);
+
+    //     return finalString;
+        
+    // }
 
     formatMobileNo = (mobileNo) => {
 
@@ -698,6 +707,17 @@ class PushToEarnOverViewFriendsComponent extends Component {
                                         size = {20}
                                          />
                                 </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={() => { this.props.menu(9) } }
+                                    activeOpacity={0.5}
+                                    style={{
+                                        width: 60,
+                                        height: 40,
+                                        alignItems:'center',
+                                        justifyContent:'center',
+                                        backgroundColor: 'transparent',
+                                        marginRight: 0,
+                                    }}>
                                 <Text style={{
                                         fontFamily: "WorkSans-Medium",
                                         fontSize: 11,
@@ -707,6 +727,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
                                         letterSpacing: 0,
                                         textAlign: "left",
                                         color: "rgb(231, 61, 80)" }}>{this.state.text.friend}</Text>
+                                </TouchableOpacity>
                             </View> 
                         </View>
                       

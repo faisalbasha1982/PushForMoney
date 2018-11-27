@@ -162,7 +162,7 @@ class PushToEarnAddFriendLastComponent extends Component {
                     <View style={newStyle.endButtons}>
 
                         <View style={newStyle.topView}>
-                        <View style={{ marginLeft:0, width:40,justifyContent:'flex-start', alignItems:'flex-start' }}>
+                        <View style={{ marginLeft:15,backgroundColor:'transparent',width:40,justifyContent:'center', alignItems:'flex-end' }}>
                                     <TouchableOpacity
                                             onPress={() => { this.props.menu(2,'','','',this.state.language); } }
                                             activeOpacity={0.5}
@@ -170,9 +170,9 @@ class PushToEarnAddFriendLastComponent extends Component {
                                                 width: 30,
                                                 height: 30, 
                                                 backgroundColor: 'transparent',
-                                                justifyContent: 'center',
-                                                alignItems: 'center'
-                                            }}> 
+                                                justifyContent: 'flex-end',
+                                                alignItems: 'flex-start'
+                                            }}>
                                             <Icon
                                                 containerStyle={newStyle.iconImageStyle}
                                                 name='arrow-circle-left'
@@ -181,8 +181,8 @@ class PushToEarnAddFriendLastComponent extends Component {
                                                 size = {20} />
                                     </TouchableOpacity>
                                 </View>
-                            <View>
-                                <Text style= {newStyle.topText}>           
+                            <View style={{ backgroundColor: 'transparent', justifyContent:'center', alignItems:'center', marginLeft: 20, paddingTop:3,  }}>
+                                <Text style= {newStyle.topText}>
                                         {this.state.text.addFriendsButton}
                                 </Text>
                             </View>
@@ -222,8 +222,9 @@ class PushToEarnAddFriendLastComponent extends Component {
                         <View style={newStyle.buttonViewBottom}>
                                 <TouchableOpacity
                                     onPress={() => { 
-                                        //this.props.menu(7,'','','',this.state.language); 
-                                        this.props.menu(13); }}
+                                        this.props.menu(7,'','','',this.state.language); 
+                                        //this.props.menu(13); 
+                                    }}
                                     activeOpacity={0.5}
                                     style={{
                                         width: 290,
@@ -397,25 +398,24 @@ const newStyle = StyleSheet.create({
         width: (220 / viewPortWidth) * viewPortWidth,
         height: 34,
         fontFamily: "WorkSans-Medium",
-        fontSize: 19,
+        fontSize: 21,
         fontWeight: "600",
         fontStyle: "normal",
         lineHeight: 34,
         letterSpacing: 0,
-        textAlign: "left",
+        textAlign: "center",
         color: "rgb(231, 61, 80)"        
     },
 
     topView: {
-        width: 276,
+        width: viewPortWidth*0.89,
         height: viewPortHeight*.60,
         flex:3,
         flexDirection: 'row',
-        marginTop: 20,
-        alignItems: 'flex-end',
+        marginTop: 7,
+        alignItems: 'flex-start',
         justifyContent: 'flex-start',
         backgroundColor:'transparent'
-
     },
 
     paraView: {
@@ -457,7 +457,7 @@ const newStyle = StyleSheet.create({
         fontWeight: "normal",
         fontStyle: "normal",
         letterSpacing: 0.67,
-        textAlign: "center",
+        textAlign: "right",
         color: "rgb(231, 61, 80)", 
         marginTop: 30,
     },
