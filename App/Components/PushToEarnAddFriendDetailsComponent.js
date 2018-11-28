@@ -264,6 +264,8 @@ class PushToEarnAddFriendDetailsComponent extends Component {
         
         phone = this.removeSpaces(phone);
 
+        let dpPhone = phone;        
+
         let first = phone.substring(0,1);
         let second = phone.substring(1,2);
         let firstTwo = phone.substring(0,2);
@@ -277,6 +279,9 @@ class PushToEarnAddFriendDetailsComponent extends Component {
         let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
         let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
 
+        if(dpPhone.substring(0,1) !== '+')
+        dpPhone = '+' + dpPhone;
+
         if(mPhone.exec(phone) || homePhone.exec(phone))
         {
            console.tron.log("Valid Phone Number");
@@ -285,112 +290,115 @@ class PushToEarnAddFriendDetailsComponent extends Component {
         else
         {
             console.tron.log("InValid Phone Number="+phone);
+            console.tron.log("phone 0,2="+(phone.substring(0,2) === "+0"));
+            console.tron.log("Length of Phone Number="+phone.length);
 
-            if( phone.substring(0,3) === "+00")
+            if( dpPhone.substring(0,3) === "+00")
             {
-                if(phone.length >3)
-                    phone = "+" + phone.substring(3);
+                if(dpPhone.length >3)
+                    dpPhone = "+" + dpPhone.substring(3);
                 else
-                    phone = "+" ;
+                    dpPhone = "+" ;
 
-                console.tron.log("firstThree="+firstThree+" phone="+phone);                
-                this.setState({ phoneNumberInput: phone});
-            }
-
-            if(phone === "+0")
-            {
-               console.tron.log("first & second ="+first+ " second="+second);
-                phone = "+"
-                this.setState({ phoneNumberInput: phone});
-            }
-
-
-            if(phone.substring(0,2) === "+0" && phone.length > 2 && phone.substring(2,3) !== '0')
-             {
-                console.tron.log("first & second ="+first+ " second="+second);
-                 phone = "+32" + phone.substring(2);
-                 this.setState({ phoneNumberInput: phone});
-             }
-
-            if(phone.substring(0,2) === "32")
-            {
-                console.tron.log("firsttwo ="+phone.substring(0,2));
-                phone = "+" + phone.substring(2);
-                this.setState({ phoneNumberInput: phone});
-            }
-
-            if( phone.substring(0,2) === "00")
-            {
-                if(phone.length >2)
-                    phone = "+" + phone.substring(2);
-                else
-                    phone = "+" ;
-                
-              console.tron.log("first two ="+phone.substring(0,2));
-
-              first = phone.substring(0,1);
-              second = phone.substring(1,2);
-              firstTwo = phone.substring(0,2);
-              restTwo = phone.substring(2);
-              firstThree  = phone.substring(0,3);
-              firstFour = phone.substring(0,4);
-              firstFive = phone.substring(0,5);
-
-              this.setState({ phoneNumberInput: phone});
+                console.tron.log("phone length="+dpPhone.length+"  firstThree="+firstThree+" phone="+dpPhone);                
+                this.setState({ phoneNumberInput: dpPhone});
+                console.tron.log("phone number input="+this.state.phoneNumberInput);
 
             }
+            else
+                if(dpPhone.substring(0,2) === "+0" && dpPhone.length === 2)
+                {
+                console.tron.log("first & second ="+dpPhone.substring(0,1)+ " second="+dpPhone.substring(1,2));
+                dpPhone = "+"
+                    this.setState({ phoneNumberInput: dpPhone});
+                }
+            else
+                if(dpPhone.substring(0,2) === "+0" && dpPhone.length > 2 && dpPhone.substring(2,3) !== '0')
+                {
+                    console.tron.log("first & second ="+first+ " second="+second);
+                    dpPhone = "+32" + dpPhone.substring(2);
+                    this.setState({ phoneNumberInput: dpPhone});
+                }
+            else
+                if(dpPhone.substring(0,2) === "32")
+                {
+                    console.tron.log("firsttwo ="+dpPhone.substring(0,2));
+                    dpPhone = "+" + dpPhone.substring(2);
+                    this.setState({ phoneNumberInput: dpPhone});
+                }
+            else
+                if( dpPhone.substring(0,2) === "00")
+                {
+                    if(dpPhone.length >2)
+                    dpPhone = "+" + dpPhone.substring(2);
+                    else
+                    dpPhone = "+" ;
+                    
+                    console.tron.log("first two ="+dpPhone.substring(0,2));
 
-            if(phone.substring(0,1) === "0" && this.isDigit(second))
-            {
-                phone = "+32" + phone.substring(1);
+                    first = dpPhone.substring(0,1);
+                    second = dpPhone.substring(1,2);
+                    firstTwo = dpPhone.substring(0,2);
+                    restTwo = dpPhone.substring(2);
+                    firstThree  = dpPhone.substring(0,3);
+                    firstFour = dpPhone.substring(0,4);
+                    firstFive = dpPhone.substring(0,5);
 
-                first = phone.substring(0,1);
-                second = phone.substring(1,2);
-                firstTwo = phone.substring(0,2);
-                restTwo = phone.substring(2);
-                firstThree  = phone.substring(0,3);
-                firstFour = phone.substring(0,4);
-                firstFive = phone.substring(0,5);  
+                    this.setState({ phoneNumberInput: dpPhone});
 
-                this.setState({ phoneNumberInput: phone});
+                }
+            else
+                if(dpPhone.substring(0,1) === "0" && this.isDigit(second))
+                {
+                    dpPhone = "+32" + dpPhone.substring(1);
 
-            }
-            
-            if(phone.substring(0,3) === "320")
-            {
-                console.tron.log("first Three"+phone.substring(0,3));
+                    first = dpPhone.substring(0,1);
+                    second = dpPhone.substring(1,2);
+                    firstTwo = dpPhone.substring(0,2);
+                    restTwo = dpPhone.substring(2);
+                    firstThree  = dpPhone.substring(0,3);
+                    firstFour = dpPhone.substring(0,4);
+                    firstFive = dpPhone.substring(0,5);  
 
-                phone = "+32" + phone.substring(3);
+                    this.setState({ phoneNumberInput: dpPhone});
 
-                first = phone.substring(0,1);
-                second = phone.substring(1,2);
-                firstTwo = phone.substring(0,2);
-                restTwo = phone.substring(2);
-                firstThree  = phone.substring(0,3);
-                firstFour = phone.substring(0,4);
-                firstFive = phone.substring(0,5); 
+                }
+            else
+                if(dpPhone.substring(0,3) === "320")
+                {
+                    console.tron.log("first Three"+dpPhone.substring(0,3));
 
-                this.setState({ phoneNumberInput: phone});
+                    dpPhone = "+32" + dpPhone.substring(3);
 
-            }
+                    first = dpPhone.substring(0,1);
+                    second = dpPhone.substring(1,2);
+                    firstTwo = dpPhone.substring(0,2);
+                    restTwo = dpPhone.substring(2);
+                    firstThree  = dpPhone.substring(0,3);
+                    firstFour = dpPhone.substring(0,4);
+                    firstFive = dpPhone.substring(0,5); 
 
-            if(phone.substring(0,4) === "+320")
-            {
-                console.tron.log("first Three"+phone.substring(0,4));
+                    this.setState({ phoneNumberInput: dpPhone});
 
-                phone = "+32" + phone.substring(4);
+                }
+               else
+                if(dpPhone.substring(0,4) === "+320")
+                {
+                    console.tron.log("first Three"+dpPhone.substring(0,4));
 
-                first = phone.substring(0,1);
-                second = phone.substring(1,2);
-                firstTwo = phone.substring(0,2);
-                restTwo = phone.substring(2);
-                firstThree  = phone.substring(0,3);
-                firstFour = phone.substring(0,4);
-                firstFive = phone.substring(0,5);  
+                    dpPhone = "+32" + dpPhone.substring(4);
 
-                this.setState({ phoneNumberInput: phone});
+                    first = dpPhone.substring(0,1);
+                    second = dpPhone.substring(1,2);
+                    firstTwo = dpPhone.substring(0,2);
+                    restTwo = dpPhone.substring(2);
+                    firstThree  = dpPhone.substring(0,3);
+                    firstFour = dpPhone.substring(0,4);
+                    firstFive = dpPhone.substring(0,5);  
 
-            }
+                    this.setState({ phoneNumberInput: dpPhone});
+
+                }
 
         }
     }
@@ -923,7 +931,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                                     onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
                                     style= {[newStyle.nameInput,{ borderColor:this.state.isFocusedSecond===true?'#e73d50':'transparent', borderStyle:'solid', borderWidth:1 }]}
                                     onChangePhoneNumber = { (phoneNumberInput) => this.validateBGPhoneNumber(phoneNumberInput) }
-                                    value = { this.state.phoneNumberInput }
+                                    value = { () => { return this.state.phoneNumberInput } }
                                 />
                             :
                             <PhoneInput

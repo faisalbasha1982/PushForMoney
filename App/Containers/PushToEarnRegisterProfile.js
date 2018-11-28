@@ -223,6 +223,11 @@ class PushToEarnRegisterProfile extends Component {
         return finalString;
         
     }
+    
+    validateUAEPhoneNumber = (phone) => {
+        
+        this.setState({ phoneNumberInput: phone});
+    }
 
     validateBelgiumPhoneNumber = (phone) => {
 
@@ -655,20 +660,39 @@ class PushToEarnRegisterProfile extends Component {
 
     callPrivateScreen = (payload) => {
 
+        let phoneData = '';
+
+        if(this.state.phoneNumberInput === '')
+         {
+             Alert.alert("Please enter your phone number!");
+             return;
+         }
+
+         if(this.props.navigation.state.params.phone === '')
+             phoneData = this.state.phoneNumberInput;
+         else
+             phoneData = this.props.navigation.state.params.phone;
+
+         console.tron.log("this.props.navigation.state.params.phone="+this.props.navigation.state.params.phone );
+
         this.setState({ isLoading: true});
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
 
         // Email instead of mobile
-        let signUpData = "\"SignUpData\":" +"\""+this.aes("{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.props.navigation.state.params.phone+"'"+", 'Email':"+"'"+this.state.emailInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}") +"\"";
+        let signUpData = "\"SignUpData\":" +"\""+this.aes("{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+"'"+this.state.emailInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}") +"\"";
+         let unencrypted = "{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+"'"+this.state.emailInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}";
+        console.tron.log(" unencrypted signUpData="+ unencrypted );
 
         // console.tron.log("signupData="+"{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.state.phoneNumberInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
-        console.log("signUpData=","{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.props.navigation.state.params.phone+"'"+", 'Email':"+"'"+this.state.emailInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
-        console.log("encrypted signup data="+this.aes("{ 'FName' : "+this.state.firstNameInput+", 'LName' : "+this.state.lastNameInput+", 'Mob':"+"'"+this.props.navigation.state.params.phone+"'"+", 'Email':"+this.state.emailInput+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}"));
+        console.log("signUpData=","{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+"'"+this.state.emailInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
+        console.log("encrypted signup data="+this.aes("{ 'FName' : "+this.state.firstNameInput+", 'LName' : "+this.state.lastNameInput+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+this.state.emailInput+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}"));
         console.log("payload passed to private policy=",payload);
         console.tron.log("Authentication in payload="+encryptedData);
         console.tron.log("type of payload="+typeof(payload));
+        console.tron.log("signUpData=","{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+"'"+this.state.emailInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
+        
 
         let loginData = '';
 
@@ -889,7 +913,7 @@ class PushToEarnRegisterProfile extends Component {
                                             onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
                                             style= {newStyle.nameInput}
                                             value= { phone }
-                                            onChangePhoneNumber = { (phoneNumberInput) => this.validateBelgiumPhoneNumber(phoneNumberInput) }
+                                            onChangePhoneNumber = { (phoneNumberInput) => this.validateUAEPhoneNumber(phoneNumberInput) }
                                         />
                     {/* <Text style={newStyle.firstName}>{this.state.text.Password}</Text>
 

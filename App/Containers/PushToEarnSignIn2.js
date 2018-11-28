@@ -137,7 +137,6 @@ class PushToEarnSignIn2 extends Component {
 
               if(user === null)
                   this.googleSignOut();
-
             }).done();
           });
 
@@ -266,13 +265,13 @@ class PushToEarnSignIn2 extends Component {
           if( this.state.encodedText !== "")
           {
 
-            let payload = JSON.stringify({
+            let payload = {
 
                 "AuthenticationData": encryptedData,
                 "LoginData": this.state.encodedText,
                 "SignupMode": false,
 
-            });
+            };
 
             // let payloadNew = JSON.stringify({
             //       "userName": userName,
@@ -301,7 +300,13 @@ class PushToEarnSignIn2 extends Component {
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
+
         let loginInfo = "{ 'T' : '"+userID+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
+
+        console.tron.log("authData:"+authData);
+        console.tron.log("authentication data:"+encryptedData);
+        console.tron.log("LoginData:"+loginInfo);
+
         this.rsa(loginInfo);
 
         this.setState({isLoading: false});
@@ -323,6 +328,8 @@ class PushToEarnSignIn2 extends Component {
                   "userName": userName,
                   "id": userID,
             });
+
+            console.tron.log("LoginData:"+this.state.encodedText);
 
             this.props.twitterlogin(payload,userName);
           }
@@ -392,11 +399,11 @@ class PushToEarnSignIn2 extends Component {
             if( this.state.encodedText !== "")
             {
 
-              let payload = JSON.stringify({
+              let payload = {
                   "AuthenticationData": encryptedData,
                   "LoginData": this.state.encodedText,
                   "SignupMode": false,
-              });
+              };
 
               let payloadNew = {
 
@@ -1234,7 +1241,7 @@ class PushToEarnSignIn2 extends Component {
                         </View>
 
                         <View style= {{width: 70, height: 70,marginRight: 20, borderRadius: 70, backgroundColor: '#E73D50' }}>
-                                <TouchableOpacity onPress={() => this.refs.instagramLogin.show() }
+                                <TouchableOpacity onPress={() => this.instagramLogin.show() }
                                     activeOpacity={0.5}
                                     style={ newStyle.iconStyleInstagram }>
                                         <Icon
@@ -1245,9 +1252,10 @@ class PushToEarnSignIn2 extends Component {
                                             size = {35}
                                             onPress={() => console.log('hello')} /> 
                                             <InstagramLogin
-                                                        ref='instagramLogin'
-                                                        clientId='31953fccb0a14a4488e6845bdb225786'
+                                                        ref= {ref => this.instagramLogin = ref}
+                                                        clientId={'31953fccb0a14a4488e6845bdb225786'}
                                                         scopes={['public_content', 'follower_list']}
+                                                        redirectUrl = {'https://jobfixers.be'}
                                                         onLoginSuccess={(token) => this.setState({ token })}
                                                         onLoginFailure={(data) => console.log(data)} />
                                             {/* <LinkedInModal
