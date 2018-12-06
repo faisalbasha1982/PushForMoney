@@ -79,7 +79,7 @@ export function * rsaRequest(api,payload) {
 //       .catch((error) => console.error(error));
 // }
 
-export function * instagramRequest(api,payload)
+export function * newInstagramRequest(api,payload,username)
 {
   try{
     const response = yield call(fetchSocialLogin,payload.payload);
@@ -87,17 +87,17 @@ export function * instagramRequest(api,payload)
     
     if (response.StatusCode === 201)
     {
-          Alert.alert(
-            'Enter Details',
-            'Please Enter To Register Details',
-            [                      
-                {
-                  text: 'OK', 
-                  onPress: () => console.log('Ask me later Pressed')
-                },                      
-            ],
-            {cancelable: false}
-        );
+        //   Alert.alert(
+        //     'Enter Details',
+        //     'Please Enter To Register Details',
+        //     [                      
+        //         {
+        //           text: 'OK', 
+        //           onPress: () => console.log('Ask me later Pressed')
+        //         },                      
+        //     ],
+        //     {cancelable: false}
+        // );
 
         AsyncStorage.getItem('language').then((language) => {
 
@@ -111,7 +111,7 @@ export function * instagramRequest(api,payload)
 
        });
 
-          NavigationService.navigate('PushToEarnRegisterProfile',{uname:'', pword:'', payload: payload.payload, phone: '', pPayload:''});
+          NavigationService.navigate('PushToEarnRegisterProfile',{uname:username, pword:'', payload: payload.payload, phone: '', pPayload:''});
           console.tron.log("201 Error");
 
     }
@@ -120,17 +120,20 @@ export function * instagramRequest(api,payload)
 
       if(response.StatusCode === 200)
        {
-          Alert.alert(
-            'Login Successfull',
-            'Push To Earn Money Welcome Page',
-            [                      
-                {
-                  text: 'OK', 
-                  onPress: () => console.log('Ask me later Pressed')
-                },                      
-            ],
-            {cancelable: false}
-        );
+        //   Alert.alert(
+        //     'Login Successfull',
+        //     'Push To Earn Money Welcome Page',
+        //     [                      
+        //         {
+        //           text: 'OK', 
+        //           onPress: () => console.log('Ask me later Pressed')
+        //         },                      
+        //     ],
+        //     {cancelable: false}
+        // );
+
+        AsyncStorage.setItem('token',response.LoginAccessToken);
+
 
           AsyncStorage.getItem('language').then((language) => {
             //Navigate to OTP page
@@ -153,7 +156,7 @@ export function * instagramRequest(api,payload)
 
         yield put(LoginActions.loginFailure());
 
-        NavigationService.navigate('PushToEarnRegisterProfile',{uname: payloadNew.email,pword:'', payload: payload.payload});           
+        NavigationService.navigate('PushToEarnRegisterProfile',{uname: '',pword:'', payload: payload.payload});           
 
       }
 
@@ -175,17 +178,17 @@ export function * newGoogleRequest(api, payload)
     
     if (response.StatusCode === 201)
     {
-          Alert.alert(
-            'Enter Details',
-            'Please Enter To Register Details',
-            [                      
-                {
-                  text: 'OK', 
-                  onPress: () => console.log('Ask me later Pressed')
-                },                      
-            ],
-            {cancelable: false}
-        );
+        //   Alert.alert(
+        //     'Enter Details',
+        //     'Please Enter To Register Details',
+        //     [                      
+        //         {
+        //           text: 'OK', 
+        //           onPress: () => console.log('Ask me later Pressed')
+        //         },                      
+        //     ],
+        //     {cancelable: false}
+        // );
 
         AsyncStorage.getItem('language').then((language) => {
 
@@ -208,17 +211,18 @@ export function * newGoogleRequest(api, payload)
 
       if(response.StatusCode === 200)
        {
-          Alert.alert(
-            'Login Successfull',
-            'Push To Earn Money Welcome Page',
-            [                      
-                {
-                  text: 'OK', 
-                  onPress: () => console.log('Ask me later Pressed')
-                },                      
-            ],
-            {cancelable: false}
-        );
+        //   Alert.alert(
+        //     'Login Successfull',
+        //     'Push To Earn Money Welcome Page',
+        //     [                      
+        //         {
+        //           text: 'OK', 
+        //           onPress: () => console.log('Ask me later Pressed')
+        //         },                      
+        //     ],
+        //     {cancelable: false}
+        // );
+        AsyncStorage.setItem('token',response.LoginAccessToken);
 
           AsyncStorage.getItem('language').then((language) => {
             //Navigate to OTP page
@@ -227,17 +231,17 @@ export function * newGoogleRequest(api, payload)
        }
       else
       {
-        Alert.alert(
-          'Login Failed',
-          ""+response.data.Message,
-          [                      
-              {
-                text: 'OK', 
-                onPress: () => console.log('Ask me later Pressed')
-              },                      
-          ],
-          {cancelable: false}
-      );
+      //   Alert.alert(
+      //     'Login Failed',
+      //     ""+response.data.Message,
+      //     [                      
+      //         {
+      //           text: 'OK', 
+      //           onPress: () => console.log('Ask me later Pressed')
+      //         },                      
+      //     ],
+      //     {cancelable: false}
+      // );
 
         yield put(LoginActions.loginFailure());
 
@@ -268,17 +272,17 @@ export function * newTwitterRequest(api,payload,userName)
 
     if(response.StatusCode === 201)
     {
-          Alert.alert(
-            'Enter Details',
-            'Please Enter To Register Details',
-            [                      
-                {
-                  text: 'OK', 
-                  onPress: () => console.log('Ask me later Pressed')
-                },                      
-            ],
-            {cancelable: false}
-        );
+        //   Alert.alert(
+        //     'Enter Details',
+        //     'Please Enter To Register Details',
+        //     [                      
+        //         {
+        //           text: 'OK', 
+        //           onPress: () => console.log('Ask me later Pressed')
+        //         },                      
+        //     ],
+        //     {cancelable: false}
+        // );
 
         AsyncStorage.getItem('language').then((language) => {
 
@@ -300,17 +304,18 @@ export function * newTwitterRequest(api,payload,userName)
 
       if(response.StatusCode === 200)
        {
-          Alert.alert(
-            'Login Successfull',
-            'Push To Earn Money Welcome Page',
-            [                      
-                {
-                  text: 'OK', 
-                  onPress: () => console.log('Ask me later Pressed')
-                },                      
-            ],
-            {cancelable: false}
-        );
+        //   Alert.alert(
+        //     'Login Successfull',
+        //     'Push To Earn Money Welcome Page',
+        //     [                      
+        //         {
+        //           text: 'OK', 
+        //           onPress: () => console.log('Ask me later Pressed')
+        //         },                      
+        //     ],
+        //     {cancelable: false}
+        // );
+        AsyncStorage.setItem('token',response.LoginAccessToken);
 
           AsyncStorage.getItem('language').then((language) => {
             //Navigate to OTP page
@@ -319,17 +324,17 @@ export function * newTwitterRequest(api,payload,userName)
        }
       else
       {
-        Alert.alert(
-          'Login Failed',
-          ""+response.data.Message,
-          [                      
-              {
-                text: 'OK', 
-                onPress: () => console.log('Ask me later Pressed')
-              },                      
-          ],
-          {cancelable: false}
-      );
+      //   Alert.alert(
+      //     'Login Failed',
+      //     ""+response.data.Message,
+      //     [                      
+      //         {
+      //           text: 'OK', 
+      //           onPress: () => console.log('Ask me later Pressed')
+      //         },                      
+      //     ],
+      //     {cancelable: false}
+      // );
 
         yield put(LoginActions.loginFailure());
         // NavigationService.navigate('PushToEarnRegisterProfile',{uname: userName,pword:'', payload: payload.payload});
@@ -361,17 +366,18 @@ export function * googleRequest(api,payload)
     if (response.ok && response.data.StatusCode === 200)
     {
 
-          Alert.alert(
-            'Google Login Successfull',
-            'Push To Earn Money Welcome Page',
-            [                      
-                {
-                  text: 'OK', 
-                  onPress: () => console.log('Ask me later Pressed')
-                },                      
-            ],
-            {cancelable: false}
-        );
+        //   Alert.alert(
+        //     'Google Login Successfull',
+        //     'Push To Earn Money Welcome Page',
+        //     [                      
+        //         {
+        //           text: 'OK', 
+        //           onPress: () => console.log('Ask me later Pressed')
+        //         },                      
+        //     ],
+        //     {cancelable: false}
+        // );
+        AsyncStorage.setItem('token',response.LoginAccessToken);
 
         NavigationService.navigate('PushToEarnWelcomeScreen');
     }
@@ -381,17 +387,17 @@ export function * googleRequest(api,payload)
 
       NavigationService.navigate('PushToEarnRegisterProfile',{uname: '',pword:'', payload: payload.payload});
 
-      Alert.alert(
-        'Login Failed',
-        ""+response.data.Message,
-        [                      
-            {
-              text: 'OK', 
-              onPress: () => console.log('Ask me later Pressed')
-            },                      
-        ],
-        {cancelable: false}
-      );
+      // Alert.alert(
+      //   'Login Failed',
+      //   ""+response.data.Message,
+      //   [                      
+      //       {
+      //         text: 'OK', 
+      //         onPress: () => console.log('Ask me later Pressed')
+      //       },                      
+      //   ],
+      //   {cancelable: false}
+      // );
         //NavigationService.navigate('PushToEarnRegisterProfile');
 
       }
@@ -402,10 +408,10 @@ catch(error){
 
 }
 
-export function * twitterRequest(api,payload,userName) 
+export function * twitterRequest(api,payload,userName)
 {
 
-  Alert.alert("twitter request api call to server.....");
+  // Alert.alert("twitter request api call to server.....");
   // console.log("twitter request api call to server..... with userName="+typeof(userName));  
 
   try {
@@ -420,17 +426,18 @@ export function * twitterRequest(api,payload,userName)
           if (response.ok && response.data.StatusCode === 200)
           {
 
-                Alert.alert(
-                  'Login Successfull',
-                  'Push To Earn Money Welcome Page',
-                  [                      
-                      {
-                        text: 'OK', 
-                        onPress: () => console.log('Ask me later Pressed')
-                      },                      
-                  ],
-                  {cancelable: false}
-              );
+              //   Alert.alert(
+              //     'Login Successfull',
+              //     'Push To Earn Money Welcome Page',
+              //     [                      
+              //         {
+              //           text: 'OK', 
+              //           onPress: () => console.log('Ask me later Pressed')
+              //         },                      
+              //     ],
+              //     {cancelable: false}
+              // );
+              AsyncStorage.setItem('token',response.LoginAccessToken);
 
               NavigationService.navigate('PushToEarnWelcomeScreen');
           }
@@ -442,17 +449,17 @@ export function * twitterRequest(api,payload,userName)
 
             NavigationService.navigate('PushToEarnRegisterProfile',{uname: userName,pword:'', payload: payload.payload});
 
-            Alert.alert(
-              'Login Failed',
-              ""+response.data.Message,
-              [                      
-                  {
-                    text: 'OK', 
-                    onPress: () => console.log('Ask me later Pressed')
-                  },                      
-              ],
-              {cancelable: false}
-            );
+            // Alert.alert(
+            //   'Login Failed',
+            //   ""+response.data.Message,
+            //   [                      
+            //       {
+            //         text: 'OK', 
+            //         onPress: () => console.log('Ask me later Pressed')
+            //       },                      
+            //   ],
+            //   {cancelable: false}
+            // );
               //NavigationService.navigate('PushToEarnRegisterProfile');
 
             }
@@ -467,28 +474,17 @@ function fetchSocialLogin(payload) {
   return fetchJson(Api_url.mobileSignUpLoginUrlNewStag,payload);
 }
 
+function fetchFacebookLogin(payload){
+  return fetchJson( `https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnMobileUserLoginByMobile?code=${API_URL.commonCode}`,payload);
+}
+
 export function * facebookRequest(api,payload,payloadNew) {
 
-  Alert.alert("facebook request api call to server.....");
+  try {
+        let response = yield call(fetchFacebookLogin,payload.payload);
 
-  try{
-        const response = yield call(fetchSocialLogin,payload.payload);
-        console.tron.log("response StatusCode=",response.StatusCode);
-        
-        if (response.StatusCode === 201)
+          if(response.StatusCode === 201)
         {
-              Alert.alert(
-                'Enter Details',
-                'Please Enter To Register Details',
-                [                      
-                    {
-                      text: 'OK', 
-                      onPress: () => console.log('Ask me later Pressed')
-                    },                      
-                ],
-                {cancelable: false}
-            );
-
             AsyncStorage.getItem('language').then((language) => {
 
               if(language === 'English')
@@ -505,63 +501,128 @@ export function * facebookRequest(api,payload,payloadNew) {
               console.tron.log("201 Error");
 
         }
-        else 
-        {
-
+        else
           if(response.StatusCode === 200)
-           {
-              Alert.alert(
-                'Login Successfull',
-                'Push To Earn Money Welcome Page',
-                [                      
-                    {
-                      text: 'OK', 
-                      onPress: () => console.log('Ask me later Pressed')
-                    },                      
-                ],
-                {cancelable: false}
-            );
+          {
+            AsyncStorage.setItem('token',response.LoginAccessToken);
 
               AsyncStorage.getItem('language').then((language) => {
                 //Navigate to OTP page
                 NavigationService.navigate('TestPage',{language:language});
               });
-           }
+
+          }
           else
-          {
-            Alert.alert(
-              'Login Failed',
-              ""+response.data.Message,
-              [                      
-                  {
-                    text: 'OK', 
-                    onPress: () => console.log('Ask me later Pressed')
-                  },                      
-              ],
-              {cancelable: false}
-          );
-
-            yield put(LoginActions.loginFailure());
-
-            NavigationService.navigate('PushToEarnRegisterProfile',{uname: payloadNew.email,pword:'', payload: payloadNew.payload});           
-  
+          {        
+              yield put(LoginActions.loginFailure());        
+              NavigationService.navigate('PushToEarnRegisterProfile',{uname: payloadNew.email,pword:'', payload: payloadNew.payload});
           }
 
-         //NavigationService.navigate('PushToEarnRegisterProfile');
+  }catch(error){
 
-        }  
   }
-  catch(error)
-  {
-    console.tron.log("response issue");
-  }
+
+  // Alert.alert("facebook request api call to server.....");
+
+  // try{
+  //       const response = yield call(fetchFacebookLogin,payload.payload);
+  //       console.tron.log("response="+response);
+        
+  //       if (response.StatusCode === 201)
+  //       {
+  //           //   Alert.alert(
+  //           //     'Enter Details',
+  //           //     'Please Enter To Register Details',
+  //           //     [                      
+  //           //         {
+  //           //           text: 'OK', 
+  //           //           onPress: () => console.log('Ask me later Pressed')
+  //           //         },                      
+  //           //     ],
+  //           //     {cancelable: false}
+  //           // );
+
+  //           AsyncStorage.getItem('language').then((language) => {
+
+  //             if(language === 'English')
+  //               Alert.alert(LanguageSettingsPFM.English.completeProfile);
+  //             else
+  //               if(language === 'Dutch')
+  //                 Alert.alert(LanguageSettingsPFM.Dutch.completeProfile);
+  //               else
+  //                 Alert.alert(LanguageSettingsPFM.French.completeProfile);
+   
+  //          });
+   
+  //             NavigationService.navigate('PushToEarnRegisterProfile',{uname:'', pword:'', payload: payload.payload, phone: '', pPayload:''});
+  //             console.tron.log("201 Error");
+
+  //       }
+  //       else 
+  //       {
+
+  //         if(response.StatusCode === 200)
+  //          {
+  //           //   Alert.alert(
+  //           //     'Login Successfull',
+  //           //     'Push To Earn Money Welcome Page',
+  //           //     [                      
+  //           //         {
+  //           //           text: 'OK', 
+  //           //           onPress: () => console.log('Ask me later Pressed')
+  //           //         },                      
+  //           //     ],
+  //           //     {cancelable: false}
+  //           // );
+
+  //           console.tron.log("access token="+response.LoginAccessToken);
+
+  //           AsyncStorage.setItem('token',response.LoginAccessToken);
+
+  //             AsyncStorage.getItem('language').then((language) => {
+  //               //Navigate to OTP page
+  //               NavigationService.navigate('TestPage',{language:language});
+  //             });
+
+  //             AsyncStorage.setItem('')
+  //          }
+  //         else
+  //         {
+  //         //   Alert.alert(
+  //         //     'Login Failed',
+  //         //     ""+response.data.Message,
+  //         //     [                      
+  //         //         {
+  //         //           text: 'OK', 
+  //         //           onPress: () => console.log('Ask me later Pressed')
+  //         //         },                      
+  //         //     ],
+  //         //     {cancelable: false}
+  //         // );
+
+  //           yield put(LoginActions.loginFailure());
+
+  //           NavigationService.navigate('PushToEarnRegisterProfile',{uname: payloadNew.email,pword:'', payload: payloadNew.payload});           
+  
+  //         }
+
+  //        //NavigationService.navigate('PushToEarnRegisterProfile');
+
+  //       }  
+  // }
+  // catch(error)
+  // {
+  //   console.tron.log("response issue");
+  // }
 
 }
 
-
 function fetchJson(url,payload) {
 
-  return  fetch(url,{
+  console.tron.log("fetch url="+url);
+  console.tron.log("payload="+payload.AuthenticationData+" loginData:"+payload.LoginData+" SignupMode:"+payload.SignupMode);
+ 
+  return fetch(url,{
       method: 'POST',
       headers: {
           Accept: 'application/json',
@@ -572,7 +633,11 @@ function fetchJson(url,payload) {
     .then((response) => response.json())
     .then(response => {
       return response;
+    })
+    .catch((error) => {
+      console.error(error);
     });
+
 }
 
 function fetchNotification(payload) {
@@ -638,7 +703,18 @@ function fetchJsonNewOTP(url,payload) {
     .then(response => {
 
       if (response.StatusCode === 200) {
-          Alert.alert("OTP sent Successfully to Your Mobile Number");
+
+        AsyncStorage.getItem('language').then((language) => {
+
+          if(language === 'English')
+            Alert.alert(LanguageSettingsPFM.English.otpSent);
+          else
+            if(language === 'Dutch')
+              Alert.alert(LanguageSettingsPFM.Dutch.otpSent);
+            else
+              Alert.alert(LanguageSettingsPFM.French.otpSent);
+
+       });
       }
       else
       {
@@ -691,7 +767,8 @@ export function * LoginRequest(api,action) {
          {
             // do data conversion here if needed
             yield put(LoginActions.loginSuccess(response.userinfo));
-            AsyncStorage.setItem('token',response.LoginAccessToken);
+            //AsyncStorage.setItem('token',response.LoginAccessToken);
+            AsyncStorage.setItem('token','');
 
             let languageCode = '';
 
@@ -788,6 +865,7 @@ function fetchOTP(payload)
 
     let languageCode = '';
 
+    
     AsyncStorage.getItem('language').then((language) => {
 
       language === 'English'?languageCode = 'en'
@@ -797,6 +875,8 @@ function fetchOTP(payload)
       languageCode = 'nl'
 
     });
+
+    AsyncStorage.setItem('token',payload.LoginAccessToken);
 
     let authData = AuthComponent.authenticationData(languageCode);
     let encryptedData = AesComponent.aesCallback(authData);
@@ -839,16 +919,16 @@ function fetchOTP(payload)
         } 
         else {
 
-            Alert.alert(
-                'User Does not Exist',
-                responseJson.Message,
-                [
-                    { text: 'Please Register', onPress:() => {NavigationService.navigate('PushToEarnSignUp2', { phone: ''})} }
-                ],
-                {
-                    cancelable: false
-                }
-            )        
+            // Alert.alert(
+            //     'User Does not Exist',
+            //     responseJson.Message,
+            //     [
+            //         { text: 'Please Register', onPress:() => {NavigationService.navigate('PushToEarnSignUp2', { phone: ''})} }
+            //     ],
+            //     {
+            //         cancelable: false
+            //     }
+            // )        
         }
       }
     )

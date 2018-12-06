@@ -224,18 +224,22 @@ class PushToEarnProfileComponent extends Component {
 
     validatePhone = (phone) => {
 
+        //this.validateBGPhoneNumber(phone);
+
         console.tron.log("phone through input="+phone);
-        console.tron.log("phone in store="+this.props.mobileNo);        
+        console.tron.log("phone in store="+this.props.mobileNo);
+
+        //phone = this.state.phoneNumberInput;
 
         let phoneSub = phone.substring(1);
         let firstTwo = phone.substring(1,3);
         let nextTwo = phone.substring(3,5);
         let lengthOfString = phoneSub.length;
 
-        console.log("phone validation="+phone);
-        console.log("phone length="+lengthOfString);
-        console.log("first two="+firstTwo);
-        console.log("first two="+nextTwo);
+        console.tron.log("phone validation="+phone);
+        console.tron.log("phone length="+lengthOfString);
+        console.tron.log("first two="+firstTwo);
+        console.tron.log("first two="+nextTwo);
         // console.tron.log("phone length="+phoneSub.length);
 
         console.log("formatted phone="+this.formatMobileNo(phone));
@@ -282,7 +286,7 @@ class PushToEarnProfileComponent extends Component {
                                     if(phone === this.props.mobileNo)
                                         {
                                             this.setState({isLoading:false});
-                                            Alert.alert("This Mobile No is already assigned to you");
+                                            //Alert.alert("This Mobile No is already assigned to you");
                                         }
                         }
                       else
@@ -302,7 +306,7 @@ class PushToEarnProfileComponent extends Component {
                             if(phone === this.props.mobileNo)
                             {
                                 this.setState({isLoading:false});
-                                Alert.alert("This Mobile No is already assigned to you");
+                                // Alert.alert("This Mobile No is already assigned to you");
                             }
 
 
@@ -319,7 +323,20 @@ class PushToEarnProfileComponent extends Component {
 
     validateEmail = (email) => {
 
-        this.setState({ emailInput: email});
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+
+        if(reg.test(email) === false)
+        {
+            console.log("Email is Not Correct");
+            // this.setState({emailInput:email});
+            Alert.alert("Your Email is not in Correct format");
+            return false;
+        }
+        else {
+            this.setState({emailInput:email});
+            console.log("Email is Correct");
+        }
+
     }
 
     renderNothing = () => {
@@ -527,6 +544,7 @@ getAsyncStorage = async () => {
         console.log("PC login access token="+this.state.aToken);
 
         console.tron.log("first name="+this.props.firstName);
+        console.tron.log("login access token="+this.state.aToken);
 
         setTimeout(() =>
         {
@@ -638,7 +656,7 @@ getAsyncStorage = async () => {
             "NewEmail": email,
         };
 
-        Alert.alert("inside update email:");
+        // Alert.alert("inside update email:");
 
         this.props.emailUpdate(payload);
 
@@ -720,14 +738,29 @@ getAsyncStorage = async () => {
 
         setTimeout(() => {
                 {
+                    this.setState({ isLoading: false });
+
                     (this.props.statusCode === 200)?
                         this.props.menu(11)
                      : 
                      (this.props.statusCode === 409)?
-                        Alert.alert(" Duplicate Mobile Phone Number already exists"+ phoneNumber)
+                        (this.state.language==='English')?
+                            Alert.alert(languageSettingsPFM.English.duplicateMobilePhone+ phoneNumber)
+                        :
+                        (this.state.language==='Dutch')?
+                            Alert.alert(languageSettingsPFM.Dutch.duplicateMobilePhone+ phoneNumber)
+                        :
+                            Alert.alert(languageSettingsPFM.French.duplicateMobilePhone+ phoneNumber)
                      :
                      (this.props.statusCode === 403)?
-                        Alert.alert(" Mobile Number not valid"+ phoneNumber)
+                         (this.state.language==='English')?
+                            Alert.alert(languageSettingsPFM.English.invalidMobilePhone+ phoneNumber)
+                        :
+                         (this.state.language==='Dutch')?
+                            Alert.alert(languageSettingsPFM.Dutch.invalidMobilePhone+ phoneNumber)
+                        :
+                            Alert.alert(languageSettingsPFM.French.invalidMobilePhone+ phoneNumber)
+
                      :
                      this.props.menu(11)
                        
@@ -805,6 +838,159 @@ getAsyncStorage = async () => {
             this.props.firstName
         );
     }
+
+    validateBGPhoneNumber = (phone) => {
+
+        // 00 => +
+       // 0 and digit after => +32 digit
+       // 0032 => +32
+       // 00320 => +32
+       // +320 => +32
+       // 320 => +32
+
+       // Alert.alert("phone="+phone);
+       console.tron.log("text input phone="+phone);
+       
+       phone = this.removeSpaces(phone);
+
+       let dpPhone = phone;        
+
+       let first = phone.substring(0,1);
+       let second = phone.substring(1,2);
+       let firstTwo = phone.substring(0,2);
+       let restTwo = phone.substring(2);
+       let firstThree  = phone.substring(0,3);
+       let firstFour = phone.substring(0,4);
+       let firstFive = phone.substring(0,5);
+
+       let finalString = '+32';
+
+       let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
+       let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
+
+       if(dpPhone.substring(0,1) !== '+')
+       dpPhone = '+' + dpPhone;
+
+       if(mPhone.exec(phone) || homePhone.exec(phone))
+       {
+          console.tron.log("Valid Phone Number");
+          this.setState({ phoneNumberInput: phone});
+       }
+       else
+       {
+           console.tron.log("InValid Phone Number="+phone);
+           console.tron.log("phone 0,2="+(phone.substring(0,2) === "+0"));
+           console.tron.log("Length of Phone Number="+phone.length);
+
+           if( dpPhone.substring(0,3) === "+00")
+           {
+               if(dpPhone.length >3)
+                   dpPhone = "+" + dpPhone.substring(3);
+               else
+                   dpPhone = "+" ;
+
+               console.tron.log("phone length="+dpPhone.length+"  firstThree="+firstThree+" phone="+dpPhone);                
+               this.setState({ phoneNumberInput: dpPhone});
+               console.tron.log("phone number input="+this.state.phoneNumberInput);
+
+           }
+           else
+               if(dpPhone.substring(0,2) === "+0" && dpPhone.length === 2)
+               {
+               console.tron.log("first & second ="+dpPhone.substring(0,1)+ " second="+dpPhone.substring(1,2));
+               dpPhone = "+"
+                   this.setState({ phoneNumberInput: dpPhone});
+               }
+           else
+               if(dpPhone.substring(0,2) === "+0" && dpPhone.length > 2 && dpPhone.substring(2,3) !== '0')
+               {
+                   console.tron.log("first & second ="+first+ " second="+second);
+                   dpPhone = "+32" + dpPhone.substring(2);
+                   this.setState({ phoneNumberInput: dpPhone});
+               }
+           else
+               if(dpPhone.substring(0,2) === "32")
+               {
+                   console.tron.log("firsttwo ="+dpPhone.substring(0,2));
+                   dpPhone = "+" + dpPhone.substring(2);
+                   this.setState({ phoneNumberInput: dpPhone});
+               }
+           else
+               if( dpPhone.substring(0,2) === "00")
+               {
+                   if(dpPhone.length >2)
+                   dpPhone = "+" + dpPhone.substring(2);
+                   else
+                   dpPhone = "+" ;
+                   
+                   console.tron.log("first two ="+dpPhone.substring(0,2));
+
+                   first = dpPhone.substring(0,1);
+                   second = dpPhone.substring(1,2);
+                   firstTwo = dpPhone.substring(0,2);
+                   restTwo = dpPhone.substring(2);
+                   firstThree  = dpPhone.substring(0,3);
+                   firstFour = dpPhone.substring(0,4);
+                   firstFive = dpPhone.substring(0,5);
+
+                   this.setState({ phoneNumberInput: dpPhone});
+
+               }
+           else
+               if(dpPhone.substring(0,1) === "0" && this.isDigit(second))
+               {
+                   dpPhone = "+32" + dpPhone.substring(1);
+
+                   first = dpPhone.substring(0,1);
+                   second = dpPhone.substring(1,2);
+                   firstTwo = dpPhone.substring(0,2);
+                   restTwo = dpPhone.substring(2);
+                   firstThree  = dpPhone.substring(0,3);
+                   firstFour = dpPhone.substring(0,4);
+                   firstFive = dpPhone.substring(0,5);  
+
+                   this.setState({ phoneNumberInput: dpPhone});
+
+               }
+           else
+               if(dpPhone.substring(0,3) === "320")
+               {
+                   console.tron.log("first Three"+dpPhone.substring(0,3));
+
+                   dpPhone = "+32" + dpPhone.substring(3);
+
+                   first = dpPhone.substring(0,1);
+                   second = dpPhone.substring(1,2);
+                   firstTwo = dpPhone.substring(0,2);
+                   restTwo = dpPhone.substring(2);
+                   firstThree  = dpPhone.substring(0,3);
+                   firstFour = dpPhone.substring(0,4);
+                   firstFive = dpPhone.substring(0,5); 
+
+                   this.setState({ phoneNumberInput: dpPhone});
+
+               }
+              else
+               if(dpPhone.substring(0,4) === "+320")
+               {
+                   console.tron.log("first Three"+dpPhone.substring(0,4));
+
+                   dpPhone = "+32" + dpPhone.substring(4);
+
+                   first = dpPhone.substring(0,1);
+                   second = dpPhone.substring(1,2);
+                   firstTwo = dpPhone.substring(0,2);
+                   restTwo = dpPhone.substring(2);
+                   firstThree  = dpPhone.substring(0,3);
+                   firstFour = dpPhone.substring(0,4);
+                   firstFive = dpPhone.substring(0,5);  
+
+                   this.setState({ phoneNumberInput: dpPhone});
+
+               }
+
+       }
+   }
 
     render() {
 
@@ -1081,7 +1267,7 @@ getAsyncStorage = async () => {
                                                     this.callProfile();
                                                     this.seteditableEmail();
                                                 }}
-                                                onChangeText= { (emailInput) => this.setState({emailInput}) }/>
+                                                onChangeText= { (emailInput) => this.validateEmail(emailInput) }/>
                                    }
                             </View>
 
@@ -1318,13 +1504,13 @@ getAsyncStorage = async () => {
                                         fontWeight: '500',
                                         marginLeft:5,
                                         fontStyle: 'normal',
-                                        color: '#000000', }} > {this.state.text.BankName}: { this.props.bankInfo.IBAN } </Text>
+                                        color: '#000000', }} > {this.state.text.BankName}: { this.props.bankInfo.Bankname } </Text>
                                             <Text style={{  fontSize: 14,   
                                         fontFamily: 'WorkSans-Regular',
                                         fontWeight: '500',
                                         marginLeft:5,
                                         fontStyle: 'normal',
-                                        color: '#000000', }}> {this.state.text.Iban}: {  this.props.bankInfo.Bankname }  </Text>
+                                        color: '#000000', }}> {this.state.text.Iban}: {  this.props.bankInfo.IBAN }  </Text>
                                       </View>
                                       : 
                                       this.renderNothing()
@@ -1769,10 +1955,7 @@ const mapStateToProps = state => {
       navigateBack: () => this.props.navigation.goBack(),
       getProfile:(payload) => dispatch({ type: 'GET_PROFILE_REQUEST_NEW', payload }),
       nameUpdate: (payload) => dispatch({ type: 'UPDATE_FIRST_NAME', payload }),
-      emailUpdate: (payload) => {
-          console.tron.log("update email prop has been called");
-          dispatch({ type: 'UPDATE_EMAIL', payload})
-        },
+      emailUpdate: (payload) => { dispatch({ type: 'UPDATE_EMAIL', payload})},
       changeMobile: (payload) => dispatch({ type: 'CHANGE_MOBILE', payload }),
       notificationRequest: (payload) => dispatch({ type: 'NOTIFICATION_REQUEST', payload})
     };

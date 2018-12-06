@@ -235,7 +235,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                     return;
 
         console.tron.log("phone="+phone);
-        Alert.alert("phone="+phone);
+        // Alert.alert("phone="+phone);
 
         //+32471920477
         let phoneString = phone.substring(3);
@@ -260,7 +260,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
         // 320 => +32
 
         // Alert.alert("phone="+phone);
-        console.tron.log("phone="+phone);
+        console.tron.log("text input phone="+phone);
         
         phone = this.removeSpaces(phone);
 
@@ -399,7 +399,6 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                     this.setState({ phoneNumberInput: dpPhone});
 
                 }
-
         }
     }
 
@@ -931,7 +930,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                                     onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
                                     style= {[newStyle.nameInput,{ borderColor:this.state.isFocusedSecond===true?'#e73d50':'transparent', borderStyle:'solid', borderWidth:1 }]}
                                     onChangePhoneNumber = { (phoneNumberInput) => this.validateBGPhoneNumber(phoneNumberInput) }
-                                    value = { () => { return this.state.phoneNumberInput } }
+                                    value = { this.state.phoneNumberInput }
                                 />
                             :
                             <PhoneInput

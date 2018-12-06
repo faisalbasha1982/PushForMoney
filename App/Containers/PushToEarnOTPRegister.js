@@ -36,6 +36,7 @@ import TimerCountdown from 'react-native-timer-countdown';
 import CountDown from 'react-native-countdown-component';
 import localStorage from 'react-native-sync-localstorage';
 import OtpInputs from 'react-native-otp-inputs'
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -83,8 +84,8 @@ class PushToEarnOTPRegister extends Component {
             ErrorText:'',
             EmptyErrorText:'',
             token:'',
-            text:'',
-            otpText:''
+            text:{},
+            otpText:'',
         };    
     }
 
@@ -117,8 +118,8 @@ class PushToEarnOTPRegister extends Component {
 
     getAsyncStorage = async () => {
 
-        let authData = AuthComponent.authenticationData(this.state.languageCode);
-        let encryptedData = AesComponent.aesCallback(authData);
+        // let authData = AuthComponent.authenticationData(this.state.languageCode);
+        // let encryptedData = AesComponent.aesCallback(authData);
 
         await AsyncStorage.getItem('language').then((language) => {
             this.setState({ language: language });
@@ -232,7 +233,7 @@ class PushToEarnOTPRegister extends Component {
 
         if(this.state.otpText === '')
         {
-            Alert.alert("Please Enter Otp Text");
+            // Alert.alert("Please Enter Otp Text");
         }
         else
          {
@@ -266,6 +267,8 @@ class PushToEarnOTPRegister extends Component {
         const platform = Platform.OS;
 
         console.log("platform --->",Platform.OS);
+        console.log("text otp ="+this.state.text.otp);
+        console.tron.log("text start="+this.state.text.start);
         return (
 
             (platform === 'ios')?
@@ -296,7 +299,7 @@ class PushToEarnOTPRegister extends Component {
                             textAlign: 'center',
                             color: "#E73D50"                        
                         }}>
-                    Enter OTP
+                    {this.state.text.otp}
                     </Text>
                 </View>                
 
@@ -319,8 +322,8 @@ class PushToEarnOTPRegister extends Component {
                            textAlign: "center",
                            color: "#000000"
                      }}>
-                         We send you an email with One Time                          {'\n'}
-                         Password.Please enter the code below.                         
+                        {this.state.text.otpMessage} {'\n'}
+                        {this.state.text.otpMessagecntd}                         
                     </Text>
                 </View>
 
@@ -402,7 +405,7 @@ class PushToEarnOTPRegister extends Component {
                                     marginTop: 0,                
                                     letterSpacing: 0.67,
                                     textAlign: 'center'}}
-                            > {this.state.buttonText.toUpperCase()}</Text>
+                            > {this.state.text.start}</Text>
                         </TouchableOpacity>
 
                     </View>
@@ -417,7 +420,7 @@ class PushToEarnOTPRegister extends Component {
                                  letterSpacing: 0,                          
                                  textAlign: 'center',
                                  color: "#E73D50"       
-                            }}> Contact Support </Text>
+                            }}> {this.state.text.contactSupport} </Text>
                     </View>
 
                     <View style = {{ width: 333, height: 95, }}>
@@ -510,7 +513,7 @@ class PushToEarnOTPRegister extends Component {
                 <ButtonNext 
                             objectParams=
                                 {{
-                                    btnText: this.state.buttonText, 
+                                    btnText: this.state.text.start,
                                     language: this.state.language,
                                     firstName: this.state.firstNameInput,
                                     lastName: this.state.lastNameInput,

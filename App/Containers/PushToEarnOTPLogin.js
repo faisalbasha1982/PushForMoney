@@ -79,7 +79,7 @@ class PushToEarnOTPLogin extends Component {
             thirdInput:'',
             fourthInput:'',
             loginAccessToken:'',
-            buttonText: 'START NOW!',
+            buttonText: '',
             ErrorText:'',
             EmptyErrorText:'',
             token:'',
@@ -283,6 +283,10 @@ class PushToEarnOTPLogin extends Component {
     render() {
         const platform = Platform.OS;
         console.tron.log("text="+this.state.text.otpMessage);
+        console.tron.log("text otp ="+this.state.text.otp);
+        console.tron.log("text start="+this.state.text.start);
+
+        let btnText = this.state.text.start;
 
         console.log("platform --->",Platform.OS);
         return (
@@ -387,7 +391,7 @@ class PushToEarnOTPLogin extends Component {
                                     marginTop: 0,                
                                     letterSpacing: 0.67,
                                     textAlign: 'center'}}
-                            > {this.state.buttonText.toUpperCase()}</Text>
+                            > {this.state.text.start}</Text>
                         </TouchableOpacity>
 
                     </View>
@@ -402,7 +406,7 @@ class PushToEarnOTPLogin extends Component {
                                  letterSpacing: 0,                          
                                  textAlign: 'center',
                                  color: "#E73D50"       
-                            }}> Contact Support </Text>
+                            }}> {this.state.text.contactSupport} </Text>
                     </View>
 
                     <View style = {{ width: 333, height: 95, }}>
@@ -497,7 +501,7 @@ class PushToEarnOTPLogin extends Component {
                 <ButtonNext 
                             objectParams=
                                 {{
-                                    btnText: this.state.buttonText, 
+                                    btnText: btnText,
                                     language: this.state.language,
                                     firstName: this.state.firstNameInput,
                                     lastName: this.state.lastNameInput,

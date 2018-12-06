@@ -37,7 +37,6 @@
 		27B0A526B96446B8960C68DF /* Barlow-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 008DB44E56044D6CA7A5F74B /* Barlow-BoldItalic.otf */; };
 		2ABFFC4295BF4B12A5526A7C /* Barlow-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 050930164AA24FB0891A47B0 /* Barlow-ThinItalic.otf */; };
 		2C5D5E5A42D94EC1AD6E4B75 /* BarlowSemiCondensed-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = EC43B6D7588F41709F9DBA2D /* BarlowSemiCondensed-BlackItalic.otf */; };
-		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4C21E0B4AEC006451C7 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157351DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		2D02E4C31E0B4AEC006451C7 /* libRCTImage-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E841DF850E9000B6D8A /* libRCTImage-tvOS.a */; };
 		2D02E4C41E0B4AEC006451C7 /* libRCTLinking-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E881DF850E9000B6D8A /* libRCTLinking-tvOS.a */; };
@@ -104,6 +103,7 @@
 		8897EEA8AE324033862014A7 /* libRNTwitterSignIn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15AF5AE797340D7B54D3C9F /* libRNTwitterSignIn.a */; };
 		8C70B4D18A2448E78561AF07 /* BarlowCondensed-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 306C3B4C41A741F29FF41172 /* BarlowCondensed-SemiBold.otf */; };
 		8DB8C2AF1C9D42978A4868CB /* Barlow-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = F314BAED185A4C389809D7FF /* Barlow-Thin.otf */; };
+		8EA089A89D5C4A85B92C2FA6 /* libRNCookieManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A8994E0DB44015A2640492 /* libRNCookieManager.a */; };
 		8FE042224E0C4B5A96140A21 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9F28309C694AA9B3238A7A /* libRNImagePicker.a */; };
 		940D1376FC1541F9B38E55E9 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7EBCE84C37014001A18F5D86 /* Zocial.ttf */; };
 		97F8797B108B496D9EAA8063 /* barlowsemicondensed-light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09C289FA2B5E444FB5218E01 /* barlowsemicondensed-light.otf */; };
@@ -413,6 +413,20 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RCTLinking;
 		};
+		7B355BD621AFEAD1003A2831 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 765A2D2E6A50444DBF6F90A0 /* RNCookieManager.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 101789301B283EE1006C41B8;
+			remoteInfo = RNCookieManager;
+		};
+		7B355BD821AFEAD1003A2831 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 765A2D2E6A50444DBF6F90A0 /* RNCookieManager.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1017893B1B283EE1006C41B8;
+			remoteInfo = RNCookieManagerTests;
+		};
 		7B359B21217C920A009AA8FA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7B359B0A217C920A009AA8FA /* RCTPushNotification.xcodeproj */;
@@ -636,6 +650,7 @@
 		3D5815660F1C4CE2AE93A9AA /* Barlow-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Regular.otf"; path = "../assets/fonts/Barlow-Regular.otf"; sourceTree = "<group>"; };
 		3E4EACBBC073449CB671AE5D /* barlowsemicondensed-extralightitalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "barlowsemicondensed-extralightitalic.otf"; path = "../assets/fonts/barlowsemicondensed-extralightitalic.otf"; sourceTree = "<group>"; };
 		3F5C4C98DB3448478162075D /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
+		40A8994E0DB44015A2640492 /* libRNCookieManager.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCookieManager.a; sourceTree = "<group>"; };
 		44D644881C7C4D85930B960A /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/native-base/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		4778CE87E32D431785E77309 /* BarlowCondensed-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowCondensed-Light.otf"; path = "../assets/fonts/BarlowCondensed-Light.otf"; sourceTree = "<group>"; };
 		48EAC5E04A6F4DE28EA88607 /* barlowsemicondensed-thinitalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "barlowsemicondensed-thinitalic.otf"; path = "../assets/fonts/barlowsemicondensed-thinitalic.otf"; sourceTree = "<group>"; };
@@ -656,6 +671,7 @@
 		69941D9BFFF849E297394E51 /* RCTDirectedScrollView.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTDirectedScrollView.xcodeproj; path = "../node_modules/react-native-directed-scrollview/ios/RCTDirectedScrollView.xcodeproj"; sourceTree = "<group>"; };
 		6A097CF566CE4FF7B772044B /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeConfig.xcodeproj; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; };
 		76553CC297C548748B76A397 /* RNMailTests.xctest */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = RNMailTests.xctest; sourceTree = "<group>"; };
+		765A2D2E6A50444DBF6F90A0 /* RNCookieManager.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNCookieManager.xcodeproj; path = "../node_modules/react-native-cookie/ios/RNCookieManager.xcodeproj"; sourceTree = "<group>"; };
 		76CC5EFBA086471296C072EF /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
 		77A1492A37F7442486C70201 /* BarlowCondensed-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowCondensed-Black.otf"; path = "../assets/fonts/BarlowCondensed-Black.otf"; sourceTree = "<group>"; };
 		781289FF72A34C97991C83BB /* BarlowCondensed-ExtraBoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowCondensed-ExtraBoldItalic.otf"; path = "../assets/fonts/BarlowCondensed-ExtraBoldItalic.otf"; sourceTree = "<group>"; };
@@ -696,6 +712,7 @@
 		9D980C1F5FCF497DB0685C8A /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		9EAE6EF36114417DB349EAFE /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 		A1CF78ED1D1D4DD6A74EF636 /* WorkSans-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-ExtraBold.ttf"; path = "../assets/fonts/WorkSans-ExtraBold.ttf"; sourceTree = "<group>"; };
+		AA940F344DB44ECE9199BE91 /* RNCookieManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = RNCookieManagerTests.xctest; sourceTree = "<group>"; };
 		AC090142172E4667A83A9720 /* Barlow-Italic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Italic.otf"; path = "../assets/fonts/Barlow-Italic.otf"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B16C836094154C5ABAD8F6E4 /* Barlow-BlackItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-BlackItalic.otf"; path = "../assets/fonts/Barlow-BlackItalic.otf"; sourceTree = "<group>"; };
@@ -790,6 +807,7 @@
 				8897EEA8AE324033862014A7 /* libRNTwitterSignIn.a in Frameworks */,
 				37D46908367540A1B605F94B /* libRNVectorIcons.a in Frameworks */,
 				E828359C7B754154A701067C /* libRCTDirectedScrollView.a in Frameworks */,
+				8EA089A89D5C4A85B92C2FA6 /* libRNCookieManager.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -967,6 +985,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		7B355BD221AFEAD1003A2831 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7B355BD721AFEAD1003A2831 /* libRNCookieManager.a */,
+				7B355BD921AFEAD1003A2831 /* RNCookieManagerTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		7B359B0B217C920A009AA8FA /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1009,6 +1036,8 @@
 				3F5C4C98DB3448478162075D /* libRNVectorIcons.a */,
 				5F8CAFE8C5064BE0AB4ECD8D /* libRNDeviceInfo-tvOS.a */,
 				DAC97976AC454B52BC3E092F /* libRCTDirectedScrollView.a */,
+				40A8994E0DB44015A2640492 /* libRNCookieManager.a */,
+				AA940F344DB44ECE9199BE91 /* RNCookieManagerTests.xctest */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1176,6 +1205,7 @@
 				B68E053627F64BFEA032644A /* RNTwitterSignIn.xcodeproj */,
 				9D980C1F5FCF497DB0685C8A /* RNVectorIcons.xcodeproj */,
 				69941D9BFFF849E297394E51 /* RCTDirectedScrollView.xcodeproj */,
+				765A2D2E6A50444DBF6F90A0 /* RNCookieManager.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1406,11 +1436,19 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 6G288D5Q87;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 6G288D5Q87;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.GameCenter.iOS = {
+								enabled = 0;
+							};
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -1519,6 +1557,10 @@
 				{
 					ProductGroup = 7B710A8E217C69900085F539 /* Products */;
 					ProjectRef = 6A097CF566CE4FF7B772044B /* ReactNativeConfig.xcodeproj */;
+				},
+				{
+					ProductGroup = 7B355BD221AFEAD1003A2831 /* Products */;
+					ProjectRef = 765A2D2E6A50444DBF6F90A0 /* RNCookieManager.xcodeproj */;
 				},
 				{
 					ProductGroup = 7B710A83217C69900085F539 /* Products */;
@@ -1817,6 +1859,20 @@
 			remoteRef = 78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		7B355BD721AFEAD1003A2831 /* libRNCookieManager.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCookieManager.a;
+			remoteRef = 7B355BD621AFEAD1003A2831 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7B355BD921AFEAD1003A2831 /* RNCookieManagerTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RNCookieManagerTests.xctest;
+			remoteRef = 7B355BD821AFEAD1003A2831 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		7B359B22217C920A009AA8FA /* libRCTPushNotification.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -2088,7 +2144,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2197,6 +2252,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 6G288D5Q87;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -2223,12 +2279,15 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
 					"$(SRCROOT)/../node_modules/react-native-directed-scrollview/ios/RCTDirectedScrollView",
+					"$(SRCROOT)/../node_modules/react-native-cookie/ios",
 				);
 				INFOPLIST_FILE = PushForMoneyTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -2246,6 +2305,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 6G288D5Q87;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
@@ -2268,12 +2328,15 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
 					"$(SRCROOT)/../node_modules/react-native-directed-scrollview/ios/RCTDirectedScrollView",
+					"$(SRCROOT)/../node_modules/react-native-cookie/ios",
 				);
 				INFOPLIST_FILE = PushForMoneyTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -2291,6 +2354,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = PushForMoney/PushForMoney.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 6G288D5Q87;
@@ -2323,6 +2388,7 @@
 					"$(SRCROOT)/../node_modules/react-native-twitter-signin/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-directed-scrollview/ios/RCTDirectedScrollView",
+					"$(SRCROOT)/../node_modules/react-native-cookie/ios",
 				);
 				INFOPLIST_FILE = PushForMoney/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2334,6 +2400,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jobfixers.subscriptionApp;
 				PRODUCT_NAME = PushForMoney;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -2344,6 +2411,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = PushForMoney/PushForMoney.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6G288D5Q87;
 				ENABLE_TESTABILITY = NO;
@@ -2375,6 +2444,7 @@
 					"$(SRCROOT)/../node_modules/react-native-twitter-signin/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-directed-scrollview/ios/RCTDirectedScrollView",
+					"$(SRCROOT)/../node_modules/react-native-cookie/ios",
 				);
 				INFOPLIST_FILE = PushForMoney/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2386,6 +2456,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jobfixers.subscriptionApp;
 				PRODUCT_NAME = PushForMoney;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -2425,11 +2496,14 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
 					"$(SRCROOT)/../node_modules/react-native-directed-scrollview/ios/RCTDirectedScrollView",
+					"$(SRCROOT)/../node_modules/react-native-cookie/ios",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -2478,11 +2552,14 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
 					"$(SRCROOT)/../node_modules/react-native-directed-scrollview/ios/RCTDirectedScrollView",
+					"$(SRCROOT)/../node_modules/react-native-cookie/ios",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -2531,11 +2608,14 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
 					"$(SRCROOT)/../node_modules/react-native-directed-scrollview/ios/RCTDirectedScrollView",
+					"$(SRCROOT)/../node_modules/react-native-cookie/ios",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -2584,11 +2664,14 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
 					"$(SRCROOT)/../node_modules/react-native-directed-scrollview/ios/RCTDirectedScrollView",
+					"$(SRCROOT)/../node_modules/react-native-cookie/ios",
 				);
 				INFOPLIST_FILE = "PushForMoney-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (

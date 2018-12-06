@@ -4,9 +4,10 @@ import { REHYDRATE } from 'redux-persist';
 
 const { Types, Creators } = createActions({
   loginRequest: ["payload"],
-  facebookData:["payload"],
-  twitterRequest:["payload"],
+  facebookRequest:["payload","payload"],
+  twitterRequest:["payload","username"],
   googleRequest:["payload"],
+  instagramRequest: ["payload","username"],
   rsaRequest:["payload"],
   loginSuccess: ['user'],
   loginFailure: ['error'],
@@ -30,6 +31,7 @@ export const INITIAL_STATE = {
   payload: null,
   LastViewedNotificationID: 0,
   MobileNotifications:null,
+  username:null,
 }
 
 /* ------------- Selectors ------------- */
@@ -66,6 +68,11 @@ export const googledata = (state, {payload}) => {
 //twitter
 export const twitterdata = (state, {payload}) => {
   return { ...state, fetching: true, payload }
+}
+
+//instagram
+export const instagramdata = (state, {payload}) => {
+  return { ...state, fetching: true, payload}
 }
 
 // success
@@ -116,9 +123,10 @@ export const defaultHandler = (state) => {
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.LOGIN_REQUEST]: request,
-  [Types.FACEBOOK_DATA]: facebookdata,
+  [Types.FACEBOOK_REQUEST]: facebookdata,
   [Types.TWITTER_REQUEST]:  twitterdata,
   [Types.GOOGLE_REQUEST]: googledata,
+  [Types.INSTAGRAM_REQUEST]: instagramdata,
   [Types.RSA_REQUEST]:   rsarequest,
   [Types.LOGIN_SUCCESS]: success,
   [Types.LOGIN_FAILURE]: failure,

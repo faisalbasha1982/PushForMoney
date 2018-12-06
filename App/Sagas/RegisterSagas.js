@@ -29,20 +29,20 @@ function fetchJsonNew(url,payload) {
     .then( response => {
 
         let token = response.LoginAccessToken;
-        AsyncStorage.setItem('token',token);
+        AsyncStorage.setItem('token','');
 
         if(response.StatusCode === 200)
         {
-            Alert.alert(
-                'Signed in successfully',
-                response.Message,
-                [
-                    { text: 'OK', onPress:() => console.log('user exists ask me later')}
-                ],
-                {
-                    cancelable: false
-                }
-            )
+            // Alert.alert(
+            //     'Signed in successfully',
+            //     response.Message,
+            //     [
+            //         { text: 'OK', onPress:() => console.log('user exists ask me later')}
+            //     ],
+            //     {
+            //         cancelable: false
+            //     }
+            // )
 
             //NavigationService.navigate('PushToEarnSignIn2');
                 
@@ -51,16 +51,16 @@ function fetchJsonNew(url,payload) {
         }
         else
         {
-            Alert.alert(
-                'User already exists',
-                response.Message,
-                [
-                    { text: 'Please Login', onPress:() => NavigationService.navigate('PushToEarnSignIn2')}
-                ],
-                {
-                    cancelable: false
-                }
-            );
+            // Alert.alert(
+            //     'User already exists',
+            //     response.Message,
+            //     [
+            //         { text: 'Please Login', onPress:() => NavigationService.navigate('PushToEarnSignIn2')}
+            //     ],
+            //     {
+            //         cancelable: false
+            //     }
+            // );
         }
   
         return response;
@@ -172,7 +172,7 @@ function fetchJsonmobileregister(url,payload,phone) {
             if(response.StatusCode === 201)
             {
                 let token = response.LoginAccessToken;
-                AsyncStorage.setItem('token',token);
+                AsyncStorage.setItem('token','');
 
                 console.tron.log("StatusCode="+response.StatusCode);
                 console.tron.log("phone="+phone);
@@ -235,6 +235,8 @@ function fetchOTPFP(payload)
     // const url = "https://prod-12.westeurope.logic.azure.com:443/workflows/d2646d57cf7d447f960d7e46684db4cd/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ADncEusH2PpqjGoYT_L20L_Wxs9sUuVryh9Z5cJJsS4";
 
     const url = API_URL.staging.laMobileSaveNewPassword;
+
+    AsyncStorage.setItem('token',payload.LoginAccessToken);
 
     fetch(url,{
         method: 'POST',
@@ -388,16 +390,16 @@ function fetchOTP(payload,phone,pPayload)
 
           if (responseJson.StatusCode === 200) {
 
-            Alert.alert(
-                'Sign up Successfull',
-                responseJson.Message,
-                [
-                    { text: 'OK', onPress:() => console.log('user exists ask me later')}
-                ],
-                {
-                    cancelable: false
-                }
-            );
+            // Alert.alert(
+            //     'Sign up Successfull',
+            //     responseJson.Message,
+            //     [
+            //         { text: 'OK', onPress:() => console.log('user exists ask me later')}
+            //     ],
+            //     {
+            //         cancelable: false
+            //     }
+            // );
 
             const mobileOTP = responseJson.mobileOTP;
             const statusCode = responseJson.StatusCode;
@@ -413,18 +415,18 @@ function fetchOTP(payload,phone,pPayload)
         } 
         else {
 
-            Alert.alert(
-                'User already exists',
-                responseJson.Message,
-                [
-                    { text: 'Please Login', onPress:() => {
-                          NavigationService.navigate('PushToEarnSignIn2');
-                    } }
-                ],
-                {
-                    cancelable: false
-                }
-            )        
+            // Alert.alert(
+            //     'User already exists',
+            //     responseJson.Message,
+            //     [
+            //         { text: 'Please Login', onPress:() => {
+            //               NavigationService.navigate('PushToEarnSignIn2');
+            //         } }
+            //     ],
+            //     {
+            //         cancelable: false
+            //     }
+            // )        
         }
       }
     )
@@ -472,16 +474,16 @@ function fetchOtpResend(payload)
           if (responseJson.StatusCode === 200)
           {
 
-            Alert.alert(
-                'OTP Resent Successfull',
-                responseJson.Message,
-                [
-                    { text: 'OK', onPress:() => console.log('user exists ask me later')}
-                ],
-                { 
-                    cancelable: false
-                }
-            );
+            // Alert.alert(
+            //     'OTP Resent Successfull',
+            //     responseJson.Message,
+            //     [
+            //         { text: 'OK', onPress:() => console.log('user exists ask me later')}
+            //     ],
+            //     { 
+            //         cancelable: false
+            //     }
+            // );
 
             const mobileOTP = responseJson.mobileOTP;
             const statusCode = responseJson.StatusCode;
@@ -493,20 +495,17 @@ function fetchOtpResend(payload)
         else 
         {
 
-            // console.tron.log("response status="+responseJson.StatusCode);
-            // console.tron.log("response status="+responseJson.Message);
-            // console.tron.log("response status="+responseJson.ErrorDetails);
 
-            Alert.alert(
-                'User already exists',
-                responseJson.Message,
-                [
-                    { text: 'Please Login', onPress:() => NavigationService.navigate('PushToEarnSignIn')}
-                ],
-                {
-                    cancelable: false
-                }
-            );
+            // Alert.alert(
+            //     'User already exists',
+            //     responseJson.Message,
+            //     [
+            //         { text: 'Please Login', onPress:() => NavigationService.navigate('PushToEarnSignIn')}
+            //     ],
+            //     {
+            //         cancelable: false
+            //     }
+            // );
         }
       }
     )
@@ -519,8 +518,6 @@ export function * OtpRequestResend(api,payload) {
 
     try {
 
-            // console.log("calling api from otp resend request saga ="+api);
-            // console.log("incoming payload for otp resend request=",payload.payload);
 
             const response = yield call(fetchOtpResend, payload.payload);
 

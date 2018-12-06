@@ -38,7 +38,7 @@ import { StyleSheet } from 'react-native';
 import CompanyBanner from '../Components/CompanyBanner';
 import Validation from '../Components/ButtonValidation';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
-import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
+import LanguageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import RegisterActions, { RegisterSelectors } from "../Redux/RegisterRedux";
 import NavigationService from '../Navigation/NavigationService';
@@ -103,7 +103,7 @@ class PushToEarnRegisterProfile extends Component {
             emailInput:'',
             buttonText: 'I\'M READY!',
             firstNameError:true,
-            firstNameErrorText:'',            
+            firstNameErrorText:'',
             lastNameError:false,
             lastNameErrorText:'',
             phoneNumberError:true,
@@ -119,7 +119,7 @@ class PushToEarnRegisterProfile extends Component {
             isFocusedSecond:false,
             isFocusedThird:false,
             isFocusedFourth:false,
-        };    
+        };
     }
 
     validationLastName = (name) => {
@@ -150,14 +150,23 @@ class PushToEarnRegisterProfile extends Component {
             }
             else
             {
-                console.log("found digits");
+                console.tron.log("found other characts");
               if(this.state.language === 'Dutch')
-                  this.setState({ lastNameEmptyError: false, lastNameError: true, lastNameErrorText: LanguageSettings.dutch.LNameErrorText });
+              {
+                  Alert.alert(LanguageSettingsPFM.Dutch.FNameErrorText);
+                  //this.setState({ lastNameEmptyError: false, lastNameError: true, lastNameErrorText: LanguageSettings.dutch.LNameErrorText });
+              }
               else
                   if(this.state.language === 'English')
-                      this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.english.LNameErrorText });
+                  {
+                    Alert.alert(LanguageSettingsPFM.English.FNameErrorText);
+                    //this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.english.LNameErrorText });
+                  }
                   else
-                      this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.french.LNameErrorText });
+                  {
+                    Alert.alert(LanguageSettingsPFM.French.FNameErrorText);
+                    //this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.french.LNameErrorText });
+                  }
             }    
         }    
     } 
@@ -191,12 +200,21 @@ class PushToEarnRegisterProfile extends Component {
             else
             {
               if(this.state.language === 'Dutch')
-                  this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.dutch.FNameErrorText });
+              {
+                  Alert.alert(LanguageSettingsPFM.Dutch.FNameErrorText);
+                  //this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.dutch.FNameErrorText });
+              }
               else
                   if(this.state.language === 'English')
-                      this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.english.FNameErrorText });
+                  {
+                    Alert.alert(LanguageSettingsPFM.English.FNameErrorText);
+                    //this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.english.FNameErrorText });
+                  }
                   else
-                      this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.french.FNameErrorText });
+                  {
+                    Alert.alert(LanguageSettingsPFM.French.FNameErrorText);
+                    //this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.french.FNameErrorText });
+                  }
             }
         }        
     }
@@ -336,26 +354,28 @@ class PushToEarnRegisterProfile extends Component {
         console.log('local storage language='+language);
 
         if(this.state.language === 'Dutch')
-            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+            this.setState({ text: LanguageSettingsPFM.Dutch, languageCode:'nl'});
         else
         if(this.state.language === 'English')
-            this.setState({ text: languageSettingsPFM.English,languageCode:'en'});
+            this.setState({ text: LanguageSettingsPFM.English,languageCode:'en'});
         else
         if(this.state.language === 'French')
-            this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+            this.setState({ text: LanguageSettingsPFM.French, languageCode:'fr'});
 
+        if(this.props.navigation.state.params.phone !== '')
+            this.setState({ phoneNumberInput:  this.props.navigation.state.params.phone});
     }
 
     setLanguage = () => {
 
         if(this.state.language === 'Dutch')
-            this.setState({ text: languageSettingsPFM.Dutch, languageCode:'nl'});
+            this.setState({ text: LanguageSettingsPFM.Dutch, languageCode:'nl'});
         else
             if(this.state.language === 'English')
-                this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
+                this.setState({ text: LanguageSettingsPFM.English, languageCode:'en'});
         else
             if(this.state.language === 'French')
-                this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
+                this.setState({ text: LanguageSettingsPFM.French, languageCode:'fr'});
 
     }
 
@@ -628,17 +648,17 @@ class PushToEarnRegisterProfile extends Component {
         console.log("validate Encrypt");
         if(this.state.phoneNumberInput === '')
             {
-                    Alert.alert(
-                        'PhoneNumber is Empty',
-                        'Fill in PhoneNumber',
-                        [
-                            {
-                              text: 'OK', 
-                              onPress: () => console.log('Ask me later Pressed')
-                            },                      
-                        ],
-                        {cancelable: false}
-                    );
+                    // Alert.alert(
+                    //     'PhoneNumber is Empty',
+                    //     'Fill in PhoneNumber',
+                    //     [
+                    //         {
+                    //           text: 'OK', 
+                    //           onPress: () => console.log('Ask me later Pressed')
+                    //         },                      
+                    //     ],
+                    //     {cancelable: false}
+                    // );
             }
           else
           {
@@ -817,6 +837,159 @@ class PushToEarnRegisterProfile extends Component {
         this.setState({  isFocusedFourth:false, });
     }
 
+    validateBGPhoneNumber = (phone) => {
+
+        // 00 => +
+       // 0 and digit after => +32 digit
+       // 0032 => +32
+       // 00320 => +32
+       // +320 => +32
+       // 320 => +32
+
+       // Alert.alert("phone="+phone);
+       console.tron.log("text input phone="+phone);
+       
+       phone = this.removeSpaces(phone);
+
+       let dpPhone = phone;        
+
+       let first = phone.substring(0,1);
+       let second = phone.substring(1,2);
+       let firstTwo = phone.substring(0,2);
+       let restTwo = phone.substring(2);
+       let firstThree  = phone.substring(0,3);
+       let firstFour = phone.substring(0,4);
+       let firstFive = phone.substring(0,5);
+
+       let finalString = '+32';
+
+       let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
+       let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
+
+       if(dpPhone.substring(0,1) !== '+')
+       dpPhone = '+' + dpPhone;
+
+       if(mPhone.exec(phone) || homePhone.exec(phone))
+       {
+          console.tron.log("Valid Phone Number");
+          this.setState({ phoneNumberInput: phone});
+       }
+       else
+       {
+           console.tron.log("InValid Phone Number="+phone);
+           console.tron.log("phone 0,2="+(phone.substring(0,2) === "+0"));
+           console.tron.log("Length of Phone Number="+phone.length);
+
+           if( dpPhone.substring(0,3) === "+00")
+           {
+               if(dpPhone.length >3)
+                   dpPhone = "+" + dpPhone.substring(3);
+               else
+                   dpPhone = "+" ;
+
+               console.tron.log("phone length="+dpPhone.length+"  firstThree="+firstThree+" phone="+dpPhone);                
+               this.setState({ phoneNumberInput: dpPhone});
+               console.tron.log("phone number input="+this.state.phoneNumberInput);
+
+           }
+           else
+               if(dpPhone.substring(0,2) === "+0" && dpPhone.length === 2)
+               {
+               console.tron.log("first & second ="+dpPhone.substring(0,1)+ " second="+dpPhone.substring(1,2));
+               dpPhone = "+"
+                   this.setState({ phoneNumberInput: dpPhone});
+               }
+           else
+               if(dpPhone.substring(0,2) === "+0" && dpPhone.length > 2 && dpPhone.substring(2,3) !== '0')
+               {
+                   console.tron.log("first & second ="+first+ " second="+second);
+                   dpPhone = "+32" + dpPhone.substring(2);
+                   this.setState({ phoneNumberInput: dpPhone});
+               }
+           else
+               if(dpPhone.substring(0,2) === "32")
+               {
+                   console.tron.log("firsttwo ="+dpPhone.substring(0,2));
+                   dpPhone = "+" + dpPhone.substring(2);
+                   this.setState({ phoneNumberInput: dpPhone});
+               }
+           else
+               if( dpPhone.substring(0,2) === "00")
+               {
+                   if(dpPhone.length >2)
+                   dpPhone = "+" + dpPhone.substring(2);
+                   else
+                   dpPhone = "+" ;
+                   
+                   console.tron.log("first two ="+dpPhone.substring(0,2));
+
+                   first = dpPhone.substring(0,1);
+                   second = dpPhone.substring(1,2);
+                   firstTwo = dpPhone.substring(0,2);
+                   restTwo = dpPhone.substring(2);
+                   firstThree  = dpPhone.substring(0,3);
+                   firstFour = dpPhone.substring(0,4);
+                   firstFive = dpPhone.substring(0,5);
+
+                   this.setState({ phoneNumberInput: dpPhone});
+
+               }
+           else
+               if(dpPhone.substring(0,1) === "0" && this.isDigit(second))
+               {
+                   dpPhone = "+32" + dpPhone.substring(1);
+
+                   first = dpPhone.substring(0,1);
+                   second = dpPhone.substring(1,2);
+                   firstTwo = dpPhone.substring(0,2);
+                   restTwo = dpPhone.substring(2);
+                   firstThree  = dpPhone.substring(0,3);
+                   firstFour = dpPhone.substring(0,4);
+                   firstFive = dpPhone.substring(0,5);  
+
+                   this.setState({ phoneNumberInput: dpPhone});
+
+               }
+           else
+               if(dpPhone.substring(0,3) === "320")
+               {
+                   console.tron.log("first Three"+dpPhone.substring(0,3));
+
+                   dpPhone = "+32" + dpPhone.substring(3);
+
+                   first = dpPhone.substring(0,1);
+                   second = dpPhone.substring(1,2);
+                   firstTwo = dpPhone.substring(0,2);
+                   restTwo = dpPhone.substring(2);
+                   firstThree  = dpPhone.substring(0,3);
+                   firstFour = dpPhone.substring(0,4);
+                   firstFive = dpPhone.substring(0,5); 
+
+                   this.setState({ phoneNumberInput: dpPhone});
+
+               }
+              else
+               if(dpPhone.substring(0,4) === "+320")
+               {
+                   console.tron.log("first Three"+dpPhone.substring(0,4));
+
+                   dpPhone = "+32" + dpPhone.substring(4);
+
+                   first = dpPhone.substring(0,1);
+                   second = dpPhone.substring(1,2);
+                   firstTwo = dpPhone.substring(0,2);
+                   restTwo = dpPhone.substring(2);
+                   firstThree  = dpPhone.substring(0,3);
+                   firstFour = dpPhone.substring(0,4);
+                   firstFive = dpPhone.substring(0,5);  
+
+                   this.setState({ phoneNumberInput: dpPhone});
+
+               }
+       }
+   }    
+
+
     render() {
 
         const platform = Platform.OS;
@@ -885,7 +1058,7 @@ class PushToEarnRegisterProfile extends Component {
                         onBlur = { () => this.focusSecondOff()}                    
                         placeholder=''
                         underlineColorAndroid= 'transparent'
-                        onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
+                        onChangeText= { (lastNameInput) => this.validationLastName(lastNameInput) }/>
  
                       {
                             this.state.isLoading===true?
@@ -913,7 +1086,7 @@ class PushToEarnRegisterProfile extends Component {
                                             onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
                                             style= {newStyle.nameInput}
                                             value= { phone }
-                                            onChangePhoneNumber = { (phoneNumberInput) => this.validateUAEPhoneNumber(phoneNumberInput) }
+                                            onChangePhoneNumber = { (phoneNumberInput) => this.validateBGPhoneNumber(phoneNumberInput) }
                                         />
                     {/* <Text style={newStyle.firstName}>{this.state.text.Password}</Text>
 

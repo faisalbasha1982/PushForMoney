@@ -125,13 +125,11 @@ class TestPage extends Component {
         year = today.getUTCFullYear().toString();
 
         setTimeout(()=> {
-            this.getFriendList();        
+            this.getFriendList();
             this.setDayYear(month,year);
         },600);
 
         this.callProfile();
-
-
 
     }
 
@@ -199,7 +197,6 @@ class TestPage extends Component {
     
             setTimeout(() => 
             {
-    
                 let payload = {
                     "AuthenticationData": encryptedData,
                     "LoginAccessToken": token,
@@ -207,7 +204,7 @@ class TestPage extends Component {
     
                 this.props.getProfile(payload);
     
-            },650);        
+            },650);
 
         });
 
@@ -322,7 +319,7 @@ class TestPage extends Component {
     }
 
     componentWillUnmount() {
-        //AppState.addEventListener('change',this.handleAppStateChange);
+        AppState.addEventListener('change',this.handleAppStateChange);
     }
 
 
@@ -387,34 +384,33 @@ class TestPage extends Component {
 
             this.callProfile();
 
-            // let authData = AuthComponent.authenticationData(this.state.languageCode);
-            // let encryptedData = AesComponent.aesCallback(authData);    
+            let authData = AuthComponent.authenticationData(this.state.languageCode);
+            let encryptedData = AesComponent.aesCallback(authData);    
 
-            // setTimeout(() => 
-            // {
-
-            //     console.log("async token from Storage="+this.state.aToken);
+            setTimeout(() => 
+            {
+                console.log("async token from Storage="+this.state.token);
     
-            //     let newPayload = {
-            //         "AuthenticationData": encryptedData,
-            //         "LoginAccessToken": this.state.token,
-            //         "UpdateRequired" : 1,
-            //         "ReadAll" : 0,
-            //         "LastViewedNotificationID" : this.props.LastViewedNotificationID,
-            //     };
+                let newPayload = {
+                    "AuthenticationData": encryptedData,
+                    "LoginAccessToken": this.state.token,
+                    "UpdateRequired" : 1,
+                    "ReadAll" : 0,
+                    "LastViewedNotificationID" : this.props.LastViewedNotificationID,
+                };
     
-            //     this.props.notificationRequest(newPayload);
+                this.props.notificationRequest(newPayload);
     
-            //     setTimeout(() => {
-            //         // console.tron.log("mobilenotifications="+this.props.mobileNotifications);
-            //         this.setState({ mobileNotifications: this.props.mobileNotifications});
-            //     }, 3000);
+                setTimeout(() => {
+                    // console.tron.log("mobilenotifications="+this.props.mobileNotifications);
+                    this.setState({ mobileNotifications: this.props.mobileNotifications});
+                }, 3000);
     
-            // },3000);    
+            },600);
     
-            // setTimeout(() => {
-            //     AppState.addEventListener('change',this.handleAppStateChange);            
-            // },4000);
+            setTimeout(() => {
+                AppState.addEventListener('change',this.handleAppStateChange);            
+            },600);
         }
 
     }

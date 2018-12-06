@@ -5,6 +5,7 @@ import Api from '../Services/Api';
 import ProfileActions from '../Redux/ProfileRedux';
 import * as NavigationService from '../Navigation/NavigationService';
 import  API_URL  from '../Services/Api_url';
+import languageSettings from '../Containers/LanguageSettingsPFM';
 
 // export function * getProfile(action)
 // {
@@ -121,7 +122,7 @@ export function * firstNameUpdate(api,action) {
         // console.log("profile request new:");
         const responseJson = yield call(fetchUpdateFirstName,action.payload);
         yield put(ProfileActions.profileSuccess());
-        Alert.alert("Successfully!  " + responseJson.Message);
+        // Alert.alert("Successfully!  " + responseJson.Message);
     }
     catch(error)
     {
@@ -139,11 +140,11 @@ export function * emailUpdate(api,action)
     try{
         const responseJson = yield call(fetchEmailUpdate,action.payload);
         yield put(ProfileActions.profileSuccess());
-        Alert.alert("Successfully!  " + responseJson.Message);
+        // Alert.alert("Successfully!  " + responseJson.Message);
     }
     catch(error)
     {
-        Alert.alert("Error:  " + responseJson.Message);
+        // Alert.alert("Error:  " + responseJson.Message);
         // yield put(ProfileActions.profileFailure());
     }
 }
@@ -165,7 +166,7 @@ export function * changePassword(api,action)
         // console.log("change password api="+api);
         // make the call to the api
         const response = yield call(fetchChangePassword, action.payload);
-        Alert.alert(response.Message);
+        // Alert.alert(response.Message);
         //yield put(ProfileActions.profileSuccess());
     }     
     catch(error) {
@@ -190,13 +191,13 @@ export function * changeMobile(api,action)
 
         // make the call to the api
         const response = yield call(fetchChangeMobile, action.payload);
-        Alert.alert(response.Message);
+        // Alert.alert(response.Message);
         yield put(ProfileActions.verifyOtpMobileSuccess(response.StatusCode));        
         
     } 
     catch(error) {
         //yield put(ProfileActions.profileFailure());
-        Alert.alert("Phone Number Incorrect");
+        // Alert.alert("Phone Number Incorrect");
     }
 }
 
@@ -218,7 +219,10 @@ export function * verifyMobileOtpRequest(api,action)
         // console.log("change password api="+api);
         // make the call to the api
         const response = yield call(fetchOTPMobile, action.payload);
-        Alert.alert(response.Message);
+
+        if(response.StatusCode === 400)
+            Alert.alert(response.Message);
+
         yield put(ProfileActions.profileSuccess());
     }     
     catch(error) {

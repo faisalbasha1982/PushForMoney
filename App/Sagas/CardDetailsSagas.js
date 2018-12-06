@@ -22,7 +22,7 @@ function fetchJson(url,payload) {
    .then((response) => response.json())
     .then(response => {
 
-      Alert.alert(response.Message);
+    //   Alert.alert(response.Message);
 
       // if (!response.ok) {
 
@@ -62,7 +62,7 @@ export function * cardDetailsRequest(api,action)
         // console.log("profile request new:");
           const responseJson = yield call(fetchCardDetails,action.payload);          
           yield put(CardDetailsActions.cardDetailsSuccess(responseJson.MobileUserBankDetails));
-          Alert.alert("SAVED CARD DETAILS!!");
+        //   Alert.alert("SAVED CARD DETAILS!!");
       }
   catch(error)
   {

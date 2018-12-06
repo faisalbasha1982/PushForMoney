@@ -153,6 +153,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-cookie')
     compile project(':react-native-directed-scrollview')
     compile project(':rn-fetch-blob')
     compile project(':react-native-vector-icons')

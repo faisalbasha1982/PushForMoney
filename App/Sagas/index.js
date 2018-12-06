@@ -24,7 +24,8 @@ import { getUserAvatar } from './GithubSagas'
 
 import { LoginRequest,rsaRequest, facebookRequest, 
          twitterRequest, googleRequest,newTwitterRequest, 
-         newGoogleRequest, notificationRequest,otpLoginRequest
+         newGoogleRequest, notificationRequest,otpLoginRequest,
+         newInstagramRequest
         } from './LoginSagas'
 
 import { RegisterRequest, RegisterRequestNew, OtpRequest,
@@ -63,13 +64,16 @@ export default function * root () {
     takeLatest(LoginTypes.LOGIN_REQUEST, LoginRequest, api),
 
     // Facebook login
-    takeLatest(LoginTypes.FACEBOOK_DATA,facebookRequest,api),
+    takeLatest(LoginTypes.FACEBOOK_REQUEST,facebookRequest,api),
 
     // Twitter login
     takeLatest(LoginTypes.TWITTER_REQUEST, newTwitterRequest, api),
 
     // Google Login
     takeLatest(LoginTypes.GOOGLE_REQUEST, newGoogleRequest, api),
+
+    // Instagram Login
+    takeLatest(LoginTypes.INSTAGRAM_REQUEST, newInstagramRequest, api),
 
     // Notification Sagas
     takeLatest(LoginTypes.NOTIFICATION_REQUEST, notificationRequest, api),

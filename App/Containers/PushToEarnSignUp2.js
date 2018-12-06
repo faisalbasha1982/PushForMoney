@@ -53,6 +53,7 @@ import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import localStorage from 'react-native-sync-localstorage';
 import InstagramLogin from 'react-native-instagram-login';
+import Cookie from 'react-native-cookie';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -117,13 +118,17 @@ class PushToEarnSignUp2 extends Component {
             text: {},
             countryCode: 'be',
             phoneNumberInput:'',
+            igToken:'',
             phone:''
         };    
     }
 
     onGoogleButtonClick = async () => {
 
-        console.warn('google button clicked'); // eslint-disable-line
+        console.warn('google button clicked');
+        // eslint-disable-line
+
+        this.googleSignOut();
 
         await GoogleSignin.configure({
           iosClientId: '1041950784543-pkmc6rhf0e6av81q1j8qhspb10oqa7dn.apps.googleusercontent.com',
@@ -137,25 +142,60 @@ class PushToEarnSignUp2 extends Component {
               if(user === null)
                   this.googleSignOut();
 
+              this.signInGoogle();
+
             }).done();
           });
 
-        const userNew = GoogleSignin.currentUser();
+        // const userNew = GoogleSignin.currentUser();
     
-        GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
-          // play services are available. can now configure library
-        })
-          .catch((err) => {
-            console.log('Play services error', err.code, err.message);
-          });        
+        // GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
+        //   // play services are available. can now configure library
+        // })
+        //   .catch((err) => {
+        //     console.log('Play services error', err.code, err.message);
+        //   });        
 
-          if(userNew === null)
-            {
-               this.googleSignOut();
-            }
+        //   if(userNew === null)
+        //     {
+        //        this.googleSignOut();
+        //     }
 
-            this.googleSignIn();
-      };
+        //     this.googleSignIn();
+    };
+
+      // Somewhere in your code
+      signInGoogle = async () => {
+
+        try {
+            await GoogleSignin.hasPlayServices();
+            const userInfo = await GoogleSignin.signIn();
+            this.setState({ userInfo });
+            this.googleLogin(userInfo);
+
+            const userNew = GoogleSignin.currentUser();
+
+            GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
+              // play services are available. can now configure library
+            })
+            .catch((err) => {
+                console.log('Play services error', err.code, err.message);
+              });
+
+        } catch (error) {
+        if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+            // user cancelled the login flow
+            Alert.alert("SIGN CANCELLED");
+        } else if (error.code === statusCodes.IN_PROGRESS) {
+            // operation (f.e. sign in) is in progress already
+        } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+            // play services not available or outdated
+        } else {
+            // some other error happened
+        }
+    }
+
+  };
 
       
       googleSignOut = async () => {
@@ -174,17 +214,17 @@ class PushToEarnSignUp2 extends Component {
         GoogleSignin.signIn()
         .then((user) => {
 
-            Alert.alert(
-                'google login in Progress',
-                'user Received='+user,
-                [                      
-                    {
-                      text: 'OK', 
-                      onPress: () => console.log('Ask me later Pressed')
-                    },                      
-                ],
-                {cancelable: false}
-            );
+            // Alert.alert(
+            //     'google login in Progress',
+            //     'user Received='+user,
+            //     [                      
+            //         {
+            //           text: 'OK', 
+            //           onPress: () => console.log('Ask me later Pressed')
+            //         },                      
+            //     ],
+            //     {cancelable: false}
+            // );
 
           this.googleLogin(user);
   
@@ -206,17 +246,17 @@ class PushToEarnSignUp2 extends Component {
     googleLogin = (user) =>
     {
 
-        Alert.alert(
-            'google login in Progress',
-            'userID='+user.id,
-            [                      
-                {
-                  text: 'OK', 
-                  onPress: () => console.log('Ask me later Pressed')
-                },                      
-            ],
-            {cancelable: false}
-        );
+        // Alert.alert(
+        //     'google login in Progress',
+        //     'userID='+user.id,
+        //     [                      
+        //         {
+        //           text: 'OK', 
+        //           onPress: () => console.log('Ask me later Pressed')
+        //         },                      
+        //     ],
+        //     {cancelable: false}
+        // );
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
@@ -231,13 +271,13 @@ class PushToEarnSignUp2 extends Component {
           if( this.state.encodedText !== "")
           {
 
-            let payload = JSON.stringify({
+            let payload = {
 
                 "AuthenticationData": encryptedData,
                 "LoginData": this.state.encodedText,
                 "SignupMode": false,
 
-            });
+            };
 
             this.props.googleLogin(payload);
         }
@@ -245,6 +285,20 @@ class PushToEarnSignUp2 extends Component {
             console.log("loginData  or authentication Data is empty");
           },3000);
 
+    }
+
+    instLogin = (token) => 
+    {
+        let users = this.instaLoginGetUsers(token);
+    }
+
+    instLogout = () => 
+    {
+
+        Cookie.clear().then(() => {
+                this.setState({ igToken: null })
+        });
+  
     }
 
     twitterLogin(userID,userName)
@@ -263,13 +317,13 @@ class PushToEarnSignUp2 extends Component {
           if( this.state.encodedText !== "")
           {
 
-            let payload = JSON.stringify({
+            let payload = {
 
                 "AuthenticationData": encryptedData,
                 "LoginData": this.state.encodedText,
                 "SignupMode": false,
 
-            });
+            };
 
             let payloadNew = JSON.stringify({
                   "userName": userName,
@@ -292,17 +346,17 @@ class PushToEarnSignUp2 extends Component {
             console.log(loginData);
             const { authToken, authTokenSecret, userID,userName } = loginData;
 
-            Alert.alert(
-                'Twitter Login successful',
-                " userID="+userID + " userName="+ userName,
-                [                      
-                    {
-                      text: 'OK', 
-                      onPress: () => console.log('Ask me later Pressed')
-                    },                      
-                ],
-                {cancelable: false}
-            );
+            // Alert.alert(
+            //     'Twitter Login successful',
+            //     " userID="+userID + " userName="+ userName,
+            //     [                      
+            //         {
+            //           text: 'OK', 
+            //           onPress: () => console.log('Ask me later Pressed')
+            //         },                      
+            //     ],
+            //     {cancelable: false}
+            // );
 
             if (authToken && authTokenSecret) {
               this.setState({ isLoggedIn: true });
@@ -316,7 +370,7 @@ class PushToEarnSignUp2 extends Component {
         )
       }
     
-      handleLogout = () => {
+      handleTwitterLogout = () => {
         console.log("logout")
         RNTwitterSignIn.logOut()
         this.setState({
@@ -332,7 +386,7 @@ class PushToEarnSignUp2 extends Component {
         else 
         {
 
-          Alert.alert('Success fetching data user id: ' + result.id+ ' username='+ result.name + " email="+result.email);
+        //   Alert.alert('Success fetching data user id: ' + result.id+ ' username='+ result.name + " email="+result.email);
 
           let authData = AuthComponent.authenticationData(this.state.languageCode);
           let encryptedData = AesComponent.aesCallback(authData);
@@ -345,14 +399,13 @@ class PushToEarnSignUp2 extends Component {
           {
             if( this.state.encodedText !== "")
             {
-
-              let payload = JSON.stringify({
+              let payload = {
 
                   "AuthenticationData": encryptedData,
                   "LoginData": this.state.encodedText,
                   "SignupMode": false,
 
-              });
+              };
 
               let payloadNew = {
 
@@ -374,17 +427,17 @@ class PushToEarnSignUp2 extends Component {
 
     initUser = (token) => {
 
-            Alert.alert(
-                'Fetching User Data',
-                'inside initUser method',
-                [                      
-                    {
-                    text: 'OK', 
-                    onPress: () => console.log('Ask me later Pressed')
-                    },                      
-                ],
-                {cancelable: false}
-            );
+            // Alert.alert(
+            //     'Fetching User Data',
+            //     'inside initUser method',
+            //     [                      
+            //         {
+            //         text: 'OK', 
+            //         onPress: () => console.log('Ask me later Pressed')
+            //         },                      
+            //     ],
+            //     {cancelable: false}
+            // );
           
             // Create a graph request asking for user information with 
             // a callback to handle the response.
@@ -417,17 +470,17 @@ class PushToEarnSignUp2 extends Component {
 
               console.log('Login was cancelled');
 
-              Alert.alert(
-                'Login Unsuccessful',
-                'Login was Cancelled',
-                [                      
-                    {
-                      text: 'OK', 
-                      onPress: () => console.log('Ask me later Pressed')
-                    },                      
-                ],
-                {cancelable: false}
-            );
+            //   Alert.alert(
+            //     'Login Unsuccessful',
+            //     'Login was Cancelled',
+            //     [                      
+            //         {
+            //           text: 'OK', 
+            //           onPress: () => console.log('Ask me later Pressed')
+            //         },                      
+            //     ],
+            //     {cancelable: false}
+            // );
 
             } else {
 
@@ -534,9 +587,9 @@ class PushToEarnSignUp2 extends Component {
 
     componentDidMount() {
 
-
         console.log("phone="+this.props.navigation.state.params.phone);
         console.tron.log("phone="+this.props.navigation.state.params.phone);
+
 
         let language = localStorage.getItem('language');
         console.log('local storage language='+language);
@@ -557,6 +610,12 @@ class PushToEarnSignUp2 extends Component {
             this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});
 
         LoginManager.logOut();
+
+        this.instLogout();
+
+        this.googleSignOut();
+
+        this.handleTwitterLogout();
 
     }
 
@@ -925,17 +984,17 @@ class PushToEarnSignUp2 extends Component {
         else
             if(this.state.phoneNumberInput === '')
                 {
-                    Alert.alert(
-                                'Phone Number Input is Empty',
-                                'Fill in Phone Number',
-                                [
-                                    {
-                                        text: 'OK',
-                                        onPress: () => console.log('Ask me later Pressed')
-                                    },
-                                ],
-                                {cancelable: false}
-                            );
+                    // Alert.alert(
+                    //             'Phone Number Input is Empty',
+                    //             'Fill in Phone Number',
+                    //             [
+                    //                 {
+                    //                     text: 'OK',
+                    //                     onPress: () => console.log('Ask me later Pressed')
+                    //                 },
+                    //             ],
+                    //             {cancelable: false}
+                    //         );
                 }
             else
             {
@@ -1141,6 +1200,158 @@ class PushToEarnSignUp2 extends Component {
 
     }
 
+    validateBGPhoneNumber = (phone) => {
+
+        // 00 => +
+       // 0 and digit after => +32 digit
+       // 0032 => +32
+       // 00320 => +32
+       // +320 => +32
+       // 320 => +32
+
+       // Alert.alert("phone="+phone);
+       console.tron.log("text input phone="+phone);
+       
+       phone = this.removeSpaces(phone);
+
+       let dpPhone = phone;        
+
+       let first = phone.substring(0,1);
+       let second = phone.substring(1,2);
+       let firstTwo = phone.substring(0,2);
+       let restTwo = phone.substring(2);
+       let firstThree  = phone.substring(0,3);
+       let firstFour = phone.substring(0,4);
+       let firstFive = phone.substring(0,5);
+
+       let finalString = '+32';
+
+       let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
+       let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
+
+       if(dpPhone.substring(0,1) !== '+')
+       dpPhone = '+' + dpPhone;
+
+       if(mPhone.exec(phone) || homePhone.exec(phone))
+       {
+          console.tron.log("Valid Phone Number");
+          this.setState({ phoneNumberInput: phone});
+       }
+       else
+       {
+           console.tron.log("InValid Phone Number="+phone);
+           console.tron.log("phone 0,2="+(phone.substring(0,2) === "+0"));
+           console.tron.log("Length of Phone Number="+phone.length);
+
+           if( dpPhone.substring(0,3) === "+00")
+           {
+               if(dpPhone.length >3)
+                   dpPhone = "+" + dpPhone.substring(3);
+               else
+                   dpPhone = "+" ;
+
+               console.tron.log("phone length="+dpPhone.length+"  firstThree="+firstThree+" phone="+dpPhone);                
+               this.setState({ phoneNumberInput: dpPhone});
+               console.tron.log("phone number input="+this.state.phoneNumberInput);
+
+           }
+           else
+               if(dpPhone.substring(0,2) === "+0" && dpPhone.length === 2)
+               {
+               console.tron.log("first & second ="+dpPhone.substring(0,1)+ " second="+dpPhone.substring(1,2));
+               dpPhone = "+"
+                   this.setState({ phoneNumberInput: dpPhone});
+               }
+           else
+               if(dpPhone.substring(0,2) === "+0" && dpPhone.length > 2 && dpPhone.substring(2,3) !== '0')
+               {
+                   console.tron.log("first & second ="+first+ " second="+second);
+                   dpPhone = "+32" + dpPhone.substring(2);
+                   this.setState({ phoneNumberInput: dpPhone});
+               }
+           else
+               if(dpPhone.substring(0,2) === "32")
+               {
+                   console.tron.log("firsttwo ="+dpPhone.substring(0,2));
+                   dpPhone = "+" + dpPhone.substring(2);
+                   this.setState({ phoneNumberInput: dpPhone});
+               }
+           else
+               if( dpPhone.substring(0,2) === "00")
+               {
+                   if(dpPhone.length >2)
+                   dpPhone = "+" + dpPhone.substring(2);
+                   else
+                   dpPhone = "+" ;
+                   
+                   console.tron.log("first two ="+dpPhone.substring(0,2));
+
+                   first = dpPhone.substring(0,1);
+                   second = dpPhone.substring(1,2);
+                   firstTwo = dpPhone.substring(0,2);
+                   restTwo = dpPhone.substring(2);
+                   firstThree  = dpPhone.substring(0,3);
+                   firstFour = dpPhone.substring(0,4);
+                   firstFive = dpPhone.substring(0,5);
+
+                   this.setState({ phoneNumberInput: dpPhone});
+
+               }
+           else
+               if(dpPhone.substring(0,1) === "0" && this.isDigit(second))
+               {
+                   dpPhone = "+32" + dpPhone.substring(1);
+
+                   first = dpPhone.substring(0,1);
+                   second = dpPhone.substring(1,2);
+                   firstTwo = dpPhone.substring(0,2);
+                   restTwo = dpPhone.substring(2);
+                   firstThree  = dpPhone.substring(0,3);
+                   firstFour = dpPhone.substring(0,4);
+                   firstFive = dpPhone.substring(0,5);  
+
+                   this.setState({ phoneNumberInput: dpPhone});
+
+               }
+           else
+               if(dpPhone.substring(0,3) === "320")
+               {
+                   console.tron.log("first Three"+dpPhone.substring(0,3));
+
+                   dpPhone = "+32" + dpPhone.substring(3);
+
+                   first = dpPhone.substring(0,1);
+                   second = dpPhone.substring(1,2);
+                   firstTwo = dpPhone.substring(0,2);
+                   restTwo = dpPhone.substring(2);
+                   firstThree  = dpPhone.substring(0,3);
+                   firstFour = dpPhone.substring(0,4);
+                   firstFive = dpPhone.substring(0,5); 
+
+                   this.setState({ phoneNumberInput: dpPhone});
+
+               }
+              else
+               if(dpPhone.substring(0,4) === "+320")
+               {
+                   console.tron.log("first Three"+dpPhone.substring(0,4));
+
+                   dpPhone = "+32" + dpPhone.substring(4);
+
+                   first = dpPhone.substring(0,1);
+                   second = dpPhone.substring(1,2);
+                   firstTwo = dpPhone.substring(0,2);
+                   restTwo = dpPhone.substring(2);
+                   firstThree  = dpPhone.substring(0,3);
+                   firstFour = dpPhone.substring(0,4);
+                   firstFive = dpPhone.substring(0,5);  
+
+                   this.setState({ phoneNumberInput: dpPhone});
+
+               }
+       }
+   }    
+
     validateBelgiumPhoneNumber = (phone) => {
 
         phone = this.removeSpaces(phone);
@@ -1240,13 +1451,13 @@ class PushToEarnSignUp2 extends Component {
                                             name='facebook-f'
                                             type='font-awesome'
                                             color='#fff'
-                                            size = {35}
-                                            onPress={() => this.onFacebookButtonClick()} /> 
+                                            size = {40}
+                                        /> 
                                 </TouchableOpacity>
                         </View>
 
                         <View style= {{width: 70, height: 70,marginRight: 20, borderRadius: 70, backgroundColor: '#E73D50' }}>
-                                <TouchableOpacity onPress={() => this.refs.instagramLogin.show() }
+                                <TouchableOpacity onPress={() => this.instagramLogin.show() }
                                     activeOpacity={0.5}
                                     style={ newStyle.iconStyle }>
                                         <Icon
@@ -1254,14 +1465,19 @@ class PushToEarnSignUp2 extends Component {
                                             name='instagram'
                                             type='font-awesome'
                                             color='#fff'
-                                            size = {35}
-                                            onPress={() => console.log('hello')} /> 
+                                            size = {40}
+                                        /> 
                                             <InstagramLogin
-                                                        ref='instagramLogin'
-                                                        clientId='31953fccb0a14a4488e6845bdb225786'
+                                                        ref= {ref => this.instagramLogin = ref}
+                                                        clientId={'31953fccb0a14a4488e6845bdb225786'}
                                                         scopes={['public_content', 'follower_list']}
-                                                        onLoginSuccess={(token) => this.setState({ token })}
-                                                        onLoginFailure={(data) => console.log(data)} />
+                                                        redirectUrl = {'https://jobfixers.be'}
+                                                        onLoginSuccess={(igToken) => {
+                                                            this.setState({ igToken });
+                                                            this.instLogin( igToken );
+                                                        }}
+                                                        onLoginFailure={(data) => console.log(data)}                                                        
+                                            />
 
                                             {/* <LinkedInModal
                                                         linkText=''
@@ -1283,8 +1499,8 @@ class PushToEarnSignUp2 extends Component {
                                             name='twitter'
                                             type='font-awesome'
                                             color='#fff'
-                                            size = {35}
-                                            onPress={() => this.twitterSignIn() } /> 
+                                            size = {40}
+                                        /> 
                                 </TouchableOpacity>
                         </View>
 
@@ -1297,8 +1513,8 @@ class PushToEarnSignUp2 extends Component {
                                             name='google'
                                             type='font-awesome'
                                             color='#fff'
-                                            size = {35}
-                                            onPress={() => this.onGoogleButtonClick() } /> 
+                                            size = {40}
+                                        /> 
                                 </TouchableOpacity>
                         </View>
                </View>
@@ -1340,8 +1556,8 @@ class PushToEarnSignUp2 extends Component {
                             ref={(ref) => { this.phone = ref; }}
                             initialCountry={this.state.countryCode}
                             onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
-                            style= {newStyle.nameInput}                        
-                            onChangePhoneNumber = { (phoneNumberInput) => this.validateBelgiumPhoneNumber(phoneNumberInput) }
+                            style= {newStyle.nameInput}              
+                            onChangePhoneNumber = { (phoneNumberInput) => this.validateBGPhoneNumber(phoneNumberInput) }
                         />
                         :
                         <PhoneInput
@@ -1350,8 +1566,8 @@ class PushToEarnSignUp2 extends Component {
                         initialCountry={this.state.countryCode}
                         onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
                         style= {newStyle.nameInput} 
-                        value = { this.state.phone }                       
-                        onChangePhoneNumber = { (phoneNumberInput) => this.validateBelgiumPhoneNumber(phoneNumberInput) }
+                        value = { this.state.phone }
+                        onChangePhoneNumber = { (phoneNumberInput) => this.validateBGPhoneNumber(phoneNumberInput) }
                     />
 
                     }
@@ -1630,7 +1846,7 @@ const newStyle = StyleSheet.create({
         backgroundColor: 'transparent',
         marginTop: viewPortHeight / 200,
         marginRight: 0,
-        marginLeft: 15,
+        marginLeft: 13,
         marginTop: 10,
         justifyContent: 'center',
         alignItems: 'center',
@@ -1660,7 +1876,8 @@ const mapStateToProps = state => {
             console.tron.log("mobileNumber="+mobileNumber);
             dispatch({type: 'MOBILE_REGISTER_REQUEST',payload,mobileNumber})
         },
-        signUpFaceBook: (payload,payloadNew) => dispatch({type: 'FACEBOOK_DATA', payload, payloadNew}),
+        loginFaceBook: ( payload, payloadNew ) => dispatch({ type: 'FACEBOOK_REQUEST', payload, payloadNew}),
+        signUpFaceBook: (payload,payloadNew) => dispatch({type: 'FACEBOOK_REQUEST', payload, payloadNew}),
         twitterlogin: (payload,userName) => dispatch({ type:'TWITTER_REQUEST',payload,userName}),
         googleLogin: (payload) => dispatch({ type: 'GOOGLE_REQUEST',payload}),
         resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),

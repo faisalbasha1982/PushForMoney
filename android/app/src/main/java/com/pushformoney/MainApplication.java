@@ -3,6 +3,7 @@ package com.pushformoney;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import im.shimo.react.cookie.CookieManagerPackage;
 import com.rnds.DirectedScrollViewPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -49,6 +50,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new CookieManagerPackage(),
             new DirectedScrollViewPackage(),
             new VectorIconsPackage(),
             new TwitterSigninPackage(),

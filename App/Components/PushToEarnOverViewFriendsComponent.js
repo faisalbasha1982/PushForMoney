@@ -418,7 +418,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
     archiveApiCall = (personObj) => {
 
-        Alert.alert("called archive Api");
+        //Alert.alert("called archive Api");
         console.log("called archive Api");
 
         console.log("FO language code="+this.state.languageCode);
@@ -438,7 +438,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
         console.log("archive Api:");
         console.log("ltoken="+ltoken);
 
-        Alert.alert("archive Api="+payload.MobileReferralID);
+        //Alert.alert("archive Api="+payload.MobileReferralID);
 
         (this.state.token===null || this.state.token===undefined)?
         setTimeout(() => {
@@ -446,7 +446,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
         })
         :
         setTimeout(() => {
-            Alert.alert("calling Api for archive");
+            //Alert.alert("calling Api for archive");
             this.props.archiveApi(payload);
         },3000)
     }

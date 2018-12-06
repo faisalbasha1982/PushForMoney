@@ -900,7 +900,7 @@ class PushToEarnMoneyComponent extends PureComponent {
                                         //     <Text >Hello world</Text>
                                         // </View>
                                         <View style={newStyle.totalText}>
-                                                    <Text style={newStyle.firstName}>{this.state.text.TotalNext}</Text>
+                                                    <Text style={newStyle.firstName}>{this.state.text.TotalNext}:</Text>
                                                     <Text style={newStyle.earningsText}>€
                                                     {
                                                         (this.props.TotalEarningsPersons !== null && totalEarningsString.length === 1)?
@@ -1032,7 +1032,7 @@ const newStyle = StyleSheet.create({
         fontWeight: '500',
         fontStyle: 'normal',
         letterSpacing: 0.67,
-        textAlign: 'right',        
+        textAlign: 'right',
         marginBottom: 0,
         backgroundColor:'transparent',
         marginLeft:28,
@@ -1172,7 +1172,7 @@ const newStyle = StyleSheet.create({
         marginTop: 0,
         marginBottom: 0,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
         alignItems: 'flex-start',
         backgroundColor:'transparent'
     },

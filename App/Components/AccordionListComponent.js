@@ -353,10 +353,10 @@ render() {
                                 <Text style={newStyle.earningsText}>€{this.props.TotalEarnings}</Text>
                     </View> */}
                     <View style={newStyle.totalLineDisplay}>
-                        <View style={{flex: 4,}}></View>
+                        <View style={{flex: 10,}}></View>
                         <View style={newStyle.borderBottomNew}></View>
                         <View style={newStyle.totalHoursText}>
-                                        <Text style={newStyle.firstNameTotalHours}>{this.state.text.Total}</Text>
+                                        <Text style={newStyle.firstNameTotalHours}>{this.state.text.Total}:</Text>
                                         <Text style={newStyle.hoursText}>{this.props.TotalWorkedHours}</Text>
                         </View>
                     </View>
@@ -512,7 +512,7 @@ totalHoursText:{
     marginLeft:0,
     marginRight:0,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'flex-end',
     backgroundColor: 'transparent',
 },

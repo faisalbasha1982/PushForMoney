@@ -293,7 +293,7 @@ class PushToEarnPrivatePolicy extends Component {
                         </TouchableOpacity>
 
                         <TouchableOpacity
-                            onPress={() => { this.callOTP(payload); } }
+                            onPress={() => { NavigationService.navigate('PushForJob'); } }
                             activeOpacity={0.5}
                             style={{
                                 width: 150,
