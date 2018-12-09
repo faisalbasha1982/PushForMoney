@@ -324,7 +324,17 @@ class PushToEarnSignIn2 extends Component {
             //       "id": userID,
             // });
 
-            this.props.googleLogin(payload);
+            let payloadNew = {
+
+                email: user.email,
+                id: user.id,
+                givenName: user.givenName,
+                familyName: user.familyName,
+                name: user.name
+
+            };
+
+            this.props.googleLogin(payload,payloadNew);
         }
           else
             console.log("loginData  or authentication Data is empty");
@@ -514,6 +524,7 @@ class PushToEarnSignIn2 extends Component {
     }
 
     _responseInfoCallback = (error, result) => {
+
         if (error) {
             Alert.alert('Error fetching data: ' + error.toString());
         } else {
@@ -537,18 +548,25 @@ class PushToEarnSignIn2 extends Component {
                   "AuthenticationData": encryptedData,
                   "LoginData": this.state.encodedText,
                   "SignupMode": false,
+
               };
 
               let payloadNew = {
 
-                firstname: result.first_name,
-                lastname: result.last_name,
-                email: result.email,
-                id: result.id,
+                "firstname": result.first_name,
+                "lastname": result.last_name,
+                "email": result.email,
+                "id": result.id.toString(),
 
-          };
+            };
 
-              this.props.loginFaceBook(payload,payloadNew);
+               console.tron.log("firstname="+payloadNew.firstname);
+               console.tron.log("lastname="+payloadNew.lastname);
+               console.tron.log("email="+payloadNew.email);
+               console.tron.log("id="+payloadNew.id);
+
+               this.props.loginFaceBook(payload,payloadNew);
+
             }
             else
               console.log("loginData  or authentication Data is empty");
@@ -1951,10 +1969,10 @@ const mapStateToProps = state => {
     return {
 
       loginAction: ( payload , phoneNumber ) => dispatch({ type: 'LOGIN_REQUEST', payload, phoneNumber }),
-      signUpFaceBook: (payload,payloadNew) => dispatch({type: 'FACEBOOK_REQUEST', payload, payloadNew}),
+      //signUpFaceBook: (payload,payloadNew) => dispatch({type: 'FACEBOOK_REQUEST', payload, payloadNew}),
       loginFaceBook: ( payload, payloadNew ) => dispatch({ type: 'FACEBOOK_REQUEST', payload, payloadNew}),
       twitterlogin: (payload,userName) => dispatch({ type:'TWITTER_REQUEST',payload,userName}),
-      googleLogin: (payload) => dispatch({ type: 'GOOGLE_REQUEST',payload}),
+      googleLogin: (payload,payloadNew) => dispatch({ type: 'GOOGLE_REQUEST',payload,payloadNew}),
       instagramLogin: (payload,username) => dispatch({ type: 'INSTAGRAM_REQUEST', payload,username}),
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),      
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),      

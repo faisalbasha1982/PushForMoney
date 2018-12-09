@@ -438,7 +438,7 @@ class PushToEarnSignUp2 extends Component {
             //     ],
             //     {cancelable: false}
             // );
-          
+
             // Create a graph request asking for user information with 
             // a callback to handle the response.
 
@@ -448,7 +448,7 @@ class PushToEarnSignUp2 extends Component {
                     accessToken: token,
                     parameters: {
                       fields: {
-                        string: 'email,name,first_name,middle_name,last_name,id'
+                        string: 'email,name,first_name,middle_name,last_name,id,mobile_phone'
                       }
                     }
                 },this._responseInfoCallback

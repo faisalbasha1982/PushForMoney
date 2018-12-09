@@ -170,14 +170,18 @@ console.tron.log("response issue");
 }
 }
 
-export function * newGoogleRequest(api, payload)
+export function * newGoogleRequest(api, payload,payloadNew)
 {
+  console.tron.log("google request......");
+  // console.tron.log("payloadNew="+payloadNew);
+  console.tron.log("payloadNew content="+payloadNew);
+
   try{
-    const response = yield call(fetchSocialLogin,payload.payload);
-    console.tron.log("response StatusCode=",response.StatusCode);
+      const response = yield call(fetchSocialLogin,payload.payload);
+      console.tron.log("response StatusCode=",response.StatusCode);
     
-    if (response.StatusCode === 201)
-    {
+      if (response.StatusCode === 201)
+      {
         //   Alert.alert(
         //     'Enter Details',
         //     'Please Enter To Register Details',
@@ -202,8 +206,14 @@ export function * newGoogleRequest(api, payload)
 
        });
 
-          NavigationService.navigate('PushToEarnRegisterProfile',{uname:'', pword:'', payload: payload.payload, phone: '', pPayload:''});
-          console.tron.log("201 Error");
+       console.tron.log("201 Error");
+       console.tron.log("payloadNew="+payloadNew);
+       console.tron.log("firstname facebook ="+payloadNew.givenName);
+       console.tron.log("lastname facebook ="+payloadNew.familyName);
+       console.tron.log("email facebook ="+payloadNew.email);
+
+       NavigationService.navigate('PushToEarnRegisterProfile',{firstname: payloadNew.givenName, lastname: payloadNew.familyName, uname: payloadNew.email,pword:'', mobilephone:'' ,payload: payload.payload});
+       //NavigationService.navigate('PushToEarnRegisterProfile',{uname:'', pword:'', payload: payload.payload, phone: '', pPayload:''});
 
     }
     else 
@@ -471,34 +481,48 @@ export function * twitterRequest(api,payload,userName)
 }
 
 function fetchSocialLogin(payload) {
-  return fetchJson(Api_url.mobileSignUpLoginUrlNewStag,payload);
+
+    return fetchJson(Api_url.mobileSignUpLoginUrlNewStag,payload);
+
 }
 
 function fetchFacebookLogin(payload){
-  return fetchJson( `https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnMobileUserLoginByMobile?code=${API_URL.commonCode}`,payload);
+
+    return fetchJson(`https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnMobileUserLoginByMobile?code=${API_URL.commonCode}`,payload);
+
 }
 
-export function * facebookRequest(api,payload,payloadNew) {
+export function * newFacebookRequest(api,payload,payloadNew)
+{
+
+  console.tron.log("facebook request....");
+  console.tron.log("initial payload with auth data="+JSON.stringify(payload.payload));
+  console.tron.log("payloadNew="+payloadNew);
 
   try {
+
         let response = yield call(fetchFacebookLogin,payload.payload);
+        console.tron.log("response status code= "+response.StatusCode);
 
-          if(response.StatusCode === 201)
-        {
+        if(response.StatusCode === 201)
+         {
             AsyncStorage.getItem('language').then((language) => {
-
               if(language === 'English')
                 Alert.alert(LanguageSettingsPFM.English.completeProfile);
               else
                 if(language === 'Dutch')
                   Alert.alert(LanguageSettingsPFM.Dutch.completeProfile);
                 else
-                  Alert.alert(LanguageSettingsPFM.French.completeProfile);
-   
+                  Alert.alert(LanguageSettingsPFM.French.completeProfile);   
            });
-   
-              NavigationService.navigate('PushToEarnRegisterProfile',{uname:'', pword:'', payload: payload.payload, phone: '', pPayload:''});
-              console.tron.log("201 Error");
+
+           NavigationService.navigate('PushToEarnRegisterProfile',{firstname: payloadNew.firstname, lastname: payloadNew.lastname, uname: payloadNew.email,pword:'', mobilephone:'' ,payload: payloadNew.payloadNew});
+
+           console.tron.log("201 Error");
+           console.tron.log("payloadNew="+typeof(payloadNew));
+           console.tron.log("firstname facebook ="+payloadNew.firstname);
+           console.tron.log("lastname facebook ="+payloadNew.lastname);
+           console.tron.log("email facebook ="+payloadNew.email);
 
         }
         else
@@ -513,9 +537,14 @@ export function * facebookRequest(api,payload,payloadNew) {
 
           }
           else
-          {        
-              yield put(LoginActions.loginFailure());        
-              NavigationService.navigate('PushToEarnRegisterProfile',{uname: payloadNew.email,pword:'', payload: payloadNew.payload});
+          {
+              yield put(LoginActions.loginFailure());
+              NavigationService.navigate('PushToEarnRegisterProfile',{firstname: '', lastname: '' , uname:'', pword:'', payload: payload.payload, mobilephone: '', pPayload:''});
+              console.tron.log("payloadNew="+typeof(payloadNew));
+              console.tron.log("firstname facebook ="+payloadNew.firstname);
+              console.tron.log("lastname facebook ="+payloadNew.lastname);
+              console.tron.log("email facebook ="+payloadNew.email);
+   
           }
 
   }catch(error){
@@ -617,11 +646,12 @@ export function * facebookRequest(api,payload,payloadNew) {
 
 }
 
-function fetchJson(url,payload) {
-
+function fetchJson(url,payload)
+{
+  console.tron.log("payload="+typeof(payload));
   console.tron.log("fetch url="+url);
-  console.tron.log("payload="+payload.AuthenticationData+" loginData:"+payload.LoginData+" SignupMode:"+payload.SignupMode);
- 
+  console.tron.log(" payload authentication data="+payload.AuthenticationData+" loginData:"+payload.LoginData+" SignupMode:"+payload.SignupMode);
+  
   return fetch(url,{
       method: 'POST',
       headers: {
@@ -632,6 +662,7 @@ function fetchJson(url,payload) {
   })
     .then((response) => response.json())
     .then(response => {
+      // Alert.alert("response ="+response.Message);
       return response;
     })
     .catch((error) => {
@@ -737,7 +768,7 @@ function fetchLogin(payload,url) {
   return fetchJsonNew(url,payload);
 }
 
-export function * LoginRequest(api,action) {  
+export function * LoginRequest(api,action) {
   try
   {
 
@@ -864,7 +895,6 @@ function fetchOTP(payload)
     // const url = "https://prod-21.westeurope.logic.azure.com:443/workflows/fc0efd237ccb46268c5353e97d791a7e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Z2LNFPTtuCNVTEq9jcpwaKsLGgOjYaQOuiwoJFZenbY";
 
     let languageCode = '';
-
     
     AsyncStorage.getItem('language').then((language) => {
 

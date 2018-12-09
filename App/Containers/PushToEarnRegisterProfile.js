@@ -362,8 +362,8 @@ class PushToEarnRegisterProfile extends Component {
         if(this.state.language === 'French')
             this.setState({ text: LanguageSettingsPFM.French, languageCode:'fr'});
 
-        if(this.props.navigation.state.params.phone !== '')
-            this.setState({ phoneNumberInput:  this.props.navigation.state.params.phone});
+        if(this.props.navigation.state.params.mobilephone !== '')
+            this.setState({ phoneNumberInput:  this.props.navigation.state.params.mobilephone});
     }
 
     setLanguage = () => {
@@ -688,12 +688,12 @@ class PushToEarnRegisterProfile extends Component {
              return;
          }
 
-         if(this.props.navigation.state.params.phone === '')
+         if(this.props.navigation.state.params.mobilephone === '')
              phoneData = this.state.phoneNumberInput;
          else
-             phoneData = this.props.navigation.state.params.phone;
+             phoneData = this.props.navigation.state.params.mobilephone;
 
-         console.tron.log("this.props.navigation.state.params.phone="+this.props.navigation.state.params.phone );
+         console.tron.log("this.props.navigation.state.params.phone="+this.props.navigation.state.params.mobilephone );
 
         this.setState({ isLoading: true});
 
@@ -995,15 +995,26 @@ class PushToEarnRegisterProfile extends Component {
         const platform = Platform.OS;
         const username = this.props.navigation.state.params.uname;
         const password = this.props.navigation.state.params.pword;
+
         let payload  = this.props.navigation.state.params.payload;
-        let phone = this.props.navigation.state.params.phone;
+        //let phone = this.props.navigation.state.params.phone;
+
+        let firstname = this.props.navigation.state.params.firstname;
+        let lastname = this.props.navigation.state.params.lastname;
+        let uname = this.props.navigation.state.params.uname;
+        let mobilephone = this.props.navigation.state.params.mobilephone;
+
+        console.tron.log("firstname="+firstname);
+        console.tron.log("lastname="+lastname);
+        console.tron.log("uname="+uname);
+        console.tron.log("mobilephone="+mobilephone);
 
         console.log("payload type="+typeof(payload));
         console.log("username received in register profile="+this.props.navigation.state.params.uname);
         // console.tron.log("username received in register profile="+this.props.navigation.state.params.uname);
         console.log("platform --->",Platform.OS);
         console.log("lastname="+this.state.text.lastName);
-        console.tron.log("phone in register profile="+phone);
+        //console.tron.log("phone in register profile="+phone);
         console.tron.log("payload loginData ="+payload.LoginData);
         console.tron.log("payload="+payload.LoginData);
 
@@ -1038,7 +1049,7 @@ class PushToEarnRegisterProfile extends Component {
                         }}>
                     {this.state.text.profile}
                     </Text>
-                </View>                
+                </View>
 
                 <View style={newStyle.inputContainer}>
                
@@ -1046,8 +1057,9 @@ class PushToEarnRegisterProfile extends Component {
                     <TextInput
                                 style={ [newStyle.nameInput, { borderColor:this.state.isFocusedFirst===true?'#e73d50':'transparent', borderStyle:'solid', borderWidth:1 }] }
                                 onFocus = { () => this.focusFirst() }
-                                onBlur = { () => this.focusFirstOff()}                    
+                                onBlur = { () => this.focusFirstOff()}
                                 placeholder=''
+                                value={ firstname }
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
                             
@@ -1055,7 +1067,8 @@ class PushToEarnRegisterProfile extends Component {
                     <TextInput
                         style={ [newStyle.nameInput, { borderColor:this.state.isFocusedSecond===true?'#e73d50':'transparent', borderStyle:'solid', borderWidth:1 }] }
                         onFocus = { () => this.focusSecond() }
-                        onBlur = { () => this.focusSecondOff()}                    
+                        onBlur = { () => this.focusSecondOff()}
+                        value = { lastname }
                         placeholder=''
                         underlineColorAndroid= 'transparent'
                         onChangeText= { (lastNameInput) => this.validationLastName(lastNameInput) }/>
@@ -1072,6 +1085,7 @@ class PushToEarnRegisterProfile extends Component {
                         style={ [newStyle.nameInput, { borderColor:this.state.isFocusedThird===true?'#e73d50':'transparent', borderStyle:'solid', borderWidth:1 }] }
                         onFocus = { () => this.focusThird() }
                         onBlur = { () => this.focusThirdOff()}                    
+                        value = { uname }
                         placeholder=''
                         editable = {true}
                         underlineColorAndroid= 'transparent'
@@ -1085,7 +1099,7 @@ class PushToEarnRegisterProfile extends Component {
                                             initialCountry={this.state.countryCode}
                                             onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
                                             style= {newStyle.nameInput}
-                                            value= { phone }
+                                            value= { mobilephone }
                                             onChangePhoneNumber = { (phoneNumberInput) => this.validateBGPhoneNumber(phoneNumberInput) }
                                         />
                     {/* <Text style={newStyle.firstName}>{this.state.text.Password}</Text>

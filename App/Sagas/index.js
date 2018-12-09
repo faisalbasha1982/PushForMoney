@@ -22,7 +22,7 @@ import { startup } from './StartupSagas'
 
 import { getUserAvatar } from './GithubSagas'
 
-import { LoginRequest,rsaRequest, facebookRequest, 
+import { LoginRequest,rsaRequest, newFacebookRequest, 
          twitterRequest, googleRequest,newTwitterRequest, 
          newGoogleRequest, notificationRequest,otpLoginRequest,
          newInstagramRequest
@@ -64,7 +64,7 @@ export default function * root () {
     takeLatest(LoginTypes.LOGIN_REQUEST, LoginRequest, api),
 
     // Facebook login
-    takeLatest(LoginTypes.FACEBOOK_REQUEST,facebookRequest,api),
+    takeLatest(LoginTypes.FACEBOOK_REQUEST,newFacebookRequest,api),
 
     // Twitter login
     takeLatest(LoginTypes.TWITTER_REQUEST, newTwitterRequest, api),
