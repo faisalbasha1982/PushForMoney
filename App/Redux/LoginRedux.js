@@ -4,10 +4,10 @@ import { REHYDRATE } from 'redux-persist';
 
 const { Types, Creators } = createActions({
   loginRequest: ["payload"],
-  facebookRequest:["payload","payload"],
-  twitterRequest:["payload","username"],
-  googleRequest:["payload","payload"],
-  instagramRequest: ["payload","username"],
+  facebookRequest:["payload","firstname","lastname","email"],
+  twitterRequest:["payload","firstname","lastname","email"],
+  googleRequest:["payload","firstname","lastname","email"],
+  instagramRequest: ["payload","firstname","lastname","email"],
   rsaRequest:["payload"],
   loginSuccess: ['user'],
   loginFailure: ['error'],
@@ -57,23 +57,28 @@ export const rsarequest = (state, {payload}) => {
 }
 
 //facebook
-export const facebookdata = (state, {payload}) => {
-  return { ...state, fetching: true, payload }
+// export const facebookdata = (state, {payload}) => {
+//   return { ...state, fetching: true, payload }
+// }
+
+//facebook
+export const facebookrequest = (state, action) => {
+  return { ...state, fetching: true }
 }
 
 //google
-export const googledata = (state, {payload}) => {
-  return { ...state, fetching: true, payload }
+export const googlerequest = (state, {action}) => {
+  return { ...state, fetching: true }
 }
 
 //twitter
-export const twitterdata = (state, {payload}) => {
-  return { ...state, fetching: true, payload }
+export const twitterrequest = (state, {action}) => {
+  return { ...state, fetching: true }
 }
 
 //instagram
-export const instagramdata = (state, {payload}) => {
-  return { ...state, fetching: true, payload}
+export const instagramrequest = (state, {action}) => {
+  return { ...state, fetching: true }
 }
 
 // success
@@ -124,10 +129,10 @@ export const defaultHandler = (state) => {
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.LOGIN_REQUEST]: request,
-  [Types.FACEBOOK_REQUEST]: facebookdata,
-  [Types.TWITTER_REQUEST]:  twitterdata,
-  [Types.GOOGLE_REQUEST]: googledata,
-  [Types.INSTAGRAM_REQUEST]: instagramdata,
+  [Types.FACEBOOK_REQUEST]: facebookrequest,
+  [Types.TWITTER_REQUEST]:  twitterrequest,
+  [Types.GOOGLE_REQUEST]: googlerequest,
+  [Types.INSTAGRAM_REQUEST]: instagramrequest,
   [Types.RSA_REQUEST]:   rsarequest,
   [Types.LOGIN_SUCCESS]: success,
   [Types.LOGIN_FAILURE]: failure,

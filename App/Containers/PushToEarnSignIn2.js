@@ -132,6 +132,8 @@ class PushToEarnSignIn2 extends Component {
         console.warn('google button clicked');
         // eslint-disable-line
 
+        this.setState({ isLoading: true });
+
         this.googleSignOut();
 
         await GoogleSignin.configure({
@@ -334,7 +336,7 @@ class PushToEarnSignIn2 extends Component {
 
             };
 
-            this.props.googleLogin(payload,payloadNew);
+            this.props.googleLogin(payload,user.givenName,user.familyName,user.email);
         }
           else
             console.log("loginData  or authentication Data is empty");
@@ -403,7 +405,7 @@ class PushToEarnSignIn2 extends Component {
                     console.tron.log("LoginData:"+this.state.encodedText);
         
                     //this.props.twitterlogin(payload,userName);
-                    this.props.instagramLogin(payload,jsonResponse.data.username);
+                    this.props.instagramLogin(payload,jsonResponse.data.username,'','');
                 }
                 else
                     console.log("loginData  or authentication Data is empty");
@@ -474,7 +476,7 @@ class PushToEarnSignIn2 extends Component {
 
             console.tron.log("LoginData:"+this.state.encodedText);
 
-            this.props.twitterlogin(payload,userName);
+            this.props.twitterlogin(payload,userName,'','');
           }
           else
             console.log("loginData  or authentication Data is empty");
@@ -551,22 +553,15 @@ class PushToEarnSignIn2 extends Component {
 
               };
 
-              let payloadNew = {
+            //   let payloadNew = {
 
-                "firstname": result.first_name,
-                "lastname": result.last_name,
-                "email": result.email,
-                "id": result.id.toString(),
+            //     "firstname": result.first_name,
+            //     "lastname": result.last_name,
+            //     "email": result.email,
+            //     "id": result.id.toString(),
 
-            };
-
-               console.tron.log("firstname="+payloadNew.firstname);
-               console.tron.log("lastname="+payloadNew.lastname);
-               console.tron.log("email="+payloadNew.email);
-               console.tron.log("id="+payloadNew.id);
-
-               this.props.loginFaceBook(payload,payloadNew);
-
+            // };
+               this.props.loginFaceBook(payload,result.first_name, result.last_name,result.email);
             }
             else
               console.log("loginData  or authentication Data is empty");
@@ -690,11 +685,11 @@ class PushToEarnSignIn2 extends Component {
        // 320 => +32
 
        // Alert.alert("phone="+phone);
-       console.tron.log("text input phone="+phone);
+    //    console.tron.log("text input phone="+phone);
        
        phone = this.removeSpaces(phone);
 
-       let dpPhone = phone;        
+       let dpPhone = phone;
 
        let first = phone.substring(0,1);
        let second = phone.substring(1,2);
@@ -710,7 +705,7 @@ class PushToEarnSignIn2 extends Component {
        let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
 
        if(dpPhone.substring(0,1) !== '+')
-       dpPhone = '+' + dpPhone;
+           dpPhone = '+' + dpPhone;
 
        if(mPhone.exec(phone) || homePhone.exec(phone))
        {
@@ -830,7 +825,7 @@ class PushToEarnSignIn2 extends Component {
 
                }
        }
-   }    
+   }
 
     validateEmail = (text) => {
 
@@ -1649,7 +1644,7 @@ class PushToEarnSignIn2 extends Component {
                         initialCountry={this.state.countryCode}
                         onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
                         style= {newStyle.nameInput}
-                        onChangePhoneNumber = { (phoneNumberInput) => this.validateBGPhoneNumber(phoneNumberInput) }
+                        onChangePhoneNumber = { (phoneNumberInput) => this.validateUAEPhoneNumber(phoneNumberInput) }
                     />
 
                     <View style={newStyle.endButtons}>
@@ -1970,10 +1965,10 @@ const mapStateToProps = state => {
 
       loginAction: ( payload , phoneNumber ) => dispatch({ type: 'LOGIN_REQUEST', payload, phoneNumber }),
       //signUpFaceBook: (payload,payloadNew) => dispatch({type: 'FACEBOOK_REQUEST', payload, payloadNew}),
-      loginFaceBook: ( payload, payloadNew ) => dispatch({ type: 'FACEBOOK_REQUEST', payload, payloadNew}),
-      twitterlogin: (payload,userName) => dispatch({ type:'TWITTER_REQUEST',payload,userName}),
-      googleLogin: (payload,payloadNew) => dispatch({ type: 'GOOGLE_REQUEST',payload,payloadNew}),
-      instagramLogin: (payload,username) => dispatch({ type: 'INSTAGRAM_REQUEST', payload,username}),
+      loginFaceBook: ( payload, firstname, lastname, email ) => dispatch({ type: 'FACEBOOK_REQUEST', payload, firstname, lastname, email}),
+      twitterlogin: (payload,firstname,lastname,email) => dispatch({ type:'TWITTER_REQUEST',payload,firstname,lastname,email }),
+      googleLogin: (payload,firstname,lastname,email) => dispatch({ type: 'GOOGLE_REQUEST',payload,firstname,lastname,email}),
+      instagramLogin: (payload,firstname,lastname,email) => dispatch({ type: 'INSTAGRAM_REQUEST', payload,firstname,lastname,email}),
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),      
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),      
       navigateBack: () => this.props.navigation.goBack(),

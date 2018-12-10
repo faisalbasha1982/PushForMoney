@@ -262,6 +262,8 @@ class PushToEarnSignUp2 extends Component {
         let encryptedData = AesComponent.aesCallback(authData);
         let loginInfo = "{ 'G' : '"+user.id+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
 
+        console.tron.log("login data:"+loginInfo);
+        
         this.rsa(loginInfo);
 
         this.setState({isLoading: false});
@@ -392,6 +394,8 @@ class PushToEarnSignUp2 extends Component {
           let encryptedData = AesComponent.aesCallback(authData);
           let loginInfo = "{ 'F' : '"+result.id.toString()+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
           this.rsa(loginInfo);
+
+          console.tron.log("login data:"+loginInfo);
 
           this.setState({isLoading: false});
 

@@ -254,14 +254,15 @@ class PushToEarnOTPLogin extends Component {
 
         }
         else
-         {                 
+         {
             let authData = AuthComponent.authenticationData(this.state.languageCode);
             let encryptedData = AesComponent.aesCallback(authData);
-  
+
             //  let authData = payload.split(":");
             //  let encryptedData = this.aes(authData[1]);
 
             let token = this.props.navigation.state.params.accessToken;
+            console.tron.log("token="+token);
             this.setState({ token: token});
 
             console.tron.log("otpstring="+this.state.otpText);
@@ -269,7 +270,7 @@ class PushToEarnOTPLogin extends Component {
              let newPayload = {
 
                  "AuthenticationData": encryptedData,
-                 "LoginAccessToken": this.state.token,             
+                 "LoginAccessToken": token,
                  "OTP": this.state.otpText,
                  "OTPType" : "L",
 
@@ -285,6 +286,7 @@ class PushToEarnOTPLogin extends Component {
         console.tron.log("text="+this.state.text.otpMessage);
         console.tron.log("text otp ="+this.state.text.otp);
         console.tron.log("text start="+this.state.text.start);
+        console.tron.log("login acces token="+this.props.navigation.state.params.accessToken);
 
         let btnText = this.state.text.start;
 

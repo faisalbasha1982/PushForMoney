@@ -293,7 +293,7 @@ class PushToEarnPrivatePolicy extends Component {
                         </TouchableOpacity>
 
                         <TouchableOpacity
-                            onPress={() => { NavigationService.navigate('PushForJob'); } }
+                            onPress={() => { this.props.navigation.navigate('PushForJob'); } }
                             activeOpacity={0.5}
                             style={{
                                 width: 150,

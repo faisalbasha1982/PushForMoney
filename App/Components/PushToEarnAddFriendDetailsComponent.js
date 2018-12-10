@@ -615,7 +615,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
         };
 
         this.props.saveReferrals(payload);
-        this.props.menu(2);
+        //this.props.menu(2);
 
         setTimeout(() => {
             if(!_.isEmpty(this.props.MobileReferrals))
@@ -638,10 +638,11 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                             }
                         }
                     )
+                    this.props.menu(2);
                 }
             else    
-                console.log("mobileReferrals="+this.props.MobileReferrals); 
-        },100);
+                console.tron.log("mobileReferrals="+this.props.MobileReferrals); 
+        },1000);
 
     }
 
@@ -681,7 +682,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                 console.tron.log("payload mobileuserreferrals phone number="+payload.MobileUsersReferrals);
 
                 this.props.saveReferrals(payload);
-                this.props.menu(2);
+                //this.props.menu(2);
 
                 setTimeout(() => {
                     if(!_.isEmpty(this.props.MobileReferrals))
@@ -703,10 +704,11 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                                     }
                                 }
                             )
+                            this.props.menu(2);
                         }
                     else    
-                        console.log("mobileReferrals="+this.props.MobileReferrals); 
-                },2000);
+                        console.tron.log("mobileReferrals="+this.props.MobileReferrals); 
+                },1000);
             }
     }
 

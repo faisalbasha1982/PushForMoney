@@ -299,7 +299,7 @@ class PushToEarnProfileBankInfoComponent extends Component {
                                     marginTop: 0,                
                                     letterSpacing: 0.67,
                                     textAlign: 'center'}}
-                            > {this.state.buttonText.toUpperCase()}</Text>
+                            > {this.state.text.saveData}</Text>
                         </TouchableOpacity>               
                         </View>
 

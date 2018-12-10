@@ -681,6 +681,9 @@ class PushToEarnRegisterProfile extends Component {
     callPrivateScreen = (payload) => {
 
         let phoneData = '';
+        let firstname = '';
+        let lastname = '';
+        let email = '';
 
         if(this.state.phoneNumberInput === '')
          {
@@ -700,20 +703,38 @@ class PushToEarnRegisterProfile extends Component {
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
 
+        console.tron.log("firstname="+this.state.firstNameInput+" lastname="+this.state.lastNameInput);
+
+        if(this.props.navigation.state.params.firstname === '')
+            firstname = this.state.firstNameInput;
+         else
+            firstname = this.props.navigation.state.params.firstname;
+
+        if(this.props.navigation.state.params.lastname === '')
+            lastname = this.state.lastNameInput;   
+         else
+             lastname = this.props.navigation.state.params.lastname;
+                
+        if(this.props.navigation.state.params.uname === '')
+            email = this.state.emailInput;
+        else
+            email = this.props.navigation.state.params.uname;
+
         // Email instead of mobile
-        let signUpData = "\"SignUpData\":" +"\""+this.aes("{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+"'"+this.state.emailInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}") +"\"";
+        let signUpData = "\"SignUpData\":" +"\""+this.aes("{ 'FName' : "+"'"+firstname+"'" + ", 'LName' : "+"'"+lastname+"'"+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+"'"+email+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}") +"\"";
          let unencrypted = "{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+"'"+this.state.emailInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}";
-        console.tron.log(" unencrypted signUpData="+ unencrypted );
+
+        //  console.tron.log(" unencrypted signUpData="+ unencrypted );
 
         // console.tron.log("signupData="+"{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.state.phoneNumberInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
-        console.log("signUpData=","{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+"'"+this.state.emailInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
-        console.log("encrypted signup data="+this.aes("{ 'FName' : "+this.state.firstNameInput+", 'LName' : "+this.state.lastNameInput+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+this.state.emailInput+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}"));
-        console.log("payload passed to private policy=",payload);
-        console.tron.log("Authentication in payload="+encryptedData);
-        console.tron.log("type of payload="+typeof(payload));
-        console.tron.log("signUpData=","{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+"'"+this.state.emailInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
-        
 
+        // console.log("signUpData=","{ 'FName' : "+"'"+firstname+"'" + ", 'LName' : "+"'"+lastname+"'"+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+"'"+email+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
+        // console.log("encrypted signup data="+this.aes("{ 'FName' : "+firstname+", 'LName' : "+lastname+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+email+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}"));
+        // console.log("payload passed to private policy=",payload);
+        // console.tron.log("Authentication in payload="+encryptedData);
+        // console.tron.log("type of payload="+typeof(payload));
+        // console.tron.log("signUpData=","{ 'FName' : "+"'"+firstname+"'" + ", 'LName' : "+"'"+lastname+"'"+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+"'"+email+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
+        
         let loginData = '';
 
         if(typeof(payload) === 'string')
@@ -731,11 +752,21 @@ class PushToEarnRegisterProfile extends Component {
         console.tron.log("Login Data="+loginData);
 
         let finalPayload = "{" + "\"AuthenticationData\":"+ "\""+encryptedData + "\"" + "," + "\"LoginData\":" + "\"" + loginData + "\"" + "," + signUpData + "}";
+        let newSignUpData = this.aes("{ 'FName' : "+"'"+firstname+"'" + ", 'LName' : "+"'"+lastname+"'"+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+"'"+email+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}"); 
 
-        console.log("finalPayload = "+finalPayload);
-        console.tron.log("finalPayload="+finalPayload);
+        console.tron.log("unencrypted="+"{ 'FName' : "+"'"+firstname+"'" + ", 'LName' : "+"'"+lastname+"'"+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+"'"+email+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}");
+        console.tron.log("new sign up data="+newSignUpData);
 
-        this.props.navigation.navigate('PushToEarnPrivatePolicy',{payload: finalPayload});
+        let newFinalPayload = {
+            "AuthenticationData": encryptedData,
+            "LoginData": loginData,
+            "SignUpData": newSignUpData
+        };
+
+        console.log(" new finalPayload = "+newFinalPayload);
+        console.tron.log(" new finalPayload="+newFinalPayload);
+
+        this.props.navigation.navigate('PushToEarnPrivatePolicy',{payload: newFinalPayload});
 
     }
 

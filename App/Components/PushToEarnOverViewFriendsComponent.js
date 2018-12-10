@@ -340,9 +340,9 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
     scrollGetFriendList = async () => {
 
-        console.log("INSIDE FRIEND LIST API CALL");
-        console.log("language Code="+this.state.languageCode);
-        console.log("FO token from getFriendList ="+this.state.token);
+        // console.log("INSIDE FRIEND LIST API CALL");
+        // console.log("language Code="+this.state.languageCode);
+        // console.log("FO token from getFriendList ="+this.state.token);
 
         try{
              this.setState({isLoading: true,});
@@ -363,7 +363,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
             this.setState({isLoading: true,});
 
-            console.log("this.props.referral="+this.props.referral);
+            // console.log("this.props.referral="+this.props.referral);
             // console.tron.log("this.props.referral="+this.props.referral);
     
         }
@@ -375,8 +375,8 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
     getFriendList = async () => {
 
-        console.tron.log("INSIDE FRIEND LIST API CALL");
-        console.tron.log("language Code="+this.state.languageCode);
+        // console.tron.log("INSIDE FRIEND LIST API CALL");
+        // console.tron.log("language Code="+this.state.languageCode);
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
@@ -384,7 +384,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
         this.getAsyncStorageToken();
 
-        console.log("FO token from getFriendList ="+this.state.token);
+        // console.log("FO token from getFriendList ="+this.state.token);
 
         try{
              this.setState({isLoading: true,});
@@ -498,8 +498,8 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
     removeSpaces = (input) => {
 
-        console.tron.log("input received="+input);
-        console.tron.log("split="+input.replace(/\s/g, ''));
+        // console.tron.log("input received="+input);
+        // console.tron.log("split="+input.replace(/\s/g, ''));
 
         return input.replace(/\s/g, '');
         

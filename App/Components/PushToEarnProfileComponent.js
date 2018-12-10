@@ -329,7 +329,7 @@ class PushToEarnProfileComponent extends Component {
         {
             console.log("Email is Not Correct");
             // this.setState({emailInput:email});
-            Alert.alert("Your Email is not in Correct format");
+            //Alert.alert("Your Email is not in Correct format");
             return false;
         }
         else {
@@ -1292,6 +1292,7 @@ getAsyncStorage = async () => {
                                             initialCountry={this.state.countryCode}
                                             onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
                                             style= {newStyle.phoneInput}
+                                            onBlur = { () =>  this.validatePhone(this.state.phoneNumberInput) }
                                             onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }
                                             value ={this.formatMobileNo(this.props.mobileNo)}
                                         />

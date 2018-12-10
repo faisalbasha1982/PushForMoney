@@ -79,10 +79,10 @@ export function * rsaRequest(api,payload) {
 //       .catch((error) => console.error(error));
 // }
 
-export function * newInstagramRequest(api,payload,username)
+export function * newInstagramRequest(api,action)
 {
   try{
-    const response = yield call(fetchSocialLogin,payload.payload);
+    const response = yield call(fetchSocialLogin,action.payload);
     console.tron.log("response StatusCode=",response.StatusCode);
     
     if (response.StatusCode === 201)
@@ -111,7 +111,7 @@ export function * newInstagramRequest(api,payload,username)
 
        });
 
-          NavigationService.navigate('PushToEarnRegisterProfile',{uname:username, pword:'', payload: payload.payload, phone: '', pPayload:''});
+          NavigationService.navigate('PushToEarnRegisterProfile',{uname:action.firstname, pword:'', payload: action.payload, phone: '', pPayload:''});
           console.tron.log("201 Error");
 
     }
@@ -156,7 +156,7 @@ export function * newInstagramRequest(api,payload,username)
 
         yield put(LoginActions.loginFailure());
 
-        NavigationService.navigate('PushToEarnRegisterProfile',{uname: '',pword:'', payload: payload.payload});           
+        NavigationService.navigate('PushToEarnRegisterProfile',{uname: '',pword:'', payload: action.payload});           
 
       }
 
@@ -170,14 +170,12 @@ console.tron.log("response issue");
 }
 }
 
-export function * newGoogleRequest(api, payload,payloadNew)
+export function * newGoogleRequest(api, action)
 {
   console.tron.log("google request......");
-  // console.tron.log("payloadNew="+payloadNew);
-  console.tron.log("payloadNew content="+payloadNew);
 
   try{
-      const response = yield call(fetchSocialLogin,payload.payload);
+      const response = yield call(fetchSocialLogin,action.payload);
       console.tron.log("response StatusCode=",response.StatusCode);
     
       if (response.StatusCode === 201)
@@ -207,12 +205,8 @@ export function * newGoogleRequest(api, payload,payloadNew)
        });
 
        console.tron.log("201 Error");
-       console.tron.log("payloadNew="+payloadNew);
-       console.tron.log("firstname facebook ="+payloadNew.givenName);
-       console.tron.log("lastname facebook ="+payloadNew.familyName);
-       console.tron.log("email facebook ="+payloadNew.email);
 
-       NavigationService.navigate('PushToEarnRegisterProfile',{firstname: payloadNew.givenName, lastname: payloadNew.familyName, uname: payloadNew.email,pword:'', mobilephone:'' ,payload: payload.payload});
+       NavigationService.navigate('PushToEarnRegisterProfile',{firstname: action.firstname, lastname: action.lastname, uname: action.email,pword:'', mobilephone:'' ,payload: action.payload});
        //NavigationService.navigate('PushToEarnRegisterProfile',{uname:'', pword:'', payload: payload.payload, phone: '', pPayload:''});
 
     }
@@ -256,7 +250,7 @@ export function * newGoogleRequest(api, payload,payloadNew)
         yield put(LoginActions.loginFailure());
 
         //NavigationService.navigate('PushToEarnRegisterProfile',{uname: payload.email,pword:'', payload: payloadNew.payload});           
-        NavigationService.navigate('PushToEarnRegisterProfile',{uname: payload.email,pword:'', payload: payload.payload});
+        NavigationService.navigate('PushToEarnRegisterProfile',{uname: action.email,pword:'', payload: action.payload});
 
       }
 
@@ -270,13 +264,13 @@ console.tron.log("response issue");
 }
 }
 
-export function * newTwitterRequest(api,payload,userName)
+export function * newTwitterRequest(api,action)
 {
   Alert.alert("twitter request api call to server.....");
 
   try{
 
-      const response = yield call(fetchSocialLogin,payload.payload);
+      const response = yield call(fetchSocialLogin,action.payload);
       console.tron.log("response StatusCode=",response.StatusCode);
       console.log("response status="+response.StatusCode);
 
@@ -306,7 +300,7 @@ export function * newTwitterRequest(api,payload,userName)
 
        });
 
-          NavigationService.navigate('PushToEarnRegisterProfile',{uname:'', pword:'', payload: payload.payload, phone: '', pPayload:''});
+          NavigationService.navigate('PushToEarnRegisterProfile',{uname:'', pword:'', payload: action.payload, phone: '', pPayload:''});
           console.tron.log("201 Error");
     }
     else 
@@ -349,7 +343,7 @@ export function * newTwitterRequest(api,payload,userName)
         yield put(LoginActions.loginFailure());
         // NavigationService.navigate('PushToEarnRegisterProfile',{uname: userName,pword:'', payload: payload.payload});
 
-        NavigationService.navigate('PushToEarnRegisterProfile',{uname: userName,pword:'', payload: payload.payload});           
+        NavigationService.navigate('PushToEarnRegisterProfile',{uname: action.firstname,pword:'', payload: action.payload});           
 
       }
 
@@ -492,16 +486,14 @@ function fetchFacebookLogin(payload){
 
 }
 
-export function * newFacebookRequest(api,payload,payloadNew)
+export function * newFacebookRequest(api,action)
 {
 
   console.tron.log("facebook request....");
-  console.tron.log("initial payload with auth data="+JSON.stringify(payload.payload));
-  console.tron.log("payloadNew="+payloadNew);
 
   try {
 
-        let response = yield call(fetchFacebookLogin,payload.payload);
+        let response = yield call(fetchFacebookLogin,action.payload);
         console.tron.log("response status code= "+response.StatusCode);
 
         if(response.StatusCode === 201)
@@ -516,13 +508,8 @@ export function * newFacebookRequest(api,payload,payloadNew)
                   Alert.alert(LanguageSettingsPFM.French.completeProfile);   
            });
 
-           NavigationService.navigate('PushToEarnRegisterProfile',{firstname: payloadNew.firstname, lastname: payloadNew.lastname, uname: payloadNew.email,pword:'', mobilephone:'' ,payload: payloadNew.payloadNew});
-
+           NavigationService.navigate('PushToEarnRegisterProfile',{firstname: action.firstname, lastname: action.lastname, uname: action.email,pword:'', mobilephone:'' ,payload: action.payload});
            console.tron.log("201 Error");
-           console.tron.log("payloadNew="+typeof(payloadNew));
-           console.tron.log("firstname facebook ="+payloadNew.firstname);
-           console.tron.log("lastname facebook ="+payloadNew.lastname);
-           console.tron.log("email facebook ="+payloadNew.email);
 
         }
         else
@@ -539,12 +526,7 @@ export function * newFacebookRequest(api,payload,payloadNew)
           else
           {
               yield put(LoginActions.loginFailure());
-              NavigationService.navigate('PushToEarnRegisterProfile',{firstname: '', lastname: '' , uname:'', pword:'', payload: payload.payload, mobilephone: '', pPayload:''});
-              console.tron.log("payloadNew="+typeof(payloadNew));
-              console.tron.log("firstname facebook ="+payloadNew.firstname);
-              console.tron.log("lastname facebook ="+payloadNew.lastname);
-              console.tron.log("email facebook ="+payloadNew.email);
-   
+              NavigationService.navigate('PushToEarnRegisterProfile',{firstname: '', lastname: '' , uname:'', pword:'', payload: action.payload, mobilephone: '', pPayload:''});   
           }
 
   }catch(error){
@@ -777,6 +759,8 @@ export function * LoginRequest(api,action) {
     let phoneNumber = action.phoneNumber;
     let payload = action.payload;
 
+    console.tron.log("phonenumber received in loginRequest="+phoneNumber);
+
     if(response.StatusCode === 200)
     {      
       console.tron.log("response="+response.StatusCode);
@@ -823,6 +807,8 @@ export function * LoginRequest(api,action) {
               "NewMobileNumber":response.userinfo.Mobile,
 
             };
+
+            console.tron.log("access Token="+response.LoginAccessToken);
 
             // Navigate to PushToEarnOTPLogin
             NavigationService.navigate('PushToEarnOTPLogin',{accessToken: response.LoginAccessToken,});
@@ -940,7 +926,7 @@ function fetchOTP(payload)
             // );
 
             const mobileOTP = responseJson.mobileOTP;
-            const statusCode = responseJson.StatusCode;      
+            const statusCode = responseJson.StatusCode;
                 
             AsyncStorage.getItem('language').then((language) => {
               //Navigate to OTP page
