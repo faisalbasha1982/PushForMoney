@@ -227,14 +227,22 @@ class PushToEarnSignIn2 extends Component {
               });
 
         } catch (error) {
+
+            console.tron.log("not signed in....");
+            this.setState({isLoading: false});
+
         if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+            this.setState({isLoading: false});
             // user cancelled the login flow
             Alert.alert("SIGN CANCELLED");
         } else if (error.code === statusCodes.IN_PROGRESS) {
+            this.setState({isLoading: false});
             // operation (f.e. sign in) is in progress already
         } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+            this.setState({isLoading: false});
             // play services not available or outdated
         } else {
+            this.setState({isLoading: false});
             // some other error happened
         }
     }
@@ -868,7 +876,17 @@ class PushToEarnSignIn2 extends Component {
         // }
 
         if(nextProps !== this.props)
+        {
             this.setState({ isLoading:false});
+
+            LoginManager.logOut();
+
+            this.instLogout();
+   
+            this.googleSignOut();
+   
+            this.handleLogout();
+        }
 
     }
 

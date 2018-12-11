@@ -137,6 +137,7 @@ class PushToEarnProfileComponent extends Component {
             emailEmptyError:false,
             cardDetailsError:false,
             mobileNotifications:[],
+            phoneTextChanged: false,
             aToken:'',
             text:{},
             isLoading:false
@@ -222,6 +223,105 @@ class PushToEarnProfileComponent extends Component {
         }        
     }
 
+    validatePhoneOnChangeText = (phone) => {
+
+        console.tron.log("phone through input="+phone);
+        console.tron.log("phone in store="+this.props.mobileNo);
+
+        //phone = this.state.phoneNumberInput;
+
+        let phoneSub = phone.substring(1);
+        let firstTwo = phone.substring(1,3);
+        let nextTwo = phone.substring(3,5);
+        let lengthOfString = phoneSub.length;
+
+        console.tron.log("phone validation="+phone);
+        console.tron.log("phone length="+lengthOfString);
+        console.tron.log("first two="+firstTwo);
+        console.tron.log("first two="+nextTwo);
+        // console.tron.log("phone length="+phoneSub.length);
+
+        console.log("formatted phone="+this.formatMobileNo(phone));
+
+        let reg = /^[0-9]{12}$/;
+        let regNew = /^(?=(.*\d){10})(?!(.*\d){13})[\d\(\)\s+-]{10,}$/;
+        let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
+        let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
+
+        this.setState({isLoading:false});
+
+        if(phone === '')
+        {
+            this.setState({phoneNumberInput: ''});
+
+            if(this.state.languageCode === 'nl')
+                this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
+            else
+                if(this.state.languageCode === 'en')
+                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
+                else
+                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
+        }
+        else
+        {
+                if(lengthOfString >= 11)
+                {
+                        if(nextTwo === "45" || nextTwo === "46"
+                            || nextTwo === "47"  || nextTwo === "48"
+                            || nextTwo === "49")
+                        {
+                            console.log("phone="+phone);
+
+                                this.setState({phoneNumberInput: this.formatMobileNo(phone)});
+
+                                    this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '', });
+
+                                    if(phone !== this.props.mobileNo)
+                                    {
+                                        this.setState({isLoading:false,phoneTextChanged: true});
+                                        //this.changeMobile(this.formatMobileNo(phone));
+                                    }            
+                                    else
+                                    if(phone === this.props.mobileNo)
+                                        {
+                                            this.setState({isLoading:false,phoneTextChanged: true});
+                                            //Alert.alert("This Mobile No is already assigned to you");
+                                        }
+                        }
+                      else
+                      {
+                        //Alert.alert("Invalid phone number="+phone);
+                        if(lengthOfString >=12)
+                        {
+                            this.setState({phoneNumberInput: this.formatMobileNo(phone)});
+                            this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '',phoneTextChanged: true });
+
+                            if(phone !== this.props.mobileNo )
+                            {
+                                this.setState({isLoading:false,phoneTextChanged: true});
+                                //this.changeMobile(this.formatMobileNo(phone));    
+                            }
+                            else
+                            if(phone === this.props.mobileNo)
+                            {
+                                this.setState({isLoading:false,phoneTextChanged: true});
+                                // Alert.alert("This Mobile No is already assigned to you");
+                            }
+
+
+                        }
+    
+                      }
+                }
+                else
+                {
+
+                }
+        }
+
+    }
+    
+
     validatePhone = (phone) => {
 
         //this.validateBGPhoneNumber(phone);
@@ -279,7 +379,7 @@ class PushToEarnProfileComponent extends Component {
 
                                     if(phone !== this.props.mobileNo)
                                     {
-                                        this.setState({isLoading:false});
+                                        this.setState({isLoading:false,});
                                         this.changeMobile(this.formatMobileNo(phone));
                                     }            
                                     else
@@ -610,6 +710,15 @@ getAsyncStorage = async () => {
         this.setState({placeHolderColorPhone:'lightgray' })
         :
         this.setState({placeHolderColorPhone:'grey'});
+
+        if(this.state.phoneEditable === true && this.state.phoneTextChanged === true)
+        {            
+            if(this.state.phoneNumberInput !== this.props.mobileNo)
+            {
+                this.changeMobile(this.formatMobileNo(this.state.phoneNumberInput));
+                this.setState({phoneTextChanged: false});    
+            }
+        }
 
     }
 
@@ -1293,7 +1402,7 @@ getAsyncStorage = async () => {
                                             onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
                                             style= {newStyle.phoneInput}
                                             onBlur = { () =>  this.validatePhone(this.state.phoneNumberInput) }
-                                            onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }
+                                            onChangePhoneNumber = { (phoneNumberInput) => this.validatePhoneOnChangeText(phoneNumberInput) }
                                             value ={this.formatMobileNo(this.props.mobileNo)}
                                         />
                                     </View>

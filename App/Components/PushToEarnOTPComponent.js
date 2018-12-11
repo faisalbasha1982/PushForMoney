@@ -151,7 +151,6 @@ class PushToEarnOTPComponent extends Component {
                     else
                         this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
         }
-    
     }
 
     changeMobile = (phoneNumber) => {

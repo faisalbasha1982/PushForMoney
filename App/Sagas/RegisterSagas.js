@@ -15,7 +15,7 @@ import localStorage from 'react-native-sync-localstorage';
 function fetchJsonNew(url,payload) {
 
     // console.log("inside fetchJsonNew: with payload="+payload);
-    // console.tron.log("inside fetch json New ="+payload);
+     console.tron.log("inside fetch json New ="+payload);
   
     return  fetch(url,{
         method: 'POST',
@@ -23,7 +23,7 @@ function fetchJsonNew(url,payload) {
             Accept: 'application/json',
             'Content-Type': 'application/json',
         },
-        body: payload,
+        body: JSON.stringify(payload),
     })
     .then((response) => response.json())
     .then( response => {
@@ -61,6 +61,25 @@ function fetchJsonNew(url,payload) {
             //         cancelable: false
             //     }
             // );
+
+            if(response.StatusCode === 400)
+            {
+                console.tron.log("response 400");
+
+                Alert.alert(
+                response.Message,
+                response.Message,
+                [
+                    { text: 'Back', onPress:() => NavigationService.goBack()},
+                    { text: 'Login', onPress:() => NavigationService.navigate('PushToEarnSignIn2')}
+                ],
+                {
+                    cancelable: false
+                }
+            );
+
+
+            }
         }
   
         return response;
@@ -82,6 +101,7 @@ export function * RegisterRequestNew(api,action)
 
     }
     catch(error) {
+
         yield put(RegisterActions.registerFailure());
     }
 }
@@ -284,8 +304,8 @@ function fetchOTPFP(payload)
       .catch((error) => console.error(error));
 }
 
-export function* forgotPasswordOTPRequest(api,payload){
-
+export function* forgotPasswordOTPRequest(api,payload)
+{
     try
     {
         const response = yield call(fetchOTPFP, payload.payload);
@@ -352,8 +372,8 @@ function fetchJsonForgotPasswordRequest(payload) {
 
 }
 
-export function* forgotPasswordRequest(api,action) {
-
+export function* forgotPasswordRequest(api,action) 
+{
     try {
             let response = yield call(fetchJsonForgotPasswordRequest,action.payload);
             yield put(RegisterActions.registerSuccess());
@@ -362,7 +382,6 @@ export function* forgotPasswordRequest(api,action) {
     {
         yield put(RegisterActions.registerFailure());
     }
-   
 }
 
 /************************************* FORGOT PASSWORD REQUEST ****************************/

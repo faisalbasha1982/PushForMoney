@@ -162,10 +162,10 @@ class PushToEarnOverViewFriendsComponent extends Component {
             console.log("First name is empty="+name);
             console.log("Language ="+this.state.language);
             this.setState({firstNameInput: ''});
-            if(this.state.language === 'NEDERLANDS')
+            if(this.state.language === 'Dutch')
                 this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
             else
-                if(this.state.language === 'ENGLISH')
+                if(this.state.language === 'English')
                     this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
                 else
                     this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
@@ -178,10 +178,10 @@ class PushToEarnOverViewFriendsComponent extends Component {
             }
             else
             {
-              if(this.state.language === 'NEDERLANDS')
+              if(this.state.language === 'Dutch')
                   this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.dutch.FNameErrorText });
               else
-                  if(this.state.language === 'ENGLISH')
+                  if(this.state.language === 'English')
                       this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.english.FNameErrorText });
                   else
                       this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.french.FNameErrorText });
@@ -205,10 +205,10 @@ class PushToEarnOverViewFriendsComponent extends Component {
             //this.setState({ phoneNumberError: true, ErrorText: 'Phone Number is Required' });
             this.setState({phoneNumberInput: ''});
 
-            if(this.state.language === 'NEDERLANDS')
+            if(this.state.language === 'Dutch')
                 this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
             else
-                if(this.state.language === 'ENGLISH')
+                if(this.state.language === 'English')
                     this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
                 else
                     this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
@@ -225,10 +225,10 @@ class PushToEarnOverViewFriendsComponent extends Component {
             if (regNew.exec(phoneSub))
               this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
             else
-                if(this.state.language === 'NEDERLANDS')
+                if(this.state.language === 'Dutch')
                     this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.dutch.TelephoneNumberError });
                 else
-                    if(this.state.language === 'ENGLISH')
+                    if(this.state.language === 'English')
                         this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.english.TelephoneNumberError });
                     else
                         this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
@@ -275,8 +275,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
         else
             if(this.state.language === 'English')
                 this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
-        else
-            if(this.state.language === 'French')
+            else
                 this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
 
    }
@@ -322,6 +321,14 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
             )
         );
+
+    }
+
+    getAsyncStorageTokenOnly = async () => {
+
+        await AsyncStorage.getItem('token').then((token) => {
+            this.setState({ token: token});
+        });
 
     }
 
@@ -376,18 +383,37 @@ class PushToEarnOverViewFriendsComponent extends Component {
     getFriendList = async () => {
 
         // console.tron.log("INSIDE FRIEND LIST API CALL");
-        // console.tron.log("language Code="+this.state.languageCode);
+         console.tron.log("prev language Code="+this.state.languageCode);
 
-        let authData = AuthComponent.authenticationData(this.state.languageCode);
-        let encryptedData = AesComponent.aesCallback(authData);
-        let ltoken = localStorage.getItem('token');
+         this.getAsyncStorageToken();
 
-        this.getAsyncStorageToken();
+         let authData = '';
+         let encryptedData = '';
 
+        await AsyncStorage.getItem('language').then((language) => {
+
+            this.setState({ language: language});
+
+            if(language === 'Dutch')
+                this.setState({ languageCode: 'nl' });
+            else
+               if(language === 'English')
+                   this.setState({ languageCode: 'en' });
+                else
+                    this.setState({ languageCode: 'fr' });
+
+            authData = AuthComponent.authenticationData(this.state.languageCode);
+            encryptedData = AesComponent.aesCallback(authData);
+    
+        });
+
+        console.tron.log("current language Code="+this.state.languageCode);
         // console.log("FO token from getFriendList ="+this.state.token);
 
         try{
              this.setState({isLoading: true,});
+
+             console.tron.log("props");
 
             setTimeout(() => {
 
@@ -442,7 +468,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
         (this.state.token===null || this.state.token===undefined)?
         setTimeout(() => {
-            this.getAsyncStorageToken();
+            this.getAsyncStorageTokenOnly();
         })
         :
         setTimeout(() => {

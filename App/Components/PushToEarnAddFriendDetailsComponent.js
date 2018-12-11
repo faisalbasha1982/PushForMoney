@@ -642,7 +642,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                 }
             else    
                 console.tron.log("mobileReferrals="+this.props.MobileReferrals); 
-        },1000);
+        },3000);
 
     }
 
@@ -708,7 +708,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                         }
                     else    
                         console.tron.log("mobileReferrals="+this.props.MobileReferrals); 
-                },1000);
+                },3000);
             }
     }
 

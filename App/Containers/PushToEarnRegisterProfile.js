@@ -328,11 +328,14 @@ class PushToEarnRegisterProfile extends Component {
      }
 
     componentWillReceiveProps(nextProps) {
+
         // console.log("in Form One screen language received="+nextProps.language);
         // if (this.props.navigation.state.params.language !== nextProps.language) {
         //     this.setState({ language: nextProps.language });
         //     this.setText();
         // }
+        
+        this.setState({ isLoading: false });
 
         if(nextProps != this.props)
             {
@@ -340,6 +343,9 @@ class PushToEarnRegisterProfile extends Component {
                 console.log("password=",this.props.navigation.state.params.pword);   
 
                 this.setText();
+
+                this.setState({ isLoading: false });
+
             }
 
     }
@@ -364,6 +370,8 @@ class PushToEarnRegisterProfile extends Component {
 
         if(this.props.navigation.state.params.mobilephone !== '')
             this.setState({ phoneNumberInput:  this.props.navigation.state.params.mobilephone});
+
+        this.setState({ isLoading: false });
     }
 
     setLanguage = () => {

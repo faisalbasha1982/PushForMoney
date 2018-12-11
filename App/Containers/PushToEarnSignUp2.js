@@ -183,14 +183,22 @@ class PushToEarnSignUp2 extends Component {
               });
 
         } catch (error) {
+
+            console.tron.log("not signed in....");
+            this.setState({isLoading: false});
+
         if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+            this.setState({isLoading: false});
             // user cancelled the login flow
             Alert.alert("SIGN CANCELLED");
         } else if (error.code === statusCodes.IN_PROGRESS) {
+            this.setState({isLoading: false});
             // operation (f.e. sign in) is in progress already
         } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+            this.setState({isLoading: false});
             // play services not available or outdated
         } else {
+            this.setState({isLoading: false});
             // some other error happened
         }
     }
@@ -281,11 +289,84 @@ class PushToEarnSignUp2 extends Component {
 
             };
 
-            this.props.googleLogin(payload);
+            this.props.googleLogin(payload,user.givenName,user.familyName,user.email);
         }
           else
             console.log("loginData  or authentication Data is empty");
           },3000);
+
+    }
+
+    instaLoginGetUsers = async (token) => {
+
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
+        let encryptedData = AesComponent.aesCallback(authData);
+
+        try {
+
+            let response = await fetch(`https://api.instagram.com/v1/users/self/?access_token=${token}`, 
+            {
+              method: 'GET'
+            });
+
+            console.tron.log("response="+response.ok);
+
+            if (response.ok) {
+
+              console.tron.log(response);
+
+              let jsonResponse = await response.json();
+              console.tron.log("jsonResponse="+jsonResponse.data.id);
+              console.tron.log("jsonResponse="+jsonResponse.data.username);
+              console.tron.log("jsonResponse="+jsonResponse.data.full_name);
+
+              let loginInfo = "{ 'I' : '"+jsonResponse.data.id+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
+
+              console.tron.log("authData:"+authData);
+              console.tron.log("authentication data:"+encryptedData);
+              console.tron.log("LoginData:"+loginInfo);
+      
+              this.rsa(loginInfo);
+
+              setTimeout(() => {
+                this.setState({isLoading: false});
+          
+                if( this.state.encodedText !== "")
+                {
+        
+                    let payload = {
+        
+                        "AuthenticationData": encryptedData,
+                        "LoginData": this.state.encodedText,
+                        "SignupMode": false,
+        
+                    };
+        
+                    // let payloadNew = JSON.stringify({
+                    //       "userName": userName,
+                    //       "id": userID,
+                    // });
+        
+                    console.tron.log("LoginData:"+this.state.encodedText);
+        
+                    //this.props.twitterlogin(payload,userName);
+                    this.props.instagramLogin(payload,jsonResponse.data.username,'','');
+                }
+                else
+                    console.log("loginData  or authentication Data is empty");
+  
+              }
+              ,650);            
+
+            }
+
+            //throw new Error('Request failed!');
+          }           
+          catch (error) {
+
+            console.tron.log("error="+error);
+
+          }
 
     }
 
@@ -332,7 +413,7 @@ class PushToEarnSignUp2 extends Component {
                   "id": userID,
             });
 
-            this.props.twitterlogin(payload,userName);
+            this.props.twitterlogin(payload,userName,'','');
           }
           else
             console.log("loginData  or authentication Data is empty");
@@ -420,7 +501,7 @@ class PushToEarnSignUp2 extends Component {
 
               };
 
-              this.props.signUpFaceBook(payload,payloadNew);
+              this.props.loginFaceBook(payload,result.first_name, result.last_name,result.email);
             }
             else
               console.log("loginData  or authentication Data is empty");
@@ -452,7 +533,7 @@ class PushToEarnSignUp2 extends Component {
                     accessToken: token,
                     parameters: {
                       fields: {
-                        string: 'email,name,first_name,middle_name,last_name,id,mobile_phone'
+                        string: 'email,name,first_name,middle_name,last_name,id'
                       }
                     }
                 },this._responseInfoCallback
@@ -1880,10 +1961,10 @@ const mapStateToProps = state => {
             console.tron.log("mobileNumber="+mobileNumber);
             dispatch({type: 'MOBILE_REGISTER_REQUEST',payload,mobileNumber})
         },
-        loginFaceBook: ( payload, payloadNew ) => dispatch({ type: 'FACEBOOK_REQUEST', payload, payloadNew}),
-        signUpFaceBook: (payload,payloadNew) => dispatch({type: 'FACEBOOK_REQUEST', payload, payloadNew}),
-        twitterlogin: (payload,userName) => dispatch({ type:'TWITTER_REQUEST',payload,userName}),
-        googleLogin: (payload) => dispatch({ type: 'GOOGLE_REQUEST',payload}),
+        loginFaceBook: ( payload, firstname, lastname, email ) => dispatch({ type: 'FACEBOOK_REQUEST', payload, firstname, lastname, email}),
+        twitterlogin: (payload,firstname,lastname,email) => dispatch({ type:'TWITTER_REQUEST',payload,firstname,lastname,email }),
+        googleLogin: (payload,firstname,lastname,email) => dispatch({ type: 'GOOGLE_REQUEST',payload,firstname,lastname,email}),
+        instagramLogin: (payload,firstname,lastname,email) => dispatch({ type: 'INSTAGRAM_REQUEST', payload,firstname,lastname,email}),
         resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
         navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
         navigateBack: () => this.props.navigation.goBack(),

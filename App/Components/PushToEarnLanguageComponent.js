@@ -96,7 +96,6 @@ class PushToEarnLanguageComponent extends Component {
             if(this.props.language === 'English')
                 this.setState({ text: languageSettingsPFM.English, languageCode:'en'});
         else
-            if(this.props.language === 'French')
                 this.setState({ text: languageSettingsPFM.French, languageCode:'fr'});
 
    }

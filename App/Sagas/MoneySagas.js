@@ -24,7 +24,7 @@ function fetchJson(url,payload) {
       });
   }
 
-function fetchMoney(payload) {      
+function fetchMoney(payload) {
 
     return fetchJson(`https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnGetMonthlyEarningDetailsByReferrals?code=${API_URL.commonCode}`,payload);
 
