@@ -8,6 +8,7 @@ const languageSettings = {
     SignWith: "or sign in with:",
     SignUpWith: "or sign up with:",
     SButton: "LOGIN",
+    loginFailed: 'Login Failed',
     Email: "Email address",
     Password: "Password",
     forgot: "Forgot Password?",
@@ -111,7 +112,8 @@ const languageSettings = {
     resend: "Re-send",    
     //Redux Translations
     completeProfile: 'Please Complete your Profile!',
-    signUpText: 'Please Sign Up , as your phone number does not exist in our database'
+    signUpText: 'Please Sign Up , as your phone number does not exist in our database',
+    userExists: 'User Already Exists!',
     },
     
     Dutch: {
@@ -128,6 +130,7 @@ const languageSettings = {
     bottomLine: "Nog geen profiel? ",
     here:"Hier inschrijven!",
     SignUp: "Inschrijven",
+    loginFailed: 'aanmelden mislukt',
     forget: "Wachtwoord vergeten",
     resetPassword: "RESET WACHTWOORD",
     saveData: "gegevens opslaan",
@@ -224,7 +227,8 @@ const languageSettings = {
 
     //Redux Translations
     completeProfile:'Voltooi alstublieft uw profiel',
-    signUpText: 'Meld je aan, want je telefoonnummer bestaat niet in onze database'
+    signUpText: 'Meld je aan, want je telefoonnummer bestaat niet in onze database',
+    userExists: 'Gebruiker bestaat al',
     },
     
     French: {
@@ -241,7 +245,8 @@ const languageSettings = {
     bottomLine: "Vous n'avez pas de compte? Inscrivez-vous",
     here:"ici!",
     SignUp: "S'inscrire",
-    forget: "Mot de passe oublié",    
+    loginFailed: 'échec de la connexion',
+    forget: "Mot de passe oublié",   
     resetPassword: "RÉINITIALISER",
     saveData: 'enregistrer des données',
     otp: "Entrer OTP",    
@@ -337,8 +342,8 @@ const languageSettings = {
 
     //Redux Translations
     completeProfile:'Veuillez compléter votre profil',
-    signUpText: "Veuillez vous inscrire, car votre numéro de téléphone n'existe pas dans notre base de données."
-
+    signUpText: "Veuillez vous inscrire, car votre numéro de téléphone n'existe pas dans notre base de données.",
+    userExists: 'L\'utilisateur existe déjà',
     }
     
     }

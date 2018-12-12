@@ -3,10 +3,10 @@ const key = '!@M*;-kATy_vcUkLq/U))QD`XL5Sg`5D';
 const liClientId = '81td97f0ibm93v';
 const liState = 'DCEeFWf45A53sdfKef424';
 const liRedirectUri = 'https://www.example.com/auth/linkedin';
-const slot = 'stag';
+const slot = 'prod';
 
 const Api_url = {
-  slot: 'stag',
+  slot: 'prod',
   functionURL:`https://faazureapiinterface${slot}.azurewebsites.net/api/fnMoblieLogin?code=${key}`,
   LoginUrl: `https://faazureapiinterface${slot}.azurewebsites.net/api/fnMoblieLogin?code=${key}`,
   LoginUrlStag: `https://faazureapiinterfacestag.azurewebsites.net/api/fnMoblieLogin?code=${key}`,

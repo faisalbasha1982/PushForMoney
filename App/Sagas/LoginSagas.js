@@ -9,8 +9,9 @@ import { NavigationActions } from 'react-navigation';
 import API_URL from '../Services/Api_url';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
-import LanguageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import Api_url from '../Services/Api_url';
+import LanguageSettingsPFM from '../Containers/LanguageSettingsPFM';
+import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 
 export function * rsaRequest(api,payload) {
   try{
@@ -139,20 +140,53 @@ export function * newInstagramRequest(api,action)
             //Navigate to OTP page
             NavigationService.navigate('TestPage',{language:language});
           });
+
        }
       else
       {
-        Alert.alert(
-          'Login Failed',
-          ""+response.data.Message,
-          [                      
-              {
-                text: 'OK', 
-                onPress: () => console.log('Ask me later Pressed')
-              },                      
-          ],
-          {cancelable: false}
-      );
+        AsyncStorage.getItem('language').then((language) => {
+
+          if(language === 'Dutch')
+                
+              Alert.alert(
+                  languageSettingsPFM.Dutch.loginFailed,
+                  ""+response.data.Message,
+                  [                      
+                      {
+                        text: 'OK', 
+                        onPress: () => console.log('Ask me later Pressed')
+                      },                      
+                  ],
+                  {cancelable: false}
+              );
+          else
+            if(language === 'English')                
+                  Alert.alert(
+                      languageSettingsPFM.English.loginFailed,
+                      ""+response.data.Message,
+                      [                      
+                          {
+                            text: 'OK', 
+                            onPress: () => console.log('Ask me later Pressed')
+                          },                      
+                      ],
+                      {cancelable: false}
+                  );
+              
+            else
+            Alert.alert(
+              languageSettingsPFM.French.loginFailed,
+              ""+response.data.Message,
+              [                      
+                  {
+                    text: 'OK', 
+                    onPress: () => console.log('Ask me later Pressed')
+                  },                      
+              ],
+              {cancelable: false}
+          );
+
+      });
 
         yield put(LoginActions.loginFailure());
 
@@ -175,6 +209,7 @@ export function * newGoogleRequest(api, action)
   console.tron.log("google request......");
 
   try{
+
       const response = yield call(fetchSocialLogin,action.payload);
       console.tron.log("response StatusCode=",response.StatusCode);
     
@@ -477,6 +512,7 @@ export function * twitterRequest(api,payload,userName)
 function fetchSocialLogin(payload) {
 
     return fetchJson(Api_url.mobileSignUpLoginUrlNewStag,payload);
+    //return fetchJson(Api_url.mobileSignUpLoginUrlNewStag,payload);
 
 }
 
@@ -897,7 +933,7 @@ function fetchOTP(payload)
     let authData = AuthComponent.authenticationData(languageCode);
     let encryptedData = AesComponent.aesCallback(authData);
 
-    const url = API_URL.staging.laMobileOtpVerification;
+    const url = API_URL.production.laMobileOtpVerification;
 
     AsyncStorage.getItem('token').then((token) => 
     {

@@ -247,6 +247,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
         this.getAsyncStorageToken();
 
         setTimeout(()=> {
+
             this.getFriendList();
         },3000);
 
@@ -334,13 +335,14 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
     getAsyncStorageToken = async () => {
 
+        await AsyncStorage.getItem('language').then((language) => {
+            this.setState({ language: language});
+        });
+
         await AsyncStorage.getItem('token').then((token) => {
             this.setState({ token: token});
         });
 
-        await AsyncStorage.getItem('language').then((language) => {
-            this.setState({ language: language});
-        });
 
         this.setLanguage();
     }

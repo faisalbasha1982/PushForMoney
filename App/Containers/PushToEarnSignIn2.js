@@ -1347,7 +1347,7 @@ class PushToEarnSignIn2 extends Component {
                   });
     
                     this.props.loginAction(payload,this.state.phoneNumberInput);
-                    this.setState({isLoading: false});
+                    //this.setState({isLoading: false});
                 }
                 else
                   console.log("loginData  or authentication Data is empty");
@@ -1935,28 +1935,28 @@ const newStyle = StyleSheet.create({
     },
 
     iconStyleInstagram: {
-        width: 45,
-        height: 45,
-        borderRadius: 45,
+        width: 70,
+        height: 70,
+        borderRadius: 70,
         backgroundColor: 'black',
         // marginTop: viewPortHeight / 100,
         marginRight: 0,
-        marginLeft: 13,
-        marginTop: 10,
+        marginLeft: 0,
+        marginTop: 0,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'transparent'        
+        backgroundColor: 'transparent',
     },
 
     iconStyle: {
-        width: 45,
-        height: 45,
-        borderRadius: 45,
+        width: 70,
+        height: 70,
+        borderRadius: 70,
         backgroundColor: 'transparent',
         marginTop: viewPortHeight / 200,
         marginRight: 0,
-        marginLeft: 13,
-        marginTop: 10,
+        marginLeft: 0,
+        marginTop: 0,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'transparent'        

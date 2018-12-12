@@ -115,6 +115,10 @@ class TestPage extends Component {
         console.log("TP component will mount");
         this.getAsyncStorage();
 
+        AsyncStorage.getItem('token').then((token)=>{
+            this.setState({ token: token});
+        })
+
         this.setState({ menu:0 });
 
         let date, day, month, year;
@@ -150,9 +154,9 @@ class TestPage extends Component {
           
             }
 
-            setTimeout(()=> {
-                this.getFriendList();
-            },600);
+            // setTimeout(()=> {
+            //     this.getFriendList();
+            // },600);
 
             // setTimeout(() => 
             // {
@@ -181,6 +185,13 @@ class TestPage extends Component {
 
     changeScreen = () => {
         this.props.navigation.navigate('PushForJob');
+    }
+
+    getAsyncStorageToken = async () => {
+
+        await AsyncStorage.getItem('token').then((token) => {
+            this.setState({ token: token});
+        });
     }
 
     getAsyncStorage = async () => {
@@ -421,9 +432,13 @@ class TestPage extends Component {
         let encryptedData = AesComponent.aesCallback(authData);
         let ltoken = localStorage.getItem('token');
 
+        this.getAsyncStorageToken();
+
         this.getAsyncStorage();
 
         this.setState({isLoading: true,});
+
+        let token = '';
 
         console.log("token from getFriendList ="+this.state.token);
       

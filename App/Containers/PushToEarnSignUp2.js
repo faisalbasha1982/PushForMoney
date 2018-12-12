@@ -1486,10 +1486,10 @@ class PushToEarnSignUp2 extends Component {
                     <Image source={logoNew} resizeMode="contain" style={{ width: 225, height: 45 }} />
                 </View>
 
-                <View style= {{ flex:1, flexDirection: 'row', paddingLeft:10, }}>
+                <View style= {{ flex:1, flexDirection: 'row', paddingLeft:20, backgroundColor: 'transparent' }}>
                         <Text 
                             style={{
-                            width: 330,
+                            width: 340,
                             height: 34,
                             fontFamily: "WorkSans-Medium",
                             fontSize: 21,
@@ -1498,8 +1498,8 @@ class PushToEarnSignUp2 extends Component {
                             lineHeight: 34,
                             letterSpacing: 0,
                             textAlign: "center",
-                            paddingLeft:25,
-                            marginRight: 5,
+                            paddingLeft: 45,
+                            marginRight: 0,
                             color: "#E73D50",
                             backgroundColor:'transparent'
                         }}>
@@ -1925,14 +1925,14 @@ const newStyle = StyleSheet.create({
     },
 
     iconStyle: {
-        width: 45,
-        height: 45,
-        borderRadius: 45,
+        width: 70,
+        height: 70,
+        borderRadius: 70,
         backgroundColor: 'transparent',
-        marginTop: viewPortHeight / 200,
+        // marginTop: viewPortHeight / 200,
         marginRight: 0,
-        marginLeft: 13,
-        marginTop: 10,
+        marginLeft: 0,
+        marginTop: 0,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'transparent'        
