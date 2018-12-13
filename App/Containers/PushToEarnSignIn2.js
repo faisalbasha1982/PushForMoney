@@ -496,7 +496,8 @@ class PushToEarnSignIn2 extends Component {
         RNTwitterSignIn.init(Constants.TWITTER_COMSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
         RNTwitterSignIn.logIn()
           .then(loginData => {
-            console.log(loginData);
+            console.log("twitter data="+JSON.stringify(loginData));
+            console.tron.log("twitter data="+JSON.stringify(loginData));
             const { authToken, authTokenSecret, userID,userName } = loginData;
 
             // Alert.alert(

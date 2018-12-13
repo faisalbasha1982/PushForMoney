@@ -252,7 +252,7 @@ class PushToEarnOTPRegister extends Component {
              let newPayload = {
 
                  "AuthenticationData": encryptedData,
-                 "LoginAccessToken": this.state.token,
+                 "LoginAccessToken": token,
                  "OTP": this.state.otpText,
                  "OTPType" : "R",
 

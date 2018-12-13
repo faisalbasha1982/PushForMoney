@@ -957,12 +957,11 @@ getAsyncStorage = async () => {
        // +320 => +32
        // 320 => +32
 
-       // Alert.alert("phone="+phone);
        console.tron.log("text input phone="+phone);
        
        phone = this.removeSpaces(phone);
 
-       let dpPhone = phone;        
+       let dpPhone = phone;
 
        let first = phone.substring(0,1);
        let second = phone.substring(1,2);
@@ -1599,7 +1598,7 @@ getAsyncStorage = async () => {
                                 <Text style={newStyle.firstName}>{this.state.text.cardDetails}</Text>
                                 {
                                      this.props.bankInfo === null || this.props.bankInfo === undefined || this.props.bankInfo.MobileUserBankDetailId === 0?
-                                     <Text style={newStyle.para}>{this.state.text.add}<Text style={{ color: '#e73d50',fontFamily: 'WorkSans-Bold', fontWeight: '500', fontSize: 20  }} onPress={() => this.props.menu(5)}>here</Text></Text>
+                                     <Text style={newStyle.para}>{this.state.text.add}<Text style={{ color: '#e73d50',fontFamily: 'WorkSans-Bold', fontWeight: '500', fontSize: 20  }} onPress={() => this.props.menu(5)}>{this.state.text.here}</Text></Text>
                                      :
                                       (this.props.bankInfo.MobileUserBankDetailId !== 0)?
                                      <View style={{ flex:1,  }}>

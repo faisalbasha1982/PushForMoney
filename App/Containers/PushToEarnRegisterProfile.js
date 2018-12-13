@@ -344,6 +344,18 @@ class PushToEarnRegisterProfile extends Component {
 
                 this.setText();
 
+                if(this.props.navigation.state.params.mobilephone !== '')
+                    this.setState({ phoneNumberInput:  this.props.navigation.state.params.mobilephone});
+    
+                if(this.props.navigation.state.params.firstname !== '')
+                    this.setState({ firstNameInput: this.props.navigation.state.params.firstname });
+            
+                if(this.props.navigation.state.params.lastname !== '')
+                    this.setState({ lastNameInput: this.props.navigation.state.params.lastname });
+    
+                if(this.props.navigation.state.params.uname !== '')
+                    this.setState({ emailInput: this.props.navigation.state.params.uname });
+
                 this.setState({ isLoading: false });
 
             }
@@ -354,6 +366,12 @@ class PushToEarnRegisterProfile extends Component {
 
         console.log("usrname=",this.props.navigation.state.params.uname);
         console.log("password=",this.props.navigation.state.params.pword);
+
+        let firstname = this.props.navigation.state.params.firstname;
+        let lastname = this.props.navigation.state.params.lastname;
+        let uname = this.props.navigation.state.params.uname;
+        let mobilephone = this.props.navigation.state.params.mobilephone;
+
         this.setText();
 
         let language = localStorage.getItem('language');
@@ -370,6 +388,15 @@ class PushToEarnRegisterProfile extends Component {
 
         if(this.props.navigation.state.params.mobilephone !== '')
             this.setState({ phoneNumberInput:  this.props.navigation.state.params.mobilephone});
+
+        if(this.props.navigation.state.params.firstname !== '')
+            this.setState({ firstNameInput: firstname });
+        
+        if(this.props.navigation.state.params.lastname !== '')
+            this.setState({ lastNameInput: lastname });
+
+        if(this.props.navigation.state.params.uname !== '')
+            this.setState({ emailInput: uname });
 
         this.setState({ isLoading: false });
     }
@@ -695,7 +722,7 @@ class PushToEarnRegisterProfile extends Component {
 
         if(this.state.phoneNumberInput === '')
          {
-             Alert.alert("Please enter your phone number!");
+             Alert.alert(this.state.text.enterPhoneNumber);
              return;
          }
 
@@ -728,6 +755,15 @@ class PushToEarnRegisterProfile extends Component {
         else
             email = this.props.navigation.state.params.uname;
 
+        if(this.props.navigation.state.params.firstname !== '' && this.state.firstNameInput !== '')    
+            firstname  = this.state.firstNameInput;
+        if(this.props.navigation.state.params.lastname !== '' && this.state.lastNameInput !== '')    
+            lastname  = this.state.lastNameInput;
+        if(this.props.navigation.state.params.uname !== '' && this.state.emailInput !== '')    
+            email  = this.state.emailInput;
+        if(this.props.navigation.state.params.mobilephone !== '' && this.state.phoneNumberInput !== '')
+            phoneData = this.state.phoneNumberInput;
+            
         // Email instead of mobile
         let signUpData = "\"SignUpData\":" +"\""+this.aes("{ 'FName' : "+"'"+firstname+"'" + ", 'LName' : "+"'"+lastname+"'"+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+"'"+email+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}") +"\"";
          let unencrypted = "{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+"'"+this.state.emailInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}";
@@ -784,18 +820,14 @@ class PushToEarnRegisterProfile extends Component {
 
     validateEmail = (text) => {
 
-        console.log("email="+text);
-        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
-        if(reg.test(text) === false)
-        {
-            console.log("Email is Not Correct");
-            this.setState({ emailInput: text, usernameInputError: true, usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
-            //    return false;
-        }
-        else 
-        {
-           this.setState({ usernameInputError: false, usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
-        }
+        // console.log("email="+text);
+        // let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+        // if(reg.test(text))
+        // {
+        //     this.setState({ emailInput: text, usernameInputError: true, usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
+        // }
+
+        this.setState({emailInput: text});
 
     }
 
@@ -1098,7 +1130,7 @@ class PushToEarnRegisterProfile extends Component {
                                 onFocus = { () => this.focusFirst() }
                                 onBlur = { () => this.focusFirstOff()}
                                 placeholder=''
-                                value={ firstname }
+                                value={ this.state.firstNameInput }
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
                             
@@ -1107,7 +1139,7 @@ class PushToEarnRegisterProfile extends Component {
                         style={ [newStyle.nameInput, { borderColor:this.state.isFocusedSecond===true?'#e73d50':'transparent', borderStyle:'solid', borderWidth:1 }] }
                         onFocus = { () => this.focusSecond() }
                         onBlur = { () => this.focusSecondOff()}
-                        value = { lastname }
+                        value = { this.state.lastNameInput }
                         placeholder=''
                         underlineColorAndroid= 'transparent'
                         onChangeText= { (lastNameInput) => this.validationLastName(lastNameInput) }/>
@@ -1124,7 +1156,7 @@ class PushToEarnRegisterProfile extends Component {
                         style={ [newStyle.nameInput, { borderColor:this.state.isFocusedThird===true?'#e73d50':'transparent', borderStyle:'solid', borderWidth:1 }] }
                         onFocus = { () => this.focusThird() }
                         onBlur = { () => this.focusThirdOff()}                    
-                        value = { uname }
+                        value = { this.state.emailInput }
                         placeholder=''
                         editable = {true}
                         underlineColorAndroid= 'transparent'

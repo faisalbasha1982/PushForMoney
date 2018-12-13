@@ -1055,6 +1055,7 @@ class PushToEarnSignUp2 extends Component {
                             
                                 console.tron.log("payload="+payload);
                                 console.tron.log("phone number Input="+this.state.phoneNumberInput);
+
     
                                 this.props.registerAction(payload,this.state.phoneNumberInput);
                                 

@@ -262,9 +262,9 @@ class PushToEarnOverViewFriendsComponent extends Component {
         {            
             this.getAsyncStorageToken();
 
-            setTimeout(()=> {
-                this.getFriendList();
-            },3000);
+            // setTimeout(()=> {
+            //     this.getFriendList();
+            // },3000);
         }
 
     }
@@ -287,9 +287,9 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
         this.getAsyncStorageToken();
 
-            setTimeout(()=> {
-                this.getFriendList();
-            },3000);
+            // setTimeout(()=> {
+            //     this.getFriendList();
+            // },3000);
     }
 
     renderNothing = () => {
@@ -762,12 +762,12 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
                                 <View style= {newStyle.inputContainer}>
 
-                                   {/* {
+                                   {
                                         this.state.isLoading ===true?
                                         <View style = {{position: 'absolute' , zIndex:3999, left: 30, top: 0, right: 0, bottom: 0}}>
                                         <BallIndicator color='#e73d50' />
                                         </View>:this.somethingElse()
-                                   } */}
+                                   }
 
                                     {/* <ScrollView
                                         bounces={true}
@@ -799,7 +799,10 @@ class PushToEarnOverViewFriendsComponent extends Component {
                                 <ScrollView
                                         style={{ flex: 1, backgroundColor: 'transparent', height:viewPortHeight*0.90, }} 
                                         contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-start',  }}
-                                        onScroll = { () => { this.getFriendList() } }
+                                        onScroll = { () => { 
+                                            this.getFriendList(); 
+                                            this.setState({ isLoading: true });
+                                        } }
                                         >
                                     {
                                         this.props.referral.map(

@@ -615,7 +615,10 @@ class PushToEarnAddFriendDetailsComponent extends Component {
         };
 
         this.props.saveReferrals(payload);
-        //this.props.menu(2);
+        
+        setTimeout(() => {
+            this.props.menu(2);
+        },3000);
 
         setTimeout(() => {
             if(!_.isEmpty(this.props.MobileReferrals))
@@ -666,7 +669,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
         if(this.state.aToken === null)
             setTimeout(()=>{
                this.getAsyncStorage();
-            },2000)
+            },2500)
         else
             {
                 console.tron.log("Save referrals phone number Input="+this.state.phoneNumberInput);
@@ -683,6 +686,10 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
                 this.props.saveReferrals(payload);
                 //this.props.menu(2);
+
+                setTimeout(() => {
+                    this.props.menu(2);
+                },2000);
 
                 setTimeout(() => {
                     if(!_.isEmpty(this.props.MobileReferrals))

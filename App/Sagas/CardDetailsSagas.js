@@ -49,7 +49,7 @@ function fetchCardDetails(payload) {
   // return fetchJson('https://prod-35.westeurope.logic.azure.com:443/workflows/f9fc0fc1506c45259ca27316a30bcad5/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=7H-I1UBMFhDfqGO0tCiCa_oV7IlPHGeARkTh6_sk-h8',payload);
 
   //staging
-  return fetchJson(API_URL.production.laMobileStoreUserBankDetails,payload);
+  return fetchJson(API_URL.staging.laMobileStoreUserBankDetails,payload);
   
 
 }

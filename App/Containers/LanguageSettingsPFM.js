@@ -19,6 +19,7 @@ const languageSettings = {
     forget: "Forgot password?",
     resetPassword: "RESET PASSWORD",
     otp: "Enter OTP",
+    enterPhoneNumber: 'Please enter your Phone Number:',
     otpMessage: "We send you an email with a One Time Password.",
     otpMessagecntd: "Please enter the code below",
     otpSent: "OTP verzonden met succes naar uw mobiele nummer",
@@ -114,6 +115,7 @@ const languageSettings = {
     completeProfile: 'Please Complete your Profile!',
     signUpText: 'Please Sign Up , as your phone number does not exist in our database',
     userExists: 'User Already Exists!',
+    here: "here"
     },
     
     Dutch: {
@@ -130,6 +132,7 @@ const languageSettings = {
     bottomLine: "Nog geen profiel? ",
     here:"Hier inschrijven!",
     SignUp: "Inschrijven",
+    enterPhoneNumber: 'Vul alstublieft uw telefoonnummer in!',
     loginFailed: 'aanmelden mislukt',
     forget: "Wachtwoord vergeten",
     resetPassword: "RESET WACHTWOORD",
@@ -224,7 +227,7 @@ const languageSettings = {
     eleven: 'NOVEMBER',
     twelve: 'DECEMBER',
     resend: "opnieuw versturen",
-
+    here: "hier",
     //Redux Translations
     completeProfile:'Voltooi alstublieft uw profiel',
     signUpText: 'Meld je aan, want je telefoonnummer bestaat niet in onze database',
@@ -242,6 +245,7 @@ const languageSettings = {
     Email: "Adresse e-mail",    
     Password: "Mot de passe",    
     forgot: "Mot de passe oublié?",    
+    enterPhoneNumber: "S'il vous plait, entrez votre numéro de téléphone!",
     bottomLine: "Vous n'avez pas de compte? Inscrivez-vous",
     here:"ici!",
     SignUp: "S'inscrire",
@@ -339,7 +343,7 @@ const languageSettings = {
     eleven:'NOVEMBRE',
     twelve:'décembre',
     resend:"renvoyer",
-
+    here: "ici",
     //Redux Translations
     completeProfile:'Veuillez compléter votre profil',
     signUpText: "Veuillez vous inscrire, car votre numéro de téléphone n'existe pas dans notre base de données.",

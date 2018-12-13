@@ -301,7 +301,7 @@ console.tron.log("response issue");
 
 export function * newTwitterRequest(api,action)
 {
-  Alert.alert("twitter request api call to server.....");
+  //Alert.alert("twitter request api call to server.....");
 
   try{
 
@@ -933,7 +933,7 @@ function fetchOTP(payload)
     let authData = AuthComponent.authenticationData(languageCode);
     let encryptedData = AesComponent.aesCallback(authData);
 
-    const url = API_URL.production.laMobileOtpVerification;
+    const url = API_URL.staging.laMobileOtpVerification;
 
     AsyncStorage.getItem('token').then((token) => 
     {
