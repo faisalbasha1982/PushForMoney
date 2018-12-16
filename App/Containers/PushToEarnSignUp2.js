@@ -1001,15 +1001,22 @@ class PushToEarnSignUp2 extends Component {
           }
     }
 
-      signUp =  () => {
+      signUp =  () => 
+      {
 
         let language = this.state.languageCode;
+
+        if(this.state.phone.length >=11 )
+        {
+            Alert.alert(this.state.text.invalidMobilePhone);
+            return;
+        }
 
         if(this.state.phone !== null)
         {
             this.setState({isLoading: true, });
 
-                this.validateBelgiumPhoneNumber(this.state.phone);
+                this.validateBGPhoneNumber(this.state.phone);                
 
                 setTimeout(() => {
 

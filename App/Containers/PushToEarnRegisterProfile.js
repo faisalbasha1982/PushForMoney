@@ -242,8 +242,7 @@ class PushToEarnRegisterProfile extends Component {
         
     }
     
-    validateUAEPhoneNumber = (phone) => {
-        
+    validateUAEPhoneNumber = (phone) => {        
         this.setState({ phoneNumberInput: phone});
     }
 
@@ -922,7 +921,7 @@ class PushToEarnRegisterProfile extends Component {
        
        phone = this.removeSpaces(phone);
 
-       let dpPhone = phone;        
+       let dpPhone = phone;
 
        let first = phone.substring(0,1);
        let second = phone.substring(1,2);

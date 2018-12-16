@@ -713,7 +713,7 @@ getAsyncStorage = async () => {
 
         if(this.state.phoneEditable === true && this.state.phoneTextChanged === true)
         {            
-            if(this.state.phoneNumberInput !== this.props.mobileNo)
+            if(this.state.phoneNumberInput !== this.props.mobileNo && this.state.phoneNumberInput.length >=11)
             {
                 this.changeMobile(this.formatMobileNo(this.state.phoneNumberInput));
                 this.setState({phoneTextChanged: false});    

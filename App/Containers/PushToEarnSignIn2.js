@@ -1505,8 +1505,8 @@ class PushToEarnSignIn2 extends Component {
         const platform = Platform.OS;
         console.log("language sent="+this.props.navigation.state.params.language);
         console.log("platform --->",Platform.OS);
-        console.log("text="+this.state.text.here);
-        console.log("text="+typeof(this.state.text.here));
+        console.tron.log("text="+this.state.text.here);
+        console.tron.log("text="+typeof(this.state.text.here));
 
         let signup = '';
         let signupone = '';
@@ -1518,7 +1518,7 @@ class PushToEarnSignIn2 extends Component {
         :
         signup = '';
 
-        console.log("signup="+signup[0]+" signup2="+signup[1]);
+        console.tron.log("signup="+signup[0]+" signup2="+signup[1]);
 
         return (
 
@@ -1698,7 +1698,7 @@ class PushToEarnSignIn2 extends Component {
                         </TouchableOpacity>
 
                     <View style= {{ flex:1, marginTop: 0, marginLeft: 20}}>
-                        <Text 
+                        <Text
                         style={{
                         width: 334,
                         height: 34,
@@ -1726,7 +1726,7 @@ class PushToEarnSignIn2 extends Component {
                             }}
                         onPress = { () => this.props.navigation.navigate('PushToEarnSignUp2', {phone: ''})}
                         >{signup[0]+""}</Text>
-                        <Text
+                        {/* <Text
                         style={{
                             width: 334,
                             height: 34,
@@ -1740,7 +1740,7 @@ class PushToEarnSignIn2 extends Component {
                             color: "#E73D50"
                             }}
                         onPress = { () => this.props.navigation.navigate('PushToEarnSignUp2',{phone: ''})}
-                        >{" "+signup[1]}</Text>
+                        >{" "+signup[1]}</Text> */}
                     </Text>
                 </View>
                     </View>
