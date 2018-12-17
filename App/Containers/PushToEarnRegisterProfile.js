@@ -363,8 +363,10 @@ class PushToEarnRegisterProfile extends Component {
 
     componentDidMount() {
 
-        console.log("usrname=",this.props.navigation.state.params.uname);
-        console.log("password=",this.props.navigation.state.params.pword);
+        console.tron.log("usrname=",this.props.navigation.state.params.uname);
+        console.tron.log("password=",this.props.navigation.state.params.pword);
+
+        this.setState({ isLoading: false });
 
         let firstname = this.props.navigation.state.params.firstname;
         let lastname = this.props.navigation.state.params.lastname;
@@ -427,6 +429,8 @@ class PushToEarnRegisterProfile extends Component {
     componentWillMount() {
         
         this.getAsyncStorage();
+        this.setState({ isLoading: false});
+
     }
 
     setText =  () => {
@@ -719,11 +723,28 @@ class PushToEarnRegisterProfile extends Component {
         let lastname = '';
         let email = '';
 
-        if(this.state.phoneNumberInput === '')
+        if(this.state.phoneNumberInput === '' || this.state.phoneNumberInput === '+32')
          {
              Alert.alert(this.state.text.enterPhoneNumber);
              return;
          }
+
+         if(!this.state.firstNameInput)
+         {
+            Alert.alert(this.state.text.EmptyErrorText);
+            return;
+         }
+
+         if(!this.state.lastNameInput)
+         {
+            Alert.alert(this.state.text.EmptyErrorText);
+            return;
+         }
+
+
+         console.tron.log("firstNameInput="+this.state.firstNameInput);
+         console.tron.log("firstNameInput="+this.state.lastNameInput);
+         console.tron.log("phone number Input="+this.state.phoneNumberInput);
 
          if(this.props.navigation.state.params.mobilephone === '')
              phoneData = this.state.phoneNumberInput;
@@ -809,6 +830,7 @@ class PushToEarnRegisterProfile extends Component {
         console.log(" new finalPayload = "+newFinalPayload);
         console.tron.log(" new finalPayload="+newFinalPayload);
 
+        this.setState({ isLoading: false});
         this.props.navigation.navigate('PushToEarnPrivatePolicy',{payload: newFinalPayload});
 
     }
@@ -1056,6 +1078,12 @@ class PushToEarnRegisterProfile extends Component {
                    this.setState({ phoneNumberInput: dpPhone});
 
                }
+              else
+                if(dpPhone.substring(0,3) === "+32")
+                 {
+                     this.setState({ phoneNumberInput: dpPhone });
+                 }
+
        }
    }    
 
@@ -1123,7 +1151,7 @@ class PushToEarnRegisterProfile extends Component {
 
                 <View style={newStyle.inputContainer}>
                
-                    <Text style={newStyle.firstName}>{this.state.text.firstName}</Text>
+                    <Text style={newStyle.firstName}>{this.state.text.firstName}{" (*)"}</Text>
                     <TextInput
                                 style={ [newStyle.nameInput, { borderColor:this.state.isFocusedFirst===true?'#e73d50':'transparent', borderStyle:'solid', borderWidth:1 }] }
                                 onFocus = { () => this.focusFirst() }
@@ -1133,7 +1161,7 @@ class PushToEarnRegisterProfile extends Component {
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
                             
-                    <Text style={newStyle.firstName}>{this.state.text.lastName}</Text>
+                    <Text style={newStyle.firstName}>{this.state.text.lastName}{" (*)"}</Text>
                     <TextInput
                         style={ [newStyle.nameInput, { borderColor:this.state.isFocusedSecond===true?'#e73d50':'transparent', borderStyle:'solid', borderWidth:1 }] }
                         onFocus = { () => this.focusSecond() }
@@ -1162,7 +1190,7 @@ class PushToEarnRegisterProfile extends Component {
                         onChangeText = { (emailInput) => { this.validateEmail( emailInput ) } }
                     />
 
-                    <Text style={newStyle.firstName}>{this.state.text.Phone}</Text>
+                    <Text style={newStyle.firstName}>{this.state.text.Phone}{" (*)"}</Text>
                     <PhoneInput
                                             opacity={1}
                                             ref={(ref) => { this.phone = ref; }}

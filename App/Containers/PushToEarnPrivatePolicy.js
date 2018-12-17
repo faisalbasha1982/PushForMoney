@@ -240,7 +240,26 @@ class PushToEarnPrivatePolicy extends Component {
                 <View style={newStyle.headerImage}>
                     <Image source={logoNew} resizeMode="contain" style={{ width: 225, height: 45 }} />
                 </View>
-
+                <View style={{ flex:3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' ,backgroundColor: 'transparent' }}>
+                <View style={{ marginLeft:0, backgroundColor:'transparent', width:80,justifyContent:'center', alignItems:'center' }}>
+                                    <TouchableOpacity
+                                            onPress={() => { NavigationService.goBack(); } }
+                                            activeOpacity={0.5}
+                                            style={{
+                                                width: 30,
+                                                height: 30, 
+                                                backgroundColor: 'transparent',
+                                                justifyContent: 'center',
+                                                alignItems: 'center'
+                                            }}> 
+                                            <Icon
+                                                containerStyle={newStyle.iconImageStyle}
+                                                name='arrow-circle-left'
+                                                type='font-awesome'
+                                                color='#E73D50'
+                                                size = {20} />
+                                    </TouchableOpacity>
+                </View>
                 <View style= {{ flex:1, }}>
                         <Text 
                         style={{
@@ -258,6 +277,7 @@ class PushToEarnPrivatePolicy extends Component {
                     </Text>
                 </View>                
 
+                </View>
                 <View style={newStyle.inputContainer}>
                                            
                     <View style={newStyle.endButtons}>                
@@ -449,12 +469,13 @@ const newStyle = StyleSheet.create({
     },
 
     inputContainer: {
-        backgroundColor: 'white',        
-        marginTop: Platform.OS === 'ios'?25:10,
+        backgroundColor: 'powderblue',
+        marginTop: Platform.OS === 'ios'?10:10,
         padding: 25,
+        paddingTop: 10,
         marginLeft: 30,
         flex: Platform.OS === 'ios'?30:1,
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
     },
 
     socialIcons: {

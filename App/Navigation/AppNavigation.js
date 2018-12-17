@@ -70,7 +70,7 @@ const AppNavigation = createStackNavigator({
   },
   PushToEarnSignIn2: { screen: PushToEarnSignIn2,
     navigationOptions: {
-      gesturesEnabled: false,
+      gesturesEnabled: true,
     },
   },
   PushToEarnSignUp: { screen: PushToEarnSignUp,

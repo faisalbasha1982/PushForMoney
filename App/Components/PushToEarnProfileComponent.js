@@ -1096,6 +1096,11 @@ getAsyncStorage = async () => {
                    this.setState({ phoneNumberInput: dpPhone});
 
                }
+              else
+                if(dpPhone.substring(0,3) === "+32")
+                {
+                    this.setState({ phoneNumberInput: dpPhone});
+                }
 
        }
    }
