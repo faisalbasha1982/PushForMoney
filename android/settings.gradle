@@ -1,4 +1,6 @@
 rootProject.name = 'PushForMoney'
+include ':react-native-luzgan-twitter-signin'
+project(':react-native-luzgan-twitter-signin').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-luzgan-twitter-signin/android')
 include ':react-native-cookie'
 project(':react-native-cookie').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-cookie/android')
 include ':react-native-directed-scrollview'

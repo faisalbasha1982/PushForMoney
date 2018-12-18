@@ -314,7 +314,7 @@ class PushToEarnSignIn2 extends Component {
         let loginInfo = "{ 'G' : '"+user.id+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
         this.rsa(loginInfo);
 
-        this.setState({isLoading: false});
+        this.setState({isLoading: true});
 
         setTimeout(() => 
         {
@@ -392,7 +392,7 @@ class PushToEarnSignIn2 extends Component {
               this.rsa(loginInfo);
 
               setTimeout(() => {
-                this.setState({isLoading: false});
+                this.setState({isLoading: true});
           
                 if( this.state.encodedText !== "")
                 {
@@ -462,7 +462,7 @@ class PushToEarnSignIn2 extends Component {
 
         this.rsa(loginInfo);
 
-        this.setState({isLoading: false});
+        this.setState({isLoading: true});
 
         setTimeout(() => 
         {
@@ -547,7 +547,7 @@ class PushToEarnSignIn2 extends Component {
           let loginInfo = "{ 'F' : '"+result.id.toString()+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
           this.rsa(loginInfo);
 
-          this.setState({isLoading: false});
+          this.setState({isLoading: true});
 
           setTimeout(() => 
           {
@@ -1522,7 +1522,7 @@ class PushToEarnSignIn2 extends Component {
 
         return (
 
-            (platform === 'ios' && this.state.hasToken === false)?
+            ((platform === 'ios'|| platform === 'android') && this.state.hasToken === false)?
             <KeyboardAwareScrollView
                 behavior="padding"
                 enableOnAndroid={false}

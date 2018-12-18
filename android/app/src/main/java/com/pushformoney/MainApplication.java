@@ -3,11 +3,11 @@ package com.pushformoney;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.luzgan.twittersignin.TwitterSigninPackage;
 import im.shimo.react.cookie.CookieManagerPackage;
 import com.rnds.DirectedScrollViewPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.goldenowl.twittersignin.TwitterSigninPackage;
 import ca.bigdata.voice.contacts.BDVSimpleContactsPackage;
 import com.RNRSA.RNRSAPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
@@ -31,6 +31,8 @@ import com.facebook.CallbackManager;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
+import io.fabric.sdk.android.Fabric;
+import com.crashlytics.android.Crashlytics;
 
 import java.util.Arrays;
 import java.util.List;
@@ -50,10 +52,10 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new TwitterSigninPackage(false),
             new CookieManagerPackage(),
             new DirectedScrollViewPackage(),
             new VectorIconsPackage(),
-            new TwitterSigninPackage(),
             new SplashScreenReactPackage(),
             new BDVSimpleContactsPackage(),
             new RNRSAPackage(),

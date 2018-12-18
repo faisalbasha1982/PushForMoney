@@ -200,7 +200,8 @@ class PushForJob extends Component {
                         {/* <Animatable.Text animation="zoomInUp" style={newStyle.pushStyle}>PUSH {'\n'} FOR {'\n'} A</Animatable.Text> */}
                         {/* <Image source={pushImage} resizeMode="contain" style={{ width: viewPortWidth * 0.812, height: viewPortHeight * 0.35, }} /> */}
                         <View style={newStyle.bottomContainer}>
-                            <TouchableOpacity onPress={() => { this.callForm() }}>
+                            <TouchableOpacity onPress={() => { this.callForm() }}
+                                              style={{ backgroundColor: 'transparent'  }}>
                                         <Image source={jobanimationnew} resizeMode="contain" style={{ width: viewPortWidth * 0.891, height: viewPortHeight * 0.891, marginLeft: 15, marginTop: 15, }} />
                             </TouchableOpacity>
                         </View>
@@ -211,7 +212,8 @@ class PushForJob extends Component {
                     </View>
 
                     <View style={newStyle.newBottomContainer}>
-                        <TouchableOpacity onPress={() => { this.callMoney() }}>
+                        <TouchableOpacity onPress={() => { this.callMoney() }}
+                                          style={{ backgroundColor: 'transparent'  }}>
                                     <Image source={animation} resizeMode="contain" style={{ width: viewPortWidth * 0.891, height: viewPortHeight * 0.891, marginLeft: 15, }} />
                         </TouchableOpacity>         
                     </View>

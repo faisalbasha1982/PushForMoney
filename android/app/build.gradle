@@ -77,6 +77,8 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply plugin: 'io.fabric'
+
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -96,6 +98,11 @@ def enableProguardInReleaseBuilds = false
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion '28.0.3'
+
+    repositories {
+        maven { url "https://jitpack.io" }
+        maven { url 'https://maven.fabric.io/public' }
+    }
 
     dexOptions {
         preDexLibraries = false
@@ -153,6 +160,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-luzgan-twitter-signin')
     compile project(':react-native-cookie')
     compile project(':react-native-directed-scrollview')
     compile project(':rn-fetch-blob')
@@ -181,6 +189,7 @@ dependencies {
     implementation project(':react-native-push-notification')
     implementation project(':react-native-picker')
     implementation project(':react-native-mail')
+    implementation project(':react-native-luzgan-twitter-signin')
     implementation project(':react-native-immediate-phone-call')
     implementation project(':react-native-image-picker')
     implementation (project(':react-native-google-signin')) {
@@ -202,6 +211,13 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:17.3.2'
     implementation 'com.google.firebase:firebase-core:16.0.3'
     implementation 'com.android.support:multidex:1.0.1'
+    implementation ('com.twitter.sdk.android:twitter-core:3.0.0') {
+        transitive = true
+    }
+    implementation ('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+        transitive = true
+    }
+
 
 }
 
