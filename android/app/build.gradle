@@ -160,12 +160,12 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-luzgan-twitter-signin')
+    compile project(':react-native-oauth')
+    compile project(':tipsi-twitter')
     compile project(':react-native-cookie')
     compile project(':react-native-directed-scrollview')
     compile project(':rn-fetch-blob')
     compile project(':react-native-vector-icons')
-    compile project(':react-native-twitter-signin')
     compile project(':react-native-splash-screen')
     compile project(':react-native-simple-contacts')
     compile project(':react-native-rsa-native')

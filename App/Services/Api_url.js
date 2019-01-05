@@ -6,7 +6,7 @@ const liRedirectUri = 'https://www.example.com/auth/linkedin';
 const slot = 'stag';
 
 const Api_url = {
-  slot: 'stag',
+  slot: 'prod',
   functionURL:`https://faazureapiinterface${slot}.azurewebsites.net/api/fnMoblieLogin?code=${key}`,
   LoginUrl: `https://faazureapiinterface${slot}.azurewebsites.net/api/fnMoblieLogin?code=${key}`,
   LoginUrlStag: `https://faazureapiinterfacestag.azurewebsites.net/api/fnMoblieLogin?code=${key}`,
@@ -61,7 +61,7 @@ const Api_url = {
     laMobileUserResendSignupOTP:'https://prod-27.westeurope.logic.azure.com:443/workflows/75cdda7a4d1e412f8b6fbb00f099cdbc/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=FY6KovQIbuksZrM6Eh00bISPC1oUTrSxFKKhCbyRwpY',
     laMobileUserSignUp:'https://prod-25.westeurope.logic.azure.com:443/workflows/f45f93eda26a4544bd64e5a5921ba3f3/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=m41x8NW3TiDEPe233npvncLYdEpvIDJnQOk4dDK_ScQ',
     laMobileUserUpdateFirstAndLastName:'https://prod-08.westeurope.logic.azure.com:443/workflows/7c2e8eefb0424459b71d467870a7b76b/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=vvrQGf09fHfgbYFY0Mk3a27Shh0oXMTWfP9bFhxARbI',
-
+    laMobileLogin: 'https://prod-86.westeurope.logic.azure.com:443/workflows/8b5d3db1b4594eefab151b1e43ff990d/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=yk985VysIcBxLyxA3jeqIRpLyWg_MTNfaj2lJXZXk5k',
   },
 
   production: {
@@ -79,7 +79,7 @@ const Api_url = {
     laMobileUserResendSignupOTP:'https://prod-07.westeurope.logic.azure.com:443/workflows/5f799b7e5a134e239ce80342581d2086/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=cJbkkH398PER9YA4ADbnLSMOWpK_l-W320Ih2_amBB0',
     laMobileUserSignUp:'https://prod-11.westeurope.logic.azure.com:443/workflows/414fe87516954f10bfb113080884a1a1/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=MYG8xyuZckNUMcZgKaoEejY8lJM_BuftuFPsN_rlI-o',
     laMobileUserUpdateFirstAndLastName:'https://prod-22.westeurope.logic.azure.com:443/workflows/2754340262cc4e9686ca29ba340c23d7/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=OLrIKI6ReKkbLsF8ZDdK5072gneNDUM1h8CO4MT7Edg',
-
+    laMobileLogin:'https://prod-44.westeurope.logic.azure.com:443/workflows/b7ede7b5fcd546938d0e4826897331f1/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=rGA6j3o6pBuhOE43CtL4QqbvSVL7kAiGEP_Gdy-q5o4',
   }
 
 };

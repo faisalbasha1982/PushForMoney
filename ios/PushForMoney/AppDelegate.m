@@ -12,9 +12,14 @@
 #import <GoogleSignIn/GoogleSignIn.h>
 #import <RNGoogleSignin/RNGoogleSignin.h>
 #import <React/RCTPushNotificationManager.h>
+//#import <TwitterKit/TWTRKit.h>
+//#import <TwitterKit/TwitterKit.h>
+//#import "RNTwitterSignIn.h"
+#import "OAuthManager.h"
 
 
-@import TwitterKit;
+//@import TwitterKit;
+
 
 @interface AppDelegate ()<GIDSignInDelegate>
 
@@ -44,7 +49,9 @@
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
   
-  [[Twitter sharedInstance] startWithConsumerKey:@"B9gQXS1YrrtH5Q9HDFl08MVVS" consumerSecret:@"ourqEe3JmhpRh7ceLpCxN4RoIRXJT9FLslqqgfLscTtHtVvCXs"];
+  //[[Twitter sharedInstance] startWithConsumerKey:@"B9gQXS1YrrtH5Q9HDFl08MVVS" consumerSecret:@"ourqEe3JmhpRh7ceLpCxN4RoIRXJT9FLslqqgfLscTtHtVvCXs"];
+  
+  [OAuthManager setupOAuthHandler:application];
   
   NSString *filePath = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
   NSDictionary *plistDict = [NSDictionary dictionaryWithContentsOfFile:filePath];
@@ -62,6 +69,13 @@
   return YES;
 }
 
+//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+//  return [OAuthManager handleOpenUrl:application
+//                             openURL:url
+//                   sourceApplication:sourceApplication
+//                          annotation:annotation];
+//}
+
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
@@ -77,7 +91,12 @@
                    annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
   
   // Add any custom logic here.
-  return handled  || [[Twitter sharedInstance] application:options[UIApplicationOpenURLOptionsSourceApplicationKey] openURL:url options:options];
+  return handled || [OAuthManager handleOpenUrl:application
+                                        openURL:url
+                              sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+                                     annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
+  
+  //|| [[Twitter sharedInstance] application:options[UIApplicationOpenURLOptionsSourceApplicationKey] openURL:url options:options];
   ;
 }
 

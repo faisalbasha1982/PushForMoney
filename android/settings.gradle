@@ -1,6 +1,8 @@
 rootProject.name = 'PushForMoney'
-include ':react-native-luzgan-twitter-signin'
-project(':react-native-luzgan-twitter-signin').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-luzgan-twitter-signin/android')
+include ':react-native-oauth'
+project(':react-native-oauth').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-oauth/android')
+include ':tipsi-twitter'
+project(':tipsi-twitter').projectDir = new File(rootProject.projectDir, '../node_modules/tipsi-twitter/android')
 include ':react-native-cookie'
 project(':react-native-cookie').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-cookie/android')
 include ':react-native-directed-scrollview'
@@ -9,8 +11,6 @@ include ':rn-fetch-blob'
 project(':rn-fetch-blob').projectDir = new File(rootProject.projectDir, '../node_modules/rn-fetch-blob/android')
 include ':react-native-vector-icons'
 project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
-include ':react-native-twitter-signin'
-project(':react-native-twitter-signin').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-twitter-signin/android')
 include ':react-native-splash-screen'
 project(':react-native-splash-screen').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-splash-screen/android')
 include ':react-native-simple-contacts'

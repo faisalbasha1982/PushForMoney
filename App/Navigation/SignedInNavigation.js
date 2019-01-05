@@ -47,7 +47,7 @@ const SignedInNav = StackNavigator({
           },
      },
 }, {
-    // Default config for all screens
+    // Default config for all screens PushToEarnWelcomeScreen 
     initialRouteName: "PushToEarnWelcomeScreen",
     navigationOptions: {
         headerStyle: styles.header

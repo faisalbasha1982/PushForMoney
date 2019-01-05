@@ -13,6 +13,7 @@ import {
     Platform,    
     findNodeHandle,
     AsyncStorage,
+    StyleSheet,
 } from 'react-native';
 import {
     BallIndicator,
@@ -34,7 +35,6 @@ import LanguageButton from '../Components/LanguageButton';
 import Spinner from "react-native-loading-spinner-overlay";
 import DeviceInfo from 'react-native-device-info'
 import * as Animatable from 'react-native-animatable';
-import { StyleSheet } from 'react-native';
 import CompanyBanner from '../Components/CompanyBanner';
 import Validation from '../Components/ButtonValidation';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
@@ -64,6 +64,8 @@ export const IMAGE_HEIGHT = window.width / 2;
 export const IMAGE_HEIGHT_SMALL = window.width /7;
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
+
+import Swiper from 'react-native-swiper';
 
 // Styles
 
@@ -110,6 +112,9 @@ class PushToEarnPrivatePolicy extends Component {
 
 
     callOTP = (payload) => {
+
+        if(payload === '')
+            return ;
 
         this.setState({ isLoading: true});
 
@@ -220,11 +225,12 @@ class PushToEarnPrivatePolicy extends Component {
     }
 
     render() {
+
         const platform = Platform.OS;
         const payload  = this.props.navigation.state.params.payload;
 
         console.log("platform --->",Platform.OS);
-        console.tron.log("payload="+payload.LoginData);
+        // console.tron.log("payload="+payload.LoginData);
         return (
 
             (platform === 'ios')?
@@ -241,46 +247,74 @@ class PushToEarnPrivatePolicy extends Component {
                     <Image source={logoNew} resizeMode="contain" style={{ width: 225, height: 45 }} />
                 </View>
                 <View style={{ flex:3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' ,backgroundColor: 'transparent' }}>
-                <View style={{ marginLeft:0, backgroundColor:'transparent', width:80,justifyContent:'center', alignItems:'center' }}>
-                                    <TouchableOpacity
-                                            onPress={() => { NavigationService.goBack(); } }
-                                            activeOpacity={0.5}
-                                            style={{
-                                                width: 30,
-                                                height: 30, 
-                                                backgroundColor: 'transparent',
-                                                justifyContent: 'center',
-                                                alignItems: 'center'
-                                            }}> 
-                                            <Icon
-                                                containerStyle={newStyle.iconImageStyle}
-                                                name='arrow-circle-left'
-                                                type='font-awesome'
-                                                color='#E73D50'
-                                                size = {20} />
-                                    </TouchableOpacity>
+                    <View style={{ marginLeft:0, backgroundColor:'transparent', width:80,justifyContent:'center', alignItems:'center' }}>
+                                        <TouchableOpacity
+                                                onPress={() => { NavigationService.goBack(); } }
+                                                activeOpacity={0.5}
+                                                style={{
+                                                    width: 30,
+                                                    height: 30,
+                                                    backgroundColor: 'transparent',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center'
+                                                }}> 
+                                                <Icon
+                                                    containerStyle={newStyle.iconImageStyle}
+                                                    name='arrow-circle-left'
+                                                    type='font-awesome'
+                                                    color='#E73D50'
+                                                    size = {30} />
+                                        </TouchableOpacity>
+                    </View>
+                    <View style= {{ flex:1, }}>
+                            <Text
+                            style={{
+                                width: 334,
+                                height: 34,
+                                fontFamily: "WorkSans-Medium",
+                                fontSize: 30,
+                                fontWeight: "500",
+                                fontStyle: "normal",
+                                lineHeight: 34,
+                                letterSpacing: 0,
+                                color: "#E73D50" 
+                            }}>
+                            {this.state.text.pPolicy}
+                        </Text>
+                    </View>
                 </View>
-                <View style= {{ flex:1, }}>
-                        <Text 
-                        style={{
-                            width: 334,
-                            height: 34,
-                            fontFamily: "WorkSans-Medium",
-                            fontSize: 21,
-                            fontWeight: "500",
-                            fontStyle: "normal",
-                            lineHeight: 34,
-                            letterSpacing: 0,                          
-                            color: "#353535" 
-                        }}>
-                        {this.state.text.pPolicy}
-                    </Text>
-                </View>                
 
-                </View>
                 <View style={newStyle.inputContainer}>
-                                           
-                    <View style={newStyle.endButtons}>                
+                    <View style={{width: viewPortWidth, height: viewPortHeight*0.88, flex:9 }}>
+                    <Swiper style={newStyle.wrapper}
+                             height={viewPortHeight} horizontal={true}
+                             dot={<View style={{backgroundColor: '#FFFFFF', width: 10, height: 10,borderWidth:2, borderStyle: 'solid', borderColor:'#E73D50', borderRadius: 10, marginLeft: 3, marginRight: 3, marginTop: 20, marginBottom: 0}} />}
+                             activeDot={<View style={{backgroundColor: '#E73D50', width: 10, height: 10, borderRadius: 10, marginLeft: 3, marginRight: 3, marginTop: 20, marginBottom: 0}} />}
+                             showsButtons={false}>
+                        <View style={newStyle.slide1}>
+                            <Text style={newStyle.text}>{languageSettingsPFM.English.PolicyText}</Text>
+                        </View>
+                        <View style={newStyle.slide2}>
+                            <Text style={newStyle.text}>{languageSettingsPFM.English.PolicyText}</Text>
+                        </View>
+                        <View style={newStyle.slide3}>
+                            <Text style={newStyle.text}>{languageSettingsPFM.English.PolicyText}</Text>
+                        </View>
+                        <View style={newStyle.slide4}>
+                            <Text style={newStyle.text}>{languageSettingsPFM.English.PolicyText}</Text>
+                        </View>
+                        <View style={newStyle.slide5}>
+                            <Text style={newStyle.text}>{languageSettingsPFM.English.PolicyText}</Text>
+                        </View>
+                        <View style={newStyle.slide6}>
+                            <Text style={newStyle.text}>{languageSettingsPFM.English.PolicyText}</Text>
+                        </View>
+
+                    </Swiper> 
+                    </View>
+                  
+
+                    <View style={newStyle.endButtons}>               
                 
                         <TouchableOpacity
                             onPress={() => { this.callOTP(payload); } }
@@ -438,6 +472,76 @@ class PushToEarnPrivatePolicy extends Component {
 
 const newStyle = StyleSheet.create({
 
+    wrapper: {
+        backgroundColor: 'transparent'
+    },
+
+    slide1: {
+      flex: 3,
+      justifyContent: 'flex-start',
+      alignItems: 'flex-start',
+      backgroundColor: '#ffffff',
+      padding: 0,
+      paddingTop:5,
+      paddingLeft:15,
+      paddingRight:15,
+    },
+    slide2: {
+      flex: 3,
+      justifyContent: 'flex-start',
+      alignItems: 'flex-start',
+      backgroundColor: '#ffffff',
+      padding: 0,
+      paddingTop:5,
+      paddingLeft:15,
+      paddingRight:15,
+    },
+    slide3: {
+      flex: 3,
+      justifyContent: 'flex-start',
+      alignItems: 'flex-start',
+      backgroundColor: '#ffffff',
+      padding: 0,
+      paddingTop:5,
+      paddingLeft:15,
+      paddingRight:15,
+    },
+    slide4: {
+        flex: 3,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        backgroundColor: '#ffffff',
+        padding: 0,
+        paddingTop:5,
+        paddingLeft:15,
+        paddingRight:15,
+    },
+    slide5: {
+        flex: 3,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        backgroundColor: '#ffffff',
+        padding: 0,
+        paddingTop:5,
+        paddingLeft:15,
+        paddingRight:15,
+    },
+    slide6: {
+        flex: 3,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        backgroundColor: '#ffffff',
+        padding: 0,
+        paddingTop:5,
+        paddingLeft:15,
+        paddingRight:15,
+    },    
+    text: {
+      color: '#000000',
+      fontSize: 15,
+      fontFamily: 'WorkSans-Medium'
+    },
+
     container: {
         flex: 1,
         backgroundColor: 'white',
@@ -462,20 +566,20 @@ const newStyle = StyleSheet.create({
     headerImage: {
         width: viewPortWidth * 0.65,
         height: Platform.OS === 'ios'?40:120,
-        flex: Platform.OS === 'ios'?8:8,
-        backgroundColor: 'white',
+        flex: Platform.OS === 'ios'?4:8,
+        backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'center',
     },
 
     inputContainer: {
-        backgroundColor: 'powderblue',
-        marginTop: Platform.OS === 'ios'?10:10,
-        padding: 25,
-        paddingTop: 10,
-        marginLeft: 30,
-        flex: Platform.OS === 'ios'?30:1,
         backgroundColor: 'transparent',
+        marginTop: Platform.OS === 'ios'?0:10,
+        padding: 25,
+        paddingTop: 0,
+        marginLeft: 0,
+        flex: Platform.OS === 'ios'?30:1,
+        backgroundColor: '#ffffff',
     },
 
     socialIcons: {
@@ -558,7 +662,9 @@ const newStyle = StyleSheet.create({
         backgroundColor: 'white',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        backgroundColor:'transparent'
+        backgroundColor:'transparent',
+        paddingLeft:15,
+        paddingTop: 5
     },
 
     iconImageStyle:{

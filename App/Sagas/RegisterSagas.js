@@ -260,8 +260,9 @@ function fetchJsonmobileregister(url,payload,phone) {
       });
   }
 
-export function * fetchRegisterMobileNumber(payload, phone) { 
-    return fetchJsonmobileregister(`https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnMobileUserLoginByMobile?code=${API_URL.commonCode}`,payload, phone);
+export function * fetchRegisterMobileNumber(payload, phone) {
+    return fetchJsonmobileregister(API_URL.staging.laMobileLogin,payload,phone);
+    //return fetchJsonmobileregister(`https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnMobileUserLoginByMobile?code=${API_URL.commonCode}`,payload, phone);
 }
 
 export function * mobileregister(action) {
@@ -345,8 +346,6 @@ function fetchOTPFP(payload)
                         cancelable: false
                     }
                 );
-
-
 
             });
                 

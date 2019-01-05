@@ -618,6 +618,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
         
         setTimeout(() => {
             this.props.menu(2);
+            console.tron.log("change menu");
         },3000);
 
         setTimeout(() => {
@@ -689,6 +690,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
                 setTimeout(() => {
                     this.props.menu(2);
+                    console.tron.log("inside menu change")
                 },2000);
 
                 setTimeout(() => {
@@ -916,7 +918,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                                         onFocus = { () => this.focusFirst() }
                                         onBlur = { () => this.focusFirstOff()}
                                         underlineColorAndroid= 'transparent'
-                                        value = { this.props.name }
+                                        value = { this.state.firstNameInput === ''?this.props.name: this.state.firstNameInput }
                                         onChangeText={(firstNameInput) => this.setState({firstNameInput})}/>
 
                             }

@@ -73,6 +73,24 @@ const window = Dimensions.get('window');
 export const IMAGE_HEIGHT = window.width / 2;
 export const IMAGE_HEIGHT_SMALL = window.width /7;
 
+import OAuthManager from 'react-native-oauth';
+
+const manager = new OAuthManager('PushForMoney');
+
+manager.configure({
+  twitter: {
+    callback_url: 'pushformoney://oauth-response/twitter',
+    consumer_key: 'B9gQXS1YrrtH5Q9HDFl08MVVS',
+    consumer_secret: 'ourqEe3JmhpRh7ceLpCxN4RoIRXJT9FLslqqgfLscTtHtVvCXs'
+  },
+  google: {
+    callback_url: `io.fullstack.FirestackExample:/oauth2redirect`,
+    client_id: '',
+    client_secret: ''
+  }
+});
+
+
 const { RNTwitterSignIn } = NativeModules;
 
 const Constants = {
@@ -350,7 +368,7 @@ class PushToEarnSignUp2 extends Component {
                     console.tron.log("LoginData:"+this.state.encodedText);
         
                     //this.props.twitterlogin(payload,userName);
-                    this.props.instagramLogin(payload,jsonResponse.data.username,'','');
+                    this.props.instagramLogin(payload,jsonResponse.data.username,'','','');
                 }
                 else
                     console.log("loginData  or authentication Data is empty");
@@ -422,43 +440,71 @@ class PushToEarnSignUp2 extends Component {
 
     twitterSignIn = () => {
         console.warn('twitter button clicked'); // eslint-disable-line
-        RNTwitterSignIn.init(Constants.TWITTER_COMSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
-        RNTwitterSignIn.logIn()
-          .then(loginData => {
+        // RNTwitterSignIn.init(Constants.TWITTER_COMSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
+        // RNTwitterSignIn.logIn()
+        //   .then(loginData => {
 
-            console.log(loginData);
-            const { authToken, authTokenSecret, userID,userName } = loginData;
+        //     console.log(loginData);
+        //     const { authToken, authTokenSecret, userID,userName } = loginData;
 
-            // Alert.alert(
-            //     'Twitter Login successful',
-            //     " userID="+userID + " userName="+ userName,
-            //     [                      
-            //         {
-            //           text: 'OK', 
-            //           onPress: () => console.log('Ask me later Pressed')
-            //         },                      
-            //     ],
-            //     {cancelable: false}
-            // );
+        //     // Alert.alert(
+        //     //     'Twitter Login successful',
+        //     //     " userID="+userID + " userName="+ userName,
+        //     //     [                      
+        //     //         {
+        //     //           text: 'OK', 
+        //     //           onPress: () => console.log('Ask me later Pressed')
+        //     //         },                      
+        //     //     ],
+        //     //     {cancelable: false}
+        //     // );
 
-            if (authToken && authTokenSecret) {
-              this.setState({ isLoggedIn: true });
-              this.twitterLogin(userID,userName);
+        //     if (authToken && authTokenSecret) {
+        //       this.setState({ isLoggedIn: true });
+        //       this.twitterLogin(userID,userName);
+        //     }
+
+        //   })
+        //   .catch(error => {
+        //     console.log(error)
+        //   }
+        // )
+
+        manager.authorize('twitter', {scopes: 'profile email'})
+        .then(resp => 
+            {
+             console.tron.log("resp="+" access_token=" +resp.response.credentials.access_token+" "+ "refresh token="+resp.response.credentials.refresh_token);
+
+             let done = false;
+             
+             const userTimelineUrl = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
+                manager
+                    .makeRequest('twitter', userTimelineUrl)
+                    .then(resp => {
+                        console.tron.log('Data ->', resp.data);
+                        resp.data.map((data) => {
+                            console.tron.log("data.user="+data.user.id +" name="+data.user.name);     
+                             if(!done)
+                             {
+                                this.twitterLogin(data.user.id,data.user.name);
+                             }
+                        })
+                    });
+
+            //this.twitterLogin('','');
             }
-
-          })
-          .catch(error => {
-            console.log(error)
-          }
-        )
+            )
+        .catch(err => console.log(err));
       }
     
       handleTwitterLogout = () => {
         console.log("logout")
-        RNTwitterSignIn.logOut()
-        this.setState({
-          isLoggedIn: false
-        });
+        // RNTwitterSignIn.logOut()
+        // this.setState({
+        //   isLoggedIn: false
+        // });
+
+        manager.deauthorize('twitter');
     }
 
     _responseInfoCallback = (error, result) => {
@@ -1006,7 +1052,10 @@ class PushToEarnSignUp2 extends Component {
 
         let language = this.state.languageCode;
 
-        if(this.state.phone.length >=11 )
+        console.tron.log("phone in state.phone ="+this.state.phone);
+        console.tron.log("phone length in state.phone ="+this.state.phone.length);
+
+        if(this.state.phone.length < 11 && this.state.phoneNumberInput === '')
         {
             Alert.alert(this.state.text.invalidMobilePhone);
             return;
@@ -1966,13 +2015,13 @@ const mapStateToProps = state => {
     return {
     
         registerAction: ( payload, mobileNumber ) => {
-            console.tron.log("mobileNumber="+mobileNumber);
             dispatch({type: 'MOBILE_REGISTER_REQUEST',payload,mobileNumber})
-        },
+        },  
+
         loginFaceBook: ( payload, firstname, lastname, email ) => dispatch({ type: 'FACEBOOK_REQUEST', payload, firstname, lastname, email}),
         twitterlogin: (payload,firstname,lastname,email) => dispatch({ type:'TWITTER_REQUEST',payload,firstname,lastname,email }),
         googleLogin: (payload,firstname,lastname,email) => dispatch({ type: 'GOOGLE_REQUEST',payload,firstname,lastname,email}),
-        instagramLogin: (payload,firstname,lastname,email) => dispatch({ type: 'INSTAGRAM_REQUEST', payload,firstname,lastname,email}),
+        instagramLogin: (payload,username,firstname,lastname,email) => dispatch({ type: 'INSTAGRAM_REQUEST', payload,username,firstname,lastname,email}),
         resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
         navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
         navigateBack: () => this.props.navigation.goBack(),

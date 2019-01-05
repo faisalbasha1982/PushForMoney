@@ -23,6 +23,10 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>twitterkit-B9gQXS1YrrtH5Q9HDFl08MVVS</string>
@@ -39,6 +43,16 @@
 				<string>com.googleusercontent.apps.1041950784543-pkmc6rhf0e6av81q1j8qhspb10oqa7dn</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Twitter</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>PushForMoney</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
@@ -48,6 +62,7 @@
 	<string>JobFIXers first app</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>pushformoney://</string>
 		<string>twitter</string>
 		<string>twitterauth</string>
 		<string>fbapi</string>
@@ -77,7 +92,7 @@
 	<key>NSContactsUsageDescription</key>
 	<string>ntwrk accesses Contacts in order to quickly add Relationships and allow them to reach out via ntwrk through email, text, phone, etc.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Access Image From Library</string>
 	<key>UIAppFonts</key>

@@ -234,7 +234,7 @@ const AppNavigation = createStackNavigator({
   },
 }, 
 {
-  // Default config for all screens
+  // Default config for all screens PushForJob
   headerMode: 'none',
   initialRouteName: 'PushForJob',
   mode: "card",

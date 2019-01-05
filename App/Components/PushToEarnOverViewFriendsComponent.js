@@ -266,6 +266,11 @@ class PushToEarnOverViewFriendsComponent extends Component {
             //     this.getFriendList();
             // },3000);
         }
+        else{
+              setTimeout(()=> {
+                 this.getFriendList();
+            },3000);
+        }
 
     }
 
@@ -287,9 +292,9 @@ class PushToEarnOverViewFriendsComponent extends Component {
 
         this.getAsyncStorageToken();
 
-            // setTimeout(()=> {
-            //     this.getFriendList();
-            // },3000);
+            setTimeout(()=> {
+                this.getFriendList();
+            },3000);
     }
 
     renderNothing = () => {
@@ -799,8 +804,8 @@ class PushToEarnOverViewFriendsComponent extends Component {
                                 <ScrollView
                                         style={{ flex: 1, backgroundColor: 'transparent', height:viewPortHeight*0.90, }} 
                                         contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-start',  }}
-                                        onScroll = { () => { 
-                                            this.getFriendList(); 
+                                        onScroll = { () => {
+                                            this.getFriendList();
                                             this.setState({ isLoading: true });
                                         } }
                                         >
@@ -1182,7 +1187,7 @@ const mapStateToProps = state => {
   };
   
   const mapDispatchToProps = dispatch => {
-    return {          
+    return {
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),

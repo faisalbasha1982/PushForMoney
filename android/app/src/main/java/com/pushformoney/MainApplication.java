@@ -3,7 +3,8 @@ package com.pushformoney;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.luzgan.twittersignin.TwitterSigninPackage;
+import io.fullstack.oauth.OAuthManagerPackage;
+import com.gettipsi.reactnativetwittersdk.TwitterReactPackage;
 import im.shimo.react.cookie.CookieManagerPackage;
 import com.rnds.DirectedScrollViewPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
@@ -52,6 +53,8 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new OAuthManagerPackage(),
+            new TwitterReactPackage(),
             new TwitterSigninPackage(false),
             new CookieManagerPackage(),
             new DirectedScrollViewPackage(),

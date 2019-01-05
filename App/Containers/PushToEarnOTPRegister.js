@@ -227,6 +227,29 @@ class PushToEarnOTPRegister extends Component {
 
     }
 
+    callResendOTP = () => {
+
+        this.setState({ isLoading: true});
+
+        let tokenLocalStorage = localStorage.getItem('token');
+        this.setState({loginAccessToken:tokenLocalStorage});
+
+        let authData = AuthComponent.authenticationData(this.state.languageCode);
+        console.log("authdata=",authData);
+
+        let encryptedData = AesComponent.aesCallback(authData);
+        console.log("encrypted data=",encryptedData);
+
+        let payload = {
+            "AuthenticationData": encryptedData,
+            "LoginAccessToken": this.props.navigation.state.params.accessToken,
+            "SignupType": "S",
+        };
+
+        this.props.verifyOTPResend(payload);
+
+    }
+
     callOTP = () => {
 
         console.tron.log("calling OTP....");
@@ -376,6 +399,43 @@ class PushToEarnOTPRegister extends Component {
                                 underlineColorAndroid= 'transparent'
                                 onChangeText={(fourthInput) => this.validateOTPText4(fourthInput)}/>                                                     */}
                     </View>
+
+                    <View style={{
+                     width: viewPortWidth*0.80,
+                     height: 15,
+                     flex:1,
+                     backgroundColor: 'transparent',
+                     justifyContent:'center', 
+                     alignItems:'center'
+                 }}>
+                        <TouchableOpacity
+                            onPress={() => { this.callResendOTP() } }
+                            activeOpacity={0.5}
+                            style={{
+                            width: 120,
+                            height: 10,
+                            marginBottom: 0,
+                            marginLeft: 10,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: 'transparent',
+                                    }}>
+                                    <Text
+                                        style={{
+                                            fontSize: 17,
+                                            width: 200,
+                                            height: 20,
+                                            fontFamily: 'WorkSans-Regular',
+                                            fontWeight: '500',
+                                            fontStyle: 'normal',
+                                            color:'#E73D50',
+                                            marginTop: 0,
+                                            letterSpacing: 0.67,
+                                            textAlign: 'center'}}> {this.state.text.resend}.....
+                                    </Text>
+                        </TouchableOpacity>
+                </View>
+
                             
                     <View style={newStyle.endButtons}>
 
@@ -725,7 +785,7 @@ const mapStateToProps = state => {
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
       verifyOTP: (payload,phone,pPayload) => dispatch({ type: 'VERIFY_OTP', payload, phone, pPayload }),
-
+      verifyOTPResend: (payload) => dispatch({ type: 'VERIFY_OTP_RESEND',payload }),
     };
   };
   

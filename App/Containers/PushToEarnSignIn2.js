@@ -55,6 +55,23 @@ import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
 import InstagramLogin from 'react-native-instagram-login';
 import Cookie from 'react-native-cookie';
+import OAuthManager from 'react-native-oauth';
+
+const manager = new OAuthManager('PushForMoney');
+
+manager.configure({
+  twitter: {
+    callback_url: 'pushformoney://oauth-response/twitter',
+    consumer_key: 'B9gQXS1YrrtH5Q9HDFl08MVVS',
+    consumer_secret: 'ourqEe3JmhpRh7ceLpCxN4RoIRXJT9FLslqqgfLscTtHtVvCXs'
+  },
+  google: {
+    callback_url: `io.fullstack.FirestackExample:/oauth2redirect`,
+    client_id: '',
+    client_secret: ''
+  }
+});
+
 
 import _ from 'lodash';
 // import { RSAKey } from 'react-native-rsa';
@@ -122,7 +139,8 @@ class PushToEarnSignIn2 extends Component {
             countryCode: 'be',
             phoneNumberInput:'',
             users: {},
-            user:''
+            user:'',
+            isFocusedFirst:false
             
         };
     }
@@ -382,7 +400,7 @@ class PushToEarnSignIn2 extends Component {
               console.tron.log("jsonResponse="+jsonResponse.data.id);
               console.tron.log("jsonResponse="+jsonResponse.data.username);
               console.tron.log("jsonResponse="+jsonResponse.data.full_name);
-
+              
               let loginInfo = "{ 'I' : '"+jsonResponse.data.id+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
 
               console.tron.log("authData:"+authData);
@@ -392,6 +410,7 @@ class PushToEarnSignIn2 extends Component {
               this.rsa(loginInfo);
 
               setTimeout(() => {
+
                 this.setState({isLoading: true});
           
                 if( this.state.encodedText !== "")
@@ -411,9 +430,40 @@ class PushToEarnSignIn2 extends Component {
                     // });
         
                     console.tron.log("LoginData:"+this.state.encodedText);
-        
+
+                    let nameArray = [];
+                    let firstname = '';
+                    let lastname = '';
+                    nameArray = jsonResponse.data.full_name.split(' ');
+                    console.tron.log("name="+nameArray);
+
+                    if(nameArray.length === 1)
+                        {
+                            firstname = nameArray[0];
+                        }
+
+                    if(nameArray.length === 2)
+                    {
+                        firstname = nameArray[0];
+                        lastname = nameArray[1];
+                    }
+
+                    if(nameArray.length >= 3)
+                    {
+                        firstname = nameArray[0];
+                        
+                        for(name in nameArray)
+                        {
+                            if(name != 0)
+                                lastname = lastname +nameArray[name] +" ";
+                        }
+                        console.tron.log("lastname constructed="+lastname);
+                    }
+
+                    console.tron.log("firstname="+firstname+ " lastname="+lastname);
+
                     //this.props.twitterlogin(payload,userName);
-                    this.props.instagramLogin(payload,jsonResponse.data.username,'','');
+                    this.props.instagramLogin(payload,'',firstname,lastname);
                 }
                 else
                     console.log("loginData  or authentication Data is empty");
@@ -435,6 +485,7 @@ class PushToEarnSignIn2 extends Component {
 
     instLogin = (token) => 
     {
+        console.tron.log("token="+token);
         let users = this.instaLoginGetUsers(token);
     }
 
@@ -449,7 +500,7 @@ class PushToEarnSignIn2 extends Component {
 
     twitterLogin(userID,userName)
     {
-        console.log("twitter login="+userName);
+        console.tron.log("twitter login="+userName);
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
@@ -492,46 +543,93 @@ class PushToEarnSignIn2 extends Component {
     }
 
     twitterSignIn = () => {
+        //console.tron.log("RNTwitterSignIn object="+RNTwitterSignIn);
         console.warn('twitter button clicked'); // eslint-disable-line
-        RNTwitterSignIn.init(Constants.TWITTER_COMSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
-        RNTwitterSignIn.logIn()
-          .then(loginData => {
-            console.log("twitter data="+JSON.stringify(loginData));
-            console.tron.log("twitter data="+JSON.stringify(loginData));
-            const { authToken, authTokenSecret, userID,userName } = loginData;
 
-            // Alert.alert(
-            //     'accessToken Received',
-            //     'username Received='+userName +" userID="+userID,
-            //     [                      
-            //         {
-            //           text: 'OK', 
-            //           onPress: () => console.log('Ask me later Pressed')
-            //         },                      
-            //     ],
-            //     {cancelable: false}
-            // );
+        //RNTwitterSignIn.init(Constants.TWITTER_COMSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
 
-            if (authToken && authTokenSecret) {
-              this.setState({
-                isLoggedIn: true
-              });
+        // RNTwitterSignIn.logIn()
+        //   .then(loginData => {
+        //     console.log("twitter data="+JSON.stringify(loginData));
+        //     console.tron.log("twitter data="+JSON.stringify(loginData));
+        //     const { authToken, authTokenSecret, userID,userName } = loginData;
 
-              this.twitterLogin(userID,userName);
+        //     // Alert.alert(
+        //     //     'accessToken Received',
+        //     //     'username Received='+userName +" userID="+userID,
+        //     //     [                      
+        //     //         {
+        //     //           text: 'OK', 
+        //     //           onPress: () => console.log('Ask me later Pressed')
+        //     //         },                      
+        //     //     ],
+        //     //     {cancelable: false}
+        //     // );
+
+        //     if (authToken && authTokenSecret) {
+        //       this.setState({
+        //         isLoggedIn: true
+        //       });
+
+        //       this.twitterLogin(userID,userName);
+        //     }
+        //   })
+        //   .catch(error => {
+        //     console.log(error)
+        //   }
+        // )
+
+        this.setState({ isLoading: true});
+
+        manager.authorize('twitter', {scopes: 'profile email'})
+        .then(resp => 
+            {
+             console.tron.log("resp="+" access_token=" +resp.response.credentials.access_token+" "+ "refresh token="+resp.response.credentials.refresh_token);
+
+             let done = false;
+             
+             const userTimelineUrl = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
+                manager
+                    .makeRequest('twitter', userTimelineUrl)
+                    .then(resp => {
+                        console.tron.log('Data ->', resp.data);
+                        resp.data.map((data) => {
+                            console.tron.log("data.user="+data.user.id +" name="+data.user.name);     
+                             if(!done)
+                             {
+                                this.twitterLogin(data.user.id,data.user.name);
+                             }
+                        })
+                    });
+
+            //this.twitterLogin('','');
             }
-          })
-          .catch(error => {
-            console.log(error)
-          }
-        )
+            )
+        .catch(err => console.log(err));
+
+
       }
     
       handleLogout = () => {
-        console.log("logout")
-        RNTwitterSignIn.logOut()
-        this.setState({
-          isLoggedIn: false
-        });
+        console.log("logout");
+
+        manager.deauthorize('twitter');
+        // RNTwitterSignIn.logOut()
+        // this.setState({
+        //   isLoggedIn: false
+        // });
+    }
+
+    fetchTwitterID = () => {
+
+         fetch('https://api.twitter.com/1.1/account/verify_credentials.json')
+                .then((response) => response.json())
+                .then((responseJson) => {
+                          console.tron.log("id="+responseJson.id) ;
+                })
+                .catch((error) => {
+                          console.error(error);
+                });
     }
 
     _responseInfoCallback = (error, result) => {
@@ -681,10 +779,12 @@ class PushToEarnSignIn2 extends Component {
 
     validateUAEPhoneNumber = (phone) => {
 
-        this.setState({ phoneNumberInput: phone});
+        this.setState({ phoneNumberInput: phone, isFocusedFirst: true});
     }
 
     validateBGPhoneNumber = (phone) => {
+
+        this.setState({ isFocusedFirst: true });
 
         // 00 => +
        // 0 and digit after => +32 digit
@@ -878,7 +978,7 @@ class PushToEarnSignIn2 extends Component {
 
         if(nextProps !== this.props)
         {
-            this.setState({ isLoading:false});
+            //this.setState({ isLoading:false});
 
             LoginManager.logOut();
 
@@ -1296,20 +1396,93 @@ class PushToEarnSignIn2 extends Component {
 
         console.tron.log("login="+this.state.phoneNumberInput);
 
-        if(this.state.phoneNumberInput === '')
-            {
-                // Alert.alert(
-                //     'Phone Number is Empty',
-                //     'Fill in Phone Number',
-                //     [                      
-                //         {
-                //           text: 'OK', 
-                //           onPress: () => console.log('Ask me later Pressed')
-                //         },                      
-                //     ],
-                //     {cancelable: false}
-                // );
+        if(!this.state.phoneNumberInput)
+        {
+            this.setState({isLoading: false});
 
+            if(this.state.languageCode === 'en')
+
+                Alert.alert(
+                    ''+ languageSettingsPFM.English.emptyMobilePhone,
+                    'Fill in Mobile Number!',
+                    [                      
+                        {
+                          text: 'OK', 
+                          onPress: () => console.log('Ask me later Pressed')
+                        },                      
+                    ],
+                    {cancelable: false}
+                );
+                if(this.state.languageCode === 'nl')
+
+                Alert.alert(
+                    ''+ languageSettingsPFM.Dutch.emptyMobilePhone,
+                    'Vul mobiel nummer in!',
+                    [                      
+                        {
+                          text: 'OK', 
+                          onPress: () => console.log('Ask me later Pressed')
+                        },                      
+                    ],
+                    {cancelable: false}
+                );
+                if(this.state.languageCode === 'fr')
+
+                Alert.alert(
+                    ''+ languageSettingsPFM.French.emptyMobilePhone,
+                    'Remplir le numéro de portable!',
+                    [                      
+                        {
+                          text: 'OK', 
+                          onPress: () => console.log('Ask me later Pressed')
+                        },                      
+                    ],
+                    {cancelable: false}
+                );
+            return;
+        }
+
+        if(this.state.phoneNumberInput === '' || this.state.phoneNumberInput === undefined || this.state.phoneNumberInput === null)
+            {
+                this.setState({isLoading: false});
+                Alert.alert(
+                    ''+ languageSettingsPFM.English.emptyMobilePhone,
+                    'Fill in Mobile Number!',
+                    [                      
+                        {
+                          text: 'OK', 
+                          onPress: () => console.log('Ask me later Pressed')
+                        },                      
+                    ],
+                    {cancelable: false}
+                );
+                if(this.state.languageCode === 'nl')
+
+                Alert.alert(
+                    ''+ languageSettingsPFM.Dutch.emptyMobilePhone,
+                    'Vul mobiel nummer in!',
+                    [                      
+                        {
+                          text: 'OK', 
+                          onPress: () => console.log('Ask me later Pressed')
+                        },                      
+                    ],
+                    {cancelable: false}
+                );
+                if(this.state.languageCode === 'fr')
+
+                Alert.alert(
+                    ''+ languageSettingsPFM.French.emptyMobilePhone,
+                    'Remplir le numéro de portable!',
+                    [                      
+                        {
+                          text: 'OK', 
+                          onPress: () => console.log('Ask me later Pressed')
+                        },                      
+                    ],
+                    {cancelable: false}
+                );
+                return;
             }
         else
            {
@@ -1660,9 +1833,10 @@ class PushToEarnSignIn2 extends Component {
                     <PhoneInput
                         opacity={1}
                         ref={(ref) => { this.phone = ref; }}
-                        initialCountry={this.state.countryCode}
-                        onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
-                        style= {newStyle.nameInput}
+                        initialCountry={this.state.countryCode}                        
+                        focus = { () => { this.setState({ isFocusedFirst:true }); } }
+                        onSelectCountry={(iso2) => { this.setState({countryCode: iso2, isFocusedFirst:true}); console.log('country='+this.state.countryCode) }}
+                        style= {[newStyle.nameInput,{borderColor:this.state.isFocusedFirst===true?'#e73d50':'transparent', borderStyle:'solid', borderWidth:1}]}
                         onChangePhoneNumber = { (phoneNumberInput) => this.validateUAEPhoneNumber(phoneNumberInput) }
                     />
 
@@ -1678,7 +1852,7 @@ class PushToEarnSignIn2 extends Component {
                                 marginLeft: 20,
                                 borderRadius: 8,
                                 backgroundColor: '#E73D50',
-                                marginTop: viewPortHeight / 30,    
+                                marginTop: viewPortHeight / 30,
                                 justifyContent: 'center',
                                 alignItems: 'center'
                             }}>
@@ -1987,9 +2161,9 @@ const mapStateToProps = state => {
       loginFaceBook: ( payload, firstname, lastname, email ) => dispatch({ type: 'FACEBOOK_REQUEST', payload, firstname, lastname, email}),
       twitterlogin: (payload,firstname,lastname,email) => dispatch({ type:'TWITTER_REQUEST',payload,firstname,lastname,email }),
       googleLogin: (payload,firstname,lastname,email) => dispatch({ type: 'GOOGLE_REQUEST',payload,firstname,lastname,email}),
-      instagramLogin: (payload,firstname,lastname,email) => dispatch({ type: 'INSTAGRAM_REQUEST', payload,firstname,lastname,email}),
-      resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),      
-      navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),      
+      instagramLogin: (payload,username,firstname,lastname,email) => dispatch({ type: 'INSTAGRAM_REQUEST', payload,username,firstname,lastname,email}),
+      resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
+      navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
 
     };

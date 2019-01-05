@@ -284,7 +284,7 @@ class PushToEarnProfileComponent extends Component {
                                     else
                                     if(phone === this.props.mobileNo)
                                         {
-                                            this.setState({isLoading:false,phoneTextChanged: true});
+                                            this.setState({isLoading:false,phoneTextChanged: false});
                                             //Alert.alert("This Mobile No is already assigned to you");
                                         }
                         }
@@ -304,7 +304,7 @@ class PushToEarnProfileComponent extends Component {
                             else
                             if(phone === this.props.mobileNo)
                             {
-                                this.setState({isLoading:false,phoneTextChanged: true});
+                                this.setState({isLoading:false,phoneTextChanged: false});
                                 // Alert.alert("This Mobile No is already assigned to you");
                             }
 
@@ -711,6 +711,12 @@ getAsyncStorage = async () => {
         :
         this.setState({placeHolderColorPhone:'grey'});
 
+        if(this.state.phoneEditable === false)
+        {
+            console.tron.log("phone Editable pressed!");
+            this.phone.focus();
+        }
+
         if(this.state.phoneEditable === true && this.state.phoneTextChanged === true)
         {            
             if(this.state.phoneNumberInput !== this.props.mobileNo && this.state.phoneNumberInput.length >=11)
@@ -724,6 +730,20 @@ getAsyncStorage = async () => {
 
     seteditableEmail = () => {
 
+        console.tron.log("email field called");
+
+        if(this.state.phoneTextChanged === true)
+        {
+            if(this.state.phoneEditable === true && this.state.phoneTextChanged === true)
+            {            
+                if(this.state.phoneNumberInput !== this.props.mobileNo && this.state.phoneNumberInput.length >=11)
+                {
+                    this.changeMobile(this.formatMobileNo(this.state.phoneNumberInput));
+                    this.setState({phoneTextChanged: false});    
+                }
+            }
+        }
+
         this.setState({emailEditable: !this.state.emailEditable,firstNameEditable: false, lastNameEditable:false, phoneEditable: false, passwordEditable: false,});
 
         (this.state.emailEditable === true)?
@@ -734,6 +754,18 @@ getAsyncStorage = async () => {
     }
 
     seteditableFirstName = () => {
+
+        if(this.state.phoneTextChanged === true)
+        {
+            if(this.state.phoneEditable === true && this.state.phoneTextChanged === true)
+            {            
+                if(this.state.phoneNumberInput !== this.props.mobileNo && this.state.phoneNumberInput.length >=11)
+                {
+                    this.changeMobile(this.formatMobileNo(this.state.phoneNumberInput));
+                    this.setState({phoneTextChanged: false});    
+                }
+            }
+        }
         
         this.setState({firstNameEditable: !this.state.firstNameEditable,lastNameEditable: false, emailEditable:false, phoneEditable: false, passwordEditable: false,});
 
@@ -741,9 +773,23 @@ getAsyncStorage = async () => {
         this.setState({placeHolderColor:'lightgray' })
         :
         this.setState({placeHolderColor:'grey'});
+
     }
 
     seteditableLasttName = () => {
+
+        if(this.state.phoneTextChanged === true)
+        {
+            if(this.state.phoneEditable === true && this.state.phoneTextChanged === true)
+            {            
+                if(this.state.phoneNumberInput !== this.props.mobileNo && this.state.phoneNumberInput.length >=11)
+                {
+                    this.changeMobile(this.formatMobileNo(this.state.phoneNumberInput));
+                    this.setState({phoneTextChanged: false});    
+                }
+            }
+        }
+
         this.setState({lastNameEditable: !this.state.lastNameEditable, firstNameEditable: false, emailEditable:false, phoneEditable: false, passwordEditable: false, });
 
         (this.state.lastNameEditable === true)?
@@ -753,6 +799,9 @@ getAsyncStorage = async () => {
     }
 
     callUpdateEmail = (email) => {
+
+        if(email === '')
+            return;
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
@@ -777,6 +826,9 @@ getAsyncStorage = async () => {
 
     callUpdateName = (name) => {
 
+        if(name === '')
+            return ;
+
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
 
@@ -799,6 +851,9 @@ getAsyncStorage = async () => {
     }
 
     callUpdateLastName = (name) => {
+
+        if(name === '')
+            return;
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
@@ -1105,6 +1160,12 @@ getAsyncStorage = async () => {
        }
    }
 
+   focus = () => {
+
+        this.FirstInput.focus();
+
+  }
+
     render() {
 
         const platform = Platform.OS;
@@ -1214,7 +1275,8 @@ getAsyncStorage = async () => {
                                                         placeholderTextColor={ this.state.placeHolderColor }
                                                         editable={ this.state.firstNameEditable }
                                                         ref={(ref) => { this.FirstInput = ref; }}
-                                                        underlineColorAndroid= 'transparent'                                                        
+                                                        autoFocus = {true}
+                                                        underlineColorAndroid= 'transparent'     
                                                         onBlur = { () => {
                                                             this.seteditableFirstName();
                                                             console.tron.log("called on Blur");
@@ -1296,6 +1358,7 @@ getAsyncStorage = async () => {
                                         placeholderTextColor = { this.state.placeHolderColorLastName }
                                         editable={ this.state.lastNameEditable }
                                         underlineColorAndroid= 'transparent'
+                                        autoFocus = {true}
                                         onBlur = { () => {
                                             this.callUpdateLastName(this.state.lastNameInput);
                                             this.callProfile();
@@ -1370,6 +1433,7 @@ getAsyncStorage = async () => {
                                                 placeholderTextColor={this.state.placeHolderColorEmail}
                                                 editable={this.state.emailEditable}
                                                 underlineColorAndroid= 'transparent'
+                                                autoFocus = {true}
                                                 onBlur = { () => {
                                                     this.callUpdateEmail(this.state.emailInput);
                                                     this.callProfile();
@@ -1399,8 +1463,10 @@ getAsyncStorage = async () => {
                                             backgroundColor:'transparent'
                                         }}>
                                         <PhoneInput
+                                            autoFocus = { true }
+                                            focus
                                             opacity={1}
-                                            focusNeeded = { false }
+                                            focusNeeded = { true }
                                             ref={(ref) => { this.phone = ref; }}
                                             initialCountry={this.state.countryCode}
                                             onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
@@ -1428,8 +1494,11 @@ getAsyncStorage = async () => {
                                         onPress = {() => { this.seteditablePhone(); }}>
                                         <PhoneInput
                                             opacity={0.5}
-                                            disabled={true}
-                                            ref='phone'
+                                            focus
+                                            autoFocus = { true }
+                                            focusNeeded = { true }
+                                            disabled={ true }
+                                            ref={(ref) => {this.phone = ref;}}
                                             initialCountry={this.state.countryCode}
                                             style= {newStyle.nameInputLite}
                                             value = {this.formatMobileNo(this.props.mobileNo)} />

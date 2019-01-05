@@ -1,0 +1,6 @@
+framework module Pods_PushForMoney {
+  umbrella header "Pods-PushForMoney-umbrella.h"
+
+  export *
+  module * { export * }
+}

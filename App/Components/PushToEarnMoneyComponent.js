@@ -176,6 +176,7 @@ class PushToEarnMoneyComponent extends PureComponent {
         if(this.props !== nextProps)
         {
             this.getAsyncStorageToken();
+
         }
     }
 
@@ -249,6 +250,7 @@ class PushToEarnMoneyComponent extends PureComponent {
         await AsyncStorage.getItem('token').then((token) => {
             this.setState({ token: token});
         });
+
 
         this.setLanguage();
 
@@ -606,7 +608,7 @@ class PushToEarnMoneyComponent extends PureComponent {
 
     getCurrentYearMonth = () => {
         //this.setState({ currentYearMonth: this.state.currentMonth + " "+ this.state.currentYear });
-        console.log("currentMonth="+this.state.currentMonth);
+        console.tron.log("currentMonth="+this.state.currentMonth);
         return this.state.currentMonth + " "+ this.state.currentYear;
     }
 

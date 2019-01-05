@@ -1,0 +1,6 @@
+framework module Pods_PushForMoney_tvOSTests {
+  umbrella header "Pods-PushForMoney-tvOSTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -83,8 +83,11 @@ export function * rsaRequest(api,payload) {
 export function * newInstagramRequest(api,action)
 {
   try{
+
     const response = yield call(fetchSocialLogin,action.payload);
     console.tron.log("response StatusCode=",response.StatusCode);
+
+    console.tron.log("firstname="+action.firstname+ " lastname="+action.lastname);
     
     if (response.StatusCode === 201)
     {
@@ -112,7 +115,7 @@ export function * newInstagramRequest(api,action)
 
        });
 
-          NavigationService.navigate('PushToEarnRegisterProfile',{uname:action.firstname, pword:'', payload: action.payload, phone: '', pPayload:''});
+          NavigationService.navigate('PushToEarnRegisterProfile',{uname:action.username, pword:'', payload: action.payload, phone: '', pPayload:'', firstname: action.firstname, lastname: action.lastname});
           console.tron.log("201 Error");
 
     }
@@ -135,7 +138,6 @@ export function * newInstagramRequest(api,action)
 
         AsyncStorage.setItem('token',response.LoginAccessToken);
 
-
           AsyncStorage.getItem('language').then((language) => {
             //Navigate to OTP page
             NavigationService.navigate('TestPage',{language:language});
@@ -144,6 +146,14 @@ export function * newInstagramRequest(api,action)
        }
       else
       {
+
+      if(response.StatusCode === 202)
+      {
+         // Navigate to PushToEarnOTPLogin
+         NavigationService.navigate('PushToEarnOTPLogin',{accessToken: response.LoginAccessToken,});
+
+      }
+
         AsyncStorage.getItem('language').then((language) => {
 
           if(language === 'Dutch')
@@ -187,10 +197,6 @@ export function * newInstagramRequest(api,action)
           );
 
       });
-
-        yield put(LoginActions.loginFailure());
-
-        NavigationService.navigate('PushToEarnRegisterProfile',{uname: '',pword:'', payload: action.payload});           
 
       }
 
@@ -282,10 +288,17 @@ export function * newGoogleRequest(api, action)
       //     {cancelable: false}
       // );
 
-        yield put(LoginActions.loginFailure());
+         if(response.StatusCode === 202)
+         {
+            // Navigate to PushToEarnOTPLogin
+            NavigationService.navigate('PushToEarnOTPLogin',{accessToken: response.LoginAccessToken,});
 
-        //NavigationService.navigate('PushToEarnRegisterProfile',{uname: payload.email,pword:'', payload: payloadNew.payload});           
-        NavigationService.navigate('PushToEarnRegisterProfile',{uname: action.email,pword:'', payload: action.payload});
+         }
+
+        // yield put(LoginActions.loginFailure());
+
+        // //NavigationService.navigate('PushToEarnRegisterProfile',{uname: payload.email,pword:'', payload: payloadNew.payload});           
+        // NavigationService.navigate('PushToEarnRegisterProfile',{uname: action.email,pword:'', payload: action.payload});
 
       }
 
@@ -375,10 +388,12 @@ export function * newTwitterRequest(api,action)
       //     {cancelable: false}
       // );
 
-        yield put(LoginActions.loginFailure());
-        // NavigationService.navigate('PushToEarnRegisterProfile',{uname: userName,pword:'', payload: payload.payload});
+      if(response.StatusCode === 202)
+      {
+         // Navigate to PushToEarnOTPLogin
+         NavigationService.navigate('PushToEarnOTPLogin',{accessToken: response.LoginAccessToken,});
 
-        NavigationService.navigate('PushToEarnRegisterProfile',{uname: action.firstname,pword:'', payload: action.payload});           
+      }
 
       }
 
@@ -511,14 +526,16 @@ export function * twitterRequest(api,payload,userName)
 
 function fetchSocialLogin(payload) {
 
-    return fetchJson(Api_url.mobileSignUpLoginUrlNewStag,payload);
+    return fetchJson(Api_url.staging.laMobileLogin,payload);
     //return fetchJson(Api_url.mobileSignUpLoginUrlNewStag,payload);
 
 }
 
 function fetchFacebookLogin(payload){
 
-    return fetchJson(`https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnMobileUserLoginByMobile?code=${API_URL.commonCode}`,payload);
+    //return fetchJson(`https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnMobileUserLoginByMobile?code=${API_URL.commonCode}`,payload);
+
+    return fetchJson(API_URL.staging.laMobileLogin,payload);
 
 }
 
@@ -561,8 +578,13 @@ export function * newFacebookRequest(api,action)
           }
           else
           {
-              yield put(LoginActions.loginFailure());
-              NavigationService.navigate('PushToEarnRegisterProfile',{firstname: '', lastname: '' , uname:'', pword:'', payload: action.payload, mobilephone: '', pPayload:''});   
+            if(response.StatusCode === 202)
+              {
+                   // Navigate to PushToEarnOTPLogin
+                   NavigationService.navigate('PushToEarnOTPLogin',{accessToken: response.LoginAccessToken,});
+              }
+              // yield put(LoginActions.loginFailure());
+              // NavigationService.navigate('PushToEarnRegisterProfile',{firstname: '', lastname: '' , uname:'', pword:'', payload: action.payload, mobilephone: '', pPayload:''});   
           }
 
   }catch(error){
@@ -783,7 +805,8 @@ function fetchLoginOTP(payload) {
 
 function fetchLogin(payload,url) {
   console.tron.log("payload="+url);
-  return fetchJsonNew(url,payload);
+  url = API_URL.staging.laMobileLogin;
+  return fetchJsonNew(API_URL.staging.laMobileLogin,payload);
 }
 
 export function * LoginRequest(api,action) {
@@ -857,8 +880,8 @@ export function * LoginRequest(api,action) {
 
             // });
 
-         }  
-    }    
+         }
+    }
     else
     {
 
@@ -876,8 +899,8 @@ export function * LoginRequest(api,action) {
 
         });
 
-           NavigationService.navigate('PushToEarnRegisterProfile',{uname:'', pword:'', payload: payload, phone: phoneNumber, pPayload:''});
-           console.tron.log("201 Error");
+           NavigationService.navigate('PushToEarnRegisterProfile',{uname:'', pword:'', payload: payload, mobilephone: action.phoneNumber, pPayload:''});
+           console.tron.log("201 Error with phone number="+action.phoneNumber);
       }
       else
       {

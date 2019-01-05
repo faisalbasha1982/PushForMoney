@@ -192,6 +192,7 @@ class TestPage extends Component {
         await AsyncStorage.getItem('token').then((token) => {
             this.setState({ token: token});
         });
+
     }
 
     getAsyncStorage = async () => {
@@ -223,7 +224,13 @@ class TestPage extends Component {
 
     convertMonth = (month) => {
 
-        console.log("convert month="+typeof(month)+ " language="+this.state.language);        
+        console.tron.log("convert month="+typeof(month)+ " language="+this.state.language);        
+
+        //month = month.to
+
+        month = parseInt(month, 10);
+
+        console.tron.log("month="+month);
 
         if(this.state.language === "English")
         {
@@ -316,12 +323,13 @@ class TestPage extends Component {
 
     setDayYear = (month, year) => {
 
-        console.tron.log("Received month="+month);
+        console.tron.log("Received month="+month+ " type="+typeof(month));
         
         let cMonth = this.convertMonth(month);
-        console.log("cMonth="+cMonth);
+        console.tron.log("cMonth="+cMonth);
         this.setState({ currentMonth: cMonth, currentYear: year, selectedValue:[cMonth,year] });
         console.log("setDayYear selectedValue="+this.state.selectedValue);
+
     }
 
 
@@ -509,7 +517,7 @@ class TestPage extends Component {
                                             }>
                                         <Icon
                                             containerStyle={newStyle.iconImageStyle}
-                                            name='user'
+                                            name='users'
                                             type='font-awesome'
                                             color='#E73D50'
                                             size = {20}
@@ -525,7 +533,7 @@ class TestPage extends Component {
                                         onPress = { (selectionSecond) => {this.setState({ selectionFirst: false, selectionSecond: !this.state.selectionSecond, selectionThird: false, selectionFourth: false, menu: 2, });} }>
                                         <Icon
                                             containerStyle={newStyle.iconImageStyle}
-                                            name='users'
+                                            name='euro'
                                             type='font-awesome'
                                             color='#E73D50'
                                             size = {20}
@@ -541,7 +549,7 @@ class TestPage extends Component {
                                         onPress = { (selectionThird) => {this.setState({ selectionFirst: false, selectionSecond: false, selectionThird: !this.state.selectionThird, selectionFourth: false, menu: 3, });} }>
                                         <Icon
                                             containerStyle={newStyle.iconImageStyle}
-                                            name='euro'
+                                            name='user'
                                             type='font-awesome'
                                             color='#E73D50'
                                             size = {20}
@@ -572,11 +580,11 @@ class TestPage extends Component {
                             {
                                     this.state.menu === 0?
                                             <WelcomeComponent menu = {this.menuChange} language={this.props.navigation.state.params.language}/>:
-                                    this.state.menu === 1?
-                                            <ProfileComponent menu = {this.menuChange} language={this.state.language} />:
-                                    this.state.menu === 2?
-                                            this.addComponent():
                                     this.state.menu === 3?
+                                            <ProfileComponent menu = {this.menuChange} language={this.state.language} />:
+                                    this.state.menu === 1?
+                                            this.addComponent():
+                                    this.state.menu === 2?
                                             <MoneyComponent language={this.state.language} month={this.state.currentMonth} year={this.state.currentYear} />:
                                     this.state.menu === 4?
                                             <InformationComponent menu = {this.menuChange} language={this.state.language} />:

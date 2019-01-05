@@ -97,7 +97,7 @@ class PushToEarnRegisterProfile extends Component {
             renderValidate: false,
             firstNameInput:'',
             lastNameInput:'',
-            phoneNumberInput:'',
+            phoneNumberInput:"+32",
             usernameInput:'',
             passwordInput:'',
             emailInput:'',
@@ -242,7 +242,7 @@ class PushToEarnRegisterProfile extends Component {
         
     }
     
-    validateUAEPhoneNumber = (phone) => {        
+    validateUAEPhoneNumber = (phone) => {
         this.setState({ phoneNumberInput: phone});
     }
 
@@ -718,10 +718,45 @@ class PushToEarnRegisterProfile extends Component {
 
     callPrivateScreen = (payload) => {
 
+        // if(this.state.emailInput === '')
+        // {            
+        //    // this.setState({ emailInput: '', usernameInputError: true, usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
+        //     //return;
+        // }
+
+        console.log("email="+this.state.emailInput);
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+        if(reg.test(this.state.emailInput))
+        {
+            //this.setState({ emailInput: text, usernameInputError: true, usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
+        }
+        else
+        {
+            if(this.state.languageCode === 'en')
+                Alert.alert(LanguageSettingsPFM.English.invalidEmail);
+            else
+              if(this.state.languageCode === 'fr')
+                  Alert.alert(LanguageSettingsPFM.French.invalidEmail);
+               else
+                   Alert.alert(LanguageSettingsPFM.Dutch.invalidEmail);
+            return;
+        }
+
+        this.setState({ isFocusedFirst: false});
+
         let phoneData = '';
         let firstname = '';
         let lastname = '';
         let email = '';
+
+        console.tron.log("phone number input ==="+ this.state.phoneNumberInput);
+        //console.tron.log("phone number input length ==="+ this.state.phoneNumberInput.length);
+
+        if(!this.state.phoneNumberInput)
+        {
+            Alert.alert(this.state.text.enterPhoneNumber);
+            return;
+        }
 
         if(this.state.phoneNumberInput === '' || this.state.phoneNumberInput === '+32')
          {
@@ -840,15 +875,24 @@ class PushToEarnRegisterProfile extends Component {
     }
 
     validateEmail = (text) => {
+        
 
-        // console.log("email="+text);
-        // let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
-        // if(reg.test(text))
-        // {
-        //     this.setState({ emailInput: text, usernameInputError: true, usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
-        // }
+        if(text === '')
+        {            
+            this.setState({ emailInput: text, usernameInputError: true, usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
+            return;
+        }
 
-        this.setState({emailInput: text});
+        console.log("email="+text);
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+        if(reg.test(text))
+        {
+            this.setState({ emailInput: text, usernameInputError: true, usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
+        }
+        else
+          Alert.alert("Invalid Email Address!");
+
+        // this.setState({emailInput: text});
 
     }
 
@@ -1187,19 +1231,20 @@ class PushToEarnRegisterProfile extends Component {
                         placeholder=''
                         editable = {true}
                         underlineColorAndroid= 'transparent'
-                        onChangeText = { (emailInput) => { this.validateEmail( emailInput ) } }
+                        onChangeText = { (emailInput) => { this.setState({ emailInput }) } }
                     />
 
                     <Text style={newStyle.firstName}>{this.state.text.Phone}{" (*)"}</Text>
                     <PhoneInput
-                                            opacity={1}
-                                            ref={(ref) => { this.phone = ref; }}
-                                            initialCountry={this.state.countryCode}
-                                            onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
-                                            style= {newStyle.nameInput}
-                                            value= { mobilephone }
-                                            onChangePhoneNumber = { (phoneNumberInput) => this.validateBGPhoneNumber(phoneNumberInput) }
-                                        />
+                            opacity={1}
+                            ref={(ref) => { this.phone = ref; }}
+                            initialCountry={this.state.countryCode}
+                            onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
+                            style= {newStyle.nameInput}
+                            value= { mobilephone }
+                            onBlur = { () => { this.setState({ isFocusedFirst: false});} }
+                            onChangePhoneNumber = { (phoneNumberInput) => this.validateBGPhoneNumber(phoneNumberInput) }
+                    />
                     {/* <Text style={newStyle.firstName}>{this.state.text.Password}</Text>
 
                     <TextInput

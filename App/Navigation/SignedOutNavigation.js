@@ -124,7 +124,7 @@ const SignedOutNav = StackNavigator(
   },
 
   {
-    // Default config for all screens
+    // Default config for all screens PushForJob 
     initialRouteName: "PushForJob",
     navigationOptions: {
       headerStyle: styles.header

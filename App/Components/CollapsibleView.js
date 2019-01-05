@@ -376,15 +376,17 @@ const newStyle = StyleSheet.create({
   nameStyle: {
     padding: 5,
     margin: 5,
-    width: 170,
-    height: 23,
-    fontFamily: "WorkSans-Medium",
-    fontSize: 12,
+    width: viewPortWidth,
+    height: 25,
+    fontFamily: "WorkSans-Bold",
+    fontSize: 15,
     fontWeight: "normal",
     fontStyle: "normal",
     letterSpacing: 0.46,
     color: "rgb(53, 53, 53)",
-    backgroundColor:'transparent'
+    textAlign: "left",
+    backgroundColor:'transparent',
+    alignItems:'center'
 },
 
 statusStyle: {
@@ -438,7 +440,7 @@ buttonStyle: {
 borderBottom: {
   width: 310,
   height: 1,
-  borderBottomColor: "rgb(155, 155, 155)",
+  borderBottomColor: "rgb(231, 61, 80)",
   borderBottomWidth: StyleSheet.hairlineWidth,
   flex:1,
 },

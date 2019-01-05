@@ -181,7 +181,7 @@ class PushToEarnAddFriendLastComponent extends Component {
                                                 size = {20} />
                                     </TouchableOpacity>
                                 </View>
-                            <View style={{ backgroundColor: 'transparent', justifyContent:'center', alignItems:'center', marginLeft: 20, paddingTop:3,  }}>
+                            <View style={{ backgroundColor: 'transparent', justifyContent:'center', alignItems:'center', marginLeft: 12, paddingTop:3,  }}>
                                 <Text style= {newStyle.topText}>
                                         {this.state.text.addFriendsButton}
                                 </Text>
@@ -395,7 +395,7 @@ const newStyle = StyleSheet.create({
     },
 
     topText: {
-        width: (220 / viewPortWidth) * viewPortWidth,
+        width: (235 / viewPortWidth) * viewPortWidth,
         height: 34,
         fontFamily: "WorkSans-Medium",
         fontSize: 21,
@@ -404,7 +404,7 @@ const newStyle = StyleSheet.create({
         lineHeight: 34,
         letterSpacing: 0,
         textAlign: "center",
-        color: "rgb(231, 61, 80)"        
+        color: "rgb(231, 61, 80)"
     },
 
     topView: {
