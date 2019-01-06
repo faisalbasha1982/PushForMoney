@@ -404,7 +404,7 @@ const newStyle = StyleSheet.create({
         lineHeight: 34,
         letterSpacing: 0,
         textAlign: "center",
-        color: "rgb(231, 61, 80)"
+        color: "rgb(231, 61, 80)"        
     },
 
     topView: {

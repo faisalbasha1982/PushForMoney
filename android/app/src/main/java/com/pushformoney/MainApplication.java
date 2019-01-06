@@ -4,9 +4,7 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import io.fullstack.oauth.OAuthManagerPackage;
-import com.gettipsi.reactnativetwittersdk.TwitterReactPackage;
 import im.shimo.react.cookie.CookieManagerPackage;
-import com.rnds.DirectedScrollViewPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import ca.bigdata.voice.contacts.BDVSimpleContactsPackage;
@@ -54,10 +52,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new OAuthManagerPackage(),
-            new TwitterReactPackage(),
-            new TwitterSigninPackage(false),
             new CookieManagerPackage(),
-            new DirectedScrollViewPackage(),
             new VectorIconsPackage(),
             new SplashScreenReactPackage(),
             new BDVSimpleContactsPackage(),

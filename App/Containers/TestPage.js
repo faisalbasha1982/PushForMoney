@@ -517,7 +517,7 @@ class TestPage extends Component {
                                             }>
                                         <Icon
                                             containerStyle={newStyle.iconImageStyle}
-                                            name='users'
+                                            name='user'
                                             type='font-awesome'
                                             color='#E73D50'
                                             size = {20}
@@ -533,7 +533,7 @@ class TestPage extends Component {
                                         onPress = { (selectionSecond) => {this.setState({ selectionFirst: false, selectionSecond: !this.state.selectionSecond, selectionThird: false, selectionFourth: false, menu: 2, });} }>
                                         <Icon
                                             containerStyle={newStyle.iconImageStyle}
-                                            name='euro'
+                                            name='users'
                                             type='font-awesome'
                                             color='#E73D50'
                                             size = {20}
@@ -549,7 +549,7 @@ class TestPage extends Component {
                                         onPress = { (selectionThird) => {this.setState({ selectionFirst: false, selectionSecond: false, selectionThird: !this.state.selectionThird, selectionFourth: false, menu: 3, });} }>
                                         <Icon
                                             containerStyle={newStyle.iconImageStyle}
-                                            name='user'
+                                            name='euro'
                                             type='font-awesome'
                                             color='#E73D50'
                                             size = {20}
@@ -580,11 +580,11 @@ class TestPage extends Component {
                             {
                                     this.state.menu === 0?
                                             <WelcomeComponent menu = {this.menuChange} language={this.props.navigation.state.params.language}/>:
-                                    this.state.menu === 3?
-                                            <ProfileComponent menu = {this.menuChange} language={this.state.language} />:
                                     this.state.menu === 1?
-                                            this.addComponent():
+                                            <ProfileComponent menu = {this.menuChange} language={this.state.language} />:
                                     this.state.menu === 2?
+                                            this.addComponent():
+                                    this.state.menu === 3?
                                             <MoneyComponent language={this.state.language} month={this.state.currentMonth} year={this.state.currentYear} />:
                                     this.state.menu === 4?
                                             <InformationComponent menu = {this.menuChange} language={this.state.language} />:

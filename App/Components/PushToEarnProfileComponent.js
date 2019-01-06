@@ -1886,7 +1886,7 @@ const newStyle = StyleSheet.create({
         padding: 0,
         paddingLeft:5,
         flex:8,
-        color: 'black'
+        color: 'lightgray'
     },
 
     nameInputOff: {

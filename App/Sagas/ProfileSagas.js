@@ -85,11 +85,11 @@ function fetchJson(url,payload) {
   function fetchProfile(payload) {
       
     // console.log("inside fetch profile");
-    // console.tron.log("inside fetch profile url="+API_URL.staging.laMobileGetUserData);
+    // console.tron.log("inside fetch profile url="+API_URL.production.laMobileGetUserData);
 
     // return fetchJson('https://prod-17.westeurope.logic.azure.com:443/workflows/82682ea087a442f0a12c00f1b9c08e7d/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=MkoqJpsrFiWGnELB49KFyYbnTO5BCa4hntQA_83UJfo',payload);
 
-    return fetchJson(API_URL.staging.laMobileGetUserData,payload);
+    return fetchJson(API_URL.production.laMobileGetUserData,payload);
 }
   
 export function * ProfileRequestNew(api,action)
@@ -111,7 +111,7 @@ export function * ProfileRequestNew(api,action)
 function fetchUpdateFirstName(payload){
     // return fetchJson("https://prod-28.westeurope.logic.azure.com:443/workflows/8758d6d96f2145cbaaa86e5d032392dc/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=6pUlAjHE5FumdVSxpK_uevwWemeMwM9ODipl2oHvWZE",payload);
 
-    return fetchJson(API_URL.staging.laMobileUserUpdateFirstAndLastName,payload);
+    return fetchJson(API_URL.production.laMobileUserUpdateFirstAndLastName,payload);
     // return fetchJson("https://prod-08.westeurope.logic.azure.com:443/workflows/7c2e8eefb0424459b71d467870a7b76b/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=vvrQGf09fHfgbYFY0Mk3a27Shh0oXMTWfP9bFhxARbI",payload);
 }
 
@@ -206,7 +206,7 @@ function fetchOTPMobile(payload) {
 
     // return fetchJson('https://prod-49.westeurope.logic.azure.com:443/workflows/19bdce4bb7d740f586a5f86bf9014efa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LU6WJJr0yUTzSFLdH9TXCBdYPVh6x3SMGegOPX0OTfA',payload);
 
-    return fetchJson(API_URL.staging.laMobileOtpVerification,payload);    
+    return fetchJson(API_URL.production.laMobileOtpVerification,payload);    
     //return fetchJson('https://prod-21.westeurope.logic.azure.com:443/workflows/fc0efd237ccb46268c5353e97d791a7e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Z2LNFPTtuCNVTEq9jcpwaKsLGgOjYaQOuiwoJFZenbY',payload);
 
 }

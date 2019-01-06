@@ -140,7 +140,8 @@ class PushToEarnSignIn2 extends Component {
             phoneNumberInput:'',
             users: {},
             user:'',
-            isFocusedFirst:false
+            isFocusedFirst:false,
+            socialLoginProcess:false,
             
         };
     }
@@ -150,7 +151,7 @@ class PushToEarnSignIn2 extends Component {
         console.warn('google button clicked');
         // eslint-disable-line
 
-        this.setState({ isLoading: true });
+        //this.setState({ isLoading: true });
 
         this.googleSignOut();
 
@@ -332,7 +333,7 @@ class PushToEarnSignIn2 extends Component {
         let loginInfo = "{ 'G' : '"+user.id+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
         this.rsa(loginInfo);
 
-        this.setState({isLoading: true});
+        this.setState({isLoading: true, socialLoginProcess: true});
 
         setTimeout(() => 
         {
@@ -411,7 +412,7 @@ class PushToEarnSignIn2 extends Component {
 
               setTimeout(() => {
 
-                this.setState({isLoading: true});
+                this.setState({isLoading: true, socialLoginProcess:true});
           
                 if( this.state.encodedText !== "")
                 {
@@ -513,7 +514,7 @@ class PushToEarnSignIn2 extends Component {
 
         this.rsa(loginInfo);
 
-        this.setState({isLoading: true});
+        this.setState({isLoading: true, socialLoginProcess:true});
 
         setTimeout(() => 
         {
@@ -579,7 +580,7 @@ class PushToEarnSignIn2 extends Component {
         //   }
         // )
 
-        this.setState({ isLoading: true});
+        //this.setState({ isLoading: true,});
 
         manager.authorize('twitter', {scopes: 'profile email'})
         .then(resp => 
@@ -597,6 +598,7 @@ class PushToEarnSignIn2 extends Component {
                             console.tron.log("data.user="+data.user.id +" name="+data.user.name);     
                              if(!done)
                              {
+                                done  = true;
                                 this.twitterLogin(data.user.id,data.user.name);
                              }
                         })
@@ -606,7 +608,6 @@ class PushToEarnSignIn2 extends Component {
             }
             )
         .catch(err => console.log(err));
-
 
       }
     
@@ -645,7 +646,7 @@ class PushToEarnSignIn2 extends Component {
           let loginInfo = "{ 'F' : '"+result.id.toString()+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
           this.rsa(loginInfo);
 
-          this.setState({isLoading: true});
+          this.setState({isLoading: true,socialLoginProcess:true});
 
           setTimeout(() => 
           {
@@ -976,9 +977,16 @@ class PushToEarnSignIn2 extends Component {
         //     this.setText();
         // }
 
+        
+        if(!this.state.socialLoginProcess)
+                this.setState({ isLoading:false});
+
         if(nextProps !== this.props)
         {
-            //this.setState({ isLoading:false});
+            console.tron.log("login process="+this.state.socialLoginProcess);
+
+            if(!this.state.socialLoginProcess)
+                this.setState({ isLoading:false});
 
             LoginManager.logOut();
 
@@ -987,6 +995,8 @@ class PushToEarnSignIn2 extends Component {
             this.googleSignOut();
    
             this.handleLogout();
+
+
         }
 
     }
@@ -1010,7 +1020,7 @@ class PushToEarnSignIn2 extends Component {
             if(this.props.navigation.state.params.language === 'FRANÇAIS')
             this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});            
 
-        this.setState({ isLoading:false});
+        this.setState({ isLoading:false, socialLoginProcess: false});
     
         // setTimeout(() => {
         //     ltoken = localStorage.getItem('token');
@@ -1835,8 +1845,8 @@ class PushToEarnSignIn2 extends Component {
                         ref={(ref) => { this.phone = ref; }}
                         initialCountry={this.state.countryCode}                        
                         focus = { () => { this.setState({ isFocusedFirst:true }); } }
-                        onSelectCountry={(iso2) => { this.setState({countryCode: iso2, isFocusedFirst:true}); console.log('country='+this.state.countryCode) }}
-                        style= {[newStyle.nameInput,{borderColor:this.state.isFocusedFirst===true?'#e73d50':'transparent', borderStyle:'solid', borderWidth:1}]}
+                        onSelectCountry={(iso2) => { this.setState({countryCode: iso2,}); console.log('country='+this.state.countryCode) }}
+                        style= {newStyle.nameInput}
                         onChangePhoneNumber = { (phoneNumberInput) => this.validateUAEPhoneNumber(phoneNumberInput) }
                     />
 

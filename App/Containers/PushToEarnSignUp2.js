@@ -292,7 +292,7 @@ class PushToEarnSignUp2 extends Component {
         
         this.rsa(loginInfo);
 
-        this.setState({isLoading: false});
+        this.setState({isLoading: true});
 
         setTimeout(() => 
         {
@@ -347,7 +347,7 @@ class PushToEarnSignUp2 extends Component {
               this.rsa(loginInfo);
 
               setTimeout(() => {
-                this.setState({isLoading: false});
+                this.setState({isLoading: true,});
           
                 if( this.state.encodedText !== "")
                 {
@@ -409,7 +409,7 @@ class PushToEarnSignUp2 extends Component {
         let loginInfo = "{ 'T' : '"+userID+"','D':'"+this.getUTCDate()+"', 'R' : 'er3rssfd'}";
         this.rsa(loginInfo);
 
-        this.setState({isLoading: false});
+        this.setState({isLoading: true,});
 
         console.log("userName:"+userName);
 
@@ -486,6 +486,7 @@ class PushToEarnSignUp2 extends Component {
                             console.tron.log("data.user="+data.user.id +" name="+data.user.name);     
                              if(!done)
                              {
+                                done = true;
                                 this.twitterLogin(data.user.id,data.user.name);
                              }
                         })

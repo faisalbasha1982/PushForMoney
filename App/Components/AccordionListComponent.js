@@ -73,7 +73,8 @@ _head(item){
                          fontWeight: "normal",
                          fontStyle: "normal",
                          letterSpacing: 0.54,
-                         color: "rgb(53, 53, 53)"             
+                         color: "rgb(53, 53, 53)",
+                         backgroundColor: "transparent"             
                         }}>
             {item.title}
           </Text>
@@ -233,9 +234,9 @@ createListArray = () => {
 
             if(personObject.monthlyEarningDetailsByReferralsByContracts !== null)
               {
-                  console.tron.log("date="+this.reverse(personObject.StartDate.split("T")[0]));
+                  //console.tron.log("date="+this.reverse(personObject.StartDate.split("T")[0]));
                 list[counter] = {
-                    "title": this.reverse(personObject.StartDate.split("T")[0]) + "  -  "+ this.reverse(personObject.EndDate.split("T")[0]),
+                    "title": this.reverse(personObject.StartDate.split("T")[0]) + "     -      "+ this.reverse(personObject.EndDate.split("T")[0]),
                     "body" :  this.state.text.Correction + " - "+ this.state.text.AdjustmentContract, //"Correction - Adjustment Contract",
                     "time" : this.state.text.Time + ": "+ personObject.monthlyEarningDetailsByReferralsByContracts.Time,
                     "newTime" : this.state.text.NewTime+": " + personObject.monthlyEarningDetailsByReferralsByContracts.NewTime,
@@ -244,7 +245,7 @@ createListArray = () => {
               }
             else
                 list[counter] = {
-                "title": this.reverse(personObject.StartDate.split("T")[0]) + "  -  "+ this.reverse(personObject.EndDate.split("T")[0]),
+                "title": this.reverse(personObject.StartDate.split("T")[0]) + "  -   "+ this.reverse(personObject.EndDate.split("T")[0]),
                 "workedHours": personObject.WorkedHours
             }
             counter = counter + 1;
@@ -264,7 +265,17 @@ reverse = (s) => {
 
     var result = s.split("-");
 
+    result[2].replace(" ","");
+    result[1].replace(" ",'');
+    result[0].replace(" ",'');
+
+    console.tron.log("result 2="+result[2]+" result 1="+result[1]+ " result 0="+result[0]);
+    console.tron.log("result 2="+result[2].length+" result 1="+result[1].length+ " result 0="+result[0].length);
+
+
     var o = result[2] + "-" + result[1] + "-" + result[0];
+
+    console.tron.log("o="+o+" length="+o.length);
 
     return o;
 }
@@ -435,7 +446,7 @@ backButton: {
 borderBottom: {
   width: viewPortWidth*0.83,
   height: 30,
-  borderBottomColor: "#333",
+  borderBottomColor: "rgb(231, 61, 80)",
   borderBottomWidth: StyleSheet.hairlineWidth,
   backgroundColor: 'transparent',
   justifyContent: 'flex-start',

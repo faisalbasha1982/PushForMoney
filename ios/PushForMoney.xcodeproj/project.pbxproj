@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -143,7 +142,6 @@
 		E61A66A9454C4FC4806C59FB /* barlowsemicondensed-thinitalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 48EAC5E04A6F4DE28EA88607 /* barlowsemicondensed-thinitalic.otf */; };
 		E6FB204BC9414D4A969D9BF2 /* BarlowCondensed-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 77A1492A37F7442486C70201 /* BarlowCondensed-Black.otf */; };
 		E705EC2D793B436C919D8C1F /* BarlowCondensed-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 907B70FF9045449E8C1C9B36 /* BarlowCondensed-Bold.otf */; };
-		E828359C7B754154A701067C /* libRCTDirectedScrollView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC97976AC454B52BC3E092F /* libRCTDirectedScrollView.a */; };
 		EB1E90E59B064ABABF3A2F13 /* WorkSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 341EDEFD7E5D4D128A4CA8C9 /* WorkSans-Bold.ttf */; };
 		EEAFA2E04E9F497389ED3F01 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B265164C0B64018B30FFDDD /* Feather.ttf */; };
 		F0B5036B774048458781EF79 /* BarlowSemiCondensed-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = D041F01111324F90A1EAF798 /* BarlowSemiCondensed-Medium.otf */; };
@@ -452,13 +450,6 @@
 			remoteGlobalIDString = 3D05745F1DE6004600184BB4;
 			remoteInfo = "RCTPushNotification-tvOS";
 		};
-		7B5F93E421A2B0A100114DEF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 69941D9BFFF849E297394E51 /* RCTDirectedScrollView.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 899B2D911DE4DA9800EFC859;
-			remoteInfo = RCTDirectedScrollView;
-		};
 		7B710A61217C69900085F539 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BB7102BDAA4248AAAFB2531B /* BDVSimpleContacts.xcodeproj */;
@@ -686,7 +677,6 @@
 		67DE93AF365F4A77BC59E399 /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
 		67F06ADAD268128C00FCABA0 /* Pods-PushForMoney.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PushForMoney.release.xcconfig"; path = "Pods/Target Support Files/Pods-PushForMoney/Pods-PushForMoney.release.xcconfig"; sourceTree = "<group>"; };
 		689F01FA927B48159E356E16 /* libRNImgToBase64.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImgToBase64.a; sourceTree = "<group>"; };
-		69941D9BFFF849E297394E51 /* RCTDirectedScrollView.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTDirectedScrollView.xcodeproj; path = "../node_modules/react-native-directed-scrollview/ios/RCTDirectedScrollView.xcodeproj"; sourceTree = "<group>"; };
 		6A097CF566CE4FF7B772044B /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeConfig.xcodeproj; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; };
 		73E1ADDAB97F47DC9FC59FD7 /* OAuthManager.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = OAuthManager.xcodeproj; path = "../node_modules/react-native-oauth/ios/OAuthManager.xcodeproj"; sourceTree = "<group>"; };
 		76553CC297C548748B76A397 /* RNMailTests.xctest */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = RNMailTests.xctest; sourceTree = "<group>"; };
@@ -753,7 +743,6 @@
 		D1333301CED94BF592D0DD78 /* RNImmediatePhoneCall.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImmediatePhoneCall.xcodeproj; path = "../node_modules/react-native-immediate-phone-call/ios/RNImmediatePhoneCall.xcodeproj"; sourceTree = "<group>"; };
 		D535D4044FD2449F8D6F8A33 /* RNGoogleSignin.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGoogleSignin.xcodeproj; path = "../node_modules/react-native-google-signin/ios/RNGoogleSignin.xcodeproj"; sourceTree = "<group>"; };
 		DA76675E9CE52F1793AE2183 /* Pods_PushForMoney.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PushForMoney.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DAC97976AC454B52BC3E092F /* libRCTDirectedScrollView.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTDirectedScrollView.a; sourceTree = "<group>"; };
 		DB41011539BF44859535646A /* BarlowCondensed-MediumItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BarlowCondensed-MediumItalic.otf"; path = "../assets/fonts/BarlowCondensed-MediumItalic.otf"; sourceTree = "<group>"; };
 		DCAA492347A346CB915621BA /* barlowsemicondensed-mediumitalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "barlowsemicondensed-mediumitalic.otf"; path = "../assets/fonts/barlowsemicondensed-mediumitalic.otf"; sourceTree = "<group>"; };
 		DCB24810DA90430780952962 /* Barlow-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Black.otf"; path = "../assets/fonts/Barlow-Black.otf"; sourceTree = "<group>"; };
@@ -832,7 +821,6 @@
 				06A6E21C58AD46CC9E4D13DA /* libBDVSimpleContacts.a in Frameworks */,
 				4EA31139E86647F7BA8AB664 /* libSplashScreen.a in Frameworks */,
 				37D46908367540A1B605F94B /* libRNVectorIcons.a in Frameworks */,
-				E828359C7B754154A701067C /* libRCTDirectedScrollView.a in Frameworks */,
 				8EA089A89D5C4A85B92C2FA6 /* libRNCookieManager.a in Frameworks */,
 				5B890E6D1C2E47E8A64F6E42 /* libOAuthManager.a in Frameworks */,
 				F4FA6749A48FE283999B313E /* Pods_PushForMoney.framework in Frameworks */,
@@ -1064,14 +1052,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		7B5F93E121A2B0A000114DEF /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				7B5F93E521A2B0A100114DEF /* libRCTDirectedScrollView.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		7B710A2A217C698E0085F539 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -1265,7 +1245,6 @@
 				BB7102BDAA4248AAAFB2531B /* BDVSimpleContacts.xcodeproj */,
 				E940AEC0B6BC4E8C8AE94602 /* SplashScreen.xcodeproj */,
 				9D980C1F5FCF497DB0685C8A /* RNVectorIcons.xcodeproj */,
-				69941D9BFFF849E297394E51 /* RCTDirectedScrollView.xcodeproj */,
 				765A2D2E6A50444DBF6F90A0 /* RNCookieManager.xcodeproj */,
 				73E1ADDAB97F47DC9FC59FD7 /* OAuthManager.xcodeproj */,
 				C4FE371057C649AE8B35D3E0 /* TPSTwitterModule.xcodeproj */,
@@ -1579,10 +1558,6 @@
 				{
 					ProductGroup = 7B710AA2217C69900085F539 /* Products */;
 					ProjectRef = 10B8190670E9416AB78CEE3D /* RCTContacts.xcodeproj */;
-				},
-				{
-					ProductGroup = 7B5F93E121A2B0A000114DEF /* Products */;
-					ProjectRef = 69941D9BFFF849E297394E51 /* RCTDirectedScrollView.xcodeproj */;
 				},
 				{
 					ProductGroup = 7B710A58217C69900085F539 /* Products */;
@@ -1966,13 +1941,6 @@
 			fileType = archive.ar;
 			path = "libRCTPushNotification-tvOS.a";
 			remoteRef = 7B359B23217C920A009AA8FA /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		7B5F93E521A2B0A100114DEF /* libRCTDirectedScrollView.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTDirectedScrollView.a;
-			remoteRef = 7B5F93E421A2B0A100114DEF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		7B710A62217C69900085F539 /* libBDVSimpleContacts.a */ = {
@@ -2467,7 +2435,6 @@
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
-					"$(SRCROOT)/../node_modules/react-native-directed-scrollview/ios/RCTDirectedScrollView",
 					"$(SRCROOT)/../node_modules/react-native-cookie/ios",
 					"$(SRCROOT)/../node_modules/tipsi-twitter/ios/TPSTwitterModule/**",
 					"$(SRCROOT)/../node_modules/tipsi-twitter/ios/TPSTwitterModule/**",
@@ -2479,7 +2446,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2518,7 +2484,6 @@
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
-					"$(SRCROOT)/../node_modules/react-native-directed-scrollview/ios/RCTDirectedScrollView",
 					"$(SRCROOT)/../node_modules/react-native-cookie/ios",
 					"$(SRCROOT)/../node_modules/tipsi-twitter/ios/TPSTwitterModule/**",
 					"$(SRCROOT)/../node_modules/tipsi-twitter/ios/TPSTwitterModule/**",
@@ -2530,7 +2495,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2584,7 +2548,6 @@
 					"$(SRCROOT)/../node_modules/react-native-simple-contacts/ios",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
-					"$(SRCROOT)/../node_modules/react-native-directed-scrollview/ios/RCTDirectedScrollView",
 					"$(SRCROOT)/../node_modules/react-native-cookie/ios",
 					"$(SRCROOT)/../../twitterTest/node_modules/react-native-twitter-signin/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-oauth/ios/OAuthManager/**",
@@ -2649,7 +2612,6 @@
 					"$(SRCROOT)/../node_modules/react-native-simple-contacts/ios",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
-					"$(SRCROOT)/../node_modules/react-native-directed-scrollview/ios/RCTDirectedScrollView",
 					"$(SRCROOT)/../node_modules/react-native-cookie/ios",
 					"$(SRCROOT)/../../twitterTest/node_modules/react-native-twitter-signin/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-oauth/ios/OAuthManager/**",
@@ -2707,7 +2669,6 @@
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
-					"$(SRCROOT)/../node_modules/react-native-directed-scrollview/ios/RCTDirectedScrollView",
 					"$(SRCROOT)/../node_modules/react-native-cookie/ios",
 					"$(SRCROOT)/../node_modules/tipsi-twitter/ios/TPSTwitterModule/**",
 					"$(SRCROOT)/../node_modules/tipsi-twitter/ios/TPSTwitterModule/**",
@@ -2718,7 +2679,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2766,7 +2726,6 @@
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
-					"$(SRCROOT)/../node_modules/react-native-directed-scrollview/ios/RCTDirectedScrollView",
 					"$(SRCROOT)/../node_modules/react-native-cookie/ios",
 					"$(SRCROOT)/../node_modules/tipsi-twitter/ios/TPSTwitterModule/**",
 					"$(SRCROOT)/../node_modules/tipsi-twitter/ios/TPSTwitterModule/**",
@@ -2777,7 +2736,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2824,7 +2782,6 @@
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
-					"$(SRCROOT)/../node_modules/react-native-directed-scrollview/ios/RCTDirectedScrollView",
 					"$(SRCROOT)/../node_modules/react-native-cookie/ios",
 					"$(SRCROOT)/../node_modules/tipsi-twitter/ios/TPSTwitterModule/**",
 					"$(SRCROOT)/../node_modules/tipsi-twitter/ios/TPSTwitterModule/**",
@@ -2835,7 +2792,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2882,7 +2838,6 @@
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
-					"$(SRCROOT)/../node_modules/react-native-directed-scrollview/ios/RCTDirectedScrollView",
 					"$(SRCROOT)/../node_modules/react-native-cookie/ios",
 					"$(SRCROOT)/../node_modules/tipsi-twitter/ios/TPSTwitterModule/**",
 					"$(SRCROOT)/../node_modules/tipsi-twitter/ios/TPSTwitterModule/**",
@@ -2893,7 +2848,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

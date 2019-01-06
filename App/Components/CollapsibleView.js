@@ -124,10 +124,10 @@ _body(item){
 
 renderList = (personObj) => {
 
-  console.log("inside renderList personObj="+personObj);
-  console.log("PersonObj.ReferredPersonName="+personObj.ReferredPersonName);
-  console.log('PersonObj.PaidStatus='+personObj.PaidStatus);
-  console.log('personObj.amount='+personObj.Amount);
+  console.tron.log("inside renderList personObj="+personObj);
+  console.tron.log("PersonObj.ReferredPersonName="+personObj.ReferredPersonName);
+  console.tron.log('PersonObj.PaidStatus='+personObj.PaidStatus);
+  console.tron.log('personObj.amount='+personObj.Amount);
 
   if(this.props.referrals !== null)
       this.props.isLoading();
@@ -146,7 +146,7 @@ renderList = (personObj) => {
           activeOpacity={0.5}
           style={ newStyle.buttonStyle }>
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'transparent'}}>
               <Text style={newStyle.nameStyle}>{ personObj.ReferredPersonName }</Text>
               {(personObj.PaidStatus === "0")?<Text style={newStyle.statusStylePending}>{this.state.text.pending}</Text>
               :
@@ -329,12 +329,12 @@ render() {
         <ScrollView>
           <View style={{ flex:1, backgroundColor: 'transparent', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', overflow: "hidden" }}>
 
-             {
+             {/* {
                 this.props.fetching===true?
                 <View style = {{position: 'absolute' , zIndex:3999, left: 20, top: 0, right: 0, bottom: 0}}>
                 <BallIndicator color='#e73d50' />
                 </View>:this.somethingElse()
-              }
+              } */}
                    {
                     (this.props.menu===1 && this.props.childMenu === true)?
                     referralsNew !== null && referralsNew.map(
@@ -376,7 +376,7 @@ const newStyle = StyleSheet.create({
   nameStyle: {
     padding: 5,
     margin: 5,
-    width: viewPortWidth,
+    width: viewPortWidth*0.45,
     height: 25,
     fontFamily: "WorkSans-Bold",
     fontSize: 15,
@@ -386,7 +386,15 @@ const newStyle = StyleSheet.create({
     color: "rgb(53, 53, 53)",
     textAlign: "left",
     backgroundColor:'transparent',
-    alignItems:'center'
+    alignItems:'center',
+    fontFamily: "WorkSans-Regular",
+    fontSize: 15,
+    fontWeight: "normal",
+    fontStyle: "normal",
+    letterSpacing: 0.39,
+    //color: "rgb(155, 155, 155)",
+    paddingLeft:0,
+
 },
 
 statusStyle: {
@@ -418,7 +426,7 @@ statusStylePending: {
   fontStyle: "normal",
   letterSpacing: 0.39,
   color: "rgb(155, 155, 155)",
-  backgroundColor: 'transparent',
+  backgroundColor:'transparent',
   textAlign:'right',
   alignItems:'flex-start'
 },
@@ -442,6 +450,7 @@ borderBottom: {
   height: 1,
   borderBottomColor: "rgb(231, 61, 80)",
   borderBottomWidth: StyleSheet.hairlineWidth,
+  backgroundColor: 'rgb(231, 61, 80)',
   flex:1,
 },
 

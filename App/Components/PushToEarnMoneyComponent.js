@@ -425,6 +425,35 @@ class PushToEarnMoneyComponent extends PureComponent {
 
         }
         else
+        if(this.state.language === "Dutch")
+        {
+         
+            if(month === 1)
+                return "JANUARI";
+            if(month === 2)
+                return "FEBRUARI";
+            if(month === 3)
+                return "MAART";
+            if(month === 4)
+                return "APRIL";
+            if(month === 5)
+                return "MEI";
+            if(month === 6)
+                return "JUNI";
+            if(month === 7)
+                return "JULI";
+            if(month === 8)
+                return "AUGUSTUS";
+            if(month === 9)
+                return "SEPTEMBER";
+            if(month === 10)
+                return "OKTOBER";
+            if(month === 11)
+                return "NOVEMBER";
+            if(month === 12)
+                return "DECEMBER";
+        }       
+        else
             if(this.state.language === "French")
             {
                 if(month === 1)
@@ -451,37 +480,7 @@ class PushToEarnMoneyComponent extends PureComponent {
                     return "NOVEMBRE";
                 if(month === 12)
                     return "décembre";        
-            }
-        else
-            if(this.state.language === "Dutch")
-            {
-             
-                if(month === 1)
-                    return "JANUARI";
-                if(month === 2)
-                    return "FEBRUARI";
-                if(month === 3)
-                    return "MAART";
-                if(month === 4)
-                    return "APRIL";
-                if(month === 5)
-                    return "MEI";
-                if(month === 6)
-                    return "JUNI";
-                if(month === 7)
-                    return "JULI";
-                if(month === 8)
-                    return "AUGUSTUS";
-                if(month === 9)
-                    return "SEPTEMBER";
-                if(month === 10)
-                    return "OKTOBER";
-                if(month === 11)
-                    return "NOVEMBER";
-                if(month === 12)
-                    return "DECEMBER";
-            }       
-
+            }            
     }
 
     getMonth = () => {
@@ -609,7 +608,16 @@ class PushToEarnMoneyComponent extends PureComponent {
     getCurrentYearMonth = () => {
         //this.setState({ currentYearMonth: this.state.currentMonth + " "+ this.state.currentYear });
         console.tron.log("currentMonth="+this.state.currentMonth);
-        return this.state.currentMonth + " "+ this.state.currentYear;
+
+        let currentMonthNumber = this.getMonthNumber(this.state.currentMonth);
+
+        console.tron.log("currentMonthNumber="+currentMonthNumber);
+
+        let currentMonth = this.convertMonth(parseInt(currentMonthNumber,10));
+
+        console.tron.log("currentMonth from number="+currentMonth);
+
+        return currentMonth + " "+ this.state.currentYear;
     }
 
     getPrevYear = () =>{
@@ -735,7 +743,8 @@ class PushToEarnMoneyComponent extends PureComponent {
             pickerCancelBtnText: (this.state.languageCode !== 'en')?this.state.text.cancel: 'Cancel',
             onPickerConfirm: data => {
                 let monthNumber = this.getMonthNumber(data[0]);
-                console.log("monthNumber="+monthNumber);
+                console.tron.log("monthNumber="+monthNumber);
+                console.tron.log("month="+data[0]);
                 this.setState({currentMonth: data[0], currentYear: data[1], selectedValue: [data[0],data[1]]});                
                 this.getPerson();
                 console.log("ON Confirm Data="+data[1]);
