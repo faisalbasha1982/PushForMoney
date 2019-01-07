@@ -1566,9 +1566,9 @@ class PushToEarnSignUp2 extends Component {
                     <Text
                         style={{    
                             width: 43,
-                            height: 14,
+                            height: 20,
                             marginTop:10,
-                            marginRight:30,
+                            marginRight: Platform.OS==='ios'?30:50,
                             fontFamily: "WorkSans-Medium",
                             fontSize: 12,
                             fontWeight: "500",
@@ -1577,6 +1577,7 @@ class PushToEarnSignUp2 extends Component {
                             textAlign: "left",
                             color: "rgb(231, 61, 80)",
                             textDecorationLine: 'underline',
+                            backgroundColor: 'transparent'
                         }}
                         onPress = { () => this.props.navigation.navigate('PushToEarnSignIn2') }>
                            {this.state.text.SignIn}
@@ -1723,7 +1724,7 @@ class PushToEarnSignUp2 extends Component {
                                 width: 340,
                                 height: 57,
                                 marginBottom: 10,
-                                marginLeft: 20,
+                                marginLeft: Platform.OS==='ios'?20:12,
                                 borderRadius: 8,
                                 backgroundColor: '#E73D50',
                                 marginTop: viewPortHeight / 130,            
@@ -1734,7 +1735,7 @@ class PushToEarnSignUp2 extends Component {
                                 style={{
                                     fontSize: 17,
                                     width: 333,
-                                    height: 19,
+                                    height: 21,
                                     fontFamily: 'WorkSans-Regular',
                                     fontWeight: '500',
                                     fontStyle: 'normal',
@@ -1781,8 +1782,8 @@ const newStyle = StyleSheet.create({
 
     headerImage: {
         width: viewPortWidth * 0.65,
-        height: Platform.OS === 'ios'?40:120,
-        flex: Platform.OS === 'ios'?8:8,
+        height: Platform.OS === 'ios'?40:40,
+        flex: Platform.OS === 'ios'?8:2,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
@@ -1792,22 +1793,26 @@ const newStyle = StyleSheet.create({
         backgroundColor: 'white',
         marginTop: Platform.OS === 'ios'?25:10,
         padding: 25,
-        flex: Platform.OS === 'ios'?20:1,
+        // flex: Platform.OS === 'ios'?20:1,
+        flex: Platform.OS === 'ios'?20:7,
         backgroundColor: 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
     },
 
     socialIcons: {
-        flex: 4,
+        flex: Platform.OS === 'ios'?4:1,
         justifyContent: 'center', 
         alignItems: 'flex-start' ,
         marginTop: 10, 
+        marginTop: Platform.OS === 'ios'?10:20,
         marginLeft: 20,
         padding: 30, 
         flexDirection: 'row', 
         width: viewPortWidth, 
-        height: 400, 
+        paddingTop: Platform.OS === 'ios'?30:0,
+        height: 400,
+        height: Platform.OS === 'ios'?400:20,
         backgroundColor: 'transparent'
     },
 

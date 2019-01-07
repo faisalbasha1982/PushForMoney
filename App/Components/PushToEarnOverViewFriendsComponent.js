@@ -978,7 +978,7 @@ const newStyle = StyleSheet.create({
 
     inputContainer: {
         backgroundColor: 'transparent',
-        flex: Platform.OS === 'ios'?18:1,        
+        flex: Platform.OS === 'ios'?18:18,        
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         height: viewPortHeight

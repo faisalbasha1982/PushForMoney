@@ -316,7 +316,7 @@ class PushToEarnOTPLogin extends Component {
         console.log("platform --->",Platform.OS);
         return (
 
-            (platform === 'ios')?
+            // (platform === 'ios'|| platform==='android')?
             <KeyboardAwareScrollView
                 behavior="padding"
                 enableOnAndroid={false}
@@ -430,7 +430,7 @@ class PushToEarnOTPLogin extends Component {
                             onPress={() => { this.callOTP() } }
                             activeOpacity={0.5}
                             style={{
-                                width: 330,
+                                width: Platform.OS==='ios'?330:310,
                                 height: 57,
                                 marginBottom: 10,
                                 marginLeft: 0,
@@ -497,89 +497,89 @@ class PushToEarnOTPLogin extends Component {
                      </View>
                 </View>
  
-            </KeyboardAwareScrollView>:
-            <ScrollView>
-            <KeyboardAvoidingView
-               style = {newStyle.container}
-               behavior = "padding"
-               enabled>
-             {/* <View style={newStyle.container}> */}
+            </KeyboardAwareScrollView>
+        //     <ScrollView>
+        //     <KeyboardAvoidingView
+        //        style = {newStyle.container}
+        //        behavior = "padding"
+        //        enabled>
+        //      {/* <View style={newStyle.container}> */}
             
-             <View style={newStyle.headerImage}>
-                 <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
-                 {
-                   (this.state.renderValidate === true)?this.renderValidation():this.renderNothing()
-                 }
-             </View>
+        //      <View style={newStyle.headerImage}>
+        //          <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
+        //          {
+        //            (this.state.renderValidate === true)?this.renderValidation():this.renderNothing()
+        //          }
+        //      </View>
 
-             <View style={newStyle.inputContainer}>
+        //      <View style={newStyle.inputContainer}>
             
-                 <Text style={newStyle.firstName}>{this.state.firstName}</Text>
-                 <TextInput
-                             style={ newStyle.nameInput }
-                             placeholder=''
-                             underlineColorAndroid= 'transparent'
-                             onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
+        //          <Text style={newStyle.firstName}>{this.state.firstName}</Text>
+        //          <TextInput
+        //                      style={ newStyle.nameInput }
+        //                      placeholder=''
+        //                      underlineColorAndroid= 'transparent'
+        //                      onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
                          
 
-                 <Text style={newStyle.firstName}>{this.state.name}</Text>
-                 <TextInput
-                     style={ newStyle.nameInput}
-                     placeholder=''
-                     underlineColorAndroid= 'transparent'
-                     onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
+        //          <Text style={newStyle.firstName}>{this.state.name}</Text>
+        //          <TextInput
+        //              style={ newStyle.nameInput}
+        //              placeholder=''
+        //              underlineColorAndroid= 'transparent'
+        //              onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
 
-                 <Text style={newStyle.phoneNumberStyle}>{this.state.phoneNumber}</Text>
-                 {/* <TextInput
-                     keyboardType= "numeric"
-                     style={ newStyle.nameInput}
-                     placeholder=''
-                     underlineColorAndroid= 'transparent'
-                     onChangeText= { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }/>                 */}
-                 <PhoneInput 
-                         ref='phone'
-                         initialCountry='be'
-                         style= {newStyle.nameInput}
-                         onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) } />
+        //          <Text style={newStyle.phoneNumberStyle}>{this.state.phoneNumber}</Text>
+        //          {/* <TextInput
+        //              keyboardType= "numeric"
+        //              style={ newStyle.nameInput}
+        //              placeholder=''
+        //              underlineColorAndroid= 'transparent'
+        //              onChangeText= { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }/>                 */}
+        //          <PhoneInput 
+        //                  ref='phone'
+        //                  initialCountry='be'
+        //                  style= {newStyle.nameInput}
+        //                  onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) } />
 
 
-             </View>
+        //      </View>
 
-            <View style={newStyle.endButtons}>
+        //     <View style={newStyle.endButtons}>
 
-                <TouchableOpacity onPress={() => this.props.navigation.goBack() }
-                    activeOpacity={0.5}
-                    style={newStyle.iconStyle}>
-                        <Icon
-                            containerStyle={newStyle.iconImageStyle}                               
-                            name='angle-left'
-                            type='font-awesome'
-                            color='#fff'
-                            size = {40}
-                            onPress={() => console.log('hello')} /> 
-                </TouchableOpacity>
+        //         <TouchableOpacity onPress={() => this.props.navigation.goBack() }
+        //             activeOpacity={0.5}
+        //             style={newStyle.iconStyle}>
+        //                 <Icon
+        //                     containerStyle={newStyle.iconImageStyle}                               
+        //                     name='angle-left'
+        //                     type='font-awesome'
+        //                     color='#fff'
+        //                     size = {40}
+        //                     onPress={() => console.log('hello')} /> 
+        //         </TouchableOpacity>
 
-                <ButtonNext 
-                            objectParams=
-                                {{
-                                    btnText: btnText,
-                                    language: this.state.language,
-                                    firstName: this.state.firstNameInput,
-                                    lastName: this.state.lastNameInput,
-                                    phoneNumber: this.state.phoneNumberInput,
-                                    firstNameError: this.state.firstNameError,
-                                    lastNameError: this.state.lastNameError,
-                                    phoneNumberError: this.state.phoneNumberError,
-                                    firstNameEmpty: this.state.firstNameEmptyError,
-                                    lastNameEmpty: this.state.lastNameEmptyError,
-                                    phoneNumberEmpty: this.state.phoneNumberEmptyError
-                                }}
-                            func = {this.func}
-                            navigation = { this.props.navigation}
-                />        
-            </View>
-         </KeyboardAvoidingView>
-         </ScrollView>
+        //         <ButtonNext 
+        //                     objectParams=
+        //                         {{
+        //                             btnText: btnText,
+        //                             language: this.state.language,
+        //                             firstName: this.state.firstNameInput,
+        //                             lastName: this.state.lastNameInput,
+        //                             phoneNumber: this.state.phoneNumberInput,
+        //                             firstNameError: this.state.firstNameError,
+        //                             lastNameError: this.state.lastNameError,
+        //                             phoneNumberError: this.state.phoneNumberError,
+        //                             firstNameEmpty: this.state.firstNameEmptyError,
+        //                             lastNameEmpty: this.state.lastNameEmptyError,
+        //                             phoneNumberEmpty: this.state.phoneNumberEmptyError
+        //                         }}
+        //                     func = {this.func}
+        //                     navigation = { this.props.navigation}
+        //         />        
+        //     </View>
+        //  </KeyboardAvoidingView>
+        //  </ScrollView>
 
         );
     }
@@ -611,29 +611,31 @@ const newStyle = StyleSheet.create({
 
     headerImage: {
         width: viewPortWidth * 0.65,
-        height: Platform.OS === 'ios'?40:120,
-        flex: Platform.OS === 'ios'?8:8,
+        // height: Platform.OS === 'ios'?40:120,
+        // flex: Platform.OS === 'ios'?8:8,
+        height: Platform.OS === 'ios'?40:40,
+        flex: Platform.OS === 'ios'?8:4,
         backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'center',
     },
 
     inputContainer: {
-        backgroundColor: 'white',        
+        backgroundColor: 'white',
         width: viewPortWidth,
-        marginTop: Platform.OS === 'ios'?25:10,
+        marginTop: Platform.OS === 'ios'?25:6,
         padding: 25,
         marginLeft: 0,
-        flex: Platform.OS === 'ios'?35:1,
+        flex: Platform.OS === 'ios'?35:26,
         backgroundColor: 'transparent'
     },
 
     numberBox: {
-        flex: Platform.OS === 'ios'?2:1,
+        flex: Platform.OS === 'ios'?2:2,
         backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        flexDirection: 'row'        
+        flexDirection: 'row' 
     },
 
     socialIcons: {

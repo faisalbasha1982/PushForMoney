@@ -165,6 +165,8 @@ componentWillMount() {
 
       signOutAsync = async () => {
 
+        console.tron.log("EXIT");
+
         await AsyncStorage.removeItem('language');
         await AsyncStorage.removeItem('token');
 
@@ -395,7 +397,7 @@ const newStyle = StyleSheet.create({
 
     inputContainer: {
         backgroundColor: 'white',
-        flex: Platform.OS === 'ios'?5:1,        
+        flex: Platform.OS === 'ios'?5:5,        
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
     },

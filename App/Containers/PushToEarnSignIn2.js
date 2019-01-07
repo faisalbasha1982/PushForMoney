@@ -230,9 +230,23 @@ class PushToEarnSignIn2 extends Component {
     // Somewhere in your code
       signInGoogle = async () => {
 
+        // Alert.alert(
+        //     'google login in Progress',
+        //     'google login in Progress',
+        //     [                      
+        //         {
+        //           text: 'OK', 
+        //           onPress: () => console.log('Ask me later Pressed')
+        //         },                      
+        //     ],
+        //     {cancelable: false}
+        // );
+
         try {
+
             await GoogleSignin.hasPlayServices();
             const userInfo = await GoogleSignin.signIn();
+
             this.setState({ userInfo });
             this.googleLogin(userInfo);
 
@@ -314,18 +328,6 @@ class PushToEarnSignIn2 extends Component {
 
     googleLogin = (user) =>
     {
-
-        // Alert.alert(
-        //     'google login in Progress',
-        //     'userID='+user.id,
-        //     [                      
-        //         {
-        //           text: 'OK', 
-        //           onPress: () => console.log('Ask me later Pressed')
-        //         },                      
-        //     ],
-        //     {cancelable: false}
-        // );
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
@@ -1731,11 +1733,12 @@ class PushToEarnSignIn2 extends Component {
                         lineHeight: 34,
                         letterSpacing: 0,
                         textAlign: "center",
-                        color: "#E73D50" 
+                        color: "#E73D50",
+                        backgroundColor:'transparent'
                         }}>
                     {this.state.text.SignIn}
                     </Text>
-                </View>                
+                </View>
 
                 <View style= { newStyle.socialIcons }>
 
@@ -1812,7 +1815,7 @@ class PushToEarnSignIn2 extends Component {
                         </View>
                </View>                     
 
-                  <View style= {{ flex:1, marginTop: 20}}>
+                  <View style= {{ flex:1, marginTop: 20, backgroundColor:'transparent'}}>
                         <Text 
                         style={{
                         width: 334,
@@ -1859,7 +1862,7 @@ class PushToEarnSignIn2 extends Component {
                                 width: 335,
                                 height: 57,
                                 marginBottom: 10,
-                                marginLeft: 20,
+                                marginLeft: Platform.OS==='ios'?20:15,
                                 borderRadius: 8,
                                 backgroundColor: '#E73D50',
                                 marginTop: viewPortHeight / 30,
@@ -1983,9 +1986,9 @@ const newStyle = StyleSheet.create({
 
     headerImage: {
         width: viewPortWidth * 0.65,
-        height: Platform.OS === 'ios'?40:120,
-        flex: Platform.OS === 'ios'?8:8,
-        backgroundColor: 'white',
+        height: Platform.OS === 'ios'?40:40,
+        flex: Platform.OS === 'ios'?8:4,
+        backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -1993,22 +1996,23 @@ const newStyle = StyleSheet.create({
     inputContainer: {
         marginTop: Platform.OS === 'ios'?35:10,
         padding: 25,
-        flex: Platform.OS === 'ios'?15:1,
+        flex: Platform.OS === 'ios'?15:9,
         backgroundColor: 'transparent',
         alignItems: 'center',
         justifyContent: 'flex-end',
     },
 
     socialIcons: {
-        flex: 4,
-        justifyContent: 'center', 
-        alignItems: 'flex-start' ,
-        marginTop: 10, 
+        flex: Platform.OS === 'ios'?4:1,
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        marginTop: Platform.OS === 'ios'?10:20,
         marginLeft: 20,
-        padding: 30, 
+        padding: 30,
+        paddingTop: Platform.OS === 'ios'?30:0,
         flexDirection: 'row', 
         width: viewPortWidth, 
-        height: 400, 
+        height: Platform.OS === 'ios'?400:20,
         backgroundColor: 'transparent'
     },
 
@@ -2095,7 +2099,7 @@ const newStyle = StyleSheet.create({
         width: viewPortWidth,
         height: Platform.OS === 'ios'?50:150,
         zIndex: 999,
-        flex: Platform.OS === 'ios'?4:4,
+        flex: Platform.OS === 'ios'?4:2,
         flexDirection: 'column',
         backgroundColor: 'white',
         justifyContent: 'flex-start',

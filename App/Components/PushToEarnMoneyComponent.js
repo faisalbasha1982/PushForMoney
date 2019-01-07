@@ -1295,7 +1295,7 @@ const newStyle = StyleSheet.create({
         width: viewPortWidth * 0.83,
         height: viewPortHeight * 0.60,
         backgroundColor: 'transparent',        
-        flex: Platform.OS === 'ios'?21:1,
+        flex: Platform.OS === 'ios'?21:21,
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',

@@ -1997,7 +1997,7 @@ const newStyle = StyleSheet.create({
 
     inputContainer: {
         backgroundColor: 'white',
-        flex: Platform.OS === 'ios'?20:1,        
+        flex: Platform.OS === 'ios'?20:20,        
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
     },

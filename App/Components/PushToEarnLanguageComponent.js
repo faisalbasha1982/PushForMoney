@@ -463,7 +463,7 @@ const newStyle = StyleSheet.create({
         backgroundColor: 'transparent',
         width: 330,
         height: 34,
-        flex: Platform.OS === 'ios'?6:1,
+        flex: Platform.OS === 'ios'?6:6,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop:10,
