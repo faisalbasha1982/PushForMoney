@@ -245,7 +245,8 @@ componentWillMount() {
                                     height:40,
                                     backgroundColor:'transparent'
                                 }}
-                                onPress = {()=> { 
+                                onPress = {()=> {
+                                    console.tron.log("sign out pressed");
                                     this.signOutAsync();
                                 }}>
                                   <Text style={newStyle.firstName}>{this.state.text.SignOut}</Text>
@@ -392,12 +393,12 @@ const newStyle = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: 'white',        
+        backgroundColor: 'transparent',        
     },
 
     inputContainer: {
-        backgroundColor: 'white',
-        flex: Platform.OS === 'ios'?5:5,        
+        backgroundColor: 'transparent',
+        flex: Platform.OS === 'ios'?5:8,
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
     },

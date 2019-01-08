@@ -6,8 +6,9 @@ import {
   StyleSheet,
   Image,
   AppState,
+  Platform,
   PushNotificationIOS,
-  AsyncStorage
+  AsyncStorage,  
 } from 'react-native';
 import * as NavigationService from '../Navigation/NavigationService';
 import { connect } from "react-redux";
@@ -470,8 +471,8 @@ class TestPage extends Component {
         //     this.getFriendList();
         // },3000);
 
-        console.log("adding component this.props.referral = "+ this.props.referral);
-        console.log("current language="+this.state.language);
+        console.tron.log("adding component this.props.referral = "+ this.props.referral);
+        console.tron.log("current language="+this.state.language);
 
         if(_.isEmpty(this.props.referral))
             return (
@@ -489,7 +490,6 @@ class TestPage extends Component {
         // console.log("test page this.props.referral="+typeof(this.props.referral));
         // console.tron.log("this.props.referral="+this.props.referral);
         console.log("TP render method language="+this.state.language);
-
         return(
                 <View style={newStyle.container}>
 
@@ -696,9 +696,10 @@ leftButton: {
 
 leftButtons: {
 
-    width: 54,
-    height: viewPortHeight * .67,
+    width: Platform.OS==='ios'?54:57,
+    height: Platform.OS==='ios'?viewPortHeight * .67:viewPortHeight*0.69,
     backgroundColor: 'rgb(246, 246, 246)',
+    elevation: Platform.OS ==='ios'?1:1,
     shadowColor: "rgba(216, 216, 216, 0.15)",
     shadowOffset: {
       width: 1,

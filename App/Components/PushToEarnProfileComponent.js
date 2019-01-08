@@ -15,7 +15,8 @@ import {
     AppState,
     PushNotificationIOS,
     findNodeHandle,
-    NativeModules
+    NativeModules,
+    Keyboard
 } from 'react-native';
 import {
     BallIndicator,
@@ -1177,9 +1178,10 @@ getAsyncStorage = async () => {
 
             <KeyboardAwareScrollView
                     behavior = "padding"
-                    enableOnAndroid = { false }
+                    enableOnAndroid = { true }
+                    enableAutomaticScroll= {true}
                     contentContainerStyle={ newStyle.keyboardContainer }
-                    scrollEnabled={true}>                    
+                    scrollEnabled={true}>
                 <View style= {newStyle.layoutBelow}>
                     <View style={newStyle.endButtons}>
                         <View style={newStyle.topView}>                        

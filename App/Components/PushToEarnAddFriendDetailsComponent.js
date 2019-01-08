@@ -1134,7 +1134,7 @@ const newStyle = StyleSheet.create({
 
     inputContainer: {
         backgroundColor: 'white',
-        flex: Platform.OS === 'ios'?14:1,        
+        flex: Platform.OS === 'ios'?14:14,        
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         marginTop:10,
