@@ -526,7 +526,7 @@ export function * twitterRequest(api,payload,userName)
 
 function fetchSocialLogin(payload) {
 
-    return fetchJson(Api_url.staging.laMobileLogin,payload);
+    return fetchJson(Api_url.production.laMobileLogin,payload);
     //return fetchJson(Api_url.mobileSignUpLoginUrlNewStag,payload);
 
 }
@@ -535,7 +535,7 @@ function fetchFacebookLogin(payload){
 
     //return fetchJson(`https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnMobileUserLoginByMobile?code=${API_URL.commonCode}`,payload);
 
-    return fetchJson(API_URL.staging.laMobileLogin,payload);
+    return fetchJson(API_URL.production.laMobileLogin,payload);
 
 }
 
@@ -805,8 +805,8 @@ function fetchLoginOTP(payload) {
 
 function fetchLogin(payload,url) {
   console.tron.log("payload="+url);
-  url = API_URL.staging.laMobileLogin;
-  return fetchJsonNew(API_URL.staging.laMobileLogin,payload);
+  url = API_URL.production.laMobileLogin;
+  return fetchJsonNew(API_URL.production.laMobileLogin,payload);
 }
 
 export function * LoginRequest(api,action) {
@@ -956,7 +956,7 @@ function fetchOTP(payload)
     let authData = AuthComponent.authenticationData(languageCode);
     let encryptedData = AesComponent.aesCallback(authData);
 
-    const url = API_URL.staging.laMobileOtpVerification;
+    const url = API_URL.production.laMobileOtpVerification;
 
     AsyncStorage.getItem('token').then((token) => 
     {

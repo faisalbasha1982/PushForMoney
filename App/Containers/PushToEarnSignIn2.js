@@ -979,6 +979,8 @@ class PushToEarnSignIn2 extends Component {
         //     this.setText();
         // }
 
+        if(this.props.navigation.state.params.isLoading !== undefined)
+            this.setState({ isLoading:false});
         
         if(!this.state.socialLoginProcess)
                 this.setState({ isLoading:false});
@@ -1036,6 +1038,10 @@ class PushToEarnSignIn2 extends Component {
 
         //   },3000);
 
+
+        if(this.props.navigation.state.params.isLoading !== undefined)
+            this.setState({ isLoading:false});
+
          LoginManager.logOut();
 
          this.instLogout();
@@ -1043,6 +1049,7 @@ class PushToEarnSignIn2 extends Component {
          this.googleSignOut();
 
          this.handleLogout();
+
 
         // console.log("language from props="+this.props.navigation.state.params.language);
         // console.log("default language="+this.state.language);

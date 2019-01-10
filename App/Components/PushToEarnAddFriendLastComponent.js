@@ -164,7 +164,9 @@ class PushToEarnAddFriendLastComponent extends Component {
                         <View style={newStyle.topView}>
                         <View style={{ marginLeft:15,backgroundColor:'transparent',width:40,justifyContent:'center', alignItems:'flex-end' }}>
                                     <TouchableOpacity
-                                            onPress={() => { this.props.menu(2,'','','',this.state.language); } }
+                                            onPress={() => { this.props.menu(14,'','','',this.state.language);
+                                                                                               
+                                          }}
                                             activeOpacity={0.5}
                                             style={{
                                                 width: 30,

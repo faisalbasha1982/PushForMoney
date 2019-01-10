@@ -847,6 +847,8 @@ class PushToEarnSignUp2 extends Component {
         day = parseInt(today.getUTCDate())>=10?today.getUTCDate():('0'+today.getUTCDate().toString());
         month = parseInt(today.getUTCMonth()+1)>=10?parseInt(today.getUTCMonth()+1):('0'+parseInt(today.getUTCMonth()+1));
         year = today.getUTCFullYear().toString();
+
+        console.tron.log("day="+day);
     
         // let currentDate = year + '-' + month>10?month:('0'+month) + '-' + day>10?day:('0'+day);
         let currentDate = year + '-'+month+'-'+ day;
@@ -1579,7 +1581,7 @@ class PushToEarnSignUp2 extends Component {
                             textDecorationLine: 'underline',
                             backgroundColor: 'transparent'
                         }}
-                        onPress = { () => this.props.navigation.navigate('PushToEarnSignIn2') }>
+                        onPress = { () => this.props.navigation.navigate('PushToEarnSignIn2',{isLoading:false}) }>
                            {this.state.text.SignIn}
                         </Text>
                 </View>                

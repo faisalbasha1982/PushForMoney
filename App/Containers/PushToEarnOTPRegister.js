@@ -243,7 +243,7 @@ class PushToEarnOTPRegister extends Component {
         let payload = {
             "AuthenticationData": encryptedData,
             "LoginAccessToken": this.props.navigation.state.params.accessToken,
-            "SignupType": "S",
+            "SignupType": "R",
         };
 
         this.props.verifyOTPResend(payload);

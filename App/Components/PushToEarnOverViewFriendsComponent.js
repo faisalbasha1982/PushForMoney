@@ -420,7 +420,7 @@ class PushToEarnOverViewFriendsComponent extends Component {
         try{
              this.setState({isLoading: true,});
 
-             console.tron.log("props");
+             console.tron.log("unencrypted data="+authData);
 
             setTimeout(() => {
 

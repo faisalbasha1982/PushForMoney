@@ -605,21 +605,46 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
         console.log("authData from save refferals Empty="+encryptedData);
         console.tron.log("Save referrals Empty phone number Input="+this.state.phoneNumberInput);
+        
+        if(this.state.firstNameInput ==="")
+         {
+             Alert.alert(""+this.state.text.NameEmpty);
+             return;
+         }
 
-        let payload = {
-            "AuthenticationData": encryptedData,
-            "LoginAccessToken": this.state.aToken,
-            "MobileUsersReferrals":  [
-                            {"firstName":this.state.firstNameInput.split(" ")[0], "lastName": this.state.firstNameInput.split(" ")[1], "mobilePhone":this.formatMobileNo(this.state.phoneNumberInput), "email": this.state.email}
-                            ],
-        };
+         if(this.state.phoneNumberInput==="")
+         {
+             Alert.alert(""+this.state.text.PhoneNumber);
+             return;
+         }
+
+        let payload = "";
+
+        if(!this.state.firstNameInput.includes(" "))
+             {
+                payload = {
+                    "AuthenticationData": encryptedData,
+                    "LoginAccessToken": this.state.aToken,
+                    "MobileUsersReferrals":  [
+                                    {"firstName":this.state.firstNameInput.split(" ")[0], "lastName": "", "mobilePhone":this.formatMobileNo(this.state.phoneNumberInput), "email": this.state.email}
+                                    ],
+                };
+             }
+        else
+            payload = {
+                    "AuthenticationData": encryptedData,
+                    "LoginAccessToken": this.state.aToken,
+                    "MobileUsersReferrals":  [
+                                    {"firstName":this.state.firstNameInput.split(" ")[0], "lastName": this.state.firstNameInput.split(" ")[1], "mobilePhone":this.formatMobileNo(this.state.phoneNumberInput), "email": this.state.email}
+                                    ],
+                };
 
         this.props.saveReferrals(payload);
         
         setTimeout(() => {
-            this.props.menu(2);
+            this.getFriendList();
             console.tron.log("change menu");
-        },3000);
+        },20000);
 
         setTimeout(() => {
             if(!_.isEmpty(this.props.MobileReferrals))
@@ -631,22 +656,27 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                         {
                             if(personObj.ReferralAddStatus === true)
                             {
-                                 this.props.menu(2);
+                                 this.props.menu(14);
                                  this.setState({isLoading: false});
                             }
                             else
                             {
                                 this.setState({isLoading: false});
-                                this.props.menu(2);
+                                this.props.menu(14);
                                 //Alert.alert("Referrals not added");
                             }
                         }
                     )
-                    this.props.menu(2);
+                    this.props.menu(14);
                 }
             else    
+            {
                 console.tron.log("mobileReferrals="+this.props.MobileReferrals); 
-        },3000);
+            }
+                
+            this.props.menu(14);    
+
+        },2000);
 
     }
 
@@ -659,13 +689,27 @@ class PushToEarnAddFriendDetailsComponent extends Component {
 
         console.tron.log("Save referrals called");
 
-        let payload = {
-            "AuthenticationData": encryptedData,
-            "LoginAccessToken": this.state.aToken,
-            "MobileUsersReferrals":  [
-                            {"firstName":this.state.firstNameInput.split(" ")[0], "lastName": this.state.firstNameInput.split(" ")[1], "mobilePhone":this.formatMobileNo(this.state.phoneNumberInput), "email": this.state.email}
-                            ],
-        };
+        let payload = "";        
+
+        // if(!this.state.firstNameInput.includes(" "))
+        // {
+
+        //     payload = {
+        //         "AuthenticationData": encryptedData,
+        //         "LoginAccessToken": this.state.aToken,
+        //         "MobileUsersReferrals":  [
+        //                         {"firstName":this.state.firstNameInput.split(" ")[0], "lastName": "", "mobilePhone":this.formatMobileNo(this.state.phoneNumberInput), "email": this.state.email}
+        //                         ],
+        //     };    
+        // }
+        // else
+        //     payload = {
+        //         "AuthenticationData": encryptedData,
+        //         "LoginAccessToken": this.state.aToken,
+        //         "MobileUsersReferrals":  [
+        //                         {"firstName":this.state.firstNameInput.split(" ")[0], "lastName": this.state.firstNameInput.split(" ")[1], "mobilePhone":this.formatMobileNo(this.state.phoneNumberInput), "email": this.state.email}
+        //                         ],
+        //     };
 
         if(this.state.aToken === null)
             setTimeout(()=>{
@@ -684,14 +728,15 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                 };
 
                 console.tron.log("payload mobileuserreferrals phone number="+payload.MobileUsersReferrals);
-
+                
                 this.props.saveReferrals(payload);
-                //this.props.menu(2);
 
                 setTimeout(() => {
-                    this.props.menu(2);
-                    console.tron.log("inside menu change")
-                },2000);
+                    this.getFriendList();
+                    console.tron.log("change menu");
+                },35000);
+
+                //this.setState({isLoading: true});
 
                 setTimeout(() => {
                     if(!_.isEmpty(this.props.MobileReferrals))
@@ -700,25 +745,107 @@ class PushToEarnAddFriendDetailsComponent extends Component {
                                 {
                                     if(personObj.ReferralAddStatus === true)
                                     {
-                                        // console.tron.log("referral status="+true);
-                                         this.props.menu(2);
+                                         console.tron.log("referral status="+true);
+                                         this.props.menu(14);
                                          this.setState({isLoading: this.props.fetching});
                                     }
                                     else
                                     {
-                                        // console.tron.log("referral status="+false);
+                                         console.tron.log("referral status="+false);
                                         this.setState({isLoading: this.props.fetching});
-                                        this.props.menu(2);
+                                        this.props.menu(14);
                                         //Alert.alert("Referrals not added");
                                     }
                                 }
                             )
-                            this.props.menu(2);
+                            this.props.menu(14);
                         }
                     else    
+                    {
                         console.tron.log("mobileReferrals="+this.props.MobileReferrals); 
+                    }
+                    this.props.menu(14);    
+
                 },3000);
             }
+    }
+
+    getAsyncStorageToken = async () => {
+
+        await AsyncStorage.getItem('language').then((language) => {
+            this.setState({ language: language});
+        });
+
+        await AsyncStorage.getItem('token').then((token) => {
+            this.setState({ token: token});
+        });
+
+
+        this.setLanguage();
+    }
+
+    getFriendList = async () => {
+
+        // console.tron.log("INSIDE FRIEND LIST API CALL");
+         console.tron.log("prev language Code="+this.state.languageCode);
+
+         this.getAsyncStorageToken();
+
+         let authData = '';
+         let encryptedData = '';
+
+        await AsyncStorage.getItem('language').then((language) => {
+
+            this.setState({ language: language});
+
+            if(language === 'Dutch')
+                this.setState({ languageCode: 'nl' });
+            else
+               if(language === 'English')
+                   this.setState({ languageCode: 'en' });
+                else
+                    this.setState({ languageCode: 'fr' });
+
+            authData = AuthComponent.authenticationData(this.state.languageCode);
+            encryptedData = AesComponent.aesCallback(authData);
+    
+        });
+
+        console.tron.log("current language Code="+this.state.languageCode);
+        // console.log("FO token from getFriendList ="+this.state.token);
+
+        try{
+             this.setState({isLoading: true,});
+
+             console.tron.log("unencrypted data="+authData);
+
+            setTimeout(() => {
+
+                if(this.state.token !== null || this.state.token !== undefined)
+                {
+                    let payload = {
+                        "AuthenticationData": encryptedData,
+                        "LoginAccessToken": this.state.aToken,
+                    };
+
+                    console.tron.log("calling friendRequest");
+
+                    this.props.friendRequest(payload);
+    
+                }
+                this.setState({isLoading: false,});
+            },600);
+
+            console.log("this.props.referral="+this.props.referral);
+            // console.tron.log("this.props.referral="+this.props.referral);
+    
+        }
+        catch(error)
+        {
+            console.tron.log("error with api getFriendList");
+        }
+
+
     }
 
     renderValidation = () => {
@@ -861,6 +988,7 @@ class PushToEarnAddFriendDetailsComponent extends Component {
     render() {
         const platform = Platform.OS;
         console.log("platform --->",Platform.OS);
+        
         return (
 
             <KeyboardAwareScrollView
@@ -1236,7 +1364,9 @@ const mapStateToProps = state => {
       resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
       navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
       navigateBack: () => this.props.navigation.goBack(),
-      saveReferrals:  (payload) => dispatch({type: 'SAVE_REFERRALS', payload})
+      saveReferrals:  (payload) => dispatch({type: 'SAVE_REFERRALS', payload}),
+      friendRequest: (payload) => dispatch({type: 'GET_FRIEND_REQUEST',payload}),
+
     };
   };
   

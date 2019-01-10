@@ -155,9 +155,9 @@ class TestPage extends Component {
           
             }
 
-            // setTimeout(()=> {
-            //     this.getFriendList();
-            // },600);
+            setTimeout(()=> {
+                this.getFriendList();
+            },600);
 
             // setTimeout(() => 
             // {
@@ -437,9 +437,13 @@ class TestPage extends Component {
 
     getFriendList = () => {
 
+        console.tron.log("friendlist");
+
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
         let ltoken = localStorage.getItem('token');
+
+        console.tron.log("authData="+authData);
 
         this.getAsyncStorageToken();
 
@@ -467,14 +471,12 @@ class TestPage extends Component {
 
     addComponent = () => {
 
-        // setTimeout(()=> {
-        //     this.getFriendList();
-        // },3000);
+        //this.getFriendList();
 
-        console.tron.log("adding component this.props.referral = "+ this.props.referral);
+        console.tron.log("adding component this.props.referral = "+ this.props.freindsReferral);
         console.tron.log("current language="+this.state.language);
-
-        if(_.isEmpty(this.props.referral))
+        
+        if(_.isEmpty(this.props.freindsReferral))
             return (
                 <AddFriendComponent menu = { this.menuChange }  language={this.state.language} />
             );
@@ -530,14 +532,29 @@ class TestPage extends Component {
                                     <TouchableOpacity
                                         activeOpacity={0.5}
                                         style={newStyle.iconStyle}
-                                        onPress = { (selectionSecond) => {this.setState({ selectionFirst: false, selectionSecond: !this.state.selectionSecond, selectionThird: false, selectionFourth: false, menu: 2, });} }>
+                                        onPress = { (selectionSecond) => {
+
+                                            _.isEmpty(this.props.freindsReferral)===true?
+                                            this.setState({ selectionFirst: false, selectionSecond: !this.state.selectionSecond, selectionThird: false, selectionFourth: false, menu: 2, }):
+                                            this.setState({ selectionFirst: false, selectionSecond: !this.state.selectionSecond, selectionThird: false, selectionFourth: false, menu: 14, });                                            
+                                            //this.setState({ selectionFirst: false, selectionSecond: !this.state.selectionSecond, selectionThird: false, selectionFourth: false, menu: 2, });
+                                            
+                                            } }>
                                         <Icon
                                             containerStyle={newStyle.iconImageStyle}
                                             name='users'
                                             type='font-awesome'
                                             color='#E73D50'
                                             size = {20}
-                                            onPress={(selectionSecond) => {this.setState({ selectionFirst: false, selectionSecond: !this.state.selectionSecond, selectionThird: false, selectionFourth: false, menu: 2, });}} /> 
+                                            onPress={(selectionSecond) => {
+                                                console.tron.log("selected second="+this.props.freindsReferral);
+
+                                                _.isEmpty(this.props.freindsReferral)===true?
+                                                this.setState({ selectionFirst: false, selectionSecond: !this.state.selectionSecond, selectionThird: false, selectionFourth: false, menu: 2, }):
+                                                this.setState({ selectionFirst: false, selectionSecond: !this.state.selectionSecond, selectionThird: false, selectionFourth: false, menu: 14, });                                            
+
+                                                console.tron.log("referral="+this.props.freindsReferral);
+                                            }} /> 
                                     </TouchableOpacity>
                             </View>             
                             <View
@@ -583,7 +600,7 @@ class TestPage extends Component {
                                     this.state.menu === 1?
                                             <ProfileComponent menu = {this.menuChange} language={this.state.language} />:
                                     this.state.menu === 2?
-                                            this.addComponent():
+                                                    <AddFriendComponent menu = { this.menuChange }  language={this.state.language} />:
                                     this.state.menu === 3?
                                             <MoneyComponent language={this.state.language} month={this.state.currentMonth} year={this.state.currentYear} />:
                                     this.state.menu === 4?
@@ -614,6 +631,8 @@ class TestPage extends Component {
                                     this.state.menu === 13?
                                             <AddFriendComponent menu = {this.menuChange }  language={this.state.language} />
                                             :
+                                    this.state.menu === 14?
+                                            <FriendsOverViewComponent menu = {this.menuChange}  language={this.state.language} />:
                                             this.doNothing()
                                 
                             }
@@ -758,7 +777,7 @@ leftButtons: {
 
 const mapStateToProps = state => {
     return {
-        referral: FriendSelectors.getReferral(state),
+        freindsReferral: FriendSelectors.getReferral(state),
         LastViewedNotificationID: LoginSelectors.getLastViewedNotificationID(state),
         mobileNotifications: LoginSelectors.getMobileNotifications(state)
 
