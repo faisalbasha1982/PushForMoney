@@ -35,8 +35,14 @@ import ButtonLogin from '../Components/ButtonLogin';
 import TimerCountdown from 'react-native-timer-countdown';
 import CountDown from 'react-native-countdown-component';
 import localStorage from 'react-native-sync-localstorage';
-import OtpInputs from 'react-native-otp-inputs'
+import OtpInputs from 'react-native-otp-inputs';
+import OtpTextInputs from 'react-native-otp-textinput';
+import OtpInput from 'react-native-otp';
+import OTPScreen from '../Containers/OTPScreen';
 import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
+import OTPForm from "../Components/OTPForm";
+import CodeInput from 'react-native-confirmation-code-input';
+
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -84,7 +90,11 @@ class PushToEarnOTPLogin extends Component {
             EmptyErrorText:'',
             token:'',
             text:'',
-            otpText:''
+            otpText:'',
+            resend: false,
+            otp: false,
+            newotpText:'',
+            clearValues: false,
         };    
     }
 
@@ -234,12 +244,45 @@ class PushToEarnOTPLogin extends Component {
 
     setOtp = (otp) => {
 
-        if(otp.length === 4)
+        console.tron.log("otp typed="+otp);
           this.setState({ otpText: otp });
 
     }
 
+    setNewOtp = (otp) => {
+
+        console.tron.log("otp in resend="+otp);
+
+        this.setState({ resend: false, clearValues: !this.state.clearValues,});        
+
+        if(otp.length === 4)
+          this.setState({ otpText: otp, resend: false });
+
+    }
+
+    clearOTP = () => {
+        console.tron.log("inside clearOTP");
+
+        this.setState({ otpText: '' });
+        this.setState({ resend: false });
+      }
+
     callResendOTP = () => {
+
+       //console.tron.log("element="+elements.language);
+
+        this.forceUpdate();
+
+        this.setState({ 
+            firstInput:'',
+            secondInput:'',
+            thirdInput:'',
+            fourthInput:''
+        });
+
+        this.setState({ resend: true, clearValues: true});
+
+        this.clearOTP();
 
         this.setState({ isLoading: true});
 
@@ -260,11 +303,17 @@ class PushToEarnOTPLogin extends Component {
 
         this.props.verifyOTPResend(payload);
 
+        // setTimeout( () => {
+        //     this.setState({ resend: false});
+        // },30000);
+
     }
 
     callOTP = () => {
 
         console.tron.log("calling OTP....");
+
+        this.setState({ otp: true});
 
         // let otpString = this.state.firstInput + this.state.secondInput + this.state.thirdInput + this.state.fourthInput;
 
@@ -274,7 +323,7 @@ class PushToEarnOTPLogin extends Component {
         // }
         if(this.state.otpText === '')
         {
-
+            Alerts.alert("empty otp text!!");
         }
         else
          {
@@ -301,7 +350,62 @@ class PushToEarnOTPLogin extends Component {
 
              this.props.verifyOTP(newPayload);
 
+             //this.setState({otpText:''});
+
          }
+    }
+
+    handleOTPChange = OTP => {
+        console.tron.log("inside handleOTPChange otp="+OTP);
+
+            if (OTP.length == 4) {
+                this.setState({ otpText: OTP });
+              //this.props.submitForm({ PhoneNo: this.props.registerFormValues.phoneNumber, OTP, dailCode: this.props.registerFormValues.dailCode });
+            }
+      };
+    
+      _onFinishCheckingCode1(isValid) {
+        console.log(isValid);
+        // if (!isValid) {
+        //   Alert.alert(
+        //     'Confirmation Code',
+        //     'Code not match!',
+        //     [{text: 'OK'}],
+        //     { cancelable: false }
+        //   );
+        // } else {
+        //   Alert.alert(
+        //     'Confirmation Code',
+        //     'Successful!',
+        //     [{text: 'OK'}],
+        //     { cancelable: false }
+        //   );
+        // }
+      }
+    
+    renderOTP = () => {
+
+        // this.setState({ resend:  });
+
+        console.tron.log("in render OTP");
+
+        return (
+            <CodeInput
+                    ref="codeInputRef2"
+                    codeLength = {4}
+                    compareWithCode='AsDW'
+                    activeColor='rgba(49, 180, 4, 1)'
+                    inactiveColor='rgba(49, 180, 4, 1.3)'
+                    autoFocus={false}
+                    ignoreCase={true}
+                    inputPosition='center'
+                    size={50}
+                    resend = {true}
+                    onFulfill={(isValid) => this._onFinishCheckingCode1(isValid)}
+                    containerStyle={{ marginTop: 30 }}
+                    codeInputStyle={{ borderWidth: 1.5 }}
+            />
+        );
     }
 
     render() {
@@ -311,6 +415,7 @@ class PushToEarnOTPLogin extends Component {
         console.tron.log("text start="+this.state.text.start);
         console.tron.log("login acces token="+this.props.navigation.state.params.accessToken);
 
+        let elements = this.state;
         let btnText = this.state.text.start;
 
         console.log("platform --->",Platform.OS);
@@ -378,14 +483,30 @@ class PushToEarnOTPLogin extends Component {
 
                 <View style={newStyle.inputContainer}>
 
-                    <View style={newStyle.numberBox}>
-                        <OtpInputs 
-                                handleChange={code => {this.setOtp(code)}}
-                                numberOfInputs={4}
-                                inputContainerStyles = {newStyle.otpInput}
-                                clearTextOnFocus = {true}
-                                keyboardType={'numeric'}
-                                />
+                    <View style={newStyle.numberBox}>     
+                    {
+                        this.state.resend === false?
+                        <CodeInput
+                        ref="codeInputRef2"
+                        codeLength = {4}
+                        compareWithCode='AsDW'
+                        activeColor = 'rgb(0,0,0)'
+                        inactiveColor='rgba(0, 0, 0)'
+                        // activeColor='rgba(49, 180, 4, 1)'
+                        // inactiveColor='rgba(49, 180, 4, 1.3)'
+                        autoFocus={false}
+                        ignoreCase={true}
+                        inputPosition='center'
+                        size={50}
+                        resend = { true }
+                        onFulfill={(isValid) => this._onFinishCheckingCode1(isValid)}
+                        containerStyle={{ marginTop: 30 }}
+                        codeInputStyle={{ borderWidth: 1.5 }}
+                      />
+                        :
+                         this.renderOTP()
+                    }   
+                                    
                     </View>
 
                     <View style={{

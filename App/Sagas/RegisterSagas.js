@@ -90,7 +90,7 @@ function fetchJsonNew(url,payload) {
 
 export function * fetchRegisterRequestNew(payload) {
  
-     return fetchJsonNew(API_URL.production.laMobileUserSignUp,payload);
+     return fetchJsonNew(API_URL.staging.laMobileUserSignUp,payload);
 }
 
 export function * RegisterRequestNew(api,action)
@@ -261,7 +261,7 @@ function fetchJsonmobileregister(url,payload,phone) {
   }
 
 export function * fetchRegisterMobileNumber(payload, phone) {
-    return fetchJsonmobileregister(API_URL.production.laMobileLogin,payload,phone);
+    return fetchJsonmobileregister(API_URL.staging.laMobileLogin,payload,phone);
     //return fetchJsonmobileregister(`https://famobileutilityapiinterface${API_URL.slot}.azurewebsites.net/api/fnMobileUserLoginByMobile?code=${API_URL.commonCode}`,payload, phone);
 }
 
@@ -293,7 +293,7 @@ function fetchOTPFP(payload)
     // const url = "https://prod-36.westeurope.logic.azure.com:443/workflows/64111a66520a4621a4f949f0d3a12413/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=EcEqv1IaEYCat3Jx3zeQ8HLQzUiuqK8QAzP0R8cJcPw";
     // const url = "https://prod-12.westeurope.logic.azure.com:443/workflows/d2646d57cf7d447f960d7e46684db4cd/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ADncEusH2PpqjGoYT_L20L_Wxs9sUuVryh9Z5cJJsS4";
 
-    const url = API_URL.production.laMobileSaveNewPassword;
+    const url = API_URL.staging.laMobileSaveNewPassword;
 
     AsyncStorage.setItem('token',payload.LoginAccessToken);
 
@@ -427,7 +427,7 @@ export function* forgotPasswordOTPRequest(api,payload)
 
 function fetchJsonForgotPasswordRequest(payload) {
 
-    const url = API_URL.production.laMobileSendForgotPasswordOTP;
+    const url = API_URL.staging.laMobileSendForgotPasswordOTP;
 
     fetch(url,{
         method: 'POST',
@@ -500,7 +500,7 @@ function fetchOTP(payload,phone,pPayload)
     // const url = "https://prod-49.westeurope.logic.azure.com:443/workflows/19bdce4bb7d740f586a5f86bf9014efa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LU6WJJr0yUTzSFLdH9TXCBdYPVh6x3SMGegOPX0OTfA";
     // const url = "https://prod-21.westeurope.logic.azure.com:443/workflows/fc0efd237ccb46268c5353e97d791a7e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Z2LNFPTtuCNVTEq9jcpwaKsLGgOjYaQOuiwoJFZenbY";
 
-    const url = API_URL.production.laMobileOtpVerification;
+    const url = API_URL.staging.laMobileOtpVerification;
 
     fetch(url,{
         method: 'POST',
@@ -583,7 +583,7 @@ function fetchOtpResend(payload)
     // const url = "https://prod-56.westeurope.logic.azure.com:443/workflows/9834ab95eb784c9b87f174acdd1f87b0/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LenubOpJgzckOgeOAbq12BS9_0JFjtGUYogtgKYRlRE";
     // const url = "https://prod-27.westeurope.logic.azure.com:443/workflows/75cdda7a4d1e412f8b6fbb00f099cdbc/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=FY6KovQIbuksZrM6Eh00bISPC1oUTrSxFKKhCbyRwpY";
 
-    const url = API_URL.production.laMobileUserResendSignupOTP;
+    const url = API_URL.staging.laMobileUserResendSignupOTP;
 
     fetch(url,{
         method: 'POST',
@@ -595,33 +595,33 @@ function fetchOtpResend(payload)
     }).then((response) =>  response.json())
       .then((responseJson) => {
 
-        //   console.log("response=",responseJson.StatusCode);
+           console.tron.log("response=",responseJson.StatusCode);
 
-          if (responseJson.StatusCode === 200)
+          if (responseJson.StatusCode === '200')
           {
+            Alert.alert(
+                'OTP Resent Successfull',
+                responseJson.Message,
+                [
+                    { text: 'OK', onPress:() => console.log('user exists ask me later')}
+                ],
+                { 
+                    cancelable: false
+                }
+            );
 
-            // Alert.alert(
-            //     'OTP Resent Successfull',
-            //     responseJson.Message,
-            //     [
-            //         { text: 'OK', onPress:() => console.log('user exists ask me later')}
-            //     ],
-            //     { 
-            //         cancelable: false
-            //     }
-            // );
+            return responseJson;
 
-            const mobileOTP = responseJson.mobileOTP;
-            const statusCode = responseJson.StatusCode;
+            //const mobileOTP = responseJson.mobileOTP;
+            //const statusCode = responseJson.StatusCode;
                 
             //Navigate to OTP page
-            NavigationService.navigate('PushToEarnSignIn2');
+            //NavigationService.navigate('PushToEarnSignIn2');
     
         } 
         else 
         {
-
-
+            return responseJson;
             // Alert.alert(
             //     'User already exists',
             //     responseJson.Message,
@@ -643,9 +643,20 @@ function fetchOtpResend(payload)
 export function * OtpRequestResend(api,payload) {
 
     try {
-
-
+            console.tron.log("payload="+payload.payload);
             const response = yield call(fetchOtpResend, payload.payload);
+
+            Alert.alert(
+                'OTP Resent Successfull',
+                responseJson.Message,
+                [
+                    { text: 'OK', onPress:() => console.tron.log('resent code successfull')}
+                ],
+                { 
+                    cancelable: false
+                }
+            );
+
 
             // do data conversion here if needed
             yield put(RegisterActions.registerSuccess());      

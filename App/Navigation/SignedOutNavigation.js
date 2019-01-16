@@ -16,7 +16,7 @@ import FormOne from '../Containers/FormOne';
 import FormTwo from '../Containers/FormTwo';
 import FormTwoNew from '../Containers/FormTwoNew';
 import PushForJob_quit from '../Containers/PushForJob_quit';
-
+import OTPScreen from '../Containers/OTPScreen';
 // Manifest of possible screens
 const SignedOutNav = StackNavigator(
   {
@@ -41,6 +41,12 @@ const SignedOutNav = StackNavigator(
       },
     },
     PushToEarnOTP: { screen: PushToEarnOTP,
+      navigationOptions: {
+        gesturesEnabled: false,
+      },
+    },
+    OTPScreen : {
+      screen: OTPScreen,
       navigationOptions: {
         gesturesEnabled: false,
       },

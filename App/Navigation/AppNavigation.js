@@ -42,7 +42,8 @@ import NewScreenMoney from  '../Containers/NewScreenMoney';
 import TestPage from '../Containers/TestPage';
 import PushForJob_quit from '../Containers/PushForJob_quit';
 import PushToEarnNew from '../Components/PushToEarnNew';
-
+import OTPScreen from '../Containers/OTPScreen';
+import OTPForm from '../Components/OTPForm';
 // Manifest of possible screens
 
 const AppNavigation = createStackNavigator({
@@ -171,6 +172,17 @@ const AppNavigation = createStackNavigator({
     },
   },
   pushToEarnMoneyList: { screen: pushToEarnMoneyList,
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+  },
+  OTPForm: { 
+    screen: OTPForm,
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+  },
+  OTPScreen: { screen: OTPScreen,
     navigationOptions: {
       gesturesEnabled: false,
     },
