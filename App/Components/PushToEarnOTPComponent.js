@@ -48,6 +48,7 @@ import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import OtpInputs from 'react-native-otp-inputs'
+import CodeInput from 'react-native-confirmation-code-input';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -264,6 +265,14 @@ class PushToEarnOTPComponent extends Component {
 
     }
 
+    clearOTP = () => {
+        console.tron.log("inside clearOTP");
+
+        this.setState({ otpText: '' });
+        // this.setState({ resend: false });
+      }
+
+
     callOTP = () => {
 
         this.setState({isLoading:true});
@@ -292,7 +301,15 @@ class PushToEarnOTPComponent extends Component {
 
     callResendOTP = () => {
 
-        this.setState({ isLoading: true});
+        this.forceUpdate();
+
+        this.setState({ resend: true, clearValues: true});
+
+        console.tron.log("resend = "+this.state.resend);
+
+        this.clearOTP();
+
+        this.setState({ isLoading: false});
 
         let tokenLocalStorage = localStorage.getItem('token');
         this.setState({loginAccessToken:tokenLocalStorage});
@@ -306,10 +323,14 @@ class PushToEarnOTPComponent extends Component {
         let payload = {
             "AuthenticationData": encryptedData,
             "LoginAccessToken": this.state.token,
-            "SignupType": "S",
+            "SignupType": "M",
         };
 
         this.props.verifyOTPResend(payload);
+
+        setTimeout( () => {
+            this.setState({ resend: false});
+        },200);
 
     }
 
@@ -383,13 +404,23 @@ class PushToEarnOTPComponent extends Component {
                             justifyContent:'center', 
                             alignItems:'center'}}>                    */}
                 <View style= {newStyle.numberBox}>
-                              <OtpInputs 
-                                handleChange={code => {this.setOtp(code)}}
-                                numberOfInputs={4}
-                                inputContainerStyles = {newStyle.otpInput}
-                                clearTextOnFocus = {true}
-                                keyboardType={'numeric'}
-                                />
+                    <CodeInput
+                                ref="codeInputRef2"
+                                codeLength = {4}
+                                compareWithCode='AsDW'
+                                activeColor = 'rgb(0,0,0)'
+                                inactiveColor='rgba(0, 0, 0)'
+                                // activeColor='rgba(49, 180, 4, 1)'
+                                // inactiveColor='rgba(49, 180, 4, 1.3)'
+                                autoFocus={false}
+                                ignoreCase={true}
+                                inputPosition='center'
+                                size={50}
+                                resend = { this.state.resend }
+                                onFulfill={(code) => { this.setState({ otpText: code}) } }
+                                containerStyle={{ marginTop: 0 }}
+                                codeInputStyle={{ borderWidth: 1 }}
+                            />
                                 {/* <TextInput
                                         style={ newStyle.otpInput }
                                         placeholder=''
@@ -455,9 +486,10 @@ class PushToEarnOTPComponent extends Component {
                 <View style={{
                      width: viewPortWidth*0.80,
                      height: 15,
-                     flex:1,
+                     flex:5,
+                     marginTop: 20,
                      backgroundColor: 'transparent',
-                     justifyContent:'center', 
+                     justifyContent:'flex-end', 
                      alignItems:'center'
                  }}>
                         <TouchableOpacity
@@ -491,7 +523,7 @@ class PushToEarnOTPComponent extends Component {
                 <View style={{
                       width: 280,
                       height: 60,
-                      flex:4,
+                      flex:2,
                       backgroundColor: 'transparent',
                       justifyContent:'flex-start',
                       alignItems:'flex-start'

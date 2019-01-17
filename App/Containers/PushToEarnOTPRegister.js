@@ -37,6 +37,7 @@ import CountDown from 'react-native-countdown-component';
 import localStorage from 'react-native-sync-localstorage';
 import OtpInputs from 'react-native-otp-inputs'
 import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
+import CodeInput from 'react-native-confirmation-code-input';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -86,6 +87,7 @@ class PushToEarnOTPRegister extends Component {
             token:'',
             text:{},
             otpText:'',
+            resend:false
         };    
     }
 
@@ -227,7 +229,22 @@ class PushToEarnOTPRegister extends Component {
 
     }
 
+    clearOTP = () => {
+        console.tron.log("inside clearOTP");
+
+        this.setState({ otpText: '' });
+        // this.setState({ resend: false });
+      }
+
     callResendOTP = () => {
+
+        this.forceUpdate();
+
+        this.setState({ resend: true, clearValues: true});
+
+        console.tron.log("resend = "+this.state.resend);
+
+        this.clearOTP();
 
         this.setState({ isLoading: true});
 
@@ -248,6 +265,10 @@ class PushToEarnOTPRegister extends Component {
 
         this.props.verifyOTPResend(payload);
 
+        setTimeout( () => {
+            this.setState({ resend: false});
+        },200);
+
     }
 
     callOTP = () => {
@@ -256,7 +277,7 @@ class PushToEarnOTPRegister extends Component {
 
         if(this.state.otpText === '')
         {
-            // Alert.alert("Please Enter Otp Text");
+             Alert.alert("Please Enter Otp Text");
         }
         else
          {
@@ -353,13 +374,30 @@ class PushToEarnOTPRegister extends Component {
                 <View style={newStyle.inputContainer}>
 
                     <View style={newStyle.numberBox}>
-                        <OtpInputs 
+                    <CodeInput
+                        ref="codeInputRef2"
+                        codeLength = {4}
+                        compareWithCode='AsDW'
+                        activeColor = 'rgb(0,0,0)'
+                        inactiveColor='rgba(0, 0, 0)'
+                        // activeColor='rgba(49, 180, 4, 1)'
+                        // inactiveColor='rgba(49, 180, 4, 1.3)'
+                        autoFocus={false}
+                        ignoreCase={true}
+                        inputPosition='center'
+                        size={50}
+                        resend = { this.state.resend }
+                        onFulfill={(code) => { this.setState({ otpText: code}); } }
+                        containerStyle={{ marginTop: 0 }}
+                        codeInputStyle={{ borderWidth: 1 }}
+                      />
+                        {/* <OtpInputs 
                                 handleChange={code => {this.setOtp(code)}}
                                 numberOfInputs={4}
                                 inputContainerStyles = {newStyle.otpInput}
                                 clearTextOnFocus = {true}
                                 keyboardType={'numeric'}
-                                />
+                                /> */}
 
                     {/* <TextInput
                                 style={ newStyle.otpInput }

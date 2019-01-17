@@ -1717,7 +1717,8 @@ class PushToEarnSignIn2 extends Component {
             ((platform === 'ios'|| platform === 'android') && this.state.hasToken === false)?
             <KeyboardAwareScrollView
                 behavior="padding"
-                enableOnAndroid={false}
+                enableOnAndroid={true}
+                extraScrollHeight={platform === 'android'?true:false}
                 contentContainerStyle={newStyle.container}
                 scrollEnabled={true}
                 scrollToEnd={true}

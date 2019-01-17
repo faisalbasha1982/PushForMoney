@@ -224,6 +224,11 @@ class PushToEarnProfileComponent extends Component {
         }        
     }
 
+    validateUAEPhoneNumber = (phone) => {
+        this.setState({ phoneNumberInput: phone});
+        this.changeMobile(phone);  
+    }
+
     validatePhoneOnChangeText = (phone) => {
 
         console.tron.log("phone through input="+phone);
@@ -267,9 +272,7 @@ class PushToEarnProfileComponent extends Component {
         {
                 if(lengthOfString >= 11)
                 {
-                        if(nextTwo === "45" || nextTwo === "46"
-                            || nextTwo === "47"  || nextTwo === "48"
-                            || nextTwo === "49")
+                        if(nextTwo === "45" || nextTwo === "46" || nextTwo === "47"  || nextTwo === "48" || nextTwo === "49")
                         {
                             console.log("phone="+phone);
 
@@ -1473,8 +1476,9 @@ getAsyncStorage = async () => {
                                             initialCountry={this.state.countryCode}
                                             onSelectCountry={(iso2) => { this.setState({countryCode: iso2}); console.log('country='+this.state.countryCode) }}
                                             style= {newStyle.phoneInput}
-                                            onBlur = { () =>  this.validatePhone(this.state.phoneNumberInput) }
-                                            onChangePhoneNumber = { (phoneNumberInput) => this.validatePhoneOnChangeText(phoneNumberInput) }
+                                            // onBlur = { () =>  this.validatePhone(this.state.phoneNumberInput) }
+                                            //onChangePhoneNumber = { (phoneNumberInput) => this.validatePhoneOnChangeText(phoneNumberInput) }
+                                            onChangePhoneNumber = { (phoneNumberInput) => this.validateUAEPhoneNumber(phoneNumberInput) }
                                             value ={this.formatMobileNo(this.props.mobileNo)}
                                         />
                                     </View>

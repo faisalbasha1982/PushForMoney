@@ -43,7 +43,6 @@ import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import OTPForm from "../Components/OTPForm";
 import CodeInput from 'react-native-confirmation-code-input';
 
-
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
 
@@ -554,7 +553,6 @@ class PushToEarnOTPLogin extends Component {
                         codeInputStyle={{ borderWidth: 1 }}
                       />
                     }   
-                                    
                     </View>
 
                     <View style={{
