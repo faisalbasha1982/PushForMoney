@@ -102,7 +102,7 @@ export default class ConfirmationCodeInput extends Component {
   _onFocus(index) {
      
     let newFocus = [false,false,false,false];
-    newFocus[index] = true;    
+    newFocus[index] = true;
     this.setState({ focusArray: newFocus});
 
     // if(index === this.props.codeLength - 1)
@@ -113,15 +113,17 @@ export default class ConfirmationCodeInput extends Component {
     
     let newCodeArr = _.clone(this.state.codeArr);
     const currentEmptyIndex = _.findIndex(newCodeArr, c => !c);
+
     if (currentEmptyIndex !== -1 && currentEmptyIndex < index) {
       return this._setFocus(currentEmptyIndex);
     }
+
     for (const i in newCodeArr) {
       if (i >= index) {
-        newCodeArr[i] = '';        
+        newCodeArr[index] = '';
       }
     }
-    
+    console.tron.log("newcodearr="+newCodeArr[index]);
     this.setState({
       codeArr: newCodeArr,
       currentIndex: index

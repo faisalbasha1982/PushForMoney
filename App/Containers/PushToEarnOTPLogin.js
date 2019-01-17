@@ -264,7 +264,7 @@ class PushToEarnOTPLogin extends Component {
         console.tron.log("inside clearOTP");
 
         this.setState({ otpText: '' });
-        this.setState({ resend: false });
+        // this.setState({ resend: false });
       }
 
     callResendOTP = () => {
@@ -273,14 +273,9 @@ class PushToEarnOTPLogin extends Component {
 
         this.forceUpdate();
 
-        this.setState({ 
-            firstInput:'',
-            secondInput:'',
-            thirdInput:'',
-            fourthInput:''
-        });
-
         this.setState({ resend: true, clearValues: true});
+
+        console.tron.log("resend = "+this.state.resend);
 
         this.clearOTP();
 
@@ -303,9 +298,9 @@ class PushToEarnOTPLogin extends Component {
 
         this.props.verifyOTPResend(payload);
 
-        // setTimeout( () => {
-        //     this.setState({ resend: false});
-        // },30000);
+        setTimeout( () => {
+            this.setState({ resend: false});
+        },200);
 
     }
 
@@ -323,7 +318,7 @@ class PushToEarnOTPLogin extends Component {
         // }
         if(this.state.otpText === '')
         {
-            Alerts.alert("empty otp text!!");
+            Alert.alert("empty otp text!!");
         }
         else
          {
@@ -364,8 +359,11 @@ class PushToEarnOTPLogin extends Component {
             }
       };
     
-      _onFinishCheckingCode1(isValid) {
-        console.log(isValid);
+      _onFinishCheckingCode1(isValid,code) {
+        console.tron.log("isValid="+isValid);
+
+        this.setState({ otpText: code});
+
         // if (!isValid) {
         //   Alert.alert(
         //     'Confirmation Code',
@@ -381,6 +379,7 @@ class PushToEarnOTPLogin extends Component {
         //     { cancelable: false }
         //   );
         // }
+        //this.setState({ otpText: code});
       }
     
     renderOTP = () => {
@@ -389,24 +388,76 @@ class PushToEarnOTPLogin extends Component {
 
         console.tron.log("in render OTP");
 
+        if(this.state.otpText !== '')
+         {
+            this.setState({ resend: false});
+         }
+
         return (
+
             <CodeInput
-                    ref="codeInputRef2"
-                    codeLength = {4}
-                    compareWithCode='AsDW'
-                    activeColor='rgba(49, 180, 4, 1)'
-                    inactiveColor='rgba(49, 180, 4, 1.3)'
-                    autoFocus={false}
-                    ignoreCase={true}
-                    inputPosition='center'
-                    size={50}
-                    resend = {true}
-                    onFulfill={(isValid) => this._onFinishCheckingCode1(isValid)}
-                    containerStyle={{ marginTop: 30 }}
-                    codeInputStyle={{ borderWidth: 1.5 }}
-            />
+            ref="codeInputRef2"
+            codeLength = {4}
+            compareWithCode='AsDW'
+            activeColor = 'rgb(0,0,0)'
+            inactiveColor='rgba(0, 0, 0)'
+            // activeColor='rgba(49, 180, 4, 1)'
+            // inactiveColor='rgba(49, 180, 4, 1.3)'
+            autoFocus={false}
+            ignoreCase={true}
+            inputPosition='center'
+            size={50}
+            resend = { this.state.resend }
+            onFulfill={(code) => { this.setState({ otpText: code}) } }
+            containerStyle={{ marginTop: 0 }}
+            codeInputStyle={{ borderWidth: 1 }}
+          />
+
+            // <CodeInput
+            //         ref="codeInputRef2"
+            //         codeLength = {4}
+            //         compareWithCode='AsDW'
+            //         activeColor='rgba(49, 180, 4, 1)'
+            //         inactiveColor='rgba(49, 180, 4, 1.3)'
+            //         autoFocus={false}
+            //         ignoreCase={true}
+            //         inputPosition='center'
+            //         size={50}
+            //         resend = {true}
+            //         onFulfill={(isValid) => this._onFinishCheckingCode1(isValid)}
+            //         containerStyle={{ marginTop: 30 }}
+            //         codeInputStyle={{ borderWidth: 1.5 }}
+            // />
         );
     }
+
+    _onFulfill(code) {
+        // TODO: call API to check code here
+        // If code does not match, clear input with: this.refs.codeInputRef1.clear()
+       this.setState({ otpText: code});
+      }
+
+      _onFinishCheckingCode2(isValid, code) {
+        console.log(isValid);
+        if (!isValid) {
+        //   Alert.alert(
+        //     'Confirmation Code',
+        //     'Code not match!',
+        //     [{text: 'OK'}],
+        //     { cancelable: false }
+        //   );
+            this.setState({ otpText: code });
+        } else {
+        
+          Alert.alert(
+            'Confirmation Code',
+            'Successful!',
+            [{text: 'OK'}],
+            { cancelable: false }
+          );
+        }
+      }
+    
 
     render() {
         const platform = Platform.OS;
@@ -485,7 +536,6 @@ class PushToEarnOTPLogin extends Component {
 
                     <View style={newStyle.numberBox}>     
                     {
-                        this.state.resend === false?
                         <CodeInput
                         ref="codeInputRef2"
                         codeLength = {4}
@@ -498,13 +548,11 @@ class PushToEarnOTPLogin extends Component {
                         ignoreCase={true}
                         inputPosition='center'
                         size={50}
-                        resend = { true }
-                        onFulfill={(isValid) => this._onFinishCheckingCode1(isValid)}
-                        containerStyle={{ marginTop: 30 }}
-                        codeInputStyle={{ borderWidth: 1.5 }}
+                        resend = { this.state.resend }
+                        onFulfill={(code) => { this.setState({ otpText: code}); } }
+                        containerStyle={{ marginTop: 0 }}
+                        codeInputStyle={{ borderWidth: 1 }}
                       />
-                        :
-                         this.renderOTP()
                     }   
                                     
                     </View>
@@ -514,7 +562,7 @@ class PushToEarnOTPLogin extends Component {
                      height: 15,
                      flex:1,
                      backgroundColor: 'transparent',
-                     justifyContent:'center', 
+                     justifyContent:'flex-start',
                      alignItems:'center'
                  }}>
                         <TouchableOpacity
@@ -524,8 +572,8 @@ class PushToEarnOTPLogin extends Component {
                             width: 120,
                             height: 10,
                             marginBottom: 0,
-                            marginLeft: 10,
-                            justifyContent: 'center',
+                            marginLeft: 20,
+                            justifyContent: 'flex-start',
                             alignItems: 'center',
                             backgroundColor: 'transparent',
                                     }}>

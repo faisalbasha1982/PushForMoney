@@ -951,7 +951,7 @@ function fetchOTP(payload)
 
     });
 
-    AsyncStorage.setItem('token',payload.LoginAccessToken);
+    //AsyncStorage.setItem('token',payload.LoginAccessToken);
 
     let authData = AuthComponent.authenticationData(languageCode);
     let encryptedData = AesComponent.aesCallback(authData);
@@ -972,6 +972,8 @@ function fetchOTP(payload)
         .then((responseJson) => {
 
           if (responseJson.StatusCode === 200) {
+
+            AsyncStorage.setItem('token',payload.LoginAccessToken);
 
             // Alert.alert(
             //     ''+responseJson.Message,
