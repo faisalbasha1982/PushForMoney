@@ -16,7 +16,7 @@
 //#import <TwitterKit/TwitterKit.h>
 //#import "RNTwitterSignIn.h"
 #import "OAuthManager.h"
-
+#import "ReactNativeConfig.h"
 
 //@import TwitterKit;
 
@@ -45,6 +45,9 @@
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
+  
+  NSString *apiUrl = [ReactNativeConfig envFor:@"API_URL"];
+  NSDictionary *config = [ReactNativeConfig env];
   
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];

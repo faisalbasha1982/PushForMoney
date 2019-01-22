@@ -1,63 +1,30 @@
 import React, { Component } from 'react'
 import {
-    ScrollView,
     Text,
     Image,
     View,
-    KeyboardAvoidingView,
     TouchableOpacity,
     Dimensions,
     TextInput,
-    PixelRatio,
     Alert,
     Platform,    
-    findNodeHandle,
     AsyncStorage
 } from 'react-native';
 import {
     BallIndicator,
-    BarIndicator,
-    DotIndicator,
-    PacmanIndicator,
-    PulseIndicator,
-    SkypeIndicator,
-    UIActivityIndicator,
-    WaveIndicator,
   } from 'react-native-indicators';
-import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import { NavigationActions } from "react-navigation";
-import ButtonNext from '../Components/ButtonNext';
-import ButtonWelcome from '../Components/ButtonWelcome';
-import LanguageButton from '../Components/LanguageButton';
-import Spinner from "react-native-loading-spinner-overlay";
-import DeviceInfo from 'react-native-device-info'
-import * as Animatable from 'react-native-animatable';
-import { StyleSheet } from 'react-native';
-import CompanyBanner from '../Components/CompanyBanner';
-import Validation from '../Components/ButtonValidation';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
 import LanguageSettingsPFM from '../Containers/LanguageSettingsPFM';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import RegisterActions, { RegisterSelectors } from "../Redux/RegisterRedux";
-import NavigationService from '../Navigation/NavigationService';
+import { RegisterSelectors } from "../Redux/RegisterRedux";
 import PhoneInput from 'react-native-phone-input';
-import ButtonLogin from '../Components/ButtonLogin';
-import ButtonSignUp from '../Components/ButtonSignUp';
 import CryptoJS from 'crypto-js';
-import utf8 from 'utf8';
 import Api from './Api';
 import localStorage from 'react-native-sync-localstorage';
-
-import { Colors } from "../Themes";
-import { Images } from '../Themes';
-
-import headerImage from '../Images/headerImage.png';
-import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/page1.png';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { setContext } from '../../node_modules/redux-saga/effects';
+import  newStyle  from "./Styles/PushToEarnRegisterProfileStyles";
 
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
@@ -71,7 +38,6 @@ const window = Dimensions.get('window');
 export const IMAGE_HEIGHT = window.width / 2;
 export const IMAGE_HEIGHT_SMALL = window.width /7;
 
-let cLanguage = '';
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 class PushToEarnRegisterProfile extends Component {
@@ -327,13 +293,7 @@ class PushToEarnRegisterProfile extends Component {
      }
 
     componentWillReceiveProps(nextProps) {
-
-        // console.log("in Form One screen language received="+nextProps.language);
-        // if (this.props.navigation.state.params.language !== nextProps.language) {
-        //     this.setState({ language: nextProps.language });
-        //     this.setText();
-        // }
-        
+               
         this.setState({ isLoading: false });
 
         if(nextProps != this.props)
@@ -686,17 +646,7 @@ class PushToEarnRegisterProfile extends Component {
         console.log("validate Encrypt");
         if(this.state.phoneNumberInput === '')
             {
-                    // Alert.alert(
-                    //     'PhoneNumber is Empty',
-                    //     'Fill in PhoneNumber',
-                    //     [
-                    //         {
-                    //           text: 'OK', 
-                    //           onPress: () => console.log('Ask me later Pressed')
-                    //         },                      
-                    //     ],
-                    //     {cancelable: false}
-                    // );
+                   
             }
           else
           {
@@ -718,17 +668,10 @@ class PushToEarnRegisterProfile extends Component {
 
     callPrivateScreen = (payload) => {
 
-        // if(this.state.emailInput === '')
-        // {            
-        //    // this.setState({ emailInput: '', usernameInputError: true, usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
-        //     //return;
-        // }
-
         console.log("email="+this.state.emailInput);
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
         if(reg.test(this.state.emailInput))
         {
-            //this.setState({ emailInput: text, usernameInputError: true, usernameInput: text, usernameEmptyError: false, EmptyErrorText: '' });
         }
         else
         {
@@ -826,18 +769,7 @@ class PushToEarnRegisterProfile extends Component {
             
         // Email instead of mobile
         let signUpData = "\"SignUpData\":" +"\""+this.aes("{ 'FName' : "+"'"+firstname+"'" + ", 'LName' : "+"'"+lastname+"'"+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+"'"+email+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}") +"\"";
-         let unencrypted = "{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+"'"+this.state.emailInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}";
-
-        //  console.tron.log(" unencrypted signUpData="+ unencrypted );
-
-        // console.tron.log("signupData="+"{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+this.state.phoneNumberInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
-
-        // console.log("signUpData=","{ 'FName' : "+"'"+firstname+"'" + ", 'LName' : "+"'"+lastname+"'"+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+"'"+email+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
-        // console.log("encrypted signup data="+this.aes("{ 'FName' : "+firstname+", 'LName' : "+lastname+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+email+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}"));
-        // console.log("payload passed to private policy=",payload);
-        // console.tron.log("Authentication in payload="+encryptedData);
-        // console.tron.log("type of payload="+typeof(payload));
-        // console.tron.log("signUpData=","{ 'FName' : "+"'"+firstname+"'" + ", 'LName' : "+"'"+lastname+"'"+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+"'"+email+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}" +"\"");
+        let unencrypted = "{ 'FName' : "+"'"+this.state.firstNameInput+"'" + ", 'LName' : "+"'"+this.state.lastNameInput+"'"+", 'Mob':"+"'"+phoneData+"'"+", 'Email':"+"'"+this.state.emailInput+"'"+",'Approval':'true','Device':'ios','D':'"+this.getUTCDate()+"','R' : 'er3rssf3dfd'}";
         
         let loginData = '';
 
@@ -1167,9 +1099,9 @@ class PushToEarnRegisterProfile extends Component {
 
         return (
 
-            <KeyboardAwareScrollView
+            <KeyboardAwareScrollView 
                 behavior="padding"
-                enableOnAndroid={false}
+                enableOnAndroid={true}
                 contentContainerStyle={newStyle.container}
                 scrollEnabled={true}
                 scrollToEnd={true}
@@ -1250,14 +1182,6 @@ class PushToEarnRegisterProfile extends Component {
                             onBlur = { () => { this.setState({ isFocusedFirst: false});} }
                             onChangePhoneNumber = { (phoneNumberInput) => this.validateBGPhoneNumber(phoneNumberInput) }
                     />
-                    {/* <Text style={newStyle.firstName}>{this.state.text.Password}</Text>
-
-                    <TextInput
-                        style={ newStyle.nameInput}
-                        placeholder=''
-                        editable = {false}
-                        underlineColorAndroid= 'transparent'
-                        value = { password } /> */}
                 </View>
 
                      <TouchableOpacity
@@ -1295,148 +1219,6 @@ class PushToEarnRegisterProfile extends Component {
     }
 
 }
-
-const newStyle = StyleSheet.create({
-
-    container: {
-        flex: 1,
-        backgroundColor: 'white',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-    },
-
-    headerImage: {
-        width: viewPortWidth * 0.65,
-        height: Platform.OS === 'ios'?40:120,
-        flex: Platform.OS === 'ios'?17:8,
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    inputContainer: {
-        backgroundColor: 'white',        
-        marginTop: Platform.OS === 'ios'?25:10,
-        padding: 10,
-        marginLeft: 0,
-        flex: Platform.OS === 'ios'?100:1,
-        backgroundColor: 'transparent'
-    },
-
-    socialIcons: {
-        flex: 4,
-        justifyContent: 'center', 
-        alignItems: 'flex-start' ,
-        marginTop: 10, 
-        marginLeft: 20,
-        padding: 30, 
-        flexDirection: 'row', 
-        width: viewPortWidth, 
-        height: 400, 
-        backgroundColor: 'transparent'
-    },
-
-    firstName: {
-        width: 190,
-        height: 19,
-        fontFamily: 'WorkSans-Regular',
-        fontSize: 16,
-        fontWeight: '500',
-        fontStyle: 'normal',
-        letterSpacing: 0.67,
-        textAlign: 'left',
-        marginBottom: 15
-    },
-
-    forgotPassword:{
-        width: 112,
-        height: 14,
-        fontFamily: "WorkSans-Medium",
-        fontSize: 12,
-        fontWeight: "500",
-        fontStyle: "normal",
-        letterSpacing: 0.43,
-        color: "#E73D50",
-    },
-
-    phoneNumberStyle: {
-        width: 190,
-        height: 22,
-        fontFamily: 'WorkSans-Regular',
-        fontSize: 16,
-        fontWeight: '500',
-        fontStyle: 'normal',
-        letterSpacing: 0.67,
-        textAlign: 'left',
-        marginBottom: 15
-
-    },
-
-    nameInput: {
-        width: 334,
-        height: 50,
-        borderRadius: 8,
-        backgroundColor: '#f6f6f6',
-        marginBottom: 10,
-        padding: 10,
-    },
-
-    buttons: {
-        width: viewPortWidth,
-        height: 20,
-        flex: 2,
-        backgroundColor: 'white',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        marginLeft: 15,
-        marginRight: 25,
-        marginBottom:  10,
-        marginTop: 10,
-    },
-
-    endButtons: {
-        width: viewPortWidth,
-        height: Platform.OS === 'ios'?50:150,
-        zIndex: 999,
-        flex: Platform.OS === 'ios'?4:4,
-        flexDirection: 'row',
-        backgroundColor: 'white',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        backgroundColor:'transparent'
-    },
-
-    iconImageStyle:{
-        backgroundColor: 'black',
-        width: 50,
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    iconStyle: {
-        width: 45,
-        height: 45,
-        borderRadius: 45,
-        backgroundColor: 'transparent',
-        marginTop: viewPortHeight / 200,
-        marginRight: 0,
-        marginLeft: 15,
-        marginTop: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'transparent'        
-    },
-
-    validationStyle:{
-        position: 'absolute',
-        top: 62,
-        left: 35,
-        width: 60,
-        height: 60,    
-    },
-});
 
 const mapStateToProps = state => {
     return {

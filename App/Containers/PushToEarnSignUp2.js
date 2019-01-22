@@ -1,69 +1,37 @@
 import React, { Component } from 'react'
 import {
-    ScrollView,
     Text,
     Image,
     View,
-    KeyboardAvoidingView,
     TouchableOpacity,
     Dimensions,
-    TextInput,
-    PixelRatio,
     Alert,
     Platform,
     AsyncStorage,
-    findNodeHandle,
     NativeModules,
 } from 'react-native';
 import {
     BallIndicator,
-    BarIndicator,
-    DotIndicator,
-    PacmanIndicator,
-    PulseIndicator,
-    SkypeIndicator,
-    UIActivityIndicator,
-    WaveIndicator,
   } from 'react-native-indicators';
-import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import { NavigationActions } from "react-navigation";
-import LoginActions, { LoginSelectors } from "../Redux/LoginRedux";
-import RegisterActions, { RegisterSelectors } from "../Redux/RegisterRedux";
-import ButtonNext from '../Components/ButtonNext';
-import ButtonWelcome from '../Components/ButtonWelcome';
-import LanguageButton from '../Components/LanguageButton';
-import Spinner from "react-native-loading-spinner-overlay";
-import DeviceInfo from 'react-native-device-info'
-import * as Animatable from 'react-native-animatable';
-import { StyleSheet } from 'react-native';
-import CompanyBanner from '../Components/CompanyBanner';
 import Validation from '../Components/ButtonValidation';
-import LanguageSettings from './LanguageSettingsNew';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
-import ButtonLogin from '../Components/ButtonLogin';
 import CryptoJS from 'crypto-js';
-import utf8 from 'utf8';
 import Api from './Api';
-import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
-import {RSA, RSAKeychain } from 'react-native-rsa-native';
+import { GoogleSignin } from 'react-native-google-signin';
+import { RSA } from 'react-native-rsa-native';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
 import localStorage from 'react-native-sync-localstorage';
 import InstagramLogin from 'react-native-instagram-login';
 import Cookie from 'react-native-cookie';
-
-import { Colors } from "../Themes";
-import { Images } from '../Themes';
-
-import headerImage from '../Images/headerImage.png';
-import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/page1.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AccessToken, LoginManager, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 import languageSettingsPFM from './LanguageSettingsPFM';
+import newStyle from './Styles/PushToEarnSignUp2Styles';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -90,19 +58,13 @@ manager.configure({
   }
 });
 
-
-const { RNTwitterSignIn } = NativeModules;
-
 const Constants = {
     // Dev Parse keys
     TWITTER_COMSUMER_KEY: 'B9gQXS1YrrtH5Q9HDFl08MVVS',
     TWITTER_CONSUMER_SECRET: 'ourqEe3JmhpRh7ceLpCxN4RoIRXJT9FLslqqgfLscTtHtVvCXs',
   };
 
-
 // Styles
-
-let cLanguage = '';
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 class PushToEarnSignUp2 extends Component {
@@ -164,22 +126,6 @@ class PushToEarnSignUp2 extends Component {
 
             }).done();
           });
-
-        // const userNew = GoogleSignin.currentUser();
-    
-        // GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
-        //   // play services are available. can now configure library
-        // })
-        //   .catch((err) => {
-        //     console.log('Play services error', err.code, err.message);
-        //   });        
-
-        //   if(userNew === null)
-        //     {
-        //        this.googleSignOut();
-        //     }
-
-        //     this.googleSignIn();
     };
 
       // Somewhere in your code
@@ -240,18 +186,6 @@ class PushToEarnSignUp2 extends Component {
         GoogleSignin.signIn()
         .then((user) => {
 
-            // Alert.alert(
-            //     'google login in Progress',
-            //     'user Received='+user,
-            //     [                      
-            //         {
-            //           text: 'OK', 
-            //           onPress: () => console.log('Ask me later Pressed')
-            //         },                      
-            //     ],
-            //     {cancelable: false}
-            // );
-
           this.googleLogin(user);
   
           GoogleSignin.getAccessToken()
@@ -271,18 +205,6 @@ class PushToEarnSignUp2 extends Component {
 
     googleLogin = (user) =>
     {
-
-        // Alert.alert(
-        //     'google login in Progress',
-        //     'userID='+user.id,
-        //     [                      
-        //         {
-        //           text: 'OK', 
-        //           onPress: () => console.log('Ask me later Pressed')
-        //         },                      
-        //     ],
-        //     {cancelable: false}
-        // );
 
         let authData = AuthComponent.authenticationData(this.state.languageCode);
         let encryptedData = AesComponent.aesCallback(authData);
@@ -360,14 +282,7 @@ class PushToEarnSignUp2 extends Component {
         
                     };
         
-                    // let payloadNew = JSON.stringify({
-                    //       "userName": userName,
-                    //       "id": userID,
-                    // });
-        
-                    console.tron.log("LoginData:"+this.state.encodedText);
-        
-                    //this.props.twitterlogin(payload,userName);
+                    console.tron.log("LoginData:"+this.state.encodedText);        
                     this.props.instagramLogin(payload,jsonResponse.data.username,'','','');
                 }
                 else
@@ -377,8 +292,6 @@ class PushToEarnSignUp2 extends Component {
               ,650);            
 
             }
-
-            //throw new Error('Request failed!');
           }           
           catch (error) {
 
@@ -440,35 +353,6 @@ class PushToEarnSignUp2 extends Component {
 
     twitterSignIn = () => {
         console.warn('twitter button clicked'); // eslint-disable-line
-        // RNTwitterSignIn.init(Constants.TWITTER_COMSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
-        // RNTwitterSignIn.logIn()
-        //   .then(loginData => {
-
-        //     console.log(loginData);
-        //     const { authToken, authTokenSecret, userID,userName } = loginData;
-
-        //     // Alert.alert(
-        //     //     'Twitter Login successful',
-        //     //     " userID="+userID + " userName="+ userName,
-        //     //     [                      
-        //     //         {
-        //     //           text: 'OK', 
-        //     //           onPress: () => console.log('Ask me later Pressed')
-        //     //         },                      
-        //     //     ],
-        //     //     {cancelable: false}
-        //     // );
-
-        //     if (authToken && authTokenSecret) {
-        //       this.setState({ isLoggedIn: true });
-        //       this.twitterLogin(userID,userName);
-        //     }
-
-        //   })
-        //   .catch(error => {
-        //     console.log(error)
-        //   }
-        // )
 
         manager.authorize('twitter', {scopes: 'profile email'})
         .then(resp => 
@@ -491,8 +375,6 @@ class PushToEarnSignUp2 extends Component {
                              }
                         })
                     });
-
-            //this.twitterLogin('','');
             }
             )
         .catch(err => console.log(err));
@@ -500,11 +382,6 @@ class PushToEarnSignUp2 extends Component {
     
       handleTwitterLogout = () => {
         console.log("logout")
-        // RNTwitterSignIn.logOut()
-        // this.setState({
-        //   isLoggedIn: false
-        // });
-
         manager.deauthorize('twitter');
     }
 
@@ -515,8 +392,6 @@ class PushToEarnSignUp2 extends Component {
         } 
         else 
         {
-
-        //   Alert.alert('Success fetching data user id: ' + result.id+ ' username='+ result.name + " email="+result.email);
 
           let authData = AuthComponent.authenticationData(this.state.languageCode);
           let encryptedData = AesComponent.aesCallback(authData);
@@ -559,18 +434,6 @@ class PushToEarnSignUp2 extends Component {
 
     initUser = (token) => {
 
-            // Alert.alert(
-            //     'Fetching User Data',
-            //     'inside initUser method',
-            //     [                      
-            //         {
-            //         text: 'OK', 
-            //         onPress: () => console.log('Ask me later Pressed')
-            //         },                      
-            //     ],
-            //     {cancelable: false}
-            // );
-
             // Create a graph request asking for user information with 
             // a callback to handle the response.
 
@@ -602,18 +465,6 @@ class PushToEarnSignUp2 extends Component {
 
               console.log('Login was cancelled');
 
-            //   Alert.alert(
-            //     'Login Unsuccessful',
-            //     'Login was Cancelled',
-            //     [                      
-            //         {
-            //           text: 'OK', 
-            //           onPress: () => console.log('Ask me later Pressed')
-            //         },                      
-            //     ],
-            //     {cancelable: false}
-            // );
-
             } else {
 
               console.log(`Login was successful with permissions: ${result.grantedPermissions.toString()}`);
@@ -621,20 +472,7 @@ class PushToEarnSignUp2 extends Component {
               const data = AccessToken.getCurrentAccessToken();
 
                 AccessToken.getCurrentAccessToken().then((data) => {
-                    const { accessToken } = data;                    
-
-                    // Alert.alert(
-                    //     'accessToken Received',
-                    //     'accessToken Received='+accessToken,
-                    //     [                      
-                    //         {
-                    //           text: 'OK', 
-                    //           onPress: () => console.log('Ask me later Pressed')
-                    //         },                      
-                    //     ],
-                    //     {cancelable: false}
-                    // );
-
+                    const { accessToken } = data;                   
                     this.initUser(accessToken);
                   });
             }
@@ -1079,24 +917,9 @@ class PushToEarnSignUp2 extends Component {
                     }
                     else
                     {
-                            // Alert.alert(
-                            //     'Password is Incorrect',
-                            //     'Password needs to be atleast 6 characters and no spaces',
-                            //     [                      
-                            //         {
-                            //         text: 'OK', 
-                            //         onPress: () => console.log('Ask me later Pressed')
-                            //         },                      
-                            //     ],
-                            //     {cancelable: false}
-                            // );
+
                     }            
-                   
-                //    let cAuthenticationData = "{'Lang':"+" '"+this.state.languageCode+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
-                //    let loginData = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";        
-                //    let authEncrypted = this.aes(cAuthenticationData);
-                //    let loginDataEncrypted = this.rsa(loginData);
-    
+                       
                         let authData = AuthComponent.authenticationData(this.state.languageCode);
                         let encryptedData = AesComponent.aesCallback(authData);
     
@@ -1129,17 +952,7 @@ class PushToEarnSignUp2 extends Component {
         else
             if(this.state.phoneNumberInput === '')
                 {
-                    // Alert.alert(
-                    //             'Phone Number Input is Empty',
-                    //             'Fill in Phone Number',
-                    //             [
-                    //                 {
-                    //                     text: 'OK',
-                    //                     onPress: () => console.log('Ask me later Pressed')
-                    //                 },
-                    //             ],
-                    //             {cancelable: false}
-                    //         );
+                    
                 }
             else
             {
@@ -1152,24 +965,9 @@ class PushToEarnSignUp2 extends Component {
                     }
                     else
                         {
-                            // Alert.alert(
-                            //     'Password is Incorrect',
-                            //     'Password needs to be atleast 6 characters and no spaces',
-                            //     [                      
-                            //         {
-                            //         text: 'OK', 
-                            //         onPress: () => console.log('Ask me later Pressed')
-                            //         },                      
-                            //     ],
-                            //     {cancelable: false}
-                            // );
+
                         }            
                 
-                //    let cAuthenticationData = "{'Lang':"+" '"+this.state.languageCode+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
-                //    let loginData = "{'U':"+"'"+this.state.usernameInput+"',"+" 'P':"+"'"+this.state.passwordInput+"','D':"+" '"+this.getUTCDate()+"'"+", 'R' : 'er3rssfd'}";        
-                //    let authEncrypted = this.aes(cAuthenticationData);
-                //    let loginDataEncrypted = this.rsa(loginData);
-
                 let authData = AuthComponent.authenticationData(this.state.languageCode);
                 let encryptedData = AesComponent.aesCallback(authData);
 
@@ -1532,7 +1330,6 @@ class PushToEarnSignUp2 extends Component {
 
         return (
 
-            // (platform === 'ios' || platform === 'android')?
             <KeyboardAwareScrollView
                 behavior="padding"
                 enableOnAndroid={false}
@@ -1624,18 +1421,9 @@ class PushToEarnSignUp2 extends Component {
                                                         }}
                                                         onLoginFailure={(data) => console.log(data)}                                                        
                                             />
-
-                                            {/* <LinkedInModal
-                                                        linkText=''
-                                                        clientID="81td97f0ibm93v"
-                                                        clientSecret="RotJQJQRBbBoWG7l"
-                                                        redirectUri="https://www.linkedin.com/developer/apps"
-                                                        onSuccess={token =>{
-                                                            this.getUser(token);
-                                                        }} /> */}
                                 </TouchableOpacity>
                         </View>
-
+                        
                         <View style = {{width: 70, height: 70,marginRight: 20, borderRadius: 70, backgroundColor: '#E73D50'}}>
                                 <TouchableOpacity onPress={() => { this.twitterSignIn() } }
                                     activeOpacity={0.5}
@@ -1758,259 +1546,6 @@ class PushToEarnSignUp2 extends Component {
     }
 
 }
-
-const newStyle = StyleSheet.create({
-
-    container: {
-        flex: 1,
-        backgroundColor: 'white',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-    },
-
-    keyboardScrollViewContainer: {
-        backgroundColor: 'transparent',
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-
-    scrollStyle: {
-        flex:1,
-        margin:0,
-        padding:0,
-    },
-
-    headerImage: {
-        width: viewPortWidth * 0.65,
-        height: Platform.OS === 'ios'?40:40,
-        flex: Platform.OS === 'ios'?8:2,
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    inputContainer: {
-        backgroundColor: 'white',
-        marginTop: Platform.OS === 'ios'?25:10,
-        padding: 25,
-        // flex: Platform.OS === 'ios'?20:1,
-        flex: Platform.OS === 'ios'?20:7,
-        backgroundColor: 'transparent',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-
-    socialIcons: {
-        flex: Platform.OS === 'ios'?4:1,
-        justifyContent: 'center', 
-        alignItems: 'flex-start' ,
-        marginTop: 10, 
-        marginTop: Platform.OS === 'ios'?10:20,
-        marginLeft: 20,
-        padding: 30, 
-        flexDirection: 'row', 
-        width: viewPortWidth, 
-        paddingTop: Platform.OS === 'ios'?30:0,
-        height: 400,
-        height: Platform.OS === 'ios'?400:20,
-        backgroundColor: 'transparent'
-    },
-
-    firstName: {
-        width: 159,
-        height: 19,
-        fontFamily: 'WorkSans-Regular',
-        fontSize: 16,
-        fontWeight: '500',
-        fontStyle: 'normal',
-        letterSpacing: 0.67,
-        textAlign: 'left',
-        marginBottom: 15,
-        position: 'absolute',
-        left: 50,
-        top:0,
-    },
-
-    phoneText: {
-        width: 250,
-        height: 19,
-        fontFamily: 'WorkSans-Regular',
-        fontSize: 16,
-        fontWeight: '500',
-        fontStyle: 'normal',
-        letterSpacing: 0.67,
-        textAlign: 'left',
-        marginBottom: 15,
-        marginTop: 10,
-        position: 'absolute',
-        left: 50,
-        top: 85,
-    },
-
-    emailText: {
-        width: 290,
-        height: 19,
-        fontFamily: 'WorkSans-Regular',
-        fontSize: 16,
-        fontWeight: '500',
-        fontStyle: 'normal',
-        letterSpacing: 0.67,
-        textAlign: 'left',
-        marginBottom: 15,
-        marginTop: 10,
-        position: 'absolute',
-        left: 50,
-        top: 180,
-    },
-
-    password:{
-        width: 159,
-        height: 19,
-        fontFamily: 'WorkSans-Regular',
-        fontSize: 16,
-        fontWeight: '500',
-        fontStyle: 'normal',
-        letterSpacing: 0.67,
-        textAlign: 'left',
-        marginBottom: 15,
-        marginTop: 10,
-        position: 'absolute',
-        left: 50,
-        top: 85,
-    },
-
-    cpassword:{
-        width: 290,
-        height: 19,
-        fontFamily: 'WorkSans-Regular',
-        fontSize: 16,
-        fontWeight: '500',
-        fontStyle: 'normal',
-        letterSpacing: 0.67,
-        textAlign: 'left',
-        marginBottom: 15,
-        marginTop: 10,
-        position: 'absolute',
-        left: 50,
-        top: 180,
-    },
-
-    forgotPassword:{
-        width: 112,
-        height: 14,
-        fontFamily: "WorkSans-Medium",
-        fontSize: 12,
-        fontWeight: "500",
-        fontStyle: "normal",
-        letterSpacing: 0.43,
-        color: "#E73D50",
-        position: 'absolute',
-        left: 50,
-        top: 190,
-    },
-
-    phoneNumberStyle: {
-        width: 190,
-        height: 22,
-        fontFamily: 'WorkSans-Regular',
-        fontSize: 16,
-        fontWeight: '500',
-        fontStyle: 'normal',
-        letterSpacing: 0.67,
-        textAlign: 'left',
-        marginBottom: 15
-
-    },
-
-    nameInput: {
-        width: 334,
-        height: 57,
-        borderRadius: 8,
-        backgroundColor: '#f6f6f6',
-        marginBottom: 15,
-        padding: 10,
-        marginTop: 0,        
-    },
-
-
-
-    nameInputPhone: {
-        width: 334,
-        height: 57,
-        borderRadius: 8,
-        backgroundColor: '#f6f6f6',
-        marginBottom: 15,
-        padding: 10,
-        marginTop: 25,
-    },
-
-    nameInputEmail: {
-        width: 334,
-        height: 57,
-        borderRadius: 8,
-        backgroundColor: '#f6f6f6',
-        marginBottom: 15,
-        padding: 10,
-        marginTop: 25,
-    },
-
-    buttons: {
-        width: viewPortWidth,
-        height: 20,
-        flex: 2,
-        backgroundColor: 'white',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        marginLeft: 15,
-        marginRight: 25,
-        marginBottom:  10,
-        marginTop: 10,
-    },
-
-    endButtons: {
-        width: viewPortWidth,
-        height: Platform.OS === 'ios'?50:150,
-        zIndex: 999,
-        flex: Platform.OS === 'ios'?4:4,
-        flexDirection: 'row',
-        backgroundColor: 'white',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        backgroundColor:'transparent'
-    },
-
-    iconImageStyle:{
-        backgroundColor: 'black',
-        width: 50,
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    iconStyle: {
-        width: 70,
-        height: 70,
-        borderRadius: 70,
-        backgroundColor: 'transparent',
-        // marginTop: viewPortHeight / 200,
-        marginRight: 0,
-        marginLeft: 0,
-        marginTop: 0,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'transparent'        
-    },
-
-    validationStyle:{
-        position: 'absolute',
-        top: 62,
-        left: 35,
-        width: 60,
-        height: 60,    
-    },
-});
 
 const mapStateToProps = state => {
     return {

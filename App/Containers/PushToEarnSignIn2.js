@@ -1,53 +1,26 @@
 import React, { Component } from 'react'
 import {
-    ScrollView,
     Text,
     Image,
     View,
-    KeyboardAvoidingView,
     TouchableOpacity,
     Dimensions,
-    TextInput,
-    PixelRatio,
     Alert,
     Platform,
-    AsyncStorage,
-    findNodeHandle,
-    NativeModules,
 } from 'react-native';
 import {
     BallIndicator,
-    BarIndicator,
-    DotIndicator,
-    PacmanIndicator,
-    PulseIndicator,
-    SkypeIndicator,
-    UIActivityIndicator,
-    WaveIndicator,
   } from 'react-native-indicators';
-import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import { NavigationActions } from "react-navigation";
-import LoginActions, { LoginSelectors } from "../Redux/LoginRedux";
-import ButtonNext from '../Components/ButtonNext';
-import ButtonWelcome from '../Components/ButtonWelcome';
-import LanguageButton from '../Components/LanguageButton';
-import Spinner from "react-native-loading-spinner-overlay";
-import DeviceInfo from 'react-native-device-info';
-import * as Animatable from 'react-native-animatable';
-import { StyleSheet } from 'react-native';
-import CompanyBanner from '../Components/CompanyBanner';
+import { LoginSelectors } from "../Redux/LoginRedux";
 import Validation from '../Components/ButtonValidation';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PhoneInput from 'react-native-phone-input';
-import ButtonLogin from '../Components/ButtonLogin';
 import CryptoJS from 'crypto-js';
-import utf8 from 'utf8';
 import Api from './Api';
-import ApiKey from '../Services/Api_url';
-import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
-import {RSA, RSAKeychain } from 'react-native-rsa-native';
+import { GoogleSignin, statusCodes } from 'react-native-google-signin';
+import { RSA } from 'react-native-rsa-native';
 import localStorage from 'react-native-sync-localstorage';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
@@ -56,6 +29,7 @@ import LanguageSettings from '../Containers/LanguageSettingsNew';
 import InstagramLogin from 'react-native-instagram-login';
 import Cookie from 'react-native-cookie';
 import OAuthManager from 'react-native-oauth';
+import newStyle from './Styles/PushToEarnSignIn2Styles';
 
 const manager = new OAuthManager('PushForMoney');
 
@@ -72,14 +46,7 @@ manager.configure({
   }
 });
 
-
 import _ from 'lodash';
-// import { RSAKey } from 'react-native-rsa';
-import { Colors } from "../Themes";
-import { Images } from '../Themes';
-
-import headerImage from '../Images/headerImage.png';
-import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/page1.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AccessToken, LoginManager, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
@@ -91,8 +58,6 @@ const window = Dimensions.get('window');
 
 export const IMAGE_HEIGHT = window.width / 2;
 export const IMAGE_HEIGHT_SMALL = window.width /7;
-
-const { RNTwitterSignIn } = NativeModules;
 
 const Constants = {
     // Dev Parse keys
@@ -171,48 +136,6 @@ class PushToEarnSignIn2 extends Component {
 
             }).done();
           });
-
-        // const userNew = GoogleSignin.currentUser();
-    
-        // GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
-        //   // play services are available. can now configure library
-        // })
-        //   .catch((err) => {
-        //     console.log('Play services error', err.code, err.message);
-        //   });
-
-        //   if(userNew === null)
-        //     {
-        //        console.tron.log("user="+userNew);
-        //        this.googleSignOut();
-        //        this.signInGoogle();
-        //     }
-
-            // console.tron.log("user="+userNew);
-
-            //this.signInGoogle();
-
-            // GoogleSignin.signIn()
-            // .then((user) => {
-    
-            //   console.log(user);
-            //   //this.setState({ user });
-    
-            //   this.googleLogin(user);
-      
-            //   GoogleSignin.getAccessToken()
-            //     .then((token) => {
-            //       console.log(token);
-            //     })
-            //     .catch((err) => {
-            //       console.log(err);
-            //     })
-            //     .done();
-            // })
-            // .catch((err) => {
-            //   console.log('WRONG SIGNIN', err);
-            // })
-            // .done();
       };
 
       googleSignOut = async () => {
@@ -229,18 +152,6 @@ class PushToEarnSignIn2 extends Component {
 
     // Somewhere in your code
       signInGoogle = async () => {
-
-        // Alert.alert(
-        //     'google login in Progress',
-        //     'google login in Progress',
-        //     [                      
-        //         {
-        //           text: 'OK', 
-        //           onPress: () => console.log('Ask me later Pressed')
-        //         },                      
-        //     ],
-        //     {cancelable: false}
-        // );
 
         try {
 
@@ -285,18 +196,6 @@ class PushToEarnSignIn2 extends Component {
       googleSignIn = async () => {
         GoogleSignin.signIn()
         .then((user) => {
-
-            // Alert.alert(
-            //     'google login in Progress',
-            //     'userID='+user,
-            //     [                      
-            //         {
-            //           text: 'OK', 
-            //           onPress: () => console.log('Ask me later Pressed')
-            //         },                      
-            //     ],
-            //     {cancelable: false}
-            // );
 
           this.googleLogin(user);
   
@@ -350,11 +249,6 @@ class PushToEarnSignIn2 extends Component {
 
             };
 
-            // let payloadNew = JSON.stringify({
-            //       "userName": userName,
-            //       "id": userID,
-            // });
-
             let payloadNew = {
 
                 email: user.email,
@@ -370,15 +264,6 @@ class PushToEarnSignIn2 extends Component {
           else
             console.log("loginData  or authentication Data is empty");
           },750);
-
-    //    let payload = {
-    //        "username": user.id,
-    //        "name": user.givenName,
-    //        "email": user.email,
-    //    };
-
-    //    this.props.googleLogin(payload);
-
     }
 
     instaLoginGetUsers = async (token) => {
@@ -549,41 +434,6 @@ class PushToEarnSignIn2 extends Component {
         //console.tron.log("RNTwitterSignIn object="+RNTwitterSignIn);
         console.warn('twitter button clicked'); // eslint-disable-line
 
-        //RNTwitterSignIn.init(Constants.TWITTER_COMSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
-
-        // RNTwitterSignIn.logIn()
-        //   .then(loginData => {
-        //     console.log("twitter data="+JSON.stringify(loginData));
-        //     console.tron.log("twitter data="+JSON.stringify(loginData));
-        //     const { authToken, authTokenSecret, userID,userName } = loginData;
-
-        //     // Alert.alert(
-        //     //     'accessToken Received',
-        //     //     'username Received='+userName +" userID="+userID,
-        //     //     [                      
-        //     //         {
-        //     //           text: 'OK', 
-        //     //           onPress: () => console.log('Ask me later Pressed')
-        //     //         },                      
-        //     //     ],
-        //     //     {cancelable: false}
-        //     // );
-
-        //     if (authToken && authTokenSecret) {
-        //       this.setState({
-        //         isLoggedIn: true
-        //       });
-
-        //       this.twitterLogin(userID,userName);
-        //     }
-        //   })
-        //   .catch(error => {
-        //     console.log(error)
-        //   }
-        // )
-
-        //this.setState({ isLoading: true,});
-
         manager.authorize('twitter', {scopes: 'profile email'})
         .then(resp => 
             {
@@ -605,22 +455,15 @@ class PushToEarnSignIn2 extends Component {
                              }
                         })
                     });
-
-            //this.twitterLogin('','');
             }
             )
-        .catch(err => console.log(err));
+        .catch(err => console.tron.log("twitter="+err));
 
       }
     
       handleLogout = () => {
         console.log("logout");
-
         manager.deauthorize('twitter');
-        // RNTwitterSignIn.logOut()
-        // this.setState({
-        //   isLoggedIn: false
-        // });
     }
 
     fetchTwitterID = () => {
@@ -640,8 +483,6 @@ class PushToEarnSignIn2 extends Component {
         if (error) {
             Alert.alert('Error fetching data: ' + error.toString());
         } else {
-
-            // Alert.alert('Success fetching data user id: ' + result.id+ ' username='+ result.name + " email="+result.email);
           
           let authData = AuthComponent.authenticationData(this.state.languageCode);
           let encryptedData = AesComponent.aesCallback(authData);
@@ -662,15 +503,6 @@ class PushToEarnSignIn2 extends Component {
                   "SignupMode": false,
 
               };
-
-            //   let payloadNew = {
-
-            //     "firstname": result.first_name,
-            //     "lastname": result.last_name,
-            //     "email": result.email,
-            //     "id": result.id.toString(),
-
-            // };
                this.props.loginFaceBook(payload,result.first_name, result.last_name,result.email);
             }
             else
@@ -680,20 +512,7 @@ class PushToEarnSignIn2 extends Component {
         }
       }
 
-    initUser = (token) => {
-
-            // Alert.alert(
-            //     'Fetching User Data',
-            //     'inside initUser method',
-            //     [                      
-            //         {
-            //         text: 'OK', 
-            //         onPress: () => console.log('Ask me later Pressed')
-            //         },                      
-            //     ],
-            //     {cancelable: false}
-            // );
-          
+    initUser = (token) => {          
             // Create a graph request asking for user information with 
             // a callback to handle the response.
 
@@ -731,19 +550,6 @@ class PushToEarnSignIn2 extends Component {
 
                 AccessToken.getCurrentAccessToken().then((data) => {
                     const { accessToken } = data;
-
-                    // Alert.alert(
-                    //     'accessToken Received',
-                    //     'accessToken Received='+accessToken,
-                    //     [                      
-                    //         {
-                    //           text: 'OK', 
-                    //           onPress: () => console.log('Ask me later Pressed')
-                    //         },                      
-                    //     ],
-                    //     {cancelable: false}
-                    // );
-
                     this.initUser(accessToken)
                   });
             }
@@ -973,11 +779,6 @@ class PushToEarnSignIn2 extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        // console.log("in Form One screen language received="+nextProps.language);
-        // if (this.props.navigation.state.params.language !== nextProps.language) {
-        //     this.setState({ language: nextProps.language });
-        //     this.setText();
-        // }
 
         if(this.props.navigation.state.params.isLoading !== undefined)
             this.setState({ isLoading:false});
@@ -1025,19 +826,6 @@ class PushToEarnSignIn2 extends Component {
             this.setState({ text: languageSettingsPFM.French, languageCode: 'fr'});            
 
         this.setState({ isLoading:false, socialLoginProcess: false});
-    
-        // setTimeout(() => {
-        //     ltoken = localStorage.getItem('token');
-
-        //     console.log("ltoken="+ltoken);
-
-        //     if(ltoken !== null)
-        //         this.setState({ hasToken: true});
-        //     else
-        //         LoginManager.logOut();
-
-        //   },3000);
-
 
         if(this.props.navigation.state.params.isLoading !== undefined)
             this.setState({ isLoading:false});
@@ -1050,14 +838,6 @@ class PushToEarnSignIn2 extends Component {
 
          this.handleLogout();
 
-
-        // console.log("language from props="+this.props.navigation.state.params.language);
-        // console.log("default language="+this.state.language);
-        // this.setState({ language: this.props.navigation.state.params.language });
-        // console.log("language="+this.state.language);
-        // this.setText();
-        // console.log("this.state.firstName="+this.state.firstName);
-        // console.log("this.state.buttonText="+this.state.buttonText);
     }
 
 
@@ -1351,17 +1131,6 @@ class PushToEarnSignIn2 extends Component {
         console.log("validate Encrypt");
         if(phoneNumberInput === '')
             {
-                    // Alert.alert(
-                    //     'Phone Number is Empty',
-                    //     'Fill in Phone Number',
-                    //     [
-                    //         {
-                    //           text: 'OK', 
-                    //           onPress: () => console.log('Ask me later Pressed')
-                    //         },                      
-                    //     ],
-                    //     {cancelable: false}
-                    // );
             }
           else
           {
@@ -1516,18 +1285,6 @@ class PushToEarnSignIn2 extends Component {
                 else
                     {
                         console.log("phone Number incorrect---->"+this.state.phoneNumberInput);
-
-                        // Alert.alert(
-                        //     'Phone Number is Incorrect',
-                        //     'Phone Number needs to be atleast 11 characters and no spaces',
-                        //     [                      
-                        //         {
-                        //         text: 'OK', 
-                        //         onPress: () => console.log('Ask me later Pressed')
-                        //         },                      
-                        //     ],
-                        //     {cancelable: false}
-                        // );
                     }            
                
             setTimeout( () => {
@@ -1545,10 +1302,6 @@ class PushToEarnSignIn2 extends Component {
                 else
                   console.log("loginData  or authentication Data is empty");
             },700);
-
-            // setTimeout( () => {
-            //     this.setState({isLoading: false});
-            // },500);
 
         }
 
@@ -1627,23 +1380,9 @@ class PushToEarnSignIn2 extends Component {
                         {
                             console.log("phone="+phone);
 
-                                this.setState({phoneNumberInput: this.formatMobileNo(phone)});
-
-                                // if (regNew.exec(phone))
-                                // {  
-                                    this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
-                                    this.setState({isLoading:false});
-                                    //this.changeMobile(this.formatMobileNo(phone));
-                                //}
-                                // else
-                                //     if(this.state.languageCode === 'nl')
-                                //         this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.dutch.TelephoneNumberError });
-                                //     else
-                                //         if(this.state.languageCode === 'en')
-                                //             this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.english.TelephoneNumberError });
-                                //         else
-                                //             this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
-            
+                                this.setState({phoneNumberInput: this.formatMobileNo(phone)});  
+                                this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
+                                this.setState({isLoading:false});            
                         }
                       else
                       {
@@ -1785,12 +1524,6 @@ class PushToEarnSignIn2 extends Component {
                                                             this.instLogin( igToken );
                                                         }}
                                                         onLoginFailure={(data) => console.log(data)} />
-                                            {/* <LinkedInModal
-                                                        linkText=''
-                                                        clientID="81td97f0ibm93v"
-                                                        clientSecret="RotJQJQRBbBoWG7l"
-                                                        redirectUri="https://www.linkedin.com/developer/apps"
-                                                        onSuccess={token => console.log(token)} /> */}
                                 </TouchableOpacity>
                         </View>
 
@@ -1921,21 +1654,6 @@ class PushToEarnSignIn2 extends Component {
                             }}
                         onPress = { () => this.props.navigation.navigate('PushToEarnSignUp2', {phone: ''})}
                         >{signup[0]+""}</Text>
-                        {/* <Text
-                        style={{
-                            width: 334,
-                            height: 34,
-                            fontFamily: "WorkSans-Medium",
-                            fontSize: 14,
-                            fontWeight: "500",
-                            fontStyle: "normal",
-                            lineHeight: 34,
-                            letterSpacing: 0,
-                            textAlign: "center",
-                            color: "#E73D50"
-                            }}
-                        onPress = { () => this.props.navigation.navigate('PushToEarnSignUp2',{phone: ''})}
-                        >{" "+signup[1]}</Text> */}
                     </Text>
                 </View>
                     </View>
@@ -1948,225 +1666,6 @@ class PushToEarnSignIn2 extends Component {
     }
 
 }
-
-const newStyle = StyleSheet.create({
-
-    container: {
-        flex: 1,
-        backgroundColor: 'white',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-    },
-
-    forgotPasswordStyle: {
-        flex:1,
-        backgroundColor: 'transparent',
-        width: viewPortWidth * 0.40,
-        height: viewPortHeight * 0.40,
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        width: 180,
-        height: 14,
-    },
-
-    forgotPassword:{
-        fontFamily: "WorkSans-Medium",
-        fontSize: 12,
-        fontWeight: "500",
-        fontStyle: "normal",
-        letterSpacing: 0.43,
-        color: "#E73D50",    
-    },
-
-    keyboardScrollViewContainer: {
-        backgroundColor: 'transparent',
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-
-    scrollStyle: {
-        flex:1,
-        margin:0,
-        padding:0,
-    },
-
-    headerImage: {
-        width: viewPortWidth * 0.65,
-        height: Platform.OS === 'ios'?40:40,
-        flex: Platform.OS === 'ios'?8:4,
-        backgroundColor: 'transparent',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    inputContainer: {
-        marginTop: Platform.OS === 'ios'?35:10,
-        padding: 25,
-        flex: Platform.OS === 'ios'?15:9,
-        backgroundColor: 'transparent',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-    },
-
-    socialIcons: {
-        flex: Platform.OS === 'ios'?4:1,
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        marginTop: Platform.OS === 'ios'?10:20,
-        marginLeft: 20,
-        padding: 30,
-        paddingTop: Platform.OS === 'ios'?30:0,
-        flexDirection: 'row', 
-        width: viewPortWidth, 
-        height: Platform.OS === 'ios'?400:20,
-        backgroundColor: 'transparent'
-    },
-
-    firstName: {
-        width: 182,
-        height: 19,
-        fontFamily: 'WorkSans-Regular',
-        fontSize: 16,
-        fontWeight: '500',
-        fontStyle: 'normal',
-        letterSpacing: 0.67,
-        textAlign: 'left',
-        marginBottom: 15,
-        position: 'absolute',
-        left: 50,
-        top: 0,
-    },
-
-    password:{
-        width: 159,
-        height: 19,
-        fontFamily: 'WorkSans-Regular',
-        fontSize: 16,
-        fontWeight: '500',
-        fontStyle: 'normal',
-        letterSpacing: 0.67,
-        textAlign: 'left',
-        marginBottom: 15,
-        marginTop: 10,
-        position: 'absolute',
-        left: 75,
-        top: 85,
-    },
-
-  
-
-    phoneNumberStyle: {
-        width: 190,
-        height: 22,
-        fontFamily: 'WorkSans-Regular',
-        fontSize: 16,
-        fontWeight: '500',
-        fontStyle: 'normal',
-        letterSpacing: 0.67,
-        textAlign: 'left',
-        marginBottom: 15
-
-    },
-
-    nameInput: {
-        width: 334,
-        height: 57,
-        borderRadius: 8,
-        backgroundColor: '#f6f6f6',
-        marginBottom: 15,
-        padding: 10,
-        marginTop: 0,
-    },
-
-    nameInputPassword: {
-        width: 334,
-        height: 57,
-        borderRadius: 8,
-        backgroundColor: '#f6f6f6',
-        marginBottom: 15,
-        padding: 10,
-        marginTop: 25,
-    },
-
-    buttons: {
-        width: viewPortWidth,
-        height: 20,
-        flex: 2,
-        backgroundColor: 'white',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        marginLeft: 15,
-        marginRight: 25,
-        marginBottom:  10,
-        marginTop: 10,
-    },
-
-    endButtons: {
-        width: viewPortWidth,
-        height: Platform.OS === 'ios'?50:150,
-        zIndex: 999,
-        flex: Platform.OS === 'ios'?4:2,
-        flexDirection: 'column',
-        backgroundColor: 'white',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        backgroundColor:'transparent'
-    },
-
-    iconImageStyle:{
-        backgroundColor: 'black',
-        width: 50,
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    iconImageStyleInstagram:{
-        backgroundColor: 'black',
-        width: 50,
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'flex-end'
-    },
-
-    iconStyleInstagram: {
-        width: 70,
-        height: 70,
-        borderRadius: 70,
-        backgroundColor: 'black',
-        // marginTop: viewPortHeight / 100,
-        marginRight: 0,
-        marginLeft: 0,
-        marginTop: 0,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'transparent',
-    },
-
-    iconStyle: {
-        width: 70,
-        height: 70,
-        borderRadius: 70,
-        backgroundColor: 'transparent',
-        marginTop: viewPortHeight / 200,
-        marginRight: 0,
-        marginLeft: 0,
-        marginTop: 0,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'transparent'        
-    },
-
-    validationStyle:{
-        position: 'absolute',
-        top: 62,
-        left: 35,
-        width: 60,
-        height: 60,    
-    },
-});
 
 const mapStateToProps = state => {
     return {

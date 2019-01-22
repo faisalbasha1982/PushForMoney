@@ -1,57 +1,26 @@
 import React, { Component } from 'react'
 import {
-    ScrollView,
     Text,
     Image,
     View,
-    KeyboardAvoidingView,
     TouchableOpacity,
     Dimensions,
-    TextInput,
-    PixelRatio,
     Alert,
     Platform,    
-    findNodeHandle,
     AsyncStorage
 } from 'react-native';
 
-import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { NavigationActions } from "react-navigation";
-import ButtonNext from '../Components/ButtonNext';
-import ButtonWelcome from '../Components/ButtonWelcome';
-import LanguageButton from '../Components/LanguageButton';
-import Spinner from "react-native-loading-spinner-overlay";
-import DeviceInfo from 'react-native-device-info'
-import * as Animatable from 'react-native-animatable';
-import { StyleSheet } from 'react-native';
-import CompanyBanner from '../Components/CompanyBanner';
-import Validation from '../Components/ButtonValidation';
-import LanguageSettings from '../Containers/LanguageSettingsNew';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import PhoneInput from 'react-native-phone-input';
-import ButtonLogin from '../Components/ButtonLogin';
-import TimerCountdown from 'react-native-timer-countdown';
-import CountDown from 'react-native-countdown-component';
 import localStorage from 'react-native-sync-localstorage';
-import OtpInputs from 'react-native-otp-inputs';
-import OtpTextInputs from 'react-native-otp-textinput';
-import OtpInput from 'react-native-otp';
-import OTPScreen from '../Containers/OTPScreen';
 import languageSettingsPFM from '../Containers/LanguageSettingsPFM';
-import OTPForm from "../Components/OTPForm";
 import CodeInput from 'react-native-confirmation-code-input';
-
-import { Colors } from "../Themes";
-import { Images } from '../Themes';
-
-import headerImage from '../Images/headerImage.png';
-import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/page1.png';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import * as AuthComponent from '../Components/AuthComponent';
 import * as AesComponent from '../Components/AesComponent';
+import newStyle from './Styles/PushToEarnOTPLoginStyles';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -98,11 +67,6 @@ class PushToEarnOTPLogin extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        // console.log("in Form One screen language received="+nextProps.language);
-        // if (this.props.navigation.state.params.language !== nextProps.language) {
-        //     this.setState({ language: nextProps.language });
-        //     this.setText();
-        // }
 
     }
 
@@ -152,14 +116,7 @@ class PushToEarnOTPLogin extends Component {
     }
 
     componentDidMount() {
-        // console.log("language from props="+this.props.navigation.state.params.language);
-        // console.log("default language="+this.state.language);
-        // this.setState({ language: this.props.navigation.state.params.language });
-        // console.log("language="+this.state.language);
-        // this.setText();
-        // console.log("this.state.firstName="+this.state.firstName);
-        // console.log("this.state.buttonText="+this.state.buttonText);
-
+       
         this.getAsyncStorage();
 
         let token = this.props.navigation.state.params.accessToken;
@@ -169,44 +126,6 @@ class PushToEarnOTPLogin extends Component {
         this.setLanguage();
 
     }
-
-    // setText =  () => {
-
-    //     this.setState({language: this.props.navigation.state.params.language});
-    //     console.log("this.state.language="+this.state.language);
-
-    //     if (this.props.navigation.state.params.language === 'NEDERLANDS') {
-    //         console.log("setting in Nederlands");
-    //         this.setState({
-    //             firstName:  LanguageSettings.dutch.firstNameText,
-    //             name:       LanguageSettings.dutch.lastNameText,
-    //             phoneNumber: LanguageSettings.dutch.telephoneNumberText,
-    //             buttonText: LanguageSettings.dutch.buttonNextText
-    //         });
-    //     }
-    //     else
-    //         if (this.props.navigation.state.params.language === 'ENGLISH') {
-    //             console.log("setting in English");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.english.firstNameText,
-    //                 name: LanguageSettings.english.lastNameText,
-    //                 phoneNumber: LanguageSettings.english.telephoneNumberText,
-    //                 buttonText: LanguageSettings.english.buttonNextText
-    //             });
-    //         }
-    //         else
-    //           {
-    //             console.log("setting in French");
-    //             this.setState({
-    //                 firstName:  LanguageSettings.french.firstNameText,
-    //                 name: LanguageSettings.french.lastNameText,
-    //                 phoneNumber: LanguageSettings.french.telephoneNumberText,
-    //                 buttonText: LanguageSettings.french.buttonNextText
-    //             });
-    //         }
-    
-       
-    // }
 
     validateOTPText1 = (text) => {
 
@@ -261,14 +180,10 @@ class PushToEarnOTPLogin extends Component {
 
     clearOTP = () => {
         console.tron.log("inside clearOTP");
-
         this.setState({ otpText: '' });
-        // this.setState({ resend: false });
       }
 
     callResendOTP = () => {
-
-       //console.tron.log("element="+elements.language);
 
         this.forceUpdate();
 
@@ -309,12 +224,6 @@ class PushToEarnOTPLogin extends Component {
 
         this.setState({ otp: true});
 
-        // let otpString = this.state.firstInput + this.state.secondInput + this.state.thirdInput + this.state.fourthInput;
-
-        // if(this.state.firstInput === '' || this.state.secondInput === '' || this.state.thirdInput === '' || this.state.fourthInput === '')
-        // {
-        //     //Alert Box to fill in otp text
-        // }
         if(this.state.otpText === '')
         {
             Alert.alert("empty otp text!!");
@@ -323,9 +232,6 @@ class PushToEarnOTPLogin extends Component {
          {
             let authData = AuthComponent.authenticationData(this.state.languageCode);
             let encryptedData = AesComponent.aesCallback(authData);
-
-            //  let authData = payload.split(":");
-            //  let encryptedData = this.aes(authData[1]);
 
             let token = this.props.navigation.state.params.accessToken;
             console.tron.log("token="+token);
@@ -344,8 +250,6 @@ class PushToEarnOTPLogin extends Component {
 
              this.props.verifyOTP(newPayload);
 
-             //this.setState({otpText:''});
-
          }
     }
 
@@ -362,23 +266,6 @@ class PushToEarnOTPLogin extends Component {
         console.tron.log("isValid="+isValid);
 
         this.setState({ otpText: code});
-
-        // if (!isValid) {
-        //   Alert.alert(
-        //     'Confirmation Code',
-        //     'Code not match!',
-        //     [{text: 'OK'}],
-        //     { cancelable: false }
-        //   );
-        // } else {
-        //   Alert.alert(
-        //     'Confirmation Code',
-        //     'Successful!',
-        //     [{text: 'OK'}],
-        //     { cancelable: false }
-        //   );
-        // }
-        //this.setState({ otpText: code});
       }
     
     renderOTP = () => {
@@ -411,22 +298,6 @@ class PushToEarnOTPLogin extends Component {
             containerStyle={{ marginTop: 0 }}
             codeInputStyle={{ borderWidth: 1 }}
           />
-
-            // <CodeInput
-            //         ref="codeInputRef2"
-            //         codeLength = {4}
-            //         compareWithCode='AsDW'
-            //         activeColor='rgba(49, 180, 4, 1)'
-            //         inactiveColor='rgba(49, 180, 4, 1.3)'
-            //         autoFocus={false}
-            //         ignoreCase={true}
-            //         inputPosition='center'
-            //         size={50}
-            //         resend = {true}
-            //         onFulfill={(isValid) => this._onFinishCheckingCode1(isValid)}
-            //         containerStyle={{ marginTop: 30 }}
-            //         codeInputStyle={{ borderWidth: 1.5 }}
-            // />
         );
     }
 
@@ -439,12 +310,6 @@ class PushToEarnOTPLogin extends Component {
       _onFinishCheckingCode2(isValid, code) {
         console.log(isValid);
         if (!isValid) {
-        //   Alert.alert(
-        //     'Confirmation Code',
-        //     'Code not match!',
-        //     [{text: 'OK'}],
-        //     { cancelable: false }
-        //   );
             this.setState({ otpText: code });
         } else {
         
@@ -471,7 +336,6 @@ class PushToEarnOTPLogin extends Component {
         console.log("platform --->",Platform.OS);
         return (
 
-            // (platform === 'ios'|| platform==='android')?
             <KeyboardAwareScrollView
                 behavior="padding"
                 enableOnAndroid={false}
@@ -664,272 +528,12 @@ class PushToEarnOTPLogin extends Component {
                      </View>
                 </View>
  
-            </KeyboardAwareScrollView>
-        //     <ScrollView>
-        //     <KeyboardAvoidingView
-        //        style = {newStyle.container}
-        //        behavior = "padding"
-        //        enabled>
-        //      {/* <View style={newStyle.container}> */}
-            
-        //      <View style={newStyle.headerImage}>
-        //          <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
-        //          {
-        //            (this.state.renderValidate === true)?this.renderValidation():this.renderNothing()
-        //          }
-        //      </View>
-
-        //      <View style={newStyle.inputContainer}>
-            
-        //          <Text style={newStyle.firstName}>{this.state.firstName}</Text>
-        //          <TextInput
-        //                      style={ newStyle.nameInput }
-        //                      placeholder=''
-        //                      underlineColorAndroid= 'transparent'
-        //                      onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
-                         
-
-        //          <Text style={newStyle.firstName}>{this.state.name}</Text>
-        //          <TextInput
-        //              style={ newStyle.nameInput}
-        //              placeholder=''
-        //              underlineColorAndroid= 'transparent'
-        //              onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }/>
-
-        //          <Text style={newStyle.phoneNumberStyle}>{this.state.phoneNumber}</Text>
-        //          {/* <TextInput
-        //              keyboardType= "numeric"
-        //              style={ newStyle.nameInput}
-        //              placeholder=''
-        //              underlineColorAndroid= 'transparent'
-        //              onChangeText= { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }/>                 */}
-        //          <PhoneInput 
-        //                  ref='phone'
-        //                  initialCountry='be'
-        //                  style= {newStyle.nameInput}
-        //                  onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) } />
-
-
-        //      </View>
-
-        //     <View style={newStyle.endButtons}>
-
-        //         <TouchableOpacity onPress={() => this.props.navigation.goBack() }
-        //             activeOpacity={0.5}
-        //             style={newStyle.iconStyle}>
-        //                 <Icon
-        //                     containerStyle={newStyle.iconImageStyle}                               
-        //                     name='angle-left'
-        //                     type='font-awesome'
-        //                     color='#fff'
-        //                     size = {40}
-        //                     onPress={() => console.log('hello')} /> 
-        //         </TouchableOpacity>
-
-        //         <ButtonNext 
-        //                     objectParams=
-        //                         {{
-        //                             btnText: btnText,
-        //                             language: this.state.language,
-        //                             firstName: this.state.firstNameInput,
-        //                             lastName: this.state.lastNameInput,
-        //                             phoneNumber: this.state.phoneNumberInput,
-        //                             firstNameError: this.state.firstNameError,
-        //                             lastNameError: this.state.lastNameError,
-        //                             phoneNumberError: this.state.phoneNumberError,
-        //                             firstNameEmpty: this.state.firstNameEmptyError,
-        //                             lastNameEmpty: this.state.lastNameEmptyError,
-        //                             phoneNumberEmpty: this.state.phoneNumberEmptyError
-        //                         }}
-        //                     func = {this.func}
-        //                     navigation = { this.props.navigation}
-        //         />        
-        //     </View>
-        //  </KeyboardAvoidingView>
-        //  </ScrollView>
+            </KeyboardAwareScrollView>       
 
         );
     }
 
 }
-
-const newStyle = StyleSheet.create({
-
-    container: {
-        flex: 1,
-        backgroundColor: 'white',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-    },
-
-    keyboardScrollViewContainer: {
-        backgroundColor: 'transparent',
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-
-    scrollStyle: {
-        flex:1,
-        margin:0,
-        padding:0,
-    },
-
-    headerImage: {
-        width: viewPortWidth * 0.65,
-        // height: Platform.OS === 'ios'?40:120,
-        // flex: Platform.OS === 'ios'?8:8,
-        height: Platform.OS === 'ios'?40:40,
-        flex: Platform.OS === 'ios'?8:4,
-        backgroundColor: 'transparent',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    inputContainer: {
-        backgroundColor: 'white',
-        width: viewPortWidth,
-        marginTop: Platform.OS === 'ios'?25:6,
-        padding: 25,
-        marginLeft: 0,
-        flex: Platform.OS === 'ios'?35:26,
-        backgroundColor: 'transparent'
-    },
-
-    numberBox: {
-        flex: Platform.OS === 'ios'?2:2,
-        backgroundColor: 'transparent',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        flexDirection: 'row' 
-    },
-
-    socialIcons: {
-        flex: 4,
-        justifyContent: 'center', 
-        alignItems: 'flex-start' ,
-        marginTop: 10, 
-        marginLeft: 20,
-        padding: 30, 
-        flexDirection: 'row', 
-        width: viewPortWidth, 
-        height: 400, 
-        backgroundColor: 'transparent'
-    },
-
-    firstName: {
-        width: 159,
-        height: 19,
-        fontFamily: 'WorkSans-Regular',
-        fontSize: 16,
-        fontWeight: '500',
-        fontStyle: 'normal',
-        letterSpacing: 0.67,
-        textAlign: 'left',
-        marginBottom: 15
-    },
-
-    forgotPassword:{
-        width: 112,
-        height: 14,
-        fontFamily: "WorkSans-Medium",
-        fontSize: 12,
-        fontWeight: "500",
-        fontStyle: "normal",
-        letterSpacing: 0.43,
-        color: "#E73D50",
-    },
-
-    phoneNumberStyle: {
-        width: 190,
-        height: 22,
-        fontFamily: 'WorkSans-Regular',
-        fontSize: 16,
-        fontWeight: '500',
-        fontStyle: 'normal',
-        letterSpacing: 0.67,
-        textAlign: 'left',
-        marginBottom: 15
-
-    },
-
-    nameInput: {
-        width: 334,
-        height: 57,
-        borderRadius: 8,
-        backgroundColor: '#f6f6f6',
-        marginBottom: 15,
-        padding: 10,
-    },
-
-    otpInput: {
-        width: 39,
-        height: 50,
-        borderRadius: 8,
-        backgroundColor: '#f6f6f6',
-        padding: 0,
-        margin: 10,
-        paddingLeft:0,
-        paddingRight:0,
-        color: '#000000'
-    },
-
-    buttons: {
-        width: viewPortWidth,
-        height: 20,
-        flex: 2,
-        backgroundColor: 'white',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        marginLeft: 15,
-        marginRight: 25,
-        marginBottom:  10,
-        marginTop: 10,
-    },
-
-    endButtons: {
-        width: viewPortWidth,
-        flex:1,
-        padding: 0,
-        height: Platform.OS === 'ios'?50:150,
-        zIndex: 999,
-        flex: Platform.OS === 'ios'?2:4,
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        backgroundColor:'transparent'
-    },
-
-    iconImageStyle:{
-        backgroundColor: 'black',
-        width: 50,
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    iconStyle: {
-        width: 45,
-        height: 45,
-        borderRadius: 45,
-        backgroundColor: 'transparent',
-        marginTop: viewPortHeight / 200,
-        marginRight: 0,
-        marginLeft: 15,
-        marginTop: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'transparent'        
-    },
-
-    validationStyle:{
-        position: 'absolute',
-        top: 62,
-        left: 35,
-        width: 60,
-        height: 60,    
-    },
-});
 
 const mapStateToProps = state => {
     return {

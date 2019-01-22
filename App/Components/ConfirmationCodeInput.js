@@ -56,7 +56,7 @@ export default class ConfirmationCodeInput extends Component {
     {
       if(this.props.resend === true)
       {
-        this.clearData();
+        this.clear();
         this._setFocus(0);
       }
   
@@ -102,7 +102,7 @@ export default class ConfirmationCodeInput extends Component {
   _onFocus(index) {
      
     let newFocus = [false,false,false,false];
-    newFocus[index] = true;
+    newFocus[index] = true;    
     this.setState({ focusArray: newFocus});
 
     // if(index === this.props.codeLength - 1)
@@ -113,14 +113,12 @@ export default class ConfirmationCodeInput extends Component {
     
     let newCodeArr = _.clone(this.state.codeArr);
     const currentEmptyIndex = _.findIndex(newCodeArr, c => !c);
-
     if (currentEmptyIndex !== -1 && currentEmptyIndex < index) {
       return this._setFocus(currentEmptyIndex);
     }
-
     for (const i in newCodeArr) {
       if (i >= index) {
-        newCodeArr[index] = '';
+        newCodeArr[index] = '';        
       }
     }
     console.tron.log("newcodearr="+newCodeArr[index]);
@@ -237,28 +235,37 @@ export default class ConfirmationCodeInput extends Component {
     }
   }
   
-  _onInputCode(character, index) {
+  _onInputCode(character, index) 
+  {
     const { codeLength, onFulfill, compareWithCode, ignoreCase } = this.props;
     let newCodeArr = _.clone(this.state.codeArr);
     newCodeArr[index] = character;
     
-    if (index == codeLength - 1) {
+    if (index == codeLength - 1) 
+    {
       const code = newCodeArr.join('');
       console.tron.log("current index="+this.state.currentIndex);
+
+      console.tron.log("code="+code+" newCodeArr="+newCodeArr);
 
       newFocus = [false,false,false,false];
       this.setState({ focusArray: newFocus});
 
-      if (compareWithCode) {
-        const isMatching = this._isMatchingCode(code, compareWithCode, ignoreCase);
-        onFulfill(isMatching, code);
-        //!isMatching && this.clear();
-      } else {
-        onFulfill(code);
-      }
+      onFulfill(code);
+      // if (compareWithCode) 
+      // {
+      //   const isMatching = this._isMatchingCode(code, compareWithCode, ignoreCase);
+      //   onFulfill(isMatching, code);
+      //   //!isMatching && this.clear();
+      // } 
+      // else {
+      //   onFulfill(code);
+      // }
       this._blur(this.state.currentIndex);
 
-    } else {
+    } 
+    else 
+    {
       this._setFocus(this.state.currentIndex + 1);
     }
     
@@ -268,6 +275,7 @@ export default class ConfirmationCodeInput extends Component {
         currentIndex: prevState.currentIndex + 1
       };
     });
+
   }
   
   render() {
@@ -284,7 +292,7 @@ export default class ConfirmationCodeInput extends Component {
     } = this.props;
     
     const initialCodeInputStyle = {
-      width: 37,
+      width: 45,
       height: 55
     };
 
@@ -311,7 +319,7 @@ export default class ConfirmationCodeInput extends Component {
           ]}
           underlineColorAndroid="transparent"
           selectionColor={activeColor}
-          keyboardType={'name-phone-pad'}
+          keyboardType={'number-pad'}
           returnKeyType={'done'}
           {...this.props}
           autoFocus={autoFocus && id == 0}

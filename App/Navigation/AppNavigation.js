@@ -17,33 +17,18 @@ import PushToEarnSignIn2 from '../Containers/PushToEarnSignIn2';
 import PushToEarnSignUp from '../Containers/PushToEarnSignUp';
 import PushToEarnSignUp2 from '../Containers/PushToEarnSignUp2';
 import PushToEarnOTPRegister from '../Containers/PushToEarnOTPRegister';
-import PushToEarnForgetPass from '../Containers/PushToEarnForgetPass';
-import PushToEarnOTPForgetPass from '../Containers/PushToEarnOTPForgetPass';
-import PushToEarnOTP from '../Containers/PushToEarnOTP';
 import PushToEarnRegisterProfile from '../Containers/PushToEarnRegisterProfile';
 import PushToEarnWelcomeScreen from '../Containers/PushToEarnWelcomeScreen';
-import PushToEarnProfileCardDetails from '../Containers/PushToEarnProfileCardDetails';
-import PushToEarnChangePassword from '../Containers/PushToEarnChangePassword';
-import PushToEarnNoFriends from '../Containers/PushToEarnNoFriends';
-import PushToEarnAddFriend from '../Containers/PushToEarnAddFriend';
-import PushToEarnAddFriendsButtons from '../Containers/PushToEarnAddFriendsButtons';
-import PushToEarnProfile from '../Containers/PushToEarnProfile';
-import PushToEarnFriendsOverview from '../Containers/PushToEarnFriendsOverview';
-import PushToEarnInformation from '../Containers/PushToEarnInformation';
-import PushToEarnMoney from '../Containers/PushToEarnMoney';
 import PushToEarnOTPLogin from '../Containers/PushToEarnOTPLogin';
 import PushToEarnLanguageComponent from '../Components/PushToEarnLanguageComponent';
 import AccordionListComponent from '../Components/AccordionListComponent';
 import PushToEarnMoneyComponent from '../Components/PushToEarnMoneyComponent';
-import pushToEarnMoneyList from '../Containers/PushToEarnMoneyList';
 import PushToEarnPrivatePolicy from '../Containers/PushToEarnPrivatePolicy';
 import CollapsibleView from '../Components/CollapsibleView';
 import NewScreenMoney from  '../Containers/NewScreenMoney';
 import TestPage from '../Containers/TestPage';
 import PushForJob_quit from '../Containers/PushForJob_quit';
 import PushToEarnNew from '../Components/PushToEarnNew';
-import OTPScreen from '../Containers/OTPScreen';
-import OTPForm from '../Components/OTPForm';
 // Manifest of possible screens
 
 const AppNavigation = createStackNavigator({
@@ -86,57 +71,12 @@ const AppNavigation = createStackNavigator({
     },
   },
 
-  PushToEarnForgetPass: { screen: PushToEarnForgetPass,
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
-  },
-  PushToEarnOTP: { screen: PushToEarnOTP,
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
-  },
-  PushToEarnOTPForgetPass: { screen: PushToEarnOTPForgetPass,
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
-  },
   PushToEarnRegisterProfile: { screen: PushToEarnRegisterProfile,
     navigationOptions: {
       gesturesEnabled: false,
     },
   },
   PushToEarnWelcomeScreen: { screen: PushToEarnWelcomeScreen,
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
-  },
-  PushToEarnProfileCardDetails: { screen: PushToEarnProfileCardDetails,
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
-  },
-  PushToEarnChangePassword: { screen: PushToEarnChangePassword,
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
-  },
-  PushToEarnNoFriends: { screen: PushToEarnNoFriends,
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
-  },
-  PushToEarnAddFriend: { screen: PushToEarnAddFriend,
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
-  },
-  PushToEarnAddFriendsButtons: { screen: PushToEarnAddFriendsButtons,
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
-  },
-  PushToEarnProfile: { screen: PushToEarnProfile,
     navigationOptions: {
       gesturesEnabled: false,
     },
@@ -151,38 +91,7 @@ const AppNavigation = createStackNavigator({
       gesturesEnabled: false,
     },
   },
-  PushToEarnFriendsOverview: { screen: PushToEarnFriendsOverview,
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
-  },
-  PushToEarnInformation: { screen: PushToEarnInformation,
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
-  },
   PushToEarnLanguageComponent: { screen: PushToEarnLanguageComponent,
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
-  },
-  PushToEarnMoney: { screen: PushToEarnMoney,
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
-  },
-  pushToEarnMoneyList: { screen: pushToEarnMoneyList,
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
-  },
-  OTPForm: { 
-    screen: OTPForm,
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
-  },
-  OTPScreen: { screen: OTPScreen,
     navigationOptions: {
       gesturesEnabled: false,
     },
